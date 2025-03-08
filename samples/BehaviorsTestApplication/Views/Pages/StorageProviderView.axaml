@@ -9,10 +9,46 @@
   <Design.DataContext>
     <vm:MainWindowViewModel />
   </Design.DataContext>
-  <Grid RowDefinitions="Auto,*" ColumnDefinitions="30*,5,30*,5,30*">
-    <Button x:Name="OpenFilesButton" Content="Open Files" Grid.Row="0" Grid.Column="0" Margin="5,5,0,5">
+  <Grid RowDefinitions="Auto,Auto,*" ColumnDefinitions="30*,5,30*,5,30*">
+    <Menu Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="5">
+      <MenuItem Header="File">
+        <MenuItem Header="Open Files">
+          <Interaction.Behaviors>
+            <EventTriggerBehavior EventName="Click">
+              <OpenFilePickerAction Command="{Binding OpenFilesCommand}"
+                                    Title="Open Files"
+                                    SuggestedFileName="MyFile"
+                                    AllowMultiple="True"
+                                    FileTypeFilter="Text Files|*.txt|Markdown Files|*.md|All Files|*.*" />
+            </EventTriggerBehavior>
+          </Interaction.Behaviors>
+        </MenuItem>
+        <MenuItem Header="Open Folders">
+          <Interaction.Behaviors>
+            <EventTriggerBehavior EventName="Click">
+              <OpenFolderPickerAction Command="{Binding OpenFoldersCommand}"
+                                      Title="Open Folders"
+                                      AllowMultiple="True" />
+            </EventTriggerBehavior>
+          </Interaction.Behaviors>
+        </MenuItem>
+        <MenuItem Header="Save File">
+          <Interaction.Behaviors>
+            <EventTriggerBehavior EventName="Click">
+              <SaveFilePickerAction Command="{Binding SaveFileCommand}"
+                                    InputConverter="{x:Static StorageItemToPathConverter.Instance}"
+                                    Title="Save Files"
+                                    SuggestedFileName="MyFile"
+                                    DefaultExtension="txt"
+                                    FileTypeChoices="Text Files (*.txt)|*.txt|Markdown Files (*.md)|*.md|All Files (*.*)|*.*" />
+            </EventTriggerBehavior>
+          </Interaction.Behaviors>
+        </MenuItem>
+      </MenuItem>
+    </Menu>
+    <Button x:Name="OpenFilesButton" Content="Open Files" Grid.Row="1" Grid.Column="0" Margin="5,5,0,5">
       <Interaction.Behaviors>
-        <EventTriggerBehavior EventName="Click" SourceObject="OpenFilesButton">
+        <EventTriggerBehavior EventName="Click">
           <OpenFilePickerAction Command="{Binding OpenFilesCommand}"
                                 Title="Open Files"
                                 SuggestedFileName="MyFile"
@@ -21,18 +57,18 @@
         </EventTriggerBehavior>
       </Interaction.Behaviors>
     </Button>
-    <Button Name="OpenFoldersButton" Content="Open Folders" Grid.Row="0" Grid.Column="2" Margin="0,5,0,5">
+    <Button Name="OpenFoldersButton" Content="Open Folders" Grid.Row="1" Grid.Column="2" Margin="0,5,0,5">
       <Interaction.Behaviors>
-        <EventTriggerBehavior EventName="Click" SourceObject="OpenFoldersButton">
+        <EventTriggerBehavior EventName="Click">
           <OpenFolderPickerAction Command="{Binding OpenFoldersCommand}"
                                   Title="Open Folders"
                                   AllowMultiple="True"/>
         </EventTriggerBehavior>
       </Interaction.Behaviors>
     </Button>
-    <Button x:Name="SaveFileButton" Content="Save File" Grid.Row="0" Grid.Column="4" Margin="0,5,5,5">
+    <Button x:Name="SaveFileButton" Content="Save File" Grid.Row="1" Grid.Column="4" Margin="0,5,5,5">
       <Interaction.Behaviors>
-        <EventTriggerBehavior EventName="Click" SourceObject="SaveFileButton">
+        <EventTriggerBehavior EventName="Click">
           <SaveFilePickerAction Command="{Binding SaveFileCommand}"
                                 InputConverter="{x:Static StorageItemToPathConverter.Instance}"
                                 Title="Save Files"
@@ -42,7 +78,7 @@
         </EventTriggerBehavior>
       </Interaction.Behaviors>
     </Button>
-    <ListBox Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="5"
+    <ListBox Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="5"
              ItemsSource="{Binding FileItems}" />
   </Grid>
 </UserControl>
