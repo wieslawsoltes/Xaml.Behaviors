@@ -14,34 +14,28 @@
       <MenuItem Header="File">
         <MenuItem Header="Open Files">
           <Interaction.Behaviors>
-            <EventTriggerBehavior EventName="Click">
-              <OpenFilePickerAction Command="{Binding OpenFilesCommand}"
-                                    Title="Open Files"
-                                    SuggestedFileName="MyFile"
-                                    AllowMultiple="True"
-                                    FileTypeFilter="Text Files|*.txt|Markdown Files|*.md|All Files|*.*" />
-            </EventTriggerBehavior>
+            <MenuItemOpenFilePickerBehavior Command="{Binding OpenFilesCommand}"
+                                            Title="Open Files"
+                                            SuggestedFileName="MyFile"
+                                            AllowMultiple="True"
+                                            FileTypeFilter="Text Files|*.txt|Markdown Files|*.md|All Files|*.*" />
           </Interaction.Behaviors>
         </MenuItem>
         <MenuItem Header="Open Folders">
           <Interaction.Behaviors>
-            <EventTriggerBehavior EventName="Click">
-              <OpenFolderPickerAction Command="{Binding OpenFoldersCommand}"
-                                      Title="Open Folders"
-                                      AllowMultiple="True" />
-            </EventTriggerBehavior>
+            <MenuItemOpenFolderBehavior Command="{Binding OpenFoldersCommand}"
+                                        Title="Open Folders"
+                                        AllowMultiple="True" />
           </Interaction.Behaviors>
         </MenuItem>
         <MenuItem Header="Save File">
           <Interaction.Behaviors>
-            <EventTriggerBehavior EventName="Click">
-              <SaveFilePickerAction Command="{Binding SaveFileCommand}"
-                                    InputConverter="{x:Static StorageItemToPathConverter.Instance}"
-                                    Title="Save Files"
-                                    SuggestedFileName="MyFile"
-                                    DefaultExtension="txt"
-                                    FileTypeChoices="Text Files (*.txt)|*.txt|Markdown Files (*.md)|*.md|All Files (*.*)|*.*" />
-            </EventTriggerBehavior>
+            <MenuItemSaveFilePickerBehavior Command="{Binding SaveFileCommand}"
+                                            InputConverter="{x:Static StorageItemToPathConverter.Instance}"
+                                            Title="Save Files"
+                                            SuggestedFileName="MyFile"
+                                            DefaultExtension="txt"
+                                            FileTypeChoices="Text Files (*.txt)|*.txt|Markdown Files (*.md)|*.md|All Files (*.*)|*.*" />
           </Interaction.Behaviors>
         </MenuItem>
       </MenuItem>
