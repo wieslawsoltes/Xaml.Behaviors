@@ -6,15 +6,15 @@ using Avalonia.VisualTree;
 namespace Avalonia.Xaml.Interactions.Core;
 
 /// <summary>
-/// Open folder behavior base.
+/// Open folder picker behavior base.
 /// </summary>
-public abstract class OpenFolderBehaviorBase : PickerBehaviorBase
+public abstract class OpenFolderPickerBehaviorBase : PickerBehaviorBase
 {
     /// <summary>
     /// Identifies the <seealso cref="AllowMultiple"/> avalonia property.
     /// </summary>
     public static readonly StyledProperty<bool> AllowMultipleProperty =
-        AvaloniaProperty.Register<OpenFolderBehaviorBase, bool>(nameof(AllowMultiple));
+        AvaloniaProperty.Register<OpenFolderPickerBehaviorBase, bool>(nameof(AllowMultiple));
 
     /// <summary>
     /// Gets or sets an option indicating whether open picker allows users to select multiple folders. This is an avalonia property.
@@ -26,9 +26,9 @@ public abstract class OpenFolderBehaviorBase : PickerBehaviorBase
     }
     
     /// <summary>
-    /// Initializes a new instance of the <see cref="OpenFolderBehaviorBase"/> class.
+    /// Initializes a new instance of the <see cref="OpenFolderPickerBehaviorBase"/> class.
     /// </summary>
-    protected OpenFolderBehaviorBase()
+    protected OpenFolderPickerBehaviorBase()
     {
         PassEventArgsToCommand = true;
     }

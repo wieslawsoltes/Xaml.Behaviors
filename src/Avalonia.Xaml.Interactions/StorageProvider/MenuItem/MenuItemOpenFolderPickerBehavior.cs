@@ -4,18 +4,18 @@ using Avalonia.Interactivity;
 namespace Avalonia.Xaml.Interactions.Core;
 
 /// <summary>
-/// Open folder behavior for <see cref="Button"/>.
+/// Open folder picker behavior for <see cref="MenuItem"/>.
 /// </summary>
-public class ButtonOpenFolderBehavior : OpenFolderBehaviorBase
+public class MenuItemOpenFolderPickerBehavior : OpenFolderPickerBehaviorBase
 {
     /// <inheritdoc />
     protected override void OnAttachedToVisualTree()
     {
         base.OnAttachedToVisualTree();
         
-        if (AssociatedObject is Button button)
+        if (AssociatedObject is MenuItem menuItem)
         {
-            button.Click += OnClick;
+            menuItem.Click += OnClick;
         }
     }
 
@@ -24,9 +24,9 @@ public class ButtonOpenFolderBehavior : OpenFolderBehaviorBase
     {
         base.OnDetachedFromVisualTree();
         
-        if (AssociatedObject is Button button)
+        if (AssociatedObject is MenuItem menuItem)
         {
-            button.Click += OnClick;
+            menuItem.Click -= OnClick;
         }
     }
 
