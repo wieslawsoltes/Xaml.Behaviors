@@ -5,7 +5,7 @@ using Avalonia.Xaml.Interactivity;
 namespace Avalonia.Xaml.Interactions.Core;
 
 /// <summary>
-/// Command behavior base class.
+/// Invoke command behavior base class.
 /// </summary>
 public abstract class InvokeCommandBehaviorBase : StyledElementBehavior
 {

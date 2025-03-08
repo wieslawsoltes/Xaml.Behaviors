@@ -6,7 +6,7 @@ using Avalonia.VisualTree;
 namespace Avalonia.Xaml.Interactions.Core;
 
 /// <summary>
-/// 
+/// Save file picker behavior base.
 /// </summary>
 public abstract class SaveFilePickerBehaviorBase : PickerBehaviorBase
 {

@@ -3,7 +3,7 @@ using Avalonia.Platform.Storage;
 namespace Avalonia.Xaml.Interactions.Core;
 
 /// <summary>
-/// 
+/// Base class for picker behaviors.
 /// </summary>
 public abstract class PickerBehaviorBase : InvokeCommandBehaviorBase
 {

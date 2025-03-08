@@ -4,7 +4,7 @@ using Avalonia.Interactivity;
 namespace Avalonia.Xaml.Interactions.Core;
 
 /// <summary>
-/// 
+/// Open folder behavior for <see cref="Button"/>.
 /// </summary>
 public class ButtonOpenFolderBehavior : OpenFolderBehaviorBase
 {

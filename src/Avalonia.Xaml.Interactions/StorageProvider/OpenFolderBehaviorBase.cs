@@ -6,7 +6,7 @@ using Avalonia.VisualTree;
 namespace Avalonia.Xaml.Interactions.Core;
 
 /// <summary>
-/// 
+/// Open folder behavior base.
 /// </summary>
 public abstract class OpenFolderBehaviorBase : PickerBehaviorBase
 {

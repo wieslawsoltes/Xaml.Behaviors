@@ -4,7 +4,7 @@ using Avalonia.Interactivity;
 namespace Avalonia.Xaml.Interactions.Core;
 
 /// <summary>
-///
+/// Save file picker behavior for <see cref="Button"/>.
 /// </summary>
 public class ButtonSaveFilePickerBehavior : SaveFilePickerBehaviorBase
 {
