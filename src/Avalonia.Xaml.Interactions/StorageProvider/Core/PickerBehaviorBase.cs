@@ -3,33 +3,33 @@ using Avalonia.Platform.Storage;
 namespace Avalonia.Xaml.Interactions.Core;
 
 /// <summary>
-/// Base class for picker actions.
+/// Base class for picker behaviors.
 /// </summary>
-public abstract class PickerActionBase : InvokeCommandActionBase
+public abstract class PickerBehaviorBase : InvokeCommandBehaviorBase
 {
     /// <summary>
     /// Identifies the <seealso cref="StorageProvider"/> avalonia property.
     /// </summary>
     public static readonly StyledProperty<IStorageProvider?> StorageProviderProperty =
-        AvaloniaProperty.Register<PickerActionBase, IStorageProvider?>(nameof(StorageProvider));
+        AvaloniaProperty.Register<PickerBehaviorBase, IStorageProvider?>(nameof(StorageProvider));
 
     /// <summary>
     /// Identifies the <seealso cref="Title"/> avalonia property.
     /// </summary>
     public static readonly StyledProperty<string?> TitleProperty =
-        AvaloniaProperty.Register<PickerActionBase, string?>(nameof(Title));
+        AvaloniaProperty.Register<PickerBehaviorBase, string?>(nameof(Title));
     
     /// <summary>
     /// Identifies the <seealso cref="SuggestedStartLocation"/> avalonia property.
     /// </summary>
     public static readonly StyledProperty<IStorageFolder?> SuggestedStartLocationProperty =
-        AvaloniaProperty.Register<PickerActionBase, IStorageFolder?>(nameof(SuggestedStartLocation));
+        AvaloniaProperty.Register<PickerBehaviorBase, IStorageFolder?>(nameof(SuggestedStartLocation));
     
     /// <summary>
     /// Identifies the <seealso cref="SuggestedFileName"/> avalonia property.
     /// </summary>
     public static readonly StyledProperty<string?> SuggestedFileNameProperty =
-        AvaloniaProperty.Register<PickerActionBase, string?>(nameof(SuggestedFileName));
+        AvaloniaProperty.Register<PickerBehaviorBase, string?>(nameof(SuggestedFileName));
 
     /// <summary>
     /// Gets or sets the storage provider that the picker uses to access the file system. This is an avalonia property.

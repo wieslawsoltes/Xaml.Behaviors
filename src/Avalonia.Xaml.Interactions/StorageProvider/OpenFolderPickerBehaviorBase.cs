@@ -3,20 +3,19 @@ using System.Threading.Tasks;
 using Avalonia.Controls;
 using Avalonia.LogicalTree;
 using Avalonia.Platform.Storage;
-using Avalonia.Threading;
 
 namespace Avalonia.Xaml.Interactions.Core;
 
 /// <summary>
-/// An action that will open a folder picker dialog.
+/// Open folder picker behavior base.
 /// </summary>
-public class OpenFolderPickerAction : PickerActionBase
+public abstract class OpenFolderPickerBehaviorBase : PickerBehaviorBase
 {
     /// <summary>
     /// Identifies the <seealso cref="AllowMultiple"/> avalonia property.
     /// </summary>
     public static readonly StyledProperty<bool> AllowMultipleProperty =
-        AvaloniaProperty.Register<OpenFolderPickerAction, bool>(nameof(AllowMultiple));
+        AvaloniaProperty.Register<OpenFolderPickerBehaviorBase, bool>(nameof(AllowMultiple));
 
     /// <summary>
     /// Gets or sets an option indicating whether open picker allows users to select multiple folders. This is an avalonia property.
@@ -28,29 +27,26 @@ public class OpenFolderPickerAction : PickerActionBase
     }
     
     /// <summary>
-    /// Initializes a new instance of the <see cref="OpenFolderPickerAction"/> class.
+    /// Initializes a new instance of the <see cref="OpenFolderPickerBehaviorBase"/> class.
     /// </summary>
-    public OpenFolderPickerAction()
+    protected OpenFolderPickerBehaviorBase()
     {
         PassEventArgsToCommand = true;
     }
 
     /// <summary>
-    /// Executes the action.
+    /// 
     /// </summary>
-    /// <param name="sender">The <see cref="object"/> that is passed to the action by the behavior. Generally this is <seealso cref="Avalonia.Xaml.Interactivity.IBehavior.AssociatedObject"/> or a target object.</param>
-    /// <param name="parameter">The value of this parameter is determined by the caller.</param>
-    /// <returns>True if the command is successfully executed; else false.</returns>
-    public override object Execute(object? sender, object? parameter)
+    /// <param name="sender"></param>
+    /// <param name="parameter"></param>
+    protected async Task Execute(object? sender, object? parameter)
     {
         if (sender is not Visual visual)
         {
-            return false;
+            return;
         }
 
-        Dispatcher.UIThread.InvokeAsync(async () => await OpenFolderPickerAsync(visual));
-
-        return true; 
+        await OpenFolderPickerAsync(visual);
     }
 
     private async Task OpenFolderPickerAsync(Visual visual)

@@ -3,32 +3,31 @@ using System.Threading.Tasks;
 using Avalonia.Controls;
 using Avalonia.LogicalTree;
 using Avalonia.Platform.Storage;
-using Avalonia.Threading;
 
 namespace Avalonia.Xaml.Interactions.Core;
 
 /// <summary>
-/// An action that will open a file picker dialog.
+/// Save file picker behavior base.
 /// </summary>
-public class SaveFilePickerAction : PickerActionBase
+public abstract class SaveFilePickerBehaviorBase : PickerBehaviorBase
 {
     /// <summary>
     /// Identifies the <seealso cref="DefaultExtension"/> avalonia property.
     /// </summary>
     public static readonly StyledProperty<string?> DefaultExtensionProperty =
-        AvaloniaProperty.Register<SaveFilePickerAction, string?>(nameof(DefaultExtension));
+        AvaloniaProperty.Register<SaveFilePickerBehaviorBase, string?>(nameof(DefaultExtension));
 
     /// <summary>
     /// Identifies the <seealso cref="FileTypeChoices"/> avalonia property.
     /// </summary>
     public static readonly StyledProperty<string?> FileTypeChoicesProperty =
-        AvaloniaProperty.Register<OpenFilePickerAction, string?>(nameof(FileTypeChoices));
+        AvaloniaProperty.Register<SaveFilePickerBehaviorBase, string?>(nameof(FileTypeChoices));
 
     /// <summary>
     /// Identifies the <seealso cref="ShowOverwritePrompt"/> avalonia property.
     /// </summary>
     public static readonly StyledProperty<bool?> ShowOverwritePromptProperty =
-        AvaloniaProperty.Register<SaveFilePickerAction, bool?>(nameof(ShowOverwritePrompt));
+        AvaloniaProperty.Register<SaveFilePickerBehaviorBase, bool?>(nameof(ShowOverwritePrompt));
 
     /// <summary>
     /// Gets or sets the default extension to be used to save the file. This is an avalonia property.
@@ -58,29 +57,26 @@ public class SaveFilePickerAction : PickerActionBase
     }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="SaveFilePickerAction"/> class.
+    /// Initializes a new instance of the <see cref="SaveFilePickerBehaviorBase"/> class.
     /// </summary>
-    public SaveFilePickerAction()
+    protected SaveFilePickerBehaviorBase()
     {
         PassEventArgsToCommand = true;
     }
 
     /// <summary>
-    /// Executes the action.
+    /// 
     /// </summary>
-    /// <param name="sender">The <see cref="object"/> that is passed to the action by the behavior. Generally this is <seealso cref="Avalonia.Xaml.Interactivity.IBehavior.AssociatedObject"/> or a target object.</param>
-    /// <param name="parameter">The value of this parameter is determined by the caller.</param>
-    /// <returns>True if the command is successfully executed; else false.</returns>
-    public override object Execute(object? sender, object? parameter)
+    /// <param name="sender"></param>
+    /// <param name="parameter"></param>
+    protected async Task Execute(object? sender, object? parameter)
     {
         if (sender is not Visual visual)
         {
-            return false;
+            return;
         }
         
-        Dispatcher.UIThread.InvokeAsync(async () => await SaveFilePickerAsync(visual));
-
-        return true; 
+        await SaveFilePickerAsync(visual);
     }
 
     private async Task SaveFilePickerAsync(Visual visual)

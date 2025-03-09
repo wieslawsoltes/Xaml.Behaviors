@@ -3,26 +3,25 @@ using System.Threading.Tasks;
 using Avalonia.Controls;
 using Avalonia.LogicalTree;
 using Avalonia.Platform.Storage;
-using Avalonia.Threading;
 
 namespace Avalonia.Xaml.Interactions.Core;
 
 /// <summary>
-/// An action that will open a file picker dialog.
+/// Open file picker behavior base.
 /// </summary>
-public class OpenFilePickerAction : PickerActionBase
+public abstract class OpenFilePickerBehaviorBase : PickerBehaviorBase
 {
     /// <summary>
     /// Identifies the <seealso cref="AllowMultiple"/> avalonia property.
     /// </summary>
     public static readonly StyledProperty<bool> AllowMultipleProperty =
-        AvaloniaProperty.Register<OpenFilePickerAction, bool>(nameof(AllowMultiple));
+        AvaloniaProperty.Register<OpenFilePickerBehaviorBase, bool>(nameof(AllowMultiple));
 
     /// <summary>
     /// Identifies the <seealso cref="FileTypeFilter"/> avalonia property.
     /// </summary>
     public static readonly StyledProperty<string?> FileTypeFilterProperty =
-        AvaloniaProperty.Register<OpenFilePickerAction, string?>(nameof(FileTypeFilter));
+        AvaloniaProperty.Register<OpenFilePickerBehaviorBase, string?>(nameof(FileTypeFilter));
 
     /// <summary>
     /// Gets or sets an option indicating whether open picker allows users to select multiple files. This is an avalonia property.
@@ -43,29 +42,26 @@ public class OpenFilePickerAction : PickerActionBase
     }
     
     /// <summary>
-    /// Initializes a new instance of the <see cref="OpenFilePickerAction"/> class.
+    /// Initializes a new instance of the <see cref="OpenFilePickerBehaviorBase"/> class.
     /// </summary>
-    public OpenFilePickerAction()
+    protected OpenFilePickerBehaviorBase()
     {
         PassEventArgsToCommand = true;
     }
 
     /// <summary>
-    /// Executes the action.
+    /// 
     /// </summary>
-    /// <param name="sender">The <see cref="object"/> that is passed to the action by the behavior. Generally this is <seealso cref="Avalonia.Xaml.Interactivity.IBehavior.AssociatedObject"/> or a target object.</param>
-    /// <param name="parameter">The value of this parameter is determined by the caller.</param>
-    /// <returns>True if the command is successfully executed; else false.</returns>
-    public override object Execute(object? sender, object? parameter)
+    /// <param name="sender"></param>
+    /// <param name="parameter"></param>
+    protected async Task Execute(object? sender, object? parameter)
     {
         if (sender is not Visual visual)
         {
-            return false;
+            return;
         }
-        
-        Dispatcher.UIThread.InvokeAsync(async () => await OpenFilePickerAsync(visual));
 
-        return true; 
+        await OpenFilePickerAsync(visual);
     }
 
     private async Task OpenFilePickerAsync(Visual visual)
