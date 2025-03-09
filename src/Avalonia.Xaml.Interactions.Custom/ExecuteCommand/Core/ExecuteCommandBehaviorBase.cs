@@ -1,7 +1,8 @@
+using System.Linq;
 using System.Windows.Input;
 using Avalonia.Controls;
+using Avalonia.LogicalTree;
 using Avalonia.Threading;
-using Avalonia.VisualTree;
 
 namespace Avalonia.Xaml.Interactions.Custom;
 
@@ -10,6 +11,12 @@ namespace Avalonia.Xaml.Interactions.Custom;
 /// </summary>
 public abstract class ExecuteCommandBehaviorBase : AttachedToVisualTreeBehavior<Control>
 {
+    /// <summary>
+    /// 
+    /// </summary>
+    public static readonly StyledProperty<TopLevel?> TopLevelProperty =
+        AvaloniaProperty.Register<ExecuteCommandBehaviorBase, TopLevel?>(nameof(TopLevel));
+    
     /// <summary>
     /// 
     /// </summary>
@@ -40,6 +47,15 @@ public abstract class ExecuteCommandBehaviorBase : AttachedToVisualTreeBehavior<
     public static readonly StyledProperty<Control?> SourceControlProperty =
         AvaloniaProperty.Register<ExecuteCommandBehaviorBase, Control?>(nameof(SourceControl));
 
+    /// <summary>
+    /// 
+    /// </summary>
+    public TopLevel? TopLevel
+    {
+        get => GetValue(TopLevelProperty);
+        set => SetValue(TopLevelProperty, value);
+    }
+    
     /// <summary>
     /// 
     /// </summary>
@@ -111,7 +127,7 @@ public abstract class ExecuteCommandBehaviorBase : AttachedToVisualTreeBehavior<
 
         if (FocusTopLevel)
         {
-            Dispatcher.UIThread.Post(() => (AssociatedObject?.GetVisualRoot() as TopLevel)?.Focus());
+            Dispatcher.UIThread.Post(() => (TopLevel ?? AssociatedObject?.GetSelfAndLogicalAncestors().LastOrDefault() as TopLevel)?.Focus());
         }
 
         if (FocusControl is { } focusControl)

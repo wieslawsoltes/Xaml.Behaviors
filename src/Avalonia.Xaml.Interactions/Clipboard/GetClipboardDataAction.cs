@@ -1,8 +1,10 @@
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Avalonia.Controls;
+using Avalonia.Input.Platform;
+using Avalonia.LogicalTree;
 using Avalonia.Threading;
-using Avalonia.VisualTree;
 
 namespace Avalonia.Xaml.Interactions.Core;
 
@@ -12,10 +14,25 @@ namespace Avalonia.Xaml.Interactions.Core;
 public class GetClipboardDataAction : InvokeCommandActionBase
 {
     /// <summary>
+    /// Identifies the <seealso cref="Clipboard"/> avalonia property.
+    /// </summary>
+    public static readonly StyledProperty<IClipboard?> ClipboardProperty =
+        AvaloniaProperty.Register<GetClipboardDataAction, IClipboard?>(nameof(Clipboard));
+
+    /// <summary>
     /// Identifies the <seealso cref="Format"/> avalonia property.
     /// </summary>
     public static readonly StyledProperty<string?> FormatProperty =
         AvaloniaProperty.Register<GetClipboardDataAction, string?>(nameof(Format));
+
+    /// <summary>
+    /// Gets or sets the clipboard to use. This is an avalonia property.
+    /// </summary>
+    public IClipboard? Clipboard
+    {
+        get => GetValue(ClipboardProperty);
+        set => SetValue(ClipboardProperty, value);
+    }
 
     /// <summary>
     /// Gets or sets the format to get from the clipboard. This is an avalonia property.
@@ -63,7 +80,7 @@ public class GetClipboardDataAction : InvokeCommandActionBase
 
         try
         {
-            var clipboard = (visual.GetVisualRoot() as TopLevel)?.Clipboard;
+            var clipboard = Clipboard ?? (visual.GetSelfAndLogicalAncestors().LastOrDefault() as TopLevel)?.Clipboard;
             if (clipboard is null)
             {
                 return;

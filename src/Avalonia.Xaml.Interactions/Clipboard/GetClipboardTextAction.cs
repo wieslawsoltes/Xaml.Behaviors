@@ -1,8 +1,10 @@
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Avalonia.Controls;
+using Avalonia.Input.Platform;
+using Avalonia.LogicalTree;
 using Avalonia.Threading;
-using Avalonia.VisualTree;
 
 namespace Avalonia.Xaml.Interactions.Core;
 
@@ -11,6 +13,21 @@ namespace Avalonia.Xaml.Interactions.Core;
 /// </summary>
 public class GetClipboardTextAction : InvokeCommandActionBase
 {
+    /// <summary>
+    /// Identifies the <seealso cref="Clipboard"/> avalonia property.
+    /// </summary>
+    public static readonly StyledProperty<IClipboard?> ClipboardProperty =
+        AvaloniaProperty.Register<GetClipboardTextAction, IClipboard?>(nameof(Clipboard));
+
+    /// <summary>
+    /// Gets or sets the clipboard to use. This is an avalonia property.
+    /// </summary>
+    public IClipboard? Clipboard
+    {
+        get => GetValue(ClipboardProperty);
+        set => SetValue(ClipboardProperty, value);
+    }
+
     /// <summary>
     /// Initializes a new instance of the <see cref="GetClipboardTextAction"/> class.
     /// </summary>
@@ -48,7 +65,7 @@ public class GetClipboardTextAction : InvokeCommandActionBase
 
         try
         {
-            var clipboard = (visual.GetVisualRoot() as TopLevel)?.Clipboard;
+            var clipboard = Clipboard ?? (visual.GetSelfAndLogicalAncestors().LastOrDefault() as TopLevel)?.Clipboard;
             if (clipboard is null)
             {
                 return;
