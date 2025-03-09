@@ -1,7 +1,8 @@
+using System.Linq;
 using System.Threading.Tasks;
 using Avalonia.Controls;
+using Avalonia.LogicalTree;
 using Avalonia.Platform.Storage;
-using Avalonia.VisualTree;
 
 namespace Avalonia.Xaml.Interactions.Core;
 
@@ -70,7 +71,7 @@ public abstract class OpenFilePickerBehaviorBase : PickerBehaviorBase
             return;
         }
 
-        var storageProvider = (visual.GetVisualRoot() as TopLevel)?.StorageProvider;
+        var storageProvider = StorageProvider ?? (visual.GetSelfAndLogicalAncestors().LastOrDefault() as TopLevel)?.StorageProvider;
         if (storageProvider is null)
         {
             return;

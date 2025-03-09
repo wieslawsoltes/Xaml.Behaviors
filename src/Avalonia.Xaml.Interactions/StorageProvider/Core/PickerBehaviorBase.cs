@@ -8,6 +8,12 @@ namespace Avalonia.Xaml.Interactions.Core;
 public abstract class PickerBehaviorBase : InvokeCommandBehaviorBase
 {
     /// <summary>
+    /// Identifies the <seealso cref="StorageProvider"/> avalonia property.
+    /// </summary>
+    public static readonly StyledProperty<IStorageProvider?> StorageProviderProperty =
+        AvaloniaProperty.Register<PickerBehaviorBase, IStorageProvider?>(nameof(StorageProvider));
+
+    /// <summary>
     /// Identifies the <seealso cref="Title"/> avalonia property.
     /// </summary>
     public static readonly StyledProperty<string?> TitleProperty =
@@ -24,6 +30,15 @@ public abstract class PickerBehaviorBase : InvokeCommandBehaviorBase
     /// </summary>
     public static readonly StyledProperty<string?> SuggestedFileNameProperty =
         AvaloniaProperty.Register<PickerBehaviorBase, string?>(nameof(SuggestedFileName));
+
+    /// <summary>
+    /// Gets or sets the storage provider that the picker uses to access the file system. This is an avalonia property.
+    /// </summary>
+    public IStorageProvider? StorageProvider
+    {
+        get => GetValue(StorageProviderProperty);
+        set => SetValue(StorageProviderProperty, value);
+    } 
 
     /// <summary>
     /// Gets or sets the text that appears in the title bar of a picker. This is an avalonia property.

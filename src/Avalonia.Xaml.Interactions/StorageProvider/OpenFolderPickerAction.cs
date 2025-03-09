@@ -1,8 +1,9 @@
+using System.Linq;
 using System.Threading.Tasks;
 using Avalonia.Controls;
+using Avalonia.LogicalTree;
 using Avalonia.Platform.Storage;
 using Avalonia.Threading;
-using Avalonia.VisualTree;
 
 namespace Avalonia.Xaml.Interactions.Core;
 
@@ -59,7 +60,7 @@ public class OpenFolderPickerAction : PickerActionBase
             return;
         }
 
-        var storageProvider = (visual.GetVisualRoot() as TopLevel)?.StorageProvider;
+        var storageProvider = StorageProvider ?? (visual.GetSelfAndLogicalAncestors().LastOrDefault() as TopLevel)?.StorageProvider;
         if (storageProvider is null)
         {
             return;
