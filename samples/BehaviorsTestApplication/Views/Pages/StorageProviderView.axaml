@@ -24,9 +24,11 @@
         </MenuItem>
         <MenuItem Header="Open Folders">
           <Interaction.Behaviors>
+            <!-- Override StorageProvider -->
             <MenuItemOpenFolderPickerBehavior Command="{Binding OpenFoldersCommand}"
                                               Title="Open Folders"
-                                              AllowMultiple="True" />
+                                              AllowMultiple="True"
+                                              StorageProvider="{Binding $parent[TopLevel].StorageProvider}" />
           </Interaction.Behaviors>
         </MenuItem>
         <MenuItem Header="Save File">
