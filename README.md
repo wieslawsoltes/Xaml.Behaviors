@@ -73,8 +73,6 @@ and install the package like this:
 
 This section provides an overview of all available classes and their purpose in Avalonia XAML Behaviors. The classes are grouped into logical categories based on their functionality.
 
----
-
 ## Interactions
 
 ### Actions
@@ -96,8 +94,6 @@ This section provides an overview of all available classes and their purpose in 
 - **RemoveClassAction**  
   *Removes a style class from a control’s class collection.*
 
----
-
 ### Animations
 - **FadeInBehavior**  
   *Animates the fade-in effect for the associated element, gradually increasing its opacity.*
@@ -105,13 +101,9 @@ This section provides an overview of all available classes and their purpose in 
 - **StartAnimationAction**  
   *Triggers a defined animation on the target control when executed.*
 
----
-
 ### AutoCompleteBox
 - **FocusAutoCompleteBoxTextBoxBehavior**  
   *Ensures the text box within an AutoCompleteBox gets focus automatically.*
-
----
 
 ### Button
 - **ButtonClickEventTriggerBehavior**  
@@ -125,8 +117,6 @@ This section provides an overview of all available classes and their purpose in 
 
 - **ButtonHideFlyoutOnClickBehavior**  
   *Automatically hides the flyout attached to the button when it is clicked.*
-
----
 
 ### Clipboard
 - **ClearClipboardAction**  
@@ -147,16 +137,12 @@ This section provides an overview of all available classes and their purpose in 
 - **SetClipboardTextAction**  
   *Places text onto the clipboard.*
 
----
-
 ### Composition
 - **SelectingItemsControlBehavior**  
   *Animates selection transitions in items controls such as ListBox or TabControl.*
 
 - **SlidingAnimation**  
   *Provides static methods to apply sliding animations (from left, right, top, or bottom) to a control.*
-
----
 
 ### Control
 - **BindPointerOverBehavior**  
@@ -183,13 +169,9 @@ This section provides an overview of all available classes and their purpose in 
 - **ShowPointerPositionBehavior**  
   *Displays the current pointer position (x, y coordinates) in a TextBlock for debugging or UI feedback.*
 
----
-
 ### Converters
 - **PointerEventArgsConverter**  
   *Converts pointer event arguments into a tuple (x, y) representing the pointer’s location.*
-
----
 
 ### Core (General Infrastructure)
 - **ActualThemeVariantChangedBehavior**  
@@ -285,8 +267,6 @@ This section provides an overview of all available classes and their purpose in 
 - **ValueChangedTriggerBehavior**  
   *Triggers actions when the value of a bound property changes.*
 
----
-
 ### DragAndDrop
 - **ContextDragBehavior**  
   *Enables drag operations using a “context” (data payload) that is carried during the drag–drop operation.*
@@ -306,8 +286,6 @@ This section provides an overview of all available classes and their purpose in 
 - **TypedDragBehavior**  
   *Provides drag behavior for items of a specified data type.*
 
----
-
 ### Draggable
 - **CanvasDragBehavior**  
   *Enables a control to be dragged within a Canvas by updating its RenderTransform based on pointer movements.*
@@ -320,8 +298,6 @@ This section provides an overview of all available classes and their purpose in 
 
 - **SelectionAdorner**  
   *A visual adorner used to indicate selection or to show drag outlines during drag–drop operations.*
-
----
 
 ### Events
 - **InteractiveBehaviorBase**  
@@ -384,8 +360,6 @@ This section provides an overview of all available classes and their purpose in 
 - **TextInputMethodClientRequestedEventBehavior**  
   *Triggers actions when a text input method client is requested (for virtual keyboards, etc.).*
 
----
-
 ### ExecuteCommand Core
 - **ExecuteCommandBehaviorBase**  
   *Provides the core functionality for executing a command from within a behavior.*
@@ -395,8 +369,6 @@ This section provides an overview of all available classes and their purpose in 
 
 - **ExecuteCommandRoutedEventBehaviorBase**  
   *A base class for command behaviors that respond to routed events.*
-
----
 
 ### ExecuteCommand
 - **ExecuteCommandOnActivatedBehavior**  
@@ -486,8 +458,6 @@ This section provides an overview of all available classes and their purpose in 
 - **InvokeCommandBehaviorBase**  
   *The base class that supports converting parameters and invoking a bound command.*
 
----
-
 ### Focus
 - **FocusBehavior**  
   *Exposes a two‑way bindable IsFocused property to control focus state.*
@@ -512,8 +482,6 @@ This section provides an overview of all available classes and their purpose in 
 
 - **FocusSelectedItemBehavior**  
   *Focuses the currently selected item in an ItemsControl.*
-
----
 
 ### Gestures
 - **DoubleTappedGestureTrigger**  
@@ -558,16 +526,12 @@ This section provides an overview of all available classes and their purpose in 
 - **TappedGestureTrigger**  
   *Triggers actions on a simple tap gesture.*
 
----
-
 ### InputElement Actions
 - **CapturePointerAction**  
   *Captures the pointer (mouse, touch) to a target control so that subsequent pointer events are routed there.*
 
 - **ReleasePointerCaptureAction**  
   *Releases a previously captured pointer from the control.*
-
----
 
 ### InputElement Triggers
 - **DoubleTappedTrigger**  
@@ -618,8 +582,6 @@ This section provides an overview of all available classes and their purpose in 
 - **TextInputTrigger**  
   *Triggers actions on text input events.*
 
----
-
 ### ItemsControl
 - **ItemNudgeDropBehavior**  
   *Provides “nudge” effects for items in an ItemsControl during drag–drop reordering.*
@@ -642,8 +604,6 @@ This section provides an overview of all available classes and their purpose in 
 - **ScrollToItemIndexBehavior**  
   *Scrolls to a specific item index in the ItemsControl.*
 
----
-
 ### ListBox
 - **ListBoxSelectAllBehavior**  
   *Selects all items in a ListBox when the behavior is attached.*
@@ -651,13 +611,9 @@ This section provides an overview of all available classes and their purpose in 
 - **ListBoxUnselectAllBehavior**  
   *Clears the selection in a ListBox.*
 
----
-
 ### ListBoxItem
 - **SelectListBoxItemOnPointerMovedBehavior**  
   *Automatically selects a ListBoxItem when the pointer moves over it.*
-
----
 
 ### Responsive
 - **AdaptiveBehavior**  
@@ -666,19 +622,13 @@ This section provides an overview of all available classes and their purpose in 
 - **AdaptiveClassSetter**  
   *Specifies comparison conditions (min/max width/height) and the class to apply when those conditions are met.*
 
----
-
 ### ScrollViewer
 - **HorizontalScrollViewerBehavior**  
   *Enables horizontal scrolling via the pointer wheel. Optionally requires the Shift key and supports line or page scrolling.*
 
----
-
 ### SelectingItemsControl
 - **SelectingItemsControlEventsBehavior**  
   *Handles selection-changed events in controls that support item selection (like ListBox) to trigger custom actions.*
-
----
 
 ### Show
 - **ShowBehaviorBase**  
@@ -693,8 +643,6 @@ This section provides an overview of all available classes and their purpose in 
 - **ShowOnTappedBehavior**  
   *Shows the target control when it is tapped.*
 
----
-
 ### StorageProvider – Button
 - **ButtonOpenFilePickerBehavior**  
   *Attaches to a Button to open a file picker dialog when clicked.*
@@ -704,8 +652,6 @@ This section provides an overview of all available classes and their purpose in 
 
 - **ButtonSaveFilePickerBehavior**  
   *Attaches to a Button to open a save file picker dialog when clicked.*
-
----
 
 ### StorageProvider – Converters
 - **StorageFileToReadStreamConverter**  
@@ -717,16 +663,12 @@ This section provides an overview of all available classes and their purpose in 
 - **StorageItemToPathConverter**  
   *Extracts the file system path from an IStorageItem.*
 
----
-
 ### StorageProvider – Core
 - **PickerActionBase**  
   *Base class for actions that invoke file/folder picker dialogs.*
 
 - **PickerBehaviorBase**  
   *Base class for behaviors that wrap file/folder picker functionality.*
-
----
 
 ### StorageProvider – MenuItem
 - **MenuItemOpenFilePickerBehavior**  
@@ -738,13 +680,9 @@ This section provides an overview of all available classes and their purpose in 
 - **MenuItemOpenFolderPickerBehavior**  
   *Opens a folder picker dialog when a MenuItem is clicked.*
 
----
-
 ### StorageProvider – Utilities
 - **FileFilterParser**  
   *Parses file filter strings (e.g. "Images|*.png;*.jpg") into file type objects for use with pickers.*
-
----
 
 ### StorageProvider
 - **OpenFilePickerAction**  
@@ -765,8 +703,6 @@ This section provides an overview of all available classes and their purpose in 
 - **SaveFilePickerBehaviorBase**  
   *Base behavior for saving files using a file picker dialog.*
 
----
-
 ### TextBox
 - **TextBoxSelectAllOnGotFocusBehavior**  
   *Selects all text in a TextBox when it gains focus.*
@@ -774,13 +710,9 @@ This section provides an overview of all available classes and their purpose in 
 - **TextBoxSelectAllTextBehavior**  
   *Selects all text in a TextBox immediately upon attachment.*
 
----
-
 ### TreeViewItem
 - **ToggleIsExpandedOnDoubleTappedBehavior**  
   *Toggles the IsExpanded property of a TreeViewItem when it is double-tapped.*
-
----
 
 ## Interactivity (Infrastructure)
 
@@ -800,16 +732,12 @@ This section provides an overview of all available classes and their purpose in 
 - **TriggerOfT**  
   *A generic version of Trigger for strongly typed associated objects.*
 
----
-
 ### Collections
 - **ActionCollection**  
   *A collection of actions that can be executed by a trigger.*
 
 - **BehaviorCollection**  
   *A collection of behaviors attached to a single Avalonia object.*
-
----
 
 ### Contract
 - **ComparisonConditionType**  
@@ -827,8 +755,6 @@ This section provides an overview of all available classes and their purpose in 
 - **ITrigger**  
   *Interface for triggers that encapsulate a collection of actions.*
 
----
-
 ### Helpers
 - **ComparisonConditionTypeHelper**  
   *Helper class for performing comparisons based on a specified condition type.*
@@ -838,8 +764,6 @@ This section provides an overview of all available classes and their purpose in 
 
 - **TypeConverterHelper**  
   *Assists in converting string values to a target type for property assignment.*
-
----
 
 ### StyledElement
 - **StyledElementAction**  
@@ -857,13 +781,9 @@ This section provides an overview of all available classes and their purpose in 
 - **StyledElementTriggerOfT**  
   *Generic version of the StyledElementTrigger for typed associated objects.*
 
----
-
 ### Templates
 - **BehaviorCollectionTemplate**  
   *Defines a XAML template for creating a collection of behaviors.*
-
----
 
 ### Interactivity
 - **Interaction**  
