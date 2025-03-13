@@ -68,7 +68,6 @@ and install the package like this:
 ### Package Sources
 
 * https://api.nuget.org/v3/index.json
-* https://www.myget.org/F/avalonia-ci/api/v2
 
 ## Resources
 
