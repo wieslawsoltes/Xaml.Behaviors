@@ -69,6 +69,356 @@ and install the package like this:
 
 * https://api.nuget.org/v3/index.json
 
+## Docs
+
+### Interactions
+
+#### Actions
+
+- AddClassAction
+- ChangeAvaloniaPropertyAction
+- CloseNotificationAction
+- FocusControlAction
+- PopupAction
+- RemoveClassAction
+
+#### Animations
+
+- FadeInBehavior
+- StartAnimationAction
+
+#### AutoCompleteBox
+
+- FocusAutoCompleteBoxTextBoxBehavior
+
+#### Button
+
+- ButtonClickEventTriggerBehavior
+- ButtonExecuteCommandOnKeyDownBehavior
+- ButtonHideFlyoutBehavior
+- ButtonHideFlyoutOnClickBehavior
+
+#### Clipboard
+
+- ClearClipboardAction
+- GetClipboardDataAction
+- GetClipboardFormatsAction
+- GetClipboardTextAction
+- SetClipboardDataObjectAction
+- SetClipboardTextAction
+
+#### Composition
+
+- SelectingItemsControlBehavior
+- SlidingAnimation
+
+#### Control
+
+- BindPointerOverBehavior
+- BindTagToVisualRootDataContextBehavior
+- BoundsObserverBehavior
+- DragControlBehavior
+- HideAttachedFlyoutBehavior
+- HideOnKeyPressedBehavior
+- HideOnLostFocusBehavior
+- ShowPointerPositionBehavior
+
+#### Converters
+
+- PointerEventArgsConverter
+
+#### Core
+
+- ActualThemeVariantChangedBehavior
+- ActualThemeVariantChangedTrigger
+- AttachedToLogicalTreeBehavior
+- AttachedToLogicalTreeTrigger
+- AttachedToVisualTreeBehavior
+- AttachedToVisualTreeTrigger
+- BindingBehavior
+- BindingTriggerBehavior
+- CallMethodAction
+- ChangePropertyAction
+- DataContextChangedBehavior
+- DataContextChangedTrigger
+- DataTriggerBehavior
+- DetachedFromLogicalTreeTrigger
+- DetachedFromVisualTreeTrigger
+- DisposingBehavior
+- DisposingTrigger
+- EventTriggerBehavior
+- InitializedBehavior
+- InitializedTrigger
+- InvokeCommandAction
+- InvokeCommandActionBase
+- LoadedBehavior
+- LoadedTrigger
+- ResourcesChangedBehavior
+- ResourcesChangedTrigger
+- RoutedEventTriggerBase
+- RoutedEventTriggerBaseOfT
+- RoutedEventTriggerBehavior
+- UnloadedTrigger
+- ValueChangedTriggerBehavior
+
+#### DragAndDrop
+
+- ContextDragBehavior
+- ContextDropBehavior
+- DropHandlerBase
+- IDragHandler
+- IDropHandler
+- TypedDragBehavior
+
+#### Draggable
+
+- CanvasDragBehavior
+- GridDragBehavior
+- ItemDragBehavior
+- SelectionAdorner
+
+#### Events
+
+- InteractiveBehaviorBase
+- DoubleTappedEventBehavior
+- GotFocusEventBehavior
+- KeyDownEventBehavior
+- KeyUpEventBehavior
+- LostFocusEventBehavior
+- PointerCaptureLostEventBehavior
+- PointerEnteredEventBehavior
+- PointerEventsBehavior
+- PointerExitedEventBehavior
+- PointerMovedEventBehavior
+- PointerPressedEventBehavior
+- PointerReleasedEventBehavior
+- PointerWheelChangedEventBehavior
+- RightTappedEventBehavior
+- ScrollGestureEndedEventBehavior
+- ScrollGestureEventBehavior
+- TappedEventBehavior
+- TextInputEventBehavior
+- TextInputMethodClientRequestedEventBehavior
+
+#### ExecuteCommand Core
+
+- ExecuteCommandBehaviorBase
+- ExecuteCommandOnKeyBehaviorBase
+- ExecuteCommandRoutedEventBehaviorBase
+
+#### ExecuteCommand
+
+- ExecuteCommandOnActivatedBehavior
+- ExecuteCommandOnDoubleTappedBehavior
+- ExecuteCommandOnGotFocusBehavior
+- ExecuteCommandOnHoldingBehavior
+- ExecuteCommandOnKeyDownBehavior
+- ExecuteCommandOnKeyUpBehavior
+- ExecuteCommandOnLostFocusBehavior
+- ExecuteCommandOnPinchBehavior
+- ExecuteCommandOnPinchEndedBehavior
+- ExecuteCommandOnPointerCaptureLostBehavior
+- ExecuteCommandOnPointerEnteredBehavior
+- ExecuteCommandOnPointerExitedBehavior
+- ExecuteCommandOnPointerMovedBehavior
+- ExecuteCommandOnPointerPressedBehavior
+- ExecuteCommandOnPointerReleasedBehavior
+- ExecuteCommandOnPointerTouchPadGestureMagnifyBehavior
+- ExecuteCommandOnPointerTouchPadGestureRotateBehavior
+- ExecuteCommandOnPointerTouchPadGestureSwipeBehavior
+- ExecuteCommandOnPointerWheelChangedBehavior
+- ExecuteCommandOnPullGestureBehavior
+- ExecuteCommandOnPullGestureEndedBehavior
+- ExecuteCommandOnRightTappedBehavior
+- ExecuteCommandOnScrollGestureBehavior
+- ExecuteCommandOnScrollGestureEndedBehavior
+- ExecuteCommandOnScrollGestureInertiaStartingBehavior
+- ExecuteCommandOnTappedBehavior
+- ExecuteCommandOnTextInputBehavior
+- ExecuteCommandOnTextInputMethodClientRequestedBehavior
+- InvokeCommandBehaviorBase
+
+#### Focus
+
+- FocusBehavior
+- FocusBehaviorBase
+- FocusControlBehavior
+- FocusOnAttachedBehavior
+- FocusOnAttachedToVisualTreeBehavior
+- FocusOnPointerMovedBehavior
+- FocusOnPointerPressedBehavior
+- FocusSelectedItemBehavior
+
+#### Gestures
+
+- DoubleTappedGestureTrigger
+- HoldingGestureTrigger
+- PinchEndedGestureTrigger
+- PinchGestureTrigger
+- PointerTouchPadGestureMagnifyGestureTrigger
+- PointerTouchPadGestureRotateGestureTrigger
+- PointerTouchPadGestureSwipeGestureTrigger
+- PullGestureEndedGestureTrigger
+- PullGestureGestureTrigger
+- RightTappedGestureTrigger
+- ScrollGestureEndedGestureTrigger
+- ScrollGestureGestureTrigger
+- ScrollGestureInertiaStartingGestureTrigger
+- TappedGestureTrigger
+
+#### InputElement Actions
+
+- CapturePointerAction
+- ReleasePointerCaptureAction
+
+#### InputElement Triggers
+
+- DoubleTappedTrigger
+- GotFocusTrigger
+- HoldingTrigger
+- KeyDownTrigger
+- KeyUpTrigger
+- LostFocusTrigger
+- PointerCaptureLostTrigger
+- PointerEnteredTrigger
+- PointerExitedTrigger
+- PointerMovedTrigger
+- PointerPressedTrigger
+- PointerReleasedTrigger
+- PointerWheelChangedTrigger
+- TappedTrigger
+- TextInputMethodClientRequestedTrigger
+- TextInputTrigger
+
+#### ItemsControl
+
+- ItemNudgeDropBehavior
+- ItemsControlContainerClearingTrigger
+- ItemsControlContainerEventsBehavior
+- ItemsControlContainerIndexChangedTrigger
+- ItemsControlContainerPreparedTrigger
+- ScrollToItemBehavior
+- ScrollToItemIndexBehavior
+
+#### ListBox
+
+- ListBoxSelectAllBehavior
+- ListBoxUnselectAllBehavior
+
+#### ListBoxItem
+
+- SelectListBoxItemOnPointerMovedBehavior
+
+#### Responsive
+
+- AdaptiveBehavior
+- AdaptiveClassSetter
+
+#### ScrollViewer
+
+- HorizontalScrollViewerBehavior
+
+#### SelectingItemsControl
+
+- SelectingItemsControlEventsBehavior
+
+#### Show
+
+- ShowBehaviorBase
+- ShowOnDoubleTappedBehavior
+- ShowOnKeyDownBehavior
+- ShowOnTappedBehavior
+
+#### StorageProvider Button
+
+- ButtonOpenFilePickerBehavior
+- ButtonOpenFolderPickerBehavior
+- ButtonSaveFilePickerBehavior
+
+#### StorageProvider Converters
+
+- StorageFileToReadStreamConverter
+- StorageFileToWriteStreamConverter
+- StorageItemToPathConverter
+
+#### StorageProvider Core
+
+- PickerActionBase
+- PickerBehaviorBase
+
+#### StorageProvider MenuItem
+
+- MenuItemOpenFilePickerBehavior
+- MenuItemOpenFolderPickerBehavior
+- MenuItemSaveFilePickerBehavior
+
+#### StorageProvider Utilities
+
+- FileFilterParser
+
+#### StorageProvider
+
+- OpenFilePickerAction
+- OpenFilePickerBehaviorBase
+- OpenFolderPickerAction
+- OpenFolderPickerBehaviorBase
+- SaveFilePickerAction
+- SaveFilePickerBehaviorBase
+
+#### TextBox
+
+- TextBoxSelectAllOnGotFocusBehavior
+- TextBoxSelectAllTextBehavior
+
+#### TreeViewItem
+
+- ToggleIsExpandedOnDoubleTappedBehavior
+
+### Interactivity
+
+#### AvaloniaObject
+
+- Action
+- Behavior
+- BehaviorOfT
+- Trigger
+- TriggerOfT
+
+#### Collections
+
+- ActionCollection
+- BehaviorCollection
+
+#### Contract
+
+- ComparisonConditionType
+- IAction
+- IBehavior
+- IBehaviorEventsHandler
+- ITrigger
+
+#### Helpers
+
+- ComparisonConditionTypeHelper
+- TemplatedParentHelper
+- TypeConverterHelper
+
+#### StyledElement
+
+- StyledElementAction
+- StyledElementBehavior
+- StyledElementBehaviorOfT
+- StyledElementTrigger
+- StyledElementTriggerOfT
+
+#### Templates
+
+- BehaviorCollectionTemplate
+
+#### Interactivity
+
+- Interaction
+
 ## Resources
 
 * [GitHub source code repository.](https://github.com/wieslawsoltes/Xaml.Behaviors)
