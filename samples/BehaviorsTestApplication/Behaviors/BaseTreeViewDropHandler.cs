@@ -26,15 +26,13 @@ public abstract class BaseTreeViewDropHandler : DropHandlerBase
             if (valid)
             {
                 var targetItem = FindTreeViewItemFromChildView(targetVisual);
-                // If it's a movement within the same tree level,
-                // then an adorner layer will be applied.
 
-                // But, if the source item will move to a different level,
-                // the level's owner will receive a background highlight.
+                // Node dragged to non-sibling node: becomes sibling
+                // Node dragged to sibling node: reordering
 
-                // In the case of being moved to a root target item,
-                // (with targetItem.Parent not being another TreeViewItem),
-                // then this root target item will receive this style.
+                // Reordering effect: adorner layer, on top or bottom.
+                // Change of parent: highlight parent.
+
                 var itemToApplyStyle = (willSourceItemChangeParent && targetItem?.Parent is TreeViewItem tviParent) ?
                                        tviParent : targetItem;
                 string direction = e.Data.Contains("direction") ? (string)e.Data.Get("direction")! : "down";

@@ -14,7 +14,6 @@ public class NodesTreeViewDropHandler : BaseTreeViewDropHandler
             || tv.GetVisualAt(e.GetPosition(tv)) is not Control targetControl
             || targetControl.DataContext is not DragNodeViewModel targetNode
             || sourceNode == targetNode
-            || sourceNode.Parent == targetNode
             || targetNode.IsDescendantOf(sourceNode) // block moving parent to inside child
             || vm.HasMultipleTreeNodesSelected)
         {
