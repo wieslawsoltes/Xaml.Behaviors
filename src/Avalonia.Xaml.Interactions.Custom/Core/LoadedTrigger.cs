@@ -6,7 +6,7 @@ namespace Avalonia.Xaml.Interactions.Custom;
 /// <summary>
 /// 
 /// </summary>
-public abstract class LoadedTrigger : StyledElementTrigger<Control>
+public class LoadedTrigger : StyledElementTrigger<Control>
 {
     /// <inheritdoc />
     protected override void OnLoaded()

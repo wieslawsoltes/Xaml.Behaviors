@@ -1,3 +1,4 @@
+using Avalonia.Threading;
 using Avalonia.Xaml.Interactivity;
 
 namespace Avalonia.Xaml.Interactions.Custom;
@@ -5,12 +6,15 @@ namespace Avalonia.Xaml.Interactions.Custom;
 /// <summary>
 /// 
 /// </summary>
-public abstract class ActualThemeVariantChangedTrigger : StyledElementTrigger<StyledElement>
+public class ActualThemeVariantChangedTrigger : StyledElementTrigger<StyledElement>
 {
     /// <inheritdoc />
     protected override void OnActualThemeVariantChangedEvent()
     {
-        Execute(parameter: null);
+        Dispatcher.UIThread.Post(() =>
+        {
+            Execute(parameter: null);
+        });
     }
 
     private void Execute(object? parameter)

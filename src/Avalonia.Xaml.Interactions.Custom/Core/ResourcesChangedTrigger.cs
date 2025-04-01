@@ -1,3 +1,4 @@
+using Avalonia.Threading;
 using Avalonia.Xaml.Interactivity;
 
 namespace Avalonia.Xaml.Interactions.Custom;
@@ -5,12 +6,15 @@ namespace Avalonia.Xaml.Interactions.Custom;
 /// <summary>
 /// 
 /// </summary>
-public abstract class ResourcesChangedTrigger : StyledElementTrigger<StyledElement>
+public class ResourcesChangedTrigger : StyledElementTrigger<StyledElement>
 {
     /// <inheritdoc />
     protected override void OnResourcesChangedEvent()
     {
-        Execute(parameter: null);
+        Dispatcher.UIThread.Post(() =>
+        {
+            Execute(parameter: null);
+        });
     }
 
     private void Execute(object? parameter)

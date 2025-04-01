@@ -1,0 +1,35 @@
+﻿<UserControl x:Class="BehaviorsTestApplication.Views.Pages.ClipboardView"
+             xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:BehaviorsTestApplication.ViewModels"
+             x:DataType="vm:MainWindowViewModel"
+             mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="450">
+  <Design.DataContext>
+    <vm:MainWindowViewModel />
+  </Design.DataContext>
+  <Grid RowDefinitions="Auto" ColumnDefinitions="30*,5,30*,5,30*">
+    <Button x:Name="ClearClipboardButton" Content="Clear Clipboard" Grid.Row="0" Grid.Column="0" Margin="5,5,0,5">
+      <Interaction.Behaviors>
+        <EventTriggerBehavior EventName="Click" SourceObject="ClearClipboardButton">
+          <ClearClipboardAction />
+        </EventTriggerBehavior>
+      </Interaction.Behaviors>
+    </Button>
+    <Button Name="SetClipboardTextButton" Content="Set Clipboard Text" Grid.Row="0" Grid.Column="2" Margin="0,5,0,5">
+      <Interaction.Behaviors>
+        <EventTriggerBehavior EventName="Click" SourceObject="SetClipboardTextButton">
+          <SetClipboardTextAction Text="Avalonia Xaml Behaviors" />
+        </EventTriggerBehavior>
+      </Interaction.Behaviors>
+    </Button>
+    <Button x:Name="GetClipboardTextButton" Content="Get Clipboard Text" Grid.Row="0" Grid.Column="4" Margin="0,5,5,5">
+      <Interaction.Behaviors>
+        <EventTriggerBehavior EventName="Click" SourceObject="GetClipboardTextButton">
+          <GetClipboardTextAction Command="{Binding GetClipboardTextCommand}" />
+        </EventTriggerBehavior>
+      </Interaction.Behaviors>
+    </Button>
+  </Grid>
+</UserControl>

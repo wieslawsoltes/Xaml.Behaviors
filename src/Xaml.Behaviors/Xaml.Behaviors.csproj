@@ -37,13 +37,13 @@
 
   <ItemGroup>
     <Compile Include="**\*.cs" Exclude="bin\**;obj\**" />
-    <Compile Include="$(InteractivitySourcesBasePath)\**\*.cs" Exclude="$(InteractivitySourcesBasePath)\Properties\**;$(InteractivitySourcesBasePath)\obj\**;$(InteractivitySourcesBasePath)\bin\**" />
-    <Compile Include="$(InteractionsSourcesBasePath)\**\*.cs" Exclude="$(InteractionsSourcesBasePath)\Properties\**;$(InteractionsSourcesBasePath)\obj\**;$(InteractionsSourcesBasePath)\bin\**" />
-    <Compile Include="$(InteractionsCustomSourcesBasePath)\**\*.cs" LinkBase="Custom" Exclude="$(InteractionsCustomSourcesBasePath)\Properties\**;$(InteractionsCustomSourcesBasePath)\obj\**;$(InteractionsCustomSourcesBasePath)\bin\**" />
-    <Compile Include="$(InteractionsDragAndDropSourcesBasePath)\**\*.cs" LinkBase="DragAndDrop" Exclude="$(InteractionsDragAndDropSourcesBasePath)\Properties\**;$(InteractionsDragAndDropSourcesBasePath)\obj\**;$(InteractionsDragAndDropSourcesBasePath)\bin\**" />
-    <Compile Include="$(InteractionsDraggableSourcesBasePath)\**\*.cs" LinkBase="Draggable" Exclude="$(InteractionsDraggableSourcesBasePath)\Properties\**;$(InteractionsDraggableSourcesBasePath)\obj\**;$(InteractionsDraggableSourcesBasePath)\bin\**" />
-    <Compile Include="$(InteractionsEventsSourcesBasePath)\**\*.cs" LinkBase="Events" Exclude="$(InteractionsEventsSourcesBasePath)\Properties\**;$(InteractionsEventsSourcesBasePath)\obj\**;$(InteractionsEventsSourcesBasePath)\bin\**" />
-    <Compile Include="$(InteractionsResponsiveSourcesBasePath)\**\*.cs" LinkBase="Responsive" Exclude="$(InteractionsResponsiveSourcesBasePath)\Properties\**;$(InteractionsResponsiveSourcesBasePath)\obj\**;$(InteractionsResponsiveSourcesBasePath)\bin\**" />
+    <Compile Include="$(InteractivitySourcesBasePath)\**\*.cs" LinkBase="Interactivity" Exclude="$(InteractivitySourcesBasePath)\Properties\**;$(InteractivitySourcesBasePath)\obj\**;$(InteractivitySourcesBasePath)\bin\**" />
+    <Compile Include="$(InteractionsSourcesBasePath)\**\*.cs" LinkBase="Interactions" Exclude="$(InteractionsSourcesBasePath)\Properties\**;$(InteractionsSourcesBasePath)\obj\**;$(InteractionsSourcesBasePath)\bin\**" />
+    <Compile Include="$(InteractionsCustomSourcesBasePath)\**\*.cs" LinkBase="Interactions" Exclude="$(InteractionsCustomSourcesBasePath)\Properties\**;$(InteractionsCustomSourcesBasePath)\obj\**;$(InteractionsCustomSourcesBasePath)\bin\**" />
+    <Compile Include="$(InteractionsDragAndDropSourcesBasePath)\**\*.cs" LinkBase="Interactions\DragAndDrop" Exclude="$(InteractionsDragAndDropSourcesBasePath)\Properties\**;$(InteractionsDragAndDropSourcesBasePath)\obj\**;$(InteractionsDragAndDropSourcesBasePath)\bin\**" />
+    <Compile Include="$(InteractionsDraggableSourcesBasePath)\**\*.cs" LinkBase="Interactions\Draggable" Exclude="$(InteractionsDraggableSourcesBasePath)\Properties\**;$(InteractionsDraggableSourcesBasePath)\obj\**;$(InteractionsDraggableSourcesBasePath)\bin\**" />
+    <Compile Include="$(InteractionsEventsSourcesBasePath)\**\*.cs" LinkBase="Interactions\Events" Exclude="$(InteractionsEventsSourcesBasePath)\Properties\**;$(InteractionsEventsSourcesBasePath)\obj\**;$(InteractionsEventsSourcesBasePath)\bin\**" />
+    <Compile Include="$(InteractionsResponsiveSourcesBasePath)\**\*.cs" LinkBase="Interactions\Responsive" Exclude="$(InteractionsResponsiveSourcesBasePath)\Properties\**;$(InteractionsResponsiveSourcesBasePath)\obj\**;$(InteractionsResponsiveSourcesBasePath)\bin\**" />
   </ItemGroup>
 
 </Project>

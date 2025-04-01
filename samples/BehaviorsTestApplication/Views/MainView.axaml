@@ -79,8 +79,23 @@
     <TabItem Header="TemplateBinding">
       <pages:TemplateBindingView />
     </TabItem>
+    <TabItem Header="OneTime Binding">
+      <pages:OneTimeBinding />
+    </TabItem>
     <TabItem Header="Pointer Triggers">
       <pages:PointerTriggersView DataContext="{Binding PointerTriggersViewModel}" />
+    </TabItem>
+    <TabItem Header="Storage Provider">
+      <pages:StorageProviderView />
+    </TabItem>
+    <TabItem Header="Clipboard">
+      <pages:ClipboardView />
+    </TabItem>
+    <TabItem Header="Drag and Drop">
+      <pages:DragAndDropView />
+    </TabItem>
+    <TabItem Header="Draggable">
+      <pages:DraggableView />
     </TabItem>
   </TabControl>
 </UserControl>

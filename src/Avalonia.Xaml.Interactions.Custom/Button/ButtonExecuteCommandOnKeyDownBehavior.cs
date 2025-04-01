@@ -1,7 +1,9 @@
+using System.Linq;
 using System.Reactive.Disposables;
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Interactivity;
+using Avalonia.LogicalTree;
 using Avalonia.Threading;
 using Avalonia.VisualTree;
 
@@ -60,7 +62,7 @@ public class ButtonExecuteCommandOnKeyDownBehavior : ExecuteCommandOnKeyBehavior
 
         if (FocusTopLevel)
         {
-            Dispatcher.UIThread.Post(() => (AssociatedObject?.GetVisualRoot() as TopLevel)?.Focus());
+            Dispatcher.UIThread.Post(() => (TopLevel ?? AssociatedObject?.GetSelfAndLogicalAncestors().LastOrDefault() as TopLevel)?.Focus());
         }
 
         if (FocusControl is { } focusControl)

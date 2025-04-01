@@ -5,7 +5,7 @@ namespace Avalonia.Xaml.Interactions.Custom;
 /// <summary>
 /// 
 /// </summary>
-public abstract class AttachedToLogicalTreeTrigger : StyledElementTrigger<StyledElement>
+public class AttachedToLogicalTreeTrigger : StyledElementTrigger<StyledElement>
 {
     /// <inheritdoc />
     protected override void OnAttachedToLogicalTree()

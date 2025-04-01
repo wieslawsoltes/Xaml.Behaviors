@@ -6,16 +6,23 @@
         Title="XamlBehaviors Test Application" Width="1000" Height="700"
         x:DataType="vm:MainWindowViewModel">
   <Interaction.Behaviors>
+
     <!-- TopLevel Logical tree special case -->
     <!--
     <EventTriggerBehavior EventName="Opened">
       <InvokeCommandAction Command="{Binding InitializeCommand, Mode=OneTime}" />
     </EventTriggerBehavior>
     -->
+
     <!-- TopLevel attached to visual tree special case -->
     <RoutedEventTriggerBehavior RoutedEvent="{x:Static Control.LoadedEvent}">
       <InvokeCommandAction Command="{Binding InitializeCommand, Mode=OneTime}" />
     </RoutedEventTriggerBehavior>
+
+    <DataContextChangedTrigger>
+      <InvokeCommandAction Command="{Binding DataContextChangedCommand}" />
+    </DataContextChangedTrigger>
+
   </Interaction.Behaviors>
   <views:MainView />
 </Window>
