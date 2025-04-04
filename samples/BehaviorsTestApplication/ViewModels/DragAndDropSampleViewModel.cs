@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using ReactiveUI;
 
 namespace BehaviorsTestApplication.ViewModels;
@@ -20,6 +21,15 @@ public class DragAndDropSampleViewModel : ViewModelBase
         set => this.RaiseAndSetIfChanged(ref _nodes, value);
     }
 
+    public ObservableCollection<DragNodeViewModel> SelectedTreeNodes { get; }
+
+    private bool _hasMultipleTreeNodesSelected;
+    public bool HasMultipleTreeNodesSelected
+    {
+        get => _hasMultipleTreeNodesSelected;
+        set => this.RaiseAndSetIfChanged(ref _hasMultipleTreeNodesSelected, value);
+    }
+
     public DragAndDropSampleViewModel()
     {
         _items =
@@ -30,6 +40,9 @@ public class DragAndDropSampleViewModel : ViewModelBase
             new() { Title = "Item3" },
             new() { Title = "Item4" }
         ];
+
+        SelectedTreeNodes = new();
+        SelectedTreeNodes.CollectionChanged += OnSelectedTreeNodesChanged;
 
         var node0 = new DragNodeViewModel()
         {
@@ -71,4 +84,8 @@ public class DragAndDropSampleViewModel : ViewModelBase
             node2
         ];
     }
+
+    private void OnSelectedTreeNodesChanged(object? sender, NotifyCollectionChangedEventArgs e) =>
+        HasMultipleTreeNodesSelected = SelectedTreeNodes.Count > 1;
+
 }
