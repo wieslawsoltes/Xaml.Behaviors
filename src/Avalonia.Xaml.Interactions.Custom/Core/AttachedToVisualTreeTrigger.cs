@@ -3,7 +3,7 @@ using Avalonia.Xaml.Interactivity;
 namespace Avalonia.Xaml.Interactions.Custom;
 
 /// <summary>
-/// 
+/// A trigger that executes when the associated object is attached to the visual tree.
 /// </summary>
 public class AttachedToVisualTreeTrigger : StyledElementTrigger<Visual>
 {

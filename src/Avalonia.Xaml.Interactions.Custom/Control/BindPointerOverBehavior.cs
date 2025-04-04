@@ -1,4 +1,4 @@
-using System.Reactive.Disposables;
+using System;
 using Avalonia.Controls;
 using Avalonia.Data;
 using Avalonia.Input;
@@ -28,21 +28,22 @@ public class BindPointerOverBehavior : DisposingBehavior<Control>
     /// <summary>
     /// 
     /// </summary>
-    /// <param name="disposables"></param>
-	protected override void OnAttached(CompositeDisposable disposables)
+    /// <returns></returns>
+	protected override IDisposable OnAttachedOverride()
 	{
 		if (AssociatedObject is null)
 		{
-			return;
+			return DisposableAction.Empty;
 		}
 
         var control = AssociatedObject;
         control.PropertyChanged += AssociatedObjectOnPropertyChanged;
 
-        disposables.Add(Disposable.Create(() => control.PropertyChanged -= AssociatedObjectOnPropertyChanged));
-		disposables.Add(Disposable.Create(() => IsPointerOver = false));
-
-        return;
+        return DisposableAction.Create(() =>
+        {
+            control.PropertyChanged -= AssociatedObjectOnPropertyChanged;
+            IsPointerOver = false;
+        });
 
         void AssociatedObjectOnPropertyChanged(object? sender, AvaloniaPropertyChangedEventArgs e)
         {

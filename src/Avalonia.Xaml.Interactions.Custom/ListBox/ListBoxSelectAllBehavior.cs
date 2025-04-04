@@ -1,4 +1,3 @@
-using System.Reactive.Disposables;
 
 namespace Avalonia.Xaml.Interactions.Custom;
 
@@ -10,9 +9,11 @@ public class ListBoxSelectAllBehavior : AttachedToVisualTreeBehavior<Controls.Li
     /// <summary>
     /// 
     /// </summary>
-    /// <param name="disposable"></param>
-    protected override void OnAttachedToVisualTree(CompositeDisposable disposable)
+    /// <returns></returns>
+    protected override System.IDisposable OnAttachedToVisualTreeOverride()
     {
         AssociatedObject?.SelectAll();
+
+        return DisposableAction.Empty;
     }
 }

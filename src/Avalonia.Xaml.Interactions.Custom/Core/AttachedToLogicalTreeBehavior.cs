@@ -1,4 +1,4 @@
-using System.Reactive.Disposables;
+using System;
 using Avalonia.Xaml.Interactivity;
 
 namespace Avalonia.Xaml.Interactions.Custom;
@@ -9,23 +9,28 @@ namespace Avalonia.Xaml.Interactions.Custom;
 /// <typeparam name="T"></typeparam>
 public abstract class AttachedToLogicalTreeBehavior<T> : DisposingBehavior<T> where T : StyledElement
 {
-    private CompositeDisposable? _disposables;
+    private IDisposable? _disposable;
 
     /// <inheritdoc />
-    protected override void OnAttached(CompositeDisposable disposables)
+    protected override IDisposable OnAttachedOverride()
     {
-        _disposables = disposables;
+        return new DisposableAction(OnDelayedDispose);
     }
 
     /// <inheritdoc />
     protected override void OnAttachedToLogicalTree()
     {
-        OnAttachedToLogicalTree(_disposables!);
+        _disposable = OnAttachedToLogicalTreeOverride();
     }
 
     /// <summary>
     /// Called after the <see cref="StyledElementBehavior{T}.AssociatedObject"/> is attached to the logical tree.
     /// </summary>
-    /// <param name="disposable">The group of disposable resources that are disposed together</param>
-    protected abstract void OnAttachedToLogicalTree(CompositeDisposable disposable);
+    /// <returns>A disposable resource to be disposed when the behavior is detached.</returns>
+    protected abstract IDisposable OnAttachedToLogicalTreeOverride();
+
+    private void OnDelayedDispose()
+    {
+        _disposable?.Dispose();
+    }
 }

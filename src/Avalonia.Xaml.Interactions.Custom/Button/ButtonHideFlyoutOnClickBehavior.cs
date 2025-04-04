@@ -1,6 +1,3 @@
-using System;
-using System.Reactive.Disposables;
-using System.Reactive.Linq;
 using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
 using Avalonia.Interactivity;
@@ -16,33 +13,39 @@ public class ButtonHideFlyoutOnClickBehavior : AttachedToVisualTreeBehavior<Butt
     /// <summary>
     /// 
     /// </summary>
-    /// <param name="disposables"></param>
-    protected override void OnAttachedToVisualTree(CompositeDisposable disposables)
+    /// <returns></returns>
+    protected override System.IDisposable OnAttachedToVisualTreeOverride()
     {
-		if (AssociatedObject is null)
+        var button = AssociatedObject;
+        
+		if (button is null)
 		{
-			return;
+			return DisposableAction.Empty;
 		}
         
-		var flyoutPresenter = AssociatedObject.FindAncestorOfType<FlyoutPresenter>();
+		var flyoutPresenter = button.FindAncestorOfType<FlyoutPresenter>();
 		if (flyoutPresenter?.Parent is not Popup popup)
 		{
-			return;
+            return DisposableAction.Empty;
 		}
 
-		var disposable = Observable
-			.FromEventPattern<RoutedEventArgs>(handler => AssociatedObject.Click += handler, handler => AssociatedObject.Click -= handler)
-			.Do(_ =>
-			{
-				// Execute Command if any before closing. Otherwise, it won't execute because Close will destroy the associated object before Click can execute it.
-				if (AssociatedObject.Command != null && AssociatedObject.IsEnabled)
-				{
-					AssociatedObject.Command.Execute(AssociatedObject.CommandParameter);
-				}
-				popup.Close();
-			})
-            .Subscribe();
-        
-        disposables.Add(disposable);
+        button.Click += AssociatedObjectOnClick;
+
+        return DisposableAction.Create(() =>
+        {
+            button.Click -= AssociatedObjectOnClick;
+        });
+
+        void AssociatedObjectOnClick(object? sender, RoutedEventArgs e)
+        {
+            // Execute Command if any before closing. Otherwise, it won't execute because Close will destroy the associated object before Click can execute it.
+            if (button.Command != null && button.IsEnabled)
+            {
+                button.Command.Execute(button.CommandParameter);
+            }
+            popup.Close();
+        }
 	}
+
+
 }

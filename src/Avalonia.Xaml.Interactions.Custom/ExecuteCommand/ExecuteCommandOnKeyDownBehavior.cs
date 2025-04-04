@@ -1,4 +1,4 @@
-using System.Reactive.Disposables;
+using System;
 using Avalonia.Input;
 using Avalonia.Interactivity;
 
@@ -12,8 +12,8 @@ public class ExecuteCommandOnKeyDownBehavior : ExecuteCommandOnKeyBehaviorBase
     /// <summary>
     /// 
     /// </summary>
-    /// <param name="disposable"></param>
-    protected override void OnAttachedToVisualTree(CompositeDisposable disposable)
+    /// <returns></returns>
+    protected override System.IDisposable OnAttachedToVisualTreeOverride()
     {
         var control = SourceControl ?? AssociatedObject;
         var dispose = control?
@@ -24,8 +24,10 @@ public class ExecuteCommandOnKeyDownBehavior : ExecuteCommandOnKeyBehaviorBase
 
         if (dispose is not null)
         {
-            disposable.Add(dispose);
+            return dispose;
         }
+
+        return DisposableAction.Empty;
     }
 
     private void OnKeyDown(object? sender, KeyEventArgs e)

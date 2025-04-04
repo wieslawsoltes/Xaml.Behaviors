@@ -1,4 +1,4 @@
-using System.Reactive.Disposables;
+using System;
 using Avalonia.Controls;
 
 namespace Avalonia.Xaml.Interactions.Custom;
@@ -11,9 +11,10 @@ public class TextBoxSelectAllTextBehavior : AttachedToVisualTreeBehavior<TextBox
     /// <summary>
     /// 
     /// </summary>
-    /// <param name="disposable"></param>
-    protected override void OnAttachedToVisualTree(CompositeDisposable disposable)
+    protected override System.IDisposable OnAttachedToVisualTreeOverride()
     {
         AssociatedObject?.SelectAll();
+
+        return DisposableAction.Empty;
     }
 }

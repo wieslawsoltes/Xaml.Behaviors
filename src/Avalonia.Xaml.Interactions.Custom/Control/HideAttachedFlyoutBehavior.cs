@@ -1,7 +1,7 @@
 using System;
-using System.Reactive.Disposables;
 using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
+using Avalonia.Reactive;
 
 namespace Avalonia.Xaml.Interactions.Custom;
 
@@ -28,18 +28,17 @@ public class HideAttachedFlyoutBehavior : DisposingBehavior<Control>
     /// <summary>
     /// 
     /// </summary>
-    /// <param name="disposables"></param>
-    protected override void OnAttached(CompositeDisposable disposables)
+    /// <returns></returns>
+    protected override IDisposable OnAttachedOverride()
     {
-        var disposable = this.GetObservable(IsFlyoutOpenProperty)
-            .Subscribe(isOpen =>
-            {
-                if (!isOpen && AssociatedObject is not null)
+       return this.GetObservable(IsFlyoutOpenProperty)
+            .Subscribe(new AnonymousObserver<bool>(
+                isOpen =>
                 {
-                    FlyoutBase.GetAttachedFlyout(AssociatedObject)?.Hide();
-                }
-            });
-
-        disposables.Add(disposable);
+                    if (!isOpen && AssociatedObject is not null)
+                    {
+                        FlyoutBase.GetAttachedFlyout(AssociatedObject)?.Hide();
+                    }
+                }));
     }
 }

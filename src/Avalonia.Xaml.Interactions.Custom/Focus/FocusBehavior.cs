@@ -1,7 +1,6 @@
-using System.Reactive;
-using System.Reactive.Disposables;
 using Avalonia.Controls;
 using Avalonia.Data;
+using Avalonia.Reactive;
 using Avalonia.Threading;
 
 namespace Avalonia.Xaml.Interactions.Custom;
@@ -29,30 +28,38 @@ public class FocusBehavior : DisposingBehavior<Control>
     /// <summary>
     /// 
     /// </summary>
-    /// <param name="disposables"></param>
-    protected override void OnAttached(CompositeDisposable disposables)
+    /// <returns></returns>
+    protected override System.IDisposable OnAttachedOverride()
     {
-		if (AssociatedObject is not null)
-		{
-			disposables.Add(AssociatedObject.GetObservable(Avalonia.Input.InputElement.IsFocusedProperty)
-				.Subscribe(new AnonymousObserver<bool>(
-					focused =>
-					{
-						if (!focused)
-						{
-							SetCurrentValue(IsFocusedProperty, false);
-						}
-					})));
+        if (AssociatedObject is null)
+        {
+            return DisposableAction.Empty;
+        }
 
-			disposables.Add(this.GetObservable(IsFocusedProperty)
-				.Subscribe(new AnonymousObserver<bool>(
-					focused =>
-					{
-						if (focused)
-						{
-                            Dispatcher.UIThread.Post(() => AssociatedObject?.Focus());
-						}
-					})));
-		}
+        var associatedObjectIsFocusedObservableDispose = AssociatedObject.GetObservable(Avalonia.Input.InputElement.IsFocusedProperty)
+            .Subscribe(new AnonymousObserver<bool>(
+                focused =>
+                {
+                    if (!focused)
+                    {
+                        SetCurrentValue(IsFocusedProperty, false);
+                    }
+                }));
+
+        var isFocusedObservableDispose = this.GetObservable(IsFocusedProperty)
+            .Subscribe(new AnonymousObserver<bool>(
+                focused =>
+                {
+                    if (focused)
+                    {
+                        Dispatcher.UIThread.Post(() => AssociatedObject?.Focus());
+                    }
+                }));
+
+        return DisposableAction.Create(() =>
+        {
+            associatedObjectIsFocusedObservableDispose.Dispose();
+            isFocusedObservableDispose.Dispose();
+        });
     }
 }

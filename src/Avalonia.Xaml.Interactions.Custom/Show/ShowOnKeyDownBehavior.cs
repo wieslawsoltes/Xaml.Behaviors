@@ -1,5 +1,4 @@
-﻿using System.Reactive.Disposables;
-using Avalonia.Input;
+﻿using Avalonia.Input;
 using Avalonia.Interactivity;
 
 namespace Avalonia.Xaml.Interactions.Custom;
@@ -42,8 +41,8 @@ public class ShowOnKeyDownBehavior : ShowBehaviorBase
     /// <summary>
     /// 
     /// </summary>
-    /// <param name="disposable"></param>
-    protected override void OnAttachedToVisualTree(CompositeDisposable disposable)
+    /// <returns></returns>
+    protected override System.IDisposable OnAttachedToVisualTreeOverride()
     {
         var dispose = AssociatedObject?
             .AddDisposableHandler(
@@ -53,8 +52,10 @@ public class ShowOnKeyDownBehavior : ShowBehaviorBase
 
         if (dispose is not null)
         {
-            disposable.Add(dispose);
+            return dispose;
         }
+        
+        return DisposableAction.Empty;
     }
 
     private void AssociatedObject_KeyDown(object? sender, KeyEventArgs e)

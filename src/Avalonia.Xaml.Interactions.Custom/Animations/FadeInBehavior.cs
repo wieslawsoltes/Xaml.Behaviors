@@ -1,7 +1,6 @@
 using System;
 using Avalonia.Animation;
 using Avalonia.Styling;
-using System.Reactive.Disposables;
 
 namespace Avalonia.Xaml.Interactions.Custom;
 
@@ -43,12 +42,11 @@ public class FadeInBehavior : AttachedToVisualTreeBehavior<Visual>
     /// <summary>
     /// 
     /// </summary>
-    /// <param name="disposable"></param>
-    protected override void OnAttachedToVisualTree(CompositeDisposable disposable)
+    protected override System.IDisposable OnAttachedToVisualTreeOverride()
     {
         if (AssociatedObject is null)
         {
-            return;
+            return DisposableAction.Empty;
         }
 
         var totalDuration = InitialDelay + Duration;
@@ -64,5 +62,7 @@ public class FadeInBehavior : AttachedToVisualTreeBehavior<Visual>
             }
         };
         animation.RunAsync(AssociatedObject);
+
+        return DisposableAction.Empty;
     }
 }

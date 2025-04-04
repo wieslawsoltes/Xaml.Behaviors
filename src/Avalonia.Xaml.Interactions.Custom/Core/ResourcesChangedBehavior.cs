@@ -1,4 +1,4 @@
-using System.Reactive.Disposables;
+using System;
 using Avalonia.Xaml.Interactivity;
 
 namespace Avalonia.Xaml.Interactions.Custom;
@@ -9,23 +9,29 @@ namespace Avalonia.Xaml.Interactions.Custom;
 /// <typeparam name="T"></typeparam>
 public abstract class ResourcesChangedBehavior<T> : DisposingBehavior<T> where T : StyledElement
 {
-    private CompositeDisposable? _disposables;
+    private IDisposable? _disposable;
 
     /// <inheritdoc />
-    protected override void OnAttached(CompositeDisposable disposables)
+    protected override IDisposable OnAttachedOverride()
     {
-        _disposables = disposables;
+        return new DisposableAction(OnDelayedDispose);
     }
 
     /// <inheritdoc />
     protected override void OnResourcesChangedEvent()
     {
-        OnResourcesChangedEvent(_disposables!);
+        _disposable = OnResourcesChangedEventOverride();
     }
 
     /// <summary>
     /// Called when the <see cref="StyledElementBehavior{T}.AssociatedObject"/> ResourcesChanged event is raised.
     /// </summary>
-    /// <param name="disposable">The group of disposable resources that are disposed together</param>
-    protected abstract void OnResourcesChangedEvent(CompositeDisposable disposable);
+    /// <returns>A disposable resource to be disposed when the behavior is detached.</returns>
+    protected abstract IDisposable OnResourcesChangedEventOverride();
+  
+    private void OnDelayedDispose()
+    {
+        _disposable?.Dispose();
+        _disposable = null;
+    }
 }

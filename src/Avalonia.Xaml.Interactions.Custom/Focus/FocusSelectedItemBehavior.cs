@@ -1,7 +1,6 @@
-using System;
-using System.Reactive.Disposables;
 using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
+using Avalonia.Reactive;
 using Avalonia.Threading;
 
 namespace Avalonia.Xaml.Interactions.Custom;
@@ -14,30 +13,33 @@ public class FocusSelectedItemBehavior : AttachedToVisualTreeBehavior<ItemsContr
     /// <summary>
     /// 
     /// </summary>
-    /// <param name="disposable"></param>
-    protected override void OnAttachedToVisualTree(CompositeDisposable disposable)
+    /// <returns></returns>
+    protected override System.IDisposable OnAttachedToVisualTreeOverride()
     {
         var dispose = AssociatedObject?
             .GetObservable(SelectingItemsControl.SelectedItemProperty)
-            .Subscribe(selectedItem =>
-            {
-                var item = selectedItem;
-                if (item is not null)
+            .Subscribe(new AnonymousObserver<object?>(
+                selectedItem =>
                 {
-                    Dispatcher.UIThread.Post(() =>
+                    var item = selectedItem;
+                    if (item is not null)
                     {
-                        var container = AssociatedObject.ContainerFromItem(item);
-                        if (container is not null)
+                        Dispatcher.UIThread.Post(() =>
                         {
-                            container.Focus();
-                        }
-                    });
-                }
-            });
+                            var container = AssociatedObject.ContainerFromItem(item);
+                            if (container is not null)
+                            {
+                                container.Focus();
+                            }
+                        });
+                    }
+                }));
 
         if (dispose is not null)
         {
-            disposable.Add(dispose);
+            return dispose;
         }
+        
+        return DisposableAction.Empty;
     }
 }

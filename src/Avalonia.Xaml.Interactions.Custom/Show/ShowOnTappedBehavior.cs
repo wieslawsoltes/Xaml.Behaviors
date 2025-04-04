@@ -1,4 +1,3 @@
-using System.Reactive.Disposables;
 using Avalonia.Input;
 using Avalonia.Interactivity;
 
@@ -12,8 +11,8 @@ public class ShowOnTappedBehavior : ShowBehaviorBase
     /// <summary>
     /// 
     /// </summary>
-    /// <param name="disposable"></param>
-    protected override void OnAttachedToVisualTree(CompositeDisposable disposable)
+    /// <returns></returns>
+    protected override System.IDisposable OnAttachedToVisualTreeOverride()
     {
         var dispose = AssociatedObject?
             .AddDisposableHandler(
@@ -23,8 +22,10 @@ public class ShowOnTappedBehavior : ShowBehaviorBase
 
         if (dispose is not null)
         {
-            disposable.Add(dispose);
+            return dispose;
         }
+        
+        return DisposableAction.Empty;
     }
 
     private void AssociatedObject_Tapped(object? sender, RoutedEventArgs e)

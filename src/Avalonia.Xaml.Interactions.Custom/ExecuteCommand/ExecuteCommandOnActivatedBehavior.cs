@@ -1,5 +1,4 @@
 using System;
-using System.Reactive.Disposables;
 using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
 
@@ -13,8 +12,8 @@ public class ExecuteCommandOnActivatedBehavior : ExecuteCommandBehaviorBase
     /// <summary>
     /// 
     /// </summary>
-    /// <param name="disposable"></param>
-    protected override void OnAttachedToVisualTree(CompositeDisposable disposable)
+    /// <returns></returns>
+    protected override System.IDisposable OnAttachedToVisualTreeOverride()
     {
         if (Application.Current?.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime lifetime)
         {
@@ -23,9 +22,11 @@ public class ExecuteCommandOnActivatedBehavior : ExecuteCommandBehaviorBase
             if (mainWindow is not null)
             {
                 mainWindow.Activated += WindowOnActivated;
-                disposable.Add(Disposable.Create(() => mainWindow.Activated -= WindowOnActivated));
+                return DisposableAction.Create(() => mainWindow.Activated -= WindowOnActivated);
             }
         }
+        
+        return DisposableAction.Empty;
     }
 
     private void WindowOnActivated(object? sender, EventArgs e)

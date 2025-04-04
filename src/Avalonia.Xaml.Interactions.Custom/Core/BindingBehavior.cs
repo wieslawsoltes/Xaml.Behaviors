@@ -1,4 +1,4 @@
-using System.Reactive.Disposables;
+using System;
 using Avalonia.Controls;
 using Avalonia.Data;
 
@@ -59,13 +59,14 @@ public class BindingBehavior : AttachedToVisualTreeBehavior<Control>
     /// <summary>
     /// 
     /// </summary>
-    /// <param name="disposable"></param>
-    protected override void OnAttachedToVisualTree(CompositeDisposable disposable)
+    /// <returns></returns>
+    protected override System.IDisposable OnAttachedToVisualTreeOverride()
     {
         if (TargetObject is not null && TargetProperty is not null && Binding is not null)
         {
-            var dispose = TargetObject.Bind(TargetProperty, Binding);
-            disposable.Add(dispose);
+            return TargetObject.Bind(TargetProperty, Binding);
         }
+
+        return DisposableAction.Empty;
     }
 }

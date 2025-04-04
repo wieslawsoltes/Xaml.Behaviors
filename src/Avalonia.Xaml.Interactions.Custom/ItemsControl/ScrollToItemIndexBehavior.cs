@@ -1,6 +1,6 @@
 using System;
-using System.Reactive.Disposables;
 using Avalonia.Controls;
+using Avalonia.Reactive;
 
 namespace Avalonia.Xaml.Interactions.Custom;
 
@@ -27,17 +27,19 @@ public class ScrollToItemIndexBehavior : AttachedToVisualTreeBehavior<ItemsContr
     /// <summary>
     /// 
     /// </summary>
-    /// <param name="disposables"></param>
-    protected override void OnAttachedToVisualTree(CompositeDisposable disposables)
+    /// <returns></returns>
+    protected override System.IDisposable OnAttachedToVisualTreeOverride()
     {
-        var disposable = ItemIndex?.Subscribe(index =>
+        var disposable = ItemIndex?.Subscribe(new AnonymousObserver<int>(index =>
         {
             AssociatedObject?.ScrollIntoView(index);
-        });
+        }));
 
         if (disposable is not null)
         {
-            disposables.Add(disposable);
+            return disposable;
         }
+        
+        return DisposableAction.Empty;
     }
 }

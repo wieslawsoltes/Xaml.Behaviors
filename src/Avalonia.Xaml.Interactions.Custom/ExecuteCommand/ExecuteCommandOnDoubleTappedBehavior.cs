@@ -1,4 +1,3 @@
-using System.Reactive.Disposables;
 using Avalonia.Input;
 using Avalonia.Interactivity;
 
@@ -12,8 +11,8 @@ public class ExecuteCommandOnDoubleTappedBehavior : ExecuteCommandRoutedEventBeh
     /// <summary>
     /// 
     /// </summary>
-    /// <param name="disposable"></param>
-    protected override void OnAttachedToVisualTree(CompositeDisposable disposable)
+    /// <returns></returns>
+    protected override System.IDisposable OnAttachedToVisualTreeOverride()
     {
         var control = SourceControl ?? AssociatedObject;
         var dispose = control?
@@ -24,8 +23,10 @@ public class ExecuteCommandOnDoubleTappedBehavior : ExecuteCommandRoutedEventBeh
 
         if (dispose is not null)
         {
-            disposable.Add(dispose);
+            return dispose;
         }
+        
+        return DisposableAction.Empty;
     }
 
     private void OnDoubleTapped(object? sender, RoutedEventArgs e)

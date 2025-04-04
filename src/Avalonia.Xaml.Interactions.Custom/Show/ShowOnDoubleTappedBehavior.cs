@@ -1,5 +1,4 @@
-﻿using System.Reactive.Disposables;
-using Avalonia.Input;
+﻿using Avalonia.Input;
 using Avalonia.Interactivity;
 
 namespace Avalonia.Xaml.Interactions.Custom;
@@ -12,8 +11,8 @@ public class ShowOnDoubleTappedBehavior : ShowBehaviorBase
     /// <summary>
     /// 
     /// </summary>
-    /// <param name="disposable"></param>
-    protected override void OnAttachedToVisualTree(CompositeDisposable disposable)
+    /// <returns></returns>
+    protected override System.IDisposable OnAttachedToVisualTreeOverride()
     {
         var dispose = AssociatedObject?
             .AddDisposableHandler(
@@ -23,8 +22,10 @@ public class ShowOnDoubleTappedBehavior : ShowBehaviorBase
 
         if (dispose is not null)
         {
-            disposable.Add(dispose);
+            return dispose;
         }
+        
+        return DisposableAction.Empty;
     }
 
     private void AssociatedObject_DoubleTapped(object? sender, RoutedEventArgs e)

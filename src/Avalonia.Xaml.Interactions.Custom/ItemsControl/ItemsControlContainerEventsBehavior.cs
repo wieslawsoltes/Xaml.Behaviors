@@ -1,4 +1,4 @@
-using System.Reactive.Disposables;
+using System;
 using Avalonia.Controls;
 
 namespace Avalonia.Xaml.Interactions.Custom;
@@ -9,23 +9,23 @@ namespace Avalonia.Xaml.Interactions.Custom;
 public abstract class ItemsControlContainerEventsBehavior : DisposingBehavior<ItemsControl>
 {
     /// <inheritdoc />
-    protected override void OnAttached(CompositeDisposable disposables)
+    protected override IDisposable OnAttachedOverride()
     {
         if (AssociatedObject is not { } itemsControl)
         {
-            return;
+            return DisposableAction.Empty;
         }
 
         itemsControl.ContainerPrepared += ItemsControlOnContainerPrepared;
         itemsControl.ContainerIndexChanged += ItemsControlOnContainerIndexChanged;
         itemsControl.ContainerClearing += ItemsControlOnContainerClearing;
 
-        disposables.Add(Disposable.Create(() =>
+        return DisposableAction.Create(() =>
         {
             itemsControl.ContainerPrepared -= ItemsControlOnContainerPrepared;
             itemsControl.ContainerIndexChanged -= ItemsControlOnContainerIndexChanged;
             itemsControl.ContainerClearing -= ItemsControlOnContainerClearing;
-        }));
+        });
     }
 
     private void ItemsControlOnContainerPrepared(object? sender, ContainerPreparedEventArgs e)

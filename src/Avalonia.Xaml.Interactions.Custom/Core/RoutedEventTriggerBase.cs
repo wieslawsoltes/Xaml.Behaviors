@@ -5,7 +5,7 @@ namespace Avalonia.Xaml.Interactions.Custom;
 /// <summary>
 /// 
 /// </summary>
-public abstract class RoutedEventTriggerBase : DisposingTrigger
+public abstract class RoutedEventTriggerBase : AttachedToVisualTreeTriggerBase<Visual>
 {
     /// <summary>
     /// 

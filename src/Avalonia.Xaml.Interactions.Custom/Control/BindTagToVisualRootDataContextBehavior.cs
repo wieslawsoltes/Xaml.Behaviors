@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Reactive.Disposables;
 using Avalonia.Controls;
 using Avalonia.VisualTree;
 
@@ -13,16 +12,17 @@ public class BindTagToVisualRootDataContextBehavior : DisposingBehavior<Control>
     /// <summary>
     /// 
     /// </summary>
-    /// <param name="disposables"></param>
+    /// <returns></returns>
     /// <exception cref="NotImplementedException"></exception>
-    protected override void OnAttached(CompositeDisposable disposables)
+    protected override IDisposable OnAttachedOverride()
     {
         var visualRoot = (Control?)AssociatedObject?.GetVisualRoot();
         if (visualRoot is not null)
         {
-            var disposable = BindDataContextToTag(visualRoot, AssociatedObject);
-            disposables.Add(disposable);
+            return BindDataContextToTag(visualRoot, AssociatedObject);
         }
+
+        return DisposableAction.Empty;
     }
 
     private static IDisposable BindDataContextToTag(Control source, Control? target)

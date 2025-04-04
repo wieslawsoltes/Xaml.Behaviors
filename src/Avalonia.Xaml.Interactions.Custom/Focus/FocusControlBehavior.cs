@@ -1,4 +1,4 @@
-using System.Reactive.Disposables;
+using System;
 using Avalonia.Controls;
 using Avalonia.Threading;
 
@@ -42,13 +42,14 @@ public class FocusControlBehavior : AttachedToVisualTreeBehavior<Control>
     /// <summary>
     /// 
     /// </summary>
-    /// <param name="disposable"></param>
-    protected override void OnAttachedToVisualTree(CompositeDisposable disposable)
+    protected override System.IDisposable OnAttachedToVisualTreeOverride()
     {
         if (FocusFlag && IsEnabled)
         {
             Execute();
         }
+        
+        return DisposableAction.Empty;
     }
 
     private void Execute()

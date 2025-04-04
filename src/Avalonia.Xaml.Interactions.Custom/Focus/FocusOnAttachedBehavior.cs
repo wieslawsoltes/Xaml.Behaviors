@@ -1,4 +1,3 @@
-using System.Reactive.Disposables;
 
 namespace Avalonia.Xaml.Interactions.Custom;
 
@@ -10,9 +9,11 @@ public class FocusOnAttachedBehavior : FocusBehaviorBase
     /// <summary>
     /// 
     /// </summary>
-    /// <param name="disposables"></param>
-    protected override void OnAttachedToVisualTree(CompositeDisposable disposables)
+    /// <returns></returns>
+    protected override System.IDisposable OnAttachedToVisualTreeOverride()
     {
         Focus();
+
+        return DisposableAction.Empty;
     }
 }

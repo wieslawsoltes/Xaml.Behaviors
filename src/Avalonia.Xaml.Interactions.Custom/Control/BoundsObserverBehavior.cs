@@ -1,7 +1,7 @@
-using System.Reactive;
-using System.Reactive.Disposables;
+using System;
 using Avalonia.Controls;
 using Avalonia.Data;
+using Avalonia.Reactive;
 
 namespace Avalonia.Xaml.Interactions.Custom;
 
@@ -60,17 +60,19 @@ public class BoundsObserverBehavior : DisposingBehavior<Control>
     /// <summary>
     /// Attaches the behavior to the associated control and starts observing its bounds to update the Width and Height properties accordingly.
     /// </summary>
-    /// <param name="disposables">A composite disposable used to manage the lifecycle of subscriptions and other disposables.</param>
-    protected override void OnAttached(CompositeDisposable disposables)
+    /// <returns>A disposable resource to be disposed when the behavior is detached.</returns>
+    protected override IDisposable OnAttachedOverride()
     {
         if (AssociatedObject is not null)
         {
-            disposables.Add(this.GetObservable(BoundsProperty)
+            return this.GetObservable(BoundsProperty)
                 .Subscribe(new AnonymousObserver<Rect>(bounds =>
                 {
                     Width = bounds.Width;
                     Height = bounds.Height;
-                })));
+                }));
         }
+        
+        return DisposableAction.Empty;
     }
 }
