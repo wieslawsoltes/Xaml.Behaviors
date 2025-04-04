@@ -1,4 +1,4 @@
-using System.Reactive.Disposables;
+using System;
 using Avalonia.Interactivity;
 using Avalonia.Xaml.Interactivity;
 
@@ -10,16 +10,24 @@ namespace Avalonia.Xaml.Interactions.Custom;
 /// <typeparam name="T"></typeparam>
 public abstract class RoutedEventTriggerBase<T> : RoutedEventTriggerBase where T : RoutedEventArgs
 {
+    private IDisposable? _disposable;
+    
     /// <summary>
     /// 
     /// </summary>
     protected abstract RoutedEvent<T> RoutedEvent { get; }
 
+    /// <inheritdoc />
+    protected override IDisposable OnAttachedOverride()
+    {
+        return new DisposableAction(OnDelayedDispose);
+    }
+    
     /// <summary>
     /// 
     /// </summary>
-    /// <param name="disposables"></param>
-    protected override void OnAttached(CompositeDisposable disposables)
+    /// <returns>A disposable resource to be disposed when the behavior is detached.</returns>
+    protected override IDisposable OnAttachedToVisualTreeOverride()
     {
         if (AssociatedObject is Interactive interactive)
         {
@@ -27,8 +35,10 @@ public abstract class RoutedEventTriggerBase<T> : RoutedEventTriggerBase where T
                 RoutedEvent, 
                 Handler, 
                 EventRoutingStrategy);
-            disposables.Add(disposable);
+            return disposable;
         }
+
+        return DisposableAction.Empty;
     }
 
     /// <summary>
@@ -54,5 +64,11 @@ public abstract class RoutedEventTriggerBase<T> : RoutedEventTriggerBase where T
     {
         e.Handled = MarkAsHandled;
         Interaction.ExecuteActions(AssociatedObject, Actions, e);
+    }
+
+    private void OnDelayedDispose()
+    {
+        _disposable?.Dispose();
+        _disposable = null;
     }
 }

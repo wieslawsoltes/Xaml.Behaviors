@@ -1,5 +1,5 @@
+using System;
 using System.Linq;
-using System.Reactive.Disposables;
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Threading;
@@ -13,16 +13,16 @@ namespace Avalonia.Xaml.Interactions.Custom;
 public class FocusAutoCompleteBoxTextBoxBehavior : AttachedToVisualTreeBehavior<AutoCompleteBox>
 {
     /// <inheritdoc />
-    protected override void OnAttachedToVisualTree(CompositeDisposable disposable)
+    protected override IDisposable OnAttachedToVisualTreeOverride()
     {
         if (AssociatedObject is null)
         {
-            return;
+            return DisposableAction.Empty;
         }
 
         AssociatedObject.GotFocus += AssociatedObjectOnGotFocus;
 
-        Disposable.Create(() => AssociatedObject.GotFocus -= AssociatedObjectOnGotFocus);
+        return DisposableAction.Create(() => AssociatedObject.GotFocus -= AssociatedObjectOnGotFocus);
     }
 
     private void AssociatedObjectOnGotFocus(object? sender, GotFocusEventArgs e)
