@@ -4,9 +4,10 @@ using Avalonia.Xaml.Interactivity;
 namespace Avalonia.Xaml.Interactions.Custom;
 
 /// <summary>
-/// 
+/// A base class for triggers that require a disposable resource.
 /// </summary>
-public abstract class DisposingTrigger : StyledElementTrigger
+/// <typeparam name="T">The object type to attach to</typeparam>
+public abstract class DisposingTrigger<T> : StyledElementTrigger<T> where T : AvaloniaObject
 {
     private IDisposable? _disposable;
 
