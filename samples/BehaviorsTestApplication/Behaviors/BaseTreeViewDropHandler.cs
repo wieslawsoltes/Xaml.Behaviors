@@ -72,7 +72,7 @@ public abstract class BaseTreeViewDropHandler : DropHandlerBase
 
         int maxDepth = 16;
         StyledElement? current = sourceChild;
-        while (maxDepth-- > 0)
+        while (maxDepth --> 0)
         {
             if (current is TreeViewItem tvi)
                 return tvi;

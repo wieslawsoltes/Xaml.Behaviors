@@ -3,7 +3,6 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="using:BehaviorsTestApplication.ViewModels"
-             xmlns:b="using:BehaviorsTestApplication.Behaviors"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="BehaviorsTestApplication.Views.Pages.DragAndDropView"
              x:DataType="vm:DragAndDropSampleViewModel"
@@ -87,7 +86,7 @@
       <Setter Property="(Interaction.Behaviors)">
         <BehaviorCollectionTemplate>
           <BehaviorCollection>
-            <b:ContextDragWithDirectionBehavior HorizontalDragThreshold="3" VerticalDragThreshold="3" />
+            <ContextDragWithDirectionBehavior HorizontalDragThreshold="3" VerticalDragThreshold="3" />
           </BehaviorCollection>
         </BehaviorCollectionTemplate>
       </Setter>
