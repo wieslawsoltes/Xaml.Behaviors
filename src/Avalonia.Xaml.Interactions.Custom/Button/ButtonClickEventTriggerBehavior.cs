@@ -19,7 +19,7 @@ public class ButtonClickEventTriggerBehavior : StyledElementTrigger<Button>
         AvaloniaProperty.Register<ButtonClickEventTriggerBehavior, KeyModifiers>(nameof(KeyModifiers));
 
     /// <summary>
-    /// Gets or sets the required key modifiers to execute <see cref="Button.ClickEvent"/> event handler. This is a avalonia property.
+    /// Gets or sets the required key modifiers to execute <see cref="Button.ClickEvent"/> event handler. This is an avalonia property.
     /// </summary>
     public KeyModifiers KeyModifiers
     {
@@ -51,6 +51,11 @@ public class ButtonClickEventTriggerBehavior : StyledElementTrigger<Button>
 
     private void AssociatedObject_OnClick(object? sender, RoutedEventArgs e)
     {
+        Execute(e);
+    }
+
+    private void Execute(object? parameter)
+    {
         if (!IsEnabled)
         {
             return;
@@ -58,7 +63,7 @@ public class ButtonClickEventTriggerBehavior : StyledElementTrigger<Button>
 
         if (AssociatedObject is not null && KeyModifiers == _savedKeyModifiers)
         {
-            Interaction.ExecuteActions(AssociatedObject, Actions, e);
+            Interaction.ExecuteActions(AssociatedObject, Actions, parameter);
         }
     }
 

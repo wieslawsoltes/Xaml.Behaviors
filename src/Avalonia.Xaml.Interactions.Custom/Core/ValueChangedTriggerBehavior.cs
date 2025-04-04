@@ -1,4 +1,4 @@
-﻿using Avalonia.Reactive;
+﻿using Avalonia.Threading;
 using Avalonia.Xaml.Interactivity;
 
 namespace Avalonia.Xaml.Interactions.Custom;
@@ -8,12 +8,6 @@ namespace Avalonia.Xaml.Interactions.Custom;
 /// </summary>
 public class ValueChangedTriggerBehavior : StyledElementTrigger
 {
-    static ValueChangedTriggerBehavior()
-    {
-        BindingProperty.Changed.Subscribe(
-            new AnonymousObserver<AvaloniaPropertyChangedEventArgs<object?>>(OnValueChanged));
-    }
-
     /// <summary>
     /// Identifies the <seealso cref="Binding"/> avalonia property.
     /// </summary>
@@ -21,7 +15,7 @@ public class ValueChangedTriggerBehavior : StyledElementTrigger
         AvaloniaProperty.Register<ValueChangedTriggerBehavior, object?>(nameof(Binding));
 
     /// <summary>
-    /// Gets or sets the bound object that the <see cref="ValueChangedTriggerBehavior"/> will listen to. This is a avalonia property.
+    /// Gets or sets the bound object that the <see cref="ValueChangedTriggerBehavior"/> will listen to. This is an avalonia property.
     /// </summary>
     public object? Binding
     {
@@ -29,22 +23,47 @@ public class ValueChangedTriggerBehavior : StyledElementTrigger
         set => SetValue(BindingProperty, value);
     }
 
-    private static void OnValueChanged(AvaloniaPropertyChangedEventArgs args)
+    
+    /// <inheritdoc />
+    protected override void OnPropertyChanged(AvaloniaPropertyChangedEventArgs change)
     {
-        if (args.Sender is not ValueChangedTriggerBehavior behavior || behavior.AssociatedObject is null)
+        base.OnPropertyChanged(change);
+                
+        if (change.Property == BindingProperty)
+        {
+            OnValueChanged(change);
+        }
+    }
+
+    private void OnValueChanged(AvaloniaPropertyChangedEventArgs args)
+    {
+        if (args.Sender is not ValueChangedTriggerBehavior behavior)
         {
             return;
         }
 
-        if (!behavior.IsEnabled)
+        Dispatcher.UIThread.Post(() =>
+        {
+            behavior.Execute(args);
+        });
+    }
+
+    private void Execute(object? parameter)
+    {
+        if (AssociatedObject is null)
         {
             return;
         }
 
-        var binding = behavior.Binding;
+        if (!IsEnabled)
+        {
+            return;
+        }
+
+        var binding = Binding;
         if (binding is not null)
         {
-            Interaction.ExecuteActions(behavior.AssociatedObject, behavior.Actions, args);
+            Interaction.ExecuteActions(AssociatedObject, Actions, parameter);
         }
     }
 }

@@ -6,7 +6,7 @@ namespace Avalonia.Xaml.Interactions.Custom;
 /// <summary>
 /// Removes a specified <see cref="RemoveClassAction.ClassName"/> from <see cref="StyledElement.Classes"/> collection when invoked. 
 /// </summary>
-public class RemoveClassAction : Avalonia.Xaml.Interactivity.Action
+public class RemoveClassAction : Avalonia.Xaml.Interactivity.StyledElementAction
 {
     /// <summary>
     /// Identifies the <seealso cref="ClassName"/> avalonia property.
@@ -21,7 +21,7 @@ public class RemoveClassAction : Avalonia.Xaml.Interactivity.Action
         AvaloniaProperty.Register<RemoveClassAction, StyledElement?>(nameof(StyledElement));
 
     /// <summary>
-    /// Gets or sets the class name that should be removed. This is a avalonia property.
+    /// Gets or sets the class name that should be removed. This is an avalonia property.
     /// </summary>
     public string ClassName
     {
@@ -30,7 +30,7 @@ public class RemoveClassAction : Avalonia.Xaml.Interactivity.Action
     }
 
     /// <summary>
-    /// Gets or sets the target styled element that class name that should be removed from. This is a avalonia property.
+    /// Gets or sets the target styled element that class name that should be removed from. This is an avalonia property.
     /// </summary>
     [ResolveByName]
     public StyledElement? StyledElement

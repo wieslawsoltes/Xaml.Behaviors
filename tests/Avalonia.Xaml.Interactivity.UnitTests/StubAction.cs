@@ -1,6 +1,6 @@
 ﻿namespace Avalonia.Xaml.Interactivity.UnitTests;
 
-public class StubAction(object? returnValue) : Avalonia.Xaml.Interactivity.Action
+public class StubAction(object? returnValue) : Avalonia.Xaml.Interactivity.StyledElementAction
 {
     public StubAction() : this(null)
     {

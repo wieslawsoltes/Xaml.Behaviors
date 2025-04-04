@@ -1,24 +1,23 @@
 ﻿using System.Collections.ObjectModel;
-using ReactiveUI;
 
 namespace BehaviorsTestApplication.ViewModels;
 
-public class ItemViewModel(string value) : ViewModelBase
+public partial class ItemViewModel : ViewModelBase
 {
-    private ObservableCollection<ItemViewModel>? _items;
-    private string? _value = value;
-
-    public string? Value
+    public ItemViewModel(string value, string color = "Black")
     {
-        get => _value;
-        set => this.RaiseAndSetIfChanged(ref _value, value);
+        _value = value;
+        _color = color;
     }
 
-    public ObservableCollection<ItemViewModel>? Items
-    {
-        get => _items;
-        set => this.RaiseAndSetIfChanged(ref _items, value);
-    }
+    [Reactive]
+    public partial string? Value { get; set; }
+
+    [Reactive]
+    public partial ObservableCollection<ItemViewModel>? Items { get; set; }
+
+    [Reactive]
+    public partial string? Color { get; set; }
 
     public override string ToString() => _value ?? string.Empty;
 }

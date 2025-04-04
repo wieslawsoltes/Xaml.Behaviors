@@ -33,7 +33,7 @@ public abstract class ItemsControlContainerEventsBehavior : DisposingBehavior<It
         OnContainerPrepared(sender, e);
     }
     
-    private void ItemsControlOnContainerIndexChanged(object sender, ContainerIndexChangedEventArgs e)
+    private void ItemsControlOnContainerIndexChanged(object? sender, ContainerIndexChangedEventArgs e)
     {
         OnContainerIndexChanged(sender, e);
     }

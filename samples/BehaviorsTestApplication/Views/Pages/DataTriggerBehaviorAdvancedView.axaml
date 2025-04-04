@@ -1,0 +1,34 @@
+﻿<UserControl x:Class="BehaviorsTestApplication.Views.Pages.DataTriggerBehaviorAdvancedView"
+             xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:BehaviorsTestApplication.ViewModels"
+             x:DataType="vm:MainWindowViewModel"
+             mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="450">
+  <Design.DataContext>
+    <vm:MainWindowViewModel />
+  </Design.DataContext>
+  <Grid RowDefinitions="Auto,*">
+    <TextBox Grid.Row="0" Text="{Binding MyString}" />
+    <Border Grid.Row="1" Background="Black" CornerRadius="5">
+      <Interaction.Behaviors>
+        <DataTriggerBehavior Binding="{Binding MyString}" ComparisonCondition="Equal" Value="">
+          <ChangePropertyAction PropertyName="IsVisible" Value="False" />
+        </DataTriggerBehavior>
+        <DataTriggerBehavior Binding="{Binding MyString}" ComparisonCondition="NotEqual" Value="">
+          <ChangePropertyAction PropertyName="IsVisible" Value="True" />
+        </DataTriggerBehavior>
+      </Interaction.Behaviors>
+      <StackPanel>
+        <TextBlock FontSize="25" Foreground="White">
+          <Interaction.Behaviors>
+            <DataTriggerBehavior Binding="{Binding MyString}" ComparisonCondition="NotEqual" Value="">
+              <ChangePropertyAction PropertyName="Text" Value="{Binding MyString}" />
+            </DataTriggerBehavior>
+          </Interaction.Behaviors>
+        </TextBlock>
+      </StackPanel>
+    </Border>
+  </Grid>
+</UserControl>

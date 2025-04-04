@@ -5,7 +5,7 @@ namespace Avalonia.Xaml.Interactions.Custom;
 /// <summary>
 /// 
 /// </summary>
-public class CloseNotificationAction : Avalonia.Xaml.Interactivity.Action
+public class CloseNotificationAction : Avalonia.Xaml.Interactivity.StyledElementAction
 {
     /// <summary>
     /// 

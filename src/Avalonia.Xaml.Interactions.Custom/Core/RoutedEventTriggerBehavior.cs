@@ -1,6 +1,5 @@
 using Avalonia.Controls;
 using Avalonia.Interactivity;
-using Avalonia.Reactive;
 using Avalonia.Xaml.Interactivity;
 
 namespace Avalonia.Xaml.Interactions.Custom;
@@ -33,7 +32,7 @@ public class RoutedEventTriggerBehavior : StyledElementTrigger<Interactive>
     private bool _isAttached;
 
     /// <summary>
-    /// Gets or sets routing event to listen for. This is a avalonia property.
+    /// Gets or sets routing event to listen for. This is an avalonia property.
     /// </summary>
     public RoutedEvent? RoutedEvent
     {
@@ -42,7 +41,7 @@ public class RoutedEventTriggerBehavior : StyledElementTrigger<Interactive>
     }
 
     /// <summary>
-    /// Gets or sets the routing event <see cref="RoutingStrategies"/>. This is a avalonia property.
+    /// Gets or sets the routing event <see cref="RoutingStrategies"/>. This is an avalonia property.
     /// </summary>
     public RoutingStrategies RoutingStrategies
     {
@@ -52,7 +51,7 @@ public class RoutedEventTriggerBehavior : StyledElementTrigger<Interactive>
 
     /// <summary>
     /// Gets or sets the source object from which this behavior listens for events.
-    /// If <seealso cref="SourceInteractive"/> is not set, the source will default to <seealso cref="IBehavior.AssociatedObject"/>. This is a avalonia property.
+    /// If <seealso cref="SourceInteractive"/> is not set, the source will default to <seealso cref="IBehavior.AssociatedObject"/>. This is an avalonia property.
     /// </summary>
     [ResolveByName]
     public Interactive? SourceInteractive
@@ -61,19 +60,28 @@ public class RoutedEventTriggerBehavior : StyledElementTrigger<Interactive>
         set => SetValue(SourceInteractiveProperty, value);
     }
 
-    static RoutedEventTriggerBehavior()
+    /// <inheritdoc />
+    protected override void OnPropertyChanged(AvaloniaPropertyChangedEventArgs change)
     {
-        RoutedEventProperty.Changed.Subscribe(
-            new AnonymousObserver<AvaloniaPropertyChangedEventArgs<RoutedEvent?>>(OnValueChanged));
+        base.OnPropertyChanged(change);
+                
+        if (change.Property == RoutedEventProperty)
+        {
+            OnValueChanged(change);
+        }
 
-        RoutingStrategiesProperty.Changed.Subscribe(
-            new AnonymousObserver<AvaloniaPropertyChangedEventArgs<RoutingStrategies>>(OnValueChanged));
+        if (change.Property == RoutingStrategiesProperty)
+        {
+            OnValueChanged(change);
+        }
 
-        SourceInteractiveProperty.Changed.Subscribe(
-            new AnonymousObserver<AvaloniaPropertyChangedEventArgs<Interactive?>>(OnValueChanged));
+        if (change.Property == SourceInteractiveProperty)
+        {
+            OnValueChanged(change);
+        }
     }
 
-    private static void OnValueChanged(AvaloniaPropertyChangedEventArgs args)
+    private void OnValueChanged(AvaloniaPropertyChangedEventArgs args)
     {
         if (args.Sender is not RoutedEventTriggerBehavior behavior || behavior.AssociatedObject is null)
         {
@@ -128,6 +136,11 @@ public class RoutedEventTriggerBehavior : StyledElementTrigger<Interactive>
 
     private void Handler(object? sender, RoutedEventArgs e)
     {
+        Execute(e);
+    }
+
+    private void Execute(object? parameter)
+    {
         if (!IsEnabled)
         {
             return;
@@ -136,7 +149,7 @@ public class RoutedEventTriggerBehavior : StyledElementTrigger<Interactive>
         var interactive = ComputeResolvedSourceInteractive();
         if (interactive is not null)
         {
-            Interaction.ExecuteActions(interactive, Actions, e);
+            Interaction.ExecuteActions(interactive, Actions, parameter);
         }
     }
 }

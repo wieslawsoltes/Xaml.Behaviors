@@ -22,6 +22,12 @@
     <TabItem Header="DataTriggerBehavior">
       <pages:DataTriggerBehaviorView />
     </TabItem>
+    <TabItem Header="DataTriggerBehavior Advanced">
+      <pages:DataTriggerBehaviorAdvancedView />
+    </TabItem>
+    <TabItem Header="BindingTriggerBehavior">
+      <pages:BindingTriggerBehaviorView />
+    </TabItem>
     <TabItem Header="ValueChangedTriggerBehavior">
       <pages:ValueChangedTriggerBehaviorView />
     </TabItem>
@@ -30,6 +36,9 @@
     </TabItem>
     <TabItem Header="InvokeCommandAction">
       <pages:InvokeCommandActionView />
+    </TabItem>
+    <TabItem Header="FocusControlBehavior">
+      <pages:FocusControlBehaviorView />
     </TabItem>
     <TabItem Header="RoutedEventTriggerBehavior">
       <pages:RoutedEventTriggerBehaviorView />
@@ -63,6 +72,30 @@
     </TabItem>
     <TabItem Header="Sliding Animation">
       <pages:SlidingAnimationView />
+    </TabItem>
+    <TabItem Header="BehaviorCollectionTemplate">
+      <pages:BehaviorCollectionTemplateView />
+    </TabItem>
+    <TabItem Header="TemplateBinding">
+      <pages:TemplateBindingView />
+    </TabItem>
+    <TabItem Header="OneTime Binding">
+      <pages:OneTimeBinding />
+    </TabItem>
+    <TabItem Header="Pointer Triggers">
+      <pages:PointerTriggersView DataContext="{Binding PointerTriggersViewModel}" />
+    </TabItem>
+    <TabItem Header="Storage Provider">
+      <pages:StorageProviderView />
+    </TabItem>
+    <TabItem Header="Clipboard">
+      <pages:ClipboardView />
+    </TabItem>
+    <TabItem Header="Drag and Drop">
+      <pages:DragAndDropView />
+    </TabItem>
+    <TabItem Header="Draggable">
+      <pages:DraggableView />
     </TabItem>
   </TabControl>
 </UserControl>

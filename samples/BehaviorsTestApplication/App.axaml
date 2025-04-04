@@ -15,6 +15,7 @@
     </Application.Resources>
     <Application.Styles>
         <FluentTheme/>
+        <StyleInclude Source="avares://Avalonia.Controls.DataGrid/Themes/Fluent.xaml"/>
         <Style Selector="Button">
             <Setter Property="HorizontalAlignment" Value="Stretch"/>
             <Setter Property="HorizontalContentAlignment" Value="Center"/>
@@ -22,5 +23,6 @@
             <Setter Property="VerticalContentAlignment" Value="Center"/>
         </Style>
         <StyleInclude Source="/SideBar.axaml"/>
+        <StyleInclude Source="/Controls/CustomControl.axaml" />
     </Application.Styles>
 </Application>

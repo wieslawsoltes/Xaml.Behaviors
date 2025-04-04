@@ -23,7 +23,7 @@ public abstract class SelectingItemsControlEventsBehavior : DisposingBehavior<Se
                 () => selectingItemsControl.SelectionChanged -= SelectingItemsControlOnSelectionChanged);
     }
 
-    private void SelectingItemsControlOnSelectionChanged(object sender, SelectionChangedEventArgs e)
+    private void SelectingItemsControlOnSelectionChanged(object? sender, SelectionChangedEventArgs e)
     {
         OnSelectionChanged(sender, e);
     }

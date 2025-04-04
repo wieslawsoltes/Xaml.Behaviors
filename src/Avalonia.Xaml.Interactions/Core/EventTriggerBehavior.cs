@@ -33,7 +33,7 @@ public class EventTriggerBehavior : StyledElementTrigger
     private bool _isLoadedEventRegistered;
 
     /// <summary>
-    /// Gets or sets the name of the event to listen for. This is a avalonia property.
+    /// Gets or sets the name of the event to listen for. This is an avalonia property.
     /// </summary>
     public string? EventName
     {
@@ -43,7 +43,7 @@ public class EventTriggerBehavior : StyledElementTrigger
 
     /// <summary>
     /// Gets or sets the source object from which this behavior listens for events.
-    /// If <seealso cref="SourceObject"/> is not set, the source will default to <seealso cref="IBehavior.AssociatedObject"/>. This is a avalonia property.
+    /// If <seealso cref="SourceObject"/> is not set, the source will default to <seealso cref="IBehavior.AssociatedObject"/>. This is an avalonia property.
     /// </summary>
     [ResolveByName]
     public object? SourceObject
@@ -52,17 +52,23 @@ public class EventTriggerBehavior : StyledElementTrigger
         set => SetValue(SourceObjectProperty, value);
     }
 
-    static EventTriggerBehavior()
+    /// <inheritdoc />
+    protected override void OnPropertyChanged(AvaloniaPropertyChangedEventArgs change)
     {
-        EventNameProperty.Changed.Subscribe(
-            new AnonymousObserver<AvaloniaPropertyChangedEventArgs<string?>>(EventNameChanged));
-
-        SourceObjectProperty.Changed.Subscribe(
-            new AnonymousObserver<AvaloniaPropertyChangedEventArgs<object?>>(SourceObjectChanged));
+        base.OnPropertyChanged(change);
+        
+        if (change.Property == EventNameProperty)
+        {
+            EventNameChanged(change);
+        }
+        else if (change.Property == SourceObjectProperty)
+        {
+            SourceObjectChanged(change);
+        }
     }
 
     [RequiresUnreferencedCode("This functionality is not compatible with trimming.")]
-    private static void EventNameChanged(AvaloniaPropertyChangedEventArgs<string?> e)
+    private void EventNameChanged(AvaloniaPropertyChangedEventArgs e)
     {
         if (e.Sender is not EventTriggerBehavior behavior)
         {
@@ -74,8 +80,8 @@ public class EventTriggerBehavior : StyledElementTrigger
             return;
         }
 
-        var oldEventName = e.OldValue.GetValueOrDefault();
-        var newEventName = e.NewValue.GetValueOrDefault();
+        var oldEventName = e.GetOldValue<string?>();
+        var newEventName = e.GetNewValue<string?>();
 
         if (oldEventName is not null)
         {
@@ -88,7 +94,7 @@ public class EventTriggerBehavior : StyledElementTrigger
         }
     }
 
-    private static void SourceObjectChanged(AvaloniaPropertyChangedEventArgs<object?> e)
+    private void SourceObjectChanged(AvaloniaPropertyChangedEventArgs e)
     {
         if (e.Sender is EventTriggerBehavior behavior)
         {
@@ -240,12 +246,17 @@ public class EventTriggerBehavior : StyledElementTrigger
     /// <param name="eventArgs">The event args.</param>
     protected virtual void AttachedToVisualTree(object? sender, object eventArgs)
     {
+        Execute(eventArgs);
+    }
+
+    private void Execute(object? parameter)
+    {
         if (!IsEnabled)
         {
             return;
         }
 
-        Interaction.ExecuteActions(_resolvedSource, Actions, eventArgs);
+        Interaction.ExecuteActions(_resolvedSource, Actions, parameter);
     }
 
     private static bool IsElementLoaded(Control element) => element.Parent is not null;

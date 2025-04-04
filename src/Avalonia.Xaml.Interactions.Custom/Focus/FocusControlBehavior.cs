@@ -1,6 +1,5 @@
 using System;
 using Avalonia.Controls;
-using Avalonia.Reactive;
 using Avalonia.Threading;
 
 namespace Avalonia.Xaml.Interactions.Custom;
@@ -25,21 +24,19 @@ public class FocusControlBehavior : AttachedToVisualTreeBehavior<Control>
         set => SetValue(FocusFlagProperty, value);
     }
 
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <returns></returns>
-    protected override IDisposable OnAttachedOverride()
+    /// <inheritdoc />
+    protected override void OnPropertyChanged(AvaloniaPropertyChangedEventArgs change)
     {
-        return this.GetObservable(FocusFlagProperty)
-            .Subscribe(new AnonymousObserver<bool>(
-                focusFlag =>
-                {
-                    if (focusFlag && IsEnabled)
-                    {
-                        Dispatcher.UIThread.Post(() => AssociatedObject?.Focus());
-                    }
-                }));
+        base.OnPropertyChanged(change);
+
+        if (change.Property == FocusFlagProperty)
+        {
+            var focusFlag = change.GetNewValue<bool>();
+            if (focusFlag && IsEnabled)
+            {
+                Execute();
+            }
+        }
     }
 
     /// <summary>
@@ -49,9 +46,14 @@ public class FocusControlBehavior : AttachedToVisualTreeBehavior<Control>
     {
         if (FocusFlag && IsEnabled)
         {
-            Dispatcher.UIThread.Post(() => AssociatedObject?.Focus());
+            Execute();
         }
         
         return DisposableAction.Empty;
+    }
+
+    private void Execute()
+    {
+        Dispatcher.UIThread.Post(() => AssociatedObject?.Focus());
     }
 }

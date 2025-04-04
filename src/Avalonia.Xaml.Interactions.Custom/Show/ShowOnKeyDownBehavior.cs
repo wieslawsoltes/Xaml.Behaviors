@@ -21,7 +21,7 @@ public class ShowOnKeyDownBehavior : ShowBehaviorBase
         AvaloniaProperty.Register<ShowOnKeyDownBehavior, KeyGesture?>(nameof(Gesture));
 
     /// <summary>
-    /// Gets or sets the key. This is a avalonia property.
+    /// Gets or sets the key. This is an avalonia property.
     /// </summary>
     public Key? Key
     {

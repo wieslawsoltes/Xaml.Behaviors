@@ -9,7 +9,7 @@ namespace BehaviorsTestApplication.Converters;
 
 public class ClassesToStringConverter : IMultiValueConverter
 {
-    public static ClassesToStringConverter Instance = new();
+    public static readonly ClassesToStringConverter Instance = new();
 
     public object Convert(IList<object?>? values, Type targetType, object? parameter, CultureInfo culture)
     {
@@ -20,4 +20,6 @@ public class ClassesToStringConverter : IMultiValueConverter
 
         return AvaloniaProperty.UnsetValue;
     }
+
+    public IMultiValueConverter ProvideValue(IServiceProvider serviceProvider) => Instance;
 }

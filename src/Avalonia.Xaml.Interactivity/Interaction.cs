@@ -118,77 +118,147 @@ public class Interaction
 
     private static void SetVisualTreeEventHandlersFromGetter(AvaloniaObject obj)
     {
-        if (obj is not Control control)
+        if (obj is Visual visual)
         {
-            return;
+            // AttachedToVisualTree / DetachedFromVisualTree
+
+            visual.AttachedToVisualTree -= Visual_AttachedToVisualTree_FromChangedEvent;
+            visual.DetachedFromVisualTree -= Visual_DetachedFromVisualTree_FromChangedEvent;
+            visual.AttachedToVisualTree -= Visual_AttachedToVisualTree_FromGetter;
+            visual.AttachedToVisualTree += Visual_AttachedToVisualTree_FromGetter;
+            visual.DetachedFromVisualTree -= Visual_DetachedFromVisualTree_FromGetter;
+            visual.DetachedFromVisualTree += Visual_DetachedFromVisualTree_FromGetter;
         }
 
-        // AttachedToVisualTree / DetachedFromVisualTree
+        if (obj is StyledElement styledElement)
+        {
+            // AttachedToLogicalTree / DetachedFromLogicalTree
 
-        control.AttachedToVisualTree -= Control_AttachedToVisualTreeFromChangedEvent;
-        control.DetachedFromVisualTree -= Control_DetachedFromVisualTreeFromChangedEvent;
-        control.AttachedToVisualTree -= Control_AttachedToVisualTreeFromGetter;
-        control.AttachedToVisualTree += Control_AttachedToVisualTreeFromGetter;
-        control.DetachedFromVisualTree -= Control_DetachedFromVisualTreeFromGetter;
-        control.DetachedFromVisualTree += Control_DetachedFromVisualTreeFromGetter;
+            styledElement.AttachedToLogicalTree -= StyledElement_AttachedToLogicalTree_FromChangedEvent;
+            styledElement.DetachedFromLogicalTree -= StyledElement_DetachedFromLogicalTree_FromChangedEvent;
+            styledElement.AttachedToLogicalTree -= StyledElement_AttachedToLogicalTree_FromGetter;
+            styledElement.AttachedToLogicalTree += StyledElement_AttachedToLogicalTree_FromGetter;
+            styledElement.DetachedFromLogicalTree -= StyledElement_DetachedFromLogicalTree_FromGetter;
+            styledElement.DetachedFromLogicalTree += StyledElement_DetachedFromLogicalTree_FromGetter;
+  
+            // Initialized
 
-        // AttachedToLogicalTree / DetachedFromLogicalTree
+            styledElement.Initialized -= StyledElement_Initialized_FromChangedEvent;
+            styledElement.Initialized -= StyledElement_Initialized_FromGetter;
+            styledElement.Initialized += StyledElement_Initialized_FromGetter;
+            
+            // DataContextChanged
 
-        control.AttachedToLogicalTree -= Control_AttachedToLogicalTreeFromChangedEvent;
-        control.DetachedFromLogicalTree -= Control_DetachedFromLogicalTreeFromChangedEvent;
-        control.AttachedToLogicalTree -= Control_AttachedToLogicalTreeFromGetter;
-        control.AttachedToLogicalTree += Control_AttachedToLogicalTreeFromGetter;
-        control.DetachedFromLogicalTree -= Control_DetachedFromLogicalTreeFromGetter;
-        control.DetachedFromLogicalTree += Control_DetachedFromLogicalTreeFromGetter;
+            styledElement.DataContextChanged -= StyledElement_DataContextChanged_FromChangedEvent;
+            styledElement.DataContextChanged -= StyledElement_DataContextChanged_FromGetter;
+            styledElement.DataContextChanged += StyledElement_DataContextChanged_FromGetter;
+  
+            // ResourcesChanged
 
-        // Loaded / Unloaded
+            styledElement.ResourcesChanged -= StyledElement_ResourcesChanged_FromChangedEvent;
+            styledElement.ResourcesChanged -= StyledElement_ResourcesChanged_FromGetter;
+            styledElement.ResourcesChanged += StyledElement_ResourcesChanged_FromGetter;
 
-        control.Loaded -= Control_LoadedFromChangedEvent;
-        control.Unloaded -= Control_UnloadedFromChangedEvent;
-        control.Loaded -= Control_LoadedFromGetter;
-        control.Loaded += Control_LoadedFromGetter;
-        control.Unloaded -= Control_UnloadedFromGetter;
-        control.Unloaded += Control_UnloadedFromGetter;
+            // ActualThemeVariantChanged
+
+            styledElement.ActualThemeVariantChanged -= StyledElement_ActualThemeVariantChanged_FromChangedEvent;
+            styledElement.ActualThemeVariantChanged -= StyledElement_ActualThemeVariantChanged_FromGetter;
+            styledElement.ActualThemeVariantChanged += StyledElement_ActualThemeVariantChanged_FromGetter;
+        }
+
+        if (obj is Control control)
+        {
+            // Loaded / Unloaded
+
+            control.Loaded -= Control_Loaded_FromChangedEvent;
+            control.Unloaded -= Control_Unloaded_FromChangedEvent;
+            control.Loaded -= Control_Loaded_FromGetter;
+            control.Loaded += Control_Loaded_FromGetter;
+            control.Unloaded -= Control_Unloaded_FromGetter;
+            control.Unloaded += Control_Unloaded_FromGetter;
+        }
+
+        if (obj is TopLevel topLevel)
+        {
+            topLevel.Opened -= TopLevel_Opened_FromChangedEvent;
+            topLevel.Opened -= TopLevel_Opened_FromGetter;
+            topLevel.Opened += TopLevel_Opened_FromGetter;
+        }
     }
 
     private static void SetVisualTreeEventHandlersFromChangedEvent(AvaloniaObject obj)
     {
-        if (obj is not Control control)
+        if (obj is Visual visual)
         {
-            return;
+            // AttachedToVisualTree / DetachedFromVisualTree
+
+            visual.AttachedToVisualTree -= Visual_AttachedToVisualTree_FromGetter;
+            visual.DetachedFromVisualTree -= Visual_DetachedFromVisualTree_FromGetter;
+            visual.AttachedToVisualTree -= Visual_AttachedToVisualTree_FromChangedEvent;
+            visual.AttachedToVisualTree += Visual_AttachedToVisualTree_FromChangedEvent;
+            visual.DetachedFromVisualTree -= Visual_DetachedFromVisualTree_FromChangedEvent;
+            visual.DetachedFromVisualTree += Visual_DetachedFromVisualTree_FromChangedEvent;
         }
 
-        // AttachedToVisualTree / DetachedFromVisualTree
+        if (obj is StyledElement styledElement)
+        {
+            // AttachedToLogicalTree / DetachedFromLogicalTree
 
-        control.AttachedToVisualTree -= Control_AttachedToVisualTreeFromGetter;
-        control.DetachedFromVisualTree -= Control_DetachedFromVisualTreeFromGetter;
-        control.AttachedToVisualTree -= Control_AttachedToVisualTreeFromChangedEvent;
-        control.AttachedToVisualTree += Control_AttachedToVisualTreeFromChangedEvent;
-        control.DetachedFromVisualTree -= Control_DetachedFromVisualTreeFromChangedEvent;
-        control.DetachedFromVisualTree += Control_DetachedFromVisualTreeFromChangedEvent;
+            styledElement.AttachedToLogicalTree -= StyledElement_AttachedToLogicalTree_FromGetter;
+            styledElement.DetachedFromLogicalTree -= StyledElement_DetachedFromLogicalTree_FromGetter;
+            styledElement.AttachedToLogicalTree -= StyledElement_AttachedToLogicalTree_FromChangedEvent;
+            styledElement.AttachedToLogicalTree += StyledElement_AttachedToLogicalTree_FromChangedEvent;
+            styledElement.DetachedFromLogicalTree -= StyledElement_DetachedFromLogicalTree_FromChangedEvent;
+            styledElement.DetachedFromLogicalTree += StyledElement_DetachedFromLogicalTree_FromChangedEvent;
 
-        // AttachedToLogicalTree / DetachedFromLogicalTree
+            // Initialized
 
-        control.AttachedToLogicalTree -= Control_AttachedToLogicalTreeFromGetter;
-        control.DetachedFromLogicalTree -= Control_DetachedFromLogicalTreeFromGetter;
-        control.AttachedToLogicalTree -= Control_AttachedToLogicalTreeFromChangedEvent;
-        control.AttachedToLogicalTree += Control_AttachedToLogicalTreeFromChangedEvent;
-        control.DetachedFromLogicalTree -= Control_DetachedFromLogicalTreeFromChangedEvent;
-        control.DetachedFromLogicalTree += Control_DetachedFromLogicalTreeFromChangedEvent;
+            styledElement.Initialized -= StyledElement_Initialized_FromGetter;
+            styledElement.Initialized -= StyledElement_Initialized_FromChangedEvent;
+            styledElement.Initialized += StyledElement_Initialized_FromChangedEvent;
+            
+            // DataContextChanged
 
-        // Loaded / Unloaded
+            styledElement.DataContextChanged -= StyledElement_DataContextChanged_FromGetter;
+            styledElement.DataContextChanged -= StyledElement_DataContextChanged_FromChangedEvent;
+            styledElement.DataContextChanged += StyledElement_DataContextChanged_FromChangedEvent;
+  
+            // ResourcesChanged
 
-        control.Loaded -= Control_LoadedFromGetter;
-        control.Unloaded -= Control_UnloadedFromGetter;
-        control.Loaded -= Control_LoadedFromChangedEvent;
-        control.Loaded += Control_LoadedFromChangedEvent;
-        control.Unloaded -= Control_UnloadedFromChangedEvent;
-        control.Unloaded += Control_UnloadedFromChangedEvent;
+            styledElement.ResourcesChanged -= StyledElement_ResourcesChanged_FromGetter;
+            styledElement.ResourcesChanged -= StyledElement_ResourcesChanged_FromChangedEvent;
+            styledElement.ResourcesChanged += StyledElement_ResourcesChanged_FromChangedEvent;
+
+            // ActualThemeVariantChanged
+
+            styledElement.ActualThemeVariantChanged -= StyledElement_ActualThemeVariantChanged_FromGetter;
+            styledElement.ActualThemeVariantChanged -= StyledElement_ActualThemeVariantChanged_FromChangedEvent;
+            styledElement.ActualThemeVariantChanged += StyledElement_ActualThemeVariantChanged_FromChangedEvent;
+        }
+
+        if (obj is Control control)
+        {
+            // Loaded / Unloaded
+
+            control.Loaded -= Control_Loaded_FromGetter;
+            control.Unloaded -= Control_Unloaded_FromGetter;
+            control.Loaded -= Control_Loaded_FromChangedEvent;
+            control.Loaded += Control_Loaded_FromChangedEvent;
+            control.Unloaded -= Control_Unloaded_FromChangedEvent;
+            control.Unloaded += Control_Unloaded_FromChangedEvent;
+        }
+
+        if (obj is TopLevel topLevel)
+        {
+            topLevel.Opened -= TopLevel_Opened_FromGetter;
+            topLevel.Opened -= TopLevel_Opened_FromChangedEvent;
+            topLevel.Opened += TopLevel_Opened_FromChangedEvent;
+        }
     }
 
     // AttachedToVisualTree / DetachedFromVisualTree
 
-    private static void Control_AttachedToVisualTreeFromGetter(object? sender, VisualTreeAttachmentEventArgs e)
+    private static void Visual_AttachedToVisualTree_FromGetter(object? sender, VisualTreeAttachmentEventArgs e)
     {
         if (sender is not AvaloniaObject d)
         {
@@ -199,7 +269,7 @@ public class Interaction
         GetBehaviors(d).AttachedToVisualTree();
     }
 
-    private static void Control_DetachedFromVisualTreeFromGetter(object? sender, VisualTreeAttachmentEventArgs e)
+    private static void Visual_DetachedFromVisualTree_FromGetter(object? sender, VisualTreeAttachmentEventArgs e)
     {
         if (sender is not AvaloniaObject d)
         {
@@ -210,7 +280,7 @@ public class Interaction
         GetBehaviors(d).Detach();
     }
  
-    private static void Control_AttachedToVisualTreeFromChangedEvent(object? sender, VisualTreeAttachmentEventArgs e)
+    private static void Visual_AttachedToVisualTree_FromChangedEvent(object? sender, VisualTreeAttachmentEventArgs e)
     {
         if (sender is not AvaloniaObject d)
         {
@@ -220,7 +290,7 @@ public class Interaction
         GetBehaviors(d).AttachedToVisualTree();
     }
 
-    private static void Control_DetachedFromVisualTreeFromChangedEvent(object? sender, VisualTreeAttachmentEventArgs e)
+    private static void Visual_DetachedFromVisualTree_FromChangedEvent(object? sender, VisualTreeAttachmentEventArgs e)
     {
         if (sender is not AvaloniaObject d)
         {
@@ -232,7 +302,7 @@ public class Interaction
 
     // AttachedToLogicalTree / DetachedFromLogicalTree
 
-    private static void Control_AttachedToLogicalTreeFromGetter(object? sender, LogicalTreeAttachmentEventArgs e)
+    private static void StyledElement_AttachedToLogicalTree_FromGetter(object? sender, LogicalTreeAttachmentEventArgs e)
     {
         if (sender is not AvaloniaObject d)
         {
@@ -242,7 +312,7 @@ public class Interaction
         GetBehaviors(d).AttachedToLogicalTree();
     }
 
-    private static void Control_DetachedFromLogicalTreeFromGetter(object? sender, LogicalTreeAttachmentEventArgs e)
+    private static void StyledElement_DetachedFromLogicalTree_FromGetter(object? sender, LogicalTreeAttachmentEventArgs e)
     {
         if (sender is not AvaloniaObject d)
         {
@@ -252,7 +322,7 @@ public class Interaction
         GetBehaviors(d).DetachedFromLogicalTree();
     }
  
-    private static void Control_AttachedToLogicalTreeFromChangedEvent(object? sender, LogicalTreeAttachmentEventArgs e)
+    private static void StyledElement_AttachedToLogicalTree_FromChangedEvent(object? sender, LogicalTreeAttachmentEventArgs e)
     {
         if (sender is not AvaloniaObject d)
         {
@@ -262,7 +332,7 @@ public class Interaction
         GetBehaviors(d).AttachedToLogicalTree();
     }
 
-    private static void Control_DetachedFromLogicalTreeFromChangedEvent(object? sender, LogicalTreeAttachmentEventArgs e)
+    private static void StyledElement_DetachedFromLogicalTree_FromChangedEvent(object? sender, LogicalTreeAttachmentEventArgs e)
     {
         if (sender is not AvaloniaObject d)
         {
@@ -274,7 +344,7 @@ public class Interaction
 
     // Loaded / Unloaded
 
-    private static void Control_LoadedFromGetter(object? sender, RoutedEventArgs e)
+    private static void Control_Loaded_FromGetter(object? sender, RoutedEventArgs e)
     {
         if (sender is not AvaloniaObject d)
         {
@@ -284,7 +354,7 @@ public class Interaction
         GetBehaviors(d).Loaded();
     }
 
-    private static void Control_UnloadedFromGetter(object? sender, RoutedEventArgs e)
+    private static void Control_Unloaded_FromGetter(object? sender, RoutedEventArgs e)
     {
         if (sender is not AvaloniaObject d)
         {
@@ -294,7 +364,7 @@ public class Interaction
         GetBehaviors(d).Unloaded();
     }
  
-    private static void Control_LoadedFromChangedEvent(object? sender, RoutedEventArgs e)
+    private static void Control_Loaded_FromChangedEvent(object? sender, RoutedEventArgs e)
     {
         if (sender is not AvaloniaObject d)
         {
@@ -304,7 +374,7 @@ public class Interaction
         GetBehaviors(d).Loaded();
     }
 
-    private static void Control_UnloadedFromChangedEvent(object? sender, RoutedEventArgs e)
+    private static void Control_Unloaded_FromChangedEvent(object? sender, RoutedEventArgs e)
     {
         if (sender is not AvaloniaObject d)
         {
@@ -312,5 +382,118 @@ public class Interaction
         }
 
         GetBehaviors(d).Unloaded();
+    }
+
+    // Initialized
+    
+    private static void StyledElement_Initialized_FromGetter(object? sender, EventArgs e)
+    {
+        if (sender is not AvaloniaObject d)
+        {
+            return;
+        }
+
+        GetBehaviors(d).Initialized();
+    }
+
+    private static void StyledElement_Initialized_FromChangedEvent(object? sender, EventArgs e)
+    {
+        if (sender is not AvaloniaObject d)
+        {
+            return;
+        }
+
+        GetBehaviors(d).Initialized();
+    }
+
+    // DataContextChanged
+    
+    private static void StyledElement_DataContextChanged_FromGetter(object? sender, EventArgs e)
+    {
+        if (sender is not AvaloniaObject d)
+        {
+            return;
+        }
+
+        GetBehaviors(d).DataContextChanged();
+    }
+
+    private static void StyledElement_DataContextChanged_FromChangedEvent(object? sender, EventArgs e)
+    {
+        if (sender is not AvaloniaObject d)
+        {
+            return;
+        }
+
+        GetBehaviors(d).DataContextChanged();
+    }
+
+    // ResourcesChanged
+    
+    private static void StyledElement_ResourcesChanged_FromGetter(object? sender, ResourcesChangedEventArgs e)
+    {
+        if (sender is not AvaloniaObject d)
+        {
+            return;
+        }
+
+        GetBehaviors(d).ResourcesChanged();
+    }
+
+    private static void StyledElement_ResourcesChanged_FromChangedEvent(object? sender, ResourcesChangedEventArgs e)
+    {
+        if (sender is not AvaloniaObject d)
+        {
+            return;
+        }
+
+        GetBehaviors(d).ResourcesChanged();
+    }
+
+    // ActualThemeVariantChanged
+    
+    private static void StyledElement_ActualThemeVariantChanged_FromGetter(object? sender, EventArgs e)
+    {
+        if (sender is not AvaloniaObject d)
+        {
+            return;
+        }
+
+        GetBehaviors(d).ActualThemeVariantChanged();
+    }
+
+    private static void StyledElement_ActualThemeVariantChanged_FromChangedEvent(object? sender, EventArgs e)
+    {
+        if (sender is not AvaloniaObject d)
+        {
+            return;
+        }
+
+        GetBehaviors(d).ActualThemeVariantChanged();
+    }
+
+    // TopLevel Opened
+
+    private static void TopLevel_Opened_FromGetter(object sender, EventArgs e)
+    {
+        if (sender is not AvaloniaObject d)
+        {
+            return;
+        }
+
+        GetBehaviors(d).Attach(d);
+        GetBehaviors(d).AttachedToVisualTree();
+        GetBehaviors(d).AttachedToLogicalTree();
+    }
+
+    private static void TopLevel_Opened_FromChangedEvent(object sender, EventArgs e)
+    {
+        if (sender is not AvaloniaObject d)
+        {
+            return;
+        }
+
+        GetBehaviors(d).AttachedToVisualTree();
+        GetBehaviors(d).AttachedToLogicalTree();
     }
 }

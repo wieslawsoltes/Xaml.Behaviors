@@ -34,7 +34,7 @@ public class AdaptiveBehavior : StyledElementBehavior<Control>
         AvaloniaProperty.RegisterDirect<AdaptiveBehavior, AvaloniaList<AdaptiveClassSetter>>(nameof(Setters), t => t.Setters);
 
     /// <summary>
-    /// Gets or sets the the source control that <see cref="Visual.BoundsProperty"/> property are observed from, if not set <see cref="StyledElementBehavior{T}.AssociatedObject"/> is used. This is a avalonia property.
+    /// Gets or sets the the source control that <see cref="Visual.BoundsProperty"/> property are observed from, if not set <see cref="StyledElementBehavior{T}.AssociatedObject"/> is used. This is an avalonia property.
     /// </summary>
     [ResolveByName]
     public Control? SourceControl
@@ -44,7 +44,7 @@ public class AdaptiveBehavior : StyledElementBehavior<Control>
     }
 
     /// <summary>
-    /// Gets or sets the target control that class name that should be added or removed when triggered, if not set <see cref="StyledElementBehavior{T}.AssociatedObject"/> is used or <see cref="AdaptiveClassSetter.TargetControl"/> from <see cref="AdaptiveClassSetter"/>. This is a avalonia property.
+    /// Gets or sets the target control that class name that should be added or removed when triggered, if not set <see cref="StyledElementBehavior{T}.AssociatedObject"/> is used or <see cref="AdaptiveClassSetter.TargetControl"/> from <see cref="AdaptiveClassSetter"/>. This is an avalonia property.
     /// </summary>
     [ResolveByName]
     public Control? TargetControl
@@ -54,7 +54,7 @@ public class AdaptiveBehavior : StyledElementBehavior<Control>
     }
 
     /// <summary>
-    /// Gets adaptive class setters collection. This is a avalonia property.
+    /// Gets adaptive class setters collection. This is an avalonia property.
     /// </summary>
     [Content]
     public AvaloniaList<AdaptiveClassSetter> Setters => _setters ??= [];

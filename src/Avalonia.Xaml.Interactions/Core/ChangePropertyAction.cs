@@ -11,7 +11,7 @@ namespace Avalonia.Xaml.Interactions.Core;
 /// An action that will change a specified property to a specified value when invoked.
 /// </summary>
 [RequiresUnreferencedCode("This functionality is not compatible with trimming.")]
-public class ChangePropertyAction : Avalonia.Xaml.Interactivity.Action
+public class ChangePropertyAction : Avalonia.Xaml.Interactivity.StyledElementAction
 {
     private static readonly char[] s_trimChars = ['(', ')'];
     private static readonly char[] s_separator = ['.'];
@@ -90,7 +90,7 @@ public class ChangePropertyAction : Avalonia.Xaml.Interactivity.Action
         AvaloniaProperty.Register<ChangePropertyAction, object?>(nameof(Value));
 
     /// <summary>
-    /// Gets or sets the name of the property to change. This is a avalonia property.
+    /// Gets or sets the name of the property to change. This is an avalonia property.
     /// </summary>
     public string? PropertyName
     {
@@ -99,7 +99,7 @@ public class ChangePropertyAction : Avalonia.Xaml.Interactivity.Action
     }
 
     /// <summary>
-    /// Gets or sets the value to set. This is a avalonia property.
+    /// Gets or sets the value to set. This is an avalonia property.
     /// </summary>
     public object? Value
     {
@@ -109,7 +109,7 @@ public class ChangePropertyAction : Avalonia.Xaml.Interactivity.Action
 
     /// <summary>
     /// Gets or sets the object whose property will be changed.
-    /// If <seealso cref="TargetObject"/> is not set or cannot be resolved, the sender of <seealso cref="Execute"/> will be used. This is a avalonia property.
+    /// If <seealso cref="TargetObject"/> is not set or cannot be resolved, the sender of <seealso cref="Execute"/> will be used. This is an avalonia property.
     /// </summary>
     [ResolveByName]
     public object? TargetObject

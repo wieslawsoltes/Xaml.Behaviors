@@ -11,7 +11,7 @@ public abstract class RoutedEventTriggerBase : DisposingTrigger
     /// 
     /// </summary>
     public static readonly StyledProperty<RoutingStrategies> EventRoutingStrategyProperty =
-        AvaloniaProperty.Register<RoutedEventTriggerBase, RoutingStrategies>(nameof(EventRoutingStrategy));
+        AvaloniaProperty.Register<RoutedEventTriggerBase, RoutingStrategies>(nameof(EventRoutingStrategy), defaultValue: RoutingStrategies.Direct);
 
     /// <summary>
     /// 
@@ -21,4 +21,9 @@ public abstract class RoutedEventTriggerBase : DisposingTrigger
         get => GetValue(EventRoutingStrategyProperty);
         set => SetValue(EventRoutingStrategyProperty, value);
     }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public bool MarkAsHandled { get; set; }
 }

@@ -6,7 +6,6 @@ using System.Globalization;
 using System.Reflection;
 using System.Threading.Tasks;
 using Avalonia.Controls;
-using Avalonia.Reactive;
 
 namespace Avalonia.Xaml.Interactions.Core;
 
@@ -14,7 +13,7 @@ namespace Avalonia.Xaml.Interactions.Core;
 /// An action that calls a method on a specified object when invoked.
 /// </summary>
 [RequiresUnreferencedCode("This functionality is not compatible with trimming.")]
-public class CallMethodAction : Avalonia.Xaml.Interactivity.Action
+public class CallMethodAction : Avalonia.Xaml.Interactivity.StyledElementAction
 {
     private Type? _targetObjectType;
     private readonly List<MethodDescriptor> _methodDescriptors = [];
@@ -33,7 +32,7 @@ public class CallMethodAction : Avalonia.Xaml.Interactivity.Action
         AvaloniaProperty.Register<CallMethodAction, object?>(nameof(TargetObject));
 
     /// <summary>
-    /// Gets or sets the name of the method to invoke. This is a avalonia property.
+    /// Gets or sets the name of the method to invoke. This is an avalonia property.
     /// </summary>
     public string? MethodName
     {
@@ -42,7 +41,7 @@ public class CallMethodAction : Avalonia.Xaml.Interactivity.Action
     }
 
     /// <summary>
-    /// Gets or sets the object that exposes the method of interest. This is a avalonia property.
+    /// Gets or sets the object that exposes the method of interest. This is an avalonia property.
     /// </summary>
     [ResolveByName]
     public object? TargetObject
@@ -51,34 +50,41 @@ public class CallMethodAction : Avalonia.Xaml.Interactivity.Action
         set => SetValue(TargetObjectProperty, value);
     }
 
-    static CallMethodAction()
+    /// <inheritdoc />
+    protected override void OnPropertyChanged(AvaloniaPropertyChangedEventArgs change)
     {
-        MethodNameProperty.Changed.Subscribe(
-            new AnonymousObserver<AvaloniaPropertyChangedEventArgs<string?>>(MethodNameChanged));
+        base.OnPropertyChanged(change);
+                
+        if (change.Property == MethodNameProperty)
+        {
+            MethodNameChanged(change);
+        }
 
-        TargetObjectProperty.Changed.Subscribe(
-            new AnonymousObserver<AvaloniaPropertyChangedEventArgs<object?>>(TargetObjectChanged));
+        if (change.Property == TargetObjectProperty)
+        {
+            TargetObjectChanged(change);
+        }
     }
 
-    private static void MethodNameChanged(AvaloniaPropertyChangedEventArgs<string?> e)
+    private void MethodNameChanged(AvaloniaPropertyChangedEventArgs e)
     {
         if (e.Sender is not CallMethodAction callMethodAction)
         {
             return;
         }
-        
+
         callMethodAction.UpdateMethodDescriptors();
     }
 
     [RequiresUnreferencedCode("This functionality is not compatible with trimming.")]
-    private static void TargetObjectChanged(AvaloniaPropertyChangedEventArgs<object?> e)
+    private void TargetObjectChanged(AvaloniaPropertyChangedEventArgs e)
     {
         if (e.Sender is not CallMethodAction callMethodAction)
         {
             return;
         }
 
-        var newValue = e.NewValue.GetValueOrDefault();
+        var newValue = e.GetNewValue<object?>();
         if (newValue is not null)
         {
             var newType = newValue.GetType();

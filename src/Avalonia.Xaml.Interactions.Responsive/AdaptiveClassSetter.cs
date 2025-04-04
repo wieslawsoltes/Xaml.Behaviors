@@ -76,7 +76,7 @@ public class AdaptiveClassSetter : AvaloniaObject
         AvaloniaProperty.Register<AdaptiveClassSetter, Control?>(nameof(TargetControl));
         
     /// <summary>
-    /// Gets or sets minimum bounds width value used for property comparison. This is a avalonia property.
+    /// Gets or sets minimum bounds width value used for property comparison. This is an avalonia property.
     /// </summary>
     public double MinWidth
     {
@@ -85,7 +85,7 @@ public class AdaptiveClassSetter : AvaloniaObject
     }
 
     /// <summary>
-    /// Gets or sets minimum bounds width value comparison operator. This is a avalonia property.
+    /// Gets or sets minimum bounds width value comparison operator. This is an avalonia property.
     /// </summary>
     public ComparisonConditionType MinWidthOperator
     {
@@ -94,7 +94,7 @@ public class AdaptiveClassSetter : AvaloniaObject
     }
 
     /// <summary>
-    /// Gets or sets maximum width value used for property comparison. This is a avalonia property.
+    /// Gets or sets maximum width value used for property comparison. This is an avalonia property.
     /// </summary>
     public double MaxWidth
     {
@@ -103,7 +103,7 @@ public class AdaptiveClassSetter : AvaloniaObject
     }
 
     /// <summary>
-    /// Gets or sets maximum bounds width value comparison operator. This is a avalonia property.
+    /// Gets or sets maximum bounds width value comparison operator. This is an avalonia property.
     /// </summary>
     public ComparisonConditionType MaxWidthOperator
     {
@@ -112,7 +112,7 @@ public class AdaptiveClassSetter : AvaloniaObject
     }
 
     /// <summary>
-    /// Gets or sets minimum bounds height value used for property comparison. This is a avalonia property.
+    /// Gets or sets minimum bounds height value used for property comparison. This is an avalonia property.
     /// </summary>
     public double MinHeight
     {
@@ -121,7 +121,7 @@ public class AdaptiveClassSetter : AvaloniaObject
     }
 
     /// <summary>
-    /// Gets or sets minimum bounds height value comparison operator. This is a avalonia property.
+    /// Gets or sets minimum bounds height value comparison operator. This is an avalonia property.
     /// </summary>
     public ComparisonConditionType MinHeightOperator
     {
@@ -130,7 +130,7 @@ public class AdaptiveClassSetter : AvaloniaObject
     }
 
     /// <summary>
-    /// Gets or sets maximum height value used for property comparison. This is a avalonia property.
+    /// Gets or sets maximum height value used for property comparison. This is an avalonia property.
     /// </summary>
     public double MaxHeight
     {
@@ -139,7 +139,7 @@ public class AdaptiveClassSetter : AvaloniaObject
     }
 
     /// <summary>
-    /// Gets or sets maximum bounds height value comparison operator. This is a avalonia property.
+    /// Gets or sets maximum bounds height value comparison operator. This is an avalonia property.
     /// </summary>
     public ComparisonConditionType MaxHeightOperator
     {
@@ -148,7 +148,7 @@ public class AdaptiveClassSetter : AvaloniaObject
     }
 
     /// <summary>
-    /// Gets or sets the class name that should be added or removed. This is a avalonia property.
+    /// Gets or sets the class name that should be added or removed. This is an avalonia property.
     /// </summary>
     [Content]
     public string? ClassName
@@ -158,7 +158,7 @@ public class AdaptiveClassSetter : AvaloniaObject
     }
 
     /// <summary>
-    /// Gets or sets the flag whether ClassName is a PseudoClass. This is a avalonia property.
+    /// Gets or sets the flag whether ClassName is a PseudoClass. This is an avalonia property.
     /// </summary>
     public bool IsPseudoClass
     {
@@ -167,7 +167,7 @@ public class AdaptiveClassSetter : AvaloniaObject
     }
 
     /// <summary>
-    /// Gets or sets the target control that class name that should be added or removed when triggered, if not set <see cref="StyledElementBehavior{T}.AssociatedObject"/> is used or <see cref="AdaptiveBehavior.TargetControl"/> from <see cref="AdaptiveBehavior"/>. This is a avalonia property.
+    /// Gets or sets the target control that class name that should be added or removed when triggered, if not set <see cref="StyledElementBehavior{T}.AssociatedObject"/> is used or <see cref="AdaptiveBehavior.TargetControl"/> from <see cref="AdaptiveBehavior"/>. This is an avalonia property.
     /// </summary>
     [ResolveByName]
     public Control? TargetControl

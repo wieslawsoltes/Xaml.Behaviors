@@ -1,0 +1,32 @@
+﻿<UserControl x:Class="BehaviorsTestApplication.Views.Pages.PointerTriggersView"
+             xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:BehaviorsTestApplication.ViewModels"
+             x:DataType="vm:PointerTriggersViewModel"
+             mc:Ignorable="d" d:DesignWidth="500" d:DesignHeight="450">
+  <Design.DataContext>
+    <vm:PointerTriggersViewModel />
+  </Design.DataContext>
+
+  <Canvas Width="500" Height="500" Background="WhiteSmoke">
+    <Interaction.Behaviors>
+      <PointerPressedTrigger EventRoutingStrategy="Bubble">
+        <CapturePointerAction />
+        <InvokeCommandAction Command="{Binding PointerPressedCommand}"
+                             InputConverter="{PointerEventArgsConverter}" />
+      </PointerPressedTrigger>
+      <PointerReleasedTrigger EventRoutingStrategy="Bubble">
+        <ReleasePointerCaptureAction />
+        <InvokeCommandAction Command="{Binding PointerReleasedCommand}"
+                             InputConverter="{PointerEventArgsConverter}" />
+      </PointerReleasedTrigger>
+      <PointerMovedTrigger EventRoutingStrategy="Bubble">
+        <InvokeCommandAction Command="{Binding PointerMovedCommand}"
+                             InputConverter="{PointerEventArgsConverter}" />
+      </PointerMovedTrigger>
+    </Interaction.Behaviors>
+  </Canvas>
+  
+</UserControl>

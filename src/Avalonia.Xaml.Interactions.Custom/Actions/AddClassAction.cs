@@ -6,7 +6,7 @@ namespace Avalonia.Xaml.Interactions.Custom;
 /// <summary>
 /// Adds a specified <see cref="AddClassAction.ClassName"/> to the <see cref="StyledElement.Classes"/> collection when invoked. 
 /// </summary>
-public class AddClassAction : Avalonia.Xaml.Interactivity.Action
+public class AddClassAction : Avalonia.Xaml.Interactivity.StyledElementAction
 {
     /// <summary>
     /// Identifies the <seealso cref="ClassName"/> avalonia property.
@@ -27,7 +27,7 @@ public class AddClassAction : Avalonia.Xaml.Interactivity.Action
         AvaloniaProperty.Register<AddClassAction, bool>(nameof(RemoveIfExists));
 
     /// <summary>
-    /// Gets or sets the class name that should be added. This is a avalonia property.
+    /// Gets or sets the class name that should be added. This is an avalonia property.
     /// </summary>
     public string ClassName
     {
@@ -36,7 +36,7 @@ public class AddClassAction : Avalonia.Xaml.Interactivity.Action
     }
 
     /// <summary>
-    /// Gets or sets the target styled element that class name that should be added to. This is a avalonia property.
+    /// Gets or sets the target styled element that class name that should be added to. This is an avalonia property.
     /// </summary>
     [ResolveByName]
     public StyledElement? StyledElement
@@ -46,7 +46,7 @@ public class AddClassAction : Avalonia.Xaml.Interactivity.Action
     }
 
     /// <summary>
-    /// Gets or sets the flag indicated whether to remove the class if already exists before adding. This is a avalonia property.
+    /// Gets or sets the flag indicated whether to remove the class if already exists before adding. This is an avalonia property.
     /// </summary>
     public bool RemoveIfExists
     {

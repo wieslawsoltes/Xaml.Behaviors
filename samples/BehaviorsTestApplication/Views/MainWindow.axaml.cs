@@ -1,7 +1,4 @@
-﻿using BehaviorsTestApplication.ViewModels;
-using Avalonia;
-using Avalonia.Controls;
-using Avalonia.Markup.Xaml;
+﻿using Avalonia.Controls;
 
 namespace BehaviorsTestApplication.Views;
 
@@ -10,6 +7,5 @@ public partial class MainWindow : Window
     public MainWindow()
     {
         InitializeComponent();
-        DataContext = new MainWindowViewModel();
     }
 }

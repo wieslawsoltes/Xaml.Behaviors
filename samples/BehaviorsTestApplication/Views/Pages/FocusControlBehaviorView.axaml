@@ -1,0 +1,20 @@
+﻿<UserControl x:Class="BehaviorsTestApplication.Views.Pages.FocusControlBehaviorView"
+             xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:BehaviorsTestApplication.ViewModels"
+             x:DataType="vm:MainWindowViewModel"
+             mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="450">
+  <Design.DataContext>
+    <vm:MainWindowViewModel />
+  </Design.DataContext>
+  <Grid RowDefinitions="Auto,Auto,*">
+    <TextBox Grid.Row="0" Text="Some text">
+      <Interaction.Behaviors>
+        <FocusControlBehavior FocusFlag="{Binding FocusFlag}" />
+      </Interaction.Behaviors>
+    </TextBox>
+    <CheckBox Grid.Row="1" IsChecked="{Binding FocusFlag}" Content="FocusFlag" />
+  </Grid>
+</UserControl>

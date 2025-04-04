@@ -1,7 +1,5 @@
-﻿using System;
-using System.Diagnostics.CodeAnalysis;
-using System.Globalization;
-using Avalonia.Reactive;
+﻿using System.Diagnostics.CodeAnalysis;
+using Avalonia.Threading;
 using Avalonia.Xaml.Interactivity;
 
 namespace Avalonia.Xaml.Interactions.Core;
@@ -31,7 +29,7 @@ public class DataTriggerBehavior : StyledElementTrigger
         AvaloniaProperty.Register<DataTriggerBehavior, object?>(nameof(Value));
 
     /// <summary>
-    /// Gets or sets the bound object that the <see cref="DataTriggerBehavior"/> will listen to. This is a avalonia property.
+    /// Gets or sets the bound object that the <see cref="DataTriggerBehavior"/> will listen to. This is an avalonia property.
     /// </summary>
     public object? Binding
     {
@@ -40,7 +38,7 @@ public class DataTriggerBehavior : StyledElementTrigger
     }
 
     /// <summary>
-    /// Gets or sets the type of comparison to be performed between <see cref="DataTriggerBehavior.Binding"/> and <see cref="DataTriggerBehavior.Value"/>. This is a avalonia property.
+    /// Gets or sets the type of comparison to be performed between <see cref="DataTriggerBehavior.Binding"/> and <see cref="DataTriggerBehavior.Value"/>. This is an avalonia property.
     /// </summary>
     public ComparisonConditionType ComparisonCondition
     {
@@ -49,7 +47,7 @@ public class DataTriggerBehavior : StyledElementTrigger
     }
 
     /// <summary>
-    /// Gets or sets the value to be compared with the value of <see cref="DataTriggerBehavior.Binding"/>. This is a avalonia property.
+    /// Gets or sets the value to be compared with the value of <see cref="DataTriggerBehavior.Binding"/>. This is an avalonia property.
     /// </summary>
     public object? Value
     {
@@ -57,127 +55,68 @@ public class DataTriggerBehavior : StyledElementTrigger
         set => SetValue(ValueProperty, value);
     }
 
-    static DataTriggerBehavior()
+    /// <inheritdoc />
+    protected override void OnPropertyChanged(AvaloniaPropertyChangedEventArgs change)
     {
-        BindingProperty.Changed.Subscribe(
-            new AnonymousObserver<AvaloniaPropertyChangedEventArgs<object?>>(OnValueChanged));
+        base.OnPropertyChanged(change);
+                
+        if (change.Property == BindingProperty)
+        {
+            OnValueChanged(change);
+        }
 
-        ComparisonConditionProperty.Changed.Subscribe(
-            new AnonymousObserver<AvaloniaPropertyChangedEventArgs<ComparisonConditionType>>(OnValueChanged));
+        if (change.Property == ComparisonConditionProperty)
+        {
+            OnValueChanged(change);
+        }
 
-        ValueProperty.Changed.Subscribe(
-            new AnonymousObserver<AvaloniaPropertyChangedEventArgs<object?>>(OnValueChanged));
+        if (change.Property == ValueProperty)
+        {
+            OnValueChanged(change);
+        }
     }
 
-    private static bool Compare(object? leftOperand, ComparisonConditionType operatorType, object? rightOperand)
+    /// <inheritdoc />
+    protected override void OnInitializedEvent()
     {
-        if (leftOperand is not null && rightOperand is not null)
-        {
-            var value = rightOperand.ToString();
-            var destinationType = leftOperand.GetType();
-            if (value is not null)
-            {
-                rightOperand = TypeConverterHelper.Convert(value, destinationType);
-            }
-        }
+        base.OnInitializedEvent();
 
-        var leftComparableOperand = leftOperand as IComparable;
-        var rightComparableOperand = rightOperand as IComparable;
-        if (leftComparableOperand is not null && rightComparableOperand is not null)
-        {
-            return EvaluateComparable(leftComparableOperand, operatorType, rightComparableOperand);
-        }
-
-        switch (operatorType)
-        {
-            case ComparisonConditionType.Equal:
-                return Equals(leftOperand, rightOperand);
-
-            case ComparisonConditionType.NotEqual:
-                return !Equals(leftOperand, rightOperand);
-
-            case ComparisonConditionType.LessThan:
-            case ComparisonConditionType.LessThanOrEqual:
-            case ComparisonConditionType.GreaterThan:
-            case ComparisonConditionType.GreaterThanOrEqual:
-            {
-                throw leftComparableOperand switch
-                {
-                    null when rightComparableOperand is null => new ArgumentException(string.Format(
-                        CultureInfo.CurrentCulture,
-                        "Binding property of type {0} and Value property of type {1} cannot be used with operator {2}.",
-                        leftOperand?.GetType().Name ?? "null", rightOperand?.GetType().Name ?? "null",
-                        operatorType.ToString())),
-                    null => new ArgumentException(string.Format(CultureInfo.CurrentCulture,
-                        "Binding property of type {0} cannot be used with operator {1}.",
-                        leftOperand?.GetType().Name ?? "null", operatorType.ToString())),
-                    _ => new ArgumentException(string.Format(CultureInfo.CurrentCulture,
-                        "Value property of type {0} cannot be used with operator {1}.",
-                        rightOperand?.GetType().Name ?? "null", operatorType.ToString()))
-                };
-            }
-        }
-
-        return false;
+        Execute(parameter: null);
     }
 
-    /// <summary>
-    /// Evaluates both operands that implement the IComparable interface.
-    /// </summary>
-    private static bool EvaluateComparable(IComparable leftOperand, ComparisonConditionType operatorType, IComparable rightOperand)
+    private void OnValueChanged(AvaloniaPropertyChangedEventArgs args)
     {
-        object? convertedOperand = null;
-        try
-        {
-            convertedOperand = Convert.ChangeType(rightOperand, leftOperand.GetType(), CultureInfo.CurrentCulture);
-        }
-        catch (FormatException)
-        {
-            // FormatException: Convert.ChangeType("hello", typeof(double), ...);
-        }
-        catch (InvalidCastException)
-        {
-            // InvalidCastException: Convert.ChangeType(4.0d, typeof(Rectangle), ...);
-        }
-
-        if (convertedOperand is null)
-        {
-            return operatorType == ComparisonConditionType.NotEqual;
-        }
-
-        var comparison = leftOperand.CompareTo((IComparable)convertedOperand);
-        return operatorType switch
-        {
-            ComparisonConditionType.Equal => comparison == 0,
-            ComparisonConditionType.NotEqual => comparison != 0,
-            ComparisonConditionType.LessThan => comparison < 0,
-            ComparisonConditionType.LessThanOrEqual => comparison <= 0,
-            ComparisonConditionType.GreaterThan => comparison > 0,
-            ComparisonConditionType.GreaterThanOrEqual => comparison >= 0,
-            _ => false
-        };
-    }
-
-    private static void OnValueChanged(AvaloniaPropertyChangedEventArgs args)
-    {
-        if (args.Sender is not DataTriggerBehavior behavior || behavior.AssociatedObject is null)
+        if (args.Sender is not DataTriggerBehavior behavior)
         {
             return;
         }
 
-        if (!behavior.IsEnabled)
+        Dispatcher.UIThread.Post(() =>
+        {
+            behavior.Execute(parameter: args);
+        });
+    }
+
+    private void Execute(object? parameter)
+    {        
+        if (AssociatedObject is null)
+        {
+            return;
+        }
+
+        if (!IsEnabled)
         {
             return;
         }
 
         // NOTE: In UWP version binding null check is not present but Avalonia throws exception as Bindings are null when first initialized.
-        var binding = behavior.Binding;
+        var binding = Binding;
         if (binding is not null)
         {
             // Some value has changed--either the binding value, reference value, or the comparison condition. Re-evaluate the equation.
-            if (Compare(behavior.Binding, behavior.ComparisonCondition, behavior.Value))
+            if (ComparisonConditionTypeHelper.Compare(Binding, ComparisonCondition, Value))
             {
-                Interaction.ExecuteActions(behavior.AssociatedObject, behavior.Actions, args);
+                Interaction.ExecuteActions(AssociatedObject, Actions, parameter);
             }
         }
     }

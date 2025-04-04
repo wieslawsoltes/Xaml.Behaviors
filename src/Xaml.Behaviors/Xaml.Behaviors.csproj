@@ -2,9 +2,12 @@
 
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0;net6.0;net8.0</TargetFrameworks>
-    <IncludeBuildOutput>False</IncludeBuildOutput>
+    <OutputType>Library</OutputType>
+    <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
     <Nullable>enable</Nullable>
     <NoWarn>$(NoWarn);NU5128</NoWarn>
+    <EnableDefaultCompileItems>False</EnableDefaultCompileItems>
+    <EnableDefaultItems>False</EnableDefaultItems>
   </PropertyGroup>
 
   <PropertyGroup>
@@ -15,15 +18,32 @@
 
   <ItemGroup>
     <PackageReference Include="Avalonia" />
+    <PackageReference Include="System.Reactive" />
   </ItemGroup>
 
   <Import Project="..\..\build\SignAssembly.props" />
   <Import Project="..\..\build\SourceLink.props" />
   <Import Project="..\..\build\TrimmingEnable.targets" />
 
+  <PropertyGroup>
+    <InteractivitySourcesBasePath>..\Avalonia.Xaml.Interactivity</InteractivitySourcesBasePath>
+    <InteractionsSourcesBasePath>..\Avalonia.Xaml.Interactions</InteractionsSourcesBasePath>
+    <InteractionsCustomSourcesBasePath>..\Avalonia.Xaml.Interactions.Custom</InteractionsCustomSourcesBasePath>
+    <InteractionsDragAndDropSourcesBasePath>..\Avalonia.Xaml.Interactions.DragAndDrop</InteractionsDragAndDropSourcesBasePath>
+    <InteractionsDraggableSourcesBasePath>..\Avalonia.Xaml.Interactions.Draggable</InteractionsDraggableSourcesBasePath>
+    <InteractionsEventsSourcesBasePath>..\Avalonia.Xaml.Interactions.Events</InteractionsEventsSourcesBasePath>
+    <InteractionsResponsiveSourcesBasePath>..\Avalonia.Xaml.Interactions.Responsive</InteractionsResponsiveSourcesBasePath>
+  </PropertyGroup>
+
   <ItemGroup>
-    <ProjectReference Include="..\Xaml.Interactivity\Xaml.Interactivity.csproj" />
-    <ProjectReference Include="..\Xaml.Interactions\Xaml.Interactions.csproj" />
+    <Compile Include="**\*.cs" Exclude="bin\**;obj\**" />
+    <Compile Include="$(InteractivitySourcesBasePath)\**\*.cs" LinkBase="Interactivity" Exclude="$(InteractivitySourcesBasePath)\Properties\**;$(InteractivitySourcesBasePath)\obj\**;$(InteractivitySourcesBasePath)\bin\**" />
+    <Compile Include="$(InteractionsSourcesBasePath)\**\*.cs" LinkBase="Interactions" Exclude="$(InteractionsSourcesBasePath)\Properties\**;$(InteractionsSourcesBasePath)\obj\**;$(InteractionsSourcesBasePath)\bin\**" />
+    <Compile Include="$(InteractionsCustomSourcesBasePath)\**\*.cs" LinkBase="Interactions" Exclude="$(InteractionsCustomSourcesBasePath)\Properties\**;$(InteractionsCustomSourcesBasePath)\obj\**;$(InteractionsCustomSourcesBasePath)\bin\**" />
+    <Compile Include="$(InteractionsDragAndDropSourcesBasePath)\**\*.cs" LinkBase="Interactions\DragAndDrop" Exclude="$(InteractionsDragAndDropSourcesBasePath)\Properties\**;$(InteractionsDragAndDropSourcesBasePath)\obj\**;$(InteractionsDragAndDropSourcesBasePath)\bin\**" />
+    <Compile Include="$(InteractionsDraggableSourcesBasePath)\**\*.cs" LinkBase="Interactions\Draggable" Exclude="$(InteractionsDraggableSourcesBasePath)\Properties\**;$(InteractionsDraggableSourcesBasePath)\obj\**;$(InteractionsDraggableSourcesBasePath)\bin\**" />
+    <Compile Include="$(InteractionsEventsSourcesBasePath)\**\*.cs" LinkBase="Interactions\Events" Exclude="$(InteractionsEventsSourcesBasePath)\Properties\**;$(InteractionsEventsSourcesBasePath)\obj\**;$(InteractionsEventsSourcesBasePath)\bin\**" />
+    <Compile Include="$(InteractionsResponsiveSourcesBasePath)\**\*.cs" LinkBase="Interactions\Responsive" Exclude="$(InteractionsResponsiveSourcesBasePath)\Properties\**;$(InteractionsResponsiveSourcesBasePath)\obj\**;$(InteractionsResponsiveSourcesBasePath)\bin\**" />
   </ItemGroup>
 
 </Project>
