@@ -32,5 +32,6 @@ public abstract class AttachedToVisualTreeBehavior<T> : DisposingBehavior<T> whe
     private void OnDelayedDispose()
     {
         _disposable?.Dispose();
+        _disposable = null;
     }
 }
