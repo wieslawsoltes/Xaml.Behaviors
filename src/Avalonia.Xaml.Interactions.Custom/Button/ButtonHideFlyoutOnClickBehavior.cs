@@ -1,4 +1,3 @@
-using System;
 using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
 using Avalonia.Interactivity;
@@ -37,7 +36,7 @@ public class ButtonHideFlyoutOnClickBehavior : AttachedToVisualTreeBehavior<Butt
             button.Click -= AssociatedObjectOnClick;
         });
 
-        void AssociatedObjectOnClick(object sender, RoutedEventArgs e)
+        void AssociatedObjectOnClick(object? sender, RoutedEventArgs e)
         {
             // Execute Command if any before closing. Otherwise, it won't execute because Close will destroy the associated object before Click can execute it.
             if (button.Command != null && button.IsEnabled)
