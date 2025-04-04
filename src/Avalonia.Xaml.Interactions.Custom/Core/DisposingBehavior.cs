@@ -32,5 +32,6 @@ public abstract class DisposingBehavior<T> : StyledElementBehavior<T> where T : 
         base.OnDetaching();
 
         _disposable?.Dispose();
+        _disposable = null;
     }
 }
