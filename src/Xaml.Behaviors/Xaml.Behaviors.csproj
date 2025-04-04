@@ -18,7 +18,6 @@
 
   <ItemGroup>
     <PackageReference Include="Avalonia" />
-    <PackageReference Include="System.Reactive" />
   </ItemGroup>
 
   <Import Project="..\..\build\SignAssembly.props" />
