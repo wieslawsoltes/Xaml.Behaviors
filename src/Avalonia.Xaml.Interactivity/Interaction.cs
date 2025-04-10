@@ -474,7 +474,7 @@ public class Interaction
 
     // TopLevel Opened
 
-    private static void TopLevel_Opened_FromGetter(object sender, EventArgs e)
+    private static void TopLevel_Opened_FromGetter(object? sender, EventArgs e)
     {
         if (sender is not AvaloniaObject d)
         {
@@ -486,7 +486,7 @@ public class Interaction
         GetBehaviors(d).AttachedToLogicalTree();
     }
 
-    private static void TopLevel_Opened_FromChangedEvent(object sender, EventArgs e)
+    private static void TopLevel_Opened_FromChangedEvent(object? sender, EventArgs e)
     {
         if (sender is not AvaloniaObject d)
         {
