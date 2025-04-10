@@ -27,5 +27,18 @@ public class DragNodeViewModel : ViewModelBase
         set => this.RaiseAndSetIfChanged(ref _nodes, value);
     }
 
+    public bool IsDescendantOf(DragNodeViewModel possibleAncestor)
+    {
+        var current = Parent;
+        while (current is not null)
+        {
+            if (current == possibleAncestor)
+                return true;
+            else
+                current = current.Parent;
+        }
+        return false;
+    }
+
     public override string? ToString() => _title;
 }
