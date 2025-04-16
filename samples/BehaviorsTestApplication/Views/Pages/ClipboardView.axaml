@@ -9,6 +9,9 @@
   <Design.DataContext>
     <vm:MainWindowViewModel />
   </Design.DataContext>
+  
+  <!-- TODO: Add menu behaviors for Clipboard actions -->
+  
   <Grid RowDefinitions="Auto" ColumnDefinitions="30*,5,30*,5,30*">
     <Button x:Name="ClearClipboardButton" Content="Clear Clipboard" Grid.Row="0" Grid.Column="0" Margin="5,5,0,5">
       <Interaction.Behaviors>
