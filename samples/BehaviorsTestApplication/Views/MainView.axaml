@@ -13,6 +13,9 @@
     </Style>
   </UserControl.Styles>
   <TabControl Classes="sidebar">
+    <TabItem Header="IfElseBehavior">
+      <pages:IfElseBehaviorView />
+    </TabItem>
     <TabItem Header="CallMethodAction">
       <pages:CallMethodActionView />
     </TabItem>
