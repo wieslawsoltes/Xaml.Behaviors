@@ -127,9 +127,9 @@ public class IfElseBehavior : StyledElementTrigger
             // if it is "if-else" action, then we try to compute them
             if (action is IfElseActionBase ifElseAction)
             {
-                switch (ifElseAction.ConditionType)
+                switch (ifElseAction)
                 {
-                    case ConditionType.If:
+                    case IfAction:
                     {
                         // "if" is always executed
                         bool canExecute = ifElseAction.CanExecute();
@@ -140,7 +140,7 @@ public class IfElseBehavior : StyledElementTrigger
                         break;
                     }
 
-                    case ConditionType.ElseIf:
+                    case ElseAction:
                     {
                         // "else if" executed if the previous action failed
                         if (currentState)
@@ -154,7 +154,7 @@ public class IfElseBehavior : StyledElementTrigger
                         break;
                     }
 
-                    case ConditionType.Else:
+                    case ElseIfAction:
                     {
                         // "else" executed if the previous action failed
                         if (currentState)
@@ -168,7 +168,7 @@ public class IfElseBehavior : StyledElementTrigger
                     }
 
                     default:
-                        throw new ArgumentOutOfRangeException(nameof(ifElseAction.ConditionType));
+                        throw new ArgumentOutOfRangeException(nameof(ifElseAction));
                 }
             }
             else // if it is a usual action, then we perform it anyway

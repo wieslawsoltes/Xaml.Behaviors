@@ -85,8 +85,6 @@ public abstract class IfElseActionBase : StyledElementAction
         Actions.CollectionChanged += Actions_CollectionChanged;
     }
 
-    public ConditionType ConditionType { get; protected set; }
-
     private static void OnBindingChanged(AvaloniaPropertyChangedEventArgs args)
     {
         if (args.Sender is not IfElseActionBase ifElseAction)
