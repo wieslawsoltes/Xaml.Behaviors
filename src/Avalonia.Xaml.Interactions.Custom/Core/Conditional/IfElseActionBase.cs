@@ -77,7 +77,7 @@ public abstract class IfElseActionBase : StyledElementAction
 
     static IfElseActionBase()
     {
-        BindingProperty.Changed.Subscribe(new AnonymousObserver<AvaloniaPropertyChangedEventArgs<object>>(OnBindingChanged));
+        BindingProperty.Changed.Subscribe(new AnonymousObserver<AvaloniaPropertyChangedEventArgs<object?>>(OnBindingChanged));
     }
 
     public IfElseActionBase()
