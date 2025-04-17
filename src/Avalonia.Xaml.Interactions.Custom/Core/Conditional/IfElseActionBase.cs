@@ -71,6 +71,7 @@ public abstract class IfElseActionBase : StyledElementAction
     public ActionCollection Actions => _actions ??= new ActionCollection();
 
     internal IfElseBehavior? ParentBehavior { get; set; }
+
     internal IfElseActionBase? ParentAction { get; set; }
 
     internal event EventHandler? BindingChanged;
