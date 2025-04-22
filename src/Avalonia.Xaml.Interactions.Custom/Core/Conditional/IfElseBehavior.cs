@@ -8,14 +8,12 @@ using Avalonia.Xaml.Interactivity;
 
 namespace Avalonia.Xaml.Interactions.Custom;
 
+/// <summary>
+/// 
+/// </summary>
 [RequiresUnreferencedCode("This functionality is not compatible with trimming.")]
 public class IfElseBehavior : StyledElementTrigger
 {
-    static IfElseBehavior()
-    {
-        BindingProperty.Changed.Subscribe(new AnonymousObserver<AvaloniaPropertyChangedEventArgs<object>>(OnValueChanged));
-    }
-
     /// <summary>
     /// Identifies the <seealso cref="Binding"/> avalonia property.
     /// </summary>
@@ -23,7 +21,7 @@ public class IfElseBehavior : StyledElementTrigger
         AvaloniaProperty.Register<IfElseBehavior, object?>(nameof(Binding));
 
     /// <summary>
-    /// Gets or sets the bound object that the <see cref="IfElseBehavior"/> will listen to. This is a avalonia property.
+    /// Gets or sets the bound object that the <see cref="IfElseBehavior"/> will listen to. This is an avalonia property.
     /// </summary>
     public object? Binding
     {
@@ -31,6 +29,14 @@ public class IfElseBehavior : StyledElementTrigger
         set => SetValue(BindingProperty, value);
     }
 
+    static IfElseBehavior()
+    {
+        BindingProperty.Changed.Subscribe(new AnonymousObserver<AvaloniaPropertyChangedEventArgs<object?>>(OnValueChanged));
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
     public IfElseBehavior()
     {
         Actions.CollectionChanged += Actions_CollectionChanged;
@@ -46,6 +52,7 @@ public class IfElseBehavior : StyledElementTrigger
                 item.BindingChanged += Item_BindingChanged;
             }
         }
+
         if (e.OldItems is not null)
         {
             foreach (var item in e.OldItems.OfType<IfElseActionBase>())
@@ -59,11 +66,16 @@ public class IfElseBehavior : StyledElementTrigger
     private static void OnValueChanged(AvaloniaPropertyChangedEventArgs args)
     {
         if (args.Sender is not IfElseBehavior behavior || behavior.AssociatedObject is null)
+        {
             return;
+        }
 
         behavior.RaiseValueChanged(args);
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
     protected override void OnAttached()
     {
         base.OnAttached();
@@ -76,7 +88,9 @@ public class IfElseBehavior : StyledElementTrigger
                 styled.Initialized += Styled_Initialized;
         }
     }
-
+    /// <summary>
+    /// 
+    /// </summary>
     protected override void OnDetaching()
     {
         base.OnDetaching();
@@ -85,23 +99,27 @@ public class IfElseBehavior : StyledElementTrigger
             styled.Initialized -= Styled_Initialized;
     }
 
-    private void Styled_Initialized(object? sender, System.EventArgs e)
+    private void Styled_Initialized(object? sender, EventArgs e)
     {
         Init();
     }
 
-    private void Init() => RaiseValueChanged();
-
-    private void Item_BindingChanged(object? sender, System.EventArgs e)
+    private void Init()
     {
         RaiseValueChanged();
     }
 
-    [RequiresUnreferencedCode("This functionality is not compatible with trimming.")]
-    protected void RaiseValueChanged() => RaiseValueChanged(null);
+    private void Item_BindingChanged(object? sender, EventArgs e)
+    {
+        RaiseValueChanged();
+    }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="args"></param>
     [RequiresUnreferencedCode("This functionality is not compatible with trimming.")]
-    protected void RaiseValueChanged(AvaloniaPropertyChangedEventArgs? args)
+    private void RaiseValueChanged(AvaloniaPropertyChangedEventArgs? args = null)
     {
         ExecuteIfElseActions(Actions, AssociatedObject, args);
     }
@@ -111,30 +129,38 @@ public class IfElseBehavior : StyledElementTrigger
     {
         List<object> results = new();
 
-        object? ExecuteAction(IAction action, object? sender, object? parameter)
+        void ExecuteAction(IAction action, object? s, object? parameter)
         {
-            var result = action.Execute(sender, parameter);
+            var result = action.Execute(s, parameter);
             if (result is not null)
             {
                 results.Add(result);
             }
-            return result;
         }
 
-        bool currentState = false;
+        var currentState = false;
+
         foreach (var action in collection.OfType<IAction>())
         {
             // if it is "if-else" action, then we try to compute them
-            if (action is IfElseActionBase ifElseAction)
+            if (action is not IfElseActionBase ifElseAction)
+            {
+                // if it is a usual action, then we perform it anyway
+                ExecuteAction(action, sender, args);
+                currentState = false;
+            }
+            else
             {
                 switch (ifElseAction)
                 {
                     case IfAction:
                     {
                         // "if" is always executed
-                        bool canExecute = ifElseAction.CanExecute();
+                        var canExecute = ifElseAction.CanExecute();
                         if (canExecute)
+                        {
                             ExecuteAction(action, sender, args);
+                        }
 
                         currentState = canExecute;
                         break;
@@ -142,13 +168,17 @@ public class IfElseBehavior : StyledElementTrigger
 
                     case ElseAction:
                     {
-                        // "else if" executed if the previous action failed
+                        // "else if" is executed if the previous action failed
                         if (currentState)
+                        {
                             break;
+                        }
 
-                        bool canExecute = ifElseAction.CanExecute();
+                        var canExecute = ifElseAction.CanExecute();
                         if (canExecute)
+                        {
                             ExecuteAction(action, sender, args);
+                        }
 
                         currentState = canExecute;
                         break;
@@ -158,7 +188,9 @@ public class IfElseBehavior : StyledElementTrigger
                     {
                         // "else" executed if the previous action failed
                         if (currentState)
+                        {
                             break;
+                        }
 
                         // at the same time, the conditions are not checked in "else"
                         ExecuteAction(action, sender, args);
@@ -171,14 +203,8 @@ public class IfElseBehavior : StyledElementTrigger
                         throw new ArgumentOutOfRangeException(nameof(ifElseAction));
                 }
             }
-            else // if it is a usual action, then we perform it anyway
-            {
-                ExecuteAction(action, sender, args);
-                currentState = false;
-            }
         }
 
         return results;
     }
 }
-

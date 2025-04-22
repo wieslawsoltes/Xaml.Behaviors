@@ -1,6 +1,5 @@
 using System;
 using System.Diagnostics.CodeAnalysis;
-using System.Globalization;
 using System.Linq;
 using Avalonia.Metadata;
 using Avalonia.Reactive;
@@ -8,6 +7,9 @@ using Avalonia.Xaml.Interactivity;
 
 namespace Avalonia.Xaml.Interactions.Custom;
 
+/// <summary>
+/// 
+/// </summary>
 [RequiresUnreferencedCode("This functionality is not compatible with trimming.")]
 public abstract class IfElseActionBase : StyledElementAction
 {
@@ -21,7 +23,7 @@ public abstract class IfElseActionBase : StyledElementAction
     /// Identifies the <seealso cref="ComparisonCondition"/> avalonia property.
     /// </summary>
     public static readonly StyledProperty<ComparisonConditionType> ComparisonConditionProperty =
-        AvaloniaProperty.Register<IfElseActionBase, ComparisonConditionType>(nameof(ComparisonCondition), ComparisonConditionType.Equal);
+        AvaloniaProperty.Register<IfElseActionBase, ComparisonConditionType>(nameof(ComparisonCondition));
 
     /// <summary>
     /// Identifies the <seealso cref="Value"/> avalonia property.
@@ -36,7 +38,7 @@ public abstract class IfElseActionBase : StyledElementAction
         AvaloniaProperty.RegisterDirect<IfElseActionBase, ActionCollection>(nameof(Actions), t => t.Actions);
 
     /// <summary>
-    /// Gets or sets the bound object that the <see cref="IfElseActionBase"/> will listen to. This is a avalonia property.
+    /// Gets or sets the bound object that the <see cref="IfElseActionBase"/> will listen to. This is an avalonia property.
     /// </summary>
     public object? Binding
     {
@@ -45,7 +47,7 @@ public abstract class IfElseActionBase : StyledElementAction
     }
 
     /// <summary>
-    /// Gets or sets the type of comparison to be performed between <see cref="IfElseActionBase.Binding"/> and <see cref="IfElseActionBase.Value"/>. This is a avalonia property.
+    /// Gets or sets the type of comparison to be performed between <see cref="IfElseActionBase.Binding"/> and <see cref="IfElseActionBase.Value"/>. This is an avalonia property.
     /// </summary>
     public ComparisonConditionType ComparisonCondition
     {
@@ -54,7 +56,7 @@ public abstract class IfElseActionBase : StyledElementAction
     }
 
     /// <summary>
-    /// Gets or sets the value to be compared with the value of <see cref="IfElseActionBase.Binding"/>. This is a avalonia property.
+    /// Gets or sets the value to be compared with the value of <see cref="IfElseActionBase.Binding"/>. This is an avalonia property.
     /// </summary>
     public object? Value
     {
@@ -65,14 +67,14 @@ public abstract class IfElseActionBase : StyledElementAction
     private ActionCollection? _actions;
 
     /// <summary>
-    /// Gets the collection of actions associated with the behavior. This is a avalonia property.
+    /// Gets the collection of actions associated with the behavior. This is an avalonia property.
     /// </summary>
     [Content]
     public ActionCollection Actions => _actions ??= new ActionCollection();
 
     internal IfElseBehavior? ParentBehavior { get; set; }
 
-    internal IfElseActionBase? ParentAction { get; set; }
+    private IfElseActionBase? ParentAction { get; set; }
 
     internal event EventHandler? BindingChanged;
 
@@ -81,7 +83,10 @@ public abstract class IfElseActionBase : StyledElementAction
         BindingProperty.Changed.Subscribe(new AnonymousObserver<AvaloniaPropertyChangedEventArgs<object?>>(OnBindingChanged));
     }
 
-    public IfElseActionBase()
+    /// <summary>
+    /// Initializes a new instance of the <see cref="IfElseActionBase"/> class.
+    /// </summary>
+    protected IfElseActionBase()
     {
         Actions.CollectionChanged += Actions_CollectionChanged;
     }
@@ -89,7 +94,9 @@ public abstract class IfElseActionBase : StyledElementAction
     private static void OnBindingChanged(AvaloniaPropertyChangedEventArgs args)
     {
         if (args.Sender is not IfElseActionBase ifElseAction)
+        {
             return;
+        }
 
         ifElseAction.RaiseBindingChanged(args);
     }
@@ -98,7 +105,9 @@ public abstract class IfElseActionBase : StyledElementAction
     {
         BindingChanged?.Invoke(this, args);
         if (ParentBehavior is null)
+        {
             ParentAction?.RaiseBindingChanged(args);
+        }
     }
 
     private void Actions_CollectionChanged(object? sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
@@ -106,25 +115,46 @@ public abstract class IfElseActionBase : StyledElementAction
         if (e.NewItems is not null)
         {
             foreach (var item in e.NewItems.OfType<IfElseActionBase>())
+            {
                 item.ParentAction = this;
+            }
         }
+
         if (e.OldItems is not null)
         {
             foreach (var item in e.OldItems.OfType<IfElseActionBase>())
+            {
                 item.ParentAction = null;
+            }
         }
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <returns></returns>
     [RequiresUnreferencedCode("This functionality is not compatible with trimming.")]
-    public bool CanExecute() => Compare(Binding ?? GetParentBinding());
-   
+    public bool CanExecute()
+    {
+        return Compare(Binding ?? GetParentBinding());
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="binding"></param>
+    /// <returns></returns>
     [RequiresUnreferencedCode("This functionality is not compatible with trimming.")]
-    protected virtual bool Compare(object? binding)
+    private bool Compare(object? binding)
     {
         return ComparisonConditionTypeHelper.Compare(binding, ComparisonCondition, Value);
     }
 
-    protected object? GetParentBinding()
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <returns></returns>
+    private object? GetParentBinding()
     {
         if (ParentAction is not null)
         {
@@ -134,7 +164,13 @@ public abstract class IfElseActionBase : StyledElementAction
         return ParentBehavior?.Binding;
     }
 
-    public override object? Execute(object? sender, object? parameter)
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="parameter"></param>
+    /// <returns></returns>
+    public override object Execute(object? sender, object? parameter)
     {
         return IfElseBehavior.ExecuteIfElseActions(Actions, sender, parameter);
     }
