@@ -72,7 +72,7 @@ public abstract class IfElseActionBase : StyledElementAction
     [Content]
     public ActionCollection Actions => _actions ??= new ActionCollection();
 
-    internal IfElseTrigger? ParentBehavior { get; set; }
+    internal IfElseTriggerBehavior? ParentBehavior { get; set; }
 
     private IfElseActionBase? ParentAction { get; set; }
 
@@ -208,6 +208,6 @@ public abstract class IfElseActionBase : StyledElementAction
     /// <returns></returns>
     public override object Execute(object? sender, object? parameter)
     {
-        return IfElseTrigger.ExecuteIfElseActions(Actions, sender, parameter);
+        return IfElseTriggerBehavior.ExecuteIfElseActions(Actions, sender, parameter);
     }
 }

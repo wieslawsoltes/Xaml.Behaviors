@@ -11,16 +11,16 @@ namespace Avalonia.Xaml.Interactions.Custom;
 /// 
 /// </summary>
 [RequiresUnreferencedCode("This functionality is not compatible with trimming.")]
-public class IfElseTrigger : StyledElementTrigger
+public class IfElseTriggerBehavior : StyledElementTrigger
 {
     /// <summary>
     /// Identifies the <seealso cref="Binding"/> avalonia property.
     /// </summary>
     public static readonly StyledProperty<object?> BindingProperty =
-        AvaloniaProperty.Register<IfElseTrigger, object?>(nameof(Binding));
+        AvaloniaProperty.Register<IfElseTriggerBehavior, object?>(nameof(Binding));
 
     /// <summary>
-    /// Gets or sets the bound object that the <see cref="IfElseTrigger"/> will listen to. This is an avalonia property.
+    /// Gets or sets the bound object that the <see cref="IfElseTriggerBehavior"/> will listen to. This is an avalonia property.
     /// </summary>
     public object? Binding
     {
@@ -28,7 +28,7 @@ public class IfElseTrigger : StyledElementTrigger
         set => SetValue(BindingProperty, value);
     }
 
-    static IfElseTrigger()
+    static IfElseTriggerBehavior()
     {
         BindingProperty.Changed.Subscribe(new AnonymousObserver<AvaloniaPropertyChangedEventArgs<object?>>(OnValueChanged));
     }
@@ -36,7 +36,7 @@ public class IfElseTrigger : StyledElementTrigger
     /// <summary>
     /// 
     /// </summary>
-    public IfElseTrigger()
+    public IfElseTriggerBehavior()
     {
         Actions.CollectionChanged += Actions_CollectionChanged;
     }
@@ -64,7 +64,7 @@ public class IfElseTrigger : StyledElementTrigger
 
     private static void OnValueChanged(AvaloniaPropertyChangedEventArgs args)
     {
-        if (args.Sender is not IfElseTrigger behavior || behavior.AssociatedObject is null)
+        if (args.Sender is not IfElseTriggerBehavior behavior || behavior.AssociatedObject is null)
         {
             return;
         }

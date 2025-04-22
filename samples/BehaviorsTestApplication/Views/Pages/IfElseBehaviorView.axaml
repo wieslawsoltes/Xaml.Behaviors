@@ -10,14 +10,14 @@
     <vm:MainWindowViewModel />
   </Design.DataContext>
   <Grid RowDefinitions="*,Auto">
-    <Rectangle Name="DataTriggerRectangle"
+    <Rectangle x:Name="DataTriggerRectangle"
                Grid.Row="0"
                Margin="5"
                Fill="{DynamicResource BlueBrush}"
                Stroke="{DynamicResource GrayBrush}"
                StrokeThickness="5">
       <Interaction.Behaviors>
-        <IfElseTrigger Binding="{Binding #Slider.Value}">
+        <IfElseTriggerBehavior Binding="{Binding #Slider.Value}">
 
           <IfAction ComparisonCondition="GreaterThan" Value="50">
             <ChangePropertyAction PropertyName="Fill" Value="{DynamicResource YellowBrush}"/>
@@ -49,7 +49,7 @@
             </ElseAction>
           </ElseAction>
  
-        </IfElseTrigger>
+        </IfElseTriggerBehavior>
       </Interaction.Behaviors>
     </Rectangle>
     <StackPanel Grid.Row="1"
@@ -61,13 +61,13 @@
                    VerticalAlignment="Center"
                    Foreground="{DynamicResource GrayBrush}"
                    Text="{Binding #Slider.Value}"/>
-        <Slider Name="Slider"
+        <Slider x:Name="Slider"
                 Width="400"
                 IsSnapToTickEnabled="True" TickFrequency="1"/>
 
       </StackPanel>
-      <CheckBox Name="OpacityCheckBox" Content="Opacity if &gt; 75"/>
-      <CheckBox Name="StrokeCheckBox" Content="Stroke if &lt; 25"/>
+      <CheckBox x:Name="OpacityCheckBox" Content="Opacity if &gt; 75"/>
+      <CheckBox x:Name="StrokeCheckBox" Content="Stroke if &lt; 25"/>
     </StackPanel>
   </Grid>
 </UserControl>
