@@ -2,7 +2,7 @@ using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using Avalonia.Metadata;
-using Avalonia.Reactive;
+using Avalonia.Threading;
 using Avalonia.Xaml.Interactivity;
 
 namespace Avalonia.Xaml.Interactions.Custom;
@@ -72,16 +72,11 @@ public abstract class IfElseActionBase : StyledElementAction
     [Content]
     public ActionCollection Actions => _actions ??= new ActionCollection();
 
-    internal IfElseBehavior? ParentBehavior { get; set; }
+    internal IfElseTrigger? ParentBehavior { get; set; }
 
     private IfElseActionBase? ParentAction { get; set; }
 
     internal event EventHandler? BindingChanged;
-
-    static IfElseActionBase()
-    {
-        BindingProperty.Changed.Subscribe(new AnonymousObserver<AvaloniaPropertyChangedEventArgs<object?>>(OnBindingChanged));
-    }
 
     /// <summary>
     /// Initializes a new instance of the <see cref="IfElseActionBase"/> class.
@@ -91,14 +86,64 @@ public abstract class IfElseActionBase : StyledElementAction
         Actions.CollectionChanged += Actions_CollectionChanged;
     }
 
-    private static void OnBindingChanged(AvaloniaPropertyChangedEventArgs args)
+    internal override void AttachActionToLogicalTree(StyledElement parent)
+    {
+        base.AttachActionToLogicalTree(parent);
+
+        foreach (var action in Actions)
+        {
+            if (action is StyledElementAction styledElementAction)
+            {
+                styledElementAction.AttachActionToLogicalTree(this);
+            }
+        }
+    }
+
+    internal override void DetachActionFromLogicalTree(StyledElement parent)
+    {
+        base.DetachActionFromLogicalTree(parent);
+
+        foreach (var action in Actions)
+        {
+            if (action is StyledElementAction styledElementAction)
+            {
+                styledElementAction.DetachActionFromLogicalTree(this);
+            }
+        }
+    }
+
+    /// <inheritdoc />
+    protected override void OnPropertyChanged(AvaloniaPropertyChangedEventArgs change)
+    {
+        base.OnPropertyChanged(change);
+                
+        if (change.Property == BindingProperty)
+        {
+            OnValueChanged(change);
+        }
+
+        if (change.Property == ComparisonConditionProperty)
+        {
+            OnValueChanged(change);
+        }
+
+        if (change.Property == ValueProperty)
+        {
+            OnValueChanged(change);
+        }
+    }
+
+    private static void OnValueChanged(AvaloniaPropertyChangedEventArgs args)
     {
         if (args.Sender is not IfElseActionBase ifElseAction)
         {
             return;
         }
 
-        ifElseAction.RaiseBindingChanged(args);
+        Dispatcher.UIThread.Post(() =>
+        {
+            ifElseAction.RaiseBindingChanged(args);
+        });
     }
 
     private void RaiseBindingChanged(AvaloniaPropertyChangedEventArgs args)
@@ -136,17 +181,7 @@ public abstract class IfElseActionBase : StyledElementAction
     [RequiresUnreferencedCode("This functionality is not compatible with trimming.")]
     public bool CanExecute()
     {
-        return Compare(Binding ?? GetParentBinding());
-    }
-
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="binding"></param>
-    /// <returns></returns>
-    [RequiresUnreferencedCode("This functionality is not compatible with trimming.")]
-    private bool Compare(object? binding)
-    {
+        var binding = Binding ?? GetParentBinding();
         return ComparisonConditionTypeHelper.Compare(binding, ComparisonCondition, Value);
     }
 
@@ -156,12 +191,13 @@ public abstract class IfElseActionBase : StyledElementAction
     /// <returns></returns>
     private object? GetParentBinding()
     {
-        if (ParentAction is not null)
+        if (ParentAction is null)
         {
-            return ParentAction.Binding ?? ParentAction.GetParentBinding();
+            return ParentBehavior?.Binding;
         }
 
-        return ParentBehavior?.Binding;
+        var binding = ParentAction.Binding ?? ParentAction.GetParentBinding();
+        return binding;
     }
 
     /// <summary>
@@ -172,6 +208,6 @@ public abstract class IfElseActionBase : StyledElementAction
     /// <returns></returns>
     public override object Execute(object? sender, object? parameter)
     {
-        return IfElseBehavior.ExecuteIfElseActions(Actions, sender, parameter);
+        return IfElseTrigger.ExecuteIfElseActions(Actions, sender, parameter);
     }
 }

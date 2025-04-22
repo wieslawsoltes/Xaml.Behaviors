@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
@@ -12,16 +11,16 @@ namespace Avalonia.Xaml.Interactions.Custom;
 /// 
 /// </summary>
 [RequiresUnreferencedCode("This functionality is not compatible with trimming.")]
-public class IfElseBehavior : StyledElementTrigger
+public class IfElseTrigger : StyledElementTrigger
 {
     /// <summary>
     /// Identifies the <seealso cref="Binding"/> avalonia property.
     /// </summary>
     public static readonly StyledProperty<object?> BindingProperty =
-        AvaloniaProperty.Register<IfElseBehavior, object?>(nameof(Binding));
+        AvaloniaProperty.Register<IfElseTrigger, object?>(nameof(Binding));
 
     /// <summary>
-    /// Gets or sets the bound object that the <see cref="IfElseBehavior"/> will listen to. This is an avalonia property.
+    /// Gets or sets the bound object that the <see cref="IfElseTrigger"/> will listen to. This is an avalonia property.
     /// </summary>
     public object? Binding
     {
@@ -29,7 +28,7 @@ public class IfElseBehavior : StyledElementTrigger
         set => SetValue(BindingProperty, value);
     }
 
-    static IfElseBehavior()
+    static IfElseTrigger()
     {
         BindingProperty.Changed.Subscribe(new AnonymousObserver<AvaloniaPropertyChangedEventArgs<object?>>(OnValueChanged));
     }
@@ -37,7 +36,7 @@ public class IfElseBehavior : StyledElementTrigger
     /// <summary>
     /// 
     /// </summary>
-    public IfElseBehavior()
+    public IfElseTrigger()
     {
         Actions.CollectionChanged += Actions_CollectionChanged;
     }
@@ -46,26 +45,26 @@ public class IfElseBehavior : StyledElementTrigger
     {
         if (e.NewItems is not null)
         {
-            foreach (var item in e.NewItems.OfType<IfElseActionBase>())
+            foreach (var action in e.NewItems.OfType<IfElseActionBase>())
             {
-                item.ParentBehavior = this;
-                item.BindingChanged += Item_BindingChanged;
+                action.ParentBehavior = this;
+                action.BindingChanged += Action_BindingChanged;
             }
         }
 
         if (e.OldItems is not null)
         {
-            foreach (var item in e.OldItems.OfType<IfElseActionBase>())
+            foreach (var action in e.OldItems.OfType<IfElseActionBase>())
             {
-                item.BindingChanged -= Item_BindingChanged;
-                item.ParentBehavior = null;
+                action.BindingChanged -= Action_BindingChanged;
+                action.ParentBehavior = null;
             }
         }
     }
 
     private static void OnValueChanged(AvaloniaPropertyChangedEventArgs args)
     {
-        if (args.Sender is not IfElseBehavior behavior || behavior.AssociatedObject is null)
+        if (args.Sender is not IfElseTrigger behavior || behavior.AssociatedObject is null)
         {
             return;
         }
@@ -80,12 +79,16 @@ public class IfElseBehavior : StyledElementTrigger
     {
         base.OnAttached();
 
-        if (AssociatedObject is StyledElement styled)
+        if (AssociatedObject is StyledElement styledElement)
         {
-            if (styled.IsInitialized)
-                Init();
+            if (styledElement.IsInitialized)
+            {
+                RaiseValueChanged();
+            }
             else
-                styled.Initialized += Styled_Initialized;
+            {
+                styledElement.Initialized += AssociatedObject_Initialized;
+            }
         }
     }
     /// <summary>
@@ -95,21 +98,18 @@ public class IfElseBehavior : StyledElementTrigger
     {
         base.OnDetaching();
 
-        if (AssociatedObject is StyledElement styled)
-            styled.Initialized -= Styled_Initialized;
+        if (AssociatedObject is StyledElement styledElement)
+        {
+            styledElement.Initialized -= AssociatedObject_Initialized;
+        }
     }
 
-    private void Styled_Initialized(object? sender, EventArgs e)
-    {
-        Init();
-    }
-
-    private void Init()
+    private void AssociatedObject_Initialized(object? sender, EventArgs e)
     {
         RaiseValueChanged();
     }
 
-    private void Item_BindingChanged(object? sender, EventArgs e)
+    private void Action_BindingChanged(object? sender, EventArgs e)
     {
         RaiseValueChanged();
     }
@@ -125,22 +125,13 @@ public class IfElseBehavior : StyledElementTrigger
     }
 
     [RequiresUnreferencedCode("This functionality is not compatible with trimming.")]
-    internal static IEnumerable<object> ExecuteIfElseActions(IEnumerable collection, object? sender, object? args = null)
+    internal static IEnumerable<object> ExecuteIfElseActions(ActionCollection actions, object? sender, object? args = null)
     {
         List<object> results = new();
 
-        void ExecuteAction(IAction action, object? s, object? parameter)
-        {
-            var result = action.Execute(s, parameter);
-            if (result is not null)
-            {
-                results.Add(result);
-            }
-        }
-
         var currentState = false;
 
-        foreach (var action in collection.OfType<IAction>())
+        foreach (var action in actions.OfType<IAction>())
         {
             // if it is "if-else" action, then we try to compute them
             if (action is not IfElseActionBase ifElseAction)
@@ -206,5 +197,14 @@ public class IfElseBehavior : StyledElementTrigger
         }
 
         return results;
+
+        void ExecuteAction(IAction action, object? s, object? parameter)
+        {
+            var result = action.Execute(s, parameter);
+            if (result is not null)
+            {
+                results.Add(result);
+            }
+        }
     }
 }
