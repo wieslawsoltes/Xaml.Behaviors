@@ -1,4 +1,5 @@
 using Avalonia.Controls;
+using Avalonia.Threading;
 
 namespace Avalonia.Xaml.Interactivity;
 
@@ -52,11 +53,14 @@ public abstract class StyledElementAction : StyledElement, IAction
 
     internal void DetachActionFromLogicalTree(StyledElement parent)
     {
-        ((ISetLogicalParent)this).SetParent(null);
-
-        if (parent is { TemplatedParent: not null })
+        Dispatcher.UIThread.Post(() =>
         {
-            TemplatedParentHelper.SetTemplatedParent(this, null);
-        }
+            ((ISetLogicalParent)this).SetParent(null);
+
+            if (parent is { TemplatedParent: not null })
+            {
+                TemplatedParentHelper.SetTemplatedParent(this, null);
+            }
+        });
     }
 }

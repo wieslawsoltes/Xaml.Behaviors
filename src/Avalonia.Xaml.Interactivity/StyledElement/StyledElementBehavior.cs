@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.Globalization;
 using Avalonia.Controls;
 using Avalonia.Reactive;
+using Avalonia.Threading;
 
 namespace Avalonia.Xaml.Interactivity;
 
@@ -285,12 +286,15 @@ public abstract class StyledElementBehavior : StyledElement, IBehavior, IBehavio
 
     internal virtual void DetachBehaviorFromLogicalTree()
     {
-        ((ISetLogicalParent)this).SetParent(null);
-
-        if (AssociatedObject is StyledElement { TemplatedParent: not null } or TopLevel)
+        Dispatcher.UIThread.Post(() =>
         {
-            TemplatedParentHelper.SetTemplatedParent(this, null);
-        }
+            ((ISetLogicalParent)this).SetParent(null);
+
+            if (AssociatedObject is StyledElement { TemplatedParent: not null } or TopLevel)
+            {
+                TemplatedParentHelper.SetTemplatedParent(this, null);
+            }
+        });
     }
 
     private IDisposable? SynchronizeDataContext(AvaloniaObject associatedObject)
