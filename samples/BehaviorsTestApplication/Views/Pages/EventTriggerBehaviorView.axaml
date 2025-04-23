@@ -4,12 +4,13 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="using:BehaviorsTestApplication.ViewModels"
+             xmlns:views="clr-namespace:BehaviorsTestApplication.Views"
              x:DataType="vm:MainWindowViewModel"
              mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="450">
   <Design.DataContext>
     <vm:MainWindowViewModel />
   </Design.DataContext>
-  <Grid RowDefinitions="Auto,Auto">
+  <Grid RowDefinitions="Auto,Auto,*">
     <TextBox Name="TextBox" Text="Hello" Grid.Row="0" Margin="5" />
     <Button Name="ChangeProperty" Content="Change Property" Grid.Row="1" Margin="5,0,5,5">
       <Interaction.Behaviors>
@@ -18,5 +19,10 @@
         </EventTriggerBehavior>
       </Interaction.Behaviors>
     </Button>
+    <ContentControl Name="ContentControl" 
+                    Margin="5"
+                    Grid.Row="2">
+      <views:SampleView />
+    </ContentControl>
   </Grid>
 </UserControl>
