@@ -11,11 +11,15 @@ internal static class ComparisonConditionTypeHelper
     {
         if (leftOperand is not null && rightOperand is not null)
         {
-            var value = rightOperand.ToString();
-            var destinationType = leftOperand.GetType();
-            if (value is not null)
+            var rightOperandString = rightOperand.ToString();
+            var leftOperandType = leftOperand.GetType();
+            if (rightOperandString is not null)
             {
-                rightOperand = TypeConverterHelper.Convert(value, destinationType);
+                var convertedRightOperand = TypeConverterHelper.Convert(rightOperandString, leftOperandType);
+                if (convertedRightOperand is not null)
+                {
+                    rightOperand = convertedRightOperand;
+                }
             }
         }
 
