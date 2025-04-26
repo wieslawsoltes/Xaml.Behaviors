@@ -22,15 +22,31 @@ internal static class TypeConverterHelper
     [UnconditionalSuppressMessage("Trimming", "IL2026", Justification = "DynamicallyAccessedMembers handles most of the problems.")]
     public static object? Convert(string value, [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.All)] Type destinationType)
     {
+    	TryConvert(value, destinationType, out var result);
+    	return result;
+    }
+
+    /// <summary>
+    /// Try to convert the string representation of a value to its object representation.
+    /// </summary>
+    /// <param name="value">The value to convert.</param>
+    /// <param name="destinationType">The destination type.</param>
+    /// <param name="result">When successful, the object representation of the string value; otherwise, <c>null</c></param>
+    /// <returns><c>true</c> if the value was sucessfully converted; otherwise, <c>false</c>.</returns>
+    /// <exception cref="ArgumentNullException">destinationType cannot be null.</exception>
+    [UnconditionalSuppressMessage("Trimming", "IL2026", Justification = "DynamicallyAccessedMembers handles most of the problems.")]
+    public static bool TryConvert(string value, [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.All)] Type destinationType, out object? result)
+    {
         if (destinationType is null)
         {
             throw new ArgumentNullException(nameof(destinationType));
         }
 
+        result = null;
         var destinationTypeFullName = destinationType.FullName;
         if (destinationTypeFullName is null)
         {
-            return null;
+            return false;
         }
 
         var scope = GetScope(destinationTypeFullName);
@@ -40,37 +56,46 @@ internal static class TypeConverterHelper
         {
             if (string.Equals(destinationTypeFullName, typeof(string).FullName, StringComparison.Ordinal))
             {
-                return value;
+                result = value;
+                return true;
             }
 
             if (string.Equals(destinationTypeFullName, typeof(bool).FullName, StringComparison.Ordinal))
             {
-                return bool.Parse(value);
+                result = bool.Parse(value);
+                return true;
             }
 
             if (string.Equals(destinationTypeFullName, typeof(int).FullName, StringComparison.Ordinal))
             {
-                return int.Parse(value, CultureInfo.InvariantCulture);
+                result = int.Parse(value, CultureInfo.InvariantCulture);
+                return true;
             }
 
             if (string.Equals(destinationTypeFullName, typeof(double).FullName, StringComparison.Ordinal))
             {
-                return double.Parse(value, CultureInfo.InvariantCulture);
+                result = double.Parse(value, CultureInfo.InvariantCulture);
+                return true;
             }
         }
 
         try
         {
             if (destinationType.BaseType == typeof(Enum))
-                return Enum.Parse(destinationType, value);
+            {
+                result = Enum.Parse(destinationType, value);
+                return true;
+            }
 
             if (destinationType.GetInterfaces().Any(t => t == typeof(IConvertible)))
             {
-                return (value as IConvertible).ToType(destinationType, CultureInfo.InvariantCulture);
+                result = (value as IConvertible).ToType(destinationType, CultureInfo.InvariantCulture);
+                return true;
             }
 
             var converter = TypeDescriptor.GetConverter(destinationType);
-            return converter.ConvertFromInvariantString(value);
+            result = converter.ConvertFromInvariantString(value);
+            return true;
         }
         catch (ArgumentException)
         {
@@ -80,8 +105,12 @@ internal static class TypeConverterHelper
         {
             // not able to convert to anything
         }
+        catch (NotSupportedException)
+        {
+            // not able to convert from string
+        }
 
-        return null;
+        return false;
     }
 
     private static string GetScope(string name)

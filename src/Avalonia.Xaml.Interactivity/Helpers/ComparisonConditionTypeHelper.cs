@@ -15,7 +15,8 @@ internal static class ComparisonConditionTypeHelper
             var destinationType = leftOperand.GetType();
             if (value is not null)
             {
-                rightOperand = TypeConverterHelper.Convert(value, destinationType);
+                if (TypeConverterHelper.TryConvert(value, destinationType, out var converted))
+                	rightOperand = converted;
             }
         }
 

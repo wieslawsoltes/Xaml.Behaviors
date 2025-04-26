@@ -230,8 +230,10 @@ public class ChangePropertyAction : Avalonia.Xaml.Interactivity.StyledElementAct
                 var valueAsString = Value.ToString();
                 if (valueAsString is not null)
                 {
-                    result = propertyTypeInfo.IsEnum ? Enum.Parse(propertyType, valueAsString, false) :
-                        Interactivity.TypeConverterHelper.Convert(valueAsString, propertyType);
+                    result = propertyTypeInfo.IsEnum
+                        ? Enum.Parse(propertyType, valueAsString, false)
+                        : Interactivity.TypeConverterHelper.TryConvert(valueAsString, propertyType, out var converted)
+                            ? converted : Value;
                 }
             }
 
@@ -283,8 +285,10 @@ public class ChangePropertyAction : Avalonia.Xaml.Interactivity.StyledElementAct
                 var valueAsString = Value.ToString();
                 if (valueAsString is not null)
                 {
-                    result = propertyTypeInfo.IsEnum ? Enum.Parse(propertyType, valueAsString, false) :
-                        Interactivity.TypeConverterHelper.Convert(valueAsString, propertyType);
+                    result = propertyTypeInfo.IsEnum
+                        ? Enum.Parse(propertyType, valueAsString, false)
+                        : Interactivity.TypeConverterHelper.TryConvert(valueAsString, propertyType, out var converted)
+                            ? converted : Value;
                 }
             }
 
