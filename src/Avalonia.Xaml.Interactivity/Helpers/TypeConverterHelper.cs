@@ -105,6 +105,10 @@ internal static class TypeConverterHelper
         {
             // not able to convert to anything
         }
+        catch (FormatException)
+        {
+            // not able to convert from string
+        }
         catch (NotSupportedException)
         {
             // not able to convert from string
