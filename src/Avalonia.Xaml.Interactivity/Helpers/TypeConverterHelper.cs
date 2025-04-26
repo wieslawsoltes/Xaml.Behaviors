@@ -80,6 +80,10 @@ internal static class TypeConverterHelper
         {
             // not able to convert to anything
         }
+        catch (NotSupportedException)
+        {
+            // not able to convert from string
+        }
 
         return null;
     }
