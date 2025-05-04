@@ -4,6 +4,12 @@ using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Linq;
 using System.Reflection;
+using Avalonia.Animation;
+using Avalonia.Animation.Easings;
+using Avalonia.Controls;
+using Avalonia.Input;
+using Avalonia.Media;
+using Avalonia.Media.Transformation;
 
 namespace Avalonia.Xaml.Interactivity;
 
@@ -86,7 +92,7 @@ internal static class TypeConverterHelper
             // not able to convert from string
             try
             {
-                var parseResult = InvokeParse(value, destinationType);
+                var parseResult = ParseHelper.InvokeParse(value, destinationType);
                 if (parseResult is not null)
                 {
                     return parseResult;
@@ -116,40 +122,4 @@ internal static class TypeConverterHelper
         return indexOfLastPeriod != name.Length - 1 ? name[..indexOfLastPeriod] : name;
 #endif
     }
-
-    private static object? InvokeParse(string s, Type targetType)
-    {
-        var parseMethod = GetParseMethod(targetType, out var hasFormat);
-        if (parseMethod == null)
-        {
-            throw new InvalidOperationException();
-        }
-
-        return parseMethod.Invoke(null, hasFormat ? [s, CultureInfo.InvariantCulture] : [s]);
-    }
-
-    private static MethodInfo? GetParseMethod(Type type, out bool hasFormat)
-    {
-        var parseMethod = type.GetMethod(
-            name: "Parse", 
-            bindingAttr: BindingFlags.Public | BindingFlags.Static, 
-            binder: null, 
-            types: [typeof(string), typeof(IFormatProvider)], 
-            modifiers: null);
-
-        if (parseMethod != null)
-        {
-            hasFormat = true;
-            return parseMethod;
-        }
-
-        hasFormat = false;
-        return type.GetMethod(
-            name: "Parse", 
-            bindingAttr: BindingFlags.Public | BindingFlags.Static, 
-            binder: null, 
-            types: [typeof(string)], 
-            modifiers: null);
-    }
-
 }
