@@ -4,6 +4,12 @@ using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Linq;
 using System.Reflection;
+using Avalonia.Animation;
+using Avalonia.Animation.Easings;
+using Avalonia.Controls;
+using Avalonia.Input;
+using Avalonia.Media;
+using Avalonia.Media.Transformation;
 
 namespace Avalonia.Xaml.Interactivity;
 
@@ -119,37 +125,167 @@ internal static class TypeConverterHelper
 
     private static object? InvokeParse(string s, Type targetType)
     {
-        var parseMethod = GetParseMethod(targetType, out var hasFormat);
-        if (parseMethod == null)
+        if (targetType == typeof(IEasing) || targetType == typeof(Easing))
         {
-            throw new InvalidOperationException();
+            return Easing.Parse(s);
+        }
+        else if (targetType == typeof(Cue))
+        {
+            return Cue.Parse(s, CultureInfo.InvariantCulture);
+        }
+        else if (targetType == typeof(IterationCount))
+        {
+            return IterationCount.Parse(s);
+        }
+        else if (targetType == typeof(KeySpline))
+        {
+            return KeySpline.Parse(s, CultureInfo.InvariantCulture);
+        }
+        else if (targetType == typeof(Classes))
+        {
+            return Classes.Parse(s);
+        }
+        else if (targetType == typeof(Cursor))
+        {
+            return Cursor.Parse(s);
+        }
+        else if (targetType == typeof(KeyGesture))
+        {
+            return KeyGesture.Parse(s);
+        }
+        else if (targetType == typeof(IEffect) || targetType == typeof(Effect))
+        {
+            return Effect.Parse(s);
+        }
+        else if (targetType == typeof(TransformOperations))
+        {
+            return TransformOperations.Parse(s);
+        }
+        else if (targetType == typeof(BoxShadow))
+        {
+            return BoxShadow.Parse(s);
+        }
+        else if (targetType == typeof(BoxShadows))
+        {
+            return BoxShadows.Parse(s);
+        }
+        else if (targetType == typeof(IBrush) || targetType == typeof(Brush))
+        {
+            return Brush.Parse(s);
+        }
+        else if (targetType == typeof(Color))
+        {
+            return Color.Parse(s);
+        }
+        else if (targetType == typeof(FontFamily))
+        {
+            return FontFamily.Parse(s);
+        }
+        else if (targetType == typeof(FontFeature))
+        {
+            return FontFeature.Parse(s);
+        }
+        else if (targetType == typeof(Geometry))
+        {
+            return Geometry.Parse(s);
+        }
+        else if (targetType == typeof(PathGeometry))
+        {
+            return PathGeometry.Parse(s);
+        }
+        else if (targetType == typeof(PathFigures))
+        {
+            return PathFigures.Parse(s);
+        }
+        else if (targetType == typeof(SolidColorBrush))
+        {
+            return SolidColorBrush.Parse(s);
+        }
+        else if (targetType == typeof(StreamGeometry))
+        {
+            return StreamGeometry.Parse(s);
+        }
+        else if (targetType == typeof(TextDecorationCollection))
+        {
+            return TextDecorationCollection.Parse(s);
+        }
+        else if (targetType == typeof(TextTrimming))
+        {
+            return TextTrimming.Parse(s);
+        }
+        else if (targetType == typeof(ITransform) || targetType == typeof(Transform))
+        {
+            return Transform.Parse(s);
+        }
+        else if (targetType == typeof(UnicodeRange))
+        {
+            return UnicodeRange.Parse(s);
+        }
+        else if (targetType == typeof(UnicodeRangeSegment))
+        {
+            return UnicodeRangeSegment.Parse(s);
+        }
+        else if (targetType == typeof(CornerRadius))
+        {
+            return CornerRadius.Parse(s);
+        }
+        else if (targetType == typeof(Matrix))
+        {
+            return Matrix.Parse(s);
+        }
+        else if (targetType == typeof(PixelPoint))
+        {
+            return PixelPoint.Parse(s);
+        }
+        else if (targetType == typeof(PixelRect))
+        {
+            return PixelRect.Parse(s);
+        }
+        else if (targetType == typeof(PixelSize))
+        {
+            return PixelSize.Parse(s);
+        }
+        else if (targetType == typeof(Point))
+        {
+            return Point.Parse(s);
+        }
+        else if (targetType == typeof(Rect))
+        {
+            return Rect.Parse(s);
+        }
+        else if (targetType == typeof(RelativePoint))
+        {
+            return RelativePoint.Parse(s);
+        }
+        else if (targetType == typeof(RelativeRect))
+        {
+            return RelativeRect.Parse(s);
+        }
+        else if (targetType == typeof(RelativeScalar))
+        {
+            return RelativeScalar.Parse(s);
+        }
+        else if (targetType == typeof(Size))
+        {
+            return Size.Parse(s);
+        }
+        else if (targetType == typeof(Thickness))
+        {
+            return Thickness.Parse(s);
+        }
+        else if (targetType == typeof(Vector3D))
+        {
+            return Vector3D.Parse(s);
+        }
+        else if (targetType == typeof(ColumnDefinitions))
+        {
+            return ColumnDefinitions.Parse(s);
+        }
+        else if (targetType == typeof(RowDefinitions))
+        {
+            return RowDefinitions.Parse(s);
         }
 
-        return parseMethod.Invoke(null, hasFormat ? [s, CultureInfo.InvariantCulture] : [s]);
+        return null;
     }
-
-    private static MethodInfo? GetParseMethod(Type type, out bool hasFormat)
-    {
-        var parseMethod = type.GetMethod(
-            name: "Parse", 
-            bindingAttr: BindingFlags.Public | BindingFlags.Static, 
-            binder: null, 
-            types: [typeof(string), typeof(IFormatProvider)], 
-            modifiers: null);
-
-        if (parseMethod != null)
-        {
-            hasFormat = true;
-            return parseMethod;
-        }
-
-        hasFormat = false;
-        return type.GetMethod(
-            name: "Parse", 
-            bindingAttr: BindingFlags.Public | BindingFlags.Static, 
-            binder: null, 
-            types: [typeof(string)], 
-            modifiers: null);
-    }
-
 }
