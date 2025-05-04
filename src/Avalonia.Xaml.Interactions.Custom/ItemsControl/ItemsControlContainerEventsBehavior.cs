@@ -16,16 +16,23 @@ public abstract class ItemsControlContainerEventsBehavior : DisposingBehavior<It
             return DisposableAction.Empty;
         }
 
+        itemsControl.PreparingContainer += ItemsControlOnPreparingContainer;
         itemsControl.ContainerPrepared += ItemsControlOnContainerPrepared;
         itemsControl.ContainerIndexChanged += ItemsControlOnContainerIndexChanged;
         itemsControl.ContainerClearing += ItemsControlOnContainerClearing;
 
         return DisposableAction.Create(() =>
         {
+            itemsControl.PreparingContainer += ItemsControlOnPreparingContainer;
             itemsControl.ContainerPrepared -= ItemsControlOnContainerPrepared;
             itemsControl.ContainerIndexChanged -= ItemsControlOnContainerIndexChanged;
             itemsControl.ContainerClearing -= ItemsControlOnContainerClearing;
         });
+    }
+
+    private void ItemsControlOnPreparingContainer(object? sender, ContainerPreparedEventArgs e)
+    {
+        OnPreparingContainer(sender, e);
     }
 
     private void ItemsControlOnContainerPrepared(object? sender, ContainerPreparedEventArgs e)
@@ -41,6 +48,15 @@ public abstract class ItemsControlContainerEventsBehavior : DisposingBehavior<It
     private void ItemsControlOnContainerClearing(object? sender, ContainerClearingEventArgs e)
     {
         OnContainerClearing(sender, e);
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected virtual void OnPreparingContainer(object? sender, ContainerPreparedEventArgs e)
+    {
     }
 
     /// <summary>
