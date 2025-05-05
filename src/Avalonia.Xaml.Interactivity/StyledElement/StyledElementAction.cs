@@ -39,7 +39,7 @@ public abstract class StyledElementAction : StyledElement, IAction
         InitializeIfNeeded();
     }
 
-    internal void AttachActionToLogicalTree(StyledElement parent)
+    internal virtual void AttachActionToLogicalTree(StyledElement parent)
     {
         // Required for $parent binding in XAML
         ((ISetLogicalParent)this).SetParent(parent);
@@ -51,7 +51,7 @@ public abstract class StyledElementAction : StyledElement, IAction
         }
     }
 
-    internal void DetachActionFromLogicalTree(StyledElement parent)
+    internal virtual void DetachActionFromLogicalTree(StyledElement parent)
     {
         Dispatcher.UIThread.Post(() =>
         {

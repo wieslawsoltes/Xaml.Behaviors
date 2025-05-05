@@ -1,0 +1,73 @@
+﻿<UserControl x:Class="BehaviorsTestApplication.Views.Pages.IfElseBehaviorView"
+             xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:BehaviorsTestApplication.ViewModels"
+             x:DataType="vm:MainWindowViewModel"
+             mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="450">
+  <Design.DataContext>
+    <vm:MainWindowViewModel />
+  </Design.DataContext>
+  <Grid RowDefinitions="*,Auto">
+    <Rectangle x:Name="DataTriggerRectangle"
+               Grid.Row="0"
+               Margin="5"
+               Fill="{DynamicResource BlueBrush}"
+               Stroke="{DynamicResource GrayBrush}"
+               StrokeThickness="5">
+      <Interaction.Behaviors>
+        <IfElseTriggerBehavior Binding="{Binding #Slider.Value}">
+
+          <IfAction ComparisonCondition="GreaterThan" Value="50">
+            <ChangePropertyAction PropertyName="Fill" Value="{DynamicResource YellowBrush}"/>
+            <IfAction ComparisonCondition="GreaterThan" Value="75">
+              <IfAction Binding="{Binding #OpacityCheckBox.IsChecked}" Value="True">
+                <ChangePropertyAction PropertyName="Opacity" Value="0.25"/>
+              </IfAction>
+              <ElseAction>
+                <ChangePropertyAction PropertyName="Opacity" Value="1"/>
+              </ElseAction>
+            </IfAction>
+            <ElseAction>
+              <ChangePropertyAction PropertyName="Opacity" Value="1"/>
+            </ElseAction>
+          </IfAction>
+
+          <ElseAction>
+            <ChangePropertyAction PropertyName="Fill" Value="{DynamicResource BlueBrush}"/>
+            <IfAction ComparisonCondition="LessThan" Value="25">
+              <IfAction Binding="{Binding #StrokeCheckBox.IsChecked}" Value="True">
+                <ChangePropertyAction PropertyName="Stroke" Value="Red"/>
+              </IfAction>
+              <ElseAction>
+                <ChangePropertyAction PropertyName="Stroke" Value="Gray"/>
+              </ElseAction>
+            </IfAction>
+            <ElseAction>
+              <ChangePropertyAction PropertyName="Stroke" Value="Gray"/>
+            </ElseAction>
+          </ElseAction>
+ 
+        </IfElseTriggerBehavior>
+      </Interaction.Behaviors>
+    </Rectangle>
+    <StackPanel Grid.Row="1"
+                Margin="5,0,5,5" HorizontalAlignment="Center"
+                VerticalAlignment="Center">
+
+      <StackPanel Orientation="Horizontal">
+        <TextBlock Width="50"
+                   VerticalAlignment="Center"
+                   Foreground="{DynamicResource GrayBrush}"
+                   Text="{Binding #Slider.Value}"/>
+        <Slider x:Name="Slider"
+                Width="400"
+                IsSnapToTickEnabled="True" TickFrequency="1"/>
+
+      </StackPanel>
+      <CheckBox x:Name="OpacityCheckBox" Content="Opacity if &gt; 75"/>
+      <CheckBox x:Name="StrokeCheckBox" Content="Stroke if &lt; 25"/>
+    </StackPanel>
+  </Grid>
+</UserControl>
