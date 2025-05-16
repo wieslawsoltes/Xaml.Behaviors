@@ -91,6 +91,9 @@
     <TabItem Header="Clipboard">
       <pages:ClipboardView />
     </TabItem>
+    <TabItem Header="File Drop Handler">
+      <pages:FileDropHandlerView />
+    </TabItem>
     <TabItem Header="Drag and Drop">
       <pages:DragAndDropView />
     </TabItem>
