@@ -73,7 +73,9 @@ public class ContextDropBehavior : StyledElementBehavior<Control>
 
     private void DragEnter(object? sender, DragEventArgs e)
     {
-        var sourceContext = e.Data.Get(ContextDropBehavior.DataFormat);
+        var sourceContext = e.Data.Contains(ContextDropBehavior.DataFormat) 
+            ? e.Data.Get(ContextDropBehavior.DataFormat) 
+            : null;
         var targetContext = Context ?? AssociatedObject?.DataContext;
         Handler?.Enter(sender, e, sourceContext, targetContext);
     }
@@ -85,14 +87,18 @@ public class ContextDropBehavior : StyledElementBehavior<Control>
 
     private void DragOver(object? sender, DragEventArgs e)
     {
-        var sourceContext = e.Data.Get(ContextDropBehavior.DataFormat);
+        var sourceContext = e.Data.Contains(ContextDropBehavior.DataFormat) 
+            ? e.Data.Get(ContextDropBehavior.DataFormat) 
+            : null;
         var targetContext = Context ?? AssociatedObject?.DataContext;
         Handler?.Over(sender, e, sourceContext, targetContext);
     }
 
     private void Drop(object? sender, DragEventArgs e)
     {
-        var sourceContext = e.Data.Get(ContextDropBehavior.DataFormat);
+        var sourceContext = e.Data.Contains(ContextDropBehavior.DataFormat) 
+            ? e.Data.Get(ContextDropBehavior.DataFormat) 
+            : null;
         var targetContext = Context ?? AssociatedObject?.DataContext;
         Handler?.Drop(sender, e, sourceContext, targetContext);
     }
