@@ -12,10 +12,10 @@ public sealed class TextDropBehavior : DropBehaviorBase
     /// </summary>
     public TextDropBehavior()
     {
-        Handler = new FilesDropHandler(ExecuteCommand);
+        Handler = new TextDropHandler(ExecuteCommand);
     }
 
-    private sealed class FilesDropHandler(System.Action<object?> execute) : DropHandlerBase
+    private sealed class TextDropHandler(System.Action<object?> execute) : DropHandlerBase
     {
         public override bool Validate(object? sender, DragEventArgs e, object? sourceContext, object? targetContext, object? state)
         {
