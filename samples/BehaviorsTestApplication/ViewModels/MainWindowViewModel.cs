@@ -85,9 +85,9 @@ public partial class MainWindowViewModel : ViewModelBase
 
         OpenItemCommand = ReactiveCommand.Create<ItemViewModel>(OpenItem);
 
-        OpenFilesCommand = ReactiveCommand.Create<IReadOnlyList<IStorageFile>>(OpenFiles);
+        OpenFilesCommand = ReactiveCommand.Create<IEnumerable<IStorageItem>>(OpenFiles);
         SaveFileCommand = ReactiveCommand.Create<Uri>(SaveFile);
-        OpenFoldersCommand = ReactiveCommand.Create<IReadOnlyList<IStorageFolder>>(OpenFolders);
+        OpenFoldersCommand = ReactiveCommand.Create<IEnumerable<IStorageFolder>>(OpenFolders);
 
         GetClipboardTextCommand = ReactiveCommand.Create<string?>(GetClipboardText);
     }
@@ -152,7 +152,7 @@ public partial class MainWindowViewModel : ViewModelBase
         Console.WriteLine($"OpenItemCommand: {item.Value}");
     }
 
-    private void OpenFiles(IReadOnlyList<IStorageFile> files)
+    private void OpenFiles(IEnumerable<IStorageItem> files)
     {
         foreach (var file in files)
         {
@@ -169,7 +169,7 @@ public partial class MainWindowViewModel : ViewModelBase
         FileItems.Add(file);
     }
 
-    private void OpenFolders(IReadOnlyList<IStorageFolder> folders)
+    private void OpenFolders(IEnumerable<IStorageFolder> folders)
     {
         foreach (var folder in folders)
         {

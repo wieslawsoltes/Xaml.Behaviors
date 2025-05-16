@@ -21,6 +21,18 @@
       </Interaction.Behaviors>
       <TextBlock Text="Drop files here" HorizontalAlignment="Center" VerticalAlignment="Center" />
     </Border>
+    <Border Background="Transparent" Padding="20" BorderThickness="1" BorderBrush="{DynamicResource SystemAccentColor}">
+      <Interaction.Behaviors>
+        <FilesDropBehavior Command="{Binding OpenFilesCommand}" />
+      </Interaction.Behaviors>
+      <TextBlock Text="Drop files here" HorizontalAlignment="Center" VerticalAlignment="Center" />
+    </Border>
+    <Border Background="Transparent" Padding="20" BorderThickness="1" BorderBrush="{DynamicResource SystemAccentColor}">
+      <Interaction.Behaviors>
+        <TextDropBehavior Command="{Binding GetClipboardTextCommand}" />
+      </Interaction.Behaviors>
+      <TextBlock Text="Drop text here" HorizontalAlignment="Center" VerticalAlignment="Center" />
+    </Border>
     <ListBox ItemsSource="{Binding FileItems}" />
   </StackPanel>
 </UserControl>

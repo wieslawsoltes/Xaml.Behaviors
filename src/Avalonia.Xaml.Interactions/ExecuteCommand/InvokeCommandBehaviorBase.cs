@@ -1,4 +1,5 @@
 using System.Windows.Input;
+using Avalonia.Controls;
 using Avalonia.Data.Converters;
 using Avalonia.Xaml.Interactivity;
 
@@ -7,7 +8,7 @@ namespace Avalonia.Xaml.Interactions.Core;
 /// <summary>
 /// Invoke command behavior base class.
 /// </summary>
-public abstract class InvokeCommandBehaviorBase : StyledElementBehavior
+public abstract class InvokeCommandBehaviorBase : StyledElementBehavior<Control>
 {
     /// <summary>
     /// Identifies the <seealso cref="Command"/> avalonia property.
