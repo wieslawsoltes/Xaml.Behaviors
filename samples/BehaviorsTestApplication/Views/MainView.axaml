@@ -100,5 +100,8 @@
     <TabItem Header="Draggable">
       <pages:DraggableView />
     </TabItem>
+    <TabItem Header="IfElseTrigger">
+      <pages:IfElseTriggerView />
+    </TabItem>
   </TabControl>
 </UserControl>
