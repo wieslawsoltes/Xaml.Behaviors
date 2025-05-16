@@ -205,7 +205,7 @@ public class ChangePropertyAction : Avalonia.Xaml.Interactivity.StyledElementAct
         {
             throw new ArgumentException(string.Format(
                 CultureInfo.CurrentCulture,
-                "Cannot find a property named {0} on type {1}.",
+                "Property {0} on type {1} is read-only.",
                 propertyName,
                 targetTypeName));
         }
@@ -341,7 +341,7 @@ public class ChangePropertyAction : Avalonia.Xaml.Interactivity.StyledElementAct
         {
             throw new ArgumentException(string.Format(
                 CultureInfo.CurrentCulture,
-                "Cannot find a property named {0}.",
+                "Property {0} is read-only.",
                 PropertyName));
         }
     }
