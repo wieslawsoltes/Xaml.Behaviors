@@ -14,6 +14,8 @@ public class BehaviorCollection : AvaloniaList<AvaloniaObject>
     // After a VectorChanged event we need to compare the current state of the collection
     // with the old collection so that we can call Detach on all removed items.
     private readonly List<IBehavior> _oldCollection = [];
+    // Tracks behaviors to allow O(1) duplicate checks.
+    private readonly HashSet<IBehavior> _behaviorSet = [];
 
     /// <summary>
     /// Initializes a new instance of the <see cref="BehaviorCollection"/> class.
@@ -77,6 +79,7 @@ public class BehaviorCollection : AvaloniaList<AvaloniaObject>
 
         AssociatedObject = null;
         _oldCollection.Clear();
+        _behaviorSet.Clear();
     }
 
     internal void AttachedToVisualTree()
@@ -202,6 +205,7 @@ public class BehaviorCollection : AvaloniaList<AvaloniaObject>
             }
 
             _oldCollection.Clear();
+            _behaviorSet.Clear();
 
             foreach (var newItem in this)
             {
@@ -235,6 +239,7 @@ public class BehaviorCollection : AvaloniaList<AvaloniaObject>
                 {
                     oldItem.Detach();
                 }
+                _behaviorSet.Remove(oldItem);
 
                 _oldCollection[eventIndex] = VerifiedAttach(changedItem);
                 break;
@@ -249,6 +254,8 @@ public class BehaviorCollection : AvaloniaList<AvaloniaObject>
                 {
                     oldItem.Detach();
                 }
+
+                _behaviorSet.Remove(oldItem);
 
                 _oldCollection.RemoveAt(eventIndex);
                 break;
@@ -275,7 +282,7 @@ public class BehaviorCollection : AvaloniaList<AvaloniaObject>
                 $"Only {nameof(IBehavior)} types are supported in a {nameof(BehaviorCollection)}.");
         }
 
-        if (_oldCollection.Contains(behavior))
+        if (!_behaviorSet.Add(behavior))
         {
             throw new InvalidOperationException(
                 $"Cannot add an instance of a behavior to a {nameof(BehaviorCollection)} more than once.");
