@@ -32,6 +32,7 @@
     <InteractionsDraggableSourcesBasePath>..\Avalonia.Xaml.Interactions.Draggable</InteractionsDraggableSourcesBasePath>
     <InteractionsEventsSourcesBasePath>..\Avalonia.Xaml.Interactions.Events</InteractionsEventsSourcesBasePath>
     <InteractionsResponsiveSourcesBasePath>..\Avalonia.Xaml.Interactions.Responsive</InteractionsResponsiveSourcesBasePath>
+    <ReactiveUINavigationSourcesBasePath>..\Avalonia.ReactiveUI.Navigation</ReactiveUINavigationSourcesBasePath>
   </PropertyGroup>
 
   <ItemGroup>
@@ -43,6 +44,7 @@
     <Compile Include="$(InteractionsDraggableSourcesBasePath)\**\*.cs" LinkBase="Interactions\Draggable" Exclude="$(InteractionsDraggableSourcesBasePath)\Properties\**;$(InteractionsDraggableSourcesBasePath)\obj\**;$(InteractionsDraggableSourcesBasePath)\bin\**" />
     <Compile Include="$(InteractionsEventsSourcesBasePath)\**\*.cs" LinkBase="Interactions\Events" Exclude="$(InteractionsEventsSourcesBasePath)\Properties\**;$(InteractionsEventsSourcesBasePath)\obj\**;$(InteractionsEventsSourcesBasePath)\bin\**" />
     <Compile Include="$(InteractionsResponsiveSourcesBasePath)\**\*.cs" LinkBase="Interactions\Responsive" Exclude="$(InteractionsResponsiveSourcesBasePath)\Properties\**;$(InteractionsResponsiveSourcesBasePath)\obj\**;$(InteractionsResponsiveSourcesBasePath)\bin\**" />
+    <Compile Include="$(ReactiveUINavigationSourcesBasePath)\**\*.cs" LinkBase="ReactiveUI\Navigation" Exclude="$(ReactiveUINavigationSourcesBasePath)\Properties\**;$(ReactiveUINavigationSourcesBasePath)\obj\**;$(ReactiveUINavigationSourcesBasePath)\bin\**" />
   </ItemGroup>
 
 </Project>
