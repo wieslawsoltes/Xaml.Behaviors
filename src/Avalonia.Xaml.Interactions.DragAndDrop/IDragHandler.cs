@@ -3,12 +3,12 @@
 namespace Avalonia.Xaml.Interactions.DragAndDrop;
 
 /// <summary>
-/// 
+/// Provides callbacks for drag operations.
 /// </summary>
 public interface IDragHandler
 {
     /// <summary>
-    /// 
+    /// Called before the drag operation begins.
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="e"></param>
@@ -16,7 +16,7 @@ public interface IDragHandler
     void BeforeDragDrop(object? sender, PointerEventArgs e, object? context);
 
     /// <summary>
-    /// 
+    /// Called after the drag operation completes.
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="e"></param>

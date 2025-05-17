@@ -9,7 +9,7 @@ using Avalonia.Xaml.Interactivity;
 namespace Avalonia.Xaml.Interactions.DragAndDrop;
 
 /// <summary>
-/// 
+/// Behavior that starts a drag operation using the associated context data.
 /// </summary>
 public class ContextDragBehavior : StyledElementBehavior<Control>
 {
@@ -19,31 +19,31 @@ public class ContextDragBehavior : StyledElementBehavior<Control>
     private bool _captured;
 
     /// <summary>
-    /// 
+    /// Identifies the <see cref="Context"/> avalonia property.
     /// </summary>
     public static readonly StyledProperty<object?> ContextProperty =
         AvaloniaProperty.Register<ContextDragBehavior, object?>(nameof(Context));
 
     /// <summary>
-    /// 
+    /// Identifies the <see cref="Handler"/> avalonia property.
     /// </summary>
     public static readonly StyledProperty<IDragHandler?> HandlerProperty =
         AvaloniaProperty.Register<ContextDragBehavior, IDragHandler?>(nameof(Handler));
 
     /// <summary>
-    /// 
+    /// Identifies the <see cref="HorizontalDragThreshold"/> avalonia property.
     /// </summary>
-    public static readonly StyledProperty<double> HorizontalDragThresholdProperty = 
+    public static readonly StyledProperty<double> HorizontalDragThresholdProperty =
         AvaloniaProperty.Register<ContextDragBehavior, double>(nameof(HorizontalDragThreshold), 3);
 
     /// <summary>
-    /// 
+    /// Identifies the <see cref="VerticalDragThreshold"/> avalonia property.
     /// </summary>
     public static readonly StyledProperty<double> VerticalDragThresholdProperty =
         AvaloniaProperty.Register<ContextDragBehavior, double>(nameof(VerticalDragThreshold), 3);
 
     /// <summary>
-    /// 
+    /// Gets or sets context data passed to the drag handler.
     /// </summary>
     public object? Context
     {
@@ -52,7 +52,7 @@ public class ContextDragBehavior : StyledElementBehavior<Control>
     }
 
     /// <summary>
-    /// 
+    /// Gets or sets the handler that receives drag notifications.
     /// </summary>
     public IDragHandler? Handler
     {
@@ -61,7 +61,7 @@ public class ContextDragBehavior : StyledElementBehavior<Control>
     }
 
     /// <summary>
-    /// 
+    /// Gets or sets the horizontal distance in pixels required to start a drag.
     /// </summary>
     public double HorizontalDragThreshold
     {
@@ -70,7 +70,7 @@ public class ContextDragBehavior : StyledElementBehavior<Control>
     }
 
     /// <summary>
-    /// 
+    /// Gets or sets the vertical distance in pixels required to start a drag.
     /// </summary>
     public double VerticalDragThreshold
     {

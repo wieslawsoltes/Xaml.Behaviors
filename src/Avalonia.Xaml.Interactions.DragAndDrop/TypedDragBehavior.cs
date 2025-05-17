@@ -8,7 +8,7 @@ using Avalonia.Xaml.Interactivity;
 namespace Avalonia.Xaml.Interactions.DragAndDrop;
 
 /// <summary>
-/// 
+/// Behavior that initiates a drag operation for a specific data type.
 /// </summary>
 public class TypedDragBehavior : StyledElementBehavior<Control>
 {
@@ -18,19 +18,19 @@ public class TypedDragBehavior : StyledElementBehavior<Control>
     private bool _lock;
 
     /// <summary>
-    /// 
+    /// Identifies the <see cref="DataType"/> avalonia property.
     /// </summary>
     public static readonly StyledProperty<Type?> DataTypeProperty =
         AvaloniaProperty.Register<TypedDragBehavior, Type?>(nameof(DataType));
 
     /// <summary>
-    /// 
+    /// Identifies the <see cref="Handler"/> avalonia property.
     /// </summary>
     public static readonly StyledProperty<IDragHandler?> HandlerProperty =
         AvaloniaProperty.Register<TypedDragBehavior, IDragHandler?>(nameof(Handler));
 
     /// <summary>
-    /// 
+    /// Gets or sets the data type allowed for dragging.
     /// </summary>
     public Type? DataType
     {
@@ -39,7 +39,7 @@ public class TypedDragBehavior : StyledElementBehavior<Control>
     }
 
     /// <summary>
-    /// 
+    /// Gets or sets the handler that receives drag notifications.
     /// </summary>
     public IDragHandler? Handler
     {

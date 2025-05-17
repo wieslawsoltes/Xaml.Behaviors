@@ -3,12 +3,12 @@ using Avalonia.Input;
 namespace Avalonia.Xaml.Interactions.DragAndDrop;
 
 /// <summary>
-/// 
+/// Behavior that handles file drop operations.
 /// </summary>
 public sealed class FilesDropBehavior : DropBehaviorBase
 {
     /// <summary>
-    /// 
+    /// Initializes a new instance of the <see cref="FilesDropBehavior"/> class.
     /// </summary>
     public FilesDropBehavior()
     {

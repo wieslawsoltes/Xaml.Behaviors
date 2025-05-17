@@ -7,32 +7,32 @@ using Avalonia.Xaml.Interactivity;
 namespace Avalonia.Xaml.Interactions.Draggable;
 
 /// <summary>
-/// 
+/// Allows dragging of grid child controls with optional layout copying.
 /// </summary>
 public class GridDragBehavior : StyledElementBehavior<Control>
 {
     /// <summary>
-    /// 
+    /// Identifies the <see cref="CopyColumn"/> avalonia property.
     /// </summary>
-    public static readonly StyledProperty<bool> CopyColumnProperty = 
+    public static readonly StyledProperty<bool> CopyColumnProperty =
         AvaloniaProperty.Register<GridDragBehavior, bool>(nameof(CopyColumn), true);
 
     /// <summary>
-    /// 
+    /// Identifies the <see cref="CopyRow"/> avalonia property.
     /// </summary>
-    public static readonly StyledProperty<bool> CopyRowProperty = 
+    public static readonly StyledProperty<bool> CopyRowProperty =
         AvaloniaProperty.Register<GridDragBehavior, bool>(nameof(CopyRow), true);
 
     /// <summary>
-    /// 
+    /// Identifies the <see cref="CopyColumnSpan"/> avalonia property.
     /// </summary>
     public static readonly StyledProperty<bool> CopyColumnSpanProperty =
         AvaloniaProperty.Register<GridDragBehavior, bool>(nameof(CopyColumnSpan));
 
     /// <summary>
-    /// 
+    /// Identifies the <see cref="CopyRowSpan"/> avalonia property.
     /// </summary>
-    public static readonly StyledProperty<bool> CopyRowSpanProperty = 
+    public static readonly StyledProperty<bool> CopyRowSpanProperty =
         AvaloniaProperty.Register<GridDragBehavior, bool>(nameof(CopyRowSpan));
 
     private bool _enableDrag;
@@ -42,7 +42,7 @@ public class GridDragBehavior : StyledElementBehavior<Control>
     private bool _captured;
         
     /// <summary>
-    /// 
+    /// Gets or sets whether to copy the dragged element's column.
     /// </summary>
     public bool CopyColumn
     {
@@ -51,7 +51,7 @@ public class GridDragBehavior : StyledElementBehavior<Control>
     }
 
     /// <summary>
-    /// 
+    /// Gets or sets whether to copy the dragged element's row.
     /// </summary>
     public bool CopyRow
     {
@@ -60,7 +60,7 @@ public class GridDragBehavior : StyledElementBehavior<Control>
     }
 
     /// <summary>
-    /// 
+    /// Gets or sets whether to copy the dragged element's column span.
     /// </summary>
     public bool CopyColumnSpan
     {
@@ -69,7 +69,7 @@ public class GridDragBehavior : StyledElementBehavior<Control>
     }
 
     /// <summary>
-    /// 
+    /// Gets or sets whether to copy the dragged element's row span.
     /// </summary>
     public bool CopyRowSpan
     {

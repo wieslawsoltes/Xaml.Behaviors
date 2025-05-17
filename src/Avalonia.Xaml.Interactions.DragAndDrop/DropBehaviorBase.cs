@@ -5,12 +5,12 @@ using Avalonia.Xaml.Interactions.Core;
 namespace Avalonia.Xaml.Interactions.DragAndDrop;
 
 /// <summary>
-/// 
+/// Base class for behaviors that respond to drag-and-drop events.
 /// </summary>
 public abstract class DropBehaviorBase : InvokeCommandBehaviorBase
 {
     /// <summary>
-    /// 
+    /// Gets or sets the handler responsible for processing drop events.
     /// </summary>
     protected IDropHandler? Handler { get; set; }
 
@@ -61,7 +61,7 @@ public abstract class DropBehaviorBase : InvokeCommandBehaviorBase
     }
 
     /// <summary>
-    /// 
+    /// Executes the associated <see cref="System.Windows.Input.ICommand"/>.
     /// </summary>
     /// <param name="parameter"></param>
     protected void ExecuteCommand(object? parameter)
