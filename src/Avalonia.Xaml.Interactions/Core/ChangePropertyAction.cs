@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Reflection;
 using Avalonia.Controls;
 
@@ -15,20 +17,50 @@ public class ChangePropertyAction : Avalonia.Xaml.Interactivity.StyledElementAct
 {
     private static readonly char[] s_trimChars = ['(', ')'];
     private static readonly char[] s_separator = ['.'];
+    private static readonly ConcurrentDictionary<(Type, string), PropertySetter> s_propertyCache = new();
+    private static readonly ConcurrentDictionary<string, Type?> s_typeCache = new();
+
+    private readonly struct PropertySetter
+    {
+        public PropertySetter(Action<object, object?> setter, Type propertyType)
+        {
+            Setter = setter;
+            PropertyType = propertyType;
+        }
+
+        public Action<object, object?> Setter { get; }
+        public Type PropertyType { get; }
+    }
 
     [RequiresUnreferencedCode("This functionality is not compatible with trimming.")]
     private static Type? GetTypeByName(string name)
     {
-        return
-            AppDomain.CurrentDomain.GetAssemblies()
-                .Reverse()
-                .Select(assembly => assembly.GetType(name))
-                .FirstOrDefault(t => t is not null)
-            ??
-            AppDomain.CurrentDomain.GetAssemblies()
-                .Reverse()
-                .SelectMany(assembly => assembly.GetTypes())
-                .FirstOrDefault(t => t.Name == name);
+        return s_typeCache.GetOrAdd(name, static key =>
+        {
+            var assemblies = AppDomain.CurrentDomain.GetAssemblies();
+
+            for (var i = assemblies.Length - 1; i >= 0; i--)
+            {
+                var type = assemblies[i].GetType(key);
+                if (type is not null)
+                {
+                    return type;
+                }
+            }
+
+            for (var i = assemblies.Length - 1; i >= 0; i--)
+            {
+                foreach (var type in assemblies[i].GetTypes())
+                {
+                    if (type.Name == key)
+                    {
+                        return type;
+                    }
+                }
+            }
+
+            return null;
+        });
     }
 
     [RequiresUnreferencedCode("This functionality is not compatible with trimming.")]
@@ -191,30 +223,37 @@ public class ChangePropertyAction : Avalonia.Xaml.Interactivity.StyledElementAct
 
         var targetType = targetObject.GetType();
         var targetTypeName = targetType.Name;
-        var propertyInfo = targetType.GetRuntimeProperty(propertyName);
 
-        if (propertyInfo is null)
+        if (!s_propertyCache.TryGetValue((targetType, propertyName), out var setter))
         {
-            throw new ArgumentException(string.Format(
-                CultureInfo.CurrentCulture,
-                "Cannot find a property named {0} on type {1}.",
-                propertyName,
-                targetTypeName));
-        }
-        else if (!propertyInfo.CanWrite)
-        {
-            throw new ArgumentException(string.Format(
-                CultureInfo.CurrentCulture,
-                "Property {0} on type {1} is read-only.",
-                propertyName,
-                targetTypeName));
+            var propertyInfo = targetType.GetRuntimeProperty(propertyName);
+
+            if (propertyInfo is null)
+            {
+                throw new ArgumentException(string.Format(
+                    CultureInfo.CurrentCulture,
+                    "Cannot find a property named {0} on type {1}.",
+                    propertyName,
+                    targetTypeName));
+            }
+            else if (!propertyInfo.CanWrite)
+            {
+                throw new ArgumentException(string.Format(
+                    CultureInfo.CurrentCulture,
+                    "Property {0} on type {1} is read-only.",
+                    propertyName,
+                    targetTypeName));
+            }
+
+            setter = new PropertySetter(CreateSetter(propertyInfo), propertyInfo.PropertyType);
+            s_propertyCache.TryAdd((targetType, propertyName), setter);
         }
 
         Exception? innerException = null;
         try
         {
             object? result = null;
-            var propertyType = propertyInfo.PropertyType;
+            var propertyType = setter.PropertyType;
             var propertyTypeInfo = propertyType.GetTypeInfo();
             if (Value is null)
             {
@@ -242,7 +281,7 @@ public class ChangePropertyAction : Avalonia.Xaml.Interactivity.StyledElementAct
                 }
             }
 
-            propertyInfo.SetValue(targetObject, result, []);
+            setter.Setter(targetObject, result);
         }
         catch (FormatException e)
         {
@@ -260,7 +299,7 @@ public class ChangePropertyAction : Avalonia.Xaml.Interactivity.StyledElementAct
                     "Cannot assign value of type {0} to property {1} of type {2}. The {1} property can be assigned only values of type {2}.",
                     Value?.GetType().Name ?? "null",
                     propertyName,
-                    propertyInfo.PropertyType.Name),
+                    setter.PropertyType.Name),
                 innerException);
         }
     }
@@ -344,5 +383,17 @@ public class ChangePropertyAction : Avalonia.Xaml.Interactivity.StyledElementAct
                 "Property {0} is read-only.",
                 PropertyName));
         }
+    }
+
+    private static Action<object, object?> CreateSetter(PropertyInfo propertyInfo)
+    {
+        var target = Expression.Parameter(typeof(object), "target");
+        var value = Expression.Parameter(typeof(object), "value");
+
+        var instance = Expression.Convert(target, propertyInfo.DeclaringType!);
+        var convertedValue = Expression.Convert(value, propertyInfo.PropertyType);
+        var call = Expression.Call(instance, propertyInfo.SetMethod!, convertedValue);
+        var lambda = Expression.Lambda<Action<object, object?>>(call, target, value);
+        return lambda.Compile();
     }
 }

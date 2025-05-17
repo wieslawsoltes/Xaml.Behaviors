@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Reflection;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Avalonia.Controls;
 
@@ -132,10 +133,10 @@ public class CallMethodAction : Avalonia.Xaml.Interactivity.StyledElementAction
         switch (parameters.Length)
         {
             case 0:
-                methodDescriptor.MethodInfo.Invoke(target, null);
+                methodDescriptor.Delegate(target, null);
                 return true;
             case 2:
-                methodDescriptor.MethodInfo.Invoke(target, [target, parameter!]);
+                methodDescriptor.Delegate(target, parameter);
                 return true;
             default:
                 return false;
@@ -239,17 +240,46 @@ public class CallMethodAction : Avalonia.Xaml.Interactivity.StyledElementAction
 
     [RequiresUnreferencedCode("This functionality is not compatible with trimming.")]
     [DebuggerDisplay($"{{{nameof(MethodInfo)}}}")]
-    private class MethodDescriptor(MethodInfo methodInfo, ParameterInfo[] methodParameters)
+    private class MethodDescriptor
     {
-        public MethodInfo MethodInfo { get; private set; } = methodInfo;
+        public MethodDescriptor(MethodInfo methodInfo, ParameterInfo[] methodParameters)
+        {
+            MethodInfo = methodInfo;
+            Parameters = methodParameters;
+            Delegate = CreateDelegate(methodInfo, methodParameters);
+        }
 
-        public ParameterInfo[] Parameters { get; private set; } = methodParameters;
+        public MethodInfo MethodInfo { get; }
+
+        public ParameterInfo[] Parameters { get; }
+
+        public Action<object, object?> Delegate { get; }
 
         public int ParameterCount => Parameters.Length;
 
-        public TypeInfo? SecondParameterTypeInfo
+        public TypeInfo? SecondParameterTypeInfo => ParameterCount < 2 ? null : Parameters[1].ParameterType.GetTypeInfo();
+
+        private static Action<object, object?> CreateDelegate(MethodInfo methodInfo, ParameterInfo[] parameters)
         {
-            get => ParameterCount < 2 ? null : Parameters[1].ParameterType.GetTypeInfo();
+            var target = Expression.Parameter(typeof(object), "target");
+            var value = Expression.Parameter(typeof(object), "value");
+
+            var instance = Expression.Convert(target, methodInfo.DeclaringType!);
+
+            Expression call;
+            if (parameters.Length == 0)
+            {
+                call = Expression.Call(instance, methodInfo);
+            }
+            else
+            {
+                var arg1 = target; // first parameter is of type object
+                var arg2 = Expression.Convert(value, parameters[1].ParameterType);
+                call = Expression.Call(instance, methodInfo, arg1, arg2);
+            }
+
+            var lambda = Expression.Lambda<Action<object, object?>>(call, target, value);
+            return lambda.Compile();
         }
     }
 }
