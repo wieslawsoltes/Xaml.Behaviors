@@ -1,5 +1,7 @@
 ﻿using Avalonia.Controls;
 
+using Avalonia.Xaml.Interactions.Core;
+
 namespace Avalonia.Xaml.Interactions.UnitTests.Core;
 
 public partial class CallMethodAction001 : Window
@@ -11,6 +13,7 @@ public partial class CallMethodAction001 : Window
         InitializeComponent();
     }
 
+    [GenerateInvoke]
     public void TestMethod()
     {
         TestProperty = "Test String";

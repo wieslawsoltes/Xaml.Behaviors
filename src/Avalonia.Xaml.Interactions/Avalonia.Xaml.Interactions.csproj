@@ -25,4 +25,8 @@
     <ProjectReference Include="..\Avalonia.Xaml.Interactivity\Avalonia.Xaml.Interactivity.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Analyzer Include="SourceGenerators/InvokeMethodActionGenerator.cs" />
+  </ItemGroup>
+
 </Project>
