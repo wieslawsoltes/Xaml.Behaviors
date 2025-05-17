@@ -306,8 +306,11 @@ This section provides an overview of all available classes and their purpose in 
 - **DoubleTappedEventBehavior**  
   *Listens for double-tap events and triggers its actions when detected.*
 
-- **GotFocusEventBehavior**  
+- **GotFocusEventBehavior**
   *Executes actions when the associated control receives focus.*
+
+- **HoldingEventBehavior**
+  *Triggers actions when a holding gesture is detected.*
 
 - **KeyDownEventBehavior**  
   *Monitors key down events and triggers actions when the specified key is pressed.*
@@ -315,8 +318,14 @@ This section provides an overview of all available classes and their purpose in 
 - **KeyUpEventBehavior**  
   *Monitors key up events and triggers actions when the specified key is released.*
 
-- **LostFocusEventBehavior**  
+- **LostFocusEventBehavior**
   *Triggers actions when the control loses focus.*
+
+- **PinchEndedEventBehavior**
+  *Triggers actions when a pinch gesture ends.*
+
+- **PinchEventBehavior**
+  *Triggers actions when a pinch gesture occurs.*
 
 - **PointerCaptureLostEventBehavior**  
   *Listens for events when pointer capture is lost and triggers associated actions.*
@@ -336,11 +345,26 @@ This section provides an overview of all available classes and their purpose in 
 - **PointerPressedEventBehavior**  
   *Triggers actions on pointer press events.*
 
-- **PointerReleasedEventBehavior**  
+- **PointerReleasedEventBehavior**
   *Triggers actions on pointer release events.*
 
-- **PointerWheelChangedEventBehavior**  
+- **PointerTouchPadGestureMagnifyEventBehavior**
+  *Triggers actions during a touchpad magnify gesture.*
+
+- **PointerTouchPadGestureRotateEventBehavior**
+  *Triggers actions during a touchpad rotation gesture.*
+
+- **PointerTouchPadGestureSwipeEventBehavior**
+  *Triggers actions during a touchpad swipe gesture.*
+
+- **PointerWheelChangedEventBehavior**
   *Triggers actions when the pointer wheel (scroll) changes.*
+
+- **PullGestureEndedEventBehavior**
+  *Triggers actions when a pull gesture ends.*
+
+- **PullGestureEventBehavior**
+  *Triggers actions when a pull gesture occurs.*
 
 - **RightTappedEventBehavior**  
   *Triggers actions when the control is right-tapped.*
@@ -487,28 +511,44 @@ This section provides an overview of all available classes and their purpose in 
 - **DoubleTappedGestureTrigger**  
   *Triggers actions when a double-tap gesture is detected.*
 
-- **HoldingGestureTrigger**  
+- **HoldingGestureTrigger**
   *Triggers actions when a holding (long press) gesture is detected.*
+- **HoldingEventTrigger**
+  *Triggers actions when a holding gesture is detected.*
 
-- **PinchEndedGestureTrigger**  
+- **PinchEndedGestureTrigger**
+  *Triggers actions when a pinch gesture has ended.*
+- **PinchEndedEventTrigger**
   *Triggers actions when a pinch gesture has ended.*
 
-- **PinchGestureTrigger**  
+- **PinchGestureTrigger**
+  *Triggers actions during a pinch gesture.*
+- **PinchEventTrigger**
   *Triggers actions during a pinch gesture.*
 
-- **PointerTouchPadGestureMagnifyGestureTrigger**  
+- **PointerTouchPadGestureMagnifyGestureTrigger**
   *Triggers actions during a touchpad magnification gesture.*
+- **PointerTouchPadGestureMagnifyEventTrigger**
+  *Triggers actions during a touchpad magnify gesture.*
 
-- **PointerTouchPadGestureRotateGestureTrigger**  
+- **PointerTouchPadGestureRotateGestureTrigger**
+  *Triggers actions during a touchpad rotation gesture.*
+- **PointerTouchPadGestureRotateEventTrigger**
   *Triggers actions during a touchpad rotation gesture.*
 
-- **PointerTouchPadGestureSwipeGestureTrigger**  
+- **PointerTouchPadGestureSwipeGestureTrigger**
+  *Triggers actions during a touchpad swipe gesture.*
+- **PointerTouchPadGestureSwipeEventTrigger**
   *Triggers actions during a touchpad swipe gesture.*
 
-- **PullGestureEndedGestureTrigger**  
+- **PullGestureEndedGestureTrigger**
+  *Triggers actions when a pull gesture ends.*
+- **PullGestureEndedEventTrigger**
   *Triggers actions when a pull gesture ends.*
 
-- **PullGestureGestureTrigger**  
+- **PullGestureGestureTrigger**
+  *Triggers actions during a pull gesture.*
+- **PullGestureEventTrigger**
   *Triggers actions during a pull gesture.*
 
 - **RightTappedGestureTrigger**  
