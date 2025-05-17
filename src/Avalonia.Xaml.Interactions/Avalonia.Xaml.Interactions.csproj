@@ -23,6 +23,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Avalonia.Xaml.Interactivity\Avalonia.Xaml.Interactivity.csproj" />
+    <ProjectReference Include="..\EventGenerator\EventGenerator.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
   </ItemGroup>
 
 </Project>

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
-using System.Reflection;
 using Avalonia.Xaml.Interactivity;
 using Avalonia.Controls;
 using Avalonia.Reactive;
@@ -12,7 +11,7 @@ namespace Avalonia.Xaml.Interactions.Core;
 /// A behavior that listens for a specified event on its source and executes its actions when that event is fired.
 /// </summary>
 [RequiresUnreferencedCode("This functionality is not compatible with trimming.")]
-public class EventTriggerBehavior : StyledElementTrigger
+public partial class EventTriggerBehavior : StyledElementTrigger
 {
     private const string EventNameDefaultValue = "AttachedToVisualTree";
 
@@ -29,8 +28,9 @@ public class EventTriggerBehavior : StyledElementTrigger
         AvaloniaProperty.Register<EventTriggerBehavior, object?>(nameof(SourceObject));
 
     private object? _resolvedSource;
-    private Delegate? _eventHandler;
+    private Action? _unregisterAction;
     private bool _isLoadedEventRegistered;
+    partial bool TryAddGeneratedHandler(object source, string eventName, out Action? unregister);
 
     /// <summary>
     /// Gets or sets the name of the event to listen for. This is an avalonia property.
@@ -171,30 +171,18 @@ public class EventTriggerBehavior : StyledElementTrigger
             {
                 return;
             }
-            
-            var sourceObjectType = _resolvedSource.GetType();
-            var eventInfo = sourceObjectType.GetRuntimeEvent(EventName);
-            if (eventInfo is null)
+
+            if (TryAddGeneratedHandler(_resolvedSource, EventName, out var unreg))
+            {
+                _unregisterAction = unreg;
+            }
+            else
             {
                 throw new ArgumentException(string.Format(
                     CultureInfo.CurrentCulture,
                     "Cannot find an event named {0} on type {1}.",
                     EventName,
-                    sourceObjectType.Name));
-            }
-
-            var methodInfo = typeof(EventTriggerBehavior).GetTypeInfo().GetDeclaredMethod("AttachedToVisualTree");
-            if (methodInfo is not null)
-            {
-                var eventHandlerType = eventInfo.EventHandlerType;
-                if (eventHandlerType is not null)
-                {
-                    _eventHandler = methodInfo.CreateDelegate(eventHandlerType, this);
-                    if (_eventHandler is not null)
-                    {
-                        eventInfo.AddEventHandler(_resolvedSource, _eventHandler);
-                    }
-                }
+                    _resolvedSource.GetType().Name));
             }
         }
         else if (!_isLoadedEventRegistered)
@@ -217,17 +205,8 @@ public class EventTriggerBehavior : StyledElementTrigger
 
         if (eventName != EventNameDefaultValue)
         {
-            if (_eventHandler is null)
-            {
-                return;
-            }
-
-            if (_resolvedSource is not null)
-            {
-                var eventInfo = _resolvedSource.GetType().GetRuntimeEvent(eventName);
-                eventInfo?.RemoveEventHandler(_resolvedSource, _eventHandler); 
-            }
-            _eventHandler = null;
+            _unregisterAction?.Invoke();
+            _unregisterAction = null;
         }
         else if (_isLoadedEventRegistered)
         {
@@ -249,7 +228,7 @@ public class EventTriggerBehavior : StyledElementTrigger
         Execute(eventArgs);
     }
 
-    private void Execute(object? parameter)
+    internal void Execute(object? parameter)
     {
         if (!IsEnabled)
         {
