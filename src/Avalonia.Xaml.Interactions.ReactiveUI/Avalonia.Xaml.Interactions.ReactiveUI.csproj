@@ -5,10 +5,11 @@
     <OutputType>Library</OutputType>
     <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
     <Nullable>enable</Nullable>
+    <RootNamespace>Avalonia.Xaml.Interactions.ReractiveUI</RootNamespace>
   </PropertyGroup>
 
   <PropertyGroup>
-    <PackageId>Avalonia.ReactiveUI.Navigation</PackageId>
+    <PackageId>Avalonia.Xaml.Interactions.ReactiveUI</PackageId>
     <Description>Behaviors for ReactiveUI routing to help with navigation in XAML.</Description>
     <PackageTags>Avalonia;ReactiveUI;Behavior;Navigation;Xaml</PackageTags>
   </PropertyGroup>
@@ -18,7 +19,7 @@
     <PackageReference Include="ReactiveUI" />
   </ItemGroup>
 
-  <Import Project="..\..\build\SignAssembly.props" />
+<!--  <Import Project="..\..\build\SignAssembly.props" />-->
   <Import Project="..\..\build\SourceLink.props" />
   <Import Project="..\..\build\TrimmingEnable.targets" />
 

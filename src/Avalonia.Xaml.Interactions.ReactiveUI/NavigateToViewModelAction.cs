@@ -1,7 +1,8 @@
+using Avalonia.Reactive;
 using Avalonia.Xaml.Interactivity;
 using ReactiveUI;
 
-namespace Avalonia.ReactiveUI.Navigation;
+namespace Avalonia.Xaml.Interactions.ReractiveUI;
 
 /// <summary>
 /// An action that navigates to a specified <see cref="IRoutableViewModel"/>.
@@ -44,7 +45,7 @@ public class NavigateToViewModelAction : StyledElementAction
     /// <param name="sender">The sender that triggered the action.</param>
     /// <param name="parameter">Optional parameter for the action.</param>
     /// <returns>True if navigation was requested.</returns>
-    public override object? Execute(object? sender, object? parameter)
+    public override object Execute(object? sender, object? parameter)
     {
         if (IsEnabled != true || Router is null)
         {
@@ -57,7 +58,7 @@ public class NavigateToViewModelAction : StyledElementAction
             return false;
         }
 
-        Router.Navigate.Execute(vm).Subscribe();
+        Router.Navigate.Execute(vm).Subscribe(new AnonymousObserver<IRoutableViewModel>(_ => { }));
         return true;
     }
 }

@@ -32,7 +32,6 @@
     <InteractionsDraggableSourcesBasePath>..\Avalonia.Xaml.Interactions.Draggable</InteractionsDraggableSourcesBasePath>
     <InteractionsEventsSourcesBasePath>..\Avalonia.Xaml.Interactions.Events</InteractionsEventsSourcesBasePath>
     <InteractionsResponsiveSourcesBasePath>..\Avalonia.Xaml.Interactions.Responsive</InteractionsResponsiveSourcesBasePath>
-    <ReactiveUINavigationSourcesBasePath>..\Avalonia.ReactiveUI.Navigation</ReactiveUINavigationSourcesBasePath>
   </PropertyGroup>
 
   <ItemGroup>

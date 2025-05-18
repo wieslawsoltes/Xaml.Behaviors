@@ -1,7 +1,8 @@
+using System.Reactive;
 using Avalonia.Xaml.Interactivity;
 using ReactiveUI;
 
-namespace Avalonia.ReactiveUI.Navigation;
+namespace Avalonia.Xaml.Interactions.ReractiveUI;
 
 /// <summary>
 /// An action that navigates back in the <see cref="RoutingState"/> stack.
@@ -29,7 +30,7 @@ public class NavigateBackAction : StyledElementAction
     /// <param name="sender">The sender that triggered the action.</param>
     /// <param name="parameter">Optional parameter for the action.</param>
     /// <returns>True if navigation back was requested.</returns>
-    public override object? Execute(object? sender, object? parameter)
+    public override object Execute(object? sender, object? parameter)
     {
         if (IsEnabled != true || Router is null)
         {
@@ -41,7 +42,7 @@ public class NavigateBackAction : StyledElementAction
             return false;
         }
 
-        Router.NavigateBack.Execute();
+        Router.NavigateBack.Execute().Subscribe(new AnonymousObserver<IRoutableViewModel>(_ => { }));
         return true;
     }
 }
