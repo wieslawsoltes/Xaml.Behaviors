@@ -5,12 +5,12 @@ using Avalonia.Media;
 namespace Avalonia.Xaml.Interactions.Draggable;
 
 /// <summary>
-/// 
+/// Simple adorner used to show selection rectangles while dragging.
 /// </summary>
 public class SelectionAdorner : Control
 {
     /// <summary>
-    /// 
+    /// Renders the selection rectangles.
     /// </summary>
     /// <param name="context"></param>
     public override void Render(DrawingContext context)

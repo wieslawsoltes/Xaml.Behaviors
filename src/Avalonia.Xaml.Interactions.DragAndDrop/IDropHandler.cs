@@ -4,12 +4,12 @@ using Avalonia.Interactivity;
 namespace Avalonia.Xaml.Interactions.DragAndDrop;
 
 /// <summary>
-/// 
+/// Defines callbacks for handling drag-and-drop operations.
 /// </summary>
 public interface IDropHandler
 {
     /// <summary>
-    /// 
+    /// Called when a drag enters the target.
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="e"></param>
@@ -18,7 +18,7 @@ public interface IDropHandler
     void Enter(object? sender, DragEventArgs e, object? sourceContext, object? targetContext);
 
     /// <summary>
-    /// 
+    /// Called repeatedly as the drag moves over the target.
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="e"></param>
@@ -27,7 +27,7 @@ public interface IDropHandler
     void Over(object? sender, DragEventArgs e, object? sourceContext, object? targetContext);
 
     /// <summary>
-    /// 
+    /// Called when the drag is dropped on the target.
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="e"></param>
@@ -36,14 +36,14 @@ public interface IDropHandler
     void Drop(object? sender, DragEventArgs e, object? sourceContext, object? targetContext);
 
     /// <summary>
-    /// 
+    /// Called when the drag leaves the target.
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="e"></param>
     void Leave(object? sender, RoutedEventArgs e);
 
     /// <summary>
-    /// 
+    /// Validates whether the drag can be executed.
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="e"></param>
@@ -54,7 +54,7 @@ public interface IDropHandler
     bool Validate(object? sender, DragEventArgs e, object? sourceContext, object? targetContext, object? state);
 
     /// <summary>
-    /// 
+    /// Executes the drop logic.
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="e"></param>
@@ -65,7 +65,7 @@ public interface IDropHandler
     bool Execute(object? sender, DragEventArgs e, object? sourceContext, object? targetContext, object? state);
 
     /// <summary>
-    /// 
+    /// Cancels the drag operation.
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="e"></param>

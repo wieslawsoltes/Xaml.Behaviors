@@ -7,7 +7,7 @@ using Avalonia.Xaml.Interactivity;
 namespace Avalonia.Xaml.Interactions.Draggable;
 
 /// <summary>
-/// 
+/// Enables dragging of child controls within a <see cref="Canvas"/>.
 /// </summary>
 public class CanvasDragBehavior : StyledElementBehavior<Control>
 {
