@@ -1,6 +1,7 @@
+using System;
+using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Scripting;
-using Avalonia;
 using Avalonia.Xaml.Interactivity;
 
 namespace Avalonia.Xaml.Interactions.Scripting;
@@ -27,7 +28,6 @@ public class ExecuteScriptAction : StyledElementAction
     }
 
     /// <inheritdoc />
-    [RequiresUnreferencedCode("This functionality is not compatible with trimming.")]
     public override object? Execute(object? sender, object? parameter)
     {
         if (string.IsNullOrWhiteSpace(Script))
@@ -36,19 +36,24 @@ public class ExecuteScriptAction : StyledElementAction
         }
 
         var globals = new Globals(sender, parameter);
-        var task = CSharpScript.EvaluateAsync<object?>(Script!, globals: globals);
-        return task.GetAwaiter().GetResult();
+        try
+        {
+            var task = CSharpScript.EvaluateAsync<object?>(Script!, globals: globals);
+            return task.GetAwaiter().GetResult();
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine($"Script execution failed: {ex.Message}");
+            return null;
+        }
     }
 
-    private sealed class Globals
+    private sealed class Globals(object? sender, object? parameter)
     {
-        public object? Sender { get; }
-        public object? Parameter { get; }
+        // ReSharper disable once UnusedMember.Local
+        public object? Sender { get; } = sender;
 
-        public Globals(object? sender, object? parameter)
-        {
-            Sender = sender;
-            Parameter = parameter;
-        }
+        // ReSharper disable once UnusedMember.Local
+        public object? Parameter { get; } = parameter;
     }
 }
