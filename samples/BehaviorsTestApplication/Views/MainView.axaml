@@ -106,5 +106,8 @@
     <TabItem Header="ExecuteScriptAction">
       <pages:ExecuteScriptActionView />
     </TabItem>
+    <TabItem Header="Reactive Navigation">
+      <pages:ReactiveNavigationView />
+    </TabItem>
   </TabControl>
 </UserControl>
