@@ -91,8 +91,10 @@ This section provides an overview of all available classes and their purpose in 
 - **PopupAction**  
   *Displays a popup window for showing additional UI content.*
 
-- **RemoveClassAction**  
+- **RemoveClassAction**
   *Removes a style class from a control’s class collection.*
+- **GoToStateAction**
+  *Transitions a control to a specified VisualState using Avalonia's VisualStateManager.*
 
 ### Animations
 - **FadeInBehavior**  
@@ -225,8 +227,10 @@ This section provides an overview of all available classes and their purpose in 
 - **DisposingTrigger**  
   *A base class for triggers that need to dispose of resources when detached.*
 
-- **EventTriggerBehavior**  
+- **EventTriggerBehavior**
   *Listens for a specified event on the associated object and triggers actions accordingly.*
+- **EventToCommandBehavior**
+  *Binds an arbitrary event directly to an ICommand for concise event-to-command hookups.*
 
 - **InitializedBehavior**  
   *A base class for behaviors that execute code when the associated object is initialized.*
@@ -711,8 +715,24 @@ This section provides an overview of all available classes and their purpose in 
   *Selects all text in a TextBox immediately upon attachment.*
 
 ### TreeViewItem
-- **ToggleIsExpandedOnDoubleTappedBehavior**  
+- **ToggleIsExpandedOnDoubleTappedBehavior**
   *Toggles the IsExpanded property of a TreeViewItem when it is double-tapped.*
+
+### DataGrid
+- **DataGridSelectionChangedCommandBehavior**
+  *Executes a command whenever the DataGrid selection changes.*
+
+### Window
+- **WindowEventCommandBehavior**
+  *Invokes a command for common window lifecycle events (Opened, Closing, Closed).* 
+
+### Validation
+- **NotifyErrorsCommandBehavior**
+  *Executes a command when the DataContext raises validation errors.*
+
+### Asynchronous
+- **DelayedCommandBehavior**
+  *Runs a command after a specified delay once the control is attached.*
 
 ## Interactivity (Infrastructure)
 
