@@ -83,19 +83,19 @@ public abstract class DropHandlerBase : IDropHandler
     }
         
     /// <summary>
-    /// Called when a drag enters the target.
+    /// Inserts an item into a collection at the specified index.
     /// </summary>
-    /// <param name="items"></param>
-    /// <param name="item"></param>
-    /// <param name="index"></param>
-    /// <typeparam name="T"></typeparam>
+    /// <param name="items">Collection to insert into.</param>
+    /// <param name="item">Item being inserted.</param>
+    /// <param name="index">Target index for insertion.</param>
+    /// <typeparam name="T">The item type.</typeparam>
     protected void InsertItem<T>(IList<T> items, T item, int index)
     {
         items.Insert(index, item);
     }
 
     /// <summary>
-    /// Called continuously while a drag is over the target.
+    /// Called when a drag enters the target.
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="e"></param>
@@ -116,7 +116,7 @@ public abstract class DropHandlerBase : IDropHandler
     }
 
     /// <summary>
-    /// Called when a drag is dropped on the target.
+    /// Called continuously while a drag is over the target.
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="e"></param>
@@ -137,7 +137,7 @@ public abstract class DropHandlerBase : IDropHandler
     }
 
     /// <summary>
-    /// Called when the pointer leaves the target during a drag.
+    /// Called when the drag is dropped on the target.
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="e"></param>
@@ -158,7 +158,7 @@ public abstract class DropHandlerBase : IDropHandler
     }
 
     /// <summary>
-    /// Validates whether the drag operation can be performed.
+    /// Called when the drag leaves the target.
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="e"></param>
@@ -168,7 +168,7 @@ public abstract class DropHandlerBase : IDropHandler
     }
 
     /// <summary>
-    /// Executes the drop operation.
+    /// Validates whether the drag operation can be performed.
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="e"></param>
@@ -182,7 +182,7 @@ public abstract class DropHandlerBase : IDropHandler
     }
 
     /// <summary>
-    /// Cancels the drag operation.
+    /// Executes the drop operation.
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="e"></param>
@@ -196,7 +196,7 @@ public abstract class DropHandlerBase : IDropHandler
     }
 
     /// <summary>
-    /// 
+    /// Cancels the drag operation.
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="e"></param>

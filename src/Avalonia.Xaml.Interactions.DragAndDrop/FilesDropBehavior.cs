@@ -15,13 +15,19 @@ public sealed class FilesDropBehavior : DropBehaviorBase
         Handler = new FilesDropHandler(ExecuteCommand);
     }
 
+    /// <summary>
+    /// Internal handler used to validate and execute file drop operations.
+    /// </summary>
+    /// <param name="execute">Callback invoked when files are successfully dropped.</param>
     private sealed class FilesDropHandler(System.Action<object?> execute) : DropHandlerBase
     {
+        /// <inheritdoc />
         public override bool Validate(object? sender, DragEventArgs e, object? sourceContext, object? targetContext, object? state)
         {
             return e.Data.Contains(DataFormats.Files);
         }
 
+        /// <inheritdoc />
         public override bool Execute(object? sender, DragEventArgs e, object? sourceContext, object? targetContext, object? state)
         {
             if (!e.Data.Contains(DataFormats.Files))
