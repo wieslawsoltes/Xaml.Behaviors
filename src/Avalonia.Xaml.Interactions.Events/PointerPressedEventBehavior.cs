@@ -4,7 +4,7 @@ using Avalonia.Interactivity;
 namespace Avalonia.Xaml.Interactions.Events;
 
 /// <summary>
-/// 
+/// Behavior that handles the <see cref="InputElement.PointerPressedEvent"/>.
 /// </summary>
 public abstract class PointerPressedEventBehavior : InteractiveBehaviorBase
 {
@@ -33,7 +33,7 @@ public abstract class PointerPressedEventBehavior : InteractiveBehaviorBase
     }
 
     /// <summary>
-    /// 
+    /// Called when a pointer is pressed over the associated control.
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="e"></param>

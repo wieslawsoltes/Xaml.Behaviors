@@ -4,7 +4,7 @@ using Avalonia.Interactivity;
 namespace Avalonia.Xaml.Interactions.Events;
 
 /// <summary>
-/// 
+/// Behavior that handles the <see cref="InputElement.PointerWheelChangedEvent"/>.
 /// </summary>
 public abstract class PointerWheelChangedEventBehavior : InteractiveBehaviorBase
 {
@@ -33,7 +33,7 @@ public abstract class PointerWheelChangedEventBehavior : InteractiveBehaviorBase
     }
 
     /// <summary>
-    /// 
+    /// Called when the mouse wheel changes while over the associated control.
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="e"></param>

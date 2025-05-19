@@ -3,7 +3,7 @@
 namespace Avalonia.Xaml.Interactions.Events;
 
 /// <summary>
-/// 
+/// Behavior that handles the <see cref="InputElement.GotFocusEvent"/>.
 /// </summary>
 public abstract class GotFocusEventBehavior : InteractiveBehaviorBase
 {
@@ -25,7 +25,7 @@ public abstract class GotFocusEventBehavior : InteractiveBehaviorBase
     }
 
     /// <summary>
-    /// 
+    /// Called when the associated control receives focus.
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="e"></param>

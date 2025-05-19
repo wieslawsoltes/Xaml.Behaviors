@@ -4,7 +4,7 @@ using Avalonia.Interactivity;
 namespace Avalonia.Xaml.Interactions.Events;
 
 /// <summary>
-/// 
+/// Behavior that listens for <see cref="Gestures.DoubleTappedEvent"/>.
 /// </summary>
 public abstract class DoubleTappedEventBehavior : InteractiveBehaviorBase
 {
@@ -26,7 +26,7 @@ public abstract class DoubleTappedEventBehavior : InteractiveBehaviorBase
     }
 
     /// <summary>
-    /// 
+    /// Called when a double tap gesture is raised on the associated object.
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="e"></param>

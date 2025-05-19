@@ -50,7 +50,7 @@ public abstract class OpenFilePickerBehaviorBase : PickerBehaviorBase
     }
 
     /// <summary>
-    /// 
+    /// Executes the open file picker using the provided sender and parameter.
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="parameter"></param>

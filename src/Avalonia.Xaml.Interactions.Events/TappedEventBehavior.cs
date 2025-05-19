@@ -4,7 +4,7 @@ using Avalonia.Interactivity;
 namespace Avalonia.Xaml.Interactions.Events;
 
 /// <summary>
-/// 
+/// Behavior that handles the <see cref="Gestures.TappedEvent"/>.
 /// </summary>
 public abstract class TappedEventBehavior : InteractiveBehaviorBase
 {
@@ -26,7 +26,7 @@ public abstract class TappedEventBehavior : InteractiveBehaviorBase
     }
 
     /// <summary>
-    /// 
+    /// Called when a tap gesture is raised on the associated control.
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="e"></param>

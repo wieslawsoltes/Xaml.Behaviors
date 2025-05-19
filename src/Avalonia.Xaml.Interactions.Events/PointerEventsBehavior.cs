@@ -4,7 +4,7 @@ using Avalonia.Interactivity;
 namespace Avalonia.Xaml.Interactions.Events;
 
 /// <summary>
-/// 
+/// Behavior that listens for multiple pointer events.
 /// </summary>
 public abstract class PointerEventsBehavior : InteractiveBehaviorBase
 {
@@ -53,7 +53,7 @@ public abstract class PointerEventsBehavior : InteractiveBehaviorBase
     }
 
     /// <summary>
-    /// 
+    /// Called when a pointer is pressed over the associated control.
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="e"></param>
@@ -62,7 +62,7 @@ public abstract class PointerEventsBehavior : InteractiveBehaviorBase
     }
 
     /// <summary>
-    /// 
+    /// Called when a pointer is released over the associated control.
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="e"></param>
@@ -71,7 +71,7 @@ public abstract class PointerEventsBehavior : InteractiveBehaviorBase
     }
 
     /// <summary>
-    /// 
+    /// Called when a pointer moves over the associated control.
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="e"></param>
