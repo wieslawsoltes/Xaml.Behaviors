@@ -7,19 +7,19 @@ namespace Avalonia.Xaml.Interactions.ReractiveUI;
 /// <summary>
 /// An action that navigates to a specified <see cref="IRoutableViewModel"/>.
 /// </summary>
-public class NavigateToViewModelAction : StyledElementAction
+public class NavigateAction : StyledElementAction
 {
     /// <summary>
     /// Identifies the <seealso cref="Router"/> avalonia property.
     /// </summary>
     public static readonly StyledProperty<RoutingState?> RouterProperty =
-        AvaloniaProperty.Register<NavigateToViewModelAction, RoutingState?>(nameof(Router));
+        AvaloniaProperty.Register<NavigateAction, RoutingState?>(nameof(Router));
 
     /// <summary>
     /// Identifies the <seealso cref="ViewModel"/> avalonia property.
     /// </summary>
     public static readonly StyledProperty<IRoutableViewModel?> ViewModelProperty =
-        AvaloniaProperty.Register<NavigateToViewModelAction, IRoutableViewModel?>(nameof(ViewModel));
+        AvaloniaProperty.Register<NavigateAction, IRoutableViewModel?>(nameof(ViewModel));
 
     /// <summary>
     /// Gets or sets the router used for navigation. This is an avalonia property.
