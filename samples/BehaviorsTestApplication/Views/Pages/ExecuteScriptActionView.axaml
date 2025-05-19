@@ -9,20 +9,28 @@
   <Design.DataContext>
     <vm:MainWindowViewModel />
   </Design.DataContext>
-  <Grid RowDefinitions="Auto,Auto,*">
-    <Button Content="Execute Script" Grid.Row="0" Margin="5">
+  <StackPanel Spacing="5">
+    <TextBox Name="ScriptTextBox" Text="Console.WriteLine((Sender as Control).Bounds);" />
+    <Button Content="Execute Script" >
+      <Interaction.Behaviors>
+        <EventTriggerBehavior EventName="Click" >
+          <ExecuteScriptAction Script="{Binding #ScriptTextBox.Text}" />
+        </EventTriggerBehavior>
+      </Interaction.Behaviors>
+    </Button>
+    <Button Content="Execute Script - System.Console.WriteLine" >
       <Interaction.Behaviors>
         <EventTriggerBehavior EventName="Click" >
           <ExecuteScriptAction Script="System.Console.WriteLine(&quot;Hi from script.&quot;);" />
         </EventTriggerBehavior>
       </Interaction.Behaviors>
     </Button>
-    <Button Content="Execute Script - Access Globals" Grid.Row="1" Margin="5">
+    <Button Content="Execute Script - Access Globals">
       <Interaction.Behaviors>
         <EventTriggerBehavior EventName="Click" >
           <ExecuteScriptAction Script="System.Console.WriteLine(Sender);" />
         </EventTriggerBehavior>
       </Interaction.Behaviors>
     </Button>
-  </Grid>
+  </StackPanel>
 </UserControl>
