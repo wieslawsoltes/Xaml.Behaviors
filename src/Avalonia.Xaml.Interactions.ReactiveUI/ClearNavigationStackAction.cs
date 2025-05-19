@@ -12,7 +12,7 @@ public class ClearNavigationStackAction : StyledElementAction
     /// Identifies the <seealso cref="Router"/> avalonia property.
     /// </summary>
     public static readonly StyledProperty<RoutingState?> RouterProperty =
-        AvaloniaProperty.Register<NavigateAction, RoutingState?>(nameof(Router));
+        AvaloniaProperty.Register<ClearNavigationStackAction, RoutingState?>(nameof(Router));
 
     /// <summary>
     /// Gets or sets the router used for navigation. This is an avalonia property.
