@@ -1,9 +1,11 @@
 using System;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
+using System.Linq;
 using Avalonia.Threading;
 using Microsoft.CodeAnalysis.CSharp.Scripting;
 using Avalonia.Xaml.Interactivity;
+using Microsoft.CodeAnalysis.Scripting;
 
 namespace Avalonia.Xaml.Interactions.Scripting;
 
@@ -36,13 +38,31 @@ public class ExecuteScriptAction : StyledElementAction
             return false;
         }
 
+        var script = Script;
         var globals = new ExecuteScriptActionGlobals(sender, parameter);
-
+        var loadedAssemblies = AppDomain.CurrentDomain
+            .GetAssemblies()
+            .Where(a => !a.IsDynamic && !string.IsNullOrEmpty(a.Location));
+ 
         _ = Dispatcher.UIThread.InvokeAsync(async () =>
         {
             try
             {
-                _ = await CSharpScript.EvaluateAsync(Script, globals: globals);
+                var options = ScriptOptions.Default.WithImports(
+                        "System",
+                        "System.Collections.Generic",
+                        "System.Linq",
+                        "Avalonia",
+                        "Avalonia.Collections",
+                        "Avalonia.Controls",
+                        "Avalonia.Interactivity",
+                        "Avalonia.Metadata",
+                        "Avalonia.LogicalTree",
+                        "Avalonia.Reactive",
+                        "Avalonia.Input",
+                        "Avalonia.Markup.Xaml")
+                    .WithReferences(loadedAssemblies);
+                _ = await CSharpScript.RunAsync(script, options, globals);
             }
             catch (Exception ex)
             {
