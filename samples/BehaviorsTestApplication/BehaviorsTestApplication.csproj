@@ -53,11 +53,4 @@
     <ProjectReference Include="..\..\src\Avalonia.Xaml.Interactivity\Avalonia.Xaml.Interactivity.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Compile Update="Views\Pages\ExecuteScriptActionView.axaml.cs">
-      <DependentUpon>ExecuteScriptActionView.axaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
-  </ItemGroup>
-
 </Project>
