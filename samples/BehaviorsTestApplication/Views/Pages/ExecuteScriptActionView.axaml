@@ -1,0 +1,28 @@
+﻿<UserControl x:Class="BehaviorsTestApplication.Views.Pages.ExecuteScriptActionView"
+             xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:BehaviorsTestApplication.ViewModels"
+             x:DataType="vm:MainWindowViewModel"
+             mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="450">
+  <Design.DataContext>
+    <vm:MainWindowViewModel />
+  </Design.DataContext>
+  <Grid RowDefinitions="Auto,Auto,*">
+    <Button Content="Execute Script" Grid.Row="0" Margin="5">
+      <Interaction.Behaviors>
+        <EventTriggerBehavior EventName="Click" >
+          <ExecuteScriptAction Script="System.Console.WriteLine(&quot;Hi from script.&quot;);" />
+        </EventTriggerBehavior>
+      </Interaction.Behaviors>
+    </Button>
+    <Button Content="Execute Script - Access Globals" Grid.Row="1" Margin="5">
+      <Interaction.Behaviors>
+        <EventTriggerBehavior EventName="Click" >
+          <ExecuteScriptAction Script="System.Console.WriteLine(Sender);" />
+        </EventTriggerBehavior>
+      </Interaction.Behaviors>
+    </Button>
+  </Grid>
+</UserControl>
