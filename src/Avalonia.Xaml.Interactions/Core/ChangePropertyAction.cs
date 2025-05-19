@@ -393,6 +393,13 @@ public class ChangePropertyAction : Avalonia.Xaml.Interactivity.StyledElementAct
         }
     }
 
+    /// <summary>
+    /// Creates and compiles a setter for the specified property.
+    /// </summary>
+    /// <param name="propertyInfo">The <see cref="PropertyInfo"/> object representing the property for which the setter is being created.</param>
+    /// <returns>
+    /// An <see cref="Action{T1, T2}"/> delegate that takes an object instance and a value, and sets the value of the specified property on the instance.
+    /// </returns>
     private static Action<object, object?> CreateSetter(PropertyInfo propertyInfo)
     {
         var target = Expression.Parameter(typeof(object), "target");
