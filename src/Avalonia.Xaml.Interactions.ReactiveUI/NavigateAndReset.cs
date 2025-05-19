@@ -13,13 +13,13 @@ public class NavigateAndReset : StyledElementAction
     /// Identifies the <seealso cref="Router"/> avalonia property.
     /// </summary>
     public static readonly StyledProperty<RoutingState?> RouterProperty =
-        AvaloniaProperty.Register<NavigateAction, RoutingState?>(nameof(Router));
+        AvaloniaProperty.Register<NavigateAndReset, RoutingState?>(nameof(Router));
 
     /// <summary>
     /// Identifies the <seealso cref="ViewModel"/> avalonia property.
     /// </summary>
     public static readonly StyledProperty<IRoutableViewModel?> ViewModelProperty =
-        AvaloniaProperty.Register<NavigateAction, IRoutableViewModel?>(nameof(ViewModel));
+        AvaloniaProperty.Register<NavigateAndReset, IRoutableViewModel?>(nameof(ViewModel));
 
     /// <summary>
     /// Gets or sets the router used for navigation. This is an avalonia property.
