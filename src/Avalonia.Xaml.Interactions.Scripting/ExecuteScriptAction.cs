@@ -1,6 +1,7 @@
 using System;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
+using Avalonia.Threading;
 using Microsoft.CodeAnalysis.CSharp.Scripting;
 using Avalonia.Xaml.Interactivity;
 
@@ -35,25 +36,19 @@ public class ExecuteScriptAction : StyledElementAction
             return false;
         }
 
-        var globals = new Globals(sender, parameter);
-        try
-        {
-            _ = CSharpScript.EvaluateAsync<object?>(Script!, globals: globals);
-            return true;
-        }
-        catch (Exception ex)
-        {
-            Debug.WriteLine($"Script execution failed: {ex.Message}");
-            return false;
-        }
-    }
+        var globals = new ExecuteScriptActionGlobals(sender, parameter);
 
-    private sealed class Globals(object? sender, object? parameter)
-    {
-        // ReSharper disable once UnusedMember.Local
-        public object? Sender { get; } = sender;
-
-        // ReSharper disable once UnusedMember.Local
-        public object? Parameter { get; } = parameter;
+        _ = Dispatcher.UIThread.InvokeAsync(async () =>
+        {
+            try
+            {
+                _ = await CSharpScript.EvaluateAsync(Script, globals: globals);
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Script execution failed: {ex.Message}");
+            }
+        });
+        return true;
     }
 }
