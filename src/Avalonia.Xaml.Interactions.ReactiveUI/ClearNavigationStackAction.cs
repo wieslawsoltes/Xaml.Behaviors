@@ -1,7 +1,7 @@
 using Avalonia.Xaml.Interactivity;
 using ReactiveUI;
 
-namespace Avalonia.Xaml.Interactions.ReractiveUI;
+namespace Avalonia.Xaml.Interactions.ReactiveUI;
 
 /// <summary>
 /// An action that resets the navigation stack.
