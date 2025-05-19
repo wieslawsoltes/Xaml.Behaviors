@@ -2,7 +2,7 @@ using System;
 using Avalonia.Xaml.Interactivity;
 using ReactiveUI;
 
-namespace Avalonia.Xaml.Interactions.ReractiveUI;
+namespace Avalonia.Xaml.Interactions.ReactiveUI;
 
 /// <summary>
 /// An action that navigates to a specified <see cref="IRoutableViewModel"/> and resets the navigation stack.
