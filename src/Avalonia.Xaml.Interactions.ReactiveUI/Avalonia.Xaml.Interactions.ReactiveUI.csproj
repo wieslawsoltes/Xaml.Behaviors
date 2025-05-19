@@ -5,7 +5,6 @@
     <OutputType>Library</OutputType>
     <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
     <Nullable>enable</Nullable>
-    <RootNamespace>Avalonia.Xaml.Interactions.ReractiveUI</RootNamespace>
   </PropertyGroup>
 
   <PropertyGroup>
