@@ -74,7 +74,7 @@ public abstract class DragAndDropEventsBehavior : StyledElementBehavior<Control>
 
         if (change.Property == TargetControlProperty)
         {
-            var oldValue = change.GetNewValue<Control?>();
+            var oldValue = change.GetOldValue<Control?>();
             if (oldValue is not null)
             {
                 DetachEvents(oldValue);
