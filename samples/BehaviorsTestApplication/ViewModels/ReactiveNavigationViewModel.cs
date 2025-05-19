@@ -1,3 +1,4 @@
+using System;
 using ReactiveUI;
 
 namespace BehaviorsTestApplication.ViewModels;
