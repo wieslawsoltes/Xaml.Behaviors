@@ -244,6 +244,14 @@ public class ChangePropertyAction : Avalonia.Xaml.Interactivity.StyledElementAct
                     propertyName,
                     targetTypeName));
             }
+            else if (propertyInfo.SetMethod is null)
+            {
+                throw new ArgumentException(string.Format(
+                    CultureInfo.CurrentCulture,
+                    "Property {0} on type {1} does not have a setter method.",
+                    propertyName,
+                    targetTypeName));
+            }
 
             setter = new PropertySetter(CreateSetter(propertyInfo), propertyInfo.PropertyType);
             s_propertyCache.TryAdd((targetType, propertyName), setter);
