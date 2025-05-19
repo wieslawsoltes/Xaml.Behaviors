@@ -43,6 +43,7 @@
   <!--<Import Project="..\..\build\SignAssembly.props" />-->
 
   <ItemGroup>
+    <ProjectReference Include="..\..\src\Avalonia.Xaml.Interactions.Scripting\Avalonia.Xaml.Interactions.Scripting.csproj" />
     <ProjectReference Include="..\..\src\Avalonia.Xaml.Interactions\Avalonia.Xaml.Interactions.csproj" />
     <ProjectReference Include="..\..\src\Avalonia.Xaml.Interactions.Custom\Avalonia.Xaml.Interactions.Custom.csproj" />
     <ProjectReference Include="..\..\src\Avalonia.Xaml.Interactions.DragAndDrop\Avalonia.Xaml.Interactions.DragAndDrop.csproj" />

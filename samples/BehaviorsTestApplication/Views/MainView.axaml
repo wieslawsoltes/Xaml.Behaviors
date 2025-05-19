@@ -103,5 +103,8 @@
     <TabItem Header="IfElseTrigger">
       <pages:IfElseTriggerView />
     </TabItem>
+    <TabItem Header="ExecuteScriptAction">
+      <pages:ExecuteScriptActionView />
+    </TabItem>
   </TabControl>
 </UserControl>
