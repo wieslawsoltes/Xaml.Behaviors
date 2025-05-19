@@ -82,7 +82,7 @@ public abstract class ContextDropBehaviorBase : StyledElementBehavior<Control>
     protected abstract void OnOver(object? sender, DragEventArgs e, object? sourceContext, object? targetContext);
 
     /// <summary>
-    /// Called when the drag leaves the target.
+    /// Called when the drag is dropped on the target.
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="e"></param>
