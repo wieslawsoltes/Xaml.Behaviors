@@ -70,8 +70,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Avalonia.Xaml.Interactions.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Avalonia.Xaml.Interactions.Events", "src\Avalonia.Xaml.Interactions.Events\Avalonia.Xaml.Interactions.Events.csproj", "{648FFF6A-A8F5-491C-AC1C-19FC2061D6B4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Avalonia.Xaml.Interactions.Scripting", "src\Avalonia.Xaml.Interactions.Scripting\Avalonia.Xaml.Interactions.Scripting.csproj", "{CF8EED65-DADD-4A68-84F4-A0516DCC475E}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xaml.Behaviors", "src\Xaml.Behaviors\Xaml.Behaviors.csproj", "{4D130812-D955-4C68-B6A6-7D25F2C5DC0A}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "samples", "samples", "{451F0852-450F-40B4-8378-8994461024B8}"
