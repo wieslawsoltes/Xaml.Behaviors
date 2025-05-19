@@ -4,7 +4,7 @@ using Avalonia.Interactivity;
 namespace Avalonia.Xaml.Interactions.Events;
 
 /// <summary>
-/// 
+/// Behavior that listens for the <see cref="InputElement.PointerCaptureLostEvent"/>.
 /// </summary>
 public abstract class PointerCaptureLostEventBehavior : InteractiveBehaviorBase
 {
@@ -33,7 +33,7 @@ public abstract class PointerCaptureLostEventBehavior : InteractiveBehaviorBase
     }
 
     /// <summary>
-    /// 
+    /// Called when pointer capture is lost on the associated control.
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="e"></param>

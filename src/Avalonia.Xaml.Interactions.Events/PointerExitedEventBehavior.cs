@@ -4,7 +4,7 @@ using Avalonia.Interactivity;
 namespace Avalonia.Xaml.Interactions.Events;
 
 /// <summary>
-/// 
+/// Behavior that handles the <see cref="InputElement.PointerExitedEvent"/>.
 /// </summary>
 public abstract class PointerExitedEventBehavior : InteractiveBehaviorBase
 {
@@ -34,7 +34,7 @@ public abstract class PointerExitedEventBehavior : InteractiveBehaviorBase
     }
 
     /// <summary>
-    /// 
+    /// Called when a pointer leaves the associated control.
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="e"></param>

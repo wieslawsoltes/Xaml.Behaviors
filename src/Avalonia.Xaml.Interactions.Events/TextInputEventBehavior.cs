@@ -4,7 +4,7 @@ using Avalonia.Interactivity;
 namespace Avalonia.Xaml.Interactions.Events;
 
 /// <summary>
-/// 
+/// Behavior that listens for the <see cref="InputElement.TextInputEvent"/>.
 /// </summary>
 public abstract class TextInputEventBehavior : InteractiveBehaviorBase
 {
@@ -33,7 +33,7 @@ public abstract class TextInputEventBehavior : InteractiveBehaviorBase
     }
 
     /// <summary>
-    /// 
+    /// Called when text input is received by the associated control.
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="e"></param>

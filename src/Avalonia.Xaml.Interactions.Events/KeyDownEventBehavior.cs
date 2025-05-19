@@ -4,7 +4,7 @@ using Avalonia.Interactivity;
 namespace Avalonia.Xaml.Interactions.Events;
 
 /// <summary>
-/// 
+/// Behavior that listens for the <see cref="InputElement.KeyDownEvent"/>.
 /// </summary>
 public abstract class KeyDownEventBehavior : InteractiveBehaviorBase
 {
@@ -33,7 +33,7 @@ public abstract class KeyDownEventBehavior : InteractiveBehaviorBase
     }
 
     /// <summary>
-    /// 
+    /// Called when a key is pressed while the associated control has focus.
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="e"></param>

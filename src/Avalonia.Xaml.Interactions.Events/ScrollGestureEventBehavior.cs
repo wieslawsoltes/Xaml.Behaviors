@@ -3,7 +3,7 @@
 namespace Avalonia.Xaml.Interactions.Events;
 
 /// <summary>
-/// 
+/// Behavior that handles the <see cref="Gestures.ScrollGestureEvent"/>.
 /// </summary>
 public abstract class ScrollGestureEventBehavior : InteractiveBehaviorBase
 {
@@ -25,7 +25,7 @@ public abstract class ScrollGestureEventBehavior : InteractiveBehaviorBase
     }
 
     /// <summary>
-    /// 
+    /// Called when a scroll gesture occurs on the associated control.
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="e"></param>

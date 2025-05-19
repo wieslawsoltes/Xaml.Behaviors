@@ -4,7 +4,7 @@ using Avalonia.Interactivity;
 namespace Avalonia.Xaml.Interactions.Events;
 
 /// <summary>
-/// 
+/// Behavior that handles the <see cref="InputElement.LostFocusEvent"/>.
 /// </summary>
 public abstract class LostFocusEventBehavior : InteractiveBehaviorBase
 {
@@ -26,7 +26,7 @@ public abstract class LostFocusEventBehavior : InteractiveBehaviorBase
     }
 
     /// <summary>
-    /// 
+    /// Called when the associated control loses focus.
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="e"></param>

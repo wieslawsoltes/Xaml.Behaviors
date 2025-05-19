@@ -3,7 +3,7 @@
 namespace Avalonia.Xaml.Interactions.Events;
 
 /// <summary>
-/// 
+/// Behavior that handles the <see cref="Gestures.ScrollGestureEndedEvent"/>.
 /// </summary>
 public abstract class ScrollGestureEndedEventBehavior : InteractiveBehaviorBase
 {
@@ -25,7 +25,7 @@ public abstract class ScrollGestureEndedEventBehavior : InteractiveBehaviorBase
     }
 
     /// <summary>
-    /// 
+    /// Called when a scroll gesture ends on the associated control.
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="e"></param>

@@ -4,7 +4,7 @@ using Avalonia.Interactivity;
 namespace Avalonia.Xaml.Interactions.Events;
 
 /// <summary>
-/// 
+/// Behavior that handles the <see cref="InputElement.PointerMovedEvent"/>.
 /// </summary>
 public abstract class PointerMovedEventBehavior : InteractiveBehaviorBase
 {
@@ -33,7 +33,7 @@ public abstract class PointerMovedEventBehavior : InteractiveBehaviorBase
     }
 
     /// <summary>
-    /// 
+    /// Called when a pointer moves over the associated control.
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="e"></param>
