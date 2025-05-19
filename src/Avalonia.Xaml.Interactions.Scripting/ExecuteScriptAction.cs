@@ -28,23 +28,23 @@ public class ExecuteScriptAction : StyledElementAction
     }
 
     /// <inheritdoc />
-    public override object? Execute(object? sender, object? parameter)
+    public override object Execute(object? sender, object? parameter)
     {
         if (string.IsNullOrWhiteSpace(Script))
         {
-            return null;
+            return false;
         }
 
         var globals = new Globals(sender, parameter);
         try
         {
-            var task = CSharpScript.EvaluateAsync<object?>(Script!, globals: globals);
-            return task.GetAwaiter().GetResult();
+            _ = CSharpScript.EvaluateAsync<object?>(Script!, globals: globals);
+            return true;
         }
         catch (Exception ex)
         {
             Debug.WriteLine($"Script execution failed: {ex.Message}");
-            return null;
+            return false;
         }
     }
 
