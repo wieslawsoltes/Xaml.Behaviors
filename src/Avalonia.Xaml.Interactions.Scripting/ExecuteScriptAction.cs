@@ -42,7 +42,8 @@ public class ExecuteScriptAction : StyledElementAction
         var globals = new ExecuteScriptActionGlobals(sender, parameter);
         var loadedAssemblies = AppDomain.CurrentDomain
             .GetAssemblies()
-            .Where(a => !a.IsDynamic && !string.IsNullOrEmpty(a.Location));
+            .Where(a => !a.IsDynamic && !string.IsNullOrEmpty(a.Location))
+            .ToArray();
  
         _ = Dispatcher.UIThread.InvokeAsync(async () =>
         {
