@@ -289,11 +289,23 @@ This section provides an overview of all available classes and their purpose in 
 - **DropBehaviorBase**
   *Base class for behaviors that handle drag-and-drop events and execute commands.*
 
+- **ContextDragBehaviorBase**
+  *Base class for context drag behaviors that initiate a drag using context data.*
+
+- **ContextDropBehaviorBase**
+  *Base class for context drop behaviors handling dropped context data.*
+
+- **DragAndDropEventsBehavior**
+  *Abstract behavior used to attach handlers for drag-and-drop events.*
+
 - **FilesDropBehavior**
   *Executes a command with a collection of dropped files.*
 
 - **TextDropBehavior**
   *Executes a command with dropped text.*
+
+- **TypedDragBehaviorBase**
+  *Base class for drag behaviors working with a specific data type.*
 
 - **TypedDragBehavior**
   *Provides drag behavior for items of a specified data type.*
@@ -715,8 +727,25 @@ This section provides an overview of all available classes and their purpose in 
 - **SaveFilePickerAction**  
   *Opens a save file picker dialog and passes the chosen file as a command parameter.*
 
-- **SaveFilePickerBehaviorBase**  
+- **SaveFilePickerBehaviorBase**
   *Base behavior for saving files using a file picker dialog.*
+
+### Scripting
+- **ExecuteScriptAction**
+  *Executes a C# script using the Roslyn scripting API.*
+
+### ReactiveUI
+- **ClearNavigationStackAction**
+  *Resets the ReactiveUI navigation stack.*
+
+- **NavigateAction**
+  *Navigates to a specified `IRoutableViewModel` using a router.*
+
+- **NavigateBackAction**
+  *Navigates back within a `RoutingState` stack.*
+
+- **NavigateAndReset**
+  *Navigates to a view model and clears the navigation stack.*
 
 ### TextBox
 - **TextBoxSelectAllOnGotFocusBehavior**  
