@@ -61,6 +61,8 @@ public class ChangePropertyAction : Avalonia.Xaml.Interactivity.StyledElementAct
 
             return null;
         });
+
+        return cachedValue;
     }
 
     [RequiresUnreferencedCode("This functionality is not compatible with trimming.")]
