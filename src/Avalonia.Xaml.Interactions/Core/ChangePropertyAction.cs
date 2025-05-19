@@ -35,7 +35,7 @@ public class ChangePropertyAction : Avalonia.Xaml.Interactivity.StyledElementAct
     [RequiresUnreferencedCode("This functionality is not compatible with trimming.")]
     private static Type? GetTypeByName(string name)
     {
-        return s_typeCache.GetOrAdd(name, static key =>
+        var cachedValue = s_typeCache.GetOrAdd(name, static key =>
         {
             var assemblies = AppDomain.CurrentDomain.GetAssemblies();
 
