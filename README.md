@@ -264,8 +264,11 @@ This section provides an overview of all available classes and their purpose in 
 - **UnloadedTrigger**  
   *Triggers actions when the control is unloaded from the visual tree.*
 
-- **ValueChangedTriggerBehavior**  
+- **ValueChangedTriggerBehavior**
   *Triggers actions when the value of a bound property changes.*
+
+- **IfElseTrigger**
+  *Executes one collection of actions when a condition is true and another when it is false.*
 
 ### DragAndDrop
 - **ContextDragBehavior**  
@@ -280,10 +283,19 @@ This section provides an overview of all available classes and their purpose in 
 - **IDragHandler**  
   *Interface for classes that handle additional logic before and after a drag–drop operation.*
 
-- **IDropHandler**  
+- **IDropHandler**
   *Interface for classes that implement validation and handling of drop operations.*
 
-- **TypedDragBehavior**  
+- **DropBehaviorBase**
+  *Base class for behaviors that handle drag-and-drop events and execute commands.*
+
+- **FilesDropBehavior**
+  *Executes a command with a collection of dropped files.*
+
+- **TextDropBehavior**
+  *Executes a command with dropped text.*
+
+- **TypedDragBehavior**
   *Provides drag behavior for items of a specified data type.*
 
 ### Draggable
@@ -595,10 +607,13 @@ This section provides an overview of all available classes and their purpose in 
 - **ItemsControlContainerIndexChangedTrigger**  
   *Triggers actions when the index of an item’s container changes.*
 
-- **ItemsControlContainerPreparedTrigger**  
+- **ItemsControlContainerPreparedTrigger**
   *Triggers actions when a container for an item is prepared.*
 
-- **ScrollToItemBehavior**  
+- **ItemsControlPreparingContainerTrigger**
+  *Executes actions when the ItemsControl raises the PreparingContainer event.*
+
+- **ScrollToItemBehavior**
   *Automatically scrolls the ItemsControl to make a specified item visible.*
 
 - **ScrollToItemIndexBehavior**  

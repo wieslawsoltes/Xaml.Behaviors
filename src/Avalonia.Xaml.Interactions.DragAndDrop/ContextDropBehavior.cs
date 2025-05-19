@@ -6,29 +6,29 @@ using Avalonia.Xaml.Interactivity;
 namespace Avalonia.Xaml.Interactions.DragAndDrop;
 
 /// <summary>
-/// 
+/// Behavior that enables dropping context data onto the associated control.
 /// </summary>
 public class ContextDropBehavior : StyledElementBehavior<Control>
 {
     /// <summary>
-    /// 
+    /// Identifies the data format used to store context information.
     /// </summary>
     public static string DataFormat = nameof(Context);
 
     /// <summary>
-    /// 
+    /// Identifies the <see cref="Context"/> avalonia property.
     /// </summary>
     public static readonly StyledProperty<object?> ContextProperty =
         AvaloniaProperty.Register<ContextDropBehavior, object?>(nameof(Context));
 
     /// <summary>
-    /// 
+    /// Identifies the <see cref="Handler"/> avalonia property.
     /// </summary>
     public static readonly StyledProperty<IDropHandler?> HandlerProperty =
         AvaloniaProperty.Register<ContextDropBehavior, IDropHandler?>(nameof(Handler));
 
     /// <summary>
-    /// 
+    /// Gets or sets context data provided to the drop handler.
     /// </summary>
     public object? Context
     {
@@ -37,7 +37,7 @@ public class ContextDropBehavior : StyledElementBehavior<Control>
     }
 
     /// <summary>
-    /// 
+    /// Gets or sets the drop handler that receives drop notifications.
     /// </summary>
     public IDropHandler? Handler
     {

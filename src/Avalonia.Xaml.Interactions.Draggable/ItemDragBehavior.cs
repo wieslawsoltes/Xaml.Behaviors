@@ -11,7 +11,7 @@ using Avalonia.Xaml.Interactivity;
 namespace Avalonia.Xaml.Interactions.Draggable;
 
 /// <summary>
-/// 
+/// Allows dragging items within an <see cref="ItemsControl"/>.
 /// </summary>
 public class ItemDragBehavior : StyledElementBehavior<Control>
 {
@@ -25,25 +25,25 @@ public class ItemDragBehavior : StyledElementBehavior<Control>
     private bool _captured;
 
     /// <summary>
-    /// 
+    /// Identifies the <see cref="Orientation"/> avalonia property.
     /// </summary>
-    public static readonly StyledProperty<Orientation> OrientationProperty = 
+    public static readonly StyledProperty<Orientation> OrientationProperty =
         AvaloniaProperty.Register<ItemDragBehavior, Orientation>(nameof(Orientation));
 
     /// <summary>
-    /// 
+    /// Identifies the <see cref="HorizontalDragThreshold"/> avalonia property.
     /// </summary>
-    public static readonly StyledProperty<double> HorizontalDragThresholdProperty = 
+    public static readonly StyledProperty<double> HorizontalDragThresholdProperty =
         AvaloniaProperty.Register<ItemDragBehavior, double>(nameof(HorizontalDragThreshold), 3);
 
     /// <summary>
-    /// 
+    /// Identifies the <see cref="VerticalDragThreshold"/> avalonia property.
     /// </summary>
     public static readonly StyledProperty<double> VerticalDragThresholdProperty =
         AvaloniaProperty.Register<ItemDragBehavior, double>(nameof(VerticalDragThreshold), 3);
 
     /// <summary>
-    /// 
+    /// Gets or sets the orientation of the drag operation.
     /// </summary>
     public Orientation Orientation
     {
@@ -52,7 +52,7 @@ public class ItemDragBehavior : StyledElementBehavior<Control>
     }
 
     /// <summary>
-    /// 
+    /// Gets or sets the horizontal drag threshold in pixels.
     /// </summary>
     public double HorizontalDragThreshold
     {
@@ -61,7 +61,7 @@ public class ItemDragBehavior : StyledElementBehavior<Control>
     }
 
     /// <summary>
-    /// 
+    /// Gets or sets the vertical drag threshold in pixels.
     /// </summary>
     public double VerticalDragThreshold
     {

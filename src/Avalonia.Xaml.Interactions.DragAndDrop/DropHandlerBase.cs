@@ -5,12 +5,12 @@ using Avalonia.Interactivity;
 namespace Avalonia.Xaml.Interactions.DragAndDrop;
 
 /// <summary>
-/// 
+/// Provides helper methods for custom drop handlers.
 /// </summary>
 public abstract class DropHandlerBase : IDropHandler
 {
     /// <summary>
-    /// 
+    /// Moves an item within a collection.
     /// </summary>
     /// <param name="items"></param>
     /// <param name="sourceIndex"></param>
@@ -37,7 +37,7 @@ public abstract class DropHandlerBase : IDropHandler
     }
 
     /// <summary>
-    /// 
+    /// Moves an item from one collection to another.
     /// </summary>
     /// <param name="sourceItems"></param>
     /// <param name="targetItems"></param>
@@ -52,7 +52,7 @@ public abstract class DropHandlerBase : IDropHandler
     }
         
     /// <summary>
-    /// 
+    /// Swaps two items inside a collection.
     /// </summary>
     /// <param name="items"></param>
     /// <param name="sourceIndex"></param>
@@ -67,7 +67,7 @@ public abstract class DropHandlerBase : IDropHandler
     }
 
     /// <summary>
-    /// 
+    /// Inserts an item into a collection at the specified index.
     /// </summary>
     /// <param name="sourceItems"></param>
     /// <param name="targetItems"></param>
@@ -83,7 +83,7 @@ public abstract class DropHandlerBase : IDropHandler
     }
         
     /// <summary>
-    /// 
+    /// Called when a drag enters the target.
     /// </summary>
     /// <param name="items"></param>
     /// <param name="item"></param>
@@ -95,7 +95,7 @@ public abstract class DropHandlerBase : IDropHandler
     }
 
     /// <summary>
-    /// 
+    /// Called continuously while a drag is over the target.
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="e"></param>
@@ -116,7 +116,7 @@ public abstract class DropHandlerBase : IDropHandler
     }
 
     /// <summary>
-    /// 
+    /// Called when a drag is dropped on the target.
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="e"></param>
@@ -137,7 +137,7 @@ public abstract class DropHandlerBase : IDropHandler
     }
 
     /// <summary>
-    /// 
+    /// Called when the pointer leaves the target during a drag.
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="e"></param>
@@ -158,7 +158,7 @@ public abstract class DropHandlerBase : IDropHandler
     }
 
     /// <summary>
-    /// 
+    /// Validates whether the drag operation can be performed.
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="e"></param>
@@ -168,7 +168,7 @@ public abstract class DropHandlerBase : IDropHandler
     }
 
     /// <summary>
-    /// 
+    /// Executes the drop operation.
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="e"></param>
@@ -182,7 +182,7 @@ public abstract class DropHandlerBase : IDropHandler
     }
 
     /// <summary>
-    /// 
+    /// Cancels the drag operation.
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="e"></param>
