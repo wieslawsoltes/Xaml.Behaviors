@@ -19,12 +19,12 @@ public sealed class FilesDropBehavior : DropBehaviorBase
     {
         public override bool Validate(object? sender, DragEventArgs e, object? sourceContext, object? targetContext, object? state)
         {
-            return e.Data.Contains(DataFormats.FileNames);
+            return e.Data.Contains(DataFormats.Files);
         }
 
         public override bool Execute(object? sender, DragEventArgs e, object? sourceContext, object? targetContext, object? state)
         {
-            if (!e.Data.Contains(DataFormats.FileNames))
+            if (!e.Data.Contains(DataFormats.Files))
             {
                 return false;
             }
