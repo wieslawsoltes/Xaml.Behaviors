@@ -1,4 +1,4 @@
-using System.Reactive;
+using System;
 using Avalonia.Xaml.Interactivity;
 using ReactiveUI;
 
@@ -42,7 +42,7 @@ public class NavigateBackAction : StyledElementAction
             return false;
         }
 
-        Router.NavigateBack.Execute().Subscribe(new AnonymousObserver<IRoutableViewModel>(_ => { }));
+        Router.NavigateBack.Execute().Subscribe();
         return true;
     }
 }
