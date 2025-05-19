@@ -66,14 +66,14 @@ public abstract class ContextDropBehaviorBase : StyledElementBehavior<Control>
     protected abstract void OnEnter(object? sender, DragEventArgs e, object? sourceContext, object? targetContext);
     
     /// <summary>
-    /// Called repeatedly as the drag moves over the target.
+    /// Called when the drag leaves the target.
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="e"></param>
     protected abstract void OnLeave(object? sender, RoutedEventArgs e);
 
     /// <summary>
-    /// Called when the drag is dropped on the target.
+    /// Called repeatedly as the drag moves over the target.
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="e"></param>
