@@ -11,20 +11,36 @@
     <vm:ReactiveNavigationViewModel />
   </Design.DataContext>
   <Grid RowDefinitions="Auto,*" Margin="5">
-    <StackPanel Orientation="Horizontal" Spacing="5">
+    <WrapPanel Orientation="Horizontal" ItemSpacing="5" LineSpacing="5">
       <Button Content="Navigate to Details">
         <Interaction.Behaviors>
           <EventTriggerBehavior EventName="Click">
-            <NavigateAction Router="{Binding Router}" 
+            <NavigateAction Router="{Binding Router}"
                             ViewModel="{Binding DetailsViewModel}" />
+          </EventTriggerBehavior>
+        </Interaction.Behaviors>
+      </Button>
+      <Button Content="Navigate to Details (Generic)">
+        <Interaction.Behaviors>
+          <EventTriggerBehavior EventName="Click">
+            <NavigateToAction x:TypeArguments="vm:DetailPageViewModel"
+                              Router="{Binding Router}" />
           </EventTriggerBehavior>
         </Interaction.Behaviors>
       </Button>
       <Button Content="Navigate to Home and Reset">
         <Interaction.Behaviors>
           <EventTriggerBehavior EventName="Click">
-            <NavigateAndReset Router="{Binding Router}" 
+            <NavigateAndReset Router="{Binding Router}"
                               ViewModel="{Binding HomePageViewModel}" />
+          </EventTriggerBehavior>
+        </Interaction.Behaviors>
+      </Button>
+      <Button Content="Navigate to Home and Reset (Generic)">
+        <Interaction.Behaviors>
+          <EventTriggerBehavior EventName="Click">
+            <NavigateToAndResetAction x:TypeArguments="vm:HomePageViewModel"
+                                      Router="{Binding Router}" />
           </EventTriggerBehavior>
         </Interaction.Behaviors>
       </Button>
@@ -42,7 +58,7 @@
           </EventTriggerBehavior>
         </Interaction.Behaviors>
       </Button>
-    </StackPanel>
+    </WrapPanel>
     <rxui:RoutedViewHost Router="{Binding Router}" Grid.Row="1" />
   </Grid>
 </UserControl>
