@@ -12,32 +12,32 @@
   </Design.DataContext>
   <Grid RowDefinitions="Auto,*" Margin="5">
     <StackPanel Orientation="Horizontal" Spacing="5">
-      <Button x:Name="NavigateButton" Content="Navigate to Details">
+      <Button Content="Navigate to Details">
         <Interaction.Behaviors>
-          <EventTriggerBehavior EventName="Click" SourceObject="NavigateButton">
+          <EventTriggerBehavior EventName="Click">
             <NavigateAction Router="{Binding Router}" 
                             ViewModel="{Binding DetailsViewModel}" />
           </EventTriggerBehavior>
         </Interaction.Behaviors>
       </Button>
-      <Button x:Name="ResetButton" Content="Navigate to Home and Reset">
+      <Button Content="Navigate to Home and Reset">
         <Interaction.Behaviors>
-          <EventTriggerBehavior EventName="Click" SourceObject="ResetButton">
+          <EventTriggerBehavior EventName="Click">
             <NavigateAndReset Router="{Binding Router}" 
                               ViewModel="{Binding HomePageViewModel}" />
           </EventTriggerBehavior>
         </Interaction.Behaviors>
       </Button>
-      <Button x:Name="BackButton" Content="Navigate Back">
+      <Button Content="Navigate Back">
         <Interaction.Behaviors>
-          <EventTriggerBehavior EventName="Click" SourceObject="BackButton">
+          <EventTriggerBehavior EventName="Click">
             <NavigateBackAction Router="{Binding Router}" />
           </EventTriggerBehavior>
         </Interaction.Behaviors>
       </Button>
-      <Button x:Name="ClearButton" Content="Clear Navigation">
+      <Button Content="Clear Navigation">
         <Interaction.Behaviors>
-          <EventTriggerBehavior EventName="Click" SourceObject="ClearButton">
+          <EventTriggerBehavior EventName="Click">
             <ClearNavigationStackAction Router="{Binding Router}" />
           </EventTriggerBehavior>
         </Interaction.Behaviors>
