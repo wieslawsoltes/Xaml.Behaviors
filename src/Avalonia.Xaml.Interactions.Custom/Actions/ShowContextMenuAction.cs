@@ -1,5 +1,4 @@
 using Avalonia.Controls;
-using Avalonia.Metadata;
 using Avalonia.Xaml.Interactivity;
 
 namespace Avalonia.Xaml.Interactions.Custom;
@@ -31,7 +30,7 @@ public class ShowContextMenuAction : StyledElementAction
     /// <param name="sender">The object that triggered the action.</param>
     /// <param name="parameter">Optional parameter.</param>
     /// <returns>True if a context menu was shown; otherwise false.</returns>
-    public override object? Execute(object? sender, object? parameter)
+    public override object Execute(object? sender, object? parameter)
     {
         if (!IsEnabled)
         {
@@ -39,13 +38,13 @@ public class ShowContextMenuAction : StyledElementAction
         }
 
         var control = TargetControl ?? sender as Control;
-        var menu = control?.ContextMenu;
-        if (control is null || menu is null)
+        var contextMenu = control?.ContextMenu;
+        if (control is null || contextMenu is null)
         {
             return false;
         }
 
-        menu.Open(control);
+        contextMenu.Open(control);
         return true;
     }
 }
