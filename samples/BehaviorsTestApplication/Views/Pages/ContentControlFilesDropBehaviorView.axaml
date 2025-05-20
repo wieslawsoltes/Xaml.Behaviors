@@ -11,14 +11,23 @@
   </Design.DataContext>
 
   <StackPanel Margin="5" Spacing="5">
-    <ContentControl Padding="20" BorderBrush="{DynamicResource SystemAccentColor}" BorderThickness="1">
+    <ContentControl Classes="Drag" Padding="20" BorderBrush="{DynamicResource SystemAccentColor}" BorderThickness="1">
+      <ContentControl.Styles>
+        <Style Selector="ContentControl.Drag">
+          <Setter Property="Content" Value="Drag files here" />
+        </Style>
+      </ContentControl.Styles>
       <Interaction.Behaviors>
         <ContentControlFilesDropBehavior
           Command="{Binding OpenFilesCommand}"
           ContentDuringDrag="Drop files here"
           BackgroundDuringDrag="{DynamicResource SystemAccentColor}" />
       </Interaction.Behaviors>
-      <TextBlock Text="Drag files here" HorizontalAlignment="Center" VerticalAlignment="Center" />
+      <ContentControl.ContentTemplate>
+        <DataTemplate DataType="x:String">
+          <TextBlock Text="{Binding .}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+        </DataTemplate>
+      </ContentControl.ContentTemplate>
     </ContentControl>
     <ListBox ItemsSource="{Binding FileItems}" />
   </StackPanel>
