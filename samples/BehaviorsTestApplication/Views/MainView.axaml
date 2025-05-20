@@ -34,6 +34,9 @@
     <TabItem Header="EventTriggerBehavior">
       <pages:EventTriggerBehaviorView />
     </TabItem>
+    <TabItem Header="TimerTrigger">
+      <pages:TimerTriggerView />
+    </TabItem>
     <TabItem Header="InvokeCommandAction">
       <pages:InvokeCommandActionView />
     </TabItem>
