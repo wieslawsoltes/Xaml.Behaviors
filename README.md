@@ -88,8 +88,11 @@ This section provides an overview of all available classes and their purpose in 
 - **FocusControlAction**  
   *Sets the keyboard focus on a specified control or the associated control.*
 
-- **PopupAction**  
+- **PopupAction**
   *Displays a popup window for showing additional UI content.*
+
+- **ShowHideFlyoutAction**
+  *Shows or hides a flyout attached to a control or specified explicitly.*
 
 - **RemoveClassAction**  
   *Removes a style class from a control’s class collection.*
