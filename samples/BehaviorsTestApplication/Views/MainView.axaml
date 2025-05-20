@@ -124,5 +124,8 @@
     <TabItem Header="Reactive Navigation">
       <pages:ReactiveNavigationView />
     </TabItem>
+    <TabItem Header="TranslateZoomRotateBehavior">
+      <pages:TranslateZoomRotateBehaviorView />
+    </TabItem>
   </TabControl>
 </UserControl>
