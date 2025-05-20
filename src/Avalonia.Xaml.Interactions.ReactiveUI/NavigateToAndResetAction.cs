@@ -10,7 +10,7 @@ namespace Avalonia.Xaml.Interactions.ReactiveUI;
 /// An action that resolves and navigates to <typeparamref name="TViewModel"/> and clears the navigation stack.
 /// </summary>
 /// <typeparam name="TViewModel">The view model type to navigate to.</typeparam>
-public class NavigateToAndResetAction<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicParameterlessConstructor)] TViewModel> 
+public class NavigateToAndResetAction<TViewModel> 
     : StyledElementAction where TViewModel : class, IRoutableViewModel
 {
     /// <summary>
@@ -34,7 +34,7 @@ public class NavigateToAndResetAction<[DynamicallyAccessedMembers(DynamicallyAcc
     /// <returns>The resolved view model instance or <c>null</c> if it cannot be created.</returns>
     protected virtual TViewModel? ResolveViewModel()
     {
-        return Locator.Current.GetService<TViewModel>() ?? Activator.CreateInstance<TViewModel>();
+        return Locator.Current.GetService<TViewModel>();
     }
 
     /// <inheritdoc />
