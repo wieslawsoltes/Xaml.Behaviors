@@ -1,4 +1,3 @@
-using System;
 using Avalonia.Input;
 using Avalonia.Interactivity;
 
@@ -40,29 +39,14 @@ public class KeyGestureTrigger : RoutedEventTriggerBase<KeyEventArgs>
         set => SetValue(FiredOnProperty, value);
     }
 
-    static KeyGestureTrigger()
-    {
-        EventRoutingStrategyProperty.OverrideMetadata<KeyGestureTrigger>(
-            new StyledPropertyMetadata<RoutingStrategies>(
-                defaultValue: RoutingStrategies.Tunnel | RoutingStrategies.Bubble));
-    }
+    /// <inheritdoc />
+    protected override RoutedEvent<KeyEventArgs> RoutedEvent =>
+        FiredOn == KeyGestureTriggerFiredOn.KeyUp
+            ? InputElement.KeyUpEvent
+            : InputElement.KeyDownEvent;
 
     /// <inheritdoc />
-    protected override IDisposable OnAttachedToVisualTreeOverride()
-    {
-        if (AssociatedObject is Interactive interactive)
-        {
-            var routedEvent = FiredOn == KeyGestureTriggerFiredOn.KeyUp
-                ? InputElement.KeyUpEvent
-                : InputElement.KeyDownEvent;
-
-            return interactive.AddDisposableHandler(routedEvent, Handler, EventRoutingStrategy);
-        }
-
-        return DisposableAction.Empty;
-    }
-
-    private void Handler(object? sender, KeyEventArgs e)
+    protected override void Handler(object? sender, KeyEventArgs e)
     {
         if (!IsEnabled)
         {
