@@ -103,8 +103,11 @@ This section provides an overview of all available classes and their purpose in 
 - **HideFlyoutAction**
   *Hides a flyout attached to a control or specified explicitly.*
 
-- **RemoveClassAction**  
+- **RemoveClassAction**
   *Removes a style class from a control’s class collection.*
+
+- **ShowContextMenuAction**
+  *Displays a control's context menu programmatically.*
 
 ### Animations
 - **FadeInBehavior**  
