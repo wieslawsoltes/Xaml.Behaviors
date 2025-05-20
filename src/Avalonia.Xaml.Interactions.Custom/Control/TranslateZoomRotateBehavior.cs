@@ -1,7 +1,6 @@
-using System;
-using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Input;
+using Avalonia.Interactivity;
 using Avalonia.Media;
 using Avalonia.Xaml.Interactivity;
 
@@ -145,19 +144,21 @@ public sealed class TranslateZoomRotateBehavior : StyledElementBehavior<Control>
 
         if (e is PinchEventArgs pinch)
         {
-            var origin = pinch.Origin;
-            _scale.CenterX = origin.X;
-            _scale.CenterY = origin.Y;
+            var origin = pinch.ScaleOrigin;
+            // TODO:
+            // _scale.CenterX = origin.X;
+            // _scale.CenterY = origin.Y;
             _scale.ScaleX *= pinch.Scale;
             _scale.ScaleY *= pinch.Scale;
 
             _rotate.CenterX = origin.X;
             _rotate.CenterY = origin.Y;
-            _rotate.Angle += pinch.Rotation;
+            _rotate.Angle += pinch.Angle;
 
-            var delta = pinch.Translation;
-            _translate.X += delta.X;
-            _translate.Y += delta.Y;
+            // TODO:
+            // var delta = pinch.Translation;
+            // _translate.X += delta.X;
+            // _translate.Y += delta.Y;
         }
     }
 }
