@@ -1,0 +1,10 @@
+<UserControl x:Class="BehaviorsTestApplication.Views.Pages.HomePageView"
+             xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:BehaviorsTestApplication.ViewModels"
+             x:DataType="vm:HomePageViewModel">
+  <TextBlock Text="Home Page"
+             FontSize="20"
+             HorizontalAlignment="Center"
+             VerticalAlignment="Center" />
+</UserControl>
