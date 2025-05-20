@@ -109,6 +109,9 @@
     <TabItem Header="Draggable">
       <pages:DraggableView />
     </TabItem>
+    <TabItem Header="Mouse Drag Behaviors">
+      <pages:MouseDragBehaviorView />
+    </TabItem>
     <TabItem Header="IfElseTrigger">
       <pages:IfElseTriggerView />
     </TabItem>
