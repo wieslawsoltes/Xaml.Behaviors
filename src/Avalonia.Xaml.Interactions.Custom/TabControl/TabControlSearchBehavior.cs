@@ -1,26 +1,28 @@
 using System.Linq;
 using Avalonia.Controls;
+using Avalonia.Controls.Primitives;
+using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Xaml.Interactivity;
 
 namespace Avalonia.Xaml.Interactions.Custom;
 
 /// <summary>
-/// Filters <see cref="TabControl"/> items based on the text of a search box.
+/// Filters <see cref="SelectingItemsControl"/> items based on the text of a search box.
 /// </summary>
-public sealed class TabControlSearchBehavior : StyledElementBehavior<TabControl>
+public sealed class SelectingItemsControlSearchBehavior : StyledElementBehavior<SelectingItemsControl>
 {
     /// <summary>
     /// Identifies the <seealso cref="SearchBox"/> avalonia property.
     /// </summary>
     public static readonly StyledProperty<TextBox?> SearchBoxProperty =
-        AvaloniaProperty.Register<TabControlSearchBehavior, TextBox?>(nameof(SearchBox));
+        AvaloniaProperty.Register<SelectingItemsControlSearchBehavior, TextBox?>(nameof(SearchBox));
 
     /// <summary>
-    /// Identifies the <seealso cref="NoMatchesText"/> avalonia property.
+    /// Identifies the <seealso cref="NoMatchesControl"/> avalonia property.
     /// </summary>
-    public static readonly StyledProperty<TextBlock?> NoMatchesTextProperty =
-        AvaloniaProperty.Register<TabControlSearchBehavior, TextBlock?>(nameof(NoMatchesText));
+    public static readonly StyledProperty<TextBlock?> NoMatchesControlProperty =
+        AvaloniaProperty.Register<SelectingItemsControlSearchBehavior, TextBlock?>(nameof(NoMatchesControl));
 
     /// <summary>
     /// Gets or sets the search box control.
@@ -33,13 +35,13 @@ public sealed class TabControlSearchBehavior : StyledElementBehavior<TabControl>
     }
 
     /// <summary>
-    /// Gets or sets the text block displayed when no matches are found.
+    /// Gets or sets the control displayed when no matches are found.
     /// </summary>
     [ResolveByName]
-    public TextBlock? NoMatchesText
+    public Control? NoMatchesControl
     {
-        get => GetValue(NoMatchesTextProperty);
-        set => SetValue(NoMatchesTextProperty, value);
+        get => GetValue(NoMatchesControlProperty);
+        set => SetValue(NoMatchesControlProperty, value);
     }
 
     /// <inheritdoc />
@@ -84,11 +86,19 @@ public sealed class TabControlSearchBehavior : StyledElementBehavior<TabControl>
             }
         }
 
-        AssociatedObject.SelectedItem = tabItems.FirstOrDefault(x => x.IsVisible);
-
-        if (NoMatchesText is not null)
+        var firstVisibleItem = tabItems.FirstOrDefault(x => x.IsVisible);
+        if (firstVisibleItem is not null)
         {
-            NoMatchesText.IsVisible = visibleCount == 0;
+            AssociatedObject.SelectedItem = firstVisibleItem;
+        }
+        else
+        {
+            AssociatedObject.SelectedItem = null;
+        }
+
+        if (NoMatchesControl is not null)
+        {
+            NoMatchesControl.IsVisible = visibleCount == 0;
         }
     }
 }
