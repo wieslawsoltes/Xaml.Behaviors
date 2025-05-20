@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics.CodeAnalysis;
 using Avalonia.Xaml.Interactivity;
 using ReactiveUI;
 using Splat;
@@ -9,7 +10,8 @@ namespace Avalonia.Xaml.Interactions.ReactiveUI;
 /// An action that resolves and navigates to a view model of type <typeparamref name="TViewModel"/>.
 /// </summary>
 /// <typeparam name="TViewModel">The view model type to navigate to.</typeparam>
-public class NavigateToAction<TViewModel> : StyledElementAction where TViewModel : class, IRoutableViewModel
+public class NavigateToAction<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicParameterlessConstructor)] TViewModel> 
+    : StyledElementAction where TViewModel : class, IRoutableViewModel
 {
     /// <summary>
     /// Identifies the <seealso cref="Router"/> avalonia property.
