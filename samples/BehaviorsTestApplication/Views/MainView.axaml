@@ -115,6 +115,9 @@
     <TabItem Header="ExecuteScriptAction">
       <pages:ExecuteScriptActionView />
     </TabItem>
+    <TabItem Header="Observable Trigger">
+      <pages:ObservableTriggerBehaviorView />
+    </TabItem>
     <TabItem Header="Reactive Navigation">
       <pages:ReactiveNavigationView />
     </TabItem>

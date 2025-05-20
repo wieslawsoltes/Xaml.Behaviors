@@ -770,6 +770,8 @@ This section provides an overview of all available classes and their purpose in 
 
 - **NavigateAndReset**
   *Navigates to a view model and clears the navigation stack.*
+- **ObservableTriggerBehavior**
+  *Subscribes to an `IObservable` and executes actions whenever the observable emits a value.*
 
 ### TextBox
 - **TextBoxSelectAllOnGotFocusBehavior**  
