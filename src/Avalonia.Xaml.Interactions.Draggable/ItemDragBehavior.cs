@@ -22,7 +22,6 @@ public class ItemDragBehavior : StyledElementBehavior<Control>
     private int _targetIndex;
     private ItemsControl? _itemsControl;
     private Control? _draggedContainer;
-    private bool _captured;
 
     /// <summary>
     /// Identifies the <see cref="Orientation"/> avalonia property.
@@ -114,13 +113,13 @@ public class ItemDragBehavior : StyledElementBehavior<Control>
 
             AddTransforms(_itemsControl);
 
-            _captured = e.Pointer.Capture(AssociatedObject);
+            e.Pointer.Capture(AssociatedObject);
         }
     }
 
     private void PointerReleased(object? sender, PointerReleasedEventArgs e)
     {
-        if (_captured)
+        if (Equals(e.Pointer.Captured, AssociatedObject))
         {
             if (e.InitialPressMouseButton == MouseButton.Left)
             {
@@ -128,14 +127,12 @@ public class ItemDragBehavior : StyledElementBehavior<Control>
             }
 
             e.Pointer.Capture(null);
-            _captured = false;
         }
     }
 
     private void PointerCaptureLost(object? sender, PointerCaptureLostEventArgs e)
     {
         Released();
-        _captured = false;
     }
 
     private void Released()
@@ -259,7 +256,7 @@ public class ItemDragBehavior : StyledElementBehavior<Control>
     private void PointerMoved(object? sender, PointerEventArgs e)
     {
         var properties = e.GetCurrentPoint(AssociatedObject).Properties;
-        if (_captured
+        if (Equals(e.Pointer.Captured, AssociatedObject)
             && properties.IsLeftButtonPressed)
         {
             if (_itemsControl?.Items is null || _draggedContainer?.RenderTransform is null || !_enableDrag)

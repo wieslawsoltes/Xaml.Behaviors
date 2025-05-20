@@ -16,7 +16,6 @@ public class CanvasDragBehavior : StyledElementBehavior<Control>
     private Control? _parent;
     private Control? _draggedContainer;
     private Control? _adorner;
-    private bool _captured;
 
     /// <inheritdoc />
     protected override void OnAttachedToVisualTree()
@@ -87,13 +86,13 @@ public class CanvasDragBehavior : StyledElementBehavior<Control>
 
             // AddAdorner(_draggedContainer);
 
-            _captured = e.Pointer.Capture(AssociatedObject);
+            e.Pointer.Capture(AssociatedObject);
         }
     }
 
     private void Released(object? sender, PointerReleasedEventArgs e)
     {
-        if (_captured)
+        if (Equals(e.Pointer.Captured, AssociatedObject))
         {
             if (e.InitialPressMouseButton == MouseButton.Left)
             {
@@ -101,20 +100,18 @@ public class CanvasDragBehavior : StyledElementBehavior<Control>
             }
 
             e.Pointer.Capture(null);
-            _captured = false;
         }
     }
 
     private void CaptureLost(object? sender, PointerCaptureLostEventArgs e)
     {
         Released();
-        _captured = false;
     }
 
     private void Moved(object? sender, PointerEventArgs e)
     {
         var properties = e.GetCurrentPoint(AssociatedObject).Properties;
-        if (_captured
+        if (Equals(e.Pointer.Captured, AssociatedObject)
             && properties.IsLeftButtonPressed)
         {
             if (_parent is null || _draggedContainer is null || !_enableDrag)
