@@ -1,4 +1,5 @@
 using Avalonia.Controls;
+using Avalonia.Input;
 using Avalonia.Xaml.Interactivity;
 
 namespace Avalonia.Xaml.Interactions.Custom;
@@ -6,7 +7,7 @@ namespace Avalonia.Xaml.Interactions.Custom;
 /// <summary>
 /// Sets the <see cref="Control.IsEnabled"/> property of a control when executed.
 /// </summary>
-public class SetEnabledAction : Avalonia.Xaml.Interactivity.StyledElementAction
+public class SetEnabledAction : StyledElementAction
 {
     /// <summary>
     /// Identifies the <seealso cref="TargetControl"/> avalonia property.
@@ -59,7 +60,7 @@ public class SetEnabledAction : Avalonia.Xaml.Interactivity.StyledElementAction
             return false;
         }
 
-        control.IsEnabled = IsEnabledValue;
+        control.SetCurrentValue(InputElement.IsEnabledProperty, IsEnabledValue);
         return true;
     }
 }
