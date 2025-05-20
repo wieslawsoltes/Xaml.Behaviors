@@ -1,15 +1,15 @@
+using System.Collections.Generic;
+using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Controls.Primitives;
 using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Layout;
 using Avalonia.Media.Transformation;
 using Avalonia.Xaml.Interactivity;
 
-namespace Avalonia.Xaml.Interactions.Custom;
+namespace SW.Core.Views.Behaviors;
 
-/// <summary>
-/// 
-/// </summary>
 public class ItemNudgeDropBehavior : StyledElementBehavior<ItemsControl>
 {
     /// <summary>
@@ -80,13 +80,20 @@ public class ItemNudgeDropBehavior : StyledElementBehavior<ItemsControl>
 
         var dragPosition = e.GetPosition(itemsControl);
 
+        Vector scrollOffset = Vector.Zero;
+        
+        if (itemsControl is ListBox {Scroll: { } scrollable})
+        {
+            scrollOffset = scrollable.Offset;
+        }
+
         for (int index = 0; index < itemsControl.ItemCount; index++)
         {
             var container = itemsControl.ContainerFromIndex(index);
 
             if (container == null) continue;
             
-            var containerMidPoint = isHorizontal ? container.Bounds.Center.X : container.Bounds.Center.Y;
+            var containerMidPoint = isHorizontal ? container.Bounds.Center.X - scrollOffset.X : container.Bounds.Center.Y - scrollOffset.Y;
             
             var translationX = isHorizontal && dragPosition.X <= containerMidPoint ? container.Bounds.Width : 0;
             var translationY = !isHorizontal && dragPosition.Y <= containerMidPoint ? container.Bounds.Height : 0;
