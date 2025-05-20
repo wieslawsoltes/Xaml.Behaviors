@@ -39,6 +39,13 @@ public class KeyGestureTrigger : RoutedEventTriggerBase<KeyEventArgs>
         set => SetValue(FiredOnProperty, value);
     }
 
+    static KeyGestureTrigger()
+    {
+        EventRoutingStrategyProperty.OverrideMetadata<KeyGestureTrigger>(
+            new StyledPropertyMetadata<RoutingStrategies>(
+                defaultValue: RoutingStrategies.Tunnel | RoutingStrategies.Bubble));
+    }
+
     /// <inheritdoc />
     protected override RoutedEvent<KeyEventArgs> RoutedEvent =>
         FiredOn == KeyGestureTriggerFiredOn.KeyUp
