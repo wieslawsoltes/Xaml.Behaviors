@@ -1,15 +1,15 @@
-using System.Collections.Generic;
-using Avalonia;
 using Avalonia.Controls;
-using Avalonia.Controls.Primitives;
 using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Layout;
 using Avalonia.Media.Transformation;
 using Avalonia.Xaml.Interactivity;
 
-namespace SW.Core.Views.Behaviors;
+namespace Avalonia.Xaml.Interactions.Custom;
 
+/// <summary>
+/// 
+/// </summary>
 public class ItemNudgeDropBehavior : StyledElementBehavior<ItemsControl>
 {
     /// <summary>
