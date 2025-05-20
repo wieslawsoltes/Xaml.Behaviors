@@ -1,0 +1,34 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:BehaviorsTestApplication.ViewModels"
+             x:Class="BehaviorsTestApplication.Views.Pages.ContentControlFilesDropBehaviorView"
+             x:DataType="vm:MainWindowViewModel"
+             mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="450">
+  <Design.DataContext>
+    <vm:MainWindowViewModel />
+  </Design.DataContext>
+
+  <StackPanel Margin="5" Spacing="5">
+    <ContentControl Classes="Drag" Padding="20" BorderBrush="{DynamicResource SystemAccentColor}" BorderThickness="1">
+      <ContentControl.Styles>
+        <Style Selector="ContentControl.Drag">
+          <Setter Property="Content" Value="Drag files here" />
+        </Style>
+      </ContentControl.Styles>
+      <Interaction.Behaviors>
+        <ContentControlFilesDropBehavior
+          Command="{Binding OpenFilesCommand}"
+          ContentDuringDrag="Drop files here"
+          BackgroundDuringDrag="{DynamicResource SystemAccentColor}" />
+      </Interaction.Behaviors>
+      <ContentControl.ContentTemplate>
+        <DataTemplate DataType="x:String">
+          <TextBlock Text="{Binding .}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+        </DataTemplate>
+      </ContentControl.ContentTemplate>
+    </ContentControl>
+    <ListBox ItemsSource="{Binding FileItems}" />
+  </StackPanel>
+</UserControl>
