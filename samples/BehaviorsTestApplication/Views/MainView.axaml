@@ -12,137 +12,144 @@
       <Setter Property="FontSize" Value="16" />
     </Style>
   </UserControl.Styles>
-  <StackPanel>
-    <TextBox x:Name="SearchBox" Watermark="Search pages..." Margin="0,0,0,8"
-             TextChanged="OnSearchTextChanged"/>
-    <TextBlock x:Name="NoMatchesText" Text="No pages match the search." Margin="0,0,0,8" IsVisible="False"/>
+  <DockPanel>
+    <TextBox x:Name="SearchBox" 
+             Watermark="Search pages..." 
+             Margin="0,0,0,8" 
+             TextChanged="OnSearchTextChanged"
+             DockPanel.Dock="Top"  />
+    <TextBlock x:Name="NoMatchesText" 
+               Text="No pages match the search." 
+               Margin="0,0,0,8" 
+               IsVisible="False"
+               DockPanel.Dock="Top" />
     <TabControl x:Name="PagesTabControl" Classes="sidebar">
-    <TabItem Header="CallMethodAction">
-      <pages:CallMethodActionView />
-    </TabItem>
-    <TabItem Header="ChangePropertyAction">
-      <pages:ChangePropertyActionView />
-    </TabItem>
-    <TabItem Header="DataTriggerBehavior">
-      <pages:DataTriggerBehaviorView />
-    </TabItem>
-    <TabItem Header="DataTriggerBehavior Advanced">
-      <pages:DataTriggerBehaviorAdvancedView />
-    </TabItem>
-    <TabItem Header="BindingTriggerBehavior">
-      <pages:BindingTriggerBehaviorView />
-    </TabItem>
-    <TabItem Header="ValueChangedTriggerBehavior">
-      <pages:ValueChangedTriggerBehaviorView />
-    </TabItem>
-    <TabItem Header="EventTriggerBehavior">
-      <pages:EventTriggerBehaviorView />
-    </TabItem>
-    <TabItem Header="TimerTrigger">
-      <pages:TimerTriggerView />
-    </TabItem>
-    <TabItem Header="InvokeCommandAction">
-      <pages:InvokeCommandActionView />
-    </TabItem>
-    <TabItem Header="FocusControlBehavior">
-      <pages:FocusControlBehaviorView />
-    </TabItem>
-    <TabItem Header="RoutedEventTriggerBehavior">
-      <pages:RoutedEventTriggerBehaviorView />
-    </TabItem>
-    <TabItem Header="ChangeAvaloniaPropertyAction">
-      <pages:ChangeAvaloniaPropertyActionView />
-    </TabItem>
-    <TabItem Header="Custom Action">
-      <pages:CustomActionView />
-    </TabItem>
-    <TabItem Header="Custom Behavior">
-      <pages:CustomBehaviorView />
-    </TabItem>
-    <TabItem Header="ButtonClickEventTriggerBehavior">
-      <pages:ButtonClickEventTriggerBehaviorView />
-    </TabItem>
-    <TabItem Header="Advanced Behavior">
-      <pages:AdvancedView />
-    </TabItem>
-    <TabItem Header="Add/RemoveClassAction">
-      <pages:AddRemoveClassActionView />
-    </TabItem>
-    <TabItem Header="RemoveElementAction">
-      <pages:RemoveElementActionView />
-    </TabItem>
-    <TabItem Header="AdaptiveBehavior">
-      <pages:AdaptiveBehaviorView />
-    </TabItem>
-    <TabItem Header="AspectRatioBehavior">
-      <pages:AspectRatioBehaviorView />
-    </TabItem>
-    <TabItem Header="EditableListBox">
-      <pages:EditableListBoxView />
-    </TabItem>
-    <TabItem Header="EditableTree">
-      <pages:EditableTreeViewView />
-    </TabItem>
-    <TabItem Header="Sliding Animation">
-      <pages:SlidingAnimationView />
-    </TabItem>
-    <TabItem Header="BehaviorCollectionTemplate">
-      <pages:BehaviorCollectionTemplateView />
-    </TabItem>
-    <TabItem Header="TemplateBinding">
-      <pages:TemplateBindingView />
-    </TabItem>
-    <TabItem Header="OneTime Binding">
-      <pages:OneTimeBinding />
-    </TabItem>
-    <TabItem Header="Pointer Triggers">
-      <pages:PointerTriggersView DataContext="{Binding PointerTriggersViewModel}" />
-    </TabItem>
-    <TabItem Header="KeyGestureTrigger">
-      <pages:KeyGestureTriggerView DataContext="{Binding KeyGestureTriggerViewModel}" />
-    </TabItem>
-    <TabItem Header="Storage Provider">
-      <pages:StorageProviderView />
-    </TabItem>
-    <TabItem Header="Clipboard">
-      <pages:ClipboardView />
-    </TabItem>
-    <TabItem Header="File Drop Handler">
-      <pages:FileDropHandlerView />
-    </TabItem>
-    <TabItem Header="ContentControlFilesDropBehavior">
-      <pages:ContentControlFilesDropBehaviorView />
-    </TabItem>
-    <TabItem Header="Drag and Drop">
-      <pages:DragAndDropView />
-    </TabItem>
-    <TabItem Header="TypedDragBehavior">
-      <pages:TypedDragBehaviorView />
-    </TabItem>
-    <TabItem Header="Draggable">
-      <pages:DraggableView />
-    </TabItem>
-    <TabItem Header="Mouse Drag Behaviors">
-      <pages:MouseDragBehaviorView />
-    </TabItem>
-    <TabItem Header="IfElseTrigger">
-      <pages:IfElseTriggerView />
-    </TabItem>
-    <TabItem Header="ExecuteScriptAction">
-      <pages:ExecuteScriptActionView />
-    </TabItem>
-    <TabItem Header="Observable Trigger">
-      <pages:ObservableTriggerBehaviorView />
-    </TabItem>
-    <TabItem Header="InteractionTriggerBehavior">
-      <pages:InteractionTriggerBehaviorView />
-    </TabItem>
-    <TabItem Header="KeyTrigger">
-      <pages:KeyTriggerView />
-    </TabItem>
-    <TabItem Header="Reactive Navigation">
-      <pages:ReactiveNavigationView />
-    </TabItem>
-  </TabControl>
-  </StackPanel>
+      <TabItem Header="CallMethodAction">
+        <pages:CallMethodActionView />
+      </TabItem>
+      <TabItem Header="ChangePropertyAction">
+        <pages:ChangePropertyActionView />
+      </TabItem>
+      <TabItem Header="DataTriggerBehavior">
+        <pages:DataTriggerBehaviorView />
+      </TabItem>
+      <TabItem Header="DataTriggerBehavior Advanced">
+        <pages:DataTriggerBehaviorAdvancedView />
+      </TabItem>
+      <TabItem Header="BindingTriggerBehavior">
+        <pages:BindingTriggerBehaviorView />
+      </TabItem>
+      <TabItem Header="ValueChangedTriggerBehavior">
+        <pages:ValueChangedTriggerBehaviorView />
+      </TabItem>
+      <TabItem Header="EventTriggerBehavior">
+        <pages:EventTriggerBehaviorView />
+      </TabItem>
+      <TabItem Header="TimerTrigger">
+        <pages:TimerTriggerView />
+      </TabItem>
+      <TabItem Header="InvokeCommandAction">
+        <pages:InvokeCommandActionView />
+      </TabItem>
+      <TabItem Header="FocusControlBehavior">
+        <pages:FocusControlBehaviorView />
+      </TabItem>
+      <TabItem Header="RoutedEventTriggerBehavior">
+        <pages:RoutedEventTriggerBehaviorView />
+      </TabItem>
+      <TabItem Header="ChangeAvaloniaPropertyAction">
+        <pages:ChangeAvaloniaPropertyActionView />
+      </TabItem>
+      <TabItem Header="Custom Action">
+        <pages:CustomActionView />
+      </TabItem>
+      <TabItem Header="Custom Behavior">
+        <pages:CustomBehaviorView />
+      </TabItem>
+      <TabItem Header="ButtonClickEventTriggerBehavior">
+        <pages:ButtonClickEventTriggerBehaviorView />
+      </TabItem>
+      <TabItem Header="Advanced Behavior">
+        <pages:AdvancedView />
+      </TabItem>
+      <TabItem Header="Add/RemoveClassAction">
+        <pages:AddRemoveClassActionView />
+      </TabItem>
+      <TabItem Header="RemoveElementAction">
+        <pages:RemoveElementActionView />
+      </TabItem>
+      <TabItem Header="AdaptiveBehavior">
+        <pages:AdaptiveBehaviorView />
+      </TabItem>
+      <TabItem Header="AspectRatioBehavior">
+        <pages:AspectRatioBehaviorView />
+      </TabItem>
+      <TabItem Header="EditableListBox">
+        <pages:EditableListBoxView />
+      </TabItem>
+      <TabItem Header="EditableTree">
+        <pages:EditableTreeViewView />
+      </TabItem>
+      <TabItem Header="Sliding Animation">
+        <pages:SlidingAnimationView />
+      </TabItem>
+      <TabItem Header="BehaviorCollectionTemplate">
+        <pages:BehaviorCollectionTemplateView />
+      </TabItem>
+      <TabItem Header="TemplateBinding">
+        <pages:TemplateBindingView />
+      </TabItem>
+      <TabItem Header="OneTime Binding">
+        <pages:OneTimeBinding />
+      </TabItem>
+      <TabItem Header="Pointer Triggers">
+        <pages:PointerTriggersView DataContext="{Binding PointerTriggersViewModel}" />
+      </TabItem>
+      <TabItem Header="KeyGestureTrigger">
+        <pages:KeyGestureTriggerView DataContext="{Binding KeyGestureTriggerViewModel}" />
+      </TabItem>
+      <TabItem Header="Storage Provider">
+        <pages:StorageProviderView />
+      </TabItem>
+      <TabItem Header="Clipboard">
+        <pages:ClipboardView />
+      </TabItem>
+      <TabItem Header="File Drop Handler">
+        <pages:FileDropHandlerView />
+      </TabItem>
+      <TabItem Header="ContentControlFilesDropBehavior">
+        <pages:ContentControlFilesDropBehaviorView />
+      </TabItem>
+      <TabItem Header="Drag and Drop">
+        <pages:DragAndDropView />
+      </TabItem>
+      <TabItem Header="TypedDragBehavior">
+        <pages:TypedDragBehaviorView />
+      </TabItem>
+      <TabItem Header="Draggable">
+        <pages:DraggableView />
+      </TabItem>
+      <TabItem Header="Mouse Drag Behaviors">
+        <pages:MouseDragBehaviorView />
+      </TabItem>
+      <TabItem Header="IfElseTrigger">
+        <pages:IfElseTriggerView />
+      </TabItem>
+      <TabItem Header="ExecuteScriptAction">
+        <pages:ExecuteScriptActionView />
+      </TabItem>
+      <TabItem Header="Observable Trigger">
+        <pages:ObservableTriggerBehaviorView />
+      </TabItem>
+      <TabItem Header="InteractionTriggerBehavior">
+        <pages:InteractionTriggerBehaviorView />
+      </TabItem>
+      <TabItem Header="KeyTrigger">
+        <pages:KeyTriggerView />
+      </TabItem>
+      <TabItem Header="Reactive Navigation">
+        <pages:ReactiveNavigationView />
+      </TabItem>
+    </TabControl>
+  </DockPanel>
 </UserControl>
