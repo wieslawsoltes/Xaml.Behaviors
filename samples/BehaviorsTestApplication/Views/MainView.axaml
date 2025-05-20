@@ -12,7 +12,11 @@
       <Setter Property="FontSize" Value="16" />
     </Style>
   </UserControl.Styles>
-  <TabControl Classes="sidebar">
+  <StackPanel>
+    <TextBox x:Name="SearchBox" Watermark="Search pages..." Margin="0,0,0,8"
+             TextChanged="OnSearchTextChanged"/>
+    <TextBlock x:Name="NoMatchesText" Text="No pages match the search." Margin="0,0,0,8" IsVisible="False"/>
+    <TabControl x:Name="PagesTabControl" Classes="sidebar">
     <TabItem Header="CallMethodAction">
       <pages:CallMethodActionView />
     </TabItem>
@@ -140,4 +144,5 @@
       <pages:ReactiveNavigationView />
     </TabItem>
   </TabControl>
+  </StackPanel>
 </UserControl>
