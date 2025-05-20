@@ -114,7 +114,7 @@ public class ItemDragBehavior : StyledElementBehavior<Control>
 
             AddTransforms(_itemsControl);
 
-            _captured = true;
+            _captured = e.Pointer.Capture(AssociatedObject);
         }
     }
 
@@ -127,6 +127,7 @@ public class ItemDragBehavior : StyledElementBehavior<Control>
                 Released();
             }
 
+            e.Pointer.Capture(null);
             _captured = false;
         }
     }

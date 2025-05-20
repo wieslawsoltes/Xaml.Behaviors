@@ -87,7 +87,7 @@ public class CanvasDragBehavior : StyledElementBehavior<Control>
 
             // AddAdorner(_draggedContainer);
 
-            _captured = true;
+            _captured = e.Pointer.Capture(AssociatedObject);
         }
     }
 
@@ -100,6 +100,7 @@ public class CanvasDragBehavior : StyledElementBehavior<Control>
                 Released();
             }
 
+            e.Pointer.Capture(null);
             _captured = false;
         }
     }
