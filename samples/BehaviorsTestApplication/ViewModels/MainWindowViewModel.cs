@@ -99,6 +99,9 @@ public partial class MainWindowViewModel : ViewModelBase
     public partial int Count { get; set; }
 
     [Reactive]
+    public partial int TimerCount { get; set; }
+
+    [Reactive]
     public partial double Position { get; set; }
 
     [Reactive]
@@ -187,4 +190,8 @@ public partial class MainWindowViewModel : ViewModelBase
     public void IncrementCount() => Count++;
 
     public void DecrementCount(object? sender, object parameter) => Count--;
+
+    public void IncrementTimerCount() => TimerCount++;
+
+    public void DecrementTimerCount(object? sender, object parameter) => TimerCount--;
 }
