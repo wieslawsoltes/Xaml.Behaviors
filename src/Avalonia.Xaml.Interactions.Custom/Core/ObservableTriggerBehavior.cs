@@ -3,7 +3,7 @@ using Avalonia.Reactive;
 using Avalonia.Threading;
 using Avalonia.Xaml.Interactivity;
 
-namespace Avalonia.Xaml.Interactions.ReactiveUI;
+namespace Avalonia.Xaml.Interactions.Custom;
 
 /// <summary>
 /// A trigger that subscribes to an <see cref="IObservable{T}"/> and executes its actions whenever a new value is produced.
