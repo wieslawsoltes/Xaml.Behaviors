@@ -106,6 +106,9 @@ This section provides an overview of all available classes and their purpose in 
 - **RemoveClassAction**
   *Removes a style class from a control’s class collection.*
 
+- **RemoveElementAction**
+  *Removes a control from its parent container when executed.*
+
 - **ShowContextMenuAction**
   *Displays a control's context menu programmatically.*
 
