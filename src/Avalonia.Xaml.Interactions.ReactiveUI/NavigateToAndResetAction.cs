@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics.CodeAnalysis;
 using Avalonia.Xaml.Interactivity;
 using ReactiveUI;
 using Splat;
@@ -9,7 +10,8 @@ namespace Avalonia.Xaml.Interactions.ReactiveUI;
 /// An action that resolves and navigates to <typeparamref name="TViewModel"/> and clears the navigation stack.
 /// </summary>
 /// <typeparam name="TViewModel">The view model type to navigate to.</typeparam>
-public class NavigateToAndResetAction<TViewModel> : StyledElementAction where TViewModel : class, IRoutableViewModel
+public class NavigateToAndResetAction<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicParameterlessConstructor)] TViewModel> 
+    : StyledElementAction where TViewModel : class, IRoutableViewModel
 {
     /// <summary>
     /// Identifies the <seealso cref="Router"/> avalonia property.
