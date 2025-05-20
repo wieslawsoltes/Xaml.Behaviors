@@ -8,6 +8,4 @@ public partial class MainView : UserControl
     {
         InitializeComponent();
     }
-
-    // Search functionality moved to TabControlSearchBehavior
 }
