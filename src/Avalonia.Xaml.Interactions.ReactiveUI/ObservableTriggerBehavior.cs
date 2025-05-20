@@ -1,5 +1,6 @@
 using System;
 using Avalonia.Reactive;
+using Avalonia.Threading;
 using Avalonia.Xaml.Interactivity;
 
 namespace Avalonia.Xaml.Interactions.ReactiveUI;
@@ -75,11 +76,15 @@ public class ObservableTriggerBehavior<T> : StyledElementTrigger
         var observable = Observable;
         if (observable is not null)
         {
-            _subscription = observable.Subscribe(new AnonymousObserver<T>(value =>
-            {
-                Value = value;
-                Execute(value);
-            }));
+            _subscription = observable
+                .Subscribe(new AnonymousObserver<T>(value =>
+                {
+                    Dispatcher.UIThread.Invoke(() =>
+                    {
+                        Value = value;
+                        Execute(value);
+                    });
+                }));
         }
     }
 
