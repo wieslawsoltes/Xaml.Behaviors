@@ -1,5 +1,4 @@
 using System;
-using System.Diagnostics.CodeAnalysis;
 using Avalonia.Xaml.Interactivity;
 using ReactiveUI;
 using Splat;
@@ -10,7 +9,7 @@ namespace Avalonia.Xaml.Interactions.ReactiveUI;
 /// An action that resolves and navigates to a view model of type <typeparamref name="TViewModel"/>.
 /// </summary>
 /// <typeparam name="TViewModel">The view model type to navigate to.</typeparam>
-public class NavigateToAction<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicParameterlessConstructor)] TViewModel> 
+public class NavigateToAction<TViewModel> 
     : StyledElementAction where TViewModel : class, IRoutableViewModel
 {
     /// <summary>
@@ -34,7 +33,7 @@ public class NavigateToAction<[DynamicallyAccessedMembers(DynamicallyAccessedMem
     /// <returns>The resolved view model instance or <c>null</c> if it cannot be created.</returns>
     protected virtual TViewModel? ResolveViewModel()
     {
-        return Locator.Current.GetService<TViewModel>() ?? Activator.CreateInstance<TViewModel>();
+        return Locator.Current.GetService<TViewModel>();
     }
 
     /// <inheritdoc />
