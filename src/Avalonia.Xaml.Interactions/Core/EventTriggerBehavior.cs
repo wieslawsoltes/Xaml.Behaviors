@@ -246,17 +246,21 @@ public class EventTriggerBehavior : StyledElementTrigger
     /// <param name="eventArgs">The event args.</param>
     protected virtual void AttachedToVisualTree(object? sender, object eventArgs)
     {
-        Execute(eventArgs);
+        OnEvent(eventArgs);
     }
 
-    private void Execute(object? parameter)
+    /// <summary>
+    /// Executes the actions associated with this behavior.
+    /// </summary>
+    /// <param name="eventArgs">The event args.</param>
+    protected virtual void OnEvent(object? eventArgs)
     {
         if (!IsEnabled)
         {
             return;
         }
 
-        Interaction.ExecuteActions(_resolvedSource, Actions, parameter);
+        Interaction.ExecuteActions(_resolvedSource, Actions, eventArgs);
     }
 
     private static bool IsElementLoaded(Control element) => element.Parent is not null;
