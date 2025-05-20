@@ -751,6 +751,13 @@ This section provides an overview of all available classes and their purpose in 
 ### Scripting
 - **ExecuteScriptAction**
   *Executes a C# script using the Roslyn scripting API.*
+- **ExecuteCompiledScriptAction**
+  *Executes C# code generated at build time via a source generator.*
+
+  `Avalonia.Xaml.Interactions.Scripting.Generator` scans XAML files for
+  `ExecuteCompiledScriptAction` elements and emits a partial method
+  implementation based on the provided `Script` property. This removes the
+  runtime Roslyn compilation cost.
 
 ### ReactiveUI
 - **ClearNavigationStackAction**
