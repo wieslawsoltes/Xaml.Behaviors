@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics.CodeAnalysis;
 using Avalonia;
 using Avalonia.Threading;
 using Avalonia.Xaml.Interactivity;
@@ -8,7 +9,8 @@ namespace Avalonia.Xaml.Interactions.Core;
 /// <summary>
 /// A trigger that invokes its actions after a specified interval.
 /// </summary>
-public class TimerTrigger : StyledElementTrigger
+[RequiresUnreferencedCode("This functionality is not compatible with trimming.")]
+public class TimerTrigger : EventTriggerBehavior
 {
     /// <summary>
     /// Identifies the <see cref="MillisecondsPerTick"/> avalonia property.
@@ -62,6 +64,13 @@ public class TimerTrigger : StyledElementTrigger
     protected override void OnAttached()
     {
         base.OnAttached();
+        StartTimer();
+    }
+
+    /// <inheritdoc />
+    protected override void OnEvent(object? eventArgs)
+    {
+        StopTimer();
         StartTimer();
     }
 
