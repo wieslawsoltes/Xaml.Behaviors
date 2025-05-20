@@ -86,15 +86,7 @@ public sealed class SelectingItemsControlSearchBehavior : StyledElementBehavior<
             }
         }
 
-        var firstVisibleItem = tabItems.FirstOrDefault(x => x.IsVisible);
-        if (firstVisibleItem is not null)
-        {
-            AssociatedObject.SelectedItem = firstVisibleItem;
-        }
-        else
-        {
-            AssociatedObject.SelectedItem = null;
-        }
+        AssociatedObject.SelectedItem = tabItems.FirstOrDefault(x => x.IsVisible);
 
         if (NoMatchesControl is not null)
         {
