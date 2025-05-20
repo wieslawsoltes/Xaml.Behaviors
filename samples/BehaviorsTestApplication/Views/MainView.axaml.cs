@@ -1,5 +1,4 @@
 ﻿using Avalonia.Controls;
-using Avalonia.Markup.Xaml;
 using System.Linq;
 
 namespace BehaviorsTestApplication.Views;
@@ -16,7 +15,9 @@ public partial class MainView : UserControl
         var query = SearchBox.Text?.ToLowerInvariant() ?? string.Empty;
         var visibleCount = 0;
 
-        foreach (var item in PagesTabControl.Items.OfType<TabItem>())
+        var tabItems = PagesTabControl.Items.OfType<TabItem>().ToList();
+
+        foreach (var item in tabItems)
         {
             var header = item.Header?.ToString()?.ToLowerInvariant() ?? string.Empty;
             var visible = header.Contains(query);
@@ -28,11 +29,8 @@ public partial class MainView : UserControl
             }
         }
 
-        NoMatchesText.IsVisible = visibleCount == 0;
-    }
+        PagesTabControl.SelectedItem = tabItems.FirstOrDefault(x => x.IsVisible);
 
-    private void InitializeComponent()
-    {
-        AvaloniaXamlLoader.Load(this);
+        NoMatchesText.IsVisible = visibleCount == 0;
     }
 }
