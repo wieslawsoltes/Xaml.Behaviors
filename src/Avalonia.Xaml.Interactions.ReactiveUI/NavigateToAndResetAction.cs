@@ -17,7 +17,9 @@ public class NavigateToAndResetAction<TViewModel>
     /// Identifies the <seealso cref="Router"/> avalonia property.
     /// </summary>
     public static readonly StyledProperty<RoutingState?> RouterProperty =
+#pragma warning disable AVP1002
         AvaloniaProperty.Register<NavigateToAndResetAction<TViewModel>, RoutingState?>(nameof(Router));
+#pragma warning restore AVP1002
 
     /// <summary>
     /// Gets or sets the router used for navigation. This is an avalonia property.

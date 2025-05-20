@@ -69,7 +69,9 @@ public class ExecuteScriptAction : StyledElementAction
         var globals = new ExecuteScriptActionGlobals(sender, parameter);
         var loadedAssemblies = AppDomain.CurrentDomain
             .GetAssemblies()
+#pragma warning disable IL3000
             .Where(a => !a.IsDynamic && !string.IsNullOrEmpty(a.Location))
+#pragma warning restore IL3000
             .ToArray();
 
         if (UseDispatcher)

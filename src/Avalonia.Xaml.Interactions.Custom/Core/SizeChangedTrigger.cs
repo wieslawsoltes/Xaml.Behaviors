@@ -26,7 +26,7 @@ public class SizeChangedTrigger : DisposingTrigger<Control>
 
     }
 
-    private void AssociatedObjectOnSizeChanged(object sender, SizeChangedEventArgs e)
+    private void AssociatedObjectOnSizeChanged(object? sender, SizeChangedEventArgs e)
     {
         Execute(parameter: e);
     }

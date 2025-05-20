@@ -16,13 +16,17 @@ public class ObservableTriggerBehavior<T> : StyledElementTrigger
     /// Identifies the <seealso cref="Observable"/> avalonia property.
     /// </summary>
     public static readonly StyledProperty<IObservable<T>?> ObservableProperty =
+#pragma warning disable AVP1002
         AvaloniaProperty.Register<ObservableTriggerBehavior<T>, IObservable<T>?>(nameof(Observable));
+#pragma warning restore AVP1002
 
     /// <summary>
     /// Identifies the <seealso cref="Value"/> avalonia property.
     /// </summary>
     public static readonly StyledProperty<T?> ValueProperty =
+#pragma warning disable AVP1002
         AvaloniaProperty.Register<ObservableTriggerBehavior<T>, T?>(nameof(Value));
+#pragma warning restore AVP1002
 
     private IDisposable? _subscription;
 

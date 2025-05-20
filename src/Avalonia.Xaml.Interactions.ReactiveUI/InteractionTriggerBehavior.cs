@@ -16,7 +16,9 @@ public class InteractionTriggerBehavior<TInput, TOutput> : StyledElementTrigger<
     /// Identifies the <see cref="Interaction"/> avalonia property.
     /// </summary>
     public static readonly StyledProperty<Interaction<TInput, TOutput>?> InteractionProperty =
+#pragma warning disable AVP1002
         AvaloniaProperty.Register<InteractionTriggerBehavior<TInput, TOutput>, Interaction<TInput, TOutput>?>(nameof(Interaction));
+#pragma warning restore AVP1002
 
     /// <summary>
     /// Gets or sets the interaction to register the handler for. This is an avalonia property.
@@ -40,7 +42,7 @@ public class InteractionTriggerBehavior<TInput, TOutput> : StyledElementTrigger<
         _disposable = Interaction.RegisterHandler(context =>
         {
             Avalonia.Xaml.Interactivity.Interaction.ExecuteActions(AssociatedObject, Actions, context.Input);
-            context.SetOutput(default);
+            context.SetOutput(default!);
             return Task.CompletedTask;
         });
     }

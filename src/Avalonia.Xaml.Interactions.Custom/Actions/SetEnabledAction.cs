@@ -5,7 +5,7 @@ using Avalonia.Xaml.Interactivity;
 namespace Avalonia.Xaml.Interactions.Custom;
 
 /// <summary>
-/// Sets the <see cref="Control.IsEnabled"/> property of a control when executed.
+/// Sets the <see cref="InputElement.IsEnabled"/> property of a control when executed.
 /// </summary>
 public class SetEnabledAction : StyledElementAction
 {
@@ -32,7 +32,7 @@ public class SetEnabledAction : StyledElementAction
     }
 
     /// <summary>
-    /// Gets or sets the value to assign to <see cref="Control.IsEnabled"/>.
+    /// Gets or sets the value to assign to <see cref="InputElement.IsEnabled"/>.
     /// This is an avalonia property.
     /// </summary>
     public bool IsEnabledValue
