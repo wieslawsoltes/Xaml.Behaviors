@@ -4,8 +4,6 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="using:BehaviorsTestApplication.ViewModels"
-             xmlns:reactive="clr-namespace:Avalonia.Xaml.Interactions.ReactiveUI"
-             xmlns:core="clr-namespace:Avalonia.Xaml.Interactions.Core"
              x:DataType="vm:InteractionTriggerBehaviorViewModel"
              mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="450">
   <Design.DataContext>
@@ -15,11 +13,11 @@
     <TextBox x:Name="TargetTextBox" Text="Initial Text" />
     <Button Content="Trigger" Command="{Binding TriggerCommand}">
       <Interaction.Behaviors>
-        <reactive:InteractionTriggerBehavior Interaction="{Binding TestInteraction}">
-          <core:ChangePropertyAction TargetObject="TargetTextBox"
-                                     PropertyName="Text"
-                                     Value="Triggered" />
-        </reactive:InteractionTriggerBehavior>
+        <InteractionTriggerBehavior Interaction="{Binding TestInteraction}">
+          <ChangePropertyAction TargetObject="TargetTextBox"
+                                PropertyName="Text"
+                                Value="Triggered" />
+        </InteractionTriggerBehavior>
       </Interaction.Behaviors>
     </Button>
   </StackPanel>
