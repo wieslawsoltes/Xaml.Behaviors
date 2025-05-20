@@ -661,11 +661,17 @@ This section provides an overview of all available classes and their purpose in 
   *Automatically selects a ListBoxItem when the pointer moves over it.*
 
 ### Responsive
-- **AdaptiveBehavior**  
+- **AdaptiveBehavior**
   *Observes bounds changes of a control (or a specified source) and conditionally adds or removes CSS-style classes based on adaptive rules.*
 
-- **AdaptiveClassSetter**  
+- **AdaptiveClassSetter**
   *Specifies comparison conditions (min/max width/height) and the class to apply when those conditions are met.*
+
+- **AspectRatioBehavior**
+  *Observes bounds changes and toggles CSS-style classes when the control's aspect ratio matches specified rules.*
+
+- **AspectRatioClassSetter**
+  *Defines aspect ratio comparison conditions and the class to apply when those conditions are met.*
 
 ### ScrollViewer
 - **HorizontalScrollViewerBehavior**  
