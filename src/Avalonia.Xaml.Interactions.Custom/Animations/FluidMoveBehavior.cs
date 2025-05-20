@@ -1,10 +1,10 @@
 using System;
 using System.Collections.Generic;
-using Avalonia;
 using Avalonia.Animation;
+using Avalonia.Animation.Easings;
 using Avalonia.Controls;
 using Avalonia.Media;
-using Avalonia.Xaml.Interactions.Custom;
+using Avalonia.Styling;
 
 namespace Avalonia.Xaml.Interactions.Custom;
 
@@ -104,7 +104,7 @@ public class FluidMoveBehavior : AttachedToVisualTreeBehavior<Panel>
 
     private void PanelOnLayoutUpdated(object? sender, EventArgs e)
     {
-        if (AssociatedObject is not Panel panel)
+        if (AssociatedObject is not { } panel)
         {
             return;
         }
@@ -169,11 +169,15 @@ public class FluidMoveBehavior : AttachedToVisualTreeBehavior<Panel>
                     {
                         new Setter(TranslateTransform.XProperty, 0d),
                         new Setter(TranslateTransform.YProperty, 0d)
-                    },
-                    Easing = Easing
+                    }
                 }
             }
         };
+
+        if (Easing is { } easing)
+        {
+            animation.Easing = easing;
+        }
 
         _ = animation.RunAsync(transform);
     }
