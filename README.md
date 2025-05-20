@@ -585,10 +585,13 @@ This section provides an overview of all available classes and their purpose in 
 - **HoldingTrigger**  
   *Triggers actions when a holding gesture is detected.*
 
-- **KeyDownTrigger**  
+- **KeyDownTrigger**
   *Listens for key down events and triggers actions if the pressed key (or gesture) matches the specified criteria.*
 
-- **KeyUpTrigger**  
+- **KeyTrigger**
+  *Listens for key down or key up events and triggers actions when the configured key or gesture occurs.*
+
+- **KeyUpTrigger**
   *Listens for key up events and triggers actions when conditions are met.*
 
 - **LostFocusTrigger**  
