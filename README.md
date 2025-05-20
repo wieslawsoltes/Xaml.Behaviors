@@ -85,8 +85,14 @@ This section provides an overview of all available classes and their purpose in 
 - **CloseNotificationAction**  
   *Closes an open notification, for example, from a notification control.*
 
-- **FocusControlAction**  
+- **FocusControlAction**
   *Sets the keyboard focus on a specified control or the associated control.*
+
+- **HideControlAction**
+  *Hides a control by setting its `IsVisible` property to false.*
+
+- **ShowControlAction**
+  *Shows a control and gives it focus when executed.*
 
 - **PopupAction**
   *Displays a popup window for showing additional UI content.*
