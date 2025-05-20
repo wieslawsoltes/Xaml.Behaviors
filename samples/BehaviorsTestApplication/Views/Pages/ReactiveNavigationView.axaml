@@ -4,7 +4,6 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="using:BehaviorsTestApplication.ViewModels"
-             xmlns:pages="using:BehaviorsTestApplication.Views.Pages"
              xmlns:rxui="clr-namespace:Avalonia.ReactiveUI;assembly=Avalonia.ReactiveUI"
              x:DataType="vm:ReactiveNavigationViewModel"
              mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="450">
@@ -13,28 +12,30 @@
   </Design.DataContext>
   <Grid RowDefinitions="Auto,*" Margin="5">
     <StackPanel Orientation="Horizontal" Spacing="5">
-      <Button x:Name="NavigateButton" Content="Navigate">
+      <Button x:Name="NavigateButton" Content="Navigate to Details">
         <Interaction.Behaviors>
           <EventTriggerBehavior EventName="Click" SourceObject="NavigateButton">
-            <NavigateAction Router="{Binding Router}" ViewModel="{Binding Second}" />
+            <NavigateAction Router="{Binding Router}" 
+                            ViewModel="{Binding DetailsViewModel}" />
           </EventTriggerBehavior>
         </Interaction.Behaviors>
       </Button>
-      <Button x:Name="ResetButton" Content="Navigate And Reset">
+      <Button x:Name="ResetButton" Content="Navigate to Home and Reset">
         <Interaction.Behaviors>
           <EventTriggerBehavior EventName="Click" SourceObject="ResetButton">
-            <NavigateAndReset Router="{Binding Router}" ViewModel="{Binding Home}" />
+            <NavigateAndReset Router="{Binding Router}" 
+                              ViewModel="{Binding HomePageViewModel}" />
           </EventTriggerBehavior>
         </Interaction.Behaviors>
       </Button>
-      <Button x:Name="BackButton" Content="Back">
+      <Button x:Name="BackButton" Content="Navigate Back">
         <Interaction.Behaviors>
           <EventTriggerBehavior EventName="Click" SourceObject="BackButton">
             <NavigateBackAction Router="{Binding Router}" />
           </EventTriggerBehavior>
         </Interaction.Behaviors>
       </Button>
-      <Button x:Name="ClearButton" Content="Clear">
+      <Button x:Name="ClearButton" Content="Clear Navigation">
         <Interaction.Behaviors>
           <EventTriggerBehavior EventName="Click" SourceObject="ClearButton">
             <ClearNavigationStackAction Router="{Binding Router}" />
@@ -42,15 +43,6 @@
         </Interaction.Behaviors>
       </Button>
     </StackPanel>
-    <rxui:RoutedViewHost Router="{Binding Router}" Grid.Row="1" >
-      <rxui:RoutedViewHost.DataTemplates>
-        <DataTemplate DataType="vm:HomePageViewModel">
-          <pages:HomePageView />
-        </DataTemplate>
-        <DataTemplate DataType="vm:DetailPageViewModel">
-          <pages:DetailPageView />
-        </DataTemplate>
-      </rxui:RoutedViewHost.DataTemplates>
-    </rxui:RoutedViewHost>
+    <rxui:RoutedViewHost Router="{Binding Router}" Grid.Row="1" />
   </Grid>
 </UserControl>
