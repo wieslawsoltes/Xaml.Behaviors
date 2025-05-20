@@ -11,7 +11,7 @@
     <vm:ReactiveNavigationViewModel />
   </Design.DataContext>
   <Grid RowDefinitions="Auto,*" Margin="5">
-    <StackPanel Orientation="Horizontal" Spacing="5">
+    <WrapPanel Orientation="Horizontal" ItemSpacing="5" LineSpacing="5">
       <Button Content="Navigate to Details">
         <Interaction.Behaviors>
           <EventTriggerBehavior EventName="Click">
@@ -58,7 +58,7 @@
           </EventTriggerBehavior>
         </Interaction.Behaviors>
       </Button>
-    </StackPanel>
+    </WrapPanel>
     <rxui:RoutedViewHost Router="{Binding Router}" Grid.Row="1" />
   </Grid>
 </UserControl>
