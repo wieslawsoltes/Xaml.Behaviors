@@ -10,16 +10,16 @@ public class FluidMoveSetTagBehavior : ItemsControlContainerEventsBehavior
     /// <inheritdoc />
     protected override void OnContainerPrepared(object? sender, ContainerPreparedEventArgs e)
     {
-        if (e.Container is Control control)
+        if (e.Container is { } control)
         {
-            control.Tag = e.Item;
+            control.Tag = e.Container.DataContext;
         }
     }
 
     /// <inheritdoc />
     protected override void OnContainerClearing(object? sender, ContainerClearingEventArgs e)
     {
-        if (e.Container is Control control)
+        if (e.Container is { } control)
         {
             control.ClearValue(Control.TagProperty);
         }
