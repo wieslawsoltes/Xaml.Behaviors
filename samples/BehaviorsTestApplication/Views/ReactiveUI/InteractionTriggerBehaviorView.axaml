@@ -1,0 +1,26 @@
+<UserControl x:Class="BehaviorsTestApplication.Views.Pages.InteractionTriggerBehaviorView"
+             xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:BehaviorsTestApplication.ViewModels"
+             xmlns:reactive="clr-namespace:System.Reactive;assembly=System.Reactive"
+             x:DataType="vm:InteractionTriggerBehaviorViewModel"
+             mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="450">
+  <Design.DataContext>
+    <vm:InteractionTriggerBehaviorViewModel />
+  </Design.DataContext>
+  <StackPanel Margin="5" Spacing="5" HorizontalAlignment="Center" VerticalAlignment="Center">
+    <TextBox x:Name="TargetTextBox" Text="Initial Text" />
+    <Button Content="Trigger" Command="{Binding TriggerCommand}">
+      <Interaction.Behaviors>
+        <InteractionTriggerBehavior Interaction="{Binding TestInteraction}"
+                                    x:TypeArguments="reactive:Unit, reactive:Unit">
+          <ChangePropertyAction TargetObject="TargetTextBox"
+                                PropertyName="Text"
+                                Value="Triggered" />
+        </InteractionTriggerBehavior>
+      </Interaction.Behaviors>
+    </Button>
+  </StackPanel>
+</UserControl>

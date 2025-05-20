@@ -118,6 +118,9 @@
     <TabItem Header="Observable Trigger">
       <pages:ObservableTriggerBehaviorView />
     </TabItem>
+    <TabItem Header="InteractionTriggerBehavior">
+      <pages:InteractionTriggerBehaviorView />
+    </TabItem>
     <TabItem Header="Reactive Navigation">
       <pages:ReactiveNavigationView />
     </TabItem>
