@@ -169,7 +169,7 @@ This section provides an overview of all available classes and their purpose in 
 - **ShowPointerPositionBehavior**
   *Displays the current pointer position (x, y coordinates) in a TextBlock for debugging or UI feedback.*
 
-- **SizeChangedTriggerBehavior**
+- **SizeChangedTrigger**
   *Triggers actions when the associated control's size changes.*
 
 ### Converters
