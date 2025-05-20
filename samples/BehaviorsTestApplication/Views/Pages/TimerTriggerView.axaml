@@ -13,14 +13,14 @@
           Background="{DynamicResource PinkBrush}"
           BorderBrush="{DynamicResource GrayBrush}"
           BorderThickness="5">
-    <TextBlock Text="{Binding Count}"
+    <TextBlock Text="{Binding TimerCount}"
                FontSize="100"
                VerticalAlignment="Center"
                HorizontalAlignment="Center"
                Foreground="{DynamicResource YellowBrush}">
       <Interaction.Behaviors>
         <TimerTrigger MillisecondsPerTick="1000" RepeatForever="True">
-          <CallMethodAction TargetObject="{Binding}" MethodName="IncrementCount" />
+          <CallMethodAction TargetObject="{Binding}" MethodName="IncrementTimerCount" />
         </TimerTrigger>
       </Interaction.Behaviors>
     </TextBlock>
