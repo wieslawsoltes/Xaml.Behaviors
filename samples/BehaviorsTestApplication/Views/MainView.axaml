@@ -22,10 +22,10 @@
                Margin="0,0,0,8" 
                IsVisible="False"
                DockPanel.Dock="Top" />
-    <TabControl x:Name="PagesTabControl" Classes="sidebar">
+    <SingleSelectionTabControl x:Name="PagesTabControl" SelectedIndex="0" Classes="sidebar">
       <Interaction.Behaviors>
-        <TabControlSearchBehavior SearchBox="SearchBox"
-                                  NoMatchesText="NoMatchesText" />
+        <SelectingItemsControlSearchBehavior SearchBox="SearchBox"
+                                             NoMatchesControl="NoMatchesText" />
       </Interaction.Behaviors>
       <TabItem Header="CallMethodAction">
         <pages:CallMethodActionView />
@@ -153,6 +153,6 @@
       <TabItem Header="Reactive Navigation">
         <pages:ReactiveNavigationView />
       </TabItem>
-    </TabControl>
+    </SingleSelectionTabControl>
   </DockPanel>
 </UserControl>
