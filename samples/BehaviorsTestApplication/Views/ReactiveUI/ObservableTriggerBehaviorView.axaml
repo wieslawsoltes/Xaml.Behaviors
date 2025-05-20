@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="BehaviorsTestApplication.Views.Pages.ValueChangedTriggerBehaviorView"
+<UserControl x:Class="BehaviorsTestApplication.Views.Pages.ObservableTriggerBehaviorView"
              xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -10,13 +10,18 @@
     <vm:MainWindowViewModel />
   </Design.DataContext>
   <Grid>
-    <TextBlock Name="Text" HorizontalAlignment="Center" VerticalAlignment="Center">
+    <TextBlock Name="Text"
+               FontSize="20"
+               HorizontalAlignment="Center"
+               VerticalAlignment="Center">
       <Interaction.Behaviors>
-        <ValueChangedTriggerBehavior Binding="{Binding Values^}">
+        <ObservableTriggerBehavior x:Name="Observer"
+                                   x:TypeArguments="x:Int32"
+                                   Observable="{Binding Values}">
           <ChangePropertyAction TargetObject="Text"
-                                PropertyName="Text"
-                                Value="{Binding Values^, StringFormat={} Value: {0}}" />
-        </ValueChangedTriggerBehavior>
+                                 PropertyName="Text"
+                                 Value="{Binding #Observer.Value, StringFormat={} Value: {0}}" />
+        </ObservableTriggerBehavior>
       </Interaction.Behaviors>
     </TextBlock>
   </Grid>
