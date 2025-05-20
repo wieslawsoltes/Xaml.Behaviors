@@ -13,9 +13,9 @@
     <TextBlock Name="Text" HorizontalAlignment="Center" VerticalAlignment="Center">
       <Interaction.Behaviors>
         <ValueChangedTriggerBehavior Binding="{Binding Values^}">
-          <ChangePropertyAction TargetObject="Text" 
-                                   PropertyName="Text"
-                                   Value="{Binding Values^, StringFormat={} Value: {0}}" />
+          <ChangePropertyAction TargetObject="Text"
+                                PropertyName="Text"
+                                Value="{Binding Values^, StringFormat={} Value: {0}}" />
         </ValueChangedTriggerBehavior>
       </Interaction.Behaviors>
     </TextBlock>
