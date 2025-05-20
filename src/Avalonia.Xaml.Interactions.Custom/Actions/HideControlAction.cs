@@ -25,14 +25,14 @@ public class HideControlAction : StyledElementAction
     }
 
     /// <inheritdoc />
-    public override object? Execute(object? sender, object? parameter)
+    public override object Execute(object? sender, object? parameter)
     {
         if (!IsEnabled)
         {
             return false;
         }
 
-        var control = GetValue(TargetControlProperty) is not null ? TargetControl : sender as Control;
+        var control = TargetControl ?? sender as Control;
         if (control is null)
         {
             return false;
