@@ -127,6 +127,9 @@
     <TabItem Header="InteractionTriggerBehavior">
       <pages:InteractionTriggerBehaviorView />
     </TabItem>
+    <TabItem Header="KeyTrigger">
+      <pages:KeyTriggerView />
+    </TabItem>
     <TabItem Header="Reactive Navigation">
       <pages:ReactiveNavigationView />
     </TabItem>
