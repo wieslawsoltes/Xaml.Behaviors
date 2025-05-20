@@ -765,11 +765,16 @@ This section provides an overview of all available classes and their purpose in 
 - **NavigateAction**
   *Navigates to a specified `IRoutableViewModel` using a router.*
 
+- **NavigateToAction**
+  *Resolves and navigates to a view model type using a router.*
+
 - **NavigateBackAction**
   *Navigates back within a `RoutingState` stack.*
 
 - **NavigateAndReset**
   *Navigates to a view model and clears the navigation stack.*
+- **NavigateToAndResetAction**
+  *Resolves a view model type, clears the navigation stack, and navigates to it.*
 - **ObservableTriggerBehavior**
   *Subscribes to an `IObservable` and executes actions whenever the observable emits a value.*
 
