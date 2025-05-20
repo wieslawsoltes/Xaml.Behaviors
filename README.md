@@ -110,11 +110,14 @@ This section provides an overview of all available classes and their purpose in 
   *Displays a control's context menu programmatically.*
 
 ### Animations
-- **FadeInBehavior**  
+- **FadeInBehavior**
   *Animates the fade-in effect for the associated element, gradually increasing its opacity.*
 
-- **StartAnimationAction**  
+- **StartAnimationAction**
   *Triggers a defined animation on the target control when executed.*
+
+- **FluidMoveBehavior**
+  *Animates elements as they change layout positions for smooth transitions.*
 
 ### AutoCompleteBox
 - **FocusAutoCompleteBoxTextBoxBehavior**  
@@ -646,8 +649,11 @@ This section provides an overview of all available classes and their purpose in 
 - **ScrollToItemBehavior**
   *Automatically scrolls the ItemsControl to make a specified item visible.*
 
-- **ScrollToItemIndexBehavior**  
+- **ScrollToItemIndexBehavior**
   *Scrolls to a specific item index in the ItemsControl.*
+
+- **FluidMoveSetTagBehavior**
+  *Assigns each generated container's Tag to its data item for FluidMoveBehavior.*
 
 ### ListBox
 - **ListBoxSelectAllBehavior**  

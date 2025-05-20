@@ -1,0 +1,33 @@
+<UserControl x:Class="BehaviorsTestApplication.Views.Pages.FluidMoveBehaviorView"
+             xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:BehaviorsTestApplication.ViewModels"
+             x:DataType="vm:MainWindowViewModel"
+             mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="450">
+  <Design.DataContext>
+    <vm:MainWindowViewModel />
+  </Design.DataContext>
+  <StackPanel Spacing="10" Margin="5">
+    <Button Content="Shuffle" Command="{Binding ShuffleItemsCommand}" Width="100" />
+    <ItemsControl ItemsSource="{Binding Items}">
+      <Interaction.Behaviors>
+        <FluidMoveSetTagBehavior />
+        <FluidMoveBehavior Duration="0:0:0.3" />
+      </Interaction.Behaviors>
+      <ItemsControl.ItemsPanel>
+        <ItemsPanelTemplate>
+          <WrapPanel />
+        </ItemsPanelTemplate>
+      </ItemsControl.ItemsPanel>
+      <ItemsControl.ItemTemplate>
+        <DataTemplate DataType="vm:ItemViewModel">
+          <Border Background="{Binding Color}" Width="80" Height="40" Margin="4" CornerRadius="4">
+            <TextBlock Text="{Binding Value}" VerticalAlignment="Center" HorizontalAlignment="Center" />
+          </Border>
+        </DataTemplate>
+      </ItemsControl.ItemTemplate>
+    </ItemsControl>
+  </StackPanel>
+</UserControl>

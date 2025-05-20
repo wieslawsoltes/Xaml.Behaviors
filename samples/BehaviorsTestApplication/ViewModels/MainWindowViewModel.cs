@@ -90,6 +90,8 @@ public partial class MainWindowViewModel : ViewModelBase
         OpenFoldersCommand = ReactiveCommand.Create<IEnumerable<IStorageFolder>>(OpenFolders);
 
         GetClipboardTextCommand = ReactiveCommand.Create<string?>(GetClipboardText);
+
+        ShuffleItemsCommand = ReactiveCommand.Create(ShuffleItems);
     }
 
     [Reactive]
@@ -137,6 +139,8 @@ public partial class MainWindowViewModel : ViewModelBase
     
     public ICommand GetClipboardTextCommand { get; set; }
 
+    public ICommand ShuffleItemsCommand { get; set; }
+
     private void DataContextChanged()
     {
         Console.WriteLine("DataContextChanged");
@@ -182,6 +186,19 @@ public partial class MainWindowViewModel : ViewModelBase
     private void GetClipboardText(string? text)
     {
         Console.WriteLine($"GetClipboardTextCommand: {text}");
+    }
+
+    private void ShuffleItems()
+    {
+        if (Items is { } items)
+        {
+            var rnd = new Random();
+            for (var i = 0; i < items.Count; i++)
+            {
+                var j = rnd.Next(i, items.Count);
+                (items[i], items[j]) = (items[j], items[i]);
+            }
+        }
     }
 
     public void IncrementCount() => Count++;
