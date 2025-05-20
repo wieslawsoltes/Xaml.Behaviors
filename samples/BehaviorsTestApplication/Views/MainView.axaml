@@ -64,6 +64,9 @@
     <TabItem Header="AdaptiveBehavior">
       <pages:AdaptiveBehaviorView />
     </TabItem>
+    <TabItem Header="AspectRatioBehavior">
+      <pages:AspectRatioBehaviorView />
+    </TabItem>
     <TabItem Header="EditableListBox">
       <pages:EditableListBoxView />
     </TabItem>
