@@ -94,8 +94,14 @@
     <TabItem Header="File Drop Handler">
       <pages:FileDropHandlerView />
     </TabItem>
+    <TabItem Header="ContentControlFilesDropBehavior">
+      <pages:ContentControlFilesDropBehaviorView />
+    </TabItem>
     <TabItem Header="Drag and Drop">
       <pages:DragAndDropView />
+    </TabItem>
+    <TabItem Header="TypedDragBehavior">
+      <pages:TypedDragBehaviorView />
     </TabItem>
     <TabItem Header="Draggable">
       <pages:DraggableView />
