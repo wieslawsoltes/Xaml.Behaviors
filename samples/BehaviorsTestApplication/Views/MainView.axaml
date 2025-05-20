@@ -13,17 +13,20 @@
     </Style>
   </UserControl.Styles>
   <DockPanel>
-    <TextBox x:Name="SearchBox" 
-             Watermark="Search pages..." 
-             Margin="0,0,0,8" 
-             TextChanged="OnSearchTextChanged"
+    <TextBox x:Name="SearchBox"
+             Watermark="Search pages..."
+             Margin="0,0,0,8"
              DockPanel.Dock="Top"  />
     <TextBlock x:Name="NoMatchesText" 
                Text="No pages match the search." 
                Margin="0,0,0,8" 
                IsVisible="False"
                DockPanel.Dock="Top" />
-    <TabControl x:Name="PagesTabControl" Classes="sidebar">
+    <SingleSelectionTabControl x:Name="PagesTabControl" SelectedIndex="0" Classes="sidebar">
+      <Interaction.Behaviors>
+        <SelectingItemsControlSearchBehavior SearchBox="SearchBox"
+                                             NoMatchesControl="NoMatchesText" />
+      </Interaction.Behaviors>
       <TabItem Header="CallMethodAction">
         <pages:CallMethodActionView />
       </TabItem>
@@ -150,6 +153,6 @@
       <TabItem Header="Reactive Navigation">
         <pages:ReactiveNavigationView />
       </TabItem>
-    </TabControl>
+    </SingleSelectionTabControl>
   </DockPanel>
 </UserControl>
