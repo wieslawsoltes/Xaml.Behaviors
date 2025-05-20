@@ -88,6 +88,9 @@
     <TabItem Header="Pointer Triggers">
       <pages:PointerTriggersView DataContext="{Binding PointerTriggersViewModel}" />
     </TabItem>
+    <TabItem Header="KeyGestureTrigger">
+      <pages:KeyGestureTriggerView DataContext="{Binding KeyGestureTriggerViewModel}" />
+    </TabItem>
     <TabItem Header="Storage Provider">
       <pages:StorageProviderView />
     </TabItem>
