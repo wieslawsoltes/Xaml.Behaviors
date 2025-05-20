@@ -20,7 +20,7 @@
                                    Observable="{Binding Values}">
           <ChangePropertyAction TargetObject="Text"
                                  PropertyName="Text"
-                                 Value="{Binding Value, Source={x:Reference Observer}, StringFormat={} Value: {0}}" />
+                                 Value="{Binding #Observer.Value, StringFormat={} Value: {0}}" />
         </ObservableTriggerBehavior>
       </Interaction.Behaviors>
     </TextBlock>
