@@ -91,8 +91,11 @@ This section provides an overview of all available classes and their purpose in 
 - **PopupAction**  
   *Displays a popup window for showing additional UI content.*
 
-- **RemoveClassAction**  
+- **RemoveClassAction**
   *Removes a style class from a control’s class collection.*
+
+- **ShowContextMenuAction**
+  *Displays a control's context menu programmatically.*
 
 ### Animations
 - **FadeInBehavior**  
