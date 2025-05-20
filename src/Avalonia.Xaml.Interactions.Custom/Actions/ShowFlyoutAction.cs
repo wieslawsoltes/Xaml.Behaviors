@@ -5,30 +5,24 @@ using Avalonia.Xaml.Interactivity;
 namespace Avalonia.Xaml.Interactions.Custom;
 
 /// <summary>
-/// Shows or hides a <see cref="FlyoutBase"/> when executed.
+/// Shows a <see cref="FlyoutBase"/> when executed.
 /// </summary>
-public class ShowHideFlyoutAction : StyledElementAction
+public class ShowFlyoutAction : StyledElementAction
 {
     /// <summary>
     /// Identifies the <seealso cref="Flyout"/> avalonia property.
     /// </summary>
     public static readonly StyledProperty<FlyoutBase?> FlyoutProperty =
-        AvaloniaProperty.Register<ShowHideFlyoutAction, FlyoutBase?>(nameof(Flyout));
+        AvaloniaProperty.Register<ShowFlyoutAction, FlyoutBase?>(nameof(Flyout));
 
     /// <summary>
     /// Identifies the <seealso cref="TargetControl"/> avalonia property.
     /// </summary>
     public static readonly StyledProperty<Control?> TargetControlProperty =
-        AvaloniaProperty.Register<ShowHideFlyoutAction, Control?>(nameof(TargetControl));
+        AvaloniaProperty.Register<ShowFlyoutAction, Control?>(nameof(TargetControl));
 
     /// <summary>
-    /// Identifies the <seealso cref="IsOpen"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<bool> IsOpenProperty =
-        AvaloniaProperty.Register<ShowHideFlyoutAction, bool>(nameof(IsOpen), true);
-
-    /// <summary>
-    /// Gets or sets the flyout instance to show or hide. If not set, the attached flyout of the target control is used.
+    /// Gets or sets the flyout instance to show. If not set, the attached flyout of the target control is used.
     /// </summary>
     public FlyoutBase? Flyout
     {
@@ -44,15 +38,6 @@ public class ShowHideFlyoutAction : StyledElementAction
     {
         get => GetValue(TargetControlProperty);
         set => SetValue(TargetControlProperty, value);
-    }
-
-    /// <summary>
-    /// Gets or sets a value indicating whether the flyout should be shown or hidden when the action executes.
-    /// </summary>
-    public bool IsOpen
-    {
-        get => GetValue(IsOpenProperty);
-        set => SetValue(IsOpenProperty, value);
     }
 
     /// <inheritdoc />
@@ -75,14 +60,7 @@ public class ShowHideFlyoutAction : StyledElementAction
             return false;
         }
 
-        if (IsOpen)
-        {
-            flyout.ShowAt(control);
-        }
-        else
-        {
-            flyout.Hide();
-        }
+        flyout.ShowAt(control);
 
         return true;
     }

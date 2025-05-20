@@ -97,8 +97,11 @@ This section provides an overview of all available classes and their purpose in 
 - **PopupAction**
   *Displays a popup window for showing additional UI content.*
 
-- **ShowHideFlyoutAction**
-  *Shows or hides a flyout attached to a control or specified explicitly.*
+- **ShowFlyoutAction**
+  *Shows a flyout attached to a control or specified explicitly.*
+
+- **HideFlyoutAction**
+  *Hides a flyout attached to a control or specified explicitly.*
 
 - **RemoveClassAction**  
   *Removes a style class from a control’s class collection.*
