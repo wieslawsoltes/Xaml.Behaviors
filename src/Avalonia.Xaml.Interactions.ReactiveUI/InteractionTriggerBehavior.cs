@@ -8,34 +8,23 @@ namespace Avalonia.Xaml.Interactions.ReactiveUI;
 /// <summary>
 /// A behavior that registers a handler for a <see cref="Interaction{TInput,TOutput}"/> and executes its actions when the interaction is triggered.
 /// </summary>
-public class InteractionTriggerBehavior : StyledElementTrigger<Visual>
+public class InteractionTriggerBehavior<TInput, TOutput> : StyledElementTrigger<Visual>
 {
     private IDisposable? _disposable;
 
     /// <summary>
     /// Identifies the <see cref="Interaction"/> avalonia property.
     /// </summary>
-    public static readonly StyledProperty<Interaction<object?, object?>?> InteractionProperty =
-        AvaloniaProperty.Register<InteractionTriggerBehavior, Interaction<object?, object?>?>(nameof(Interaction));
+    public static readonly StyledProperty<Interaction<TInput, TOutput>?> InteractionProperty =
+        AvaloniaProperty.Register<InteractionTriggerBehavior<TInput, TOutput>, Interaction<TInput, TOutput>?>(nameof(Interaction));
 
     /// <summary>
     /// Gets or sets the interaction to register the handler for. This is an avalonia property.
     /// </summary>
-    public Interaction<object?, object?>? Interaction
+    public Interaction<TInput, TOutput>? Interaction
     {
         get => GetValue(InteractionProperty);
         set => SetValue(InteractionProperty, value);
-    }
-
-    /// <inheritdoc/>
-    protected override void OnPropertyChanged(AvaloniaPropertyChangedEventArgs change)
-    {
-        base.OnPropertyChanged(change);
-
-        if (change.Property == InteractionProperty)
-        {
-            
-        }
     }
 
     /// <inheritdoc/>
@@ -51,7 +40,7 @@ public class InteractionTriggerBehavior : StyledElementTrigger<Visual>
         _disposable = Interaction.RegisterHandler(context =>
         {
             Avalonia.Xaml.Interactivity.Interaction.ExecuteActions(AssociatedObject, Actions, context.Input);
-            context.SetOutput(null);
+            context.SetOutput(default);
             return Task.CompletedTask;
         });
     }
