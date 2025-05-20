@@ -10,7 +10,7 @@
     <vm:KeyGestureTriggerViewModel />
   </Design.DataContext>
 
-  <Border Padding="20" Background="LightGray">
+  <Border Focusable="True" Padding="20" Background="LightGray">
     <TextBlock Text="Press Ctrl+G" HorizontalAlignment="Center" VerticalAlignment="Center"/>
     <Interaction.Behaviors>
       <KeyGestureTrigger Gesture="Ctrl+G">
