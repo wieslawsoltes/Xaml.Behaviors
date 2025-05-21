@@ -6,28 +6,25 @@ using Avalonia.VisualTree;
 namespace Avalonia.Xaml.Interactions.Custom;
 
 /// <summary>
-/// 
+/// Hides the flyout when the button is clicked.
 /// </summary>
 public class ButtonHideFlyoutOnClickBehavior : AttachedToVisualTreeBehavior<Button>
 {
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <returns></returns>
+    /// <inheritdoc />
     protected override System.IDisposable OnAttachedToVisualTreeOverride()
     {
         var button = AssociatedObject;
-        
-		if (button is null)
-		{
-			return DisposableAction.Empty;
-		}
-        
-		var flyoutPresenter = button.FindAncestorOfType<FlyoutPresenter>();
-		if (flyoutPresenter?.Parent is not Popup popup)
-		{
+
+        if (button is null)
+        {
             return DisposableAction.Empty;
-		}
+        }
+
+        var flyoutPresenter = button.FindAncestorOfType<FlyoutPresenter>();
+        if (flyoutPresenter?.Parent is not Popup popup)
+        {
+            return DisposableAction.Empty;
+        }
 
         button.Click += AssociatedObjectOnClick;
 
@@ -43,9 +40,8 @@ public class ButtonHideFlyoutOnClickBehavior : AttachedToVisualTreeBehavior<Butt
             {
                 button.Command.Execute(button.CommandParameter);
             }
+
             popup.Close();
         }
-	}
-
-
+    }
 }
