@@ -1,0 +1,31 @@
+<UserControl x:Class="BehaviorsTestApplication.Views.Pages.FlyoutBindingView"
+             xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:BehaviorsTestApplication.ViewModels"
+             x:DataType="vm:MainWindowViewModel"
+             mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="450">
+  <Design.DataContext>
+    <vm:MainWindowViewModel />
+  </Design.DataContext>
+  <StackPanel>
+    <Button x:Name="FlyoutButton" Content="Press me">
+      <Button.Flyout>
+        <Flyout>
+          <TextBox Watermark="Type here">
+            <Interaction.Behaviors>
+              <EventTriggerBehavior EventName="TextChanged">
+                <InvokeCommandAction Command="{Binding TextChangedCommand}" PassEventArgsToCommand="True"/>
+              </EventTriggerBehavior>
+            </Interaction.Behaviors>
+          </TextBox>
+        </Flyout>
+      </Button.Flyout>
+    </Button>
+    <TextBlock x:Name="GreetingTextBlock"
+               Text="{Binding Greeting}"
+               HorizontalAlignment="Center"
+               VerticalAlignment="Center"/>
+  </StackPanel>
+</UserControl>
