@@ -301,6 +301,10 @@ public abstract class StyledElementBehavior : StyledElement, IBehavior, IBehavio
     {
         if (associatedObject is StyledElement styledElement)
         {
+            // Set initial data context value immediately so bindings are
+            // available before the first DataContextChanged event is raised.
+            SetCurrentValue(DataContextProperty, styledElement.DataContext);
+
             // Required for data context binding in XAML
             return styledElement
                 .GetObservable(DataContextProperty)
