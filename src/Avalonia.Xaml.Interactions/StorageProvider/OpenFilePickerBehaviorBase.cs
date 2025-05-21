@@ -50,10 +50,10 @@ public abstract class OpenFilePickerBehaviorBase : PickerBehaviorBase
     }
 
     /// <summary>
-    /// Executes the open file picker using the provided sender and parameter.
+    /// Executes the open file picker using the provided sender and command parameter.
     /// </summary>
-    /// <param name="sender"></param>
-    /// <param name="parameter"></param>
+    /// <param name="sender">The control that triggered the behavior.</param>
+    /// <param name="parameter">An optional parameter used when executing the command.</param>
     protected async Task Execute(object? sender, object? parameter)
     {
         if (sender is not Visual visual)

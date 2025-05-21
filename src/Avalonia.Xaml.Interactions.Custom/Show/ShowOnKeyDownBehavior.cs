@@ -15,7 +15,7 @@ public class ShowOnKeyDownBehavior : ShowBehaviorBase
         AvaloniaProperty.Register<ShowOnKeyDownBehavior, Key?>(nameof(Key));
 
     /// <summary>
-    /// 
+    /// Gets or sets the key gesture used to trigger the behavior.
     /// </summary>
     public static readonly StyledProperty<KeyGesture?> GestureProperty =
         AvaloniaProperty.Register<ShowOnKeyDownBehavior, KeyGesture?>(nameof(Gesture));
@@ -39,9 +39,9 @@ public class ShowOnKeyDownBehavior : ShowBehaviorBase
     }
 
     /// <summary>
-    /// 
+    /// Called when the behavior is attached to the visual tree.
     /// </summary>
-    /// <returns></returns>
+    /// <returns>A disposable that removes the event handler.</returns>
     protected override System.IDisposable OnAttachedToVisualTreeOverride()
     {
         var dispose = AssociatedObject?

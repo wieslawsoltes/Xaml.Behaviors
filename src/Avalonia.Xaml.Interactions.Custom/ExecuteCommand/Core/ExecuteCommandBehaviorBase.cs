@@ -105,9 +105,9 @@ public abstract class ExecuteCommandBehaviorBase : AttachedToVisualTreeBehavior<
 
 
     /// <summary>
-    /// 
+    /// Executes the associated command.
     /// </summary>
-    /// <returns></returns>
+    /// <returns>True if the command was executed; otherwise, false.</returns>
     protected virtual bool ExecuteCommand()
     {
         if (!IsEnabled)

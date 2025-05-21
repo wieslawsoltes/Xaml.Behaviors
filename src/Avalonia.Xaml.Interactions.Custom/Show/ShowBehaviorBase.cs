@@ -5,7 +5,7 @@ using Avalonia.Threading;
 namespace Avalonia.Xaml.Interactions.Custom;
 
 /// <summary>
-/// 
+/// Base class for behaviors that show a control in response to an event.
 /// </summary>
 public abstract class ShowBehaviorBase : AttachedToVisualTreeBehavior<Control>
 {
@@ -16,7 +16,7 @@ public abstract class ShowBehaviorBase : AttachedToVisualTreeBehavior<Control>
         AvaloniaProperty.Register<ShowBehaviorBase, Control?>(nameof(TargetControl));
 
     /// <summary>
-    /// 
+    /// Gets or sets the routing strategy used for the triggering event.
     /// </summary>
     public static readonly StyledProperty<RoutingStrategies> EventRoutingStrategyProperty =
         AvaloniaProperty.Register<ShowBehaviorBase, RoutingStrategies>(nameof(EventRoutingStrategy), RoutingStrategies.Bubble);
@@ -41,9 +41,9 @@ public abstract class ShowBehaviorBase : AttachedToVisualTreeBehavior<Control>
     }
 
     /// <summary>
-    /// 
+    /// Shows the <see cref="TargetControl"/> when the behavior is triggered.
     /// </summary>
-    /// <returns></returns>
+    /// <returns>True if the control was shown; otherwise, false.</returns>
     protected bool Show()
     {
         if (IsEnabled && TargetControl is { IsVisible: false })

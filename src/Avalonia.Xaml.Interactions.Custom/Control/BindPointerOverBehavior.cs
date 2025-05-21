@@ -6,12 +6,12 @@ using Avalonia.Input;
 namespace Avalonia.Xaml.Interactions.Custom;
 
 /// <summary>
-/// 
+/// Binds the <see cref="InputElement.IsPointerOverProperty"/> to the <see cref="IsPointerOver"/> property.
 /// </summary>
 public class BindPointerOverBehavior : DisposingBehavior<Control>
 {
     /// <summary>
-    /// 
+    /// Gets or sets a value indicating whether the pointer is over the control.
     /// </summary>
 	public static readonly StyledProperty<bool> IsPointerOverProperty =
 		AvaloniaProperty.Register<BindPointerOverBehavior, bool>(nameof(IsPointerOver), defaultBindingMode: BindingMode.TwoWay);
@@ -26,10 +26,10 @@ public class BindPointerOverBehavior : DisposingBehavior<Control>
 	}
 
     /// <summary>
-    /// 
+    /// Called when the behavior is attached to the control.
     /// </summary>
-    /// <returns></returns>
-	protected override IDisposable OnAttachedOverride()
+    /// <returns>A disposable that removes the event handler.</returns>
+        protected override IDisposable OnAttachedOverride()
 	{
 		if (AssociatedObject is null)
 		{

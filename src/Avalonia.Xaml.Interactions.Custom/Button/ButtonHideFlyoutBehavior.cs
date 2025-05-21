@@ -5,12 +5,12 @@ using Avalonia.Reactive;
 namespace Avalonia.Xaml.Interactions.Custom;
 
 /// <summary>
-/// 
+/// Behavior that hides a button's flyout when <see cref="IsFlyoutOpen"/> becomes false.
 /// </summary>
 public class ButtonHideFlyoutBehavior : DisposingBehavior<Button>
 {
     /// <summary>
-    /// 
+    /// Gets or sets a value indicating whether the flyout is open.
     /// </summary>
     public static readonly StyledProperty<bool> IsFlyoutOpenProperty =
         AvaloniaProperty.Register<ButtonHideFlyoutBehavior, bool>(nameof(IsFlyoutOpen));
@@ -25,9 +25,9 @@ public class ButtonHideFlyoutBehavior : DisposingBehavior<Button>
     }
 
     /// <summary>
-    /// 
+    /// Subscribes to <see cref="IsFlyoutOpen"/> changes.
     /// </summary>
-    /// <returns></returns>
+    /// <returns>A disposable that removes the subscription.</returns>
     protected override IDisposable OnAttachedOverride()
     {
         return this.GetObservable(IsFlyoutOpenProperty)

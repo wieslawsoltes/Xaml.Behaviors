@@ -35,10 +35,10 @@ public abstract class OpenFolderPickerBehaviorBase : PickerBehaviorBase
     }
 
     /// <summary>
-    /// 
+    /// Launches the folder picker dialog.
     /// </summary>
-    /// <param name="sender"></param>
-    /// <param name="parameter"></param>
+    /// <param name="sender">The initiating control.</param>
+    /// <param name="parameter">Optional command parameter.</param>
     protected async Task Execute(object? sender, object? parameter)
     {
         if (sender is not Visual visual)

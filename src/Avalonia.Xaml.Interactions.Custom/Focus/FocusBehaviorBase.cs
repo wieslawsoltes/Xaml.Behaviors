@@ -5,18 +5,18 @@ using Avalonia.Threading;
 namespace Avalonia.Xaml.Interactions.Custom;
 
 /// <summary>
-/// 
+/// Base class for behaviors that manage focus on a control.
 /// </summary>
 public abstract class FocusBehaviorBase : AttachedToVisualTreeBehavior<Control>
 {
     /// <summary>
-    /// 
+    /// Gets or sets the navigation method used when focusing.
     /// </summary>
     public static readonly StyledProperty<NavigationMethod> NavigationMethodProperty =
         AvaloniaProperty.Register<FocusBehaviorBase, NavigationMethod>(nameof(NavigationMethod));
     
     /// <summary>
-    /// 
+    /// Gets or sets keyboard modifiers used when focusing.
     /// </summary>
     public static readonly StyledProperty<KeyModifiers> KeyModifiersProperty =
         AvaloniaProperty.Register<FocusBehaviorBase, KeyModifiers>(nameof(KeyModifiers));
@@ -40,9 +40,9 @@ public abstract class FocusBehaviorBase : AttachedToVisualTreeBehavior<Control>
     }
 
     /// <summary>
-    /// 
+    /// Sets focus on the associated control.
     /// </summary>
-    /// <returns></returns>
+    /// <returns>True if the operation succeeds; otherwise, false.</returns>
     protected virtual bool Focus()
     {
         if (!IsEnabled)

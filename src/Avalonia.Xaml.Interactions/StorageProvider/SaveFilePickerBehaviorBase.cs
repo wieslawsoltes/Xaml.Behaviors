@@ -65,10 +65,10 @@ public abstract class SaveFilePickerBehaviorBase : PickerBehaviorBase
     }
 
     /// <summary>
-    /// 
+    /// Launches the save file picker dialog.
     /// </summary>
-    /// <param name="sender"></param>
-    /// <param name="parameter"></param>
+    /// <param name="sender">The element that started the request.</param>
+    /// <param name="parameter">Optional parameter passed to the command.</param>
     protected async Task Execute(object? sender, object? parameter)
     {
         if (sender is not Visual visual)
