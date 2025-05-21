@@ -1,0 +1,44 @@
+<UserControl x:Class="BehaviorsTestApplication.Views.Pages.ThemeVariantBehaviorView"
+             xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:BehaviorsTestApplication.ViewModels"
+             xmlns:responsive="using:Avalonia.Xaml.Interactions.Responsive"
+             x:DataType="vm:MainWindowViewModel"
+             mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="450">
+  <Design.DataContext>
+    <vm:MainWindowViewModel />
+  </Design.DataContext>
+
+  <UserControl.Styles>
+    <Style Selector="Border.theme-sample">
+      <Setter Property="Width" Value="200" />
+      <Setter Property="Height" Value="100" />
+      <Setter Property="HorizontalAlignment" Value="Center" />
+      <Setter Property="VerticalAlignment" Value="Center" />
+    </Style>
+    <Style Selector="Border.theme-sample.light">
+      <Setter Property="Background" Value="{DynamicResource YellowBrush}" />
+    </Style>
+    <Style Selector="Border.theme-sample.dark">
+      <Setter Property="Background" Value="{DynamicResource BlueBrush}" />
+    </Style>
+  </UserControl.Styles>
+
+  <StackPanel Spacing="10" Margin="5">
+    <StackPanel Orientation="Horizontal" Spacing="5" HorizontalAlignment="Center">
+      <Button Name="LightButton" Content="Light" />
+      <Button Name="DarkButton" Content="Dark" />
+      <TextBlock Text="{Binding $parent[Window].ActualThemeVariant}" Margin="5,0,0,0" VerticalAlignment="Center" />
+    </StackPanel>
+    <Border Name="ThemeBorder" Classes="theme-sample">
+      <Interaction.Behaviors>
+        <responsive:ThemeVariantBehavior>
+          <responsive:ThemeVariantClassSetter ThemeVariant="Light" ClassName="light" />
+          <responsive:ThemeVariantClassSetter ThemeVariant="Dark" ClassName="dark" />
+        </responsive:ThemeVariantBehavior>
+      </Interaction.Behaviors>
+    </Border>
+  </StackPanel>
+</UserControl>

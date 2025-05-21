@@ -679,6 +679,12 @@ This section provides an overview of all available classes and their purpose in 
 - **AspectRatioClassSetter**
   *Defines aspect ratio comparison conditions and the class to apply when those conditions are met.*
 
+- **ThemeVariantBehavior**
+  *Applies or removes style classes when the source control's theme variant changes (light, dark, etc.).*
+
+- **ThemeVariantClassSetter**
+  *Specifies a theme variant and the class to toggle when that variant is active.*
+
 ### ScrollViewer
 - **HorizontalScrollViewerBehavior**  
   *Enables horizontal scrolling via the pointer wheel. Optionally requires the Shift key and supports line or page scrolling.*
