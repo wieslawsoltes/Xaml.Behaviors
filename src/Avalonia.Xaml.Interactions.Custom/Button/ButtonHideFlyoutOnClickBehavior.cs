@@ -6,6 +6,7 @@ using Avalonia.VisualTree;
 namespace Avalonia.Xaml.Interactions.Custom;
 
 /// <summary>
+/// Hides the flyout when the button is clicked.
 /// </summary>
 public class ButtonHideFlyoutOnClickBehavior : AttachedToVisualTreeBehavior<Button>
 {
