@@ -53,6 +53,7 @@ public abstract class StyledElementAction : StyledElement, IAction
 
     internal void DetachActionFromLogicalTree(StyledElement parent)
     {
+#if false
         Dispatcher.UIThread.Post(() =>
         {
             ((ISetLogicalParent)this).SetParent(null);
@@ -62,5 +63,6 @@ public abstract class StyledElementAction : StyledElement, IAction
                 TemplatedParentHelper.SetTemplatedParent(this, null);
             }
         });
+#endif
     }
 }

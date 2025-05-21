@@ -286,6 +286,7 @@ public abstract class StyledElementBehavior : StyledElement, IBehavior, IBehavio
 
     internal virtual void DetachBehaviorFromLogicalTree()
     {
+#if false
         Dispatcher.UIThread.Post(() =>
         {
             ((ISetLogicalParent)this).SetParent(null);
@@ -295,6 +296,7 @@ public abstract class StyledElementBehavior : StyledElement, IBehavior, IBehavio
                 TemplatedParentHelper.SetTemplatedParent(this, null);
             }
         });
+#endif
     }
 
     private IDisposable? SynchronizeDataContext(AvaloniaObject associatedObject)
