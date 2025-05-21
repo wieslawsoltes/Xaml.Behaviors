@@ -20,13 +20,6 @@ public class HideFlyoutAction : StyledElementAction
     /// </summary>
     public static readonly StyledProperty<Control?> TargetControlProperty =
         AvaloniaProperty.Register<HideFlyoutAction, Control?>(nameof(TargetControl));
-
-    /// <summary>
-    /// Identifies the <seealso cref="IsOpen"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<bool> IsOpenProperty =
-        AvaloniaProperty.Register<HideFlyoutAction, bool>(nameof(IsOpen), true);
-
     /// <summary>
     /// Gets or sets the flyout instance to hide. If not set, the attached flyout of the target control is used.
     /// </summary>
@@ -44,15 +37,6 @@ public class HideFlyoutAction : StyledElementAction
     {
         get => GetValue(TargetControlProperty);
         set => SetValue(TargetControlProperty, value);
-    }
-
-    /// <summary>
-    /// Gets or sets a value indicating whether the flyout should be shown or hidden when the action executes.
-    /// </summary>
-    public bool IsOpen
-    {
-        get => GetValue(IsOpenProperty);
-        set => SetValue(IsOpenProperty, value);
     }
 
     /// <inheritdoc />
