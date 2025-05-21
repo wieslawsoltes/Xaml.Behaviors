@@ -73,9 +73,16 @@ public class AddClassAction : Avalonia.Xaml.Interactivity.StyledElementAction
             return false;
         }
 
-        if (RemoveIfExists && target.Classes.Contains(ClassName))
+        if (target.Classes.Contains(ClassName))
         {
-            target.Classes.Remove(ClassName);
+            if (RemoveIfExists)
+            {
+                target.Classes.Remove(ClassName);
+            }
+            else
+            {
+                return true;
+            }
         }
 
         target.Classes.Add(ClassName);
