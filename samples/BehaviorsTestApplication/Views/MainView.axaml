@@ -147,6 +147,9 @@
       <TabItem Header="InteractionTriggerBehavior">
         <pages:InteractionTriggerBehaviorView />
       </TabItem>
+      <TabItem Header="Flyout Binding">
+        <pages:FlyoutBindingView />
+      </TabItem>
       <TabItem Header="KeyTrigger">
         <pages:KeyTriggerView />
       </TabItem>

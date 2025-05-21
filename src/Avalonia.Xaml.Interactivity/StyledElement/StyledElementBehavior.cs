@@ -286,6 +286,7 @@ public abstract class StyledElementBehavior : StyledElement, IBehavior, IBehavio
 
     internal virtual void DetachBehaviorFromLogicalTree()
     {
+#if false
         Dispatcher.UIThread.Post(() =>
         {
             ((ISetLogicalParent)this).SetParent(null);
@@ -295,12 +296,18 @@ public abstract class StyledElementBehavior : StyledElement, IBehavior, IBehavio
                 TemplatedParentHelper.SetTemplatedParent(this, null);
             }
         });
+#endif
     }
 
     private IDisposable? SynchronizeDataContext(AvaloniaObject associatedObject)
     {
         if (associatedObject is StyledElement styledElement)
         {
+#if false
+            // Set initial data context value immediately so bindings are
+            // available before the first DataContextChanged event is raised.
+            SetCurrentValue(DataContextProperty, styledElement.DataContext);
+#endif
             // Required for data context binding in XAML
             return styledElement
                 .GetObservable(DataContextProperty)

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Reactive.Linq;
 using System.Windows.Input;
+using Avalonia.Controls;
 using Avalonia.Platform.Storage;
 using ReactiveUI;
 
@@ -91,6 +92,9 @@ public partial class MainWindowViewModel : ViewModelBase
         OpenFoldersCommand = ReactiveCommand.Create<IEnumerable<IStorageFolder>>(OpenFolders);
 
         GetClipboardTextCommand = ReactiveCommand.Create<string?>(GetClipboardText);
+
+        Greeting = "Entered text will appear here";
+        TextChangedCommand = ReactiveCommand.Create<TextChangedEventArgs>(OnTextChanged);
     }
 
     [Reactive]
@@ -122,6 +126,8 @@ public partial class MainWindowViewModel : ViewModelBase
 
     [Reactive] public partial double Progress { get; set; }
 
+    [Reactive] public partial string Greeting { get; set; }
+
     public IObservable<int> Values { get; }
 
     public ICommand DataContextChangedCommand { get; set; }
@@ -143,6 +149,8 @@ public partial class MainWindowViewModel : ViewModelBase
     public ICommand OpenFoldersCommand { get; set; }
     
     public ICommand GetClipboardTextCommand { get; set; }
+
+    public ICommand TextChangedCommand { get; }
 
     private void DataContextChanged()
     {
@@ -198,4 +206,12 @@ public partial class MainWindowViewModel : ViewModelBase
     public void IncrementTimerCount() => TimerCount++;
 
     public void DecrementTimerCount(object? sender, object parameter) => TimerCount--;
+
+    private void OnTextChanged(TextChangedEventArgs args)
+    {
+        if (args.Source is TextBox control)
+        {
+            Greeting = control.Text;
+        }
+    }
 }
