@@ -12,6 +12,7 @@ public sealed class TextDropBehavior : DropBehaviorBase
     /// </summary>
     public TextDropBehavior()
     {
+        PassEventArgsToCommand = true;
         Handler = new TextDropHandler(ExecuteCommand);
     }
 
