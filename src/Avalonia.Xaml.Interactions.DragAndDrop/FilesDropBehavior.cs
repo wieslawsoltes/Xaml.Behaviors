@@ -12,6 +12,7 @@ public sealed class FilesDropBehavior : DropBehaviorBase
     /// </summary>
     public FilesDropBehavior()
     {
+        PassEventArgsToCommand = true;
         Handler = new FilesDropHandler(ExecuteCommand);
     }
 
