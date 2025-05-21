@@ -5,12 +5,12 @@ using Avalonia.Reactive;
 namespace Avalonia.Xaml.Interactions.Custom;
 
 /// <summary>
-/// 
+/// Scrolls the associated <see cref="ItemsControl"/> to a specific item.
 /// </summary>
 public class ScrollToItemBehavior : AttachedToVisualTreeBehavior<ItemsControl>
 {
     /// <summary>
-    /// 
+    /// Gets or sets the observable that produces items to scroll into view.
     /// </summary>
     public static readonly StyledProperty<IObservable<object>?> ItemProperty =
         AvaloniaProperty.Register<ScrollToItemBehavior, IObservable<object>?>(nameof(Item));
@@ -25,9 +25,9 @@ public class ScrollToItemBehavior : AttachedToVisualTreeBehavior<ItemsControl>
     }
 
     /// <summary>
-    /// 
+    /// Subscribes to the <see cref="Item"/> observable and scrolls to incoming values.
     /// </summary>
-    /// <returns></returns>
+    /// <returns>A disposable that unsubscribes from <see cref="Item"/>.</returns>
     protected override System.IDisposable OnAttachedToVisualTreeOverride()
     {
         var disposable = Item?.Subscribe(new AnonymousObserver<object>(item =>

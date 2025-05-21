@@ -6,7 +6,7 @@ using Avalonia.Xaml.Interactivity;
 namespace Avalonia.Xaml.Interactions.Custom;
 
 /// <summary>
-/// 
+/// Enables horizontal scrolling of a <see cref="ScrollViewer"/> using the mouse wheel.
 /// </summary>
 public class HorizontalScrollViewerBehavior : StyledElementBehavior<ScrollViewer>
 {
@@ -16,30 +16,30 @@ public class HorizontalScrollViewerBehavior : StyledElementBehavior<ScrollViewer
     public enum ChangeSize
     {
         /// <summary>
-        /// 
+        /// Scrolls by a single line.
         /// </summary>
         Line,
 
         /// <summary>
-        /// 
+        /// Scrolls by a full page.
         /// </summary>
         Page
     }
 
     /// <summary>
-    /// 
+    /// Gets or sets a value indicating whether the Shift key must be held while scrolling.
     /// </summary>
     public static readonly StyledProperty<bool> RequireShiftKeyProperty =
         AvaloniaProperty.Register<HorizontalScrollViewerBehavior, bool>(nameof(RequireShiftKey));
 
     /// <summary>
-    /// 
+    /// Gets or sets the scroll amount used for each wheel delta.
     /// </summary>
     public static readonly StyledProperty<ChangeSize> ScrollChangeSizeProperty =
         AvaloniaProperty.Register<HorizontalScrollViewerBehavior, ChangeSize>(nameof(ScrollChangeSize));
 
     /// <summary>
-    /// 
+    /// Called when the behavior is attached to the associated object.
     /// </summary>
     public bool RequireShiftKey
     {
@@ -48,7 +48,7 @@ public class HorizontalScrollViewerBehavior : StyledElementBehavior<ScrollViewer
     }
 
     /// <summary>
-    /// 
+    /// Called when the behavior is detached from the associated object.
     /// </summary>
     public ChangeSize ScrollChangeSize
     {
@@ -78,10 +78,10 @@ public class HorizontalScrollViewerBehavior : StyledElementBehavior<ScrollViewer
     }
 
     /// <summary>
-    /// 
+    /// Handles the pointer wheel changed event.
     /// </summary>
-    /// <param name="sender"></param>
-    /// <param name="e"></param>
+    /// <param name="sender">Event source.</param>
+    /// <param name="e">Event arguments.</param>
     private void OnPointerWheelChanged(object? sender, PointerWheelEventArgs e)
     {
         if (!IsEnabled)

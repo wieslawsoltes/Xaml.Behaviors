@@ -4,7 +4,7 @@ using Avalonia.Controls;
 namespace Avalonia.Xaml.Interactions.Custom;
 
 /// <summary>
-/// 
+/// Base class that exposes container related events from an <see cref="ItemsControl"/>.
 /// </summary>
 public abstract class ItemsControlContainerEventsBehavior : DisposingBehavior<ItemsControl>
 {
@@ -51,37 +51,37 @@ public abstract class ItemsControlContainerEventsBehavior : DisposingBehavior<It
     }
 
     /// <summary>
-    /// 
+    /// Called before the container is prepared.
     /// </summary>
-    /// <param name="sender"></param>
-    /// <param name="e"></param>
+    /// <param name="sender">The items control raising the event.</param>
+    /// <param name="e">Event arguments.</param>
     protected virtual void OnPreparingContainer(object? sender, ContainerPreparedEventArgs e)
     {
     }
 
     /// <summary>
-    /// 
+    /// Called after the container has been prepared.
     /// </summary>
-    /// <param name="sender"></param>
-    /// <param name="e"></param>
+    /// <param name="sender">The items control raising the event.</param>
+    /// <param name="e">Event arguments.</param>
     protected virtual void OnContainerPrepared(object? sender, ContainerPreparedEventArgs e)
     {
     }
 
     /// <summary>
-    /// 
+    /// Called when the index of a container has changed.
     /// </summary>
-    /// <param name="sender"></param>
-    /// <param name="e"></param>
+    /// <param name="sender">The items control raising the event.</param>
+    /// <param name="e">Event arguments.</param>
     protected virtual void OnContainerIndexChanged(object? sender, ContainerIndexChangedEventArgs e)
     {
     }
 
     /// <summary>
-    /// 
+    /// Called when a container is being cleared.
     /// </summary>
-    /// <param name="sender"></param>
-    /// <param name="e"></param>
+    /// <param name="sender">The items control raising the event.</param>
+    /// <param name="e">Event arguments.</param>
     protected virtual void OnContainerClearing(object? sender, ContainerClearingEventArgs e)
     {
     }

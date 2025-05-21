@@ -10,10 +10,9 @@ namespace Avalonia.Xaml.Interactions.Custom;
 public class BindTagToVisualRootDataContextBehavior : DisposingBehavior<Control>
 {
     /// <summary>
-    /// 
+    /// Called when the behavior is attached to the visual tree.
     /// </summary>
-    /// <returns></returns>
-    /// <exception cref="NotImplementedException"></exception>
+    /// <returns>A disposable that clears the binding.</returns>
     protected override IDisposable OnAttachedOverride()
     {
         var visualRoot = (Control?)AssociatedObject?.GetVisualRoot();

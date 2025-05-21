@@ -6,14 +6,15 @@ using Avalonia.Threading;
 namespace Avalonia.Xaml.Interactions.Custom;
 
 /// <summary>
-/// 
+/// Focuses the container of the currently selected item when attached.
 /// </summary>
 public class FocusSelectedItemBehavior : AttachedToVisualTreeBehavior<ItemsControl>
 {
     /// <summary>
-    /// 
+    /// Subscribes to <see cref="SelectingItemsControl.SelectedItemProperty"/> and focuses
+    /// the corresponding container when the selected item changes.
     /// </summary>
-    /// <returns></returns>
+    /// <returns>A disposable used to clean up the subscription.</returns>
     protected override System.IDisposable OnAttachedToVisualTreeOverride()
     {
         var dispose = AssociatedObject?

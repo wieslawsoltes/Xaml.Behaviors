@@ -9,9 +9,9 @@ namespace Avalonia.Xaml.Interactions.Custom;
 public class ShowOnTappedBehavior : ShowBehaviorBase
 {
     /// <summary>
-    /// 
+    /// Called when the behavior is attached to the visual tree.
     /// </summary>
-    /// <returns></returns>
+    /// <returns>A disposable that removes the event handler.</returns>
     protected override System.IDisposable OnAttachedToVisualTreeOverride()
     {
         var dispose = AssociatedObject?

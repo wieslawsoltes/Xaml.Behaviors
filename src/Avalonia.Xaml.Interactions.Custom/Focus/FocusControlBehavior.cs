@@ -5,12 +5,12 @@ using Avalonia.Threading;
 namespace Avalonia.Xaml.Interactions.Custom;
 
 /// <summary>
-/// 
+/// Sets focus on the associated control when <see cref="FocusFlag"/> is true.
 /// </summary>
 public class FocusControlBehavior : AttachedToVisualTreeBehavior<Control>
 {
     /// <summary>
-    /// 
+    /// Gets or sets a value indicating whether the control should be focused.
     /// </summary>
     public static readonly StyledProperty<bool> FocusFlagProperty =
         AvaloniaProperty.Register<FocusControlBehavior, bool>(nameof(FocusFlag));
@@ -40,7 +40,7 @@ public class FocusControlBehavior : AttachedToVisualTreeBehavior<Control>
     }
 
     /// <summary>
-    /// 
+    /// Invoked when the behavior is attached to the visual tree.
     /// </summary>
     protected override System.IDisposable OnAttachedToVisualTreeOverride()
     {

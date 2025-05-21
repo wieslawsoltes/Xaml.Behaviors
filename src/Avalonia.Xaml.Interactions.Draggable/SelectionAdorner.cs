@@ -12,7 +12,7 @@ public class SelectionAdorner : Control
     /// <summary>
     /// Renders the selection rectangles.
     /// </summary>
-    /// <param name="context"></param>
+    /// <param name="context">The drawing context.</param>
     public override void Render(DrawingContext context)
     {
         var adornedElement = GetValue(AdornerLayer.AdornedElementProperty);

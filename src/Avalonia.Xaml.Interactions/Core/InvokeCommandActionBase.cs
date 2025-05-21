@@ -98,10 +98,11 @@ public abstract class InvokeCommandActionBase : StyledElementAction
     public bool PassEventArgsToCommand { get; set; }
 
     /// <summary>
-    /// Resolves the command parameter.
+    /// Resolves the command parameter that will be passed to the
+    /// associated <see cref="System.Windows.Input.ICommand"/>.
     /// </summary>
-    /// <param name="parameter">The parameter.</param>
-    /// <returns></returns>
+    /// <param name="parameter">The original parameter supplied by the caller.</param>
+    /// <returns>The value that will be provided to the command.</returns>
     protected object? ResolveParameter(object? parameter)
     {
         object? resolvedParameter = null;

@@ -3,12 +3,12 @@ using Avalonia.Controls.Notifications;
 namespace Avalonia.Xaml.Interactions.Custom;
 
 /// <summary>
-/// 
+/// Action that closes the specified <see cref="NotificationCard"/>.
 /// </summary>
 public class CloseNotificationAction : Avalonia.Xaml.Interactivity.StyledElementAction
 {
     /// <summary>
-    /// 
+    /// Gets or sets the notification card to close.
     /// </summary>
     public static readonly StyledProperty<NotificationCard?> NotificationCardProperty =
         AvaloniaProperty.Register<CloseNotificationAction, NotificationCard?>(nameof(NotificationCard));
@@ -23,11 +23,11 @@ public class CloseNotificationAction : Avalonia.Xaml.Interactivity.StyledElement
     }
 
     /// <summary>
-    /// 
+    /// Executes the action.
     /// </summary>
-    /// <param name="sender"></param>
-    /// <param name="parameter"></param>
-    /// <returns></returns>
+    /// <param name="sender">The associated object.</param>
+    /// <param name="parameter">Optional parameter.</param>
+    /// <returns>True if the notification was closed; otherwise, false.</returns>
     public override object Execute(object? sender, object? parameter)
     {
         if (!IsEnabled)

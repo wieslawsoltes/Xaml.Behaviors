@@ -6,12 +6,12 @@ using Avalonia.Threading;
 namespace Avalonia.Xaml.Interactions.Custom;
 
 /// <summary>
-/// 
+/// Keeps a control focused while the <see cref="IsFocused"/> property is set.
 /// </summary>
 public class FocusBehavior : DisposingBehavior<Control>
 {
     /// <summary>
-    /// 
+    /// Gets or sets a value indicating whether the control should be focused.
     /// </summary>
     public static readonly StyledProperty<bool> IsFocusedProperty =
         AvaloniaProperty.Register<FocusBehavior, bool>(nameof(IsFocused), defaultBindingMode: BindingMode.TwoWay);
@@ -26,9 +26,9 @@ public class FocusBehavior : DisposingBehavior<Control>
     }
 
     /// <summary>
-    /// 
+    /// Subscribes to focus changes and updates <see cref="IsFocused"/> accordingly.
     /// </summary>
-    /// <returns></returns>
+    /// <returns>A disposable used to detach the event handlers.</returns>
     protected override System.IDisposable OnAttachedOverride()
     {
         if (AssociatedObject is null)

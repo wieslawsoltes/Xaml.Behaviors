@@ -77,9 +77,9 @@ public class PointerEventArgsConverter : IValueConverter
     }
 
     /// <summary>
-    /// 
+    /// Provides a cached instance of the converter.
     /// </summary>
-    /// <param name="serviceProvider"></param>
-    /// <returns></returns>
+    /// <param name="serviceProvider">The service provider.</param>
+    /// <returns>The converter instance.</returns>
     public IValueConverter ProvideValue(IServiceProvider serviceProvider) => Instance;
 }

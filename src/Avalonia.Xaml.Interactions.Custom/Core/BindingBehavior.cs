@@ -5,24 +5,24 @@ using Avalonia.Data;
 namespace Avalonia.Xaml.Interactions.Custom;
 
 /// <summary>
-/// 
+/// Applies a binding to a target property when the control is attached to the visual tree.
 /// </summary>
 public class BindingBehavior : AttachedToVisualTreeBehavior<Control>
 {
     /// <summary>
-    /// 
+    /// Gets or sets the property that will be bound.
     /// </summary>
     public static readonly StyledProperty<AvaloniaProperty?> TargetPropertyProperty =
         AvaloniaProperty.Register<BindingBehavior, AvaloniaProperty?>(nameof(TargetProperty));
 
     /// <summary>
-    /// 
+    /// Gets or sets the object that owns the <see cref="TargetProperty"/>.
     /// </summary>
     public static readonly StyledProperty<AvaloniaObject?> TargetObjectProperty =
         AvaloniaProperty.Register<BindingBehavior, AvaloniaObject?>(nameof(TargetObject));
 
     /// <summary>
-    /// 
+    /// Gets or sets the binding to apply.
     /// </summary>
     public static readonly StyledProperty<IBinding?> BindingProperty =
         AvaloniaProperty.Register<BindingBehavior, IBinding?>(nameof(Binding));
@@ -57,9 +57,9 @@ public class BindingBehavior : AttachedToVisualTreeBehavior<Control>
     }
 
     /// <summary>
-    /// 
+    /// Applies the binding when the behavior is attached to the visual tree.
     /// </summary>
-    /// <returns></returns>
+    /// <returns>A disposable that clears the binding when disposed.</returns>
     protected override System.IDisposable OnAttachedToVisualTreeOverride()
     {
         if (TargetObject is not null && TargetProperty is not null && Binding is not null)

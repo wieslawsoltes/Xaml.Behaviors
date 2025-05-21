@@ -9,14 +9,14 @@ using Avalonia.VisualTree;
 namespace Avalonia.Xaml.Interactions.Custom;
 
 /// <summary>
-/// 
+/// Executes a command when a key is pressed while the button has focus.
 /// </summary>
 public class ButtonExecuteCommandOnKeyDownBehavior : ExecuteCommandOnKeyBehaviorBase
 {
     /// <summary>
-    /// 
+    /// Called when the behavior is attached to the visual tree.
     /// </summary>
-    /// <returns></returns>
+    /// <returns>A disposable used to detach the key handler.</returns>
     protected override System.IDisposable OnAttachedToVisualTreeOverride()
     {
         if (AssociatedObject?.GetVisualRoot() is InputElement inputRoot)
