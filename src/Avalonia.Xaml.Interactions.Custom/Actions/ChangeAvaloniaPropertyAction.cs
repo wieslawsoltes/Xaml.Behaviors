@@ -143,7 +143,7 @@ public class ChangeAvaloniaPropertyAction : Avalonia.Xaml.Interactivity.StyledEl
     {
         if (targetProperty is null)
         {
-            throw new ArgumentException(nameof(TargetProperty));
+            throw new ArgumentNullException(nameof(targetProperty));
         }
         else if (targetProperty.IsReadOnly)
         {
