@@ -1,0 +1,28 @@
+<UserControl x:Class="BehaviorsTestApplication.Views.Pages.RemoveItemInListBoxActionView"
+             xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:BehaviorsTestApplication.ViewModels"
+             x:DataType="vm:MainWindowViewModel"
+             mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="450">
+  <Design.DataContext>
+    <vm:MainWindowViewModel />
+  </Design.DataContext>
+  <ListBox ItemsSource="{Binding Items}" Margin="5">
+    <ListBox.ItemTemplate>
+      <DataTemplate DataType="vm:ItemViewModel" x:CompileBindings="False">
+        <StackPanel Orientation="Horizontal" Spacing="10">
+          <TextBlock Text="{Binding Value}" VerticalAlignment="Center" />
+          <Button Content="Remove">
+            <Interaction.Behaviors>
+              <EventTriggerBehavior EventName="Click">
+                <RemoveItemInListBoxAction />
+              </EventTriggerBehavior>
+            </Interaction.Behaviors>
+          </Button>
+        </StackPanel>
+      </DataTemplate>
+    </ListBox.ItemTemplate>
+  </ListBox>
+</UserControl>
