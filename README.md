@@ -644,6 +644,19 @@ This section provides an overview of all available classes and their purpose in 
 - **TextInputTrigger**  
   *Triggers actions on text input events.*
 
+### WriteableBitmap
+- **IWriteableBitmapRenderer**
+  *Defines a method used to render into a WriteableBitmap so view models can supply drawing logic.*
+- **WriteableBitmapRenderBehavior**
+  *Creates a writeable bitmap and updates it using a renderer on a timer.*
+- **WriteableBitmapRenderAction**
+  *Invokes a renderer to update a writeable bitmap.*
+- **WriteableBitmapTimerTrigger**
+  *Fires its actions on a timer and passes the writeable bitmap as a parameter.*
+- **WriteableBitmapBehavior**
+  *Creates a writeable bitmap and renders it once or on demand without animation.*
+- **WriteableBitmapTrigger**
+  *Manually executes its actions with the provided writeable bitmap when triggered.*
 ### ItemsControl
 - **ItemNudgeDropBehavior**  
   *Provides “nudge” effects for items in an ItemsControl during drag–drop reordering.*

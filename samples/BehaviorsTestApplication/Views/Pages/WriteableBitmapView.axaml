@@ -1,0 +1,37 @@
+<UserControl x:Class="BehaviorsTestApplication.Views.Pages.WriteableBitmapView"
+             xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:BehaviorsTestApplication.ViewModels"
+             xmlns:renderers="using:BehaviorsTestApplication.Renderers"
+             xmlns:custom="using:Avalonia.Xaml.Interactions.Custom.WriteableBitmap"
+             x:DataType="vm:MainWindowViewModel"
+             mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="450">
+  <Design.DataContext>
+    <vm:MainWindowViewModel />
+  </Design.DataContext>
+  <StackPanel Spacing="10" Margin="5">
+    <TextBlock Text="Animated" />
+    <Image Width="256" Height="256">
+      <Interaction.Behaviors>
+        <custom:WriteableBitmapRenderBehavior x:Name="AnimatedBehavior">
+          <custom:WriteableBitmapRenderBehavior.Renderer>
+            <renderers:SampleWriteableBitmapRenderer />
+          </custom:WriteableBitmapRenderBehavior.Renderer>
+        </custom:WriteableBitmapRenderBehavior>
+      </Interaction.Behaviors>
+    </Image>
+    <TextBlock Text="Non animated" Margin="0,10,0,0" />
+    <Image Width="256" Height="256">
+      <Interaction.Behaviors>
+        <custom:WriteableBitmapBehavior x:Name="StaticBehavior">
+          <custom:WriteableBitmapBehavior.Renderer>
+            <renderers:SampleWriteableBitmapRenderer />
+          </custom:WriteableBitmapBehavior.Renderer>
+        </custom:WriteableBitmapBehavior>
+      </Interaction.Behaviors>
+    </Image>
+    <Button Content="Render Once" Margin="0,10,0,0" Click="OnRenderOnce" />
+  </StackPanel>
+</UserControl>
