@@ -5,15 +5,15 @@ using Avalonia.Xaml.Interactivity;
 namespace Avalonia.Xaml.Interactions.Custom;
 
 /// <summary>
-/// Sets the <see cref="StyledElement.RequestedThemeVariant"/> on the target control when executed.
+/// Sets the <see cref="ThemeVariantScope.RequestedThemeVariant"/> on the target control when executed.
 /// </summary>
 public class SetThemeVariantAction : StyledElementAction
 {
     /// <summary>
     /// Identifies the <see cref="Target"/> avalonia property.
     /// </summary>
-    public static readonly StyledProperty<StyledElement?> TargetProperty =
-        AvaloniaProperty.Register<SetThemeVariantAction, StyledElement?>(nameof(Target));
+    public static readonly StyledProperty<ThemeVariantScope?> TargetProperty =
+        AvaloniaProperty.Register<SetThemeVariantAction, ThemeVariantScope?>(nameof(Target));
 
     /// <summary>
     /// Identifies the <see cref="ThemeVariant"/> avalonia property.
@@ -25,7 +25,7 @@ public class SetThemeVariantAction : StyledElementAction
     /// Gets or sets the target element. This is an avalonia property.
     /// </summary>
     [ResolveByName]
-    public StyledElement? Target
+    public ThemeVariantScope? Target
     {
         get => GetValue(TargetProperty);
         set => SetValue(TargetProperty, value);
@@ -48,13 +48,13 @@ public class SetThemeVariantAction : StyledElementAction
             return false;
         }
 
-        var target = Target ?? sender as StyledElement;
+        var target = Target ?? sender as ThemeVariantScope;
         if (target is null)
         {
             return false;
         }
 
-        target.SetCurrentValue(StyledElement.RequestedThemeVariantProperty, ThemeVariant);
+        target.SetCurrentValue(ThemeVariantScope.RequestedThemeVariantProperty, ThemeVariant);
         return true;
     }
 }

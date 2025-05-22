@@ -1,4 +1,3 @@
-using Avalonia.Controls;
 using Avalonia.Styling;
 using Avalonia.Threading;
 using Avalonia.Xaml.Interactivity;

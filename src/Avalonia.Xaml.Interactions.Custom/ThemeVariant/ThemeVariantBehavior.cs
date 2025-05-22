@@ -1,12 +1,13 @@
+using System;
 using Avalonia.Controls;
 using Avalonia.Styling;
 
 namespace Avalonia.Xaml.Interactions.Custom;
 
 /// <summary>
-/// Sets the <see cref="StyledElement.RequestedThemeVariant"/> on the associated control.
+/// Sets the <see cref="ThemeVariantScope.RequestedThemeVariant"/> on the associated control.
 /// </summary>
-public class ThemeVariantBehavior : AttachedToVisualTreeBehavior<StyledElement>
+public class ThemeVariantBehavior : AttachedToVisualTreeBehavior<ThemeVariantScope>
 {
     /// <summary>
     /// Identifies the <see cref="ThemeVariant"/> avalonia property.
@@ -32,13 +33,13 @@ public class ThemeVariantBehavior : AttachedToVisualTreeBehavior<StyledElement>
         }
 
         var old = AssociatedObject.RequestedThemeVariant;
-        AssociatedObject.SetCurrentValue(StyledElement.RequestedThemeVariantProperty, ThemeVariant);
+        AssociatedObject.SetCurrentValue(ThemeVariantScope.RequestedThemeVariantProperty, ThemeVariant);
 
         return DisposableAction.Create(() =>
         {
             if (AssociatedObject is not null)
             {
-                AssociatedObject.SetCurrentValue(StyledElement.RequestedThemeVariantProperty, old);
+                AssociatedObject.SetCurrentValue(ThemeVariantScope.RequestedThemeVariantProperty, old);
             }
         });
     }
@@ -50,7 +51,7 @@ public class ThemeVariantBehavior : AttachedToVisualTreeBehavior<StyledElement>
 
         if (change.Property == ThemeVariantProperty && AssociatedObject is not null)
         {
-            AssociatedObject.SetCurrentValue(StyledElement.RequestedThemeVariantProperty, change.GetNewValue<ThemeVariant?>());
+            AssociatedObject.SetCurrentValue(ThemeVariantScope.RequestedThemeVariantProperty, change.GetNewValue<ThemeVariant?>());
         }
     }
 }
