@@ -157,6 +157,9 @@
       <TabItem Header="KeyTrigger">
         <pages:KeyTriggerView />
       </TabItem>
+      <TabItem Header="LaunchUriOrFileAction">
+        <pages:LaunchUriOrFileActionView />
+      </TabItem>
       <TabItem Header="Reactive Navigation">
         <pages:ReactiveNavigationView />
       </TabItem>
