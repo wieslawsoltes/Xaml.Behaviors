@@ -160,6 +160,18 @@
       <TabItem Header="Reactive Navigation">
         <pages:ReactiveNavigationView />
       </TabItem>
+      <TabItem Header="Transitions">
+        <pages:TransitionsView />
+      </TabItem>
+      <TabItem Header="Transitions Behavior">
+        <pages:TransitionsBehaviorView />
+      </TabItem>
+      <TabItem Header="Transitions Actions">
+        <pages:TransitionsActionsView />
+      </TabItem>
+      <TabItem Header="Transitions Trigger">
+        <pages:TransitionsChangedTriggerView />
+      </TabItem>
       <TabItem Header="Notifications">
         <pages:NotificationsView />
       </TabItem>
