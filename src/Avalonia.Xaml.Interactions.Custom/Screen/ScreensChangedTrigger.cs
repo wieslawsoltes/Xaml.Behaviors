@@ -1,11 +1,9 @@
 using System;
-using Avalonia;
 using Avalonia.Controls;
-using Avalonia.Platform;
 using Avalonia.Xaml.Interactivity;
 using Avalonia.Threading;
 
-namespace Avalonia.Xaml.Interactions.Core;
+namespace Avalonia.Xaml.Interactions.Custom;
 
 /// <summary>
 /// A trigger that executes its actions when the screen configuration changes.
@@ -15,21 +13,21 @@ public class ScreensChangedTrigger : AttachedToVisualTreeTriggerBase<Visual>
     /// <summary>
     /// Identifies the <see cref="Screens"/> avalonia property.
     /// </summary>
-    public static readonly StyledProperty<IScreens?> ScreensProperty =
-        AvaloniaProperty.Register<ScreensChangedTrigger, IScreens?>(nameof(Screens));
+    public static readonly StyledProperty<Screens?> ScreensProperty =
+        AvaloniaProperty.Register<ScreensChangedTrigger, Screens?>(nameof(Screens));
 
     /// <summary>
-    /// Gets or sets the <see cref="IScreens"/> instance that is observed. This is an avalonia property.
+    /// Gets or sets the <see cref="Screens"/> instance that is observed. This is an avalonia property.
     /// If not set, the screens of the associated <see cref="TopLevel"/> will be used.
     /// </summary>
     [ResolveByName]
-    public IScreens? Screens
+    public Screens? Screens
     {
         get => GetValue(ScreensProperty);
         set => SetValue(ScreensProperty, value);
     }
 
-    private IScreens? _subscribed;
+    private Screens? _subscribed;
 
     /// <inheritdoc />
     protected override IDisposable OnAttachedToVisualTreeOverride()
@@ -45,11 +43,11 @@ public class ScreensChangedTrigger : AttachedToVisualTreeTriggerBase<Visual>
 
         if (change.Property == ScreensProperty && AssociatedObject is not null)
         {
-            Subscribe(change.GetNewValue<IScreens?>());
+            Subscribe(change.GetNewValue<Screens?>());
         }
     }
 
-    private void Subscribe(IScreens? screens)
+    private void Subscribe(Screens? screens)
     {
         if (_subscribed == screens)
         {
@@ -69,9 +67,9 @@ public class ScreensChangedTrigger : AttachedToVisualTreeTriggerBase<Visual>
         }
     }
 
-    private IScreens? GetScreens()
+    private Screens? GetScreens()
     {
-        return Screens ?? (AssociatedObject is Visual v ? TopLevel.GetTopLevel(v)?.Screens : null);
+        return Screens ?? (AssociatedObject is { } v ? TopLevel.GetTopLevel(v)?.Screens : null);
     }
 
     private void OnScreensChanged(object? sender, EventArgs e)

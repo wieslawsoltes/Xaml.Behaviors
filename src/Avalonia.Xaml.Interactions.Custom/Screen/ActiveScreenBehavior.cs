@@ -1,10 +1,9 @@
 using System;
-using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Platform;
 using Avalonia.Reactive;
 
-namespace Avalonia.Xaml.Interactions.Core;
+namespace Avalonia.Xaml.Interactions.Custom;
 
 /// <summary>
 /// A behavior that exposes the screen containing the associated <see cref="TopLevel"/>.
@@ -38,8 +37,13 @@ public class ActiveScreenBehavior : AttachedToVisualTreeBehavior<TopLevel>
         }
 
         Update();
-        topLevel.PositionChanged += OnChanged;
-        topLevel.GetObservable(TopLevel.ClientSizeProperty).Subscribe(_ => Update());
+        
+        if (topLevel is Window window)
+        {
+            window.PositionChanged += OnChanged; 
+        }
+        
+        topLevel.GetObservable(TopLevel.ClientSizeProperty).Subscribe(new AnonymousObserver<Size>(_ => Update()));
         var screens = topLevel.Screens;
         if (screens is not null)
         {
@@ -48,7 +52,11 @@ public class ActiveScreenBehavior : AttachedToVisualTreeBehavior<TopLevel>
 
         return DisposableAction.Create(() =>
         {
-            topLevel.PositionChanged -= OnChanged;
+            if (topLevel is Window w)
+            {
+                w.PositionChanged -= OnChanged; 
+            }
+
             if (screens is not null)
             {
                 screens.Changed -= OnScreensChanged;

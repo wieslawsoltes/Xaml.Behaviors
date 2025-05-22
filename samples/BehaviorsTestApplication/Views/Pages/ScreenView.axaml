@@ -3,17 +3,14 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:local="using:BehaviorsTestApplication.Views.Pages"
-             xmlns:core="clr-namespace:Avalonia.Xaml.Interactions.Core"
              mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="450">
   <DockPanel>
     <Button x:Name="RequestDetailsButton" DockPanel.Dock="Top" Content="Request Screen Details">
       <Interaction.Behaviors>
         <EventTriggerBehavior EventName="Click">
-          <core:RequestScreenDetailsAction />
+          <RequestScreenDetailsAction />
         </EventTriggerBehavior>
       </Interaction.Behaviors>
     </Button>
-    <local:ScreensCanvas />
   </DockPanel>
 </UserControl>
