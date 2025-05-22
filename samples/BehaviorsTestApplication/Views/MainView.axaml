@@ -163,6 +163,9 @@
       <TabItem Header="Notifications">
         <pages:NotificationsView />
       </TabItem>
+      <TabItem Header="Screens">
+        <pages:ScreenView />
+      </TabItem>
     </SingleSelectionTabControl>
   </DockPanel>
 </UserControl>
