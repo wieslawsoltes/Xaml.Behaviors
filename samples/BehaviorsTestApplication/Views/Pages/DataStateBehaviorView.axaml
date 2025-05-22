@@ -1,0 +1,44 @@
+<UserControl x:Class="BehaviorsTestApplication.Views.Pages.DataStateBehaviorView"
+             xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vsm="clr-namespace:Avalonia.Styling;assembly=Avalonia.Styling"
+             xmlns:vm="using:BehaviorsTestApplication.ViewModels"
+             x:DataType="vm:MainWindowViewModel"
+             mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="450">
+  <Design.DataContext>
+    <vm:MainWindowViewModel />
+  </Design.DataContext>
+  <Grid RowDefinitions="*,Auto">
+    <Border x:Name="StateBorder"
+            Grid.Row="0" Margin="5"
+            BorderBrush="{DynamicResource GrayBrush}"
+            BorderThickness="5">
+      <vsm:VisualStateManager.VisualStateGroups>
+        <vsm:VisualStateGroup x:Name="DataStates">
+          <vsm:VisualState x:Name="False">
+            <vsm:VisualState.Setters>
+              <Setter Target="StateBorder.Background" Value="{DynamicResource BlueBrush}" />
+            </vsm:VisualState.Setters>
+          </vsm:VisualState>
+          <vsm:VisualState x:Name="True">
+            <vsm:VisualState.Setters>
+              <Setter Target="StateBorder.Background" Value="{DynamicResource YellowBrush}" />
+            </vsm:VisualState.Setters>
+          </vsm:VisualState>
+        </vsm:VisualStateGroup>
+      </vsm:VisualStateManager.VisualStateGroups>
+      <Interaction.Behaviors>
+        <DataStateBehavior Binding="{Binding #ToggleSwitch.IsChecked}"
+                           Value="True"
+                           TrueState="True"
+                           FalseState="False" />
+      </Interaction.Behaviors>
+    </Border>
+    <ToggleSwitch x:Name="ToggleSwitch"
+                  Grid.Row="1" Margin="5"
+                  HorizontalAlignment="Center"
+                  Content="Toggle" />
+  </Grid>
+</UserControl>

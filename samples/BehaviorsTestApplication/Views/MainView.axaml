@@ -40,6 +40,9 @@
       <TabItem Header="DataTriggerBehavior">
         <pages:DataTriggerBehaviorView />
       </TabItem>
+      <TabItem Header="DataStateBehavior">
+        <pages:DataStateBehaviorView />
+      </TabItem>
       <TabItem Header="DataTriggerBehavior Advanced">
         <pages:DataTriggerBehaviorAdvancedView />
       </TabItem>
