@@ -4,7 +4,6 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="using:BehaviorsTestApplication.ViewModels"
-             xmlns:custom="using:Avalonia.Xaml.Interactions.Custom"
              x:DataType="vm:MainWindowViewModel"
              mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="450">
   <Design.DataContext>
@@ -13,29 +12,29 @@
 
   <SplitView Name="DemoSplitView" PanePlacement="Left">
     <Interaction.Behaviors>
-      <custom:SplitViewStateBehavior SourceControl="{Binding $parent[TopLevel]}">
-        <custom:SplitViewStateSetter MinWidth="0" MaxWidth="500"
-                                     DisplayMode="CompactOverlay"
-                                     IsPaneOpen="False" />
-        <custom:SplitViewStateSetter MinWidth="500" MaxWidth="800"
-                                     DisplayMode="Inline"
-                                     IsPaneOpen="False" />
-        <custom:SplitViewStateSetter MinWidth="800" MaxWidth="Infinity"
-                                     DisplayMode="Inline"
-                                     IsPaneOpen="True" />
-      </custom:SplitViewStateBehavior>
-      <custom:SplitViewPaneOpeningTrigger>
+      <SplitViewStateBehavior SourceControl="{Binding $parent[TopLevel]}">
+        <SplitViewStateSetter MinWidth="0" MaxWidth="500"
+                              DisplayMode="CompactOverlay"
+                              IsPaneOpen="False" />
+        <SplitViewStateSetter MinWidth="500" MaxWidth="800"
+                              DisplayMode="Inline"
+                              IsPaneOpen="False" />
+        <SplitViewStateSetter MinWidth="800" MaxWidth="Infinity"
+                              DisplayMode="Inline"
+                              IsPaneOpen="True" />
+      </SplitViewStateBehavior>
+      <SplitViewPaneOpeningTrigger>
         <ChangePropertyAction TargetObject="EventText" PropertyName="Text" Value="Pane opening" />
-      </custom:SplitViewPaneOpeningTrigger>
-      <custom:SplitViewPaneOpenedTrigger>
+      </SplitViewPaneOpeningTrigger>
+      <SplitViewPaneOpenedTrigger>
         <ChangePropertyAction TargetObject="EventText" PropertyName="Text" Value="Pane opened" />
-      </custom:SplitViewPaneOpenedTrigger>
-      <custom:SplitViewPaneClosingTrigger>
+      </SplitViewPaneOpenedTrigger>
+      <SplitViewPaneClosingTrigger>
         <ChangePropertyAction TargetObject="EventText" PropertyName="Text" Value="Pane closing" />
-      </custom:SplitViewPaneClosingTrigger>
-      <custom:SplitViewPaneClosedTrigger>
+      </SplitViewPaneClosingTrigger>
+      <SplitViewPaneClosedTrigger>
         <ChangePropertyAction TargetObject="EventText" PropertyName="Text" Value="Pane closed" />
-      </custom:SplitViewPaneClosedTrigger>
+      </SplitViewPaneClosedTrigger>
     </Interaction.Behaviors>
 
     <SplitView.Pane>
@@ -48,7 +47,7 @@
       <Button DockPanel.Dock="Top" Content="Toggle Pane">
         <Interaction.Behaviors>
           <EventTriggerBehavior EventName="Click">
-            <custom:SplitViewTogglePaneAction TargetSplitView="DemoSplitView" />
+            <SplitViewTogglePaneAction TargetSplitView="DemoSplitView" />
           </EventTriggerBehavior>
         </Interaction.Behaviors>
       </Button>
@@ -56,4 +55,3 @@
     </DockPanel>
   </SplitView>
 </UserControl>
-
