@@ -7,8 +7,7 @@
              Name="EditableItemUserControl">
   <Panel Background="Transparent">
     <Interaction.Behaviors>
-      <ShowOnDoubleTappedBehavior TargetControl="TextBoxEdit" />
-      <ShowOnKeyDownBehavior TargetControl="TextBoxEdit" Key="F2" />
+      <InlineEditBehavior EditControl="TextBoxEdit" DisplayControl="TextStackPanel" />
     </Interaction.Behaviors>
     <TextBox x:Name="TextBoxEdit"
              IsVisible="False"
@@ -20,9 +19,6 @@
              BorderThickness="0"
              Text="{Binding #EditableItemUserControl.Text, Mode=TwoWay}">
       <Interaction.Behaviors>
-        <HideOnKeyPressedBehavior TargetControl="TextBoxEdit" Key="Escape" />
-        <HideOnKeyPressedBehavior TargetControl="TextBoxEdit" Key="Enter" />
-        <HideOnLostFocusBehavior TargetControl="TextBoxEdit" />
         <TextBoxSelectAllOnGotFocusBehavior />
       </Interaction.Behaviors>
     </TextBox>
