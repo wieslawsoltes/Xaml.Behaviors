@@ -157,6 +157,9 @@
       <TabItem Header="KeyTrigger">
         <pages:KeyTriggerView />
       </TabItem>
+      <TabItem Header="ToolTip Helpers">
+        <pages:ToolTipHelpersView />
+      </TabItem>
       <TabItem Header="Reactive Navigation">
         <pages:ReactiveNavigationView />
       </TabItem>
