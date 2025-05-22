@@ -116,8 +116,16 @@ This section provides an overview of all available classes and their purpose in 
 - **FadeInBehavior**  
   *Animates the fade-in effect for the associated element, gradually increasing its opacity.*
 
-- **StartAnimationAction**  
+- **StartAnimationAction**
   *Triggers a defined animation on the target control when executed.*
+- **AnimateOnAttachedBehavior**
+  *Runs a specified animation when the control appears in the visual tree.*
+- **StartBuiltAnimationAction**
+  *Creates an animation in code using an <code>IAnimationBuilder</code> and starts it.*
+- **RunAnimationTrigger**
+  *Runs an animation and invokes actions when it completes.*
+- **IAnimationBuilder**
+  *Interface for providing animations from view models in an MVVM friendly way.*
 
 ### AutoCompleteBox
 - **FocusAutoCompleteBoxTextBoxBehavior**  

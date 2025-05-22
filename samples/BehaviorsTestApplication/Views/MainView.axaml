@@ -100,6 +100,15 @@
       <TabItem Header="Sliding Animation">
         <pages:SlidingAnimationView />
       </TabItem>
+      <TabItem Header="Custom Animator">
+        <pages:CustomAnimatorView DataContext="{Binding CustomAnimatorViewModel}" />
+      </TabItem>
+      <TabItem Header="StartBuiltAnimationAction">
+        <pages:StartBuiltAnimationActionView DataContext="{Binding CustomAnimatorViewModel}" />
+      </TabItem>
+      <TabItem Header="RunAnimationTrigger">
+        <pages:RunAnimationTriggerView DataContext="{Binding CustomAnimatorViewModel}" />
+      </TabItem>
       <TabItem Header="BehaviorCollectionTemplate">
         <pages:BehaviorCollectionTemplateView />
       </TabItem>
