@@ -11,12 +11,12 @@
   </Design.DataContext>
   <StackPanel Margin="5" Spacing="5">
     <Interaction.Behaviors>
-      <WindowNotificationManagerBehavior x:Name="Manager" />
+      <NotificationManagerBehavior x:Name="Manager" />
     </Interaction.Behaviors>
     <Button Content="Info Notification">
       <Interaction.Behaviors>
         <EventTriggerBehavior EventName="Click">
-          <ShowInformationNotificationAction NotificationManager="Manager"
+          <ShowInformationNotificationAction NotificationManager="{Binding #Manager.NotificationManager}"
                                              Title="Info"
                                              Message="Information message" />
         </EventTriggerBehavior>
@@ -25,7 +25,7 @@
     <Button Content="Success Notification">
       <Interaction.Behaviors>
         <EventTriggerBehavior EventName="Click">
-          <ShowSuccessNotificationAction NotificationManager="Manager"
+          <ShowSuccessNotificationAction NotificationManager="{Binding #Manager.NotificationManager}"
                                          Title="Success"
                                          Message="Operation succeeded" />
         </EventTriggerBehavior>
@@ -34,7 +34,7 @@
     <Button Content="Warning Notification">
       <Interaction.Behaviors>
         <EventTriggerBehavior EventName="Click">
-          <ShowWarningNotificationAction NotificationManager="Manager"
+          <ShowWarningNotificationAction NotificationManager="{Binding #Manager.NotificationManager}"
                                          Title="Warning"
                                          Message="Something to watch" />
         </EventTriggerBehavior>
@@ -43,7 +43,7 @@
     <Button Content="Error Notification">
       <Interaction.Behaviors>
         <EventTriggerBehavior EventName="Click">
-          <ShowErrorNotificationAction NotificationManager="Manager"
+          <ShowErrorNotificationAction NotificationManager="{Binding #Manager.NotificationManager}"
                                        Title="Error"
                                        Message="Operation failed" />
         </EventTriggerBehavior>

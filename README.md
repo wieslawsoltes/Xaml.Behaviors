@@ -156,7 +156,7 @@ This section provides an overview of all available classes and their purpose in 
   *Places text onto the clipboard.*
 
 ### Notifications
-- **WindowNotificationManagerBehavior**
+- **NotificationManagerBehavior**
   *Creates a notification manager for a window when attached.*
 - **ShowNotificationAction**
   *Shows a notification using an attached notification manager.*

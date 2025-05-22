@@ -1,3 +1,4 @@
+using Avalonia.Controls;
 using Avalonia.Controls.Notifications;
 using Avalonia.Xaml.Interactivity;
 
@@ -55,7 +56,7 @@ public class ShowWarningNotificationAction : StyledElementAction
     }
 
     /// <inheritdoc />
-    public override object? Execute(object? sender, object? parameter)
+    public override object Execute(object? sender, object? parameter)
     {
         if (!IsEnabled)
         {
