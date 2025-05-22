@@ -163,6 +163,9 @@
       <TabItem Header="Notifications">
         <pages:NotificationsView />
       </TabItem>
+      <TabItem Header="Theme Variant">
+        <pages:ThemeVariantView />
+      </TabItem>
     </SingleSelectionTabControl>
   </DockPanel>
 </UserControl>
