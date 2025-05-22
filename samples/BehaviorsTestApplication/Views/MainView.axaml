@@ -94,6 +94,9 @@
       <TabItem Header="EditableListBox">
         <pages:EditableListBoxView />
       </TabItem>
+      <TabItem Header="EditableDraggableListBox">
+        <pages:EditableDraggableListBoxView />
+      </TabItem>
       <TabItem Header="EditableTree">
         <pages:EditableTreeViewView />
       </TabItem>
