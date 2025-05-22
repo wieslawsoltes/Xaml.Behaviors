@@ -4,7 +4,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="using:BehaviorsTestApplication.ViewModels"
-             x:DataType="vm:MainWindowViewModel"
+             x:CompileBindings="True" x:DataType="vm:MainWindowViewModel"
              mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="450">
   <Design.DataContext>
     <vm:MainWindowViewModel />
@@ -12,11 +12,11 @@
   <Grid RowDefinitions="Auto,Auto,*,Auto">
     <TextBox x:Name="TipBox" Margin="5" Watermark="Enter tooltip text" />
     <Button Grid.Row="1" Margin="5" Content="Set Tooltip">
-      <Interaction.Triggers>
+      <Interaction.Behaviors>
         <EventTriggerBehavior EventName="Click">
           <SetToolTipTipAction TargetControl="{Binding ElementName=Target}" Tip="{Binding Text, ElementName=TipBox}" />
         </EventTriggerBehavior>
-      </Interaction.Triggers>
+      </Interaction.Behaviors>
     </Button>
     <Border x:Name="Target"
             Grid.Row="2"
@@ -31,17 +31,15 @@
         <EventTriggerBehavior EventName="PointerExited">
           <HideToolTipAction />
         </EventTriggerBehavior>
-      </Interaction.Behaviors>
-      <Interaction.Triggers>
-        <ToolTipOpeningTrigger SourceObject="{Binding ElementName=Target}">
+        <ToolTipOpeningTrigger>
           <CallMethodAction TargetObject="{Binding}" MethodName="IncrementCount" />
         </ToolTipOpeningTrigger>
-        <ToolTipClosingTrigger SourceObject="{Binding ElementName=Target}">
+        <ToolTipClosingTrigger>
           <CallMethodAction TargetObject="{Binding}" MethodName="DecrementCount" />
         </ToolTipClosingTrigger>
-      </Interaction.Triggers>
+      </Interaction.Behaviors>
       <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center">Hover to see tooltip</TextBlock>
     </Border>
-    <TextBlock Grid.Row="3" Margin="5" HorizontalAlignment="Center" Text="Count: {Binding Count}" />
+    <TextBlock Grid.Row="3" Margin="5" HorizontalAlignment="Center" Text="{Binding Count, StringFormat={}Count: {0}}" />
   </Grid>
 </UserControl>

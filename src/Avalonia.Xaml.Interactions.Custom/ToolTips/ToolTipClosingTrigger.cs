@@ -6,10 +6,10 @@ namespace Avalonia.Xaml.Interactions.Custom;
 /// <summary>
 /// Trigger that listens for the <see cref="ToolTip.ToolTipClosingEvent"/>.
 /// </summary>
-public class ToolTipClosingTrigger : RoutedEventTriggerBase<RoutedEventArgs>
+public class ToolTipClosingTrigger : RoutedEventTrigger
 {
     /// <inheritdoc />
-    protected override RoutedEvent<RoutedEventArgs> RoutedEvent
+    protected override RoutedEvent RoutedEvent
         => ToolTip.ToolTipClosingEvent;
 
     static ToolTipClosingTrigger()
