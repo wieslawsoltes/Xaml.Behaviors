@@ -139,6 +139,12 @@
       <TabItem Header="Mouse Drag Behaviors">
         <pages:MouseDragBehaviorView />
       </TabItem>
+      <TabItem Header="Cursor Behavior">
+        <pages:CursorView />
+      </TabItem>
+      <TabItem Header="Drawn Cursor">
+        <pages:DrawnCursorView />
+      </TabItem>
       <TabItem Header="IfElseTrigger">
         <pages:IfElseTriggerView />
       </TabItem>

@@ -1,0 +1,33 @@
+<UserControl x:Class="BehaviorsTestApplication.Views.Pages.DrawnCursorView"
+             xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:viewModels="using:BehaviorsTestApplication.ViewModels"
+             xmlns:behaviors="using:Avalonia.Xaml.Interactions.Custom"
+             x:DataType="viewModels:DrawnCursorViewModel"
+             mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="400">
+  <Design.DataContext>
+    <viewModels:DrawnCursorViewModel />
+  </Design.DataContext>
+  <StackPanel Spacing="8">
+    <TextBlock Classes="h2">Custom Drawn Cursor</TextBlock>
+    <Border Background="{DynamicResource GrayBrush}" Padding="16">
+      <Interaction.Behaviors>
+        <behaviors:SetCursorFromProviderBehavior Provider="{Binding CursorProvider}" />
+      </Interaction.Behaviors>
+      <TextBlock>Hover over this area</TextBlock>
+    </Border>
+    <Button Padding="16">
+      <Interaction.Triggers>
+        <EventTrigger EventName="PointerEntered">
+          <behaviors:SetCursorFromProviderAction TargetControl="{Binding $self}" Provider="{Binding CursorProvider}" />
+        </EventTrigger>
+        <EventTrigger EventName="PointerExited">
+          <behaviors:SetCursorBehavior Cursor="Arrow" />
+        </EventTrigger>
+      </Interaction.Triggers>
+      <TextBlock>Action Cursor</TextBlock>
+    </Button>
+  </StackPanel>
+</UserControl>

@@ -201,6 +201,15 @@ This section provides an overview of all available classes and their purpose in 
 - **ShowPointerPositionBehavior**
   *Displays the current pointer position (x, y coordinates) in a TextBlock for debugging or UI feedback.*
 
+- **SetCursorBehavior**
+  *Applies a custom cursor to the associated control.*
+
+- **PointerOverCursorBehavior**
+  *Changes the cursor while the pointer is over the control and resets it on exit.*
+
+- **SetCursorFromProviderBehavior**
+  *Uses an `ICursorProvider` implementation to supply the cursor for the associated control.*
+
 - **SizeChangedTrigger**
   *Triggers actions when the associated control's size changes.*
 
@@ -589,8 +598,11 @@ This section provides an overview of all available classes and their purpose in 
 - **CapturePointerAction**  
   *Captures the pointer (mouse, touch) to a target control so that subsequent pointer events are routed there.*
 
-- **ReleasePointerCaptureAction**  
+- **ReleasePointerCaptureAction**
   *Releases a previously captured pointer from the control.*
+
+- **SetCursorFromProviderAction**
+  *Sets the cursor of a control using a cursor created by an `ICursorProvider`.*
 
 ### InputElement Triggers
 - **DoubleTappedTrigger**  
