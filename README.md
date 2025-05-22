@@ -113,11 +113,20 @@ This section provides an overview of all available classes and their purpose in 
   *Displays a control's context menu programmatically.*
 
 ### Animations
-- **FadeInBehavior**  
+- **FadeInBehavior**
   *Animates the fade-in effect for the associated element, gradually increasing its opacity.*
 
-- **StartAnimationAction**  
+- **StartAnimationAction**
   *Triggers a defined animation on the target control when executed.*
+
+- **PlayAnimationBehavior**
+  *Runs a supplied animation automatically when the control appears in the visual tree.*
+
+- **BeginAnimationAction**
+  *Starts an animation on a specified control, allowing the target to be chosen explicitly.*
+
+- **AnimationCompletedTrigger**
+  *Plays an animation and invokes actions once the animation finishes running.*
 
 ### AutoCompleteBox
 - **FocusAutoCompleteBoxTextBoxBehavior**  
