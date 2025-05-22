@@ -16,7 +16,11 @@
     <TextBox x:Name="SearchBox"
              Watermark="Search pages..."
              Margin="0,0,0,8"
-             DockPanel.Dock="Top"  />
+             DockPanel.Dock="Top">
+      <Interaction.Behaviors>
+        <FocusOnAttachedBehavior />
+      </Interaction.Behaviors>
+    </TextBox>
     <TextBlock x:Name="NoMatchesText" 
                Text="No pages match the search." 
                Margin="0,0,0,8" 
