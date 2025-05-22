@@ -13,6 +13,18 @@ namespace Avalonia.Xaml.Interactions.Draggable;
 public class MouseDragElementBehavior : StyledElementBehavior<Control>
 {
     /// <summary>
+    /// Identifies the <see cref="X"/> avalonia property.
+    /// </summary>
+    public static readonly StyledProperty<double> XProperty =
+        AvaloniaProperty.Register<MouseDragElementBehavior, double>(nameof(X), double.NaN);
+
+    /// <summary>
+    /// Identifies the <see cref="Y"/> avalonia property.
+    /// </summary>
+    public static readonly StyledProperty<double> YProperty =
+        AvaloniaProperty.Register<MouseDragElementBehavior, double>(nameof(Y), double.NaN);
+
+    /// <summary>
     /// Identifies the <see cref="ConstrainToParentBounds"/> avalonia property.
     /// </summary>
     public static readonly StyledProperty<bool> ConstrainToParentBoundsProperty =
@@ -22,6 +34,22 @@ public class MouseDragElementBehavior : StyledElementBehavior<Control>
     private Point _start;
     private Control? _parent;
     private TranslateTransform? _transform;
+    private bool _settingPosition;
+
+    /// <summary>
+    /// Occurs when a drag gesture is initiated.
+    /// </summary>
+    public event EventHandler<PointerEventArgs>? DragBegun;
+
+    /// <summary>
+    /// Occurs when a drag gesture update is processed.
+    /// </summary>
+    public event EventHandler<PointerEventArgs>? Dragging;
+
+    /// <summary>
+    /// Occurs when a drag gesture is finished.
+    /// </summary>
+    public event EventHandler<PointerEventArgs>? DragFinished;
 
     /// <summary>
     /// Gets or sets whether dragging should be constrained to the bounds of the parent control.
@@ -30,6 +58,24 @@ public class MouseDragElementBehavior : StyledElementBehavior<Control>
     {
         get => GetValue(ConstrainToParentBoundsProperty);
         set => SetValue(ConstrainToParentBoundsProperty, value);
+    }
+
+    /// <summary>
+    /// Gets or sets the X position of the dragged element. This is an avalonia property.
+    /// </summary>
+    public double X
+    {
+        get => GetValue(XProperty);
+        set => SetValue(XProperty, value);
+    }
+
+    /// <summary>
+    /// Gets or sets the Y position of the dragged element. This is an avalonia property.
+    /// </summary>
+    public double Y
+    {
+        get => GetValue(YProperty);
+        set => SetValue(YProperty, value);
     }
 
     /// <inheritdoc />
@@ -56,6 +102,17 @@ public class MouseDragElementBehavior : StyledElementBehavior<Control>
         }
     }
 
+    /// <inheritdoc />
+    protected override void OnPropertyChanged(AvaloniaPropertyChangedEventArgs change)
+    {
+        base.OnPropertyChanged(change);
+
+        if (change.Property == XProperty || change.Property == YProperty)
+        {
+            UpdatePosition(new Point(GetValue(XProperty), GetValue(YProperty)));
+        }
+    }
+
     private void Pressed(object? sender, PointerPressedEventArgs e)
     {
         var properties = e.GetCurrentPoint(AssociatedObject).Properties;
@@ -75,6 +132,8 @@ public class MouseDragElementBehavior : StyledElementBehavior<Control>
             }
 
             _captured = true;
+
+            DragBegun?.Invoke(this, e);
         }
     }
 
@@ -83,6 +142,7 @@ public class MouseDragElementBehavior : StyledElementBehavior<Control>
         if (_captured && e.InitialPressMouseButton == MouseButton.Left)
         {
             EndDrag();
+            DragFinished?.Invoke(this, e);
         }
     }
 
@@ -91,6 +151,7 @@ public class MouseDragElementBehavior : StyledElementBehavior<Control>
         if (_captured)
         {
             EndDrag();
+            DragFinished?.Invoke(this, e);
         }
     }
 
@@ -107,10 +168,48 @@ public class MouseDragElementBehavior : StyledElementBehavior<Control>
         var deltaY = position.Y - _start.Y;
         _start = position;
 
-        var newX = _transform.X + deltaX;
-        var newY = _transform.Y + deltaY;
+        ApplyTranslation(deltaX, deltaY);
 
-        if (ConstrainToParentBounds && AssociatedObject is Control element)
+        Dragging?.Invoke(this, e);
+    }
+
+    private void UpdatePosition(Point point)
+    {
+        if (_settingPosition || AssociatedObject is null)
+        {
+            return;
+        }
+
+        if (_transform is null)
+        {
+            if (AssociatedObject.RenderTransform is TranslateTransform tr)
+            {
+                _transform = tr;
+            }
+            else
+            {
+                _transform = new TranslateTransform();
+                AssociatedObject.RenderTransform = _transform;
+            }
+        }
+
+        var current = new Point(_transform.X, _transform.Y);
+        var delta = point - current;
+
+        ApplyTranslation(delta.X, delta.Y);
+    }
+
+    private void ApplyTranslation(double x, double y)
+    {
+        if (_transform is null)
+        {
+            return;
+        }
+
+        var newX = _transform.X + x;
+        var newY = _transform.Y + y;
+
+        if (ConstrainToParentBounds && AssociatedObject is Control element && _parent is not null)
         {
             var parentBounds = _parent.Bounds;
             var elementBounds = element.Bounds;
@@ -126,6 +225,11 @@ public class MouseDragElementBehavior : StyledElementBehavior<Control>
 
         _transform.X = newX;
         _transform.Y = newY;
+
+        _settingPosition = true;
+        X = newX;
+        Y = newY;
+        _settingPosition = false;
     }
 
     private void EndDrag()
