@@ -155,6 +155,20 @@ This section provides an overview of all available classes and their purpose in 
 - **SetClipboardTextAction**  
   *Places text onto the clipboard.*
 
+### Notifications
+- **NotificationManagerBehavior**
+  *Creates a notification manager for a window when attached.*
+- **ShowNotificationAction**
+  *Shows a notification using an attached notification manager.*
+- **ShowInformationNotificationAction**
+  *Displays an information notification via a manager.*
+- **ShowSuccessNotificationAction**
+  *Displays a success notification via a manager.*
+- **ShowWarningNotificationAction**
+  *Displays a warning notification via a manager.*
+- **ShowErrorNotificationAction**
+  *Displays an error notification via a manager.*
+
 ### Composition
 - **SelectingItemsControlBehavior**  
   *Animates selection transitions in items controls such as ListBox or TabControl.*

@@ -156,6 +156,9 @@
       <TabItem Header="Reactive Navigation">
         <pages:ReactiveNavigationView />
       </TabItem>
+      <TabItem Header="Notifications">
+        <pages:NotificationsView />
+      </TabItem>
     </SingleSelectionTabControl>
   </DockPanel>
 </UserControl>

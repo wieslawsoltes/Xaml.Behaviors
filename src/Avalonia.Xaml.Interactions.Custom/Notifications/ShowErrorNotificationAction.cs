@@ -1,0 +1,76 @@
+using Avalonia.Controls;
+using Avalonia.Controls.Notifications;
+using Avalonia.Xaml.Interactivity;
+
+namespace Avalonia.Xaml.Interactions.Custom;
+
+/// <summary>
+/// Shows an error notification using an <see cref="INotificationManager"/>.
+/// </summary>
+public class ShowErrorNotificationAction : StyledElementAction
+{
+    /// <summary>
+    /// Identifies the <seealso cref="NotificationManager"/> avalonia property.
+    /// </summary>
+    public static readonly StyledProperty<INotificationManager?> NotificationManagerProperty =
+        AvaloniaProperty.Register<ShowErrorNotificationAction, INotificationManager?>(nameof(NotificationManager));
+
+    /// <summary>
+    /// Identifies the <seealso cref="Title"/> avalonia property.
+    /// </summary>
+    public static readonly StyledProperty<string?> TitleProperty =
+        AvaloniaProperty.Register<ShowErrorNotificationAction, string?>(nameof(Title));
+
+    /// <summary>
+    /// Identifies the <seealso cref="Message"/> avalonia property.
+    /// </summary>
+    public static readonly StyledProperty<string?> MessageProperty =
+        AvaloniaProperty.Register<ShowErrorNotificationAction, string?>(nameof(Message));
+
+    /// <summary>
+    /// Gets or sets the <see cref="INotificationManager"/> used to display the notification. This is an avalonia property.
+    /// </summary>
+    [ResolveByName]
+    public INotificationManager? NotificationManager
+    {
+        get => GetValue(NotificationManagerProperty);
+        set => SetValue(NotificationManagerProperty, value);
+    }
+
+    /// <summary>
+    /// Gets or sets the notification title. This is an avalonia property.
+    /// </summary>
+    public string? Title
+    {
+        get => GetValue(TitleProperty);
+        set => SetValue(TitleProperty, value);
+    }
+
+    /// <summary>
+    /// Gets or sets the notification message. This is an avalonia property.
+    /// </summary>
+    public string? Message
+    {
+        get => GetValue(MessageProperty);
+        set => SetValue(MessageProperty, value);
+    }
+
+    /// <inheritdoc />
+    public override object Execute(object? sender, object? parameter)
+    {
+        if (!IsEnabled)
+        {
+            return false;
+        }
+
+        var manager = NotificationManager;
+        if (manager is null)
+        {
+            return false;
+        }
+
+        var notification = new Notification(Title ?? string.Empty, Message ?? string.Empty, NotificationType.Error);
+        manager.Show(notification);
+        return true;
+    }
+}
