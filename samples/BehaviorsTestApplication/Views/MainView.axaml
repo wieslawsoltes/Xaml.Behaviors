@@ -85,6 +85,9 @@
       <TabItem Header="RemoveElementAction">
         <pages:RemoveElementActionView />
       </TabItem>
+      <TabItem Header="Remove Items Sample">
+        <pages:RemoveItemsSampleView />
+      </TabItem>
       <TabItem Header="AdaptiveBehavior">
         <pages:AdaptiveBehaviorView />
       </TabItem>
