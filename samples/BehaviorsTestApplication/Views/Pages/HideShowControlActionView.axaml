@@ -1,0 +1,29 @@
+<UserControl x:Class="BehaviorsTestApplication.Views.Pages.HideShowControlActionView"
+             xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:BehaviorsTestApplication.ViewModels"
+             x:DataType="vm:MainWindowViewModel"
+             mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="450">
+  <Design.DataContext>
+    <vm:MainWindowViewModel />
+  </Design.DataContext>
+  <StackPanel>
+    <StackPanel Orientation="Horizontal" Spacing="5">
+      <Button x:Name="HideButton" Content="Hide" Margin="5" />
+      <Button x:Name="ShowButton" Content="Show" Margin="5" />
+    </StackPanel>
+    <Border x:Name="Target" Background="LightGray" Margin="5" Padding="10">
+      <TextBlock Text="Target control" />
+    </Border>
+  </StackPanel>
+  <UserControl.Behaviors>
+    <EventTriggerBehavior EventName="Click" SourceObject="HideButton">
+      <HideControlAction TargetControl="{Binding ElementName=Target}" />
+    </EventTriggerBehavior>
+    <EventTriggerBehavior EventName="Click" SourceObject="ShowButton">
+      <ShowControlAction TargetControl="{Binding ElementName=Target}" />
+    </EventTriggerBehavior>
+  </UserControl.Behaviors>
+</UserControl>

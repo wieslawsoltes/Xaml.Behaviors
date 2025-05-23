@@ -1,0 +1,33 @@
+<UserControl x:Class="BehaviorsTestApplication.Views.Pages.ShowNotificationActionView"
+             xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:BehaviorsTestApplication.ViewModels"
+             xmlns:not="clr-namespace:Avalonia.Controls.Notifications;assembly=Avalonia.Controls.Notifications"
+             x:DataType="vm:MainWindowViewModel"
+             mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="450">
+  <Design.DataContext>
+    <vm:MainWindowViewModel />
+  </Design.DataContext>
+  <StackPanel>
+    <Interaction.Behaviors>
+      <NotificationManagerBehavior x:Name="Manager" />
+    </Interaction.Behaviors>
+    <Button x:Name="ShowButton" Content="Show Notification" Margin="5" />
+    <not:NotificationCard x:Name="Card" Title="Closable" Message="NotificationCard" IsOpen="True" Margin="5" />
+    <Button x:Name="CloseButton" Content="Close Card" Margin="5" />
+  </StackPanel>
+  <UserControl.Behaviors>
+    <EventTriggerBehavior EventName="Click" SourceObject="ShowButton">
+      <ShowNotificationAction NotificationManager="{Binding #Manager.NotificationManager}">
+        <ShowNotificationAction.Notification>
+          <not:Notification Title="Hello" Message="Custom notification" />
+        </ShowNotificationAction.Notification>
+      </ShowNotificationAction>
+    </EventTriggerBehavior>
+    <EventTriggerBehavior EventName="Click" SourceObject="CloseButton">
+      <CloseNotificationAction NotificationCard="{Binding ElementName=Card}" />
+    </EventTriggerBehavior>
+  </UserControl.Behaviors>
+</UserControl>

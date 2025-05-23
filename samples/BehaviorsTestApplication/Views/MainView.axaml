@@ -154,6 +154,33 @@
       <TabItem Header="Clipboard">
         <pages:ClipboardView />
       </TabItem>
+      <TabItem Header="GetClipboardDataAction">
+        <pages:GetClipboardDataActionView />
+      </TabItem>
+      <TabItem Header="GetClipboardFormatsAction">
+        <pages:GetClipboardFormatsActionView />
+      </TabItem>
+      <TabItem Header="SetClipboardDataObjectAction">
+        <pages:SetClipboardDataObjectActionView />
+      </TabItem>
+      <TabItem Header="FocusControlAction">
+        <pages:FocusControlActionView />
+      </TabItem>
+      <TabItem Header="Hide/ShowControlAction">
+        <pages:HideShowControlActionView />
+      </TabItem>
+      <TabItem Header="ShowHideFlyoutAction">
+        <pages:ShowHideFlyoutActionView />
+      </TabItem>
+      <TabItem Header="ShowContextMenuAction">
+        <pages:ShowContextMenuActionView />
+      </TabItem>
+      <TabItem Header="SetEnabledAction">
+        <pages:SetEnabledActionView />
+      </TabItem>
+      <TabItem Header="ShowNotificationAction">
+        <pages:ShowNotificationActionView />
+      </TabItem>
       <TabItem Header="File Drop Handler">
         <pages:FileDropHandlerView />
       </TabItem>
