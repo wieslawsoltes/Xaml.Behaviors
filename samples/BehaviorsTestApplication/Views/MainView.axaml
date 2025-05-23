@@ -196,6 +196,9 @@
       <TabItem Header="KeyTrigger">
         <pages:KeyTriggerView />
       </TabItem>
+      <TabItem Header="ToolTip Helpers">
+        <pages:ToolTipHelpersView />
+      </TabItem>
       <TabItem Header="WriteableBitmap">
         <pages:WriteableBitmapView />
       </TabItem>
