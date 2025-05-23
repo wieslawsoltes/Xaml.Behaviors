@@ -113,7 +113,7 @@ This section provides an overview of all available classes and their purpose in 
   *Displays a control's context menu programmatically.*
 
 ### Animations
-- **FadeInBehavior**  
+- **FadeInBehavior**
   *Animates the fade-in effect for the associated element, gradually increasing its opacity.*
 
 - **StartAnimationAction**
@@ -126,6 +126,18 @@ This section provides an overview of all available classes and their purpose in 
   *Runs an animation and invokes actions when it completes.*
 - **IAnimationBuilder**
   *Interface for providing animations from view models in an MVVM friendly way.*
+
+### Transitions
+- **TransitionsBehavior**
+  *Sets the `Transitions` collection on the associated control when attached.*
+- **AddTransitionAction**
+  *Adds a transition to a control's `Transitions` collection.*
+- **RemoveTransitionAction**
+  *Removes a transition from a control's `Transitions` collection.*
+- **ClearTransitionsAction**
+  *Clears all transitions from a control.*
+- **TransitionsChangedTrigger**
+  *Triggers actions when the `Transitions` property of a control changes.*
 
 ### AutoCompleteBox
 - **FocusAutoCompleteBoxTextBoxBehavior**  

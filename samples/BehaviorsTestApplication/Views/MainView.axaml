@@ -49,6 +49,9 @@
       <TabItem Header="ValueChangedTriggerBehavior">
         <pages:ValueChangedTriggerBehaviorView />
       </TabItem>
+      <TabItem Header="PropertyChangedTrigger">
+        <pages:PropertyChangedTriggerView />
+      </TabItem>
       <TabItem Header="EventTriggerBehavior">
         <pages:EventTriggerBehaviorView />
       </TabItem>
@@ -85,6 +88,9 @@
       <TabItem Header="RemoveElementAction">
         <pages:RemoveElementActionView />
       </TabItem>
+      <TabItem Header="Remove Items Sample">
+        <pages:RemoveItemsSampleView />
+      </TabItem>
       <TabItem Header="AdaptiveBehavior">
         <pages:AdaptiveBehaviorView />
       </TabItem>
@@ -105,6 +111,9 @@
       </TabItem>
       <TabItem Header="RunAnimationTrigger">
         <pages:RunAnimationTriggerView />
+      </TabItem>
+      <TabItem Header="FluidMoveBehavior">
+        <pages:FluidMoveBehaviorView />
       </TabItem>
       <TabItem Header="BehaviorCollectionTemplate">
         <pages:BehaviorCollectionTemplateView />
@@ -163,8 +172,20 @@
       <TabItem Header="KeyTrigger">
         <pages:KeyTriggerView />
       </TabItem>
+      <TabItem Header="LaunchUriOrFileAction">
+        <pages:LaunchUriOrFileActionView />
+      </TabItem>
       <TabItem Header="Reactive Navigation">
         <pages:ReactiveNavigationView />
+      </TabItem>
+      <TabItem Header="Transitions Behavior">
+        <pages:TransitionsBehaviorView />
+      </TabItem>
+      <TabItem Header="Transitions Actions">
+        <pages:TransitionsActionsView />
+      </TabItem>
+      <TabItem Header="Transitions Trigger">
+        <pages:TransitionsChangedTriggerView />
       </TabItem>
       <TabItem Header="Notifications">
         <pages:NotificationsView />
