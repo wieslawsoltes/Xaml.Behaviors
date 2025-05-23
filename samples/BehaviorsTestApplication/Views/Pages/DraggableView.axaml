@@ -14,7 +14,7 @@
   </Design.DataContext>
 
   <UserControl.Styles>
-    <StyleInclude Source="avares://Avalonia.Xaml.Interactions.Draggable/Styles.axaml" />
+    <StyleInclude Source="avares://Xaml.Behaviors.Interactions.Draggable/Styles.axaml" />
     <StyleInclude Source="/Styles/DraggableCustomStyles.axaml" />
     <Style Selector="TextBlock">
       <Setter Property="HorizontalAlignment" Value="Center" />

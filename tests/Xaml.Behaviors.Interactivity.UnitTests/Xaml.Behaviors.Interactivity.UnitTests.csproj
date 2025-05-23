@@ -1,0 +1,43 @@
+﻿<Project Sdk="Microsoft.NET.Sdk" ToolsVersion="15.0">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <OutputType>Library</OutputType>
+    <GenerateAssemblyInfo>False</GenerateAssemblyInfo>
+    <GenerateRuntimeConfigurationFiles>True</GenerateRuntimeConfigurationFiles>
+    <IsPackable>False</IsPackable>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Avalonia" />
+    <PackageReference Include="Avalonia.Desktop" />
+    <PackageReference Include="Avalonia.Themes.Fluent" />
+    <PackageReference Include="Avalonia.Fonts.Inter" />
+    <PackageReference Include="Avalonia.Headless.XUnit" />
+  </ItemGroup>
+
+  <Import Project="..\..\build\XUnit.props" />
+
+  <ItemGroup>
+    <EmbeddedResource Include="..\Avalonia.Xaml.Interactions.UnitTests\*\*.ttf" />
+    <EmbeddedResource Include="..\Xaml.Behaviors.Interactions.UnitTests\Assets\NotoMono-Regular.ttf">
+      <Link>Assets\NotoMono-Regular.ttf</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Xaml.Behaviors.Interactions.UnitTests\Assets\NotoSans-Italic.ttf">
+      <Link>Assets\NotoSans-Italic.ttf</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Xaml.Behaviors.Interactions.UnitTests\Assets\NotoSansArabic-Regular.ttf">
+      <Link>Assets\NotoSansArabic-Regular.ttf</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Xaml.Behaviors.Interactions.UnitTests\Assets\NotoSansHebrew-Regular.ttf">
+      <Link>Assets\NotoSansHebrew-Regular.ttf</Link>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Xaml.Behaviors.Interactions\Xaml.Behaviors.Interactions.csproj" />
+    <ProjectReference Include="..\..\src\Xaml.Behaviors.Interactivity\Xaml.Behaviors.Interactivity.csproj" />
+  </ItemGroup>
+
+</Project>
