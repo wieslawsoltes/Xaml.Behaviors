@@ -11,7 +11,7 @@
   </Design.DataContext>
   <UserControl.Resources>
     <Transitions x:Key="WidthTransitions">
-      <DoubleTransition Property="Width" Duration="0:0:0.3" />
+      <DoubleTransition Property="{x:Static Layoutable.WidthProperty}" Duration="0:0:0.3" />
     </Transitions>
   </UserControl.Resources>
   <StackPanel Margin="5" Spacing="5">

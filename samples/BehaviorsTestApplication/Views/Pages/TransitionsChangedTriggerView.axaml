@@ -10,7 +10,7 @@
     <vm:MainWindowViewModel />
   </Design.DataContext>
   <UserControl.Resources>
-    <DoubleTransition x:Key="WidthTransition" Property="Width" Duration="0:0:0.3" />
+    <DoubleTransition x:Key="WidthTransition" Property="{x:Static Layoutable.WidthProperty}" Duration="0:0:0.3" />
   </UserControl.Resources>
   <StackPanel Margin="5" Spacing="5">
     <Border x:Name="TriggerBorder"
