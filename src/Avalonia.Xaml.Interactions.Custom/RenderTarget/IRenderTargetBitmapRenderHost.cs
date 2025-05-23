@@ -1,3 +1,5 @@
+using Avalonia.Media.Imaging;
+
 namespace Avalonia.Xaml.Interactions.Custom;
 
 /// <summary>

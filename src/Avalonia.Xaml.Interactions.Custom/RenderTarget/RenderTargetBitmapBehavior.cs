@@ -1,8 +1,6 @@
 using System;
 using System.Diagnostics;
-using Avalonia;
 using Avalonia.Controls;
-using Avalonia.Media;
 using Avalonia.Media.Imaging;
 using Avalonia.Threading;
 using Avalonia.Xaml.Interactivity;
@@ -83,6 +81,11 @@ public class RenderTargetBitmapBehavior : StyledElementBehavior<Image>, IRenderT
     {
         base.OnAttachedToVisualTree();
 
+        if (AssociatedObject is null)
+        {
+            return;
+        }
+
         _bitmap = new RenderTargetBitmap(new PixelSize(PixelWidth, PixelHeight), Dpi);
         AssociatedObject.Source = _bitmap;
 
@@ -110,6 +113,11 @@ public class RenderTargetBitmapBehavior : StyledElementBehavior<Image>, IRenderT
     /// <inheritdoc />
     public void Render()
     {
+        if (AssociatedObject is null)
+        {
+            return;
+        }
+
         if (_bitmap is null)
         {
             return;

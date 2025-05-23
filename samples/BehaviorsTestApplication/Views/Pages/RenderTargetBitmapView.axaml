@@ -5,7 +5,6 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="using:BehaviorsTestApplication.ViewModels"
              xmlns:r="using:BehaviorsTestApplication.Renderers"
-             xmlns:custom="using:Avalonia.Xaml.Interactions.Custom"
              x:DataType="vm:MainWindowViewModel"
              mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="450">
   <Design.DataContext>
@@ -14,25 +13,28 @@
   <StackPanel Spacing="10" HorizontalAlignment="Center">
     <Image Width="200" Height="200">
       <Interaction.Behaviors>
-        <custom:RenderTargetBitmapBehavior PixelWidth="200" PixelHeight="200">
-          <custom:RenderTargetBitmapBehavior.Renderer>
+        <RenderTargetBitmapBehavior PixelWidth="200" PixelHeight="200">
+          <RenderTargetBitmapBehavior.Renderer>
             <r:RotatingSquareRenderer />
-          </custom:RenderTargetBitmapBehavior.Renderer>
-        </custom:RenderTargetBitmapBehavior>
+          </RenderTargetBitmapBehavior.Renderer>
+        </RenderTargetBitmapBehavior>
       </Interaction.Behaviors>
     </Image>
     <Image Width="200" Height="200">
       <Interaction.Behaviors>
-        <custom:StaticRenderTargetBitmapBehavior x:Name="StaticBehavior" PixelWidth="200" PixelHeight="200">
-          <custom:StaticRenderTargetBitmapBehavior.Renderer>
+        <StaticRenderTargetBitmapBehavior x:Name="StaticBehavior" PixelWidth="200" PixelHeight="200">
+          <StaticRenderTargetBitmapBehavior.Renderer>
             <r:SolidSquareRenderer />
-          </custom:StaticRenderTargetBitmapBehavior.Renderer>
-        </custom:StaticRenderTargetBitmapBehavior>
+          </StaticRenderTargetBitmapBehavior.Renderer>
+        </StaticRenderTargetBitmapBehavior>
       </Interaction.Behaviors>
     </Image>
+    <!-- TODO: -->
     <Button Content="Render Static">
       <Interaction.Behaviors>
-        <custom:RenderTargetBitmapRenderTrigger EventName="Click" Target="StaticBehavior" />
+        <EventTriggerBehavior EventName="Click">
+          <RenderRenderTargetBitmapAction Target="StaticBehavior" />
+        </EventTriggerBehavior>
       </Interaction.Behaviors>
     </Button>
   </StackPanel>

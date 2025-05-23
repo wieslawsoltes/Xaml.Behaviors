@@ -1,6 +1,6 @@
-namespace Avalonia.Xaml.Interactions.Custom;
-
 using Avalonia.Media;
+
+namespace Avalonia.Xaml.Interactions.Custom;
 
 /// <summary>
 /// Provides a method used by <see cref="StaticRenderTargetBitmapBehavior"/> to draw onto a render target.
