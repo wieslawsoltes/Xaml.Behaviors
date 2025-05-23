@@ -689,8 +689,10 @@ This section provides an overview of all available classes and their purpose in 
   *Clears the selection in a ListBox.*
 
 ### ListBoxItem
-- **SelectListBoxItemOnPointerMovedBehavior**  
+- **SelectListBoxItemOnPointerMovedBehavior**
   *Automatically selects a ListBoxItem when the pointer moves over it.*
+- **InlineEditBehavior**
+  *Toggles between a display element and a TextBox editor to enable inline editing (activated by double-tap or F2; ends on Enter, Escape, or losing focus).* 
 
 ### Responsive
 - **AdaptiveBehavior**
