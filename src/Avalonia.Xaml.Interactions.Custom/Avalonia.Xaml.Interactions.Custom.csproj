@@ -25,4 +25,8 @@
     <ProjectReference Include="..\Avalonia.Xaml.Interactivity\Avalonia.Xaml.Interactivity.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Edit\" />
+  </ItemGroup>
+
 </Project>

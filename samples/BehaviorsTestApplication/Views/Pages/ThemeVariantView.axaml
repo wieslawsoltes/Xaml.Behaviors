@@ -1,0 +1,38 @@
+<UserControl x:Class="BehaviorsTestApplication.Views.Pages.ThemeVariantView"
+             xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:BehaviorsTestApplication.ViewModels"
+             x:DataType="vm:MainWindowViewModel"
+             mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="450">
+  <Design.DataContext>
+    <vm:MainWindowViewModel />
+  </Design.DataContext>
+  <StackPanel Margin="5" Spacing="5">
+    <ComboBox x:Name="VariantSelector" SelectedIndex="0">
+      <ComboBox.Items>
+        <ThemeVariant>Default</ThemeVariant>
+        <ThemeVariant>Dark</ThemeVariant>
+        <ThemeVariant>Light</ThemeVariant>
+      </ComboBox.Items>
+    </ComboBox>
+    <ThemeVariantScope x:Name="Scope">
+      <Interaction.Behaviors>
+        <ThemeVariantBehavior ThemeVariant="{Binding #VariantSelector.SelectedItem}" />
+      </Interaction.Behaviors>
+      <Border Background="DarkGray" Padding="10" CornerRadius="4">
+        <StackPanel Spacing="5">
+          <TextBlock Text="{Binding #Scope.ActualThemeVariant}" />
+          <Button Content="Toggle Dark" HorizontalAlignment="Left">
+            <Interaction.Behaviors>
+              <EventTriggerBehavior EventName="Click">
+                <SetThemeVariantAction Target="{Binding #Scope}" ThemeVariant="Dark" />
+              </EventTriggerBehavior>
+            </Interaction.Behaviors>
+          </Button>
+        </StackPanel>
+      </Border>
+    </ThemeVariantScope>
+  </StackPanel>
+</UserControl>
