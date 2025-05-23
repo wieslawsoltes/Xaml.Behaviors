@@ -28,7 +28,9 @@ public class SetCursorFromProviderBehavior : StyledElementBehavior<InputElement>
     {
         if (AssociatedObject is not null && Provider is not null)
         {
-            AssociatedObject.Cursor = Provider.CreateCursor();
+            var cursor = Provider.CreateCursor();
+            AssociatedObject.SetCurrentValue(InputElement.CursorProperty, cursor);
+
         }
     }
 

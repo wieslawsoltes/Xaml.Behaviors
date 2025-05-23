@@ -54,7 +54,9 @@ public class SetCursorFromProviderAction : StyledElementAction
             return false;
         }
 
-        control.Cursor = Provider.CreateCursor();
+        var cursor = Provider.CreateCursor();
+        control.SetCurrentValue(InputElement.CursorProperty, cursor);
+
         return true;
     }
 }

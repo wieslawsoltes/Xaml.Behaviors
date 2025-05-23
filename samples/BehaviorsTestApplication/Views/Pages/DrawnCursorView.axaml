@@ -17,7 +17,7 @@
       </Interaction.Behaviors>
       <TextBlock>Hover over this area</TextBlock>
     </Border>
-    <Button Padding="16">
+    <Button Background="Transparent" Padding="16">
       <Interaction.Behaviors>
         <EventTriggerBehavior EventName="PointerEntered">
           <SetCursorFromProviderAction Provider="{Binding CursorProvider}" />

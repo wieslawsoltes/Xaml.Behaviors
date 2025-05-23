@@ -28,7 +28,7 @@ public class SetCursorBehavior : StyledElementBehavior<InputElement>
     {
         if (AssociatedObject is not null && Cursor is not null)
         {
-            AssociatedObject.Cursor = Cursor;
+            AssociatedObject.SetCurrentValue(InputElement.CursorProperty, Cursor);
         }
     }
 
