@@ -69,6 +69,22 @@ and install the package like this:
 
 * https://api.nuget.org/v3/index.json
 
+### Available Packages
+
+| Package | Description |
+|---------|-------------|
+| [Xaml.Behaviors](https://www.nuget.org/packages/Xaml.Behaviors) | Easily add interactivity to your Avalonia apps using XAML Behaviors. |
+| [Xaml.Behaviors.Avalonia](https://www.nuget.org/packages/Xaml.Behaviors.Avalonia) | Easily add interactivity to your Avalonia apps using XAML Behaviors. |
+| [Xaml.Behaviors.Interactivity](https://www.nuget.org/packages/Xaml.Behaviors.Interactivity) | Easily add interactivity to your Avalonia apps using XAML Behaviors. |
+| [Xaml.Behaviors.Interactions](https://www.nuget.org/packages/Xaml.Behaviors.Interactions) | Easily add interactivity to your Avalonia apps using XAML Behaviors. |
+| [Xaml.Behaviors.Interactions.Custom](https://www.nuget.org/packages/Xaml.Behaviors.Interactions.Custom) | Easily add interactivity to your Avalonia apps using XAML Behaviors. |
+| [Xaml.Behaviors.Interactions.DragAndDrop](https://www.nuget.org/packages/Xaml.Behaviors.Interactions.DragAndDrop) | Easily add interactivity to your Avalonia apps using XAML Behaviors. |
+| [Xaml.Behaviors.Interactions.Draggable](https://www.nuget.org/packages/Xaml.Behaviors.Interactions.Draggable) | Easily add interactivity to your Avalonia apps using XAML Behaviors. |
+| [Xaml.Behaviors.Interactions.Events](https://www.nuget.org/packages/Xaml.Behaviors.Interactions.Events) | Easily add interactivity to your Avalonia apps using XAML Behaviors. |
+| [Xaml.Behaviors.Interactions.ReactiveUI](https://www.nuget.org/packages/Xaml.Behaviors.Interactions.ReactiveUI) | Behaviors for ReactiveUI routing to help with navigation in XAML. |
+| [Xaml.Behaviors.Interactions.Responsive](https://www.nuget.org/packages/Xaml.Behaviors.Interactions.Responsive) | Easily add interactivity to your Avalonia apps using XAML Behaviors. |
+| [Xaml.Behaviors.Interactions.Scripting](https://www.nuget.org/packages/Xaml.Behaviors.Interactions.Scripting) | Easily add scripting interactivity to Avalonia apps using Roslyn C# scripts. |
+
 ## Docs
 
 This section provides an overview of all available classes and their purpose in Avalonia XAML Behaviors. The classes are grouped into logical categories based on their functionality.
