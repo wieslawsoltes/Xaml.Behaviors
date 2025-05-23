@@ -190,6 +190,9 @@
       <TabItem Header="KeyTrigger">
         <pages:KeyTriggerView />
       </TabItem>
+      <TabItem Header="RenderTargetBitmap">
+        <pages:RenderTargetBitmapView />
+      </TabItem>
       <TabItem Header="LaunchUriOrFileAction">
         <pages:LaunchUriOrFileActionView />
       </TabItem>
