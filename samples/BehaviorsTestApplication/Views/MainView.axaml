@@ -88,6 +88,9 @@
       <TabItem Header="RemoveItemInListBoxAction">
         <pages:RemoveItemInListBoxActionView />
       </TabItem>
+      <TabItem Header="Remove Items Sample">
+        <pages:RemoveItemsSampleView />
+      </TabItem>
       <TabItem Header="AdaptiveBehavior">
         <pages:AdaptiveBehaviorView />
       </TabItem>
@@ -102,6 +105,9 @@
       </TabItem>
       <TabItem Header="Sliding Animation">
         <pages:SlidingAnimationView />
+      </TabItem>
+      <TabItem Header="FluidMoveBehavior">
+        <pages:FluidMoveBehaviorView />
       </TabItem>
       <TabItem Header="BehaviorCollectionTemplate">
         <pages:BehaviorCollectionTemplateView />
