@@ -40,7 +40,7 @@
       <DataTemplate DataType="vm:DragItemViewModel" x:CompileBindings="False">
         <Panel Background="Transparent">
           <Interaction.Behaviors>
-            <InlineEditBehavior Display="DisplayPanel" Editor="EditBox" />
+            <InlineEditBehavior DisplayControl="DisplayPanel" EditControl="EditBox" />
           </Interaction.Behaviors>
           <TextBox x:Name="EditBox"
                    IsVisible="False"
