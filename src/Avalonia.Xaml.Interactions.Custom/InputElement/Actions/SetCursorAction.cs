@@ -5,21 +5,21 @@ using Avalonia.Xaml.Interactivity;
 namespace Avalonia.Xaml.Interactions.Custom;
 
 /// <summary>
-/// Sets the cursor on a target control using an <see cref="ICursorProvider"/>.
+/// Sets the cursor on a target control.
 /// </summary>
-public class SetCursorFromProviderAction : StyledElementAction
+public class SetCursorAction : StyledElementAction
 {
     /// <summary>
     /// Identifies the <see cref="TargetControl"/> avalonia property.
     /// </summary>
     public static readonly StyledProperty<InputElement?> TargetControlProperty =
-        AvaloniaProperty.Register<SetCursorFromProviderAction, InputElement?>(nameof(TargetControl));
+        AvaloniaProperty.Register<SetCursorAction, InputElement?>(nameof(TargetControl));
 
     /// <summary>
-    /// Identifies the <see cref="Provider"/> avalonia property.
+    /// Identifies the <seealso cref="Cursor"/> avalonia property.
     /// </summary>
-    public static readonly StyledProperty<ICursorProvider?> ProviderProperty =
-        AvaloniaProperty.Register<SetCursorFromProviderAction, ICursorProvider?>(nameof(Provider));
+    public static readonly StyledProperty<Cursor?> CursorProperty =
+        AvaloniaProperty.Register<SetCursorAction, Cursor?>(nameof(Cursor));
 
     /// <summary>
     /// Gets or sets the target control. This is an avalonia property.
@@ -32,12 +32,12 @@ public class SetCursorFromProviderAction : StyledElementAction
     }
 
     /// <summary>
-    /// Gets or sets the <see cref="ICursorProvider"/>. This is an avalonia property.
+    /// Gets or sets the cursor to apply.
     /// </summary>
-    public ICursorProvider? Provider
+    public Cursor? Cursor
     {
-        get => GetValue(ProviderProperty);
-        set => SetValue(ProviderProperty, value);
+        get => GetValue(CursorProperty);
+        set => SetValue(CursorProperty, value);
     }
 
     /// <inheritdoc />
@@ -49,12 +49,13 @@ public class SetCursorFromProviderAction : StyledElementAction
         }
 
         var control = TargetControl ?? sender as InputElement;
-        if (control is null || Provider is null)
+        var cursor = Cursor;
+        if (control is null || cursor is null)
         {
             return false;
         }
 
-        control.Cursor = Provider.CreateCursor();
+        control.Cursor = cursor;
         return true;
     }
 }

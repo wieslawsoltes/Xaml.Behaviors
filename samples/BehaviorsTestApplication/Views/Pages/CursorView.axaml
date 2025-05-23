@@ -4,7 +4,6 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:viewModels="using:BehaviorsTestApplication.ViewModels"
-             xmlns:behaviors="using:Avalonia.Xaml.Interactions.Custom"
              x:DataType="viewModels:CursorViewModel"
              mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="450">
   <Design.DataContext>
@@ -12,10 +11,10 @@
   </Design.DataContext>
   <Grid ColumnDefinitions="*,*" RowDefinitions="Auto,*">
     <StackPanel Grid.ColumnSpan="2" Orientation="Vertical" Spacing="4">
-      <TextBlock Classes="h2">Defines a cursor (mouse pointer)</TextBlock>
+      <TextBlock>Defines a cursor (mouse pointer)</TextBlock>
     </StackPanel>
-
-    <ListBox Grid.Row="1" ItemsSource="{Binding StandardCursors}" Margin="0 8 8 8">
+    
+    <ListBox Grid.Column="0" Grid.Row="1" ItemsSource="{Binding StandardCursors}" Margin="0 8 8 8">
       <ListBox.Styles>
         <Style Selector="ListBoxItem">
           <Setter Property="Cursor" Value="{Binding Cursor}" x:DataType="viewModels:StandardCursorModel"/>
@@ -34,13 +33,13 @@
       </Button>
       <Border Margin="0 8" Background="{DynamicResource GrayBrush}" Padding="16">
         <Interaction.Behaviors>
-          <behaviors:SetCursorBehavior Cursor="{Binding CustomCursor}" />
+          <SetCursorBehavior Cursor="{Binding CustomCursor}" />
         </Interaction.Behaviors>
         <TextBlock>Behavior Cursor</TextBlock>
       </Border>
       <Border Margin="0 8" Background="{DynamicResource GrayBrush}" Padding="16">
         <Interaction.Behaviors>
-          <behaviors:PointerOverCursorBehavior Cursor="Wait" />
+          <PointerOverCursorBehavior Cursor="Wait" />
         </Interaction.Behaviors>
         <TextBlock>Pointer Over Cursor</TextBlock>
       </Border>

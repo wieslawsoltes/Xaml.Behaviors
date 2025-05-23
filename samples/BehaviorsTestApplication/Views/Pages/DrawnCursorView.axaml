@@ -23,7 +23,7 @@
           <SetCursorFromProviderAction Provider="{Binding CursorProvider}" />
         </EventTriggerBehavior>
         <EventTriggerBehavior EventName="PointerExited">
-          <SetCursorBehavior Cursor="Arrow" />
+          <SetCursorAction Cursor="Arrow" />
         </EventTriggerBehavior>
       </Interaction.Behaviors>
       <TextBlock>Action Cursor</TextBlock>
