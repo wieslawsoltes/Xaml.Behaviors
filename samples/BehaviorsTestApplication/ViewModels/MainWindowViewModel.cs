@@ -93,6 +93,8 @@ public partial class MainWindowViewModel : ViewModelBase
         OpenFoldersCommand = ReactiveCommand.Create<IEnumerable<IStorageFolder>>(OpenFolders);
 
         GetClipboardTextCommand = ReactiveCommand.Create<string?>(GetClipboardText);
+        GetClipboardDataCommand = ReactiveCommand.Create<object?>(GetClipboardData);
+        GetClipboardFormatsCommand = ReactiveCommand.Create<IEnumerable<string>?>(GetClipboardFormats);
 
         Greeting = "Entered text will appear here";
         TextChangedCommand = ReactiveCommand.Create<TextChangedEventArgs>(OnTextChanged);
@@ -154,6 +156,10 @@ public partial class MainWindowViewModel : ViewModelBase
     
     public ICommand GetClipboardTextCommand { get; set; }
 
+    public ICommand GetClipboardDataCommand { get; set; }
+
+    public ICommand GetClipboardFormatsCommand { get; set; }
+
     public ICommand TextChangedCommand { get; }
 
     private void DataContextChanged()
@@ -201,6 +207,19 @@ public partial class MainWindowViewModel : ViewModelBase
     private void GetClipboardText(string? text)
     {
         Console.WriteLine($"GetClipboardTextCommand: {text}");
+    }
+
+    private void GetClipboardData(object? data)
+    {
+        Console.WriteLine($"GetClipboardDataCommand: {data}");
+    }
+
+    private void GetClipboardFormats(IEnumerable<string>? formats)
+    {
+        if (formats is not null)
+        {
+            Console.WriteLine($"GetClipboardFormatsCommand: {string.Join(',', formats)}");
+        }
     }
 
     public void IncrementCount() => Count++;

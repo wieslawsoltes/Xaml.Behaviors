@@ -1,0 +1,27 @@
+<UserControl x:Class="BehaviorsTestApplication.Views.Pages.SetEnabledActionView"
+             xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:BehaviorsTestApplication.ViewModels"
+             x:DataType="vm:MainWindowViewModel"
+             mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="450">
+  <Design.DataContext>
+    <vm:MainWindowViewModel />
+  </Design.DataContext>
+  <StackPanel>
+    <TextBox x:Name="TargetBox" Margin="5" Watermark="Toggle enabled" />
+    <StackPanel Orientation="Horizontal" Spacing="5">
+      <Button x:Name="DisableButton" Content="Disable" Margin="5" />
+      <Button x:Name="EnableButton" Content="Enable" Margin="5" />
+    </StackPanel>
+  </StackPanel>
+  <Interaction.Behaviors>
+    <EventTriggerBehavior EventName="Click" SourceObject="DisableButton">
+      <SetEnabledAction TargetControl="{Binding ElementName=TargetBox}" IsEnabledValue="False" />
+    </EventTriggerBehavior>
+    <EventTriggerBehavior EventName="Click" SourceObject="EnableButton">
+      <SetEnabledAction TargetControl="{Binding ElementName=TargetBox}" IsEnabledValue="True" />
+    </EventTriggerBehavior>
+  </Interaction.Behaviors>
+</UserControl>
