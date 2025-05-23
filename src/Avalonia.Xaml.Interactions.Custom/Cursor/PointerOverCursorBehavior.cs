@@ -30,9 +30,9 @@ public class PointerOverCursorBehavior : StyledElementBehavior<InputElement>
         if (AssociatedObject is not null)
         {
             AssociatedObject.AddHandler(InputElement.PointerEnteredEvent, OnPointerEntered,
-                RoutingStrategies.Tunnel | RoutingStrategies.Bubble);
+                RoutingStrategies.Direct);
             AssociatedObject.AddHandler(InputElement.PointerExitedEvent, OnPointerExited,
-                RoutingStrategies.Tunnel | RoutingStrategies.Bubble);
+                RoutingStrategies.Direct);
         }
     }
 
