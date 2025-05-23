@@ -4,7 +4,7 @@ using Avalonia.Styling;
 
 namespace BehaviorsTestApplication.Views.Pages;
 
-public partial class ThemeVariantView : UserControl
+public partial class ThemeVariantView : UserControl, ISamplePage
 {
     public static ThemeVariant Pink { get; } = new("Pink", ThemeVariant.Light);
 

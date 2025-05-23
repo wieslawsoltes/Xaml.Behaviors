@@ -3,7 +3,7 @@ using Avalonia.Markup.Xaml;
 
 namespace BehaviorsTestApplication.Views.Pages;
 
-public partial class CarouselNavigationView : UserControl
+public partial class CarouselNavigationView : UserControl, ISamplePage
 {
     public CarouselNavigationView()
     {

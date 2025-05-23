@@ -3,7 +3,7 @@ using Avalonia.Markup.Xaml;
 
 namespace BehaviorsTestApplication.Views.Pages;
 
-public partial class ClipboardView : UserControl
+public partial class ClipboardView : UserControl, ISamplePage
 {
     public ClipboardView()
     {

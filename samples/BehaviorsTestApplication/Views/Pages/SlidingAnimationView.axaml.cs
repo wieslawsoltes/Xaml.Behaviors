@@ -2,7 +2,7 @@
 
 namespace BehaviorsTestApplication.Views.Pages;
 
-public partial class SlidingAnimationView : UserControl
+public partial class SlidingAnimationView : UserControl, ISamplePage
 {
     public SlidingAnimationView()
     {

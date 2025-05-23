@@ -3,7 +3,7 @@ using Avalonia.Markup.Xaml;
 
 namespace BehaviorsTestApplication.Views.Pages;
 
-public partial class StorageProviderView : UserControl
+public partial class StorageProviderView : UserControl, ISamplePage
 {
     public StorageProviderView()
     {

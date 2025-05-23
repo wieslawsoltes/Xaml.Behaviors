@@ -4,7 +4,7 @@ using BehaviorsTestApplication.ViewModels;
 
 namespace BehaviorsTestApplication.Views.Pages;
 
-public partial class StartBuiltAnimationActionView : UserControl
+public partial class StartBuiltAnimationActionView : UserControl, ISamplePage
 {
     public StartBuiltAnimationActionView()
     {

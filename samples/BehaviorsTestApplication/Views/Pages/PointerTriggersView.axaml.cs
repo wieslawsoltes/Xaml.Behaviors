@@ -3,7 +3,7 @@ using Avalonia.Markup.Xaml;
 
 namespace BehaviorsTestApplication.Views.Pages;
 
-public partial class PointerTriggersView : UserControl
+public partial class PointerTriggersView : UserControl, ISamplePage
 {
     public PointerTriggersView()
     {

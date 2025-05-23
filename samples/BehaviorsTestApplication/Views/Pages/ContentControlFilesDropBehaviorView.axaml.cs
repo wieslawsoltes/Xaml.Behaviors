@@ -3,7 +3,7 @@ using Avalonia.Markup.Xaml;
 
 namespace BehaviorsTestApplication.Views.Pages;
 
-public partial class ContentControlFilesDropBehaviorView : UserControl
+public partial class ContentControlFilesDropBehaviorView : UserControl, ISamplePage
 {
     public ContentControlFilesDropBehaviorView()
     {

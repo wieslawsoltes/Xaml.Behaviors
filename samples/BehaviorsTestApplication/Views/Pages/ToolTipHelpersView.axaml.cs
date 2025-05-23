@@ -3,7 +3,7 @@ using Avalonia.Markup.Xaml;
 
 namespace BehaviorsTestApplication.Views.Pages;
 
-public partial class ToolTipHelpersView : UserControl
+public partial class ToolTipHelpersView : UserControl, ISamplePage
 {
     public ToolTipHelpersView()
     {

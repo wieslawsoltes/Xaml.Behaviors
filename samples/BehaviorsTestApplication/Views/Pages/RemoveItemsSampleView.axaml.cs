@@ -3,7 +3,7 @@ using Avalonia.Markup.Xaml;
 
 namespace BehaviorsTestApplication.Views.Pages;
 
-public partial class RemoveItemsSampleView : UserControl
+public partial class RemoveItemsSampleView : UserControl, ISamplePage
 {
     public RemoveItemsSampleView()
     {

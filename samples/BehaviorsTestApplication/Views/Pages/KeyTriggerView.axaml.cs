@@ -3,7 +3,7 @@ using Avalonia.Markup.Xaml;
 
 namespace BehaviorsTestApplication.Views.Pages;
 
-public partial class KeyTriggerView : UserControl
+public partial class KeyTriggerView : UserControl, ISamplePage
 {
     public KeyTriggerView()
     {

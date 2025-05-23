@@ -4,7 +4,7 @@ using BehaviorsTestApplication.ViewModels;
 
 namespace BehaviorsTestApplication.Views.Pages;
 
-public partial class TypedDragBehaviorView : UserControl
+public partial class TypedDragBehaviorView : UserControl, ISamplePage
 {
     public TypedDragBehaviorView()
     {

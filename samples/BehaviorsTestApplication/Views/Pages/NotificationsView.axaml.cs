@@ -3,7 +3,7 @@ using Avalonia.Markup.Xaml;
 
 namespace BehaviorsTestApplication.Views.Pages;
 
-public partial class NotificationsView : UserControl
+public partial class NotificationsView : UserControl, ISamplePage
 {
     public NotificationsView()
     {

@@ -3,7 +3,7 @@ using Avalonia.Markup.Xaml;
 
 namespace BehaviorsTestApplication.Views.Pages;
 
-public partial class AnimationBehaviorView : UserControl
+public partial class AnimationBehaviorView : UserControl, ISamplePage
 {
     public AnimationBehaviorView()
     {

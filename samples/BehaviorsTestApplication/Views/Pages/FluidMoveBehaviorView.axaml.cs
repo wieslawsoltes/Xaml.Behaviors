@@ -4,7 +4,7 @@ using BehaviorsTestApplication.ViewModels;
 
 namespace BehaviorsTestApplication.Views.Pages;
 
-public partial class FluidMoveBehaviorView : UserControl
+public partial class FluidMoveBehaviorView : UserControl, ISamplePage
 {
     public FluidMoveBehaviorView()
     {

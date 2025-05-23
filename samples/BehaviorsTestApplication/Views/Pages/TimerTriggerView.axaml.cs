@@ -3,7 +3,7 @@ using Avalonia.Markup.Xaml;
 
 namespace BehaviorsTestApplication.Views.Pages;
 
-public partial class TimerTriggerView : UserControl
+public partial class TimerTriggerView : UserControl, ISamplePage
 {
     public TimerTriggerView()
     {

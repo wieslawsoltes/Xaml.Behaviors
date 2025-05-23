@@ -4,7 +4,7 @@ using BehaviorsTestApplication.ViewModels;
 
 namespace BehaviorsTestApplication.Views.Pages;
 
-public partial class CursorView : UserControl
+public partial class CursorView : UserControl, ISamplePage
 {
     public CursorView()
     {

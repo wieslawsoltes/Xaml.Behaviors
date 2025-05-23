@@ -4,7 +4,7 @@ using BehaviorsTestApplication.ViewModels;
 
 namespace BehaviorsTestApplication.Views.Pages;
 
-public partial class DraggableView : UserControl
+public partial class DraggableView : UserControl, ISamplePage
 {
     public DraggableView()
     {

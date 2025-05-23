@@ -6,7 +6,7 @@ using Avalonia.Xaml.Interactions.Draggable;
 
 namespace BehaviorsTestApplication.Views.Pages;
 
-public partial class MouseDragBehaviorView : UserControl
+public partial class MouseDragBehaviorView : UserControl, ISamplePage
 {
     public MouseDragBehaviorView()
     {
