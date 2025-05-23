@@ -54,4 +54,6 @@
     <ProjectReference Include="..\..\src\Avalonia.Xaml.Interactions.ReactiveUI\Avalonia.Xaml.Interactions.ReactiveUI.csproj" />
   </ItemGroup>
 
+
+
 </Project>

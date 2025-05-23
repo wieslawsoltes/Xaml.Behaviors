@@ -112,12 +112,27 @@ This section provides an overview of all available classes and their purpose in 
 - **ShowContextMenuAction**
   *Displays a control's context menu programmatically.*
 
+- **SplitViewTogglePaneAction**
+  *Toggles the `IsPaneOpen` state of a `SplitView`.*
+
 ### Animations
-- **FadeInBehavior**  
+- **FadeInBehavior**
   *Animates the fade-in effect for the associated element, gradually increasing its opacity.*
 
-- **StartAnimationAction**  
+- **StartAnimationAction**
   *Triggers a defined animation on the target control when executed.*
+
+### Transitions
+- **TransitionsBehavior**
+  *Sets the `Transitions` collection on the associated control when attached.*
+- **AddTransitionAction**
+  *Adds a transition to a control's `Transitions` collection.*
+- **RemoveTransitionAction**
+  *Removes a transition from a control's `Transitions` collection.*
+- **ClearTransitionsAction**
+  *Clears all transitions from a control.*
+- **TransitionsChangedTrigger**
+  *Triggers actions when the `Transitions` property of a control changes.*
 
 ### AutoCompleteBox
 - **FocusAutoCompleteBoxTextBoxBehavior**  
@@ -195,11 +210,23 @@ This section provides an overview of all available classes and their purpose in 
 - **HideOnKeyPressedBehavior**  
   *Hides the target control when a specified key is pressed.*
 
-- **HideOnLostFocusBehavior**  
+- **HideOnLostFocusBehavior**
   *Hides the target control when it loses focus.*
+
+- **InlineEditBehavior**
+  *Toggles display and edit controls to enable in-place text editing.*
 
 - **ShowPointerPositionBehavior**
   *Displays the current pointer position (x, y coordinates) in a TextBlock for debugging or UI feedback.*
+
+- **SetCursorBehavior**
+  *Applies a custom cursor to the associated control.*
+
+- **PointerOverCursorBehavior**
+  *Changes the cursor while the pointer is over the control and resets it on exit.*
+
+- **SetCursorFromProviderBehavior**
+  *Uses an `ICursorProvider` implementation to supply the cursor for the associated control.*
 
 - **SizeChangedTrigger**
   *Triggers actions when the associated control's size changes.*
@@ -306,8 +333,11 @@ This section provides an overview of all available classes and their purpose in 
   *Executes one collection of actions when a condition is true and another when it is false.*
 
 ### DragAndDrop
-- **ContextDragBehavior**  
+- **ContextDragBehavior**
   *Enables drag operations using a “context” (data payload) that is carried during the drag–drop operation.*
+
+- **ContextDragWithDirectionBehavior**
+  *Starts a drag operation and includes the drag direction in the data object.*
 
 - **ContextDropBehavior**  
   *Handles drop events and passes context data between the drag source and drop target.*
@@ -589,8 +619,11 @@ This section provides an overview of all available classes and their purpose in 
 - **CapturePointerAction**  
   *Captures the pointer (mouse, touch) to a target control so that subsequent pointer events are routed there.*
 
-- **ReleasePointerCaptureAction**  
+- **ReleasePointerCaptureAction**
   *Releases a previously captured pointer from the control.*
+
+- **SetCursorFromProviderAction**
+  *Sets the cursor of a control using a cursor created by an `ICursorProvider`.*
 
 ### InputElement Triggers
 - **DoubleTappedTrigger**  
@@ -677,8 +710,10 @@ This section provides an overview of all available classes and their purpose in 
   *Clears the selection in a ListBox.*
 
 ### ListBoxItem
-- **SelectListBoxItemOnPointerMovedBehavior**  
+- **SelectListBoxItemOnPointerMovedBehavior**
   *Automatically selects a ListBoxItem when the pointer moves over it.*
+- **InlineEditBehavior**
+  *Toggles between a display element and a TextBox editor to enable inline editing (activated by double-tap or F2; ends on Enter, Escape, or losing focus).* 
 
 ### Responsive
 - **AdaptiveBehavior**
@@ -806,8 +841,20 @@ This section provides an overview of all available classes and their purpose in 
   *Selects all text in a TextBox immediately upon attachment.*
 
 ### TreeViewItem
-- **ToggleIsExpandedOnDoubleTappedBehavior**  
+- **ToggleIsExpandedOnDoubleTappedBehavior**
   *Toggles the IsExpanded property of a TreeViewItem when it is double-tapped.*
+
+### SplitView
+- **SplitViewStateBehavior**
+  *Automatically updates `DisplayMode`, `PanePlacement`, and `IsPaneOpen` based on size conditions.*
+- **SplitViewPaneOpeningTrigger**
+  *Triggers actions when the pane is about to open.*
+- **SplitViewPaneOpenedTrigger**
+  *Triggers actions after the pane has opened.*
+- **SplitViewPaneClosingTrigger**
+  *Triggers actions when the pane is about to close.*
+- **SplitViewPaneClosedTrigger**
+  *Triggers actions after the pane has closed.*
 
 ## Interactivity (Infrastructure)
 
