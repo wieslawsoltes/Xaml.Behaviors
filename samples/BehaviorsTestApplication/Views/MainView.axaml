@@ -223,6 +223,9 @@
       <TabItem Header="Notifications">
         <pages:NotificationsView />
       </TabItem>
+      <TabItem Header="Theme Variant">
+        <pages:ThemeVariantView />
+      </TabItem>
       <TabItem Header="Screens">
         <pages:ScreenView />
       </TabItem>
