@@ -88,6 +88,9 @@
       <TabItem Header="RemoveElementAction">
         <pages:RemoveElementActionView />
       </TabItem>
+      <TabItem Header="RemoveItemInListBoxAction">
+        <pages:RemoveItemInListBoxActionView />
+      </TabItem>
       <TabItem Header="Remove Items Sample">
         <pages:RemoveItemsSampleView />
       </TabItem>
@@ -120,6 +123,12 @@
       </TabItem>
       <TabItem Header="Animation Completed Trigger">
         <pages:AnimationCompletedTriggerView />
+      </TabItem>
+      <TabItem Header="StartBuiltAnimationAction">
+        <pages:StartBuiltAnimationActionView />
+      </TabItem>
+      <TabItem Header="RunAnimationTrigger">
+        <pages:RunAnimationTriggerView />
       </TabItem>
       <TabItem Header="FluidMoveBehavior">
         <pages:FluidMoveBehaviorView />
@@ -186,6 +195,12 @@
       </TabItem>
       <TabItem Header="KeyTrigger">
         <pages:KeyTriggerView />
+      </TabItem>
+      <TabItem Header="WriteableBitmap">
+        <pages:WriteableBitmapView />
+      </TabItem>
+      <TabItem Header="RenderTargetBitmap">
+        <pages:RenderTargetBitmapView />
       </TabItem>
       <TabItem Header="LaunchUriOrFileAction">
         <pages:LaunchUriOrFileActionView />

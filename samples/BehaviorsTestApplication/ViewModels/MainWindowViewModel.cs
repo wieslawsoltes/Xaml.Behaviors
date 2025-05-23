@@ -17,6 +17,7 @@ public partial class MainWindowViewModel : ViewModelBase
     {
         PointerTriggersViewModel = new PointerTriggersViewModel();
         KeyGestureTriggerViewModel = new KeyGestureTriggerViewModel();
+        CustomAnimatorViewModel = new CustomAnimatorViewModel();
         
         Count = 0;
         Position = 100.0;
@@ -102,6 +103,9 @@ public partial class MainWindowViewModel : ViewModelBase
 
     [Reactive]
     public partial KeyGestureTriggerViewModel KeyGestureTriggerViewModel { get; set; }
+
+    [Reactive]
+    public partial CustomAnimatorViewModel CustomAnimatorViewModel { get; set; }
 
     [Reactive]
     public partial int Count { get; set; }
