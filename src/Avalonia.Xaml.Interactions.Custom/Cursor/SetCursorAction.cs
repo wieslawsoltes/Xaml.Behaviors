@@ -55,7 +55,7 @@ public class SetCursorAction : StyledElementAction
             return false;
         }
 
-        control.Cursor = cursor;
+        control.SetCurrentValue(InputElement.CursorProperty, cursor);
         return true;
     }
 }
