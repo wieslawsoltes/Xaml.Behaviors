@@ -1,6 +1,5 @@
 using System;
 using System.Diagnostics.CodeAnalysis;
-using Avalonia;
 using Avalonia.Threading;
 using Avalonia.Xaml.Interactivity;
 
