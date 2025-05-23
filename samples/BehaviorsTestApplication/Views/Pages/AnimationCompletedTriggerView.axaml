@@ -18,10 +18,10 @@
           <AnimationCompletedTrigger.Animation>
             <Animation Duration="0:0:1">
               <KeyFrame Cue="0%">
-                <Setter Property="Opacity" Value="0" />
+                <Setter Property="{x:Static Visual.OpacityProperty}" Value="0" />
               </KeyFrame>
               <KeyFrame Cue="100%">
-                <Setter Property="Opacity" Value="1" />
+                <Setter Property="{x:Static Visual.OpacityProperty}" Value="1" />
               </KeyFrame>
             </Animation>
           </AnimationCompletedTrigger.Animation>
