@@ -176,11 +176,13 @@ public class EventTriggerBehavior : StyledElementTrigger
             var eventInfo = sourceObjectType.GetRuntimeEvent(EventName);
             if (eventInfo is null)
             {
-                throw new ArgumentException(string.Format(
-                    CultureInfo.CurrentCulture,
-                    "Cannot find an event named {0} on type {1}.",
-                    EventName,
-                    sourceObjectType.Name));
+                return;
+                // TODO: SourceObjects might not be set when OnAttached() is called.
+                // throw new ArgumentException(string.Format(
+                //     CultureInfo.CurrentCulture,
+                //     "Cannot find an event named {0} on type {1}.",
+                //     EventName,
+                //     sourceObjectType.Name));
             }
 
             var methodInfo = typeof(EventTriggerBehavior).GetTypeInfo().GetDeclaredMethod("AttachedToVisualTree");
