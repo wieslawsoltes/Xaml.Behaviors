@@ -9,7 +9,7 @@
 
   <PropertyGroup>
     <PackageId>Xaml.Behaviors.Interactions.ReactiveUI</PackageId>
-    <Description>Behaviors for ReactiveUI routing to help with navigation in XAML.</Description>
+    <Description>Behaviors integrating ReactiveUI navigation patterns.</Description>
     <PackageTags>Avalonia;ReactiveUI;Behavior;Navigation;Xaml</PackageTags>
   </PropertyGroup>
 

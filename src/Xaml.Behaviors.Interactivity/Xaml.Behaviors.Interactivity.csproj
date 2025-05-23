@@ -9,7 +9,7 @@
 
   <PropertyGroup>
     <PackageId>Xaml.Behaviors.Interactivity</PackageId>
-    <Description>Easily add interactivity to your Avalonia apps using XAML Behaviors. Behaviors encapsulate reusable functionalities for elements that can be easily added to your XAML without the need for more imperative code.</Description>
+    <Description>Foundation library providing base classes for actions, triggers and behaviors.</Description>
     <PackageTags>Avalonia;Behavior;Action;Behaviors;Actions;Managed;C#;Interaction;Interactivity;Interactions;Xaml</PackageTags>
   </PropertyGroup>
 
