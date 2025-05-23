@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Diagnostics.CodeAnalysis;
-using System.Globalization;
 using System.Reflection;
 using Avalonia.Xaml.Interactivity;
 using Avalonia.Controls;
-using Avalonia.Reactive;
 
 namespace Avalonia.Xaml.Interactions.Core;
 
