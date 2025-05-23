@@ -2,7 +2,7 @@ using System;
 using System.Diagnostics;
 using Avalonia.Xaml.Interactivity;
 
-namespace Avalonia.Xaml.Interactions.Core;
+namespace Avalonia.Xaml.Interactions.Custom;
 
 /// <summary>
 /// An action that will launch a process to open a file or URI. For files, this action will launch the
