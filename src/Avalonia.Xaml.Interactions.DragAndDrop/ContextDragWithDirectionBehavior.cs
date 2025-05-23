@@ -4,13 +4,12 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Interactivity;
-using Avalonia.Xaml.Interactions.DragAndDrop;
 using Avalonia.Xaml.Interactivity;
 
-namespace BehaviorsTestApplication.Behaviors;
+namespace Avalonia.Xaml.Interactions.DragAndDrop;
 
 /// <summary>
-/// 
+/// Behavior that starts drag and drop with information about drag direction.
 /// </summary>
 public sealed class ContextDragWithDirectionBehavior : StyledElementBehavior<Control>
 {
@@ -20,31 +19,31 @@ public sealed class ContextDragWithDirectionBehavior : StyledElementBehavior<Con
     private bool _captured;
 
     /// <summary>
-    /// 
+    /// Identifies the <see cref="Context"/> avalonia property.
     /// </summary>
     public static readonly StyledProperty<object?> ContextProperty =
-        AvaloniaProperty.Register<ContextDragBehavior, object?>(nameof(Context));
+        AvaloniaProperty.Register<ContextDragWithDirectionBehavior, object?>(nameof(Context));
 
     /// <summary>
-    /// 
+    /// Identifies the <see cref="Handler"/> avalonia property.
     /// </summary>
     public static readonly StyledProperty<IDragHandler?> HandlerProperty =
-        AvaloniaProperty.Register<ContextDragBehavior, IDragHandler?>(nameof(Handler));
+        AvaloniaProperty.Register<ContextDragWithDirectionBehavior, IDragHandler?>(nameof(Handler));
 
     /// <summary>
-    /// 
+    /// Identifies the <see cref="HorizontalDragThreshold"/> avalonia property.
     /// </summary>
-    public static readonly StyledProperty<double> HorizontalDragThresholdProperty = 
-        AvaloniaProperty.Register<ContextDragBehavior, double>(nameof(HorizontalDragThreshold), 3);
+    public static readonly StyledProperty<double> HorizontalDragThresholdProperty =
+        AvaloniaProperty.Register<ContextDragWithDirectionBehavior, double>(nameof(HorizontalDragThreshold), 3);
 
     /// <summary>
-    /// 
+    /// Identifies the <see cref="VerticalDragThreshold"/> avalonia property.
     /// </summary>
     public static readonly StyledProperty<double> VerticalDragThresholdProperty =
-        AvaloniaProperty.Register<ContextDragBehavior, double>(nameof(VerticalDragThreshold), 3);
+        AvaloniaProperty.Register<ContextDragWithDirectionBehavior, double>(nameof(VerticalDragThreshold), 3);
 
     /// <summary>
-    /// 
+    /// Gets or sets the context used for drag operations.
     /// </summary>
     public object? Context
     {
@@ -53,7 +52,7 @@ public sealed class ContextDragWithDirectionBehavior : StyledElementBehavior<Con
     }
 
     /// <summary>
-    /// 
+    /// Gets or sets the drag handler to notify.
     /// </summary>
     public IDragHandler? Handler
     {
@@ -62,7 +61,7 @@ public sealed class ContextDragWithDirectionBehavior : StyledElementBehavior<Con
     }
 
     /// <summary>
-    /// 
+    /// Gets or sets the horizontal drag threshold.
     /// </summary>
     public double HorizontalDragThreshold
     {
@@ -71,7 +70,7 @@ public sealed class ContextDragWithDirectionBehavior : StyledElementBehavior<Con
     }
 
     /// <summary>
-    /// 
+    /// Gets or sets the vertical drag threshold.
     /// </summary>
     public double VerticalDragThreshold
     {
@@ -82,10 +81,14 @@ public sealed class ContextDragWithDirectionBehavior : StyledElementBehavior<Con
     /// <inheritdoc />
     protected override void OnAttachedToVisualTree()
     {
-        AssociatedObject?.AddHandler(InputElement.PointerPressedEvent, AssociatedObject_PointerPressed, RoutingStrategies.Direct | RoutingStrategies.Tunnel | RoutingStrategies.Bubble);
-        AssociatedObject?.AddHandler(InputElement.PointerReleasedEvent, AssociatedObject_PointerReleased, RoutingStrategies.Direct | RoutingStrategies.Tunnel | RoutingStrategies.Bubble);
-        AssociatedObject?.AddHandler(InputElement.PointerMovedEvent, AssociatedObject_PointerMoved, RoutingStrategies.Direct | RoutingStrategies.Tunnel | RoutingStrategies.Bubble);
-        AssociatedObject?.AddHandler(InputElement.PointerCaptureLostEvent, AssociatedObject_CaptureLost, RoutingStrategies.Direct | RoutingStrategies.Tunnel | RoutingStrategies.Bubble);
+        AssociatedObject?.AddHandler(InputElement.PointerPressedEvent, AssociatedObject_PointerPressed,
+            RoutingStrategies.Direct | RoutingStrategies.Tunnel | RoutingStrategies.Bubble);
+        AssociatedObject?.AddHandler(InputElement.PointerReleasedEvent, AssociatedObject_PointerReleased,
+            RoutingStrategies.Direct | RoutingStrategies.Tunnel | RoutingStrategies.Bubble);
+        AssociatedObject?.AddHandler(InputElement.PointerMovedEvent, AssociatedObject_PointerMoved,
+            RoutingStrategies.Direct | RoutingStrategies.Tunnel | RoutingStrategies.Bubble);
+        AssociatedObject?.AddHandler(InputElement.PointerCaptureLostEvent, AssociatedObject_CaptureLost,
+            RoutingStrategies.Direct | RoutingStrategies.Tunnel | RoutingStrategies.Bubble);
     }
 
     /// <inheritdoc />
@@ -97,11 +100,11 @@ public sealed class ContextDragWithDirectionBehavior : StyledElementBehavior<Con
         AssociatedObject?.RemoveHandler(InputElement.PointerCaptureLostEvent, AssociatedObject_CaptureLost);
     }
 
-    private async Task DoDragDrop(PointerEventArgs triggerEvent, object? value, string upOrDown)
+    private async Task DoDragDrop(PointerEventArgs triggerEvent, object? value, string direction)
     {
         var data = new DataObject();
         data.Set(ContextDropBehavior.DataFormat, value!);
-        data.Set("direction", upOrDown);
+        data.Set("direction", direction);
 
         var effect = DragDropEffects.None;
 
@@ -136,8 +139,7 @@ public sealed class ContextDragWithDirectionBehavior : StyledElementBehavior<Con
         var properties = e.GetCurrentPoint(AssociatedObject).Properties;
         if (properties.IsLeftButtonPressed)
         {
-            if (e.Source is Control control
-                && AssociatedObject?.DataContext == control.DataContext)
+            if (e.Source is Control control && AssociatedObject?.DataContext == control.DataContext)
             {
                 _dragStartPoint = e.GetPosition(null);
                 _triggerEvent = e;
@@ -151,7 +153,7 @@ public sealed class ContextDragWithDirectionBehavior : StyledElementBehavior<Con
     {
         if (_captured)
         {
-            if (e.InitialPressMouseButton == MouseButton.Left && _triggerEvent is { })
+            if (e.InitialPressMouseButton == MouseButton.Left && _triggerEvent is not null)
             {
                 Released();
             }
@@ -163,16 +165,14 @@ public sealed class ContextDragWithDirectionBehavior : StyledElementBehavior<Con
     private async void AssociatedObject_PointerMoved(object? sender, PointerEventArgs e)
     {
         var properties = e.GetCurrentPoint(AssociatedObject).Properties;
-        if (_captured
-            && properties.IsLeftButtonPressed &&
-            _triggerEvent is { })
+        if (_captured && properties.IsLeftButtonPressed && _triggerEvent is not null)
         {
             var point = e.GetPosition(null);
             var diff = _dragStartPoint - point;
-            var horizontalDragThreshold = HorizontalDragThreshold;
-            var verticalDragThreshold = VerticalDragThreshold;
+            var horizontal = HorizontalDragThreshold;
+            var vertical = VerticalDragThreshold;
 
-            if (Math.Abs(diff.X) > horizontalDragThreshold || Math.Abs(diff.Y) > verticalDragThreshold)
+            if (Math.Abs(diff.X) > horizontal || Math.Abs(diff.Y) > vertical)
             {
                 if (_lock)
                 {
@@ -184,7 +184,7 @@ public sealed class ContextDragWithDirectionBehavior : StyledElementBehavior<Con
                 }
 
                 var context = Context ?? AssociatedObject?.DataContext;
-                    
+
                 Handler?.BeforeDragDrop(sender, _triggerEvent, context);
 
                 await DoDragDrop(_triggerEvent, context, diff.Y > 0 ? "up" : "down");

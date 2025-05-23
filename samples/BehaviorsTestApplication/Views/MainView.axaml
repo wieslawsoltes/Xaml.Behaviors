@@ -49,6 +49,9 @@
       <TabItem Header="ValueChangedTriggerBehavior">
         <pages:ValueChangedTriggerBehaviorView />
       </TabItem>
+      <TabItem Header="PropertyChangedTrigger">
+        <pages:PropertyChangedTriggerView />
+      </TabItem>
       <TabItem Header="EventTriggerBehavior">
         <pages:EventTriggerBehaviorView />
       </TabItem>
@@ -85,20 +88,35 @@
       <TabItem Header="RemoveElementAction">
         <pages:RemoveElementActionView />
       </TabItem>
+      <TabItem Header="Remove Items Sample">
+        <pages:RemoveItemsSampleView />
+      </TabItem>
       <TabItem Header="AdaptiveBehavior">
         <pages:AdaptiveBehaviorView />
       </TabItem>
       <TabItem Header="AspectRatioBehavior">
         <pages:AspectRatioBehaviorView />
       </TabItem>
+      <TabItem Header="SplitView">
+        <pages:SplitViewStateBehaviorView />
+      </TabItem>
       <TabItem Header="EditableListBox">
         <pages:EditableListBoxView />
+      </TabItem>
+      <TabItem Header="EditableDraggableListBox">
+        <pages:EditableDraggableListBoxView />
       </TabItem>
       <TabItem Header="EditableTree">
         <pages:EditableTreeViewView />
       </TabItem>
+      <TabItem Header="Editable Drag TreeView">
+        <pages:EditableDragTreeViewView />
+      </TabItem>
       <TabItem Header="Sliding Animation">
         <pages:SlidingAnimationView />
+      </TabItem>
+      <TabItem Header="FluidMoveBehavior">
+        <pages:FluidMoveBehaviorView />
       </TabItem>
       <TabItem Header="BehaviorCollectionTemplate">
         <pages:BehaviorCollectionTemplateView />
@@ -139,6 +157,12 @@
       <TabItem Header="Mouse Drag Behaviors">
         <pages:MouseDragBehaviorView />
       </TabItem>
+      <TabItem Header="Cursor Behavior">
+        <pages:CursorView />
+      </TabItem>
+      <TabItem Header="Drawn Cursor">
+        <pages:DrawnCursorView />
+      </TabItem>
       <TabItem Header="IfElseTrigger">
         <pages:IfElseTriggerView />
       </TabItem>
@@ -157,14 +181,29 @@
       <TabItem Header="KeyTrigger">
         <pages:KeyTriggerView />
       </TabItem>
+      <TabItem Header="LaunchUriOrFileAction">
+        <pages:LaunchUriOrFileActionView />
+      </TabItem>
       <TabItem Header="Reactive Navigation">
         <pages:ReactiveNavigationView />
+      </TabItem>
+      <TabItem Header="Transitions Behavior">
+        <pages:TransitionsBehaviorView />
+      </TabItem>
+      <TabItem Header="Transitions Actions">
+        <pages:TransitionsActionsView />
+      </TabItem>
+      <TabItem Header="Transitions Trigger">
+        <pages:TransitionsChangedTriggerView />
       </TabItem>
       <TabItem Header="Notifications">
         <pages:NotificationsView />
       </TabItem>
       <TabItem Header="Carousel Navigation">
         <pages:CarouselNavigationView />
+      </TabItem>
+      <TabItem Header="Screens">
+        <pages:ScreenView />
       </TabItem>
     </SingleSelectionTabControl>
   </DockPanel>
