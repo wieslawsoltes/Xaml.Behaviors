@@ -47,15 +47,15 @@
   <!--<Import Project="..\..\build\SignAssembly.props" />-->
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Avalonia.Xaml.Interactions.Scripting\Avalonia.Xaml.Interactions.Scripting.csproj" />
-    <ProjectReference Include="..\..\src\Avalonia.Xaml.Interactions\Avalonia.Xaml.Interactions.csproj" />
-    <ProjectReference Include="..\..\src\Avalonia.Xaml.Interactions.Custom\Avalonia.Xaml.Interactions.Custom.csproj" />
-    <ProjectReference Include="..\..\src\Avalonia.Xaml.Interactions.DragAndDrop\Avalonia.Xaml.Interactions.DragAndDrop.csproj" />
-    <ProjectReference Include="..\..\src\Avalonia.Xaml.Interactions.Draggable\Avalonia.Xaml.Interactions.Draggable.csproj" />
-    <ProjectReference Include="..\..\src\Avalonia.Xaml.Interactions.Events\Avalonia.Xaml.Interactions.Events.csproj" />
-    <ProjectReference Include="..\..\src\Avalonia.Xaml.Interactions.Responsive\Avalonia.Xaml.Interactions.Responsive.csproj" />
-    <ProjectReference Include="..\..\src\Avalonia.Xaml.Interactivity\Avalonia.Xaml.Interactivity.csproj" />
-    <ProjectReference Include="..\..\src\Avalonia.Xaml.Interactions.ReactiveUI\Avalonia.Xaml.Interactions.ReactiveUI.csproj" />
+    <ProjectReference Include="..\..\src\Xaml.Behaviors.Interactions.Scripting\Xaml.Behaviors.Interactions.Scripting.csproj" />
+    <ProjectReference Include="..\..\src\Xaml.Behaviors.Interactions\Xaml.Behaviors.Interactions.csproj" />
+    <ProjectReference Include="..\..\src\Xaml.Behaviors.Interactions.Custom\Xaml.Behaviors.Interactions.Custom.csproj" />
+    <ProjectReference Include="..\..\src\Xaml.Behaviors.Interactions.DragAndDrop\Xaml.Behaviors.Interactions.DragAndDrop.csproj" />
+    <ProjectReference Include="..\..\src\Xaml.Behaviors.Interactions.Draggable\Xaml.Behaviors.Interactions.Draggable.csproj" />
+    <ProjectReference Include="..\..\src\Xaml.Behaviors.Interactions.Events\Xaml.Behaviors.Interactions.Events.csproj" />
+    <ProjectReference Include="..\..\src\Xaml.Behaviors.Interactions.Responsive\Xaml.Behaviors.Interactions.Responsive.csproj" />
+    <ProjectReference Include="..\..\src\Xaml.Behaviors.Interactivity\Xaml.Behaviors.Interactivity.csproj" />
+    <ProjectReference Include="..\..\src\Xaml.Behaviors.Interactions.ReactiveUI\Xaml.Behaviors.Interactions.ReactiveUI.csproj" />
   </ItemGroup>
 
 

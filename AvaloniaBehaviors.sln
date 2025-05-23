@@ -4,15 +4,15 @@ VisualStudioVersion = 16.0.28315.86
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BehaviorsTestApplication", "samples\BehaviorsTestApplication\BehaviorsTestApplication.csproj", "{EA113F1A-D8D7-4142-9948-353270E7EBAE}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Avalonia.Xaml.Behaviors", "src\Avalonia.Xaml.Behaviors\Avalonia.Xaml.Behaviors.csproj", "{2D9FCE6A-DF13-4037-BC33-7EDB06102A2E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Xaml.Behaviors.Avalonia", "src\Xaml.Behaviors.Avalonia\Xaml.Behaviors.Avalonia.csproj", "{2D9FCE6A-DF13-4037-BC33-7EDB06102A2E}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Avalonia.Xaml.Interactivity", "src\Avalonia.Xaml.Interactivity\Avalonia.Xaml.Interactivity.csproj", "{14006EB4-66E9-4B58-BF5F-5A1983BF4621}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Xaml.Behaviors.Interactivity", "src\Xaml.Behaviors.Interactivity\Xaml.Behaviors.Interactivity.csproj", "{14006EB4-66E9-4B58-BF5F-5A1983BF4621}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Avalonia.Xaml.Interactions", "src\Avalonia.Xaml.Interactions\Avalonia.Xaml.Interactions.csproj", "{ED03EEAD-938F-447B-BF0B-30857AE78BFF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Xaml.Behaviors.Interactions", "src\Xaml.Behaviors.Interactions\Xaml.Behaviors.Interactions.csproj", "{ED03EEAD-938F-447B-BF0B-30857AE78BFF}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Avalonia.Xaml.Interactivity.UnitTests", "tests\Avalonia.Xaml.Interactivity.UnitTests\Avalonia.Xaml.Interactivity.UnitTests.csproj", "{C2229490-39CA-4192-A28C-1B5EC186E027}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Xaml.Behaviors.Interactivity.UnitTests", "tests\Xaml.Behaviors.Interactivity.UnitTests\Xaml.Behaviors.Interactivity.UnitTests.csproj", "{C2229490-39CA-4192-A28C-1B5EC186E027}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Avalonia.Xaml.Interactions.UnitTests", "tests\Avalonia.Xaml.Interactions.UnitTests\Avalonia.Xaml.Interactions.UnitTests.csproj", "{80D2C64D-B560-475D-941F-D5F28DDB2591}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Xaml.Behaviors.Interactions.UnitTests", "tests\Xaml.Behaviors.Interactions.UnitTests\Xaml.Behaviors.Interactions.UnitTests.csproj", "{80D2C64D-B560-475D-941F-D5F28DDB2591}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{84224365-32B6-46AF-85A2-45640E6D7EEB}"
 EndProject
@@ -60,15 +60,15 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "github", "github", "{9D4D9F
 		.github\workflows\build.yml = .github\workflows\build.yml
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Avalonia.Xaml.Interactions.Responsive", "src\Avalonia.Xaml.Interactions.Responsive\Avalonia.Xaml.Interactions.Responsive.csproj", "{BEC165AA-392E-4193-A762-576A1EB8D40E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xaml.Behaviors.Interactions.Responsive", "src\Xaml.Behaviors.Interactions.Responsive\Xaml.Behaviors.Interactions.Responsive.csproj", "{BEC165AA-392E-4193-A762-576A1EB8D40E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Avalonia.Xaml.Interactions.Draggable", "src\Avalonia.Xaml.Interactions.Draggable\Avalonia.Xaml.Interactions.Draggable.csproj", "{681EB965-E5B2-4A6F-9938-578FD19E8A15}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xaml.Behaviors.Interactions.Draggable", "src\Xaml.Behaviors.Interactions.Draggable\Xaml.Behaviors.Interactions.Draggable.csproj", "{681EB965-E5B2-4A6F-9938-578FD19E8A15}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Avalonia.Xaml.Interactions.DragAndDrop", "src\Avalonia.Xaml.Interactions.DragAndDrop\Avalonia.Xaml.Interactions.DragAndDrop.csproj", "{EF243B1A-FF29-41E9-B44B-2E55A73F6CCE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xaml.Behaviors.Interactions.DragAndDrop", "src\Xaml.Behaviors.Interactions.DragAndDrop\Xaml.Behaviors.Interactions.DragAndDrop.csproj", "{EF243B1A-FF29-41E9-B44B-2E55A73F6CCE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Avalonia.Xaml.Interactions.Custom", "src\Avalonia.Xaml.Interactions.Custom\Avalonia.Xaml.Interactions.Custom.csproj", "{D647E09E-BBF2-4432-A4E0-80FBB921C1EE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xaml.Behaviors.Interactions.Custom", "src\Xaml.Behaviors.Interactions.Custom\Xaml.Behaviors.Interactions.Custom.csproj", "{D647E09E-BBF2-4432-A4E0-80FBB921C1EE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Avalonia.Xaml.Interactions.Events", "src\Avalonia.Xaml.Interactions.Events\Avalonia.Xaml.Interactions.Events.csproj", "{648FFF6A-A8F5-491C-AC1C-19FC2061D6B4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xaml.Behaviors.Interactions.Events", "src\Xaml.Behaviors.Interactions.Events\Xaml.Behaviors.Interactions.Events.csproj", "{648FFF6A-A8F5-491C-AC1C-19FC2061D6B4}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xaml.Behaviors", "src\Xaml.Behaviors\Xaml.Behaviors.csproj", "{4D130812-D955-4C68-B6A6-7D25F2C5DC0A}"
 EndProject
@@ -76,8 +76,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "samples", "samples", "{451F
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{2BDB1F89-9B32-45A8-AAE2-3DC61281F9FE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Avalonia.Xaml.Interactions.ReactiveUI", "src\Avalonia.Xaml.Interactions.ReactiveUI\Avalonia.Xaml.Interactions.ReactiveUI.csproj", "{25AC5B10-0D9A-4070-8D96-DB593790C288}"
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Avalonia.Xaml.Interactions.Scripting", "src\Avalonia.Xaml.Interactions.Scripting\Avalonia.Xaml.Interactions.Scripting.csproj", "{AF98B42B-1483-47DA-903F-4C1BE6573B9B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xaml.Behaviors.Interactions.ReactiveUI", "src\Xaml.Behaviors.Interactions.ReactiveUI\Xaml.Behaviors.Interactions.ReactiveUI.csproj", "{25AC5B10-0D9A-4070-8D96-DB593790C288}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xaml.Behaviors.Interactions.Scripting", "src\Xaml.Behaviors.Interactions.Scripting\Xaml.Behaviors.Interactions.Scripting.csproj", "{AF98B42B-1483-47DA-903F-4C1BE6573B9B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

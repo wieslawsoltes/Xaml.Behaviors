@@ -25,13 +25,13 @@
   <Import Project="..\..\build\TrimmingEnable.targets" />
 
   <PropertyGroup>
-    <InteractivitySourcesBasePath>..\Avalonia.Xaml.Interactivity</InteractivitySourcesBasePath>
-    <InteractionsSourcesBasePath>..\Avalonia.Xaml.Interactions</InteractionsSourcesBasePath>
-    <InteractionsCustomSourcesBasePath>..\Avalonia.Xaml.Interactions.Custom</InteractionsCustomSourcesBasePath>
-    <InteractionsDragAndDropSourcesBasePath>..\Avalonia.Xaml.Interactions.DragAndDrop</InteractionsDragAndDropSourcesBasePath>
-    <InteractionsDraggableSourcesBasePath>..\Avalonia.Xaml.Interactions.Draggable</InteractionsDraggableSourcesBasePath>
-    <InteractionsEventsSourcesBasePath>..\Avalonia.Xaml.Interactions.Events</InteractionsEventsSourcesBasePath>
-    <InteractionsResponsiveSourcesBasePath>..\Avalonia.Xaml.Interactions.Responsive</InteractionsResponsiveSourcesBasePath>
+    <InteractivitySourcesBasePath>..\Xaml.Behaviors.Interactivity</InteractivitySourcesBasePath>
+    <InteractionsSourcesBasePath>..\Xaml.Behaviors.Interactions</InteractionsSourcesBasePath>
+    <InteractionsCustomSourcesBasePath>..\Xaml.Behaviors.Interactions.Custom</InteractionsCustomSourcesBasePath>
+    <InteractionsDragAndDropSourcesBasePath>..\Xaml.Behaviors.Interactions.DragAndDrop</InteractionsDragAndDropSourcesBasePath>
+    <InteractionsDraggableSourcesBasePath>..\Xaml.Behaviors.Interactions.Draggable</InteractionsDraggableSourcesBasePath>
+    <InteractionsEventsSourcesBasePath>..\Xaml.Behaviors.Interactions.Events</InteractionsEventsSourcesBasePath>
+    <InteractionsResponsiveSourcesBasePath>..\Xaml.Behaviors.Interactions.Responsive</InteractionsResponsiveSourcesBasePath>
   </PropertyGroup>
 
   <ItemGroup>

@@ -1,0 +1,10 @@
+﻿<Application xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Class="Avalonia.Xaml.Interactions.UnitTests.App">
+  <Application.Styles>
+    <FluentTheme />
+    <Style Selector="Window">
+      <Setter Property="FontFamily" Value="resm:Xaml.Behaviors.Interactions.UnitTests.Assets?assembly=Xaml.Behaviors.Interactions.UnitTests#Noto Mono" />
+    </Style>
+  </Application.Styles>
+</Application>
