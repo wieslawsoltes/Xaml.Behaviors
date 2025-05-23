@@ -10,12 +10,12 @@
     <vm:CustomAnimatorViewModel />
   </Design.DataContext>
   <Border Name="AnimatedBorder" Width="200" Height="40" Background="LightGray" HorizontalAlignment="Center" VerticalAlignment="Center">
-    <Border.Triggers>
+    <Interaction.Behaviors>
       <RunAnimationTrigger AnimationBuilder="{Binding AnimationBuilder}">
         <ChangeAvaloniaPropertyAction TargetObject="AnimatedBorder"
                                       TargetProperty="{x:Static Border.BackgroundProperty}"
                                       Value="{DynamicResource RedBrush}" />
       </RunAnimationTrigger>
-    </Border.Triggers>
+    </Interaction.Behaviors>
   </Border>
 </UserControl>

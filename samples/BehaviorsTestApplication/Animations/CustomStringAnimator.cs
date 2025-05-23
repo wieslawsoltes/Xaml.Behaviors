@@ -1,4 +1,5 @@
 using System;
+using Avalonia.Animation;
 using Avalonia.Animation.Animators;
 
 namespace BehaviorsTestApplication.Animations;

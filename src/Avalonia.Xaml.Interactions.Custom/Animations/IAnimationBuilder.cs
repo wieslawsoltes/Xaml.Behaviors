@@ -4,7 +4,7 @@ using Avalonia.Controls;
 namespace Avalonia.Xaml.Interactions.Custom;
 
 /// <summary>
-/// Provides a way to build <see cref="Animation.Animation"/> instances in code.
+/// Provides a way to build <see cref="Animation"/> instances in code.
 /// </summary>
 public interface IAnimationBuilder
 {

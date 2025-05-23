@@ -1,3 +1,4 @@
+using System;
 using Avalonia.Controls;
 using Avalonia.Threading;
 using Avalonia.Xaml.Interactivity;

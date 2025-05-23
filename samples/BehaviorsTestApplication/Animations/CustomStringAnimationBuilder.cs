@@ -1,6 +1,8 @@
 using System;
+using Avalonia;
 using Avalonia.Animation;
 using Avalonia.Controls;
+using Avalonia.Styling;
 
 namespace BehaviorsTestApplication.Animations;
 
@@ -23,10 +25,7 @@ public class CustomStringAnimationBuilder : AvaloniaObject, Avalonia.Xaml.Intera
                     Cue = new Cue(0d),
                     Setters =
                     {
-                        new Setter(TextBlock.TextProperty, string.Empty)
-                        {
-                            Animator = new CustomStringAnimator()
-                        }
+                        CreateSetter(string.Empty)
                     }
                 },
                 new KeyFrame
@@ -34,13 +33,17 @@ public class CustomStringAnimationBuilder : AvaloniaObject, Avalonia.Xaml.Intera
                     Cue = new Cue(1d),
                     Setters =
                     {
-                        new Setter(TextBlock.TextProperty, "0123456789")
-                        {
-                            Animator = new CustomStringAnimator()
-                        }
+                        CreateSetter("0123456789")
                     }
                 }
             }
         };
+    }
+
+    private static Setter CreateSetter(string value)
+    {
+        var setter = new Setter(TextBlock.TextProperty, value);
+        Animation.SetAnimator(setter, new CustomStringAnimator());
+        return setter;
     }
 }
