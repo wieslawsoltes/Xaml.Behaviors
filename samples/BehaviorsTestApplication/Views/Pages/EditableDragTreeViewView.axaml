@@ -1,0 +1,64 @@
+<UserControl x:Class="BehaviorsTestApplication.Views.Pages.EditableDragTreeViewView"
+             xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:BehaviorsTestApplication.ViewModels"
+             xmlns:controls="clr-namespace:BehaviorsTestApplication.Controls"
+             x:CompileBindings="True" x:DataType="vm:DragAndDropSampleViewModel"
+             mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="450">
+  <Design.DataContext>
+    <vm:DragAndDropSampleViewModel />
+  </Design.DataContext>
+  <UserControl.Styles>
+    <Style Selector="TreeView.NodesEditableDrag">
+      <Style.Resources>
+        <NodesTreeViewDropHandler x:Key="NodesTreeViewDropHandler" />
+      </Style.Resources>
+      <Setter Property="(Interaction.Behaviors)">
+        <BehaviorCollectionTemplate>
+          <BehaviorCollection>
+            <ContextDropBehavior Handler="{StaticResource NodesTreeViewDropHandler}" />
+          </BehaviorCollection>
+        </BehaviorCollectionTemplate>
+      </Setter>
+    </Style>
+    <Style Selector="TreeView.NodesEditableDrag TreeViewItem">
+      <Setter Property="IsExpanded" Value="True" />
+      <Setter Property="HorizontalAlignment" Value="Stretch" />
+      <Setter Property="Margin" Value="0" />
+      <Setter Property="Padding" Value="0" />
+      <Setter Property="(Interaction.Behaviors)">
+        <BehaviorCollectionTemplate>
+          <BehaviorCollection>
+            <ContextDragWithDirectionBehavior HorizontalDragThreshold="3" VerticalDragThreshold="3" />
+          </BehaviorCollection>
+        </BehaviorCollectionTemplate>
+      </Setter>
+    </Style>
+    <Style Selector="TreeView.NodesEditableDrag TreeViewItem.DraggingUp">
+      <Setter Property="AdornerLayer.Adorner">
+        <Template>
+          <Border BorderThickness="0 2 0 0" BorderBrush="{DynamicResource SystemAccentColor}"/>
+        </Template>
+      </Setter>
+    </Style>
+    <Style Selector="TreeView.NodesEditableDrag TreeViewItem.DraggingDown">
+      <Setter Property="AdornerLayer.Adorner">
+        <Template>
+          <Border BorderThickness="0 0 0 2" BorderBrush="{DynamicResource SystemAccentColor}"/>
+        </Template>
+      </Setter>
+    </Style>
+    <Style Selector="TreeViewItem.TargetHighlight">
+      <Setter Property="Background" Value="{DynamicResource TreeViewItemBackgroundPointerOver}"/>
+    </Style>
+  </UserControl.Styles>
+  <TreeView ItemsSource="{Binding Nodes}" Classes="NodesEditableDrag">
+    <TreeView.ItemTemplate>
+      <TreeDataTemplate DataType="vm:DragNodeViewModel" ItemsSource="{Binding Nodes}">
+        <controls:EditableItem Text="{Binding Title}" />
+      </TreeDataTemplate>
+    </TreeView.ItemTemplate>
+  </TreeView>
+</UserControl>

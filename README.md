@@ -207,8 +207,11 @@ This section provides an overview of all available classes and their purpose in 
 - **HideOnKeyPressedBehavior**  
   *Hides the target control when a specified key is pressed.*
 
-- **HideOnLostFocusBehavior**  
+- **HideOnLostFocusBehavior**
   *Hides the target control when it loses focus.*
+
+- **InlineEditBehavior**
+  *Toggles display and edit controls to enable in-place text editing.*
 
 - **ShowPointerPositionBehavior**
   *Displays the current pointer position (x, y coordinates) in a TextBlock for debugging or UI feedback.*
@@ -327,8 +330,11 @@ This section provides an overview of all available classes and their purpose in 
   *Executes one collection of actions when a condition is true and another when it is false.*
 
 ### DragAndDrop
-- **ContextDragBehavior**  
+- **ContextDragBehavior**
   *Enables drag operations using a “context” (data payload) that is carried during the drag–drop operation.*
+
+- **ContextDragWithDirectionBehavior**
+  *Starts a drag operation and includes the drag direction in the data object.*
 
 - **ContextDropBehavior**  
   *Handles drop events and passes context data between the drag source and drop target.*

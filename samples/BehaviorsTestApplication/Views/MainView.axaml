@@ -106,6 +106,9 @@
       <TabItem Header="EditableTree">
         <pages:EditableTreeViewView />
       </TabItem>
+      <TabItem Header="Editable Drag TreeView">
+        <pages:EditableDragTreeViewView />
+      </TabItem>
       <TabItem Header="Sliding Animation">
         <pages:SlidingAnimationView />
       </TabItem>
