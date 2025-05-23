@@ -121,6 +121,23 @@ This section provides an overview of all available classes and their purpose in 
 
 - **StartAnimationAction**
   *Triggers a defined animation on the target control when executed.*
+- **AnimateOnAttachedBehavior**
+  *Runs a specified animation when the control appears in the visual tree.*
+- **StartBuiltAnimationAction**
+  *Creates an animation in code using an <code>IAnimationBuilder</code> and starts it.*
+- **RunAnimationTrigger**
+  *Runs an animation and invokes actions when it completes.*
+- **IAnimationBuilder**
+  *Interface for providing animations from view models in an MVVM friendly way.*
+
+- **PlayAnimationBehavior**
+  *Runs a supplied animation automatically when the control appears in the visual tree.*
+
+- **BeginAnimationAction**
+  *Starts an animation on a specified control, allowing the target to be chosen explicitly.*
+
+- **AnimationCompletedTrigger**
+  *Plays an animation and invokes actions once the animation finishes running.*
 
 ### Transitions
 - **TransitionsBehavior**
@@ -677,6 +694,19 @@ This section provides an overview of all available classes and their purpose in 
 - **TextInputTrigger**  
   *Triggers actions on text input events.*
 
+### WriteableBitmap
+- **IWriteableBitmapRenderer**
+  *Defines a method used to render into a WriteableBitmap so view models can supply drawing logic.*
+- **WriteableBitmapRenderBehavior**
+  *Creates a writeable bitmap and updates it using a renderer on a timer.*
+- **WriteableBitmapRenderAction**
+  *Invokes a renderer to update a writeable bitmap.*
+- **WriteableBitmapTimerTrigger**
+  *Fires its actions on a timer and passes the writeable bitmap as a parameter.*
+- **WriteableBitmapBehavior**
+  *Creates a writeable bitmap and renders it once or on demand without animation.*
+- **WriteableBitmapTrigger**
+  *Manually executes its actions with the provided writeable bitmap when triggered.*
 ### ItemsControl
 - **ItemNudgeDropBehavior**  
   *Provides “nudge” effects for items in an ItemsControl during drag–drop reordering.*

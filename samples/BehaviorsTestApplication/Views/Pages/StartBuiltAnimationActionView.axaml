@@ -1,0 +1,22 @@
+<UserControl x:Class="BehaviorsTestApplication.Views.Pages.StartBuiltAnimationActionView"
+             xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:BehaviorsTestApplication.ViewModels"
+             x:DataType="vm:CustomAnimatorViewModel"
+             mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="150">
+  <Design.DataContext>
+    <vm:CustomAnimatorViewModel />
+  </Design.DataContext>
+  <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="12">
+    <TextBlock x:Name="AnimatedText" Text="" FontSize="24"/>
+    <Button x:Name="StartButton" Content="Start Animation">
+      <Interaction.Behaviors>
+        <EventTriggerBehavior EventName="Click" SourceObject="StartButton">
+          <StartBuiltAnimationAction AnimationBuilder="{Binding AnimationBuilder}" />
+        </EventTriggerBehavior>
+      </Interaction.Behaviors>
+    </Button>
+  </StackPanel>
+</UserControl>
