@@ -12,7 +12,7 @@
   <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="20">
     <TextBlock x:Name="MessageText" Text="Ready" HorizontalAlignment="Center" />
     <Border x:Name="AnimatedBorder" Width="100" Height="100" Background="SteelBlue">
-      <Interaction.Triggers>
+      <Interaction.Behaviors>
         <AnimationCompletedTrigger>
           <AnimationCompletedTrigger.Animation>
             <Animation Duration="0:0:1">
@@ -26,7 +26,7 @@
           </AnimationCompletedTrigger.Animation>
           <ChangePropertyAction TargetObject="{Binding #MessageText}" PropertyName="Text" Value="Completed!" />
         </AnimationCompletedTrigger>
-      </Interaction.Triggers>
+      </Interaction.Behaviors>
     </Border>
   </StackPanel>
 </UserControl>

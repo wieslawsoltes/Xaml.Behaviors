@@ -1,5 +1,4 @@
-using Avalonia.Animation;
-using Avalonia.Styling;
+using System;
 
 namespace Avalonia.Xaml.Interactions.Custom;
 
@@ -11,14 +10,13 @@ public class PlayAnimationBehavior : AttachedToVisualTreeBehavior<Visual>
     /// <summary>
     /// Identifies the <see cref="Animation"/> avalonia property.
     /// </summary>
-    public static readonly StyledProperty<Animation?> AnimationProperty =
-        AvaloniaProperty.Register<PlayAnimationBehavior, Animation?>(nameof(Animation));
+    public static readonly StyledProperty<Animation.Animation?> AnimationProperty =
+        AvaloniaProperty.Register<PlayAnimationBehavior, Animation.Animation?>(nameof(Animation));
 
     /// <summary>
     /// Gets or sets the animation that will be played. This is an avalonia property.
     /// </summary>
-    [Content]
-    public Animation? Animation
+    public Animation.Animation? Animation
     {
         get => GetValue(AnimationProperty);
         set => SetValue(AnimationProperty, value);

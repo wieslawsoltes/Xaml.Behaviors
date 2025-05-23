@@ -27,7 +27,7 @@
       </Interaction.Behaviors>
     </Border>
     <Button Content="Animate Again">
-      <Interaction.Triggers>
+      <Interaction.Behaviors>
         <EventTriggerBehavior EventName="Click">
           <BeginAnimationAction TargetControl="{Binding #AnimatedBorder}">
             <BeginAnimationAction.Animation>
@@ -46,7 +46,7 @@
             </BeginAnimationAction.Animation>
           </BeginAnimationAction>
         </EventTriggerBehavior>
-      </Interaction.Triggers>
+      </Interaction.Behaviors>
     </Button>
   </StackPanel>
 </UserControl>

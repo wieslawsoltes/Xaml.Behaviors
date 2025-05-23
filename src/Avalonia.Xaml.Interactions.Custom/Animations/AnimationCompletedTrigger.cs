@@ -18,7 +18,6 @@ public class AnimationCompletedTrigger : AttachedToVisualTreeTrigger
     /// <summary>
     /// Gets or sets the animation to run. This is an avalonia property.
     /// </summary>
-    [Content]
     public Animation.Animation? Animation
     {
         get => GetValue(AnimationProperty);
