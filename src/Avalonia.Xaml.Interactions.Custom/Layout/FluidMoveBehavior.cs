@@ -1,16 +1,14 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Avalonia;
 using Avalonia.Animation;
-using Avalonia.Animation.Easings;
 using Avalonia.Controls;
 using Avalonia.Layout;
 using Avalonia.Media;
-using Avalonia.VisualTree;
+using Avalonia.Styling;
 using Avalonia.Xaml.Interactivity;
 
-namespace Avalonia.Xaml.Interactions.Custom.Layout;
+namespace Avalonia.Xaml.Interactions.Custom;
 
 /// <summary>
 /// Determines if the behavior applies to the associated element or its children.
@@ -38,7 +36,7 @@ public class FluidMoveBehavior : Behavior<Visual>
     /// Identifies the <see cref="AppliesTo"/> avalonia property.
     /// </summary>
     public static readonly StyledProperty<FluidMoveScope> AppliesToProperty =
-        AvaloniaProperty.Register<FluidMoveBehavior, FluidMoveScope>(nameof(AppliesTo), FluidMoveScope.Self);
+        AvaloniaProperty.Register<FluidMoveBehavior, FluidMoveScope>(nameof(AppliesTo));
 
     /// <summary>
     /// Identifies the <see cref="Duration"/> avalonia property.
@@ -68,7 +66,7 @@ public class FluidMoveBehavior : Behavior<Visual>
     protected override void OnAttached()
     {
         base.OnAttached();
-        if (AssociatedObject is Visual v)
+        if (AssociatedObject is Layoutable v)
         {
             v.LayoutUpdated += OnLayoutUpdated;
         }
@@ -77,7 +75,7 @@ public class FluidMoveBehavior : Behavior<Visual>
     /// <inheritdoc />
     protected override void OnDetaching()
     {
-        if (AssociatedObject is Visual v)
+        if (AssociatedObject is Layoutable v)
         {
             v.LayoutUpdated -= OnLayoutUpdated;
         }
@@ -86,7 +84,7 @@ public class FluidMoveBehavior : Behavior<Visual>
 
     private void OnLayoutUpdated(object? sender, EventArgs e)
     {
-        if (AssociatedObject is not Visual root)
+        if (AssociatedObject is not { } root)
         {
             return;
         }

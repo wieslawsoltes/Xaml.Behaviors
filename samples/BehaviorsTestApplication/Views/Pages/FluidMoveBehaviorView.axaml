@@ -4,7 +4,6 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="using:BehaviorsTestApplication.ViewModels"
-             xmlns:local="using:Avalonia.Xaml.Interactions.Custom.Layout"
              x:DataType="vm:FluidMoveBehaviorViewModel"
              mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="450">
   <Design.DataContext>
@@ -12,7 +11,7 @@
   </Design.DataContext>
   <StackPanel Margin="10" Spacing="10">
     <Button Content="Shuffle" Width="100" Command="{Binding ShuffleCommand}" />
-    <ItemsControl Items="{Binding Items}">
+    <ItemsControl ItemsSource="{Binding Items}">
       <ItemsControl.ItemsPanel>
         <ItemsPanelTemplate>
           <WrapPanel />
@@ -26,7 +25,7 @@
         </DataTemplate>
       </ItemsControl.ItemTemplate>
       <Interaction.Behaviors>
-        <local:FluidMoveBehavior AppliesTo="Children" Duration="0:0:0.3" />
+        <FluidMoveBehavior AppliesTo="Children" Duration="0:0:0.3" />
       </Interaction.Behaviors>
     </ItemsControl>
   </StackPanel>
