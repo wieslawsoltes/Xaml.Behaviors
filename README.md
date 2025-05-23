@@ -152,8 +152,18 @@ This section provides an overview of all available classes and their purpose in 
   *Triggers actions when the `Transitions` property of a control changes.*
 
 ### AutoCompleteBox
-- **FocusAutoCompleteBoxTextBoxBehavior**  
+- **FocusAutoCompleteBoxTextBoxBehavior**
   *Ensures the text box within an AutoCompleteBox gets focus automatically.*
+
+### Carousel
+- **CarouselKeyNavigationBehavior**
+  *Enables keyboard navigation for a Carousel using arrow keys.*
+- **CarouselNextAction**
+  *Advances the target Carousel to the next page.*
+- **CarouselPreviousAction**
+  *Moves the target Carousel to the previous page.*
+- **CarouselSelectionChangedTrigger**
+  *Triggers actions when the Carousel selection changes.*
 
 ### Button
 - **ButtonClickEventTriggerBehavior**  
@@ -256,8 +266,14 @@ This section provides an overview of all available classes and their purpose in 
 - **ActualThemeVariantChangedBehavior**  
   *A base class for behaviors that react to theme variant changes (e.g. switching from light to dark mode).*
 
-- **ActualThemeVariantChangedTrigger**  
+- **ActualThemeVariantChangedTrigger**
   *Triggers actions when the actual theme variant of a control changes.*
+- **ThemeVariantBehavior**
+  *Applies a specific theme variant to the associated control.*
+- **ThemeVariantTrigger**
+  *Triggers actions when the theme variant of a control changes.*
+- **SetThemeVariantAction**
+  *Sets the requested theme variant on a target control.*
 
 - **AttachedToLogicalTreeBehavior**  
   *A base class for behaviors that require notification when the associated object is added to the logical tree.*
@@ -280,8 +296,10 @@ This section provides an overview of all available classes and their purpose in 
 - **CallMethodAction**  
   *Invokes a method on a target object when the action is executed.*
 
-- **ChangePropertyAction**  
+- **ChangePropertyAction**
   *Changes a property on a target object to a new value using type conversion if needed.*
+- **LaunchUriOrFileAction**
+  *Opens a URI or file using the default associated application.*
 
 - **DataContextChangedBehavior**  
   *A base class for behaviors that react to changes in the DataContext.*
@@ -289,10 +307,12 @@ This section provides an overview of all available classes and their purpose in 
 - **DataContextChangedTrigger**  
   *Triggers actions when the DataContext of a control changes.*
 
-- **DataTriggerBehavior**  
+- **DataTriggerBehavior**
   *Evaluates a data binding against a given condition and triggers actions when the condition is true.*
+- **PropertyChangedTrigger**
+  *Triggers actions when a property value changes.*
 
-- **DetachedFromLogicalTreeTrigger**  
+- **DetachedFromLogicalTreeTrigger**
   *Triggers actions when the control is removed from the logical tree.*
 
 - **DetachedFromVisualTreeTrigger**  
@@ -382,6 +402,8 @@ This section provides an overview of all available classes and their purpose in 
 
 - **FilesDropBehavior**
   *Executes a command with a collection of dropped files.*
+- **ContentControlFilesDropBehavior**
+  *Executes a command with dropped files on a ContentControl.*
 
 - **TextDropBehavior**
   *Executes a command with dropped text.*
@@ -399,15 +421,21 @@ This section provides an overview of all available classes and their purpose in 
 - **GridDragBehavior**  
   *Allows grid cells (or items) to be swapped or repositioned by dragging within a Grid layout.*
 
-- **ItemDragBehavior**  
+- **ItemDragBehavior**
   *Enables reordering of items in an ItemsControl by dragging and dropping items.*
+- **MouseDragElementBehavior**
+  *Allows an element to be dragged using the mouse.*
+- **MultiMouseDragElementBehavior**
+  *Supports dragging multiple elements simultaneously with the mouse.*
 
-- **SelectionAdorner**  
+- **SelectionAdorner**
   *A visual adorner used to indicate selection or to show drag outlines during drag–drop operations.*
 
 ### Events
-- **InteractiveBehaviorBase**  
+- **InteractiveBehaviorBase**
   *Base class for behaviors that listen to UI events, providing common functionality for event triggers.*
+- **InteractionTriggerBehavior**
+  *Base behavior for creating custom event-based triggers.*
 
 - **DoubleTappedEventBehavior**  
   *Listens for double-tap events and triggers its actions when detected.*
@@ -641,6 +669,16 @@ This section provides an overview of all available classes and their purpose in 
 
 - **SetCursorFromProviderAction**
   *Sets the cursor of a control using a cursor created by an `ICursorProvider`.*
+- **SetCursorAction**
+  *Sets the cursor of a control to a predefined cursor.*
+- **SetEnabledAction**
+  *Enables or disables the associated control.*
+- **HideToolTipAction**
+  *Hides the ToolTip of the target control.*
+- **SetToolTipTipAction**
+  *Sets the ToolTip's tip text on the associated or target control.*
+- **ShowToolTipAction**
+  *Shows the ToolTip for the associated or target control.*
 
 ### InputElement Triggers
 - **DoubleTappedTrigger**  
@@ -654,6 +692,8 @@ This section provides an overview of all available classes and their purpose in 
 
 - **KeyDownTrigger**
   *Listens for key down events and triggers actions if the pressed key (or gesture) matches the specified criteria.*
+- **KeyGestureTrigger**
+  *Triggers actions based on a specified key gesture.*
 
 - **KeyTrigger**
   *Listens for key down or key up events and triggers actions when the configured key or gesture occurs.*
@@ -685,10 +725,14 @@ This section provides an overview of all available classes and their purpose in 
 - **PointerWheelChangedTrigger**  
   *Triggers actions on mouse wheel (or equivalent) changes.*
 
-- **TappedTrigger**  
+- **TappedTrigger**
   *Triggers actions on a tap event.*
+- **ToolTipOpeningTrigger**
+  *Triggers actions when a tooltip is about to open.*
+- **ToolTipClosingTrigger**
+  *Triggers actions when a tooltip is closing.*
 
-- **TextInputMethodClientRequestedTrigger**  
+- **TextInputMethodClientRequestedTrigger**
   *Triggers actions when a text input method (virtual keyboard) is requested.*
 
 - **TextInputTrigger**  
@@ -707,6 +751,20 @@ This section provides an overview of all available classes and their purpose in 
   *Creates a writeable bitmap and renders it once or on demand without animation.*
 - **WriteableBitmapTrigger**
   *Manually executes its actions with the provided writeable bitmap when triggered.*
+
+### RenderTargetBitmap
+- **IRenderTargetBitmapRenderer**
+  *Defines a method used to render into a RenderTargetBitmap.*
+- **IRenderTargetBitmapSimpleRenderer**
+  *Provides a simple rendering method for StaticRenderTargetBitmapBehavior.*
+- **RenderRenderTargetBitmapAction**
+  *Invokes IRenderTargetBitmapRenderHost.Render on the specified target.*
+- **RenderTargetBitmapBehavior**
+  *Creates and updates a RenderTargetBitmap via a renderer.*
+- **StaticRenderTargetBitmapBehavior**
+  *Draws once into a RenderTargetBitmap and assigns it to the associated Image.*
+- **RenderTargetBitmapTrigger**
+  *Triggers actions when RenderTargetBitmap rendering completes.*
 ### ItemsControl
 - **ItemNudgeDropBehavior**  
   *Provides “nudge” effects for items in an ItemsControl during drag–drop reordering.*
@@ -733,10 +791,12 @@ This section provides an overview of all available classes and their purpose in 
   *Scrolls to a specific item index in the ItemsControl.*
 
 ### ListBox
-- **ListBoxSelectAllBehavior**  
+- **ListBoxSelectAllBehavior**
   *Selects all items in a ListBox when the behavior is attached.*
+- **RemoveItemInListBoxAction**
+  *Removes the specified item from a ListBox.*
 
-- **ListBoxUnselectAllBehavior**  
+- **ListBoxUnselectAllBehavior**
   *Clears the selection in a ListBox.*
 
 ### ListBoxItem
@@ -759,12 +819,22 @@ This section provides an overview of all available classes and their purpose in 
   *Defines aspect ratio comparison conditions and the class to apply when those conditions are met.*
 
 ### ScrollViewer
-- **HorizontalScrollViewerBehavior**  
+- **HorizontalScrollViewerBehavior**
   *Enables horizontal scrolling via the pointer wheel. Optionally requires the Shift key and supports line or page scrolling.*
 
+### Screen
+- **ActiveScreenBehavior**
+  *Provides the currently active screen for a window.*
+- **RequestScreenDetailsAction**
+  *Requests extended screen information using a Screens instance.*
+- **ScreensChangedTrigger**
+  *Triggers actions when the available screens change.*
+
 ### SelectingItemsControl
-- **SelectingItemsControlEventsBehavior**  
+- **SelectingItemsControlEventsBehavior**
   *Handles selection-changed events in controls that support item selection (like ListBox) to trigger custom actions.*
+- **SelectingItemsControlSearchBehavior**
+  *Enables searching and highlights matching items within a SelectingItemsControl.*
 
 ### Show
 - **ShowBehaviorBase**  
