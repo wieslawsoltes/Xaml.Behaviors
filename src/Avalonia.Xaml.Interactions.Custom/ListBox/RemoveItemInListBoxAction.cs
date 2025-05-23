@@ -4,7 +4,7 @@ using Avalonia.Controls;
 using Avalonia.LogicalTree;
 using Avalonia.Xaml.Interactivity;
 
-namespace Avalonia.Xaml.Interactions.Core;
+namespace Avalonia.Xaml.Interactions.Custom;
 
 /// <summary>
 /// Allows a user to remove the item from a <see cref="ListBox"/> ItemTemplate.
@@ -12,14 +12,14 @@ namespace Avalonia.Xaml.Interactions.Core;
 public sealed class RemoveItemInListBoxAction : StyledElementAction
 {
     /// <inheritdoc />
-    public override object? Execute(object? sender, object? parameter)
+    public override object Execute(object? sender, object? parameter)
     {
         if (!IsEnabled)
         {
             return false;
         }
 
-        if (sender is not IControl control)
+        if (sender is not Control control)
         {
             return false;
         }
@@ -30,12 +30,12 @@ public sealed class RemoveItemInListBoxAction : StyledElementAction
             return false;
         }
 
-        if (itemsControl.ItemsSource is IList list && !list.IsReadOnly)
+        if (itemsControl.ItemsSource is IList listItemsSource && !listItemsSource.IsReadOnly)
         {
             var data = control.DataContext;
-            if (list.Contains(data))
+            if (listItemsSource.Contains(data))
             {
-                list.Remove(data);
+                listItemsSource.Remove(data);
                 return true;
             }
         }
@@ -44,9 +44,9 @@ public sealed class RemoveItemInListBoxAction : StyledElementAction
             var listBoxItem = control.GetSelfAndLogicalAncestors().OfType<ListBoxItem>().FirstOrDefault();
             if (listBoxItem is not null)
             {
-                if (listBox.Items is IList list && list.Contains(listBoxItem.DataContext))
+                if (listBox.Items is IList listItems && listItems.Contains(listBoxItem.DataContext))
                 {
-                    list.Remove(listBoxItem.DataContext);
+                    listItems.Remove(listBoxItem.DataContext);
                     return true;
                 }
             }

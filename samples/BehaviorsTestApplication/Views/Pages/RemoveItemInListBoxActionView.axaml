@@ -11,7 +11,7 @@
   </Design.DataContext>
   <ListBox ItemsSource="{Binding Items}" Margin="5">
     <ListBox.ItemTemplate>
-      <DataTemplate DataType="vm:ItemViewModel" x:CompileBindings="False">
+      <DataTemplate DataType="vm:ItemViewModel">
         <StackPanel Orientation="Horizontal" Spacing="10">
           <TextBlock Text="{Binding Value}" VerticalAlignment="Center" />
           <Button Content="Remove">
