@@ -1,7 +1,7 @@
 using Avalonia.Threading;
 using Avalonia.Xaml.Interactivity;
 
-namespace Avalonia.Xaml.Interactions.Core;
+namespace Avalonia.Xaml.Interactions.Custom;
 
 /// <summary>
 /// Represents a trigger that performs actions when the bound data have changed.
