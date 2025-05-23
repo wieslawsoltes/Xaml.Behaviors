@@ -3,7 +3,7 @@ using Avalonia.Controls;
 using Avalonia.Controls.Presenters;
 using Avalonia.Xaml.Interactivity;
 
-namespace Avalonia.Xaml.Interactions.Core;
+namespace Avalonia.Xaml.Interactions.Custom;
 
 /// <summary>
 /// Removes the associated or target element from its parent when executed.
