@@ -10,7 +10,7 @@
     <vm:MainWindowViewModel />
   </Design.DataContext>
   <StackPanel Spacing="10" Margin="5">
-    <StackPanel x:Name="Item1" Orientation="Horizontal" Spacing="5" Background="{DynamicResource PinkBrush}" Padding="4">
+    <StackPanel x:Name="Item1" Orientation="Horizontal" Spacing="5" Background="{DynamicResource PinkBrush}">
       <TextBlock Text="Item 1" VerticalAlignment="Center"/>
       <Button Content="Remove" HorizontalAlignment="Right">
         <Interaction.Behaviors>
@@ -20,7 +20,7 @@
         </Interaction.Behaviors>
       </Button>
     </StackPanel>
-    <StackPanel x:Name="Item2" Orientation="Horizontal" Spacing="5" Background="{DynamicResource PinkBrush}" Padding="4">
+    <StackPanel x:Name="Item2" Orientation="Horizontal" Spacing="5" Background="{DynamicResource PinkBrush}">
       <TextBlock Text="Item 2" VerticalAlignment="Center"/>
       <Button Content="Remove" HorizontalAlignment="Right">
         <Interaction.Behaviors>
@@ -30,7 +30,7 @@
         </Interaction.Behaviors>
       </Button>
     </StackPanel>
-    <StackPanel x:Name="Item3" Orientation="Horizontal" Spacing="5" Background="{DynamicResource PinkBrush}" Padding="4">
+    <StackPanel x:Name="Item3" Orientation="Horizontal" Spacing="5" Background="{DynamicResource PinkBrush}">
       <TextBlock Text="Item 3" VerticalAlignment="Center"/>
       <Button Content="Remove" HorizontalAlignment="Right">
         <Interaction.Behaviors>
