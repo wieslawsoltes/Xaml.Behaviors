@@ -13,6 +13,7 @@
     <Border x:Name="AnimatedBorder" Width="100" Height="100" Background="SteelBlue">
       <Interaction.Behaviors>
         <PlayAnimationBehavior>
+          <!-- TODO: Error AVLN2200 Avalonia: Could not determine target type of Setter
           <PlayAnimationBehavior.Animation>
             <Animation Duration="0:0:1">
               <KeyFrame Cue="0%">
@@ -23,6 +24,7 @@
               </KeyFrame>
             </Animation>
           </PlayAnimationBehavior.Animation>
+          -->
         </PlayAnimationBehavior>
       </Interaction.Behaviors>
     </Border>
@@ -30,6 +32,7 @@
       <Interaction.Behaviors>
         <EventTriggerBehavior EventName="Click">
           <BeginAnimationAction TargetControl="{Binding #AnimatedBorder}">
+            <!-- TODO: Error AVLN2200 Avalonia: Could not determine target type of Setter
             <BeginAnimationAction.Animation>
               <Animation Duration="0:0:1">
                 <KeyFrame Cue="0%">
@@ -44,6 +47,7 @@
                 </KeyFrame>
               </Animation>
             </BeginAnimationAction.Animation>
+            -->
           </BeginAnimationAction>
         </EventTriggerBehavior>
       </Interaction.Behaviors>
