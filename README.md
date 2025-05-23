@@ -1053,4 +1053,4 @@ This section provides an overview of all available classes and their purpose in 
 
 ## License
 
-Avalonia XAML Behaviors is licensed under the [MIT license](LICENSE.TXT).
+XAML Behaviors is licensed under the [MIT license](LICENSE.TXT).
