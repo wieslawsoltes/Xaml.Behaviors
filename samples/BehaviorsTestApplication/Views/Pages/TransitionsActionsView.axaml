@@ -10,9 +10,6 @@
     <vm:MainWindowViewModel />
   </Design.DataContext>
   <UserControl.Resources>
-    <Transitions x:Key="TestTransitions">
-      <DoubleTransition Property="Width" Duration="0:0:0.3" />
-    </Transitions>
     <DoubleTransition x:Key="WidthTransition" Property="Width" Duration="0:0:0.3" />
   </UserControl.Resources>
   <StackPanel Margin="5" Spacing="5">
