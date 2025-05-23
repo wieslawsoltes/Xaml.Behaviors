@@ -1,0 +1,44 @@
+<UserControl x:Class="BehaviorsTestApplication.Views.Pages.RemoveItemsSampleView"
+             xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:BehaviorsTestApplication.ViewModels"
+             x:DataType="vm:MainWindowViewModel"
+             mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="450">
+  <Design.DataContext>
+    <vm:MainWindowViewModel />
+  </Design.DataContext>
+  <StackPanel Spacing="10" Margin="5">
+    <StackPanel x:Name="Item1" Orientation="Horizontal" Spacing="5" Background="{DynamicResource PinkBrush}">
+      <TextBlock Text="Item 1" VerticalAlignment="Center"/>
+      <Button Content="Remove" HorizontalAlignment="Right">
+        <Interaction.Behaviors>
+          <EventTriggerBehavior EventName="Click">
+            <RemoveElementAction TargetObject="Item1" />
+          </EventTriggerBehavior>
+        </Interaction.Behaviors>
+      </Button>
+    </StackPanel>
+    <StackPanel x:Name="Item2" Orientation="Horizontal" Spacing="5" Background="{DynamicResource PinkBrush}">
+      <TextBlock Text="Item 2" VerticalAlignment="Center"/>
+      <Button Content="Remove" HorizontalAlignment="Right">
+        <Interaction.Behaviors>
+          <EventTriggerBehavior EventName="Click">
+            <RemoveElementAction TargetObject="Item2" />
+          </EventTriggerBehavior>
+        </Interaction.Behaviors>
+      </Button>
+    </StackPanel>
+    <StackPanel x:Name="Item3" Orientation="Horizontal" Spacing="5" Background="{DynamicResource PinkBrush}">
+      <TextBlock Text="Item 3" VerticalAlignment="Center"/>
+      <Button Content="Remove" HorizontalAlignment="Right">
+        <Interaction.Behaviors>
+          <EventTriggerBehavior EventName="Click">
+            <RemoveElementAction TargetObject="Item3" />
+          </EventTriggerBehavior>
+        </Interaction.Behaviors>
+      </Button>
+    </StackPanel>
+  </StackPanel>
+</UserControl>
