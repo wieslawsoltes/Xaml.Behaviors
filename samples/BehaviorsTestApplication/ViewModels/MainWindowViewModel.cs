@@ -95,7 +95,6 @@ public partial class MainWindowViewModel : ViewModelBase
         GetClipboardTextCommand = ReactiveCommand.Create<string?>(GetClipboardText);
         GetClipboardDataCommand = ReactiveCommand.Create<object?>(GetClipboardData);
         GetClipboardFormatsCommand = ReactiveCommand.Create<IEnumerable<string>?>(GetClipboardFormats);
-        SetClipboardDataObjectCommand = ReactiveCommand.Create<object?>(SetClipboardDataObject);
 
         Greeting = "Entered text will appear here";
         TextChangedCommand = ReactiveCommand.Create<TextChangedEventArgs>(OnTextChanged);
@@ -161,8 +160,6 @@ public partial class MainWindowViewModel : ViewModelBase
 
     public ICommand GetClipboardFormatsCommand { get; set; }
 
-    public ICommand SetClipboardDataObjectCommand { get; set; }
-
     public ICommand TextChangedCommand { get; }
 
     private void DataContextChanged()
@@ -223,11 +220,6 @@ public partial class MainWindowViewModel : ViewModelBase
         {
             Console.WriteLine($"GetClipboardFormatsCommand: {string.Join(',', formats)}");
         }
-    }
-
-    private void SetClipboardDataObject(object? obj)
-    {
-        Console.WriteLine($"SetClipboardDataObjectCommand: {obj}");
     }
 
     public void IncrementCount() => Count++;

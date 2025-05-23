@@ -13,7 +13,7 @@
     <Button x:Name="SetDataButton" Content="Set Clipboard Data Object" Margin="5">
       <Interaction.Behaviors>
         <EventTriggerBehavior EventName="Click" SourceObject="SetDataButton">
-          <SetClipboardDataObjectAction Data="{Binding}" Command="{Binding SetClipboardDataObjectCommand}" />
+          <SetClipboardDataObjectAction DataObject="{Binding}" />
         </EventTriggerBehavior>
       </Interaction.Behaviors>
     </Button>

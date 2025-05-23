@@ -16,12 +16,12 @@
       <Button x:Name="EnableButton" Content="Enable" Margin="5" />
     </StackPanel>
   </StackPanel>
-  <UserControl.Behaviors>
+  <Interaction.Behaviors>
     <EventTriggerBehavior EventName="Click" SourceObject="DisableButton">
       <SetEnabledAction TargetControl="{Binding ElementName=TargetBox}" IsEnabledValue="False" />
     </EventTriggerBehavior>
     <EventTriggerBehavior EventName="Click" SourceObject="EnableButton">
       <SetEnabledAction TargetControl="{Binding ElementName=TargetBox}" IsEnabledValue="True" />
     </EventTriggerBehavior>
-  </UserControl.Behaviors>
+  </Interaction.Behaviors>
 </UserControl>

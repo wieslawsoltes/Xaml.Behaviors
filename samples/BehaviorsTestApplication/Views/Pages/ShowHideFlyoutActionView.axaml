@@ -14,18 +14,18 @@
     <Button x:Name="HideButton" Content="Hide Flyout" Margin="5" />
     <Button x:Name="Target" Content="Target" Margin="5">
       <Button.Flyout>
-        <Flyout x:Name="DemoFlyout">
+        <Flyout>
           <TextBlock Margin="10" Text="Flyout content" />
         </Flyout>
       </Button.Flyout>
     </Button>
   </StackPanel>
-  <UserControl.Behaviors>
+  <Interaction.Behaviors>
     <EventTriggerBehavior EventName="Click" SourceObject="ShowButton">
-      <ShowFlyoutAction TargetControl="{Binding ElementName=Target}" Flyout="{Binding ElementName=DemoFlyout}" />
+      <ShowFlyoutAction TargetControl="Target" Flyout="{Binding #Target.Flyout}" />
     </EventTriggerBehavior>
     <EventTriggerBehavior EventName="Click" SourceObject="HideButton">
-      <HideFlyoutAction TargetControl="{Binding ElementName=Target}" Flyout="{Binding ElementName=DemoFlyout}" />
+      <HideFlyoutAction TargetControl="Target" Flyout="{Binding #Target.Flyout}" />
     </EventTriggerBehavior>
-  </UserControl.Behaviors>
+  </Interaction.Behaviors>
 </UserControl>

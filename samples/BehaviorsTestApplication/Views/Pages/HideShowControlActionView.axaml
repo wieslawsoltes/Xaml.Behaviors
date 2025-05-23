@@ -18,12 +18,12 @@
       <TextBlock Text="Target control" />
     </Border>
   </StackPanel>
-  <UserControl.Behaviors>
-    <EventTriggerBehavior EventName="Click" SourceObject="HideButton">
+  <Interaction.Behaviors>
+    <EventTriggerBehavior SourceObject="HideButton" EventName="Click">
       <HideControlAction TargetControl="{Binding ElementName=Target}" />
     </EventTriggerBehavior>
-    <EventTriggerBehavior EventName="Click" SourceObject="ShowButton">
+    <EventTriggerBehavior SourceObject="ShowButton" EventName="Click">
       <ShowControlAction TargetControl="{Binding ElementName=Target}" />
     </EventTriggerBehavior>
-  </UserControl.Behaviors>
+  </Interaction.Behaviors>
 </UserControl>
