@@ -21,9 +21,8 @@ public class DrawnCursorViewModel : ViewModelBase
         {
             var size = new PixelSize(32, 32);
             var bitmap = new RenderTargetBitmap(size);
-            using (var ctx = bitmap.CreateDrawingContext(null))
+            using (var ctx = bitmap.CreateDrawingContext(true))
             {
-                ctx.Clear(Colors.Transparent);
                 var pen = new Pen(Brushes.Blue, 2);
                 ctx.DrawLine(pen, new Point(0, 0), new Point(size.Width, size.Height));
                 ctx.DrawLine(pen, new Point(size.Width, 0), new Point(0, size.Height));
