@@ -9,7 +9,7 @@
 
   <PropertyGroup>
     <PackageId>Xaml.Behaviors.Interactions.Scripting</PackageId>
-    <Description>Easily add scripting interactivity to Avalonia apps using Roslyn C# scripts.</Description>
+    <Description>Execute C# scripts at runtime to add dynamic behavior.</Description>
     <PackageTags>Avalonia;Behavior;Action;Scripting;Roslyn;Xaml</PackageTags>
   </PropertyGroup>
 
