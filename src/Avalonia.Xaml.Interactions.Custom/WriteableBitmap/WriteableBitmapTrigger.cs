@@ -1,8 +1,8 @@
-using Avalonia;
+using Avalonia.Controls;
 using Avalonia.Media.Imaging;
 using Avalonia.Xaml.Interactivity;
 
-namespace Avalonia.Xaml.Interactions.Custom.WriteableBitmap;
+namespace Avalonia.Xaml.Interactions.Custom;
 
 /// <summary>
 /// A trigger that executes its actions when <see cref="Trigger"/> is called, passing a <see cref="WriteableBitmap"/> as parameter.

@@ -1,9 +1,9 @@
-using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Media.Imaging;
+using Avalonia.Platform;
 using Avalonia.Xaml.Interactivity;
 
-namespace Avalonia.Xaml.Interactions.Custom.WriteableBitmap;
+namespace Avalonia.Xaml.Interactions.Custom;
 
 /// <summary>
 /// Creates a <see cref="WriteableBitmap"/> and optionally renders it once using a renderer.
@@ -31,10 +31,10 @@ public class WriteableBitmapBehavior : StyledElementBehavior<Image>
     /// <summary>
     /// Identifies the <see cref="Bitmap"/> avalonia property.
     /// </summary>
-    public static readonly DirectProperty<WriteableBitmapBehavior, WriteableBitmap?> BitmapProperty =
-        AvaloniaProperty.RegisterDirect<WriteableBitmapBehavior, WriteableBitmap?>(nameof(Bitmap), o => o.Bitmap);
+    public static readonly DirectProperty<WriteableBitmapBehavior, Media.Imaging.WriteableBitmap?> BitmapProperty =
+        AvaloniaProperty.RegisterDirect<WriteableBitmapBehavior, Media.Imaging.WriteableBitmap?>(nameof(Bitmap), o => o.Bitmap);
 
-    private WriteableBitmap? _bitmap;
+    private Media.Imaging.WriteableBitmap? _bitmap;
 
     /// <summary>
     /// Gets or sets the width of the bitmap in pixels. This is an avalonia property.
@@ -66,7 +66,7 @@ public class WriteableBitmapBehavior : StyledElementBehavior<Image>
     /// <summary>
     /// Gets the created bitmap.
     /// </summary>
-    public WriteableBitmap? Bitmap
+    public Media.Imaging.WriteableBitmap? Bitmap
     {
         get => _bitmap;
         private set => SetAndRaise(BitmapProperty, ref _bitmap, value);
@@ -75,7 +75,7 @@ public class WriteableBitmapBehavior : StyledElementBehavior<Image>
     /// <inheritdoc />
     protected override void OnAttachedToVisualTree()
     {
-        Bitmap = new WriteableBitmap(
+        Bitmap = new Media.Imaging.WriteableBitmap(
             new PixelSize(PixelWidth, PixelHeight),
             new Vector(96, 96),
             PixelFormat.Bgra8888,

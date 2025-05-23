@@ -2,11 +2,12 @@ using System.Diagnostics;
 using System.Runtime.InteropServices;
 using Avalonia.Media;
 using Avalonia.Media.Imaging;
+using Avalonia.Xaml.Interactions.Custom;
 
 
 namespace BehaviorsTestApplication.Renderers;
 
-public class SampleWriteableBitmapRenderer : Avalonia.Xaml.Interactions.Custom.WriteableBitmap.IWriteableBitmapRenderer
+public class SampleWriteableBitmapRenderer : IWriteableBitmapRenderer
 {
     private readonly Stopwatch _st = Stopwatch.StartNew();
 

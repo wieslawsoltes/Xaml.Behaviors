@@ -1,9 +1,10 @@
 using System;
+using Avalonia.Controls;
 using Avalonia.Media.Imaging;
 using Avalonia.Threading;
 using Avalonia.Xaml.Interactivity;
 
-namespace Avalonia.Xaml.Interactions.Custom.WriteableBitmap;
+namespace Avalonia.Xaml.Interactions.Custom;
 
 /// <summary>
 /// A trigger that fires its actions on a timer and passes a <see cref="WriteableBitmap"/> as parameter.

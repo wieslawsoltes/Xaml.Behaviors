@@ -1,11 +1,11 @@
 using System;
-using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Media.Imaging;
+using Avalonia.Platform;
 using Avalonia.Threading;
 using Avalonia.Xaml.Interactivity;
 
-namespace Avalonia.Xaml.Interactions.Custom.WriteableBitmap;
+namespace Avalonia.Xaml.Interactions.Custom;
 
 /// <summary>
 /// Creates a <see cref="WriteableBitmap"/> and updates it using a renderer on a timer.

@@ -6,4 +6,3 @@ using Avalonia.Metadata;
 [assembly: XmlnsDefinition("https://github.com/avaloniaui", "Avalonia.Xaml.Interactions.Custom")]
 
 [assembly: XmlnsDefinition("https://github.com/avaloniaui", "Avalonia.Xaml.Interactions.Custom.Converters")]
-[assembly: XmlnsDefinition("https://github.com/avaloniaui", "Avalonia.Xaml.Interactions.Custom.WriteableBitmap")]
