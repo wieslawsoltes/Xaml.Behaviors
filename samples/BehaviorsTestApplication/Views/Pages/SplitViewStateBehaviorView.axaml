@@ -1,0 +1,57 @@
+<UserControl x:Class="BehaviorsTestApplication.Views.Pages.SplitViewStateBehaviorView"
+             xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:BehaviorsTestApplication.ViewModels"
+             x:DataType="vm:MainWindowViewModel"
+             mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="450">
+  <Design.DataContext>
+    <vm:MainWindowViewModel />
+  </Design.DataContext>
+
+  <SplitView Name="DemoSplitView" PanePlacement="Left">
+    <Interaction.Behaviors>
+      <SplitViewStateBehavior SourceControl="{Binding $parent[TopLevel]}">
+        <SplitViewStateSetter MinWidth="0" MaxWidth="500"
+                              DisplayMode="CompactOverlay"
+                              IsPaneOpen="False" />
+        <SplitViewStateSetter MinWidth="500" MaxWidth="800"
+                              DisplayMode="Inline"
+                              IsPaneOpen="False" />
+        <SplitViewStateSetter MinWidth="800" MaxWidth="Infinity"
+                              DisplayMode="Inline"
+                              IsPaneOpen="True" />
+      </SplitViewStateBehavior>
+      <SplitViewPaneOpeningTrigger>
+        <ChangePropertyAction TargetObject="EventText" PropertyName="Text" Value="Pane opening" />
+      </SplitViewPaneOpeningTrigger>
+      <SplitViewPaneOpenedTrigger>
+        <ChangePropertyAction TargetObject="EventText" PropertyName="Text" Value="Pane opened" />
+      </SplitViewPaneOpenedTrigger>
+      <SplitViewPaneClosingTrigger>
+        <ChangePropertyAction TargetObject="EventText" PropertyName="Text" Value="Pane closing" />
+      </SplitViewPaneClosingTrigger>
+      <SplitViewPaneClosedTrigger>
+        <ChangePropertyAction TargetObject="EventText" PropertyName="Text" Value="Pane closed" />
+      </SplitViewPaneClosedTrigger>
+    </Interaction.Behaviors>
+
+    <SplitView.Pane>
+      <Border Background="LightGray" Padding="10">
+        <TextBlock Text="Pane content" />
+      </Border>
+    </SplitView.Pane>
+
+    <DockPanel>
+      <Button DockPanel.Dock="Top" Content="Toggle Pane">
+        <Interaction.Behaviors>
+          <EventTriggerBehavior EventName="Click">
+            <SplitViewTogglePaneAction TargetSplitView="DemoSplitView" />
+          </EventTriggerBehavior>
+        </Interaction.Behaviors>
+      </Button>
+      <TextBlock x:Name="EventText" Margin="5" Text="" DockPanel.Dock="Bottom" />
+    </DockPanel>
+  </SplitView>
+</UserControl>

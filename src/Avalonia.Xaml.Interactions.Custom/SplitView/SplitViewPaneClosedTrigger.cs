@@ -1,0 +1,47 @@
+using Avalonia.Controls;
+using Avalonia.Interactivity;
+using Avalonia.Xaml.Interactivity;
+
+namespace Avalonia.Xaml.Interactions.Custom;
+
+/// <summary>
+/// Executes actions when the <see cref="SplitView.PaneClosed"/> event is raised.
+/// </summary>
+public class SplitViewPaneClosedTrigger : StyledElementTrigger<SplitView>
+{
+    /// <inheritdoc />
+    protected override void OnAttachedToVisualTree()
+    {
+        if (AssociatedObject is not null)
+        {
+            AssociatedObject.PaneClosed += OnPaneClosed;
+        }
+    }
+
+    /// <inheritdoc />
+    protected override void OnDetachedFromVisualTree()
+    {
+        if (AssociatedObject is not null)
+        {
+            AssociatedObject.PaneClosed -= OnPaneClosed;
+        }
+    }
+
+    private void OnPaneClosed(object? sender, RoutedEventArgs e)
+    {
+        Execute(e);
+    }
+
+    private void Execute(object? parameter)
+    {
+        if (!IsEnabled)
+        {
+            return;
+        }
+
+        if (AssociatedObject is not null)
+        {
+            Interaction.ExecuteActions(AssociatedObject, Actions, parameter);
+        }
+    }
+}
