@@ -1,4 +1,6 @@
-using Avalonia.Styling;
+using Avalonia.Animation;
+using Avalonia.Controls;
+using Avalonia.Reactive;
 using Avalonia.Threading;
 using Avalonia.Xaml.Interactivity;
 
@@ -7,7 +9,7 @@ namespace Avalonia.Xaml.Interactions.Custom;
 /// <summary>
 /// Executes actions whenever the <see cref="StyledElement.Transitions"/> property changes.
 /// </summary>
-public class TransitionsChangedTrigger : StyledElementTrigger
+public class TransitionsChangedTrigger : DisposingTrigger<Control>
 {
     /// <inheritdoc />
     protected override System.IDisposable OnAttachedOverride()
@@ -18,7 +20,10 @@ public class TransitionsChangedTrigger : StyledElementTrigger
         }
 
         return AssociatedObject.GetObservable(StyledElement.TransitionsProperty)
-            .Subscribe(_ => Dispatcher.UIThread.Post(() => Execute(null)));
+            .Subscribe(new AnonymousObserver<Transitions?>(_ =>
+            {
+                Dispatcher.UIThread.Post(() => Execute(null));
+            }));
     }
 
     private void Execute(object? parameter)

@@ -1,5 +1,5 @@
 using Avalonia.Animation;
-using Avalonia.Styling;
+using Avalonia.Controls;
 using Avalonia.Xaml.Interactivity;
 
 namespace Avalonia.Xaml.Interactions.Custom;
@@ -12,8 +12,8 @@ public class RemoveTransitionAction : StyledElementAction
     /// <summary>
     /// Identifies the <seealso cref="Transition"/> avalonia property.
     /// </summary>
-    public static readonly StyledProperty<Transition?> TransitionProperty =
-        AvaloniaProperty.Register<RemoveTransitionAction, Transition?>(nameof(Transition));
+    public static readonly StyledProperty<TransitionBase?> TransitionProperty =
+        AvaloniaProperty.Register<RemoveTransitionAction, TransitionBase?>(nameof(Transition));
 
     /// <summary>
     /// Identifies the <seealso cref="StyledElement"/> avalonia property.
@@ -24,7 +24,7 @@ public class RemoveTransitionAction : StyledElementAction
     /// <summary>
     /// Gets or sets the transition to remove. This is an avalonia property.
     /// </summary>
-    public Transition? Transition
+    public TransitionBase? Transition
     {
         get => GetValue(TransitionProperty);
         set => SetValue(TransitionProperty, value);
@@ -49,7 +49,7 @@ public class RemoveTransitionAction : StyledElementAction
         }
 
         var target = GetValue(StyledElementProperty) ?? sender as StyledElement;
-        if (target is null || target.Transitions is null)
+        if (target?.Transitions is null)
         {
             return false;
         }

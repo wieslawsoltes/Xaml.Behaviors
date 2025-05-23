@@ -1,5 +1,5 @@
 using Avalonia.Animation;
-using Avalonia.Styling;
+using Avalonia.Controls;
 using Avalonia.Xaml.Interactivity;
 
 namespace Avalonia.Xaml.Interactions.Custom;
@@ -12,8 +12,8 @@ public class AddTransitionAction : StyledElementAction
     /// <summary>
     /// Identifies the <seealso cref="Transition"/> avalonia property.
     /// </summary>
-    public static readonly StyledProperty<Transition?> TransitionProperty =
-        AvaloniaProperty.Register<AddTransitionAction, Transition?>(nameof(Transition));
+    public static readonly StyledProperty<TransitionBase?> TransitionProperty =
+        AvaloniaProperty.Register<AddTransitionAction, TransitionBase?>(nameof(Transition));
 
     /// <summary>
     /// Identifies the <seealso cref="StyledElement"/> avalonia property.
@@ -24,7 +24,7 @@ public class AddTransitionAction : StyledElementAction
     /// <summary>
     /// Gets or sets the transition to add. This is an avalonia property.
     /// </summary>
-    public Transition? Transition
+    public TransitionBase? Transition
     {
         get => GetValue(TransitionProperty);
         set => SetValue(TransitionProperty, value);
@@ -54,7 +54,7 @@ public class AddTransitionAction : StyledElementAction
             return false;
         }
 
-        target.Transitions ??= new Transitions();
+        target.Transitions ??= [];
         target.Transitions.Add(Transition);
 
         return true;

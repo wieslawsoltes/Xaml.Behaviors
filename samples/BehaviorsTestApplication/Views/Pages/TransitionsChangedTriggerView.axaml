@@ -17,41 +17,41 @@
             Background="LightGreen"
             Width="100"
             Height="40">
-      <Interaction.Triggers>
+      <Interaction.Behaviors>
         <TransitionsChangedTrigger>
           <ChangePropertyAction TargetObject="Message" PropertyName="Text" Value="Transitions changed" />
         </TransitionsChangedTrigger>
-      </Interaction.Triggers>
+      </Interaction.Behaviors>
     </Border>
     <TextBlock x:Name="Message" Text="Waiting..."/>
     <StackPanel Orientation="Horizontal" Spacing="5">
       <Button Content="Add">
-        <Interaction.Triggers>
-          <EventTrigger EventName="Click">
+        <Interaction.Behaviors>
+          <EventTriggerBehavior EventName="Click">
             <AddTransitionAction Transition="{StaticResource WidthTransition}" StyledElement="TriggerBorder" />
-          </EventTrigger>
-        </Interaction.Triggers>
+          </EventTriggerBehavior>
+        </Interaction.Behaviors>
       </Button>
       <Button Content="Clear">
-        <Interaction.Triggers>
-          <EventTrigger EventName="Click">
+        <Interaction.Behaviors>
+          <EventTriggerBehavior EventName="Click">
             <ClearTransitionsAction StyledElement="TriggerBorder" />
-          </EventTrigger>
-        </Interaction.Triggers>
+          </EventTriggerBehavior>
+        </Interaction.Behaviors>
       </Button>
       <Button Content="Grow">
-        <Interaction.Triggers>
-          <EventTrigger EventName="Click">
+        <Interaction.Behaviors>
+          <EventTriggerBehavior EventName="Click">
             <ChangePropertyAction TargetObject="TriggerBorder" PropertyName="Width" Value="200" />
-          </EventTrigger>
-        </Interaction.Triggers>
+          </EventTriggerBehavior>
+        </Interaction.Behaviors>
       </Button>
       <Button Content="Reset">
-        <Interaction.Triggers>
-          <EventTrigger EventName="Click">
+        <Interaction.Behaviors>
+          <EventTriggerBehavior EventName="Click">
             <ChangePropertyAction TargetObject="TriggerBorder" PropertyName="Width" Value="100" />
-          </EventTrigger>
-        </Interaction.Triggers>
+          </EventTriggerBehavior>
+        </Interaction.Behaviors>
       </Button>
     </StackPanel>
   </StackPanel>

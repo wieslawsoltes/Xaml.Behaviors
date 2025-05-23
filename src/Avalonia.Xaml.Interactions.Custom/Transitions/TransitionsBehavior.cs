@@ -1,26 +1,25 @@
 using Avalonia.Animation;
-using Avalonia.Xaml.Interactivity;
-using Avalonia.Styling;
+using Avalonia.Controls;
 
 namespace Avalonia.Xaml.Interactions.Custom;
 
 /// <summary>
 /// Sets the <see cref="StyledElement.Transitions"/> collection on the associated control when attached.
 /// </summary>
-public class TransitionsBehavior : AttachedToVisualTreeBehavior<StyledElement>
+public class TransitionsBehavior : AttachedToVisualTreeBehavior<Control>
 {
     /// <summary>
-    /// Identifies the <seealso cref="Transitions"/> avalonia property.
+    /// Identifies the <seealso cref="TransitionsSource"/> avalonia property.
     /// </summary>
-    public static readonly StyledProperty<Transitions?> TransitionsProperty =
-        AvaloniaProperty.Register<TransitionsBehavior, Transitions?>(nameof(Transitions));
+    public static readonly StyledProperty<Transitions?> TransitionsSourceProperty =
+        AvaloniaProperty.Register<TransitionsBehavior, Transitions?>(nameof(TransitionsSource));
 
     private Transitions? _oldTransitions;
 
     /// <summary>
     /// Gets or sets the transitions collection to apply. This is an avalonia property.
     /// </summary>
-    public Transitions? Transitions
+    public Transitions? TransitionsSource
     {
         get => GetValue(TransitionsProperty);
         set => SetValue(TransitionsProperty, value);
@@ -35,7 +34,7 @@ public class TransitionsBehavior : AttachedToVisualTreeBehavior<StyledElement>
         }
 
         _oldTransitions = AssociatedObject.Transitions;
-        AssociatedObject.Transitions = Transitions;
+        AssociatedObject.Transitions = TransitionsSource;
 
         return DisposableAction.Create(() =>
         {

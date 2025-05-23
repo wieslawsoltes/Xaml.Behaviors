@@ -20,23 +20,23 @@
             Width="100"
             Height="40">
       <Interaction.Behaviors>
-        <TransitionsBehavior Transitions="{StaticResource WidthTransitions}" />
+        <TransitionsBehavior TransitionsSource="{StaticResource WidthTransitions}" />
       </Interaction.Behaviors>
     </Border>
     <StackPanel Orientation="Horizontal" Spacing="5">
       <Button Content="Increase">
-        <Interaction.Triggers>
-          <EventTrigger EventName="Click">
+        <Interaction.Behaviors>
+          <EventTriggerBehavior EventName="Click">
             <ChangePropertyAction TargetObject="BehaviorBorder" PropertyName="Width" Value="200" />
-          </EventTrigger>
-        </Interaction.Triggers>
+          </EventTriggerBehavior>
+        </Interaction.Behaviors>
       </Button>
       <Button Content="Reset">
-        <Interaction.Triggers>
-          <EventTrigger EventName="Click">
+        <Interaction.Behaviors>
+          <EventTriggerBehavior EventName="Click">
             <ChangePropertyAction TargetObject="BehaviorBorder" PropertyName="Width" Value="100" />
-          </EventTrigger>
-        </Interaction.Triggers>
+          </EventTriggerBehavior>
+        </Interaction.Behaviors>
       </Button>
     </StackPanel>
   </StackPanel>
