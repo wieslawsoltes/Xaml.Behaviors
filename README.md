@@ -130,6 +130,15 @@ This section provides an overview of all available classes and their purpose in 
 - **IAnimationBuilder**
   *Interface for providing animations from view models in an MVVM friendly way.*
 
+- **PlayAnimationBehavior**
+  *Runs a supplied animation automatically when the control appears in the visual tree.*
+
+- **BeginAnimationAction**
+  *Starts an animation on a specified control, allowing the target to be chosen explicitly.*
+
+- **AnimationCompletedTrigger**
+  *Plays an animation and invokes actions once the animation finishes running.*
+
 ### Transitions
 - **TransitionsBehavior**
   *Sets the `Transitions` collection on the associated control when attached.*

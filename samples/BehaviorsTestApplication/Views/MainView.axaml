@@ -118,6 +118,12 @@
       <TabItem Header="Sliding Animation">
         <pages:SlidingAnimationView />
       </TabItem>
+      <TabItem Header="Animation Behaviors">
+        <pages:AnimationBehaviorView />
+      </TabItem>
+      <TabItem Header="Animation Completed Trigger">
+        <pages:AnimationCompletedTriggerView />
+      </TabItem>
       <TabItem Header="StartBuiltAnimationAction">
         <pages:StartBuiltAnimationActionView />
       </TabItem>
