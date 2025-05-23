@@ -97,6 +97,9 @@
       <TabItem Header="AspectRatioBehavior">
         <pages:AspectRatioBehaviorView />
       </TabItem>
+      <TabItem Header="SplitView">
+        <pages:SplitViewStateBehaviorView />
+      </TabItem>
       <TabItem Header="EditableListBox">
         <pages:EditableListBoxView />
       </TabItem>

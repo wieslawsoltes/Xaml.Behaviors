@@ -112,6 +112,9 @@ This section provides an overview of all available classes and their purpose in 
 - **ShowContextMenuAction**
   *Displays a control's context menu programmatically.*
 
+- **SplitViewTogglePaneAction**
+  *Toggles the `IsPaneOpen` state of a `SplitView`.*
+
 ### Animations
 - **FadeInBehavior**
   *Animates the fade-in effect for the associated element, gradually increasing its opacity.*
@@ -838,8 +841,20 @@ This section provides an overview of all available classes and their purpose in 
   *Selects all text in a TextBox immediately upon attachment.*
 
 ### TreeViewItem
-- **ToggleIsExpandedOnDoubleTappedBehavior**  
+- **ToggleIsExpandedOnDoubleTappedBehavior**
   *Toggles the IsExpanded property of a TreeViewItem when it is double-tapped.*
+
+### SplitView
+- **SplitViewStateBehavior**
+  *Automatically updates `DisplayMode`, `PanePlacement`, and `IsPaneOpen` based on size conditions.*
+- **SplitViewPaneOpeningTrigger**
+  *Triggers actions when the pane is about to open.*
+- **SplitViewPaneOpenedTrigger**
+  *Triggers actions after the pane has opened.*
+- **SplitViewPaneClosingTrigger**
+  *Triggers actions when the pane is about to close.*
+- **SplitViewPaneClosedTrigger**
+  *Triggers actions after the pane has closed.*
 
 ## Interactivity (Infrastructure)
 
