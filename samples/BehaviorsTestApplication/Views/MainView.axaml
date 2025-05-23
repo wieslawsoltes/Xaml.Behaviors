@@ -49,6 +49,9 @@
       <TabItem Header="ValueChangedTriggerBehavior">
         <pages:ValueChangedTriggerBehaviorView />
       </TabItem>
+      <TabItem Header="PropertyChangedTrigger">
+        <pages:PropertyChangedTriggerView />
+      </TabItem>
       <TabItem Header="EventTriggerBehavior">
         <pages:EventTriggerBehaviorView />
       </TabItem>
