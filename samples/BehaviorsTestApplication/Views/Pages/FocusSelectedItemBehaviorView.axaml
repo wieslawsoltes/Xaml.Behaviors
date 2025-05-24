@@ -9,7 +9,7 @@
   <Design.DataContext>
     <vm:MainWindowViewModel />
   </Design.DataContext>
-  <ListBox Items="{Binding Items}" SelectedIndex="0" Width="200">
+  <ListBox ItemsSource="{Binding Items}" SelectedIndex="0" Width="200">
     <Interaction.Behaviors>
       <FocusSelectedItemBehavior />
     </Interaction.Behaviors>
