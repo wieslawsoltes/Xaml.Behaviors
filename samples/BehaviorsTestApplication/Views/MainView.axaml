@@ -64,6 +64,21 @@
       <TabItem Header="FocusControlBehavior">
         <pages:FocusControlBehaviorView />
       </TabItem>
+      <TabItem Header="FocusOnAttachedBehavior">
+        <pages:FocusOnAttachedBehaviorView />
+      </TabItem>
+      <TabItem Header="FocusOnAttachedToVisualTreeBehavior">
+        <pages:FocusOnAttachedToVisualTreeBehaviorView />
+      </TabItem>
+      <TabItem Header="FocusOnPointerMovedBehavior">
+        <pages:FocusOnPointerMovedBehaviorView />
+      </TabItem>
+      <TabItem Header="FocusOnPointerPressedBehavior">
+        <pages:FocusOnPointerPressedBehaviorView />
+      </TabItem>
+      <TabItem Header="FocusSelectedItemBehavior">
+        <pages:FocusSelectedItemBehaviorView />
+      </TabItem>
       <TabItem Header="RoutedEventTriggerBehavior">
         <pages:RoutedEventTriggerBehaviorView />
       </TabItem>
