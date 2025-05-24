@@ -1,0 +1,18 @@
+<UserControl x:Class="BehaviorsTestApplication.Views.Pages.BindPointerOverBehaviorView"
+             xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:BehaviorsTestApplication.ViewModels"
+             x:DataType="vm:MainWindowViewModel"
+             mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="150">
+  <Design.DataContext>
+    <vm:MainWindowViewModel />
+  </Design.DataContext>
+  <Border x:Name="Target" Background="LightGray" Padding="20" HorizontalAlignment="Center">
+    <Interaction.Behaviors>
+      <BindPointerOverBehavior x:Name="Behavior" />
+    </Interaction.Behaviors>
+    <TextBlock Text="{Binding #Behavior.IsPointerOver}" />
+  </Border>
+</UserControl>

@@ -1,0 +1,30 @@
+<UserControl x:Class="BehaviorsTestApplication.Views.Pages.BindTagToVisualRootDataContextBehaviorView"
+             xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:BehaviorsTestApplication.ViewModels"
+             x:DataType="vm:MainWindowViewModel"
+             mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="180">
+  <Design.DataContext>
+    <vm:MainWindowViewModel />
+  </Design.DataContext>
+  <StackPanel Spacing="5" HorizontalAlignment="Center">
+    <Button x:Name="IncrementButton" Content="Increment Count" />
+    <TextBlock Text="{Binding Count, StringFormat={}Count: {0}}" />
+    <TextBlock DataContext="{Binding Items[0]}" 
+               x:DataType="vm:MainWindowViewModel">
+      <Interaction.Behaviors>
+        <BindTagToVisualRootDataContextBehavior />
+      </Interaction.Behaviors>
+      <TextBlock.Text>
+        <Binding Path="Count" />
+      </TextBlock.Text>
+    </TextBlock>
+  </StackPanel>
+  <Interaction.Behaviors>
+    <EventTriggerBehavior EventName="Click" SourceObject="IncrementButton">
+      <CallMethodAction TargetObject="{Binding}" MethodName="IncrementCount" />
+    </EventTriggerBehavior>
+  </Interaction.Behaviors>
+</UserControl>
