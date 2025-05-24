@@ -13,6 +13,6 @@
     <Interaction.Behaviors>
       <BindPointerOverBehavior x:Name="Behavior" />
     </Interaction.Behaviors>
-    <TextBlock Text="{Binding IsPointerOver, Source=Behavior}" />
+    <TextBlock Text="{Binding #Behavior.IsPointerOver}" />
   </Border>
 </UserControl>
