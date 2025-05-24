@@ -16,7 +16,7 @@
         <BoundsObserverBehavior x:Name="Observer" Bounds="{Binding #Target.Bounds}" />
       </Interaction.Behaviors>
     </Border>
-    <TextBlock Text="Width: {Binding Width, Source=Observer}" />
-    <TextBlock Text="Height: {Binding Height, Source=Observer}" />
+    <TextBlock Text="{Binding #Observer.Width, StringFormat={}Width: {0}}" />
+    <TextBlock Text="{Binding #Observer.Height, StringFormat={}Height: {0}}" />
   </StackPanel>
 </UserControl>
