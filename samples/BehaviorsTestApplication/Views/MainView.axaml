@@ -280,6 +280,21 @@
       <TabItem Header="SizeChangedTrigger">
         <pages:SizeChangedTriggerView />
       </TabItem>
+      <TabItem Header="FadeInBehavior">
+        <pages:FadeInBehaviorView />
+      </TabItem>
+      <TabItem Header="AnimateOnAttachedBehavior">
+        <pages:AnimateOnAttachedBehaviorView />
+      </TabItem>
+      <TabItem Header="ThemeVariantTrigger">
+        <pages:ThemeVariantTriggerView />
+      </TabItem>
+      <TabItem Header="ActualThemeVariantChangedTrigger">
+        <pages:ActualThemeVariantChangedTriggerView />
+      </TabItem>
+      <TabItem Header="ToggleIsExpandedOnDoubleTappedBehavior">
+        <pages:ToggleIsExpandedOnDoubleTappedBehaviorView />
+      </TabItem>
     </SingleSelectionTabControl>
   </DockPanel>
 </UserControl>

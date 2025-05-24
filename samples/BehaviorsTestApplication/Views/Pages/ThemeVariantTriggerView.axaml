@@ -1,0 +1,38 @@
+<UserControl x:Class="BehaviorsTestApplication.Views.Pages.ThemeVariantTriggerView"
+             xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:BehaviorsTestApplication.ViewModels"
+             x:DataType="vm:MainWindowViewModel"
+             mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="200">
+  <Design.DataContext>
+    <vm:MainWindowViewModel />
+  </Design.DataContext>
+  <ThemeVariantScope x:Name="Scope">
+    <Interaction.Behaviors>
+      <ThemeVariantBehavior ThemeVariant="{Binding #VariantSelector.SelectedItem}" />
+    </Interaction.Behaviors>
+    <Border x:Name="TargetBorder" Width="120" Height="80" Background="Gray">
+      <Interaction.Triggers>
+        <ThemeVariantTrigger ThemeVariant="Dark">
+          <ChangeAvaloniaPropertyAction TargetObject="TargetBorder"
+                                        TargetProperty="{x:Static Border.BackgroundProperty}"
+                                        Value="Black" />
+        </ThemeVariantTrigger>
+        <ThemeVariantTrigger ThemeVariant="Light">
+          <ChangeAvaloniaPropertyAction TargetObject="TargetBorder"
+                                        TargetProperty="{x:Static Border.BackgroundProperty}"
+                                        Value="White" />
+        </ThemeVariantTrigger>
+      </Interaction.Triggers>
+    </Border>
+    <ComboBox x:Name="VariantSelector" SelectedIndex="0" Margin="0,10,0,0">
+      <ComboBox.Items>
+        <ThemeVariant>Default</ThemeVariant>
+        <ThemeVariant>Dark</ThemeVariant>
+        <ThemeVariant>Light</ThemeVariant>
+      </ComboBox.Items>
+    </ComboBox>
+  </ThemeVariantScope>
+</UserControl>
