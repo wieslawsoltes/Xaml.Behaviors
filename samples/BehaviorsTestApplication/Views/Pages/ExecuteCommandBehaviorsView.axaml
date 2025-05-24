@@ -1,0 +1,28 @@
+<UserControl x:Class="BehaviorsTestApplication.Views.Pages.ExecuteCommandBehaviorsView"
+             xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:BehaviorsTestApplication.ViewModels"
+             x:DataType="vm:ExecuteCommandBehaviorsViewModel"
+             mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="300">
+  <Design.DataContext>
+    <vm:ExecuteCommandBehaviorsViewModel />
+  </Design.DataContext>
+
+  <StackPanel Spacing="10">
+    <Border Background="LightGray" Padding="20" Focusable="True">
+      <TextBlock Text="Interact with me" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+      <Interaction.Behaviors>
+        <ExecuteCommandOnPointerEnteredBehavior Command="{Binding PointerEnteredCommand}" />
+        <ExecuteCommandOnPointerPressedBehavior Command="{Binding PointerPressedCommand}" />
+        <ExecuteCommandOnDoubleTappedBehavior Command="{Binding DoubleTappedCommand}" />
+      </Interaction.Behaviors>
+    </Border>
+    <TextBox Width="200" Watermark="Press Enter" Focusable="True">
+      <Interaction.Behaviors>
+        <ExecuteCommandOnKeyDownBehavior Command="{Binding KeyDownCommand}" Key="Enter" />
+      </Interaction.Behaviors>
+    </TextBox>
+  </StackPanel>
+</UserControl>
