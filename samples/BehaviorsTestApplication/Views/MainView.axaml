@@ -143,13 +143,13 @@
         <pages:OneTimeBinding />
       </TabItem>
       <TabItem Header="Pointer Triggers">
-        <pages:PointerTriggersView DataContext="{Binding PointerTriggersViewModel}" />
+        <pages:PointerTriggersView />
       </TabItem>
       <TabItem Header="KeyGestureTrigger">
-        <pages:KeyGestureTriggerView DataContext="{Binding KeyGestureTriggerViewModel}" />
+        <pages:KeyGestureTriggerView />
       </TabItem>
       <TabItem Header="ExecuteCommand Behaviors">
-        <pages:ExecuteCommandBehaviorsView DataContext="{Binding ExecuteCommandBehaviorsViewModel}" />
+        <pages:ExecuteCommandBehaviorsView />
       </TabItem>
       <TabItem Header="Storage Provider">
         <pages:StorageProviderView />
