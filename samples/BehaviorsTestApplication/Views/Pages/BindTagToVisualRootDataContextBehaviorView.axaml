@@ -11,7 +11,7 @@
   </Design.DataContext>
   <StackPanel Spacing="5" HorizontalAlignment="Center">
     <Button x:Name="IncrementButton" Content="Increment Count" />
-    <TextBlock Text="Count: {Binding Count}" />
+    <TextBlock Text="{Binding Count, StringFormat={}Count: {0}}" />
     <TextBlock DataContext="{Binding Items[0]}" 
                x:DataType="vm:MainWindowViewModel">
       <Interaction.Behaviors>
