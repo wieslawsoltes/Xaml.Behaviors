@@ -148,6 +148,9 @@
       <TabItem Header="KeyGestureTrigger">
         <pages:KeyGestureTriggerView DataContext="{Binding KeyGestureTriggerViewModel}" />
       </TabItem>
+      <TabItem Header="ExecuteCommand Behaviors">
+        <pages:ExecuteCommandBehaviorsView DataContext="{Binding ExecuteCommandBehaviorsViewModel}" />
+      </TabItem>
       <TabItem Header="Storage Provider">
         <pages:StorageProviderView />
       </TabItem>
