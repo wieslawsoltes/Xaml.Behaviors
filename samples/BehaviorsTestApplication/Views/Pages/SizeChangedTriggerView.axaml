@@ -18,6 +18,6 @@
         </SizeChangedTrigger>
       </Interaction.Behaviors>
     </Border>
-    <TextBlock Text="Size changed count: {Binding Count}" />
+    <TextBlock Text="{Binding Count, StringFormat={}Size changed count: {0}}" />
   </StackPanel>
 </UserControl>
