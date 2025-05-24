@@ -12,12 +12,10 @@
   <ThemeVariantScope x:Name="Scope">
     <Interaction.Behaviors>
       <ThemeVariantBehavior ThemeVariant="{Binding #Selector.SelectedItem}" />
-    </Interaction.Behaviors>
-    <Interaction.Triggers>
       <ActualThemeVariantChangedTrigger>
         <ChangePropertyAction TargetObject="MessageText" PropertyName="Text" Value="Theme Changed" />
       </ActualThemeVariantChangedTrigger>
-    </Interaction.Triggers>
+    </Interaction.Behaviors>
     <StackPanel Spacing="5">
       <ComboBox x:Name="Selector" SelectedIndex="0">
         <ComboBox.Items>

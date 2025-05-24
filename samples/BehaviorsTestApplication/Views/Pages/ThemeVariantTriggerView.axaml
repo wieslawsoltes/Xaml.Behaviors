@@ -13,26 +13,28 @@
     <Interaction.Behaviors>
       <ThemeVariantBehavior ThemeVariant="{Binding #VariantSelector.SelectedItem}" />
     </Interaction.Behaviors>
-    <Border x:Name="TargetBorder" Width="120" Height="80" Background="Gray">
-      <Interaction.Triggers>
-        <ThemeVariantTrigger ThemeVariant="Dark">
-          <ChangeAvaloniaPropertyAction TargetObject="TargetBorder"
-                                        TargetProperty="{x:Static Border.BackgroundProperty}"
-                                        Value="Black" />
-        </ThemeVariantTrigger>
-        <ThemeVariantTrigger ThemeVariant="Light">
-          <ChangeAvaloniaPropertyAction TargetObject="TargetBorder"
-                                        TargetProperty="{x:Static Border.BackgroundProperty}"
-                                        Value="White" />
-        </ThemeVariantTrigger>
-      </Interaction.Triggers>
-    </Border>
-    <ComboBox x:Name="VariantSelector" SelectedIndex="0" Margin="0,10,0,0">
-      <ComboBox.Items>
-        <ThemeVariant>Default</ThemeVariant>
-        <ThemeVariant>Dark</ThemeVariant>
-        <ThemeVariant>Light</ThemeVariant>
-      </ComboBox.Items>
-    </ComboBox>
+    <StackPanel Spacing="">
+      <Border x:Name="TargetBorder" Width="120" Height="80" Background="Gray">
+        <Interaction.Behaviors>
+          <ThemeVariantTrigger ThemeVariant="Dark">
+            <ChangeAvaloniaPropertyAction TargetObject="TargetBorder"
+                                          TargetProperty="{x:Static Border.BackgroundProperty}"
+                                          Value="Black" />
+          </ThemeVariantTrigger>
+          <ThemeVariantTrigger ThemeVariant="Light">
+            <ChangeAvaloniaPropertyAction TargetObject="TargetBorder"
+                                          TargetProperty="{x:Static Border.BackgroundProperty}"
+                                          Value="White" />
+          </ThemeVariantTrigger>
+        </Interaction.Behaviors>
+      </Border>
+      <ComboBox x:Name="VariantSelector" SelectedIndex="0" Margin="0,10,0,0">
+        <ComboBox.Items>
+          <ThemeVariant>Default</ThemeVariant>
+          <ThemeVariant>Dark</ThemeVariant>
+          <ThemeVariant>Light</ThemeVariant>
+        </ComboBox.Items>
+      </ComboBox>
+    </StackPanel>
   </ThemeVariantScope>
 </UserControl>
