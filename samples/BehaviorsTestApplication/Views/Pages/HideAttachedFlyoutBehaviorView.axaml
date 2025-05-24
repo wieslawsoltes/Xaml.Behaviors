@@ -1,0 +1,31 @@
+<UserControl x:Class="BehaviorsTestApplication.Views.Pages.HideAttachedFlyoutBehaviorView"
+             xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:BehaviorsTestApplication.ViewModels"
+             x:DataType="vm:MainWindowViewModel"
+             mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="180">
+  <Design.DataContext>
+    <vm:MainWindowViewModel />
+  </Design.DataContext>
+  <StackPanel Spacing="5">
+    <CheckBox x:Name="IsOpenCheckBox" Content="Keep Flyout Open" IsChecked="True"/>
+    <Button x:Name="OpenButton" Content="Open Flyout" />
+    <Button x:Name="Target" Content="Target" Margin="5">
+      <Button.Flyout>
+        <Flyout>
+          <TextBlock Margin="10" Text="Flyout content" />
+        </Flyout>
+      </Button.Flyout>
+      <Interaction.Behaviors>
+        <HideAttachedFlyoutBehavior IsFlyoutOpen="{Binding IsChecked, ElementName=IsOpenCheckBox}" />
+      </Interaction.Behaviors>
+    </Button>
+  </StackPanel>
+  <Interaction.Behaviors>
+    <EventTriggerBehavior EventName="Click" SourceObject="OpenButton">
+      <ShowFlyoutAction TargetControl="Target" Flyout="{Binding #Target.Flyout}" />
+    </EventTriggerBehavior>
+  </Interaction.Behaviors>
+</UserControl>

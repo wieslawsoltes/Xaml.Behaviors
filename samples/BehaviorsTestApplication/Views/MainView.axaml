@@ -259,6 +259,27 @@
       <TabItem Header="Screens">
         <pages:ScreenView />
       </TabItem>
+      <TabItem Header="BindPointerOverBehavior">
+        <pages:BindPointerOverBehaviorView />
+      </TabItem>
+      <TabItem Header="BindTagToVisualRootDataContextBehavior">
+        <pages:BindTagToVisualRootDataContextBehaviorView />
+      </TabItem>
+      <TabItem Header="BoundsObserverBehavior">
+        <pages:BoundsObserverBehaviorView />
+      </TabItem>
+      <TabItem Header="HideAttachedFlyoutBehavior">
+        <pages:HideAttachedFlyoutBehaviorView />
+      </TabItem>
+      <TabItem Header="HideOnKeyPressedBehavior">
+        <pages:HideOnKeyPressedBehaviorView />
+      </TabItem>
+      <TabItem Header="HideOnLostFocusBehavior">
+        <pages:HideOnLostFocusBehaviorView />
+      </TabItem>
+      <TabItem Header="SizeChangedTrigger">
+        <pages:SizeChangedTriggerView />
+      </TabItem>
     </SingleSelectionTabControl>
   </DockPanel>
 </UserControl>
