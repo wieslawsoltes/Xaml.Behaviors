@@ -12,14 +12,12 @@
   <StackPanel Spacing="5" HorizontalAlignment="Center">
     <Button x:Name="IncrementButton" Content="Increment Count" />
     <TextBlock Text="{Binding Count, StringFormat={}Count: {0}}" />
-    <TextBlock DataContext="{Binding Items[0]}" 
-               x:DataType="vm:MainWindowViewModel">
+    <TextBlock DataContext="{Binding Items[0]}"
+               Text="{Binding $self.((vm:MainWindowViewModel)Tag).Count}"
+               x:DataType="vm:ItemViewModel">
       <Interaction.Behaviors>
         <BindTagToVisualRootDataContextBehavior />
       </Interaction.Behaviors>
-      <TextBlock.Text>
-        <Binding Path="Count" />
-      </TextBlock.Text>
     </TextBlock>
   </StackPanel>
   <Interaction.Behaviors>
