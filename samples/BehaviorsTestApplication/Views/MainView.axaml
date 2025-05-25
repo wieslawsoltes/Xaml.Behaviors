@@ -313,6 +313,147 @@
       <TabItem Header="ToggleIsExpandedOnDoubleTappedBehavior">
         <pages:ToggleIsExpandedOnDoubleTappedBehaviorView />
       </TabItem>
+      <TabItem Header="ActiveScreenBehavior">
+        <pages:ActiveScreenBehaviorView />
+      </TabItem>
+      <TabItem Header="BindingBehavior">
+        <pages:BindingBehaviorView />
+      </TabItem>
+      <TabItem Header="ButtonExecuteCommandOnKeyDownBehavior">
+        <pages:ButtonExecuteCommandOnKeyDownBehaviorView />
+      </TabItem>
+      <TabItem Header="ButtonHideFlyoutBehavior">
+        <pages:ButtonHideFlyoutBehaviorView />
+      </TabItem>
+      <TabItem Header="ButtonHideFlyoutOnClickBehavior">
+        <pages:ButtonHideFlyoutOnClickBehaviorView />
+      </TabItem>
+      <TabItem Header="CanvasDragBehavior">
+        <pages:CanvasDragBehaviorView />
+      </TabItem>
+      <TabItem Header="ExecuteCommandOnActivatedBehavior">
+        <pages:ExecuteCommandOnActivatedBehaviorView />
+      </TabItem>
+      <TabItem Header="ExecuteCommandOnGotFocusBehavior">
+        <pages:ExecuteCommandOnGotFocusBehaviorView />
+      </TabItem>
+      <TabItem Header="ExecuteCommandOnHoldingBehavior">
+        <pages:ExecuteCommandOnHoldingBehaviorView />
+      </TabItem>
+      <TabItem Header="ExecuteCommandOnKeyUpBehavior">
+        <pages:ExecuteCommandOnKeyUpBehaviorView />
+      </TabItem>
+      <TabItem Header="ExecuteCommandOnLostFocusBehavior">
+        <pages:ExecuteCommandOnLostFocusBehaviorView />
+      </TabItem>
+      <TabItem Header="ExecuteCommandOnPinchBehavior">
+        <pages:ExecuteCommandOnPinchBehaviorView />
+      </TabItem>
+      <TabItem Header="ExecuteCommandOnPinchEndedBehavior">
+        <pages:ExecuteCommandOnPinchEndedBehaviorView />
+      </TabItem>
+      <TabItem Header="ExecuteCommandOnPointerCaptureLostBehavior">
+        <pages:ExecuteCommandOnPointerCaptureLostBehaviorView />
+      </TabItem>
+      <TabItem Header="ExecuteCommandOnPointerExitedBehavior">
+        <pages:ExecuteCommandOnPointerExitedBehaviorView />
+      </TabItem>
+      <TabItem Header="ExecuteCommandOnPointerMovedBehavior">
+        <pages:ExecuteCommandOnPointerMovedBehaviorView />
+      </TabItem>
+      <TabItem Header="ExecuteCommandOnPointerReleasedBehavior">
+        <pages:ExecuteCommandOnPointerReleasedBehaviorView />
+      </TabItem>
+      <TabItem Header="ExecuteCommandOnPointerTouchPadGestureMagnifyBehavior">
+        <pages:ExecuteCommandOnPointerTouchPadGestureMagnifyBehaviorView />
+      </TabItem>
+      <TabItem Header="ExecuteCommandOnPointerTouchPadGestureRotateBehavior">
+        <pages:ExecuteCommandOnPointerTouchPadGestureRotateBehaviorView />
+      </TabItem>
+      <TabItem Header="ExecuteCommandOnPointerTouchPadGestureSwipeBehavior">
+        <pages:ExecuteCommandOnPointerTouchPadGestureSwipeBehaviorView />
+      </TabItem>
+      <TabItem Header="ExecuteCommandOnPointerWheelChangedBehavior">
+        <pages:ExecuteCommandOnPointerWheelChangedBehaviorView />
+      </TabItem>
+      <TabItem Header="ExecuteCommandOnPullGestureBehavior">
+        <pages:ExecuteCommandOnPullGestureBehaviorView />
+      </TabItem>
+      <TabItem Header="ExecuteCommandOnPullGestureEndedBehavior">
+        <pages:ExecuteCommandOnPullGestureEndedBehaviorView />
+      </TabItem>
+      <TabItem Header="ExecuteCommandOnRightTappedBehavior">
+        <pages:ExecuteCommandOnRightTappedBehaviorView />
+      </TabItem>
+      <TabItem Header="ExecuteCommandOnScrollGestureBehavior">
+        <pages:ExecuteCommandOnScrollGestureBehaviorView />
+      </TabItem>
+      <TabItem Header="ExecuteCommandOnScrollGestureEndedBehavior">
+        <pages:ExecuteCommandOnScrollGestureEndedBehaviorView />
+      </TabItem>
+      <TabItem Header="ExecuteCommandOnScrollGestureInertiaStartingBehavior">
+        <pages:ExecuteCommandOnScrollGestureInertiaStartingBehaviorView />
+      </TabItem>
+      <TabItem Header="ExecuteCommandOnTappedBehavior">
+        <pages:ExecuteCommandOnTappedBehaviorView />
+      </TabItem>
+      <TabItem Header="ExecuteCommandOnTextInputBehavior">
+        <pages:ExecuteCommandOnTextInputBehaviorView />
+      </TabItem>
+      <TabItem Header="ExecuteCommandOnTextInputMethodClientRequestedBehavior">
+        <pages:ExecuteCommandOnTextInputMethodClientRequestedBehaviorView />
+      </TabItem>
+      <TabItem Header="FocusAutoCompleteBoxTextBoxBehavior">
+        <pages:FocusAutoCompleteBoxTextBoxBehaviorView />
+      </TabItem>
+      <TabItem Header="HorizontalScrollViewerBehavior">
+        <pages:HorizontalScrollViewerBehaviorView />
+      </TabItem>
+      <TabItem Header="InteractionTriggerBehavior">
+        <pages:InteractionTriggerBehaviorView />
+      </TabItem>
+      <TabItem Header="ItemDragBehavior">
+        <pages:ItemDragBehaviorView />
+      </TabItem>
+      <TabItem Header="ItemNudgeDropBehavior">
+        <pages:ItemNudgeDropBehaviorView />
+      </TabItem>
+      <TabItem Header="ListBoxSelectAllBehavior">
+        <pages:ListBoxSelectAllBehaviorView />
+      </TabItem>
+      <TabItem Header="ListBoxUnselectAllBehavior">
+        <pages:ListBoxUnselectAllBehaviorView />
+      </TabItem>
+      <TabItem Header="ObservableTriggerBehavior">
+        <pages:ObservableTriggerBehaviorView />
+      </TabItem>
+      <TabItem Header="ScrollToItemBehavior">
+        <pages:ScrollToItemBehaviorView />
+      </TabItem>
+      <TabItem Header="ScrollToItemIndexBehavior">
+        <pages:ScrollToItemIndexBehaviorView />
+      </TabItem>
+      <TabItem Header="SelectListBoxItemOnPointerMovedBehavior">
+        <pages:SelectListBoxItemOnPointerMovedBehaviorView />
+      </TabItem>
+      <TabItem Header="SelectingItemsControlBehavior">
+        <pages:SelectingItemsControlBehaviorView />
+      </TabItem>
+      <TabItem Header="ShowOnDoubleTappedBehavior">
+        <pages:ShowOnDoubleTappedBehaviorView />
+      </TabItem>
+      <TabItem Header="ShowOnKeyDownBehavior">
+        <pages:ShowOnKeyDownBehaviorView />
+      </TabItem>
+      <TabItem Header="ShowOnTappedBehavior">
+        <pages:ShowOnTappedBehaviorView />
+      </TabItem>
+      <TabItem Header="TextBoxSelectAllOnGotFocusBehavior">
+        <pages:TextBoxSelectAllOnGotFocusBehaviorView />
+      </TabItem>
+      <TabItem Header="TextBoxSelectAllTextBehavior">
+        <pages:TextBoxSelectAllTextBehaviorView />
+      </TabItem>
     </SingleSelectionTabControl>
   </DockPanel>
 </UserControl>
