@@ -83,6 +83,10 @@ public class ObservableTriggerBehavior<T> : StyledElementTrigger
             _subscription = observable
                 .Subscribe(new AnonymousObserver<T>(value =>
                 {
+                    if (_subscription is null)
+                    {
+                        return;
+                    }
                     Dispatcher.UIThread.Invoke(() =>
                     {
                         Value = value;
