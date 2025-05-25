@@ -313,6 +313,474 @@
       <TabItem Header="ToggleIsExpandedOnDoubleTappedBehavior">
         <pages:ToggleIsExpandedOnDoubleTappedBehaviorView />
       </TabItem>
+      <TabItem Header="ActiveScreenBehavior">
+        <pages:ActiveScreenBehaviorView />
+      </TabItem>
+      <TabItem Header="ActualThemeVariantChangedBehavior">
+        <pages:ActualThemeVariantChangedBehaviorView />
+      </TabItem>
+      <TabItem Header="AttachedToLogicalTreeBehavior">
+        <pages:AttachedToLogicalTreeBehaviorView />
+      </TabItem>
+      <TabItem Header="AttachedToLogicalTreeTrigger">
+        <pages:AttachedToLogicalTreeTriggerView />
+      </TabItem>
+      <TabItem Header="AttachedToVisualTreeBehavior">
+        <pages:AttachedToVisualTreeBehaviorView />
+      </TabItem>
+      <TabItem Header="AttachedToVisualTreeTrigger">
+        <pages:AttachedToVisualTreeTriggerView />
+      </TabItem>
+      <TabItem Header="BindingBehavior">
+        <pages:BindingBehaviorView />
+      </TabItem>
+      <TabItem Header="BindingTrigger">
+        <pages:BindingTriggerView />
+      </TabItem>
+      <TabItem Header="ButtonClickEventTrigger">
+        <pages:ButtonClickEventTriggerView />
+      </TabItem>
+      <TabItem Header="ButtonExecuteCommandOnKeyDownBehavior">
+        <pages:ButtonExecuteCommandOnKeyDownBehaviorView />
+      </TabItem>
+      <TabItem Header="ButtonHideFlyoutBehavior">
+        <pages:ButtonHideFlyoutBehaviorView />
+      </TabItem>
+      <TabItem Header="ButtonHideFlyoutOnClickBehavior">
+        <pages:ButtonHideFlyoutOnClickBehaviorView />
+      </TabItem>
+      <TabItem Header="CanvasDragBehavior">
+        <pages:CanvasDragBehaviorView />
+      </TabItem>
+      <TabItem Header="CarouselSelectionChangedTrigger">
+        <pages:CarouselSelectionChangedTriggerView />
+      </TabItem>
+      <TabItem Header="ClearNavigationStackAction">
+        <pages:ClearNavigationStackActionView />
+      </TabItem>
+      <TabItem Header="DataContextChangedBehavior">
+        <pages:DataContextChangedBehaviorView />
+      </TabItem>
+      <TabItem Header="DataContextChangedTrigger">
+        <pages:DataContextChangedTriggerView />
+      </TabItem>
+      <TabItem Header="DataTrigger">
+        <pages:DataTriggerView />
+      </TabItem>
+      <TabItem Header="DetachedFromLogicalTreeTrigger">
+        <pages:DetachedFromLogicalTreeTriggerView />
+      </TabItem>
+      <TabItem Header="DetachedFromVisualTreeTrigger">
+        <pages:DetachedFromVisualTreeTriggerView />
+      </TabItem>
+      <TabItem Header="DisposableAction">
+        <pages:DisposableActionView />
+      </TabItem>
+      <TabItem Header="DisposingBehavior">
+        <pages:DisposingBehaviorView />
+      </TabItem>
+      <TabItem Header="DisposingTrigger">
+        <pages:DisposingTriggerView />
+      </TabItem>
+      <TabItem Header="DoubleTappedEventBehavior">
+        <pages:DoubleTappedEventBehaviorView />
+      </TabItem>
+      <TabItem Header="DoubleTappedGestureTrigger">
+        <pages:DoubleTappedGestureTriggerView />
+      </TabItem>
+      <TabItem Header="DoubleTappedTrigger">
+        <pages:DoubleTappedTriggerView />
+      </TabItem>
+      <TabItem Header="DragAndDropEventsBehavior">
+        <pages:DragAndDropEventsBehaviorView />
+      </TabItem>
+      <TabItem Header="DropBehavior">
+        <pages:DropBehaviorView />
+      </TabItem>
+      <TabItem Header="EventTrigger">
+        <pages:EventTriggerView />
+      </TabItem>
+      <TabItem Header="ExecuteCommandBehavior">
+        <pages:ExecuteCommandBehaviorView />
+      </TabItem>
+      <TabItem Header="ExecuteCommandOnActivatedBehavior">
+        <pages:ExecuteCommandOnActivatedBehaviorView />
+      </TabItem>
+      <TabItem Header="ExecuteCommandOnGotFocusBehavior">
+        <pages:ExecuteCommandOnGotFocusBehaviorView />
+      </TabItem>
+      <TabItem Header="ExecuteCommandOnHoldingBehavior">
+        <pages:ExecuteCommandOnHoldingBehaviorView />
+      </TabItem>
+      <TabItem Header="ExecuteCommandOnKeyBehavior">
+        <pages:ExecuteCommandOnKeyBehaviorView />
+      </TabItem>
+      <TabItem Header="ExecuteCommandOnKeyUpBehavior">
+        <pages:ExecuteCommandOnKeyUpBehaviorView />
+      </TabItem>
+      <TabItem Header="ExecuteCommandOnLostFocusBehavior">
+        <pages:ExecuteCommandOnLostFocusBehaviorView />
+      </TabItem>
+      <TabItem Header="ExecuteCommandOnPinchBehavior">
+        <pages:ExecuteCommandOnPinchBehaviorView />
+      </TabItem>
+      <TabItem Header="ExecuteCommandOnPinchEndedBehavior">
+        <pages:ExecuteCommandOnPinchEndedBehaviorView />
+      </TabItem>
+      <TabItem Header="ExecuteCommandOnPointerCaptureLostBehavior">
+        <pages:ExecuteCommandOnPointerCaptureLostBehaviorView />
+      </TabItem>
+      <TabItem Header="ExecuteCommandOnPointerExitedBehavior">
+        <pages:ExecuteCommandOnPointerExitedBehaviorView />
+      </TabItem>
+      <TabItem Header="ExecuteCommandOnPointerMovedBehavior">
+        <pages:ExecuteCommandOnPointerMovedBehaviorView />
+      </TabItem>
+      <TabItem Header="ExecuteCommandOnPointerReleasedBehavior">
+        <pages:ExecuteCommandOnPointerReleasedBehaviorView />
+      </TabItem>
+      <TabItem Header="ExecuteCommandOnPointerTouchPadGestureMagnifyBehavior">
+        <pages:ExecuteCommandOnPointerTouchPadGestureMagnifyBehaviorView />
+      </TabItem>
+      <TabItem Header="ExecuteCommandOnPointerTouchPadGestureRotateBehavior">
+        <pages:ExecuteCommandOnPointerTouchPadGestureRotateBehaviorView />
+      </TabItem>
+      <TabItem Header="ExecuteCommandOnPointerTouchPadGestureSwipeBehavior">
+        <pages:ExecuteCommandOnPointerTouchPadGestureSwipeBehaviorView />
+      </TabItem>
+      <TabItem Header="ExecuteCommandOnPointerWheelChangedBehavior">
+        <pages:ExecuteCommandOnPointerWheelChangedBehaviorView />
+      </TabItem>
+      <TabItem Header="ExecuteCommandOnPullGestureBehavior">
+        <pages:ExecuteCommandOnPullGestureBehaviorView />
+      </TabItem>
+      <TabItem Header="ExecuteCommandOnPullGestureEndedBehavior">
+        <pages:ExecuteCommandOnPullGestureEndedBehaviorView />
+      </TabItem>
+      <TabItem Header="ExecuteCommandOnRightTappedBehavior">
+        <pages:ExecuteCommandOnRightTappedBehaviorView />
+      </TabItem>
+      <TabItem Header="ExecuteCommandOnScrollGestureBehavior">
+        <pages:ExecuteCommandOnScrollGestureBehaviorView />
+      </TabItem>
+      <TabItem Header="ExecuteCommandOnScrollGestureEndedBehavior">
+        <pages:ExecuteCommandOnScrollGestureEndedBehaviorView />
+      </TabItem>
+      <TabItem Header="ExecuteCommandOnScrollGestureInertiaStartingBehavior">
+        <pages:ExecuteCommandOnScrollGestureInertiaStartingBehaviorView />
+      </TabItem>
+      <TabItem Header="ExecuteCommandOnTappedBehavior">
+        <pages:ExecuteCommandOnTappedBehaviorView />
+      </TabItem>
+      <TabItem Header="ExecuteCommandOnTextInputBehavior">
+        <pages:ExecuteCommandOnTextInputBehaviorView />
+      </TabItem>
+      <TabItem Header="ExecuteCommandOnTextInputMethodClientRequestedBehavior">
+        <pages:ExecuteCommandOnTextInputMethodClientRequestedBehaviorView />
+      </TabItem>
+      <TabItem Header="ExecuteCommandRoutedEventBehavior">
+        <pages:ExecuteCommandRoutedEventBehaviorView />
+      </TabItem>
+      <TabItem Header="FocusAutoCompleteBoxTextBoxBehavior">
+        <pages:FocusAutoCompleteBoxTextBoxBehaviorView />
+      </TabItem>
+      <TabItem Header="FocusBehavior">
+        <pages:FocusBehaviorView />
+      </TabItem>
+      <TabItem Header="GotFocusEventBehavior">
+        <pages:GotFocusEventBehaviorView />
+      </TabItem>
+      <TabItem Header="GotFocusTrigger">
+        <pages:GotFocusTriggerView />
+      </TabItem>
+      <TabItem Header="HoldingGestureTrigger">
+        <pages:HoldingGestureTriggerView />
+      </TabItem>
+      <TabItem Header="HoldingTrigger">
+        <pages:HoldingTriggerView />
+      </TabItem>
+      <TabItem Header="HorizontalScrollViewerBehavior">
+        <pages:HorizontalScrollViewerBehaviorView />
+      </TabItem>
+      <TabItem Header="InitializedBehavior">
+        <pages:InitializedBehaviorView />
+      </TabItem>
+      <TabItem Header="InitializedTrigger">
+        <pages:InitializedTriggerView />
+      </TabItem>
+      <TabItem Header="InteractionTrigger">
+        <pages:InteractionTriggerView />
+      </TabItem>
+      <TabItem Header="InteractionTriggerBehavior">
+        <pages:InteractionTriggerBehaviorView />
+      </TabItem>
+      <TabItem Header="InteractiveBehavior">
+        <pages:InteractiveBehaviorView />
+      </TabItem>
+      <TabItem Header="InvokeCommandBehavior">
+        <pages:InvokeCommandBehaviorView />
+      </TabItem>
+      <TabItem Header="ItemDragBehavior">
+        <pages:ItemDragBehaviorView />
+      </TabItem>
+      <TabItem Header="ItemNudgeDropBehavior">
+        <pages:ItemNudgeDropBehaviorView />
+      </TabItem>
+      <TabItem Header="ItemsControlContainerClearingTrigger">
+        <pages:ItemsControlContainerClearingTriggerView />
+      </TabItem>
+      <TabItem Header="ItemsControlContainerEventsBehavior">
+        <pages:ItemsControlContainerEventsBehaviorView />
+      </TabItem>
+      <TabItem Header="ItemsControlContainerIndexChangedTrigger">
+        <pages:ItemsControlContainerIndexChangedTriggerView />
+      </TabItem>
+      <TabItem Header="ItemsControlContainerPreparedTrigger">
+        <pages:ItemsControlContainerPreparedTriggerView />
+      </TabItem>
+      <TabItem Header="ItemsControlPreparingContainerTrigger">
+        <pages:ItemsControlPreparingContainerTriggerView />
+      </TabItem>
+      <TabItem Header="KeyDownEventBehavior">
+        <pages:KeyDownEventBehaviorView />
+      </TabItem>
+      <TabItem Header="KeyDownTrigger">
+        <pages:KeyDownTriggerView />
+      </TabItem>
+      <TabItem Header="KeyUpEventBehavior">
+        <pages:KeyUpEventBehaviorView />
+      </TabItem>
+      <TabItem Header="KeyUpTrigger">
+        <pages:KeyUpTriggerView />
+      </TabItem>
+      <TabItem Header="ListBoxSelectAllBehavior">
+        <pages:ListBoxSelectAllBehaviorView />
+      </TabItem>
+      <TabItem Header="ListBoxUnselectAllBehavior">
+        <pages:ListBoxUnselectAllBehaviorView />
+      </TabItem>
+      <TabItem Header="LoadedBehavior">
+        <pages:LoadedBehaviorView />
+      </TabItem>
+      <TabItem Header="LoadedTrigger">
+        <pages:LoadedTriggerView />
+      </TabItem>
+      <TabItem Header="LostFocusEventBehavior">
+        <pages:LostFocusEventBehaviorView />
+      </TabItem>
+      <TabItem Header="LostFocusTrigger">
+        <pages:LostFocusTriggerView />
+      </TabItem>
+      <TabItem Header="NavigateAction">
+        <pages:NavigateActionView />
+      </TabItem>
+      <TabItem Header="NavigateBackAction">
+        <pages:NavigateBackActionView />
+      </TabItem>
+      <TabItem Header="NavigateToAction">
+        <pages:NavigateToActionView />
+      </TabItem>
+      <TabItem Header="NavigateToAndResetAction">
+        <pages:NavigateToAndResetActionView />
+      </TabItem>
+      <TabItem Header="ObservableTrigger">
+        <pages:ObservableTriggerView />
+      </TabItem>
+      <TabItem Header="ObservableTriggerBehavior">
+        <pages:ObservableTriggerBehaviorView />
+      </TabItem>
+      <TabItem Header="OpenFilePickerBehavior">
+        <pages:OpenFilePickerBehaviorView />
+      </TabItem>
+      <TabItem Header="OpenFolderPickerBehavior">
+        <pages:OpenFolderPickerBehaviorView />
+      </TabItem>
+      <TabItem Header="PickerAction">
+        <pages:PickerActionView />
+      </TabItem>
+      <TabItem Header="PickerBehavior">
+        <pages:PickerBehaviorView />
+      </TabItem>
+      <TabItem Header="PinchEndedGestureTrigger">
+        <pages:PinchEndedGestureTriggerView />
+      </TabItem>
+      <TabItem Header="PinchGestureTrigger">
+        <pages:PinchGestureTriggerView />
+      </TabItem>
+      <TabItem Header="PointerCaptureLostEventBehavior">
+        <pages:PointerCaptureLostEventBehaviorView />
+      </TabItem>
+      <TabItem Header="PointerCaptureLostTrigger">
+        <pages:PointerCaptureLostTriggerView />
+      </TabItem>
+      <TabItem Header="PointerEnteredEventBehavior">
+        <pages:PointerEnteredEventBehaviorView />
+      </TabItem>
+      <TabItem Header="PointerEnteredTrigger">
+        <pages:PointerEnteredTriggerView />
+      </TabItem>
+      <TabItem Header="PointerEventsBehavior">
+        <pages:PointerEventsBehaviorView />
+      </TabItem>
+      <TabItem Header="PointerExitedEventBehavior">
+        <pages:PointerExitedEventBehaviorView />
+      </TabItem>
+      <TabItem Header="PointerExitedTrigger">
+        <pages:PointerExitedTriggerView />
+      </TabItem>
+      <TabItem Header="PointerMovedEventBehavior">
+        <pages:PointerMovedEventBehaviorView />
+      </TabItem>
+      <TabItem Header="PointerPressedEventBehavior">
+        <pages:PointerPressedEventBehaviorView />
+      </TabItem>
+      <TabItem Header="PointerReleasedEventBehavior">
+        <pages:PointerReleasedEventBehaviorView />
+      </TabItem>
+      <TabItem Header="PointerTouchPadGestureMagnifyGestureTrigger">
+        <pages:PointerTouchPadGestureMagnifyGestureTriggerView />
+      </TabItem>
+      <TabItem Header="PointerTouchPadGestureRotateGestureTrigger">
+        <pages:PointerTouchPadGestureRotateGestureTriggerView />
+      </TabItem>
+      <TabItem Header="PointerTouchPadGestureSwipeGestureTrigger">
+        <pages:PointerTouchPadGestureSwipeGestureTriggerView />
+      </TabItem>
+      <TabItem Header="PointerWheelChangedEventBehavior">
+        <pages:PointerWheelChangedEventBehaviorView />
+      </TabItem>
+      <TabItem Header="PointerWheelChangedTrigger">
+        <pages:PointerWheelChangedTriggerView />
+      </TabItem>
+      <TabItem Header="PullGestureEndedGestureTrigger">
+        <pages:PullGestureEndedGestureTriggerView />
+      </TabItem>
+      <TabItem Header="PullGestureGestureTrigger">
+        <pages:PullGestureGestureTriggerView />
+      </TabItem>
+      <TabItem Header="RenderTargetBitmapTrigger">
+        <pages:RenderTargetBitmapTriggerView />
+      </TabItem>
+      <TabItem Header="ResourcesChangedBehavior">
+        <pages:ResourcesChangedBehaviorView />
+      </TabItem>
+      <TabItem Header="ResourcesChangedTrigger">
+        <pages:ResourcesChangedTriggerView />
+      </TabItem>
+      <TabItem Header="RightTappedEventBehavior">
+        <pages:RightTappedEventBehaviorView />
+      </TabItem>
+      <TabItem Header="RightTappedGestureTrigger">
+        <pages:RightTappedGestureTriggerView />
+      </TabItem>
+      <TabItem Header="RoutedEventTrigger">
+        <pages:RoutedEventTriggerView />
+      </TabItem>
+      <TabItem Header="SaveFilePickerBehavior">
+        <pages:SaveFilePickerBehaviorView />
+      </TabItem>
+      <TabItem Header="ScreensChangedTrigger">
+        <pages:ScreensChangedTriggerView />
+      </TabItem>
+      <TabItem Header="ScrollGestureEndedEventBehavior">
+        <pages:ScrollGestureEndedEventBehaviorView />
+      </TabItem>
+      <TabItem Header="ScrollGestureEndedGestureTrigger">
+        <pages:ScrollGestureEndedGestureTriggerView />
+      </TabItem>
+      <TabItem Header="ScrollGestureEventBehavior">
+        <pages:ScrollGestureEventBehaviorView />
+      </TabItem>
+      <TabItem Header="ScrollGestureGestureTrigger">
+        <pages:ScrollGestureGestureTriggerView />
+      </TabItem>
+      <TabItem Header="ScrollGestureInertiaStartingGestureTrigger">
+        <pages:ScrollGestureInertiaStartingGestureTriggerView />
+      </TabItem>
+      <TabItem Header="ScrollToItemBehavior">
+        <pages:ScrollToItemBehaviorView />
+      </TabItem>
+      <TabItem Header="ScrollToItemIndexBehavior">
+        <pages:ScrollToItemIndexBehaviorView />
+      </TabItem>
+      <TabItem Header="SelectListBoxItemOnPointerMovedBehavior">
+        <pages:SelectListBoxItemOnPointerMovedBehaviorView />
+      </TabItem>
+      <TabItem Header="SelectingItemsControlBehavior">
+        <pages:SelectingItemsControlBehaviorView />
+      </TabItem>
+      <TabItem Header="SelectingItemsControlEventsBehavior">
+        <pages:SelectingItemsControlEventsBehaviorView />
+      </TabItem>
+      <TabItem Header="SelectingItemsControlSearchBehavior">
+        <pages:SelectingItemsControlSearchBehaviorView />
+      </TabItem>
+      <TabItem Header="ShowBehavior">
+        <pages:ShowBehaviorView />
+      </TabItem>
+      <TabItem Header="ShowOnDoubleTappedBehavior">
+        <pages:ShowOnDoubleTappedBehaviorView />
+      </TabItem>
+      <TabItem Header="ShowOnKeyDownBehavior">
+        <pages:ShowOnKeyDownBehaviorView />
+      </TabItem>
+      <TabItem Header="ShowOnTappedBehavior">
+        <pages:ShowOnTappedBehaviorView />
+      </TabItem>
+      <TabItem Header="StartAnimationAction">
+        <pages:StartAnimationActionView />
+      </TabItem>
+      <TabItem Header="StyledElementAction">
+        <pages:StyledElementActionView />
+      </TabItem>
+      <TabItem Header="StyledElementBehavior">
+        <pages:StyledElementBehaviorView />
+      </TabItem>
+      <TabItem Header="StyledElementTrigger">
+        <pages:StyledElementTriggerView />
+      </TabItem>
+      <TabItem Header="TappedEventBehavior">
+        <pages:TappedEventBehaviorView />
+      </TabItem>
+      <TabItem Header="TappedGestureTrigger">
+        <pages:TappedGestureTriggerView />
+      </TabItem>
+      <TabItem Header="TappedTrigger">
+        <pages:TappedTriggerView />
+      </TabItem>
+      <TabItem Header="TextBoxSelectAllOnGotFocusBehavior">
+        <pages:TextBoxSelectAllOnGotFocusBehaviorView />
+      </TabItem>
+      <TabItem Header="TextBoxSelectAllTextBehavior">
+        <pages:TextBoxSelectAllTextBehaviorView />
+      </TabItem>
+      <TabItem Header="TextInputEventBehavior">
+        <pages:TextInputEventBehaviorView />
+      </TabItem>
+      <TabItem Header="TextInputMethodClientRequestedEventBehavior">
+        <pages:TextInputMethodClientRequestedEventBehaviorView />
+      </TabItem>
+      <TabItem Header="TextInputMethodClientRequestedTrigger">
+        <pages:TextInputMethodClientRequestedTriggerView />
+      </TabItem>
+      <TabItem Header="TextInputTrigger">
+        <pages:TextInputTriggerView />
+      </TabItem>
+      <TabItem Header="UnloadedTrigger">
+        <pages:UnloadedTriggerView />
+      </TabItem>
+      <TabItem Header="ValueChangedTrigger">
+        <pages:ValueChangedTriggerView />
+      </TabItem>
+      <TabItem Header="WriteableBitmapRenderAction">
+        <pages:WriteableBitmapRenderActionView />
+      </TabItem>
+      <TabItem Header="WriteableBitmapTimerTrigger">
+        <pages:WriteableBitmapTimerTriggerView />
+      </TabItem>
+      <TabItem Header="WriteableBitmapTrigger">
+        <pages:WriteableBitmapTriggerView />
+      </TabItem>
     </SingleSelectionTabControl>
   </DockPanel>
 </UserControl>
