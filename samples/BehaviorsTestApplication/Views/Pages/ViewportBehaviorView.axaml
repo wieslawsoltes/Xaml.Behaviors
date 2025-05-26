@@ -17,7 +17,7 @@
         <Border Height="40" Background="LightGray" />
         <Border x:Name="Target" Height="60" Background="LightBlue">
           <Interaction.Behaviors>
-            <ViewportBehavior x:Name="Observer" />
+            <ViewportBehavior x:Name="Observer" IsAlwaysOn="True" />
           </Interaction.Behaviors>
           <TextBlock Text="Target" HorizontalAlignment="Center" VerticalAlignment="Center" />
         </Border>
