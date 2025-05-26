@@ -1,7 +1,5 @@
 using System.Collections;
-using System.Linq;
 using Avalonia.Controls;
-using Avalonia.LogicalTree;
 using Avalonia.Xaml.Interactivity;
 
 namespace Avalonia.Xaml.Interactions.Custom;
@@ -12,10 +10,26 @@ namespace Avalonia.Xaml.Interactions.Custom;
 public sealed class AddItemToItemsControlAction : StyledElementAction
 {
     /// <summary>
+    /// Identifies the <see cref="ItemsControl"/> avalonia property.
+    /// </summary>
+    public static readonly StyledProperty<ItemsControl?> ItemsControlProperty =
+        AvaloniaProperty.Register<AddItemToItemsControlAction, ItemsControl?>(nameof(ItemsControl));
+  
+    /// <summary>
     /// Identifies the <see cref="Item"/> avalonia property.
     /// </summary>
     public static readonly StyledProperty<object?> ItemProperty =
         AvaloniaProperty.Register<AddItemToItemsControlAction, object?>(nameof(Item));
+    
+    /// <summary>
+    /// Gets or sets items control.
+    /// </summary>
+    [ResolveByName]
+    public ItemsControl? ItemsControl
+    {
+        get => GetValue(ItemsControlProperty);
+        set => SetValue(ItemsControlProperty, value);
+    }
     
     /// <summary>
     /// Gets or sets item to add.
@@ -25,6 +39,7 @@ public sealed class AddItemToItemsControlAction : StyledElementAction
         get => GetValue(ItemProperty);
         set => SetValue(ItemProperty, value);
     }
+
 
     /// <inheritdoc />
     public override object Execute(object? sender, object? parameter)
@@ -40,12 +55,7 @@ public sealed class AddItemToItemsControlAction : StyledElementAction
             return false;
         }
 
-        if (sender is not Control control)
-        {
-            return false;
-        }
-
-        var itemsControl = control.GetSelfAndLogicalAncestors().OfType<ItemsControl>().FirstOrDefault();
+        var itemsControl = ItemsControl;
         if (itemsControl is null)
         {
             return false;

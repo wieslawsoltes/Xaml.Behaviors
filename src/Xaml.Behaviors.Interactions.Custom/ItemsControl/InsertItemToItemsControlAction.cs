@@ -12,16 +12,32 @@ namespace Avalonia.Xaml.Interactions.Custom;
 public sealed class InsertItemToItemsControlAction : StyledElementAction
 {
     /// <summary>
+    /// Identifies the <see cref="ItemsControl"/> avalonia property.
+    /// </summary>
+    public static readonly StyledProperty<ItemsControl?> ItemsControlProperty =
+        AvaloniaProperty.Register<InsertItemToItemsControlAction, ItemsControl?>(nameof(ItemsControl));
+
+    /// <summary>
     /// Identifies the <see cref="Item"/> avalonia property.
     /// </summary>
     public static readonly StyledProperty<object?> ItemProperty =
-        AvaloniaProperty.Register<AddItemToItemsControlAction, object?>(nameof(Item));
+        AvaloniaProperty.Register<InsertItemToItemsControlAction, object?>(nameof(Item));
     
     /// <summary>
     /// Identifies the <see cref="Index"/> avalonia property.
     /// </summary>
     public static readonly StyledProperty<int> IndexProperty =
-        AvaloniaProperty.Register<AddItemToItemsControlAction, int>(nameof(Index));
+        AvaloniaProperty.Register<InsertItemToItemsControlAction, int>(nameof(Index));
+  
+    /// <summary>
+    /// Gets or sets items control.
+    /// </summary>
+    [ResolveByName]
+    public ItemsControl? ItemsControl
+    {
+        get => GetValue(ItemsControlProperty);
+        set => SetValue(ItemsControlProperty, value);
+    }
 
     /// <summary>
     /// Gets or sets item to insert.
@@ -55,12 +71,7 @@ public sealed class InsertItemToItemsControlAction : StyledElementAction
             return false;
         }
 
-        if (sender is not Control control)
-        {
-            return false;
-        }
-
-        var itemsControl = control.GetSelfAndLogicalAncestors().OfType<ItemsControl>().FirstOrDefault();
+        var itemsControl = ItemsControl;
         if (itemsControl is null)
         {
             return false;

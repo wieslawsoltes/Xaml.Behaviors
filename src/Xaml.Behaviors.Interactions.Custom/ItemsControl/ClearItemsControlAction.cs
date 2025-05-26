@@ -1,7 +1,5 @@
 using System.Collections;
-using System.Linq;
 using Avalonia.Controls;
-using Avalonia.LogicalTree;
 using Avalonia.Xaml.Interactivity;
 
 namespace Avalonia.Xaml.Interactions.Custom;
@@ -11,6 +9,22 @@ namespace Avalonia.Xaml.Interactions.Custom;
 /// </summary>
 public sealed class ClearItemsControlAction : StyledElementAction
 {
+    /// <summary>
+    /// Identifies the <see cref="ItemsControl"/> avalonia property.
+    /// </summary>
+    public static readonly StyledProperty<ItemsControl?> ItemsControlProperty =
+        AvaloniaProperty.Register<InsertItemToItemsControlAction, ItemsControl?>(nameof(ItemsControl));
+  
+    /// <summary>
+    /// Gets or sets items control.
+    /// </summary>
+    [ResolveByName]
+    public ItemsControl? ItemsControl
+    {
+        get => GetValue(ItemsControlProperty);
+        set => SetValue(ItemsControlProperty, value);
+    }
+
     /// <inheritdoc />
     public override object Execute(object? sender, object? parameter)
     {
@@ -19,12 +33,7 @@ public sealed class ClearItemsControlAction : StyledElementAction
             return false;
         }
 
-        if (sender is not Control control)
-        {
-            return false;
-        }
-
-        var itemsControl = control.GetSelfAndLogicalAncestors().OfType<ItemsControl>().FirstOrDefault();
+        var itemsControl = ItemsControl;
         if (itemsControl is null)
         {
             return false;

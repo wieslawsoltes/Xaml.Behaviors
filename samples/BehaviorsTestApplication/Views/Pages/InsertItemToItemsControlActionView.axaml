@@ -13,15 +13,20 @@
     <Button Content="Insert Item At 0">
       <Interaction.Behaviors>
         <EventTriggerBehavior EventName="Click">
-          <InsertItemToItemsControlAction Index="0">
+          <InsertItemToItemsControlAction ItemsControl="ItemsControl" Index="0">
             <InsertItemToItemsControlAction.Item>
-              <vm:ItemViewModel Value="Inserted Item" />
+              <vm:ItemViewModel>
+                <x:Arguments>
+                  <x:String>Added Item</x:String>
+                  <x:String>Black</x:String>
+                </x:Arguments>
+              </vm:ItemViewModel>
             </InsertItemToItemsControlAction.Item>
           </InsertItemToItemsControlAction>
         </EventTriggerBehavior>
       </Interaction.Behaviors>
     </Button>
-    <ItemsControl ItemsSource="{Binding Items}">
+    <ItemsControl x:Name="ItemsControl" ItemsSource="{Binding Items}">
       <ItemsControl.ItemTemplate>
         <DataTemplate DataType="vm:ItemViewModel">
           <TextBlock Text="{Binding Value}" />

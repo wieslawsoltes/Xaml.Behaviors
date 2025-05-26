@@ -13,11 +13,11 @@
     <Button Content="Clear Items">
       <Interaction.Behaviors>
         <EventTriggerBehavior EventName="Click">
-          <ClearItemsControlAction />
+          <ClearItemsControlAction ItemsControl="ItemsControl" />
         </EventTriggerBehavior>
       </Interaction.Behaviors>
     </Button>
-    <ItemsControl ItemsSource="{Binding Items}">
+    <ItemsControl x:Name="ItemsControl" ItemsSource="{Binding Items}">
       <ItemsControl.ItemTemplate>
         <DataTemplate DataType="vm:ItemViewModel">
           <TextBlock Text="{Binding Value}" />

@@ -13,15 +13,20 @@
     <Button Content="Add Item">
       <Interaction.Behaviors>
         <EventTriggerBehavior EventName="Click">
-          <AddItemToItemsControlAction>
+          <AddItemToItemsControlAction ItemsControl="ItemsControl">
             <AddItemToItemsControlAction.Item>
-              <vm:ItemViewModel Value="Added Item" />
+              <vm:ItemViewModel>
+                  <x:Arguments>
+                    <x:String>Added Item</x:String>
+                    <x:String>Black</x:String>
+                  </x:Arguments>
+                </vm:ItemViewModel>
             </AddItemToItemsControlAction.Item>
           </AddItemToItemsControlAction>
         </EventTriggerBehavior>
       </Interaction.Behaviors>
     </Button>
-    <ItemsControl ItemsSource="{Binding Items}">
+    <ItemsControl x:Name="ItemsControl" ItemsSource="{Binding Items}">
       <ItemsControl.ItemTemplate>
         <DataTemplate DataType="vm:ItemViewModel">
           <TextBlock Text="{Binding Value}" />
