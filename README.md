@@ -937,8 +937,11 @@ This section provides an overview of all available classes and their purpose in 
 - **ScrollToItemBehavior**
   *Automatically scrolls the ItemsControl to make a specified item visible.*
 
-- **ScrollToItemIndexBehavior**  
+- **ScrollToItemIndexBehavior**
   *Scrolls to a specific item index in the ItemsControl.*
+
+- **RemoveItemInItemsControlAction**
+  *Removes the specified item from an ItemsControl.*
 
 ### ListBox
 - **ListBoxSelectAllBehavior**

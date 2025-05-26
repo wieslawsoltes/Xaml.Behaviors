@@ -112,6 +112,9 @@
       <TabItem Header="RemoveItemInListBoxAction">
         <pages:RemoveItemInListBoxActionView />
       </TabItem>
+      <TabItem Header="RemoveItemInItemsControlAction">
+        <pages:RemoveItemInItemsControlActionView />
+      </TabItem>
       <TabItem Header="Remove Items Sample">
         <pages:RemoveItemsSampleView />
       </TabItem>
