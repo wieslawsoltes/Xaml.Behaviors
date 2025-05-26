@@ -64,6 +64,9 @@
       <TabItem Header="AutoFocusBehavior">
         <pages:AutoFocusBehaviorView />
       </TabItem>
+      <TabItem Header="AutoSelectBehavior">
+        <pages:AutoSelectBehaviorView />
+      </TabItem>
       <TabItem Header="FocusControlBehavior">
         <pages:FocusControlBehaviorView />
       </TabItem>

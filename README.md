@@ -1080,10 +1080,12 @@ This section provides an overview of all available classes and their purpose in 
   *Subscribes to an `IObservable` and executes actions whenever the observable emits a value.*
 
 ### TextBox
-- **TextBoxSelectAllOnGotFocusBehavior**  
+- **AutoSelectBehavior**
+  *Selects all text in a TextBox when it is loaded.*
+- **TextBoxSelectAllOnGotFocusBehavior**
   *Selects all text in a TextBox when it gains focus.*
 
-- **TextBoxSelectAllTextBehavior**  
+- **TextBoxSelectAllTextBehavior**
   *Selects all text in a TextBox immediately upon attachment.*
 
 ### TreeViewItem
