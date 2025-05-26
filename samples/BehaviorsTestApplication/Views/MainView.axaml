@@ -316,6 +316,9 @@
       <TabItem Header="ToggleIsExpandedOnDoubleTappedBehavior">
         <pages:ToggleIsExpandedOnDoubleTappedBehaviorView />
       </TabItem>
+      <TabItem Header="ViewportBehavior">
+        <pages:ViewportBehaviorView />
+      </TabItem>
     </SingleSelectionTabControl>
   </DockPanel>
 </UserControl>

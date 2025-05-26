@@ -971,6 +971,8 @@ This section provides an overview of all available classes and their purpose in 
 ### ScrollViewer
 - **HorizontalScrollViewerBehavior**
   *Enables horizontal scrolling via the pointer wheel. Optionally requires the Shift key and supports line or page scrolling.*
+- **ViewportBehavior**
+  *Tracks when the associated element enters or exits a ScrollViewer's viewport.*
 
 ### Screen
 - **ActiveScreenBehavior**
