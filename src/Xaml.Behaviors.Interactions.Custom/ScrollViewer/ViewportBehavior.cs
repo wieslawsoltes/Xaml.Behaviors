@@ -1,5 +1,4 @@
 using System;
-using Avalonia;
 using Avalonia.Controls;
 using Avalonia.VisualTree;
 using Avalonia.Reactive;
@@ -120,23 +119,47 @@ public class ViewportBehavior : AttachedToVisualTreeBehavior<Visual>
             return;
         }
 
-        var point = AssociatedObject.TranslatePoint(new Point(0, 0), _hostScrollViewer);
-        if (point is null)
+        if (!AssociatedObject.IsInitialized)
         {
             return;
         }
 
-        var elementRect = new Rect(point.Value, AssociatedObject.Bounds.Size);
-        var hostRect = new Rect(0, 0, _hostScrollViewer.Bounds.Width, _hostScrollViewer.Bounds.Height);
+        var matrix = AssociatedObject.TransformToVisual(_hostScrollViewer);
+        if (matrix is null)
+        {
+            return;
+        }
+        
+        var associatedElementRect = new Rect(
+            0, 
+            0, 
+            AssociatedObject.Bounds.Size.Width, 
+            AssociatedObject.Bounds.Size.Height).TransformToAABB(matrix.Value);
 
-        if (hostRect.Intersects(elementRect))
+        var hostScrollViewerRect = new Rect(
+            0, 
+            0, 
+            _hostScrollViewer.Bounds.Width, 
+            _hostScrollViewer.Bounds.Height);
+
+        if (hostScrollViewerRect.Contains(new Point(associatedElementRect.Left, associatedElementRect.Top)) ||
+            hostScrollViewerRect.Contains(new Point(associatedElementRect.Right, associatedElementRect.Top)) ||
+            hostScrollViewerRect.Contains(new Point(associatedElementRect.Right, associatedElementRect.Bottom)) ||
+            hostScrollViewerRect.Contains(new Point(associatedElementRect.Left, associatedElementRect.Bottom)))
         {
             IsInViewport = true;
-            IsFullyInViewport =
-                hostRect.Contains(elementRect.TopLeft) &&
-                hostRect.Contains(elementRect.TopRight) &&
-                hostRect.Contains(elementRect.BottomRight) &&
-                hostRect.Contains(elementRect.BottomLeft);
+
+            if (hostScrollViewerRect.Contains(new Point(associatedElementRect.Left, associatedElementRect.Top)) &&
+                hostScrollViewerRect.Contains(new Point(associatedElementRect.Right, associatedElementRect.Top)) &&
+                hostScrollViewerRect.Contains(new Point(associatedElementRect.Right, associatedElementRect.Bottom)) &&
+                hostScrollViewerRect.Contains(new Point(associatedElementRect.Left, associatedElementRect.Bottom)))
+            {
+                IsFullyInViewport = true;
+            }
+            else
+            {
+                IsFullyInViewport = false;
+            }
         }
         else
         {
