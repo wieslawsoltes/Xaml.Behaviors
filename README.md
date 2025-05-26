@@ -353,8 +353,10 @@ This section provides an overview of all available classes and their purpose in 
 - **SelectingItemsControlBehavior**  
   *Animates selection transitions in items controls such as ListBox or TabControl.*
 
-- **SlidingAnimation**  
+- **SlidingAnimation**
   *Provides static methods to apply sliding animations (from left, right, top, or bottom) to a control.*
+- **FluidMoveBehavior**
+  *Animates layout changes of a control or its children.*
 
 ### Control
 - **BindPointerOverBehavior**  
@@ -447,6 +449,8 @@ This section provides an overview of all available classes and their purpose in 
 
 - **DataTriggerBehavior**
   *Evaluates a data binding against a given condition and triggers actions when the condition is true.*
+- **DataTrigger**
+  *Performs actions when the bound data meets a specified condition.*
 - **PropertyChangedTrigger**
   *Triggers actions when a property value changes.*
 
@@ -459,11 +463,17 @@ This section provides an overview of all available classes and their purpose in 
 - **DisposingBehavior**  
   *A base class for behaviors that manage disposable resources automatically.*
 
-- **DisposingTrigger**  
+- **DisposingTrigger**
   *A base class for triggers that need to dispose of resources when detached.*
+- **DisposableAction**
+  *Executes a delegate when the object is disposed.*
 
-- **EventTriggerBehavior**  
+- **EventTriggerBehavior**
   *Listens for a specified event on the associated object and triggers actions accordingly.*
+- **EventTrigger**
+  *Executes its actions when the configured event is raised.*
+- **TimerTrigger**
+  *Invokes actions repeatedly after a set interval.*
 
 - **InitializedBehavior**  
   *A base class for behaviors that execute code when the associated object is initialized.*
@@ -492,8 +502,8 @@ This section provides an overview of all available classes and their purpose in 
 - **RoutedEventTriggerBase**  
   *A base class for triggers that listen for a routed event and execute actions.*
 
-- **RoutedEventTriggerBaseOfT**  
-  *A generic version of RoutedEventTriggerBase for strongly typed routed event args.*
+- **RoutedEventTriggerBase<T>**
+  *Generic version of RoutedEventTriggerBase for strongly typed routed event args.*
 
 - **RoutedEventTriggerBehavior**  
   *Listens for a routed event on the associated object and triggers its actions.*
@@ -1024,10 +1034,6 @@ This section provides an overview of all available classes and their purpose in 
 - **MenuItemOpenFolderPickerBehavior**  
   *Opens a folder picker dialog when a MenuItem is clicked.*
 
-### StorageProvider – Utilities
-- **FileFilterParser**  
-  *Parses file filter strings (e.g. "Images|*.png;*.jpg") into file type objects for use with pickers.*
-
 ### StorageProvider
 - **OpenFilePickerAction**  
   *Opens a file picker dialog and passes the selected file(s) as a command parameter.*
@@ -1085,6 +1091,8 @@ This section provides an overview of all available classes and their purpose in 
 ### SplitView
 - **SplitViewStateBehavior**
   *Automatically updates `DisplayMode`, `PanePlacement`, and `IsPaneOpen` based on size conditions.*
+- **SplitViewStateSetter**
+  *Specifies size conditions and target values used by SplitViewStateBehavior.*
 - **SplitViewPaneOpeningTrigger**
   *Triggers actions when the pane is about to open.*
 - **SplitViewPaneOpenedTrigger**
@@ -1103,14 +1111,14 @@ This section provides an overview of all available classes and their purpose in 
 - **Behavior**  
   *The base class for behaviors that attach to Avalonia objects.*
 
-- **BehaviorOfT**  
+- **Behavior<T>**
   *Generic base class for behaviors that require a specific type of associated object.*
 
 - **Trigger**  
   *A base class for triggers that execute a collection of actions when activated.*
 
-- **TriggerOfT**  
-  *A generic version of Trigger for strongly typed associated objects.*
+- **Trigger<T>**
+  *Generic version of Trigger for strongly typed associated objects.*
 
 ### Collections
 - **ActionCollection**  
@@ -1135,16 +1143,6 @@ This section provides an overview of all available classes and their purpose in 
 - **ITrigger**  
   *Interface for triggers that encapsulate a collection of actions.*
 
-### Helpers
-- **ComparisonConditionTypeHelper**  
-  *Helper class for performing comparisons based on a specified condition type.*
-
-- **TemplatedParentHelper**  
-  *Helps to assign the templated parent for TemplateBinding support.*
-
-- **TypeConverterHelper**  
-  *Assists in converting string values to a target type for property assignment.*
-
 ### StyledElement
 - **StyledElementAction**  
   *A base class for actions that work with StyledElement objects.*
@@ -1152,13 +1150,13 @@ This section provides an overview of all available classes and their purpose in 
 - **StyledElementBehavior**  
   *A base class for behaviors targeting StyledElement objects.*
 
-- **StyledElementBehaviorOfT**  
+- **StyledElementBehavior<T>**
   *Generic base class for behaviors that are attached to a specific type of StyledElement.*
 
 - **StyledElementTrigger**  
   *A base trigger class for StyledElement objects.*
 
-- **StyledElementTriggerOfT**  
+- **StyledElementTrigger<T>**
   *Generic version of the StyledElementTrigger for typed associated objects.*
 
 ### Templates
