@@ -940,6 +940,15 @@ This section provides an overview of all available classes and their purpose in 
 - **ScrollToItemIndexBehavior**
   *Scrolls to a specific item index in the ItemsControl.*
 
+- **AddItemToItemsControlAction**
+  *Adds an item to an ItemsControl's collection.*
+
+- **InsertItemToItemsControlAction**
+  *Inserts an item at a specific index in an ItemsControl.*
+
+- **ClearItemsControlAction**
+  *Clears all items from an ItemsControl.*
+
 - **RemoveItemInItemsControlAction**
   *Removes the specified item from an ItemsControl.*
 
