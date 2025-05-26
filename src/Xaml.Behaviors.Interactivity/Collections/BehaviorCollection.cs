@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Diagnostics;
+using System.Linq;
 using Avalonia.Collections;
 
 namespace Avalonia.Xaml.Interactivity;
@@ -81,7 +82,7 @@ public class BehaviorCollection : AvaloniaList<AvaloniaObject>
 
     internal void AttachedToVisualTree()
     {
-        foreach (var item in this)
+        foreach (var item in this.ToList())
         {
             if (item is IBehaviorEventsHandler behaviorEventsHandler)
             {
@@ -92,7 +93,7 @@ public class BehaviorCollection : AvaloniaList<AvaloniaObject>
 
     internal void DetachedFromVisualTree()
     {
-        foreach (var item in this)
+        foreach (var item in this.ToList())
         {
             if (item is IBehaviorEventsHandler behaviorEventsHandler and IBehavior { AssociatedObject: not null })
             {
@@ -103,7 +104,7 @@ public class BehaviorCollection : AvaloniaList<AvaloniaObject>
 
     internal void AttachedToLogicalTree()
     {
-        foreach (var item in this)
+        foreach (var item in this.ToList())
         {
             if (item is IBehaviorEventsHandler behaviorEventsHandler)
             {
@@ -114,7 +115,7 @@ public class BehaviorCollection : AvaloniaList<AvaloniaObject>
 
     internal void DetachedFromLogicalTree()
     {
-        foreach (var item in this)
+        foreach (var item in this.ToList())
         {
             if (item is IBehaviorEventsHandler behaviorEventsHandler and IBehavior { AssociatedObject: not null })
             {
@@ -125,7 +126,7 @@ public class BehaviorCollection : AvaloniaList<AvaloniaObject>
 
     internal void Loaded()
     {
-        foreach (var item in this)
+        foreach (var item in this.ToList())
         {
             if (item is IBehaviorEventsHandler behaviorEventsHandler)
             {
@@ -136,7 +137,7 @@ public class BehaviorCollection : AvaloniaList<AvaloniaObject>
 
     internal void Unloaded()
     {
-        foreach (var item in this)
+        foreach (var item in this.ToList())
         {
             if (item is IBehaviorEventsHandler behaviorEventsHandler and IBehavior { AssociatedObject: not null })
             {
@@ -147,7 +148,7 @@ public class BehaviorCollection : AvaloniaList<AvaloniaObject>
 
     internal void Initialized()
     {
-        foreach (var item in this)
+        foreach (var item in this.ToList())
         {
             if (item is IBehaviorEventsHandler behaviorEventsHandler and IBehavior { AssociatedObject: not null })
             {
@@ -158,7 +159,7 @@ public class BehaviorCollection : AvaloniaList<AvaloniaObject>
 
     internal void DataContextChanged()
     {
-        foreach (var item in this)
+        foreach (var item in this.ToList())
         {
             if (item is IBehaviorEventsHandler behaviorEventsHandler and IBehavior { AssociatedObject: not null })
             {
@@ -169,7 +170,7 @@ public class BehaviorCollection : AvaloniaList<AvaloniaObject>
 
     internal void ResourcesChanged()
     {
-        foreach (var item in this)
+        foreach (var item in this.ToList())
         {
             if (item is IBehaviorEventsHandler behaviorEventsHandler and IBehavior { AssociatedObject: not null })
             {
@@ -180,7 +181,7 @@ public class BehaviorCollection : AvaloniaList<AvaloniaObject>
 
     internal void ActualThemeVariantChanged()
     {
-        foreach (var item in this)
+        foreach (var item in this.ToList())
         {
             if (item is IBehaviorEventsHandler behaviorEventsHandler and IBehavior { AssociatedObject: not null })
             {
