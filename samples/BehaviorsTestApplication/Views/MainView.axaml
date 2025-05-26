@@ -115,6 +115,15 @@
       <TabItem Header="RemoveItemInItemsControlAction">
         <pages:RemoveItemInItemsControlActionView />
       </TabItem>
+      <TabItem Header="AddItemToItemsControlAction">
+        <pages:AddItemToItemsControlActionView />
+      </TabItem>
+      <TabItem Header="InsertItemToItemsControlAction">
+        <pages:InsertItemToItemsControlActionView />
+      </TabItem>
+      <TabItem Header="ClearItemsControlAction">
+        <pages:ClearItemsControlActionView />
+      </TabItem>
       <TabItem Header="Remove Items Sample">
         <pages:RemoveItemsSampleView />
       </TabItem>
