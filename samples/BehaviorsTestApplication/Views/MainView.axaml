@@ -61,6 +61,9 @@
       <TabItem Header="InvokeCommandAction">
         <pages:InvokeCommandActionView />
       </TabItem>
+      <TabItem Header="AutoFocusBehavior">
+        <pages:AutoFocusBehaviorView />
+      </TabItem>
       <TabItem Header="FocusControlBehavior">
         <pages:FocusControlBehaviorView />
       </TabItem>
