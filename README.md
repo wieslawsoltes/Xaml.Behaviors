@@ -731,7 +731,9 @@ This section provides an overview of all available classes and their purpose in 
   *The base class that supports converting parameters and invoking a bound command.*
 
 ### Focus
-- **FocusBehavior**  
+- **AutoFocusBehavior**
+  *Automatically sets the focus on the associated control when it is loaded.*
+- **FocusBehavior**
   *Exposes a two‑way bindable IsFocused property to control focus state.*
 
 - **FocusBehaviorBase**  
