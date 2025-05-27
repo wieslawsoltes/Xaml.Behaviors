@@ -337,6 +337,18 @@
       <TabItem Header="Events Behaviors">
         <pages:EventsBehaviorsView />
       </TabItem>
+      <TabItem Header="Focus Event Triggers">
+        <pages:FocusEventTriggersView />
+      </TabItem>
+      <TabItem Header="Key Event Triggers">
+        <pages:KeyEventTriggersView />
+      </TabItem>
+      <TabItem Header="Pointer Event Triggers">
+        <pages:PointerEventTriggersView />
+      </TabItem>
+      <TabItem Header="Gesture Event Triggers">
+        <pages:GestureEventTriggersView />
+      </TabItem>
     </SingleSelectionTabControl>
   </DockPanel>
 </UserControl>

@@ -1,0 +1,36 @@
+<UserControl x:Class="BehaviorsTestApplication.Views.Pages.PointerEventTriggersView"
+             xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:events="clr-namespace:Avalonia.Xaml.Interactions.Events"
+             mc:Ignorable="d" d:DesignWidth="300" d:DesignHeight="200">
+  <StackPanel Margin="5">
+    <TextBlock x:Name="InfoText" Text="Interact" Margin="5" />
+    <Border Width="200" Height="100" Background="LightGray" Margin="5">
+      <Interaction.Behaviors>
+        <events:PointerEnteredEventTrigger>
+          <ChangePropertyAction TargetObject="InfoText" PropertyName="Text" Value="Pointer Entered" />
+        </events:PointerEnteredEventTrigger>
+        <events:PointerExitedEventTrigger>
+          <ChangePropertyAction TargetObject="InfoText" PropertyName="Text" Value="Pointer Exited" />
+        </events:PointerExitedEventTrigger>
+        <events:PointerPressedEventTrigger>
+          <ChangePropertyAction TargetObject="InfoText" PropertyName="Text" Value="Pointer Pressed" />
+        </events:PointerPressedEventTrigger>
+        <events:PointerReleasedEventTrigger>
+          <ChangePropertyAction TargetObject="InfoText" PropertyName="Text" Value="Pointer Released" />
+        </events:PointerReleasedEventTrigger>
+        <events:PointerMovedEventTrigger>
+          <ChangePropertyAction TargetObject="InfoText" PropertyName="Text" Value="Pointer Moved" />
+        </events:PointerMovedEventTrigger>
+        <events:PointerWheelChangedEventTrigger>
+          <ChangePropertyAction TargetObject="InfoText" PropertyName="Text" Value="Wheel Changed" />
+        </events:PointerWheelChangedEventTrigger>
+        <events:PointerCaptureLostEventTrigger>
+          <ChangePropertyAction TargetObject="InfoText" PropertyName="Text" Value="Capture Lost" />
+        </events:PointerCaptureLostEventTrigger>
+      </Interaction.Behaviors>
+    </Border>
+  </StackPanel>
+</UserControl>
