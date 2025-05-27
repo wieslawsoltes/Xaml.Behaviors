@@ -1,4 +1,7 @@
-﻿// Based on code: https://github.com/adirh3/Avalonia.ListBoxAnimation.Samples
+﻿// Copyright (c) Wiesław Šoltés. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for details.
+
+// Based on code: https://github.com/adirh3/Avalonia.ListBoxAnimation.Samples
 
 using System;
 using System.Linq;

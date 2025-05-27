@@ -1,4 +1,6 @@
-﻿namespace Avalonia.Xaml.Interactions.Core;
+﻿// Copyright (c) Wiesław Šoltés. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for details.
+namespace Avalonia.Xaml.Interactions.Core;
 
 /// <summary>
 /// Executes a specified <see cref="System.Windows.Input.ICommand"/> when invoked. 
