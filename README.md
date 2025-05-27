@@ -639,8 +639,48 @@ This section provides an overview of all available classes and their purpose in 
 - **TextInputEventBehavior**  
   *Listens for text input events and triggers actions accordingly.*
 
-- **TextInputMethodClientRequestedEventBehavior**  
+- **TextInputMethodClientRequestedEventBehavior**
   *Triggers actions when a text input method client is requested (for virtual keyboards, etc.).*
+
+### Event Triggers
+- **DoubleTappedEventTrigger**
+  *Triggers actions when a double-tap gesture occurs.*
+- **GotFocusEventTrigger**
+  *Triggers actions when the control receives focus.*
+- **KeyDownEventTrigger**
+  *Triggers actions when a key is pressed.*
+- **KeyUpEventTrigger**
+  *Triggers actions when a key is released.*
+- **LostFocusEventTrigger**
+  *Triggers actions when the control loses focus.*
+- **PointerCaptureLostEventTrigger**
+  *Triggers actions when pointer capture is lost.*
+- **PointerEnteredEventTrigger**
+  *Triggers actions when the pointer enters the control.*
+- **PointerEventsTrigger**
+  *Triggers actions for pointer press, move, and release events.*
+- **PointerExitedEventTrigger**
+  *Triggers actions when the pointer exits the control.*
+- **PointerMovedEventTrigger**
+  *Triggers actions when the pointer moves.*
+- **PointerPressedEventTrigger**
+  *Triggers actions when the pointer is pressed.*
+- **PointerReleasedEventTrigger**
+  *Triggers actions when the pointer is released.*
+- **PointerWheelChangedEventTrigger**
+  *Triggers actions when the pointer wheel changes.*
+- **RightTappedEventTrigger**
+  *Triggers actions on a right-tap gesture.*
+- **ScrollGestureEndedEventTrigger**
+  *Triggers actions when a scroll gesture ends.*
+- **ScrollGestureEventTrigger**
+  *Triggers actions during a scroll gesture.*
+- **TappedEventTrigger**
+  *Triggers actions when the control is tapped.*
+- **TextInputEventTrigger**
+  *Triggers actions on text input events.*
+- **TextInputMethodClientRequestedEventTrigger**
+  *Triggers actions when a text input method client is requested.*
 
 ### ExecuteCommand Core
 - **ExecuteCommandBehaviorBase**  
