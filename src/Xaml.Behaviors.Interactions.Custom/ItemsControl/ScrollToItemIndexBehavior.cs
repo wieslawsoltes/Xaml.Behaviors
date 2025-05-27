@@ -3,6 +3,7 @@
 using System;
 using Avalonia.Controls;
 using Avalonia.Reactive;
+using Avalonia.Xaml.Interactivity;
 
 namespace Avalonia.Xaml.Interactions.Custom;
 

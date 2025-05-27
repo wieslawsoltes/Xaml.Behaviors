@@ -3,6 +3,7 @@
 using System;
 using Avalonia.Animation;
 using Avalonia.Styling;
+using Avalonia.Xaml.Interactivity;
 
 namespace Avalonia.Xaml.Interactions.Custom;
 
