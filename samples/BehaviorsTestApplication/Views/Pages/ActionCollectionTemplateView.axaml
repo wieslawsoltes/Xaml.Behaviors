@@ -1,0 +1,63 @@
+<UserControl x:Class="BehaviorsTestApplication.Views.Pages.ActionCollectionTemplateView"
+             xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:BehaviorsTestApplication.ViewModels"
+             x:CompileBindings="True" x:DataType="vm:MainWindowViewModel"
+             mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="450">
+  <Design.DataContext>
+    <vm:MainWindowViewModel />
+  </Design.DataContext>
+  <ItemsControl ItemsSource="{Binding Items}">
+    <ItemsControl.Styles>
+      <Style Selector="ItemsControl > ContentPresenter" x:DataType="vm:ItemViewModel">
+        <Setter Property="(Interaction.Behaviors)">
+          <BehaviorCollection>
+            <EventTriggerBehavior EventName="PointerPressed">
+              <EventTriggerBehavior.Actions>
+                <ActionCollectionTemplate>
+                  <ActionCollection>
+                    <ChangeAvaloniaPropertyAction TargetObject="{Binding $parent[ItemsControl]}"
+                                                  TargetProperty="{x:Static TemplatedControl.BackgroundProperty}"
+                                                  Value="{Binding Color}" />
+                  </ActionCollection>
+                </ActionCollectionTemplate>
+              </EventTriggerBehavior.Actions>
+            </EventTriggerBehavior>
+            <EventTriggerBehavior EventName="DoubleTapped">
+              <EventTriggerBehavior.Actions>
+                <ActionCollectionTemplate>
+                  <ActionCollection>
+                    <PopupAction>
+                      <Border Background="White"
+                              BorderBrush="Black"
+                              BorderThickness="1"
+                              Padding="10">
+                        <StackPanel Orientation="Horizontal">
+                          <TextBlock Text="Value: " />
+                          <TextBlock Text="{Binding Value}" />
+                        </StackPanel>
+                      </Border>
+                    </PopupAction>
+                  </ActionCollection>
+                </ActionCollectionTemplate>
+              </EventTriggerBehavior.Actions>
+            </EventTriggerBehavior>
+          </BehaviorCollection>
+        </Setter>
+      </Style>
+      <Style Selector="ItemsControl > ContentPresenter">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+        <Setter Property="Margin" Value="0" />
+        <Setter Property="Padding" Value="5" />
+      </Style>
+    </ItemsControl.Styles>
+    <ItemsControl.ItemTemplate>
+      <DataTemplate DataType="vm:ItemViewModel">
+        <TextBlock Text="{Binding Value}" />
+      </DataTemplate>
+    </ItemsControl.ItemTemplate>
+  </ItemsControl>
+</UserControl>
