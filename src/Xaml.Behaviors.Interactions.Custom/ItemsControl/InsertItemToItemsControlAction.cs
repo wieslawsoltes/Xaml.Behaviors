@@ -4,6 +4,8 @@ using System.Collections;
 using System.Linq;
 using Avalonia.Controls;
 using Avalonia.LogicalTree;
+using Avalonia.Metadata;
+using Avalonia.Styling;
 using Avalonia.Xaml.Interactivity;
 
 namespace Avalonia.Xaml.Interactions.Custom;
@@ -44,6 +46,7 @@ public sealed class InsertItemToItemsControlAction : StyledElementAction
     /// <summary>
     /// Gets or sets item to insert.
     /// </summary>
+    [Content]
     public object? Item
     {
         get => GetValue(ItemProperty);
@@ -71,6 +74,11 @@ public sealed class InsertItemToItemsControlAction : StyledElementAction
         if (item is null)
         {
             return false;
+        }
+
+        if (item is ITemplate template)
+        {
+            item = template.Build();
         }
 
         var itemsControl = ItemsControl;

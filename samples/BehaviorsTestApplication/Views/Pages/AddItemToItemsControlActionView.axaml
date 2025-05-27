@@ -14,14 +14,14 @@
       <Interaction.Behaviors>
         <EventTriggerBehavior EventName="Click">
           <AddItemToItemsControlAction ItemsControl="ItemsControl">
-            <AddItemToItemsControlAction.Item>
+            <ObjectTemplate>
               <vm:ItemViewModel>
-                  <x:Arguments>
-                    <x:String>Added Item</x:String>
-                    <x:String>Black</x:String>
-                  </x:Arguments>
-                </vm:ItemViewModel>
-            </AddItemToItemsControlAction.Item>
+                <x:Arguments>
+                  <x:String>Added Item</x:String>
+                  <x:String>Black</x:String>
+                </x:Arguments>
+              </vm:ItemViewModel>
+            </ObjectTemplate>
           </AddItemToItemsControlAction>
         </EventTriggerBehavior>
       </Interaction.Behaviors>
@@ -29,7 +29,17 @@
     <ItemsControl x:Name="ItemsControl" ItemsSource="{Binding Items}">
       <ItemsControl.ItemTemplate>
         <DataTemplate DataType="vm:ItemViewModel">
-          <TextBlock Text="{Binding Value}" />
+          <DockPanel>
+            <TextBlock Text="Value:" Margin="5" VerticalAlignment="Center" DockPanel.Dock="Left" />
+            <Button Content="Remove" Margin="5" DockPanel.Dock="Right">
+              <Interaction.Behaviors>
+                <EventTriggerBehavior EventName="Click">
+                  <RemoveItemInItemsControlAction />
+                </EventTriggerBehavior>
+              </Interaction.Behaviors>
+            </Button>
+            <TextBox Text="{Binding Value}" Margin="5" />
+          </DockPanel>
         </DataTemplate>
       </ItemsControl.ItemTemplate>
     </ItemsControl>
