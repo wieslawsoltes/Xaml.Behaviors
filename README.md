@@ -1178,8 +1178,10 @@ This section provides an overview of all available classes and their purpose in 
   *Generic version of the StyledElementTrigger for typed associated objects.*
 
 ### Templates
-- **BehaviorCollectionTemplate**  
+- **BehaviorCollectionTemplate**
   *Defines a XAML template for creating a collection of behaviors.*
+- **ObjectTemplate**
+  *A template for creating custom objects.*
 
 ### Interactivity
 - **Interaction**  
