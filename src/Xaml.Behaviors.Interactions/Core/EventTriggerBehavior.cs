@@ -167,7 +167,7 @@ public class EventTriggerBehavior : StyledElementTrigger
                 return;
             }
 
-            if (EventName is null)
+            if (eventName is null)
             {
                 return;
             }
