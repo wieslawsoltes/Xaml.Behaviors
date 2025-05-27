@@ -14,14 +14,14 @@
       <Interaction.Behaviors>
         <EventTriggerBehavior EventName="Click">
           <InsertItemToItemsControlAction ItemsControl="ItemsControl" Index="0">
-            <InsertItemToItemsControlAction.Item>
+            <ObjectTemplate>
               <vm:ItemViewModel>
                 <x:Arguments>
                   <x:String>Added Item</x:String>
                   <x:String>Black</x:String>
                 </x:Arguments>
               </vm:ItemViewModel>
-            </InsertItemToItemsControlAction.Item>
+            </ObjectTemplate>
           </InsertItemToItemsControlAction>
         </EventTriggerBehavior>
       </Interaction.Behaviors>
@@ -29,7 +29,13 @@
     <ItemsControl x:Name="ItemsControl" ItemsSource="{Binding Items}">
       <ItemsControl.ItemTemplate>
         <DataTemplate DataType="vm:ItemViewModel">
-          <TextBlock Text="{Binding Value}" />
+          <DockPanel>
+            <TextBlock Text="Value:" 
+                       Margin="5" 
+                       VerticalAlignment="Center"
+                       DockPanel.Dock="Left" />
+            <TextBox Text="{Binding Value}" Margin="5" />
+          </DockPanel>
         </DataTemplate>
       </ItemsControl.ItemTemplate>
     </ItemsControl>

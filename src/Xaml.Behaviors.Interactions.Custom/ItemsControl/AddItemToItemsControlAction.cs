@@ -2,6 +2,8 @@
 // Licensed under the MIT license. See LICENSE file in the project root for details.
 using System.Collections;
 using Avalonia.Controls;
+using Avalonia.Metadata;
+using Avalonia.Styling;
 using Avalonia.Xaml.Interactivity;
 
 namespace Avalonia.Xaml.Interactions.Custom;
@@ -36,12 +38,12 @@ public sealed class AddItemToItemsControlAction : StyledElementAction
     /// <summary>
     /// Gets or sets item to add.
     /// </summary>
+    [Content]
     public object? Item
     {
         get => GetValue(ItemProperty);
         set => SetValue(ItemProperty, value);
     }
-
 
     /// <inheritdoc />
     public override object Execute(object? sender, object? parameter)
@@ -55,6 +57,11 @@ public sealed class AddItemToItemsControlAction : StyledElementAction
         if (item is null)
         {
             return false;
+        }
+
+        if (item is ITemplate template)
+        {
+            item = template.Build();
         }
 
         var itemsControl = ItemsControl;
