@@ -13,38 +13,48 @@
     <ItemsControl.Styles>
       <Style Selector="ItemsControl > ContentPresenter" x:DataType="vm:ItemViewModel">
         <Setter Property="(Interaction.Behaviors)">
-          <BehaviorCollection>
-            <EventTriggerBehavior EventName="PointerPressed">
-              <EventTriggerBehavior.Actions>
-                <ActionCollectionTemplate>
-                  <ActionCollection>
-                    <ChangeAvaloniaPropertyAction TargetObject="{Binding $parent[ItemsControl]}"
-                                                  TargetProperty="{x:Static TemplatedControl.BackgroundProperty}"
-                                                  Value="{Binding Color}" />
-                  </ActionCollection>
-                </ActionCollectionTemplate>
-              </EventTriggerBehavior.Actions>
-            </EventTriggerBehavior>
-            <EventTriggerBehavior EventName="DoubleTapped">
-              <EventTriggerBehavior.Actions>
-                <ActionCollectionTemplate>
-                  <ActionCollection>
-                    <PopupAction>
-                      <Border Background="White"
-                              BorderBrush="Black"
-                              BorderThickness="1"
-                              Padding="10">
-                        <StackPanel Orientation="Horizontal">
-                          <TextBlock Text="Value: " />
-                          <TextBlock Text="{Binding Value}" />
-                        </StackPanel>
-                      </Border>
-                    </PopupAction>
-                  </ActionCollection>
-                </ActionCollectionTemplate>
-              </EventTriggerBehavior.Actions>
-            </EventTriggerBehavior>
-          </BehaviorCollection>
+          <BehaviorCollectionTemplate>
+            <BehaviorCollection>
+              <EventTriggerBehavior EventName="PointerPressed">
+                <EventTriggerBehavior.Styles>
+                  <Style Selector="EventTriggerBehavior">
+                    <Setter Property="Actions">
+                      <ActionCollectionTemplate>
+                        <ActionCollection>
+                          <ChangeAvaloniaPropertyAction TargetObject="{Binding $parent[ItemsControl]}"
+                                                        TargetProperty="{x:Static TemplatedControl.BackgroundProperty}"
+                                                        Value="{Binding Color}" />
+                        </ActionCollection>
+                      </ActionCollectionTemplate>
+                    </Setter>
+                  </Style>
+                </EventTriggerBehavior.Styles>
+              </EventTriggerBehavior>
+              <EventTriggerBehavior EventName="DoubleTapped">
+                <EventTriggerBehavior.Styles>
+                  <Style Selector="EventTriggerBehavior">
+                    <Setter Property="Actions">
+                      <ActionCollectionTemplate>
+                        <ActionCollection>
+                          <PopupAction>
+                            <Border Background="White"
+                                    BorderBrush="Black"
+                                    BorderThickness="1"
+                                    Padding="10">
+                              <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="Value: " />
+                                <TextBlock Text="{Binding Value}" />
+                              </StackPanel>
+                            </Border>
+                          </PopupAction>
+                        </ActionCollection>
+                      </ActionCollectionTemplate>
+                    </Setter>
+                  </Style>
+                </EventTriggerBehavior.Styles>
+              </EventTriggerBehavior>
+            </BehaviorCollection>
+          </BehaviorCollectionTemplate>
         </Setter>
       </Style>
       <Style Selector="ItemsControl > ContentPresenter">
