@@ -1,0 +1,35 @@
+<UserControl x:Class="BehaviorsTestApplication.Views.Pages.PointerEventTriggersView"
+             xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="300" d:DesignHeight="200">
+  <StackPanel Margin="5">
+    <TextBlock x:Name="InfoText" Text="Interact" Margin="5" />
+    <Border Width="200" Height="100" Background="LightGray" Margin="5">
+      <Interaction.Behaviors>
+        <PointerEnteredEventTrigger>
+          <ChangePropertyAction TargetObject="InfoText" PropertyName="Text" Value="Pointer Entered" />
+        </PointerEnteredEventTrigger>
+        <PointerExitedEventTrigger>
+          <ChangePropertyAction TargetObject="InfoText" PropertyName="Text" Value="Pointer Exited" />
+        </PointerExitedEventTrigger>
+        <PointerPressedEventTrigger>
+          <ChangePropertyAction TargetObject="InfoText" PropertyName="Text" Value="Pointer Pressed" />
+        </PointerPressedEventTrigger>
+        <PointerReleasedEventTrigger>
+          <ChangePropertyAction TargetObject="InfoText" PropertyName="Text" Value="Pointer Released" />
+        </PointerReleasedEventTrigger>
+        <PointerMovedEventTrigger>
+          <ChangePropertyAction TargetObject="InfoText" PropertyName="Text" Value="Pointer Moved" />
+        </PointerMovedEventTrigger>
+        <PointerWheelChangedEventTrigger>
+          <ChangePropertyAction TargetObject="InfoText" PropertyName="Text" Value="Wheel Changed" />
+        </PointerWheelChangedEventTrigger>
+        <PointerCaptureLostEventTrigger>
+          <ChangePropertyAction TargetObject="InfoText" PropertyName="Text" Value="Capture Lost" />
+        </PointerCaptureLostEventTrigger>
+      </Interaction.Behaviors>
+    </Border>
+  </StackPanel>
+</UserControl>

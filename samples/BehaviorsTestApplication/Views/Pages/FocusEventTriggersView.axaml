@@ -1,0 +1,20 @@
+<UserControl x:Class="BehaviorsTestApplication.Views.Pages.FocusEventTriggersView"
+             xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="300" d:DesignHeight="150">
+  <StackPanel Margin="5">
+    <TextBlock x:Name="InfoText" Text="Focus the TextBox" Margin="5" />
+    <TextBox Width="200" Margin="5">
+      <Interaction.Behaviors>
+        <GotFocusEventTrigger>
+          <ChangePropertyAction TargetObject="InfoText" PropertyName="Text" Value="Got Focus" />
+        </GotFocusEventTrigger>
+        <LostFocusEventTrigger>
+          <ChangePropertyAction TargetObject="InfoText" PropertyName="Text" Value="Lost Focus" />
+        </LostFocusEventTrigger>
+      </Interaction.Behaviors>
+    </TextBox>
+  </StackPanel>
+</UserControl>
