@@ -121,6 +121,9 @@
       <TabItem Header="InsertItemToItemsControlAction">
         <pages:InsertItemToItemsControlActionView />
       </TabItem>
+      <TabItem Header="ObjectTemplate">
+        <pages:ObjectTemplateView />
+      </TabItem>
       <TabItem Header="ClearItemsControlAction">
         <pages:ClearItemsControlActionView />
       </TabItem>
