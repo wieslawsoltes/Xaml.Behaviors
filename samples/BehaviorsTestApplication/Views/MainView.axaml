@@ -334,6 +334,9 @@
       <TabItem Header="ViewportBehavior">
         <pages:ViewportBehaviorView />
       </TabItem>
+      <TabItem Header="Events Behaviors">
+        <pages:EventsBehaviorsView />
+      </TabItem>
     </SingleSelectionTabControl>
   </DockPanel>
 </UserControl>
