@@ -5,6 +5,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using Avalonia.Xaml.Interactivity;
 using Avalonia.Controls;
+using Avalonia.Interactivity;
 
 namespace Avalonia.Xaml.Interactions.Core;
 
@@ -31,6 +32,7 @@ public class EventTriggerBehavior : StyledElementTrigger
     private object? _resolvedSource;
     private Delegate? _eventHandler;
     private bool _isLoadedEventRegistered;
+    private IDisposable? _disposable;
 
     /// <summary>
     /// Gets or sets the name of the event to listen for. This is an avalonia property.
@@ -171,7 +173,14 @@ public class EventTriggerBehavior : StyledElementTrigger
             {
                 return;
             }
-            
+
+            var disposable = AddEventHandlerRegistry.TryRegisterEventHandler(_resolvedSource, eventName, AttachedToVisualTree);
+            if (disposable is not null)
+            {
+                _disposable = disposable;
+                return;
+            }
+   
             var sourceObjectType = _resolvedSource.GetType();
             var eventInfo = sourceObjectType.GetRuntimeEvent(EventName);
             if (eventInfo is null)
@@ -219,6 +228,13 @@ public class EventTriggerBehavior : StyledElementTrigger
 
         if (eventName != EventNameDefaultValue)
         {
+            if (_disposable is not null)
+            {
+                _disposable.Dispose();
+                _disposable = null;
+                return;
+            }
+
             if (_eventHandler is null)
             {
                 return;
