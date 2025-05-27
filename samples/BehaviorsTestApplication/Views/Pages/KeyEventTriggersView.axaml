@@ -3,24 +3,23 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:events="clr-namespace:Avalonia.Xaml.Interactions.Events"
              mc:Ignorable="d" d:DesignWidth="300" d:DesignHeight="150">
   <StackPanel Margin="5">
     <TextBlock x:Name="InfoText" Text="Press keys" Margin="5" />
     <TextBox Width="200" Margin="5">
       <Interaction.Behaviors>
-        <events:KeyDownEventTrigger>
+        <KeyDownEventTrigger>
           <ChangePropertyAction TargetObject="InfoText" PropertyName="Text" Value="Key Down" />
-        </events:KeyDownEventTrigger>
-        <events:KeyUpEventTrigger>
+        </KeyDownEventTrigger>
+        <KeyUpEventTrigger>
           <ChangePropertyAction TargetObject="InfoText" PropertyName="Text" Value="Key Up" />
-        </events:KeyUpEventTrigger>
-        <events:TextInputEventTrigger>
+        </KeyUpEventTrigger>
+        <TextInputEventTrigger>
           <ChangePropertyAction TargetObject="InfoText" PropertyName="Text" Value="Text Input" />
-        </events:TextInputEventTrigger>
-        <events:TextInputMethodClientRequestedEventTrigger>
+        </TextInputEventTrigger>
+        <TextInputMethodClientRequestedEventTrigger>
           <ChangePropertyAction TargetObject="InfoText" PropertyName="Text" Value="Input Method Requested" />
-        </events:TextInputMethodClientRequestedEventTrigger>
+        </TextInputMethodClientRequestedEventTrigger>
       </Interaction.Behaviors>
     </TextBox>
   </StackPanel>

@@ -3,27 +3,26 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:events="clr-namespace:Avalonia.Xaml.Interactions.Events"
              mc:Ignorable="d" d:DesignWidth="300" d:DesignHeight="200">
   <StackPanel Margin="5">
     <TextBlock x:Name="InfoText" Text="Interact" Margin="5" />
     <Border Width="200" Height="100" Background="LightGray" Margin="5">
       <Interaction.Behaviors>
-        <events:TappedEventTrigger>
+        <TappedEventTrigger>
           <ChangePropertyAction TargetObject="InfoText" PropertyName="Text" Value="Tapped" />
-        </events:TappedEventTrigger>
-        <events:DoubleTappedEventTrigger>
+        </TappedEventTrigger>
+        <DoubleTappedEventTrigger>
           <ChangePropertyAction TargetObject="InfoText" PropertyName="Text" Value="Double Tapped" />
-        </events:DoubleTappedEventTrigger>
-        <events:RightTappedEventTrigger>
+        </DoubleTappedEventTrigger>
+        <RightTappedEventTrigger>
           <ChangePropertyAction TargetObject="InfoText" PropertyName="Text" Value="Right Tapped" />
-        </events:RightTappedEventTrigger>
-        <events:ScrollGestureEventTrigger>
+        </RightTappedEventTrigger>
+        <ScrollGestureEventTrigger>
           <ChangePropertyAction TargetObject="InfoText" PropertyName="Text" Value="Scroll Gesture" />
-        </events:ScrollGestureEventTrigger>
-        <events:ScrollGestureEndedEventTrigger>
+        </ScrollGestureEventTrigger>
+        <ScrollGestureEndedEventTrigger>
           <ChangePropertyAction TargetObject="InfoText" PropertyName="Text" Value="Scroll Gesture Ended" />
-        </events:ScrollGestureEndedEventTrigger>
+        </ScrollGestureEndedEventTrigger>
       </Interaction.Behaviors>
     </Border>
   </StackPanel>
