@@ -28,7 +28,7 @@ public class ButtonOpenFolderPickerBehavior : OpenFolderPickerBehaviorBase
         
         if (AssociatedObject is Button button)
         {
-            button.Click += OnClick;
+            button.Click -= OnClick;
         }
     }
 

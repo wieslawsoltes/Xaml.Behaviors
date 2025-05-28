@@ -28,7 +28,7 @@ public class ButtonOpenFilePickerBehavior : OpenFilePickerBehaviorBase
         
         if (AssociatedObject is Button button)
         {
-            button.Click += OnClick;
+            button.Click -= OnClick;
         }
     }
 
