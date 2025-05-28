@@ -13,14 +13,18 @@
         <BehaviorCollectionTemplate>
           <BehaviorCollection>
             <EventTriggerBehavior EventName="KeyDown">
-              <EventTriggerBehavior.Actions>
-                <ActionCollectionTemplate>
-                  <ActionCollection>
-                    <ChangePropertyAction PropertyName="Background"
-                                          Value="{StaticResource RedBrush}" />
-                  </ActionCollection>
-                </ActionCollectionTemplate>
-              </EventTriggerBehavior.Actions>
+              <EventTriggerBehavior.Styles>
+                <Style Selector="EventTriggerBehavior">
+                  <Setter Property="Actions">
+                    <ActionCollectionTemplate>
+                      <ActionCollection>
+                        <ChangePropertyAction PropertyName="Background"
+                                              Value="{StaticResource RedBrush}" />
+                      </ActionCollection>
+                    </ActionCollectionTemplate>
+                  </Setter>
+                </Style>
+              </EventTriggerBehavior.Styles>
             </EventTriggerBehavior>
           </BehaviorCollection>
         </BehaviorCollectionTemplate>
