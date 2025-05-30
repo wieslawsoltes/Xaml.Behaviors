@@ -14,7 +14,7 @@
                   Value="{Binding ValidatedNumber}">
       <Interaction.Behaviors>
         <NumericUpDownValidationBehavior IsValid="{Binding IsNumberValid, Mode=OneWayToSource}">
-          <RequiredValidationRule ErrorMessage="Value is required." />
+          <RequiredDecimalValidationRule ErrorMessage="Value is required." />
           <MinValueValidationRule MinValue="0" ErrorMessage="Min 0" />
           <MaxValueValidationRule MaxValue="100" ErrorMessage="Max 100" />
         </NumericUpDownValidationBehavior>
