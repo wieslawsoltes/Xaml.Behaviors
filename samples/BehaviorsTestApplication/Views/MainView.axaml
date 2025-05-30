@@ -127,6 +127,15 @@
       <TabItem Header="ClearItemsControlAction">
         <pages:ClearItemsControlActionView />
       </TabItem>
+      <TabItem Header="AddRangeAction">
+        <pages:AddRangeActionView />
+      </TabItem>
+      <TabItem Header="MoveItemInItemsControlAction">
+        <pages:MoveItemInItemsControlActionView />
+      </TabItem>
+      <TabItem Header="CollectionChangedTrigger">
+        <pages:CollectionChangedTriggerBehaviorView />
+      </TabItem>
       <TabItem Header="Remove Items Sample">
         <pages:RemoveItemsSampleView />
       </TabItem>
