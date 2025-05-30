@@ -72,6 +72,7 @@ public partial class MainWindowViewModel : ViewModelBase
         MyString = "";
         ValidatedText = "";
         ValidatedNumber = 0m;
+        ValidatedDate = DateTimeOffset.Now;
         ValidatedItem = null;
 
         IsLoading = true;
@@ -132,6 +133,10 @@ public partial class MainWindowViewModel : ViewModelBase
     [Reactive] public partial decimal ValidatedNumber { get; set; }
 
     [Reactive] public partial bool IsNumberValid { get; set; }
+
+    [Reactive] public partial DateTimeOffset? ValidatedDate { get; set; }
+
+    [Reactive] public partial bool IsDateValid { get; set; }
 
     [Reactive] public partial ItemViewModel? ValidatedItem { get; set; }
 

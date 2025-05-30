@@ -73,6 +73,9 @@
       <TabItem Header="NumericUpDownValidationBehavior">
         <pages:NumericUpDownValidationBehaviorView />
       </TabItem>
+      <TabItem Header="DatePickerValidationBehavior">
+        <pages:DatePickerValidationBehaviorView />
+      </TabItem>
       <TabItem Header="ComboBoxValidationBehavior">
         <pages:ComboBoxValidationBehaviorView />
       </TabItem>
