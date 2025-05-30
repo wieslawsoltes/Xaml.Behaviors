@@ -1,0 +1,42 @@
+<UserControl x:Class="BehaviorsTestApplication.Views.Pages.AdornerBehaviorView"
+             xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:BehaviorsTestApplication.ViewModels"
+             xmlns:ia="using:Avalonia.Xaml.Interactions.Custom"
+             x:CompileBindings="True" x:DataType="vm:MainWindowViewModel"
+             mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="450">
+  <Design.DataContext>
+    <vm:MainWindowViewModel />
+  </Design.DataContext>
+  <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="10">
+    <Border x:Name="TargetBorder"
+            Width="100" Height="100"
+            Background="LightGray"
+            BorderBrush="Gray"
+            BorderThickness="1">
+      <Interaction.Behaviors>
+        <ia:AdornerVisibilityBehavior x:Name="AdornerBehavior">
+          <ia:AdornerVisibilityBehavior.AdornerTemplate>
+            <Template>
+              <Border BorderBrush="Red" BorderThickness="2" />
+            </Template>
+          </ia:AdornerVisibilityBehavior.AdornerTemplate>
+        </ia:AdornerVisibilityBehavior>
+      </Interaction.Behaviors>
+    </Border>
+    <StackPanel Orientation="Horizontal" Spacing="5">
+      <Button x:Name="ShowButton" Content="Show" />
+      <Button x:Name="HideButton" Content="Hide" />
+    </StackPanel>
+  </StackPanel>
+  <Interaction.Behaviors>
+    <EventTriggerBehavior EventName="Click" SourceObject="ShowButton">
+      <ia:SetAdornerVisibleAction TargetBehavior="{Binding ElementName=AdornerBehavior}" IsVisible="True" />
+    </EventTriggerBehavior>
+    <EventTriggerBehavior EventName="Click" SourceObject="HideButton">
+      <ia:SetAdornerVisibleAction TargetBehavior="{Binding ElementName=AdornerBehavior}" IsVisible="False" />
+    </EventTriggerBehavior>
+  </Interaction.Behaviors>
+</UserControl>
