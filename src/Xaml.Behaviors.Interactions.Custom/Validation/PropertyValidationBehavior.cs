@@ -126,15 +126,7 @@ public class PropertyValidationBehavior<TControl, TValue> : DisposingBehavior<TC
 
         if (AssociatedObject is Control control)
         {
-            
-            if (errors.Count > 0)
-            {
-                DataValidationErrors.SetErrors(control, errors);
-            }
-            else
-            {
-                DataValidationErrors.SetErrors(control, null);
-            }
+            DataValidationErrors.SetErrors(control, errors.Count > 0 ? errors : null);
         }
     }
 }
