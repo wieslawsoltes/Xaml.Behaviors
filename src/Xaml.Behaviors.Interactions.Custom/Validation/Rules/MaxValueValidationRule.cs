@@ -1,5 +1,3 @@
-using System;
-
 namespace Avalonia.Xaml.Interactions.Custom;
 
 /// <summary>
@@ -18,6 +16,6 @@ public class MaxValueValidationRule : IValidationRule<decimal?>
     /// <inheritdoc />
     public bool Validate(decimal? value)
     {
-        return value is decimal v && v <= MaxValue;
+        return value is { } v && v <= MaxValue;
     }
 }

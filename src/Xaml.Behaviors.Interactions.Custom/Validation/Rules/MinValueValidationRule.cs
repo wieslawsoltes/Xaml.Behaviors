@@ -1,5 +1,3 @@
-using System;
-
 namespace Avalonia.Xaml.Interactions.Custom;
 
 /// <summary>
@@ -18,6 +16,6 @@ public class MinValueValidationRule : IValidationRule<decimal?>
     /// <inheritdoc />
     public bool Validate(decimal? value)
     {
-        return value is decimal v && v >= MinValue;
+        return value is { } v && v >= MinValue;
     }
 }
