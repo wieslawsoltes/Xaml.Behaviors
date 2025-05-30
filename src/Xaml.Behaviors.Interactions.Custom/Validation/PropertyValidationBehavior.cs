@@ -15,6 +15,7 @@ namespace Avalonia.Xaml.Interactions.Custom;
 /// </summary>
 /// <typeparam name="TControl">Associated control type.</typeparam>
 /// <typeparam name="TValue">Property type.</typeparam>
+[SuppressMessage("AvaloniaProperty", "AVP1002:AvaloniaProperty objects should not be owned by a generic type")]
 public class PropertyValidationBehavior<TControl, TValue> : DisposingBehavior<TControl>
     where TControl : AvaloniaObject
 {
