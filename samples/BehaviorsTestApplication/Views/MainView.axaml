@@ -349,6 +349,9 @@
       <TabItem Header="Pointer Event Triggers">
         <pages:PointerEventTriggersView />
       </TabItem>
+      <TabItem Header="ComboBox Selection Editing">
+        <pages:ComboBoxSelectionEditingView />
+      </TabItem>
       <TabItem Header="Gesture Event Triggers">
         <pages:GestureEventTriggersView />
       </TabItem>
