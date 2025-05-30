@@ -72,6 +72,7 @@ public partial class MainWindowViewModel : ViewModelBase
         MyString = "";
         ValidatedText = "";
         ValidatedNumber = 0m;
+        SelectedItem = null;
         ValidatedSlider = 0.0;
         ValidatedDate = DateTimeOffset.Now;
         ValidatedItem = null;
@@ -134,6 +135,8 @@ public partial class MainWindowViewModel : ViewModelBase
     [Reactive] public partial decimal ValidatedNumber { get; set; }
 
     [Reactive] public partial bool IsNumberValid { get; set; }
+
+    [Reactive] public partial ItemViewModel? SelectedItem { get; set; }
 
     [Reactive] public partial double ValidatedSlider { get; set; }
 
