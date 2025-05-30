@@ -1,0 +1,30 @@
+<UserControl x:Class="BehaviorsTestApplication.Views.Pages.IconView"
+             xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:BehaviorsTestApplication.ViewModels"
+             x:DataType="vm:IconViewModel"
+             mc:Ignorable="d" d:DesignWidth="200" d:DesignHeight="150">
+  <Design.DataContext>
+    <vm:IconViewModel />
+  </Design.DataContext>
+  <StackPanel Spacing="10" Margin="5">
+    <PathIcon x:Name="DemoIcon" Width="40" Height="40" Foreground="Black">
+      <Interaction.Behaviors>
+        <PathIconDataBehavior Data="{Binding PlusIcon}" />
+        <PathIconDataChangedTrigger>
+          <ChangeAvaloniaPropertyAction TargetProperty="{x:Static PathIcon.ForegroundProperty}"
+                                        Value="Red" />
+        </PathIconDataChangedTrigger>
+      </Interaction.Behaviors>
+    </PathIcon>
+    <Button Content="Switch Icon">
+      <Interaction.Behaviors>
+        <EventTriggerBehavior EventName="Click">
+          <SetPathIconDataAction PathIcon="DemoIcon" Data="{Binding MinusIcon}" />
+        </EventTriggerBehavior>
+      </Interaction.Behaviors>
+    </Button>
+  </StackPanel>
+</UserControl>
