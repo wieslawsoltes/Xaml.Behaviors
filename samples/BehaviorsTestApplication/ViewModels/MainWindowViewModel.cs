@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel.DataAnnotations;
 using System.Reactive.Linq;
 using System.Windows.Input;
 using Avalonia.Controls;
@@ -123,6 +124,8 @@ public partial class MainWindowViewModel : ViewModelBase
     [Reactive] public partial string Greeting { get; set; }
 
     [Reactive] public partial string ValidatedText { get; set; }
+
+    [Reactive] public partial bool IsTextValid { get; set; }
 
     public IObservable<int> Values { get; }
 
