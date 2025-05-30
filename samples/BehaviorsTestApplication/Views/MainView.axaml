@@ -352,6 +352,9 @@
       <TabItem Header="Gesture Event Triggers">
         <pages:GestureEventTriggersView />
       </TabItem>
+      <TabItem Header="Load Image Async">
+        <pages:LoadImageAsyncView />
+      </TabItem>
     </SingleSelectionTabControl>
   </DockPanel>
 </UserControl>
