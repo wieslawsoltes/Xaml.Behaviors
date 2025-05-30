@@ -76,6 +76,12 @@
       <TabItem Header="SliderValidationBehavior">
         <pages:SliderValidationBehaviorView />
       </TabItem>
+      <TabItem Header="DatePickerValidationBehavior">
+        <pages:DatePickerValidationBehaviorView />
+      </TabItem>
+      <TabItem Header="ComboBoxValidationBehavior">
+        <pages:ComboBoxValidationBehaviorView />
+      </TabItem>
       <TabItem Header="FocusControlBehavior">
         <pages:FocusControlBehaviorView />
       </TabItem>
