@@ -253,6 +253,9 @@ This section provides an overview of all available classes and their purpose in 
 - **SplitViewTogglePaneAction**
   *Toggles the `IsPaneOpen` state of a `SplitView`.*
 
+- **HamburgerMenuTogglePaneAction**
+  *Toggles the `IsPaneOpen` state of a `HamburgerMenu`.*
+
 ### Animations
 - **FadeInBehavior**
   *Animates the fade-in effect for the associated element, gradually increasing its opacity.*
@@ -1158,6 +1161,20 @@ This section provides an overview of all available classes and their purpose in 
 - **SplitViewPaneClosingTrigger**
   *Triggers actions when the pane is about to close.*
 - **SplitViewPaneClosedTrigger**
+  *Triggers actions after the pane has closed.*
+
+### HamburgerMenu
+- **HamburgerMenuStateBehavior**
+  *Automatically updates `DisplayMode`, `PanePlacement`, and `IsPaneOpen` based on size conditions.*
+- **HamburgerMenuStateSetter**
+  *Specifies size conditions and target values used by HamburgerMenuStateBehavior.*
+- **HamburgerMenuPaneOpeningTrigger**
+  *Triggers actions when the pane is about to open.*
+- **HamburgerMenuPaneOpenedTrigger**
+  *Triggers actions after the pane has opened.*
+- **HamburgerMenuPaneClosingTrigger**
+  *Triggers actions when the pane is about to close.*
+- **HamburgerMenuPaneClosedTrigger**
   *Triggers actions after the pane has closed.*
 
 ## Interactivity (Infrastructure)
