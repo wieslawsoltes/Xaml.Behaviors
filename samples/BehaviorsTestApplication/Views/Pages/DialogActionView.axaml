@@ -1,0 +1,35 @@
+<UserControl x:Class="BehaviorsTestApplication.Views.Pages.DialogActionView"
+             xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:BehaviorsTestApplication.ViewModels"
+             xmlns:dialogs="using:BehaviorsTestApplication.Dialogs"
+             x:DataType="vm:MainWindowViewModel"
+             mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="450">
+  <Design.DataContext>
+    <vm:MainWindowViewModel />
+  </Design.DataContext>
+  <UserControl.Resources>
+    <dialogs:SimpleDialog x:Key="SampleDialog" />
+  </UserControl.Resources>
+  <StackPanel>
+    <TextBlock x:Name="Status" Margin="5" />
+    <Button x:Name="OpenButton" Content="Open Dialog" Margin="5" />
+    <Button x:Name="CloseButton" Content="Close Dialog" Margin="5" />
+  </StackPanel>
+  <Interaction.Behaviors>
+    <EventTriggerBehavior EventName="Click" SourceObject="OpenButton">
+      <ShowDialogAction Dialog="{Binding #SampleDialog}" />
+    </EventTriggerBehavior>
+    <EventTriggerBehavior EventName="Click" SourceObject="CloseButton">
+      <CloseWindowAction Window="{Binding #SampleDialog}" />
+    </EventTriggerBehavior>
+    <DialogOpenedTrigger SourceObject="{Binding #SampleDialog}">
+      <ChangePropertyAction TargetObject="Status" Property="Text" Value="Opened" />
+    </DialogOpenedTrigger>
+    <DialogClosedTrigger SourceObject="{Binding #SampleDialog}">
+      <ChangePropertyAction TargetObject="Status" Property="Text" Value="Closed" />
+    </DialogClosedTrigger>
+  </Interaction.Behaviors>
+</UserControl>

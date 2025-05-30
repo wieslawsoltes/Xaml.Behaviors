@@ -220,6 +220,9 @@
       <TabItem Header="ShowNotificationAction">
         <pages:ShowNotificationActionView />
       </TabItem>
+      <TabItem Header="Dialog Actions">
+        <pages:DialogActionView />
+      </TabItem>
       <TabItem Header="File Drop Handler">
         <pages:FileDropHandlerView />
       </TabItem>
