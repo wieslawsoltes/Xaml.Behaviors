@@ -214,6 +214,9 @@
       <TabItem Header="ShowContextMenuAction">
         <pages:ShowContextMenuActionView />
       </TabItem>
+      <TabItem Header="ShowHidePopupAction">
+        <pages:ShowHidePopupActionView />
+      </TabItem>
       <TabItem Header="SetEnabledAction">
         <pages:SetEnabledActionView />
       </TabItem>
@@ -351,6 +354,9 @@
       </TabItem>
       <TabItem Header="Gesture Event Triggers">
         <pages:GestureEventTriggersView />
+      </TabItem>
+      <TabItem Header="Popup Event Triggers">
+        <pages:PopupEventTriggersView />
       </TabItem>
     </SingleSelectionTabControl>
   </DockPanel>
