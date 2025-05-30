@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Reactive.Linq;
 using System.Windows.Input;
+using System.Threading.Tasks;
 using Avalonia.Controls;
 using Avalonia.Platform.Storage;
 using ReactiveUI;
@@ -223,5 +224,19 @@ public partial class MainWindowViewModel : ViewModelBase
         {
             Greeting = control.Text;
         }
+    }
+
+    public async Task LoadDataAsync()
+    {
+        IsLoading = true;
+        Progress = 0;
+
+        for (var i = 0; i <= 100; i += 20)
+        {
+            await Task.Delay(100);
+            Progress = i;
+        }
+
+        IsLoading = false;
     }
 }

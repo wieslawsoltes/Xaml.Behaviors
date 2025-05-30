@@ -325,6 +325,9 @@
       <TabItem Header="AnimateOnAttachedBehavior">
         <pages:AnimateOnAttachedBehaviorView />
       </TabItem>
+      <TabItem Header="Async Loading">
+        <pages:AsyncLoadingView />
+      </TabItem>
       <TabItem Header="ThemeVariantTrigger">
         <pages:ThemeVariantTriggerView />
       </TabItem>
