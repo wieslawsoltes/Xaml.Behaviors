@@ -145,8 +145,14 @@
       <TabItem Header="EditableDraggableListBox">
         <pages:EditableDraggableListBoxView />
       </TabItem>
+      <TabItem Header="EditableListBox DoubleTap">
+        <pages:EditableDoubleTappedListBoxView />
+      </TabItem>
       <TabItem Header="EditableTree">
         <pages:EditableTreeViewView />
+      </TabItem>
+      <TabItem Header="EditableTree DoubleTap">
+        <pages:EditableDoubleTappedTreeViewView />
       </TabItem>
       <TabItem Header="Editable Drag TreeView">
         <pages:EditableDragTreeViewView />
