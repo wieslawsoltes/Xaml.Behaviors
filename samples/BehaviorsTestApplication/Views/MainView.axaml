@@ -70,6 +70,9 @@
       <TabItem Header="TextBoxValidationBehavior">
         <pages:TextBoxValidationBehaviorView />
       </TabItem>
+      <TabItem Header="NumericUpDownValidationBehavior">
+        <pages:NumericUpDownValidationBehaviorView />
+      </TabItem>
       <TabItem Header="FocusControlBehavior">
         <pages:FocusControlBehaviorView />
       </TabItem>
