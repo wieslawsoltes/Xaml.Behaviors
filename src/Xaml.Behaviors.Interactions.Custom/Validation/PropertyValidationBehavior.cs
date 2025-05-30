@@ -120,5 +120,17 @@ public class PropertyValidationBehavior<TControl, TValue> : DisposingBehavior<TC
 
         IsValid = valid;
         Error = errors.Count > 0 ? string.Join(Environment.NewLine, errors) : null;
+
+        if (AssociatedObject is not null)
+        {
+            if (errors.Count > 0)
+            {
+                DataValidationErrors.SetErrors(AssociatedObject, errors);
+            }
+            else
+            {
+                DataValidationErrors.SetErrors(AssociatedObject, null);
+            }
+        }
     }
 }
