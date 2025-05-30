@@ -334,6 +334,9 @@
       <TabItem Header="ToggleIsExpandedOnDoubleTappedBehavior">
         <pages:ToggleIsExpandedOnDoubleTappedBehaviorView />
       </TabItem>
+      <TabItem Header="TreeView Filter">
+        <pages:TreeViewFilterView />
+      </TabItem>
       <TabItem Header="ViewportBehavior">
         <pages:ViewportBehaviorView />
       </TabItem>

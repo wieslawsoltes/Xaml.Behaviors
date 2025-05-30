@@ -1142,6 +1142,14 @@ This section provides an overview of all available classes and their purpose in 
 - **TextBoxSelectAllTextBehavior**
   *Selects all text in a TextBox immediately upon attachment.*
 
+### TreeView
+- **TreeViewFilterBehavior**
+  *Filters tree view nodes based on a search box.*
+- **TreeViewFilterTextChangedTrigger**
+  *Triggers actions when the search box text changes.*
+- **ApplyTreeViewFilterAction**
+  *Filters the target TreeView using a provided query.*
+
 ### TreeViewItem
 - **ToggleIsExpandedOnDoubleTappedBehavior**
   *Toggles the IsExpanded property of a TreeViewItem when it is double-tapped.*
