@@ -246,6 +246,8 @@ This section provides an overview of all available classes and their purpose in 
 
 - **RemoveElementAction**
   *Removes a control from its parent container when executed.*
+- **MoveElementToPanelAction**
+  *Moves a control to the specified panel.*
 
 - **ShowContextMenuAction**
   *Displays a control's context menu programmatically.*
@@ -561,6 +563,10 @@ This section provides an overview of all available classes and their purpose in 
 
 - **TypedDragBehavior**
   *Provides drag behavior for items of a specified data type.*
+- **PanelDragBehavior**
+  *Starts drag operations using the dragged control as context so it can be moved between panels.*
+- **PanelDropBehavior**
+  *Accepts dragged controls and inserts them into the target panel.*
 
 ### Draggable
 - **CanvasDragBehavior**  
@@ -681,6 +687,14 @@ This section provides an overview of all available classes and their purpose in 
   *Triggers actions on text input events.*
 - **TextInputMethodClientRequestedEventTrigger**
   *Triggers actions when a text input method client is requested.*
+- **DragEnterEventTrigger**
+  *Triggers actions when a drag operation enters the element.*
+- **DragLeaveEventTrigger**
+  *Triggers actions when a drag operation leaves the element.*
+- **DragOverEventTrigger**
+  *Triggers actions while a drag is over the element.*
+- **DropEventTrigger**
+  *Triggers actions when an item is dropped on the element.*
 
 ### ExecuteCommand Core
 - **ExecuteCommandBehaviorBase**  

@@ -1,0 +1,32 @@
+using Avalonia.Input;
+using Avalonia.Interactivity;
+
+namespace Avalonia.Xaml.Interactions.Events;
+
+/// <summary>
+/// Trigger that listens for the <see cref="DragDrop.DragLeaveEvent"/>.
+/// </summary>
+public sealed class DragLeaveEventTrigger : InteractiveTriggerBase
+{
+    static DragLeaveEventTrigger()
+    {
+        RoutingStrategiesProperty.OverrideMetadata<DragLeaveEventTrigger>(new StyledPropertyMetadata<RoutingStrategies>(RoutingStrategies.Direct | RoutingStrategies.Bubble));
+    }
+
+    /// <inheritdoc />
+    protected override void OnAttachedToVisualTree()
+    {
+        AssociatedObject?.AddHandler(DragDrop.DragLeaveEvent, OnDragLeave, RoutingStrategies);
+    }
+
+    /// <inheritdoc />
+    protected override void OnDetachedFromVisualTree()
+    {
+        AssociatedObject?.RemoveHandler(DragDrop.DragLeaveEvent, OnDragLeave);
+    }
+
+    private void OnDragLeave(object? sender, RoutedEventArgs e)
+    {
+        Execute(e);
+    }
+}
