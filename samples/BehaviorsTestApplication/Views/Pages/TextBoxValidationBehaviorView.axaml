@@ -4,7 +4,6 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="using:BehaviorsTestApplication.ViewModels"
-             xmlns:ic="using:Avalonia.Xaml.Interactions.Custom"
              x:DataType="vm:MainWindowViewModel"
              mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="150">
   <Design.DataContext>
@@ -13,10 +12,10 @@
   <StackPanel Spacing="4">
     <TextBox Width="200" Text="{Binding ValidatedText}">
       <Interaction.Behaviors>
-        <ic:TextBoxValidationBehavior>
-          <ic:RequiredValidationRule ErrorMessage="Text is required." />
-          <ic:RegexValidationRule Pattern="^[0-9]+$" ErrorMessage="Digits only." />
-        </ic:TextBoxValidationBehavior>
+        <TextBoxValidationBehavior>
+          <RequiredValidationRule ErrorMessage="Text is required." />
+          <RegexValidationRule Pattern="^[0-9]+$" ErrorMessage="Digits only." />
+        </TextBoxValidationBehavior>
       </Interaction.Behaviors>
     </TextBox>
     <TextBlock Text="{Binding ValidatedText}" />

@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using Avalonia;
 using Avalonia.Collections;
 using Avalonia.Data;
+using Avalonia.Metadata;
 using Avalonia.Reactive;
+using Avalonia.Xaml.Interactivity;
 
 namespace Avalonia.Xaml.Interactions.Custom;
 
