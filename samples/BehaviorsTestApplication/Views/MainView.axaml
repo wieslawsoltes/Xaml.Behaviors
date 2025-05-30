@@ -145,6 +145,12 @@
       <TabItem Header="EditableDraggableListBox">
         <pages:EditableDraggableListBoxView />
       </TabItem>
+      <TabItem Header="FilterListBoxAction">
+        <pages:FilterListBoxActionView />
+      </TabItem>
+      <TabItem Header="ListBoxFilterBehavior">
+        <pages:ListBoxFilterBehaviorView />
+      </TabItem>
       <TabItem Header="EditableTree">
         <pages:EditableTreeViewView />
       </TabItem>
