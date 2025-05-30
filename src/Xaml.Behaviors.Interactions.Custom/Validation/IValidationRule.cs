@@ -4,7 +4,7 @@ namespace Avalonia.Xaml.Interactions.Custom;
 /// Defines a validation rule.
 /// </summary>
 /// <typeparam name="T">Type of value to validate.</typeparam>
-public interface IValidationRule<T>
+public interface IValidationRule<in T>
 {
     /// <summary>
     /// Gets or sets the error message for failed validation.
