@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Avalonia;
 using Avalonia.Collections;
+using Avalonia.Controls;
 using Avalonia.Data;
 using Avalonia.Metadata;
 using Avalonia.Reactive;
@@ -123,15 +124,16 @@ public class PropertyValidationBehavior<TControl, TValue> : DisposingBehavior<TC
         IsValid = valid;
         Error = errors.Count > 0 ? string.Join(Environment.NewLine, errors) : null;
 
-        if (AssociatedObject is not null)
+        if (AssociatedObject is Control control)
         {
+            
             if (errors.Count > 0)
             {
-                DataValidationErrors.SetErrors(AssociatedObject, errors);
+                DataValidationErrors.SetErrors(control, errors);
             }
             else
             {
-                DataValidationErrors.SetErrors(AssociatedObject, null);
+                DataValidationErrors.SetErrors(control, null);
             }
         }
     }
