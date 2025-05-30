@@ -1,0 +1,32 @@
+<UserControl x:Class="BehaviorsTestApplication.Views.Pages.ComboBoxFilterView"
+             xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:BehaviorsTestApplication.ViewModels"
+             mc:Ignorable="d" d:DesignWidth="300" d:DesignHeight="200">
+  <Design.DataContext>
+    <vm:MainWindowViewModel />
+  </Design.DataContext>
+  <StackPanel Margin="5" Spacing="5">
+    <TextBox x:Name="FilterBox" Watermark="Type to filter" />
+    <ComboBox x:Name="ItemsComboBox" Width="200">
+      <ComboBox.Items>
+        <x:String>Apple</x:String>
+        <x:String>Orange</x:String>
+        <x:String>Banana</x:String>
+        <x:String>Grape</x:String>
+        <x:String>Lime</x:String>
+      </ComboBox.Items>
+      <Interaction.Behaviors>
+        <ComboBoxSearchBehavior SearchBox="FilterBox" />
+      </Interaction.Behaviors>
+    </ComboBox>
+    <TextBlock x:Name="NoMatchesText" Text="No matches" IsVisible="False" />
+    <Interaction.Triggers>
+      <TextChangedTrigger SourceObject="FilterBox">
+        <FilterComboBoxItemsAction ComboBox="ItemsComboBox" SearchBox="FilterBox" />
+      </TextChangedTrigger>
+    </Interaction.Triggers>
+  </StackPanel>
+</UserControl>
