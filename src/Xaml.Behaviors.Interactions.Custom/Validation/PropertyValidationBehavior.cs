@@ -104,6 +104,22 @@ public class PropertyValidationBehavior<TControl, TValue> : DisposingBehavior<TC
         return DisposableAction.Create(() => AssociatedObject.PropertyChanged -= Handler);
     }
 
+    /// <inheritdoc />
+    protected override void OnLoaded()
+    {
+        base.OnLoaded();
+
+        Validate();
+    }
+
+    private void Validate()
+    {
+        if (AssociatedObject is not null && Property is AvaloniaProperty<TValue> property)
+        {
+            Validate(AssociatedObject.GetValue<TValue>(property));
+        }
+    }
+
     private void Validate(TValue value)
     {
         var errors = new List<string>();
