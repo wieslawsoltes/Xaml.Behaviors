@@ -12,12 +12,15 @@
   <StackPanel Spacing="4">
     <TextBox Width="200" Text="{Binding ValidatedText}">
       <Interaction.Behaviors>
-        <TextBoxValidationBehavior>
+        <TextBoxValidationBehavior IsValid="{Binding IsTextValid, Mode=OneWayToSource}">
           <RequiredValidationRule ErrorMessage="Text is required." />
           <RegexValidationRule Pattern="^[0-9]+$" ErrorMessage="Digits only." />
         </TextBoxValidationBehavior>
       </Interaction.Behaviors>
     </TextBox>
+    <CheckBox IsEnabled="False" 
+              Content="IsTextValid "
+              IsChecked="{Binding IsTextValid}" />
     <TextBlock Text="{Binding ValidatedText}" />
   </StackPanel>
 </UserControl>
