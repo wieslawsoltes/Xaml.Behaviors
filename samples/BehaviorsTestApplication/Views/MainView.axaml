@@ -67,6 +67,9 @@
       <TabItem Header="AutoSelectBehavior">
         <pages:AutoSelectBehaviorView />
       </TabItem>
+      <TabItem Header="TextBoxValidationBehavior">
+        <pages:TextBoxValidationBehaviorView />
+      </TabItem>
       <TabItem Header="FocusControlBehavior">
         <pages:FocusControlBehaviorView />
       </TabItem>

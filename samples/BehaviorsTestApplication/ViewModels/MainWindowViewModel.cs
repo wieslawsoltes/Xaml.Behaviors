@@ -69,6 +69,7 @@ public partial class MainWindowViewModel : ViewModelBase
         Values = Observable.Interval(TimeSpan.FromSeconds(1)).Select(_ => _value++);
 
         MyString = "";
+        ValidatedText = "";
 
         IsLoading = true;
         Progress = 30;
@@ -120,6 +121,8 @@ public partial class MainWindowViewModel : ViewModelBase
     [Reactive] public partial double Progress { get; set; }
 
     [Reactive] public partial string Greeting { get; set; }
+
+    [Reactive] public partial string ValidatedText { get; set; }
 
     public IObservable<int> Values { get; }
 
