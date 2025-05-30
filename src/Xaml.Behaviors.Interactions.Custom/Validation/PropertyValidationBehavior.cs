@@ -101,6 +101,9 @@ public class PropertyValidationBehavior<TControl, TValue> : DisposingBehavior<TC
 
         AssociatedObject.PropertyChanged += Handler;
 
+        // Validate initial value to ensure errors are shown when the control is first displayed
+        Validate(AssociatedObject.GetValue(property));
+
         return DisposableAction.Create(() => AssociatedObject.PropertyChanged -= Handler);
     }
 
