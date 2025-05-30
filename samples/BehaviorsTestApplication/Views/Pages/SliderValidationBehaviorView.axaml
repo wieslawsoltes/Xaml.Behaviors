@@ -1,0 +1,28 @@
+<UserControl x:Class="BehaviorsTestApplication.Views.Pages.SliderValidationBehaviorView"
+             xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:BehaviorsTestApplication.ViewModels"
+             x:DataType="vm:MainWindowViewModel"
+             mc:Ignorable="d" d:DesignWidth="300" d:DesignHeight="150">
+  <Design.DataContext>
+    <vm:MainWindowViewModel />
+  </Design.DataContext>
+  <StackPanel Spacing="4">
+    <Slider Width="200"
+            Minimum="0"
+            Maximum="100"
+            Value="{Binding ValidatedSlider}">
+      <Interaction.Behaviors>
+        <SliderValidationBehavior IsValid="{Binding IsSliderValid, Mode=OneWayToSource}">
+          <RangeValidationRule x:TypeArguments="x:Double" Minimum="0" Maximum="100" ErrorMessage="Range 0-100" />
+        </SliderValidationBehavior>
+      </Interaction.Behaviors>
+    </Slider>
+    <CheckBox IsEnabled="False"
+              Content="IsSliderValid "
+              IsChecked="{Binding IsSliderValid}" />
+    <TextBlock Text="{Binding ValidatedSlider}" />
+  </StackPanel>
+</UserControl>
