@@ -73,6 +73,9 @@
       <TabItem Header="NumericUpDownValidationBehavior">
         <pages:NumericUpDownValidationBehaviorView />
       </TabItem>
+      <TabItem Header="NotNullValidationRule">
+        <pages:NotNullValidationRuleView />
+      </TabItem>
       <TabItem Header="FocusControlBehavior">
         <pages:FocusControlBehaviorView />
       </TabItem>

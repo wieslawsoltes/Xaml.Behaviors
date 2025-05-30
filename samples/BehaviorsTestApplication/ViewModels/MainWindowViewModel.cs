@@ -72,6 +72,7 @@ public partial class MainWindowViewModel : ViewModelBase
         MyString = "";
         ValidatedText = "";
         ValidatedNumber = 0m;
+        SelectedItem = null;
 
         IsLoading = true;
         Progress = 30;
@@ -131,6 +132,10 @@ public partial class MainWindowViewModel : ViewModelBase
     [Reactive] public partial decimal ValidatedNumber { get; set; }
 
     [Reactive] public partial bool IsNumberValid { get; set; }
+
+    [Reactive] public partial ItemViewModel? SelectedItem { get; set; }
+
+    [Reactive] public partial bool IsItemValid { get; set; }
 
     public IObservable<int> Values { get; }
 
