@@ -1,0 +1,33 @@
+<UserControl x:Class="BehaviorsTestApplication.Views.Pages.WindowInteractionsView"
+             xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:BehaviorsTestApplication.ViewModels"
+             xmlns:views="using:BehaviorsTestApplication.Views.Windows"
+             x:DataType="vm:MainWindowViewModel"
+             mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="200">
+  <Design.DataContext>
+    <vm:MainWindowViewModel />
+  </Design.DataContext>
+  <StackPanel Spacing="5" Margin="5">
+    <Button Content="Open Window">
+      <Interaction.Behaviors>
+        <EventTriggerBehavior EventName="Click">
+          <ShowWindowAction>
+            <ShowWindowAction.Window>
+              <views:SampleWindow />
+            </ShowWindowAction.Window>
+          </ShowWindowAction>
+        </EventTriggerBehavior>
+      </Interaction.Behaviors>
+    </Button>
+    <TextBlock x:Name="StateText" Text="Window state: {Binding $parent[Window].WindowState}" />
+  </StackPanel>
+  <Interaction.Behaviors>
+    <CenterWindowBehavior Window="{Binding $parent[Window]}" />
+    <WindowStateTrigger State="Maximized">
+      <ChangePropertyAction TargetObject="{Binding #StateText}" PropertyName="Text" Value="Window state: Maximized" />
+    </WindowStateTrigger>
+  </Interaction.Behaviors>
+</UserControl>

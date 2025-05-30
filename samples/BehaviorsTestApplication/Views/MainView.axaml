@@ -337,6 +337,9 @@
       <TabItem Header="ViewportBehavior">
         <pages:ViewportBehaviorView />
       </TabItem>
+      <TabItem Header="Window Interactions">
+        <pages:WindowInteractionsView />
+      </TabItem>
       <TabItem Header="Events Behaviors">
         <pages:EventsBehaviorsView />
       </TabItem>
