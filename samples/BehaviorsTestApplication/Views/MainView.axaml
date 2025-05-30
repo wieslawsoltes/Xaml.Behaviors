@@ -337,6 +337,15 @@
       <TabItem Header="ViewportBehavior">
         <pages:ViewportBehaviorView />
       </TabItem>
+      <TabItem Header="ScrollChangedTrigger">
+        <pages:ScrollChangedTriggerView />
+      </TabItem>
+      <TabItem Header="ScrollViewerOffsetBehavior">
+        <pages:ScrollViewerOffsetBehaviorView />
+      </TabItem>
+      <TabItem Header="ScrollToOffsetAction">
+        <pages:ScrollToOffsetActionView />
+      </TabItem>
       <TabItem Header="Events Behaviors">
         <pages:EventsBehaviorsView />
       </TabItem>
