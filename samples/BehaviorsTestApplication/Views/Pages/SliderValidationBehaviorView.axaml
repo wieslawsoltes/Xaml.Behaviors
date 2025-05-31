@@ -12,7 +12,9 @@
   <StackPanel Spacing="4">
     <Slider Width="200"
             Minimum="0"
-            Maximum="100"
+            Maximum="200"
+            TickFrequency="1"
+            IsSnapToTickEnabled="True"
             Value="{Binding ValidatedSlider}">
       <Interaction.Behaviors>
         <SliderValidationBehavior IsValid="{Binding IsSliderValid, Mode=OneWayToSource}">

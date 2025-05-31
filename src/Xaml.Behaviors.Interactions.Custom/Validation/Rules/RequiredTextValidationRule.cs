@@ -3,7 +3,7 @@ namespace Avalonia.Xaml.Interactions.Custom;
 /// <summary>
 /// Validation rule that requires a non-empty string value.
 /// </summary>
-public class RequiredTextValidationRule : IValidationRule<string?>
+public class RequiredTextValidationRule : IValidationRule<string>
 {
     /// <inheritdoc />
     public string? ErrorMessage { get; set; } = "Value is required.";

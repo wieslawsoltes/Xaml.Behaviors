@@ -13,6 +13,6 @@ public class RequiredDateValidationRule : IValidationRule<DateTimeOffset?>
     /// <inheritdoc />
     public bool Validate(DateTimeOffset? value)
     {
-        return value is not null;
+        return value is { };
     }
 }

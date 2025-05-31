@@ -3,12 +3,12 @@ namespace Avalonia.Xaml.Interactions.Custom;
 /// <summary>
 /// Validation rule that checks that a numeric value is greater than or equal to a minimum value.
 /// </summary>
-public class MinValueValidationRule : IValidationRule<decimal?>
+public class NumericUpDownMinValueValidationRule : IValidationRule<decimal?>
 {
     /// <summary>
     /// Gets or sets the minimum value.
     /// </summary>
-    public decimal MinValue { get; set; }
+    public decimal? MinValue { get; set; }
 
     /// <inheritdoc />
     public string? ErrorMessage { get; set; } = "Value is below minimum.";

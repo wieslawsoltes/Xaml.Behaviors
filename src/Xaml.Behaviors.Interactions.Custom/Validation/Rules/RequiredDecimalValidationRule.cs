@@ -11,6 +11,6 @@ public class RequiredDecimalValidationRule : IValidationRule<decimal?>
     /// <inheritdoc />
     public bool Validate(decimal? value)
     {
-        return value is not null;
+        return value is { };
     }
 }

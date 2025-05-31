@@ -1,3 +1,5 @@
+using System.Diagnostics.CodeAnalysis;
+
 namespace Avalonia.Xaml.Interactions.Custom;
 
 /// <summary>

@@ -10,7 +10,7 @@ public class NotNullValidationRule<T> : IValidationRule<T>
     public string? ErrorMessage { get; set; } = "Value is required.";
 
     /// <inheritdoc />
-    public bool Validate(T? value)
+    public bool Validate(T value)
     {
         return value is not null;
     }

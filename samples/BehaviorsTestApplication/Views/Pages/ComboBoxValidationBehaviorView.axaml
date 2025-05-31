@@ -4,6 +4,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="using:BehaviorsTestApplication.ViewModels"
+             xmlns:system="clr-namespace:System;assembly=System.Runtime"
              x:DataType="vm:MainWindowViewModel"
              mc:Ignorable="d" d:DesignWidth="300" d:DesignHeight="150">
   <Design.DataContext>
@@ -11,11 +12,12 @@
   </Design.DataContext>
   <StackPanel Spacing="4">
     <ComboBox Width="200"
-              Items="{Binding Items}"
+              ItemsSource="{Binding Items}"
               SelectedItem="{Binding ValidatedItem}">
       <Interaction.Behaviors>
         <ComboBoxValidationBehavior IsValid="{Binding IsItemValid, Mode=OneWayToSource}">
-          <NotNullValidationRule ErrorMessage="Selection is required." />
+          <NotNullValidationRule ErrorMessage="Selection is required."
+                                 x:TypeArguments="system:Object" />
         </ComboBoxValidationBehavior>
       </Interaction.Behaviors>
     </ComboBox>

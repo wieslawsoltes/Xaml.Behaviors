@@ -3,7 +3,7 @@ namespace Avalonia.Xaml.Interactions.Custom;
 /// <summary>
 /// Validation rule that requires a string with a minimal length.
 /// </summary>
-public class MinLengthValidationRule : IValidationRule<string?>
+public class MinLengthValidationRule : IValidationRule<string>
 {
     /// <summary>
     /// Gets or sets the minimal allowed length.

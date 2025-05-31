@@ -4,6 +4,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="using:BehaviorsTestApplication.ViewModels"
+             xmlns:system="clr-namespace:System;assembly=System.Runtime"
              x:DataType="vm:MainWindowViewModel"
              mc:Ignorable="d" d:DesignWidth="300" d:DesignHeight="150">
   <Design.DataContext>
@@ -14,10 +15,9 @@
       <Interaction.Behaviors>
         <DatePickerValidationBehavior IsValid="{Binding IsDateValid, Mode=OneWayToSource}">
           <RequiredDateValidationRule ErrorMessage="Date is required." />
-          <RangeValidationRule x:TypeArguments="x:DateTimeOffset"
-                               Minimum="2020-01-01"
-                               Maximum="2030-12-31"
-                               ErrorMessage="Date out of range." />
+          <DateTimeOffsetRangeValidationRule Minimum="2020-01-01"
+                                             Maximum="2030-12-31"
+                                             ErrorMessage="Date out of range." />
         </DatePickerValidationBehavior>
       </Interaction.Behaviors>
     </DatePicker>

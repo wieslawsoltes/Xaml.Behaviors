@@ -11,12 +11,12 @@
   </Design.DataContext>
   <StackPanel Spacing="4">
     <NumericUpDown Width="200"
-                  Value="{Binding ValidatedNumber}">
+                   Value="{Binding ValidatedNumber}">
       <Interaction.Behaviors>
         <NumericUpDownValidationBehavior IsValid="{Binding IsNumberValid, Mode=OneWayToSource}">
           <RequiredDecimalValidationRule ErrorMessage="Value is required." />
-          <MinValueValidationRule MinValue="0" ErrorMessage="Min 0" />
-          <MaxValueValidationRule MaxValue="100" ErrorMessage="Max 100" />
+          <NumericUpDownMinValueValidationRule MinValue="0" ErrorMessage="Min 0" />
+          <NumericUpDownMaxValueValidationRule MaxValue="100" ErrorMessage="Max 100" />
         </NumericUpDownValidationBehavior>
       </Interaction.Behaviors>
     </NumericUpDown>

@@ -5,7 +5,7 @@ namespace Avalonia.Xaml.Interactions.Custom;
 /// <summary>
 /// Validation rule that checks value against a regular expression pattern.
 /// </summary>
-public class RegexValidationRule : IValidationRule<string?>
+public class RegexValidationRule : IValidationRule<string>
 {
     /// <summary>
     /// Gets or sets the regex pattern.
