@@ -6,24 +6,31 @@ namespace Avalonia.Xaml.Interactions.Custom;
 /// Validation rule that checks whether a value is within a specified range.
 /// </summary>
 /// <typeparam name="T">Type of value to validate.</typeparam>
-public class RangeValidationRule<T> : IValidationRule<T> where T : struct
+public class RangeValidationRule<T> : IValidationRule<T>
 {
     /// <summary>
     /// Gets or sets the minimum allowed value.
     /// </summary>
-    public T Minimum { get; set; }
+    // ReSharper disable once UnusedAutoPropertyAccessor.Global
+    public T? Minimum { get; set; }
 
     /// <summary>
     /// Gets or sets the maximum allowed value.
     /// </summary>
-    public T Maximum { get; set; }
+    // ReSharper disable once UnusedAutoPropertyAccessor.Global
+    public T? Maximum { get; set; }
 
     /// <inheritdoc />
     public string? ErrorMessage { get; set; } = "Value is out of range.";
 
     /// <inheritdoc />
-    public bool Validate(T value)
+    public bool Validate(T? value)
     {
+        if (value is null || Minimum is null || Maximum is null)
+        {
+            return false;
+        }
+        
         if (Comparer<T>.Default.Compare(value, Minimum) < 0)
         {
             return false;

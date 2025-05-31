@@ -15,9 +15,10 @@
       <Interaction.Behaviors>
         <DatePickerValidationBehavior IsValid="{Binding IsDateValid, Mode=OneWayToSource}">
           <RequiredDateValidationRule ErrorMessage="Date is required." />
-          <DateTimeOffsetRangeValidationRule Minimum="2020-01-01"
-                                             Maximum="2030-12-31"
-                                             ErrorMessage="Date out of range." />
+          <RangeValidationRule x:TypeArguments="system:Nullable(system:DateTimeOffset)"
+                               Minimum="2020-01-01"
+                               Maximum="2030-12-31"
+                               ErrorMessage="Date out of range." />
         </DatePickerValidationBehavior>
       </Interaction.Behaviors>
     </DatePicker>
