@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 using System.Reactive.Linq;
 using System.Windows.Input;
+using System.Net.Http;
 using Avalonia.Controls;
 using Avalonia.Platform.Storage;
 using ReactiveUI;
@@ -99,6 +100,11 @@ public partial class MainWindowViewModel : ViewModelBase
         GetClipboardDataCommand = ReactiveCommand.Create<object?>(GetClipboardData);
         GetClipboardFormatsCommand = ReactiveCommand.Create<IEnumerable<string>?>(GetClipboardFormats);
 
+        UploadFilePath = string.Empty;
+        UploadUrl = string.Empty;
+        UploadCompleted = false;
+        UploadCompletedCommand = ReactiveCommand.Create<System.Net.Http.HttpResponseMessage>(OnUploadCompleted);
+
         Greeting = "Entered text will appear here";
         TextChangedCommand = ReactiveCommand.Create<TextChangedEventArgs>(OnTextChanged);
     }
@@ -117,6 +123,15 @@ public partial class MainWindowViewModel : ViewModelBase
 
     [Reactive]
     public partial ObservableCollection<Uri>? FileItems { get; set; }
+
+    [Reactive]
+    public partial string UploadFilePath { get; set; }
+
+    [Reactive]
+    public partial string UploadUrl { get; set; }
+
+    [Reactive]
+    public partial bool UploadCompleted { get; set; }
 
     [Reactive] internal partial string MyString { get; set; }
     
@@ -175,6 +190,8 @@ public partial class MainWindowViewModel : ViewModelBase
     public ICommand GetClipboardDataCommand { get; set; }
 
     public ICommand GetClipboardFormatsCommand { get; set; }
+
+    public ICommand UploadCompletedCommand { get; set; }
 
     public ICommand TextChangedCommand { get; }
 
@@ -236,6 +253,12 @@ public partial class MainWindowViewModel : ViewModelBase
         {
             Console.WriteLine($"GetClipboardFormatsCommand: {string.Join(',', formats)}");
         }
+    }
+
+    private void OnUploadCompleted(System.Net.Http.HttpResponseMessage response)
+    {
+        Console.WriteLine($"UploadCompleted: {response.StatusCode}");
+        UploadCompleted = true;
     }
 
     public void IncrementCount() => Count++;
