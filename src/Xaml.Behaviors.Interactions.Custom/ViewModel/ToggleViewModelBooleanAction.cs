@@ -1,8 +1,10 @@
 // Copyright (c) Wiesław Šoltés. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for details.
+using System.Reflection;
+using Avalonia.Controls;
 using Avalonia.Xaml.Interactivity;
 
-namespace Avalonia.Xaml.Interactions.ViewModel;
+namespace Avalonia.Xaml.Interactions.Custom;
 
 /// <summary>
 /// Toggles a boolean view model property when invoked.
@@ -25,14 +27,19 @@ public class ToggleViewModelBooleanAction : StyledElementAction
     }
 
     /// <inheritdoc />
-    public override object? Execute(object? sender, object? parameter)
+    public override object Execute(object? sender, object? parameter)
     {
         if (!IsEnabled)
         {
             return false;
         }
 
-        var target = AssociatedObject?.DataContext;
+        if (sender is not Control control)
+        {
+            return false;
+        }
+
+        var target = control.DataContext;
         if (target is null)
         {
             return false;

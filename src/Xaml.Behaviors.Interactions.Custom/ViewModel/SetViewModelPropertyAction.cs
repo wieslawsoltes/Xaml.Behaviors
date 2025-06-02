@@ -1,13 +1,17 @@
 // Copyright (c) Wiesław Šoltés. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for details.
 using System;
+using System.Diagnostics.CodeAnalysis;
+using System.Reflection;
+using Avalonia.Controls;
 using Avalonia.Xaml.Interactivity;
 
-namespace Avalonia.Xaml.Interactions.ViewModel;
+namespace Avalonia.Xaml.Interactions.Custom;
 
 /// <summary>
 /// Sets a view model property to a specified value when invoked.
 /// </summary>
+[RequiresUnreferencedCode("This functionality is not compatible with trimming.")]
 public class SetViewModelPropertyAction : StyledElementAction
 {
     /// <summary>
@@ -41,14 +45,19 @@ public class SetViewModelPropertyAction : StyledElementAction
     }
 
     /// <inheritdoc />
-    public override object? Execute(object? sender, object? parameter)
+    public override object Execute(object? sender, object? parameter)
     {
         if (!IsEnabled)
         {
             return false;
         }
 
-        var target = AssociatedObject?.DataContext;
+        if (sender is not Control control)
+        {
+            return false;
+        }
+
+        var target = control.DataContext;
         if (target is null)
         {
             return false;
@@ -68,7 +77,7 @@ public class SetViewModelPropertyAction : StyledElementAction
 
         object? result = Value;
         var type = info.PropertyType;
-        if (result is not null && !type.IsAssignableFrom(result.GetType()))
+        if (result is not null && !type.IsInstanceOfType(result))
         {
             var str = Value?.ToString();
             if (str is not null)
@@ -79,7 +88,7 @@ public class SetViewModelPropertyAction : StyledElementAction
                 }
                 else
                 {
-                    result = Interactivity.TypeConverterHelper.Convert(str, type);
+                    result = TypeConverterHelper.Convert(str, type);
                 }
             }
         }

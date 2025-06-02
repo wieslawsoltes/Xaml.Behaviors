@@ -2,9 +2,11 @@
 // Licensed under the MIT license. See LICENSE file in the project root for details.
 using System;
 using System.Globalization;
+using System.Reflection;
+using Avalonia.Controls;
 using Avalonia.Xaml.Interactivity;
 
-namespace Avalonia.Xaml.Interactions.ViewModel;
+namespace Avalonia.Xaml.Interactions.Custom;
 
 /// <summary>
 /// Increments a numeric view model property when invoked.
@@ -42,14 +44,19 @@ public class IncrementViewModelPropertyAction : StyledElementAction
     }
 
     /// <inheritdoc />
-    public override object? Execute(object? sender, object? parameter)
+    public override object Execute(object? sender, object? parameter)
     {
         if (!IsEnabled)
         {
             return false;
         }
 
-        var target = AssociatedObject?.DataContext;
+        if (sender is not Control control)
+        {
+            return false;
+        }
+
+        var target = control.DataContext;
         if (target is null)
         {
             return false;

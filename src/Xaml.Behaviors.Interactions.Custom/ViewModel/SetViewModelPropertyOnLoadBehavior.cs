@@ -3,7 +3,7 @@
 using Avalonia.Controls;
 using Avalonia.Xaml.Interactivity;
 
-namespace Avalonia.Xaml.Interactions.ViewModel;
+namespace Avalonia.Xaml.Interactions.Custom;
 
 /// <summary>
 /// Sets a view model property when the associated control is loaded.

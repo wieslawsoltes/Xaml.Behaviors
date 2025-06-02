@@ -1,15 +1,16 @@
 // Copyright (c) Wiesław Šoltés. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for details.
 using System.ComponentModel;
+using Avalonia.Controls;
 using Avalonia.Threading;
 using Avalonia.Xaml.Interactivity;
 
-namespace Avalonia.Xaml.Interactions.ViewModel;
+namespace Avalonia.Xaml.Interactions.Custom;
 
 /// <summary>
 /// Triggers when the specified view model property changes.
 /// </summary>
-public class ViewModelPropertyChangedTrigger : StyledElementTrigger
+public class ViewModelPropertyChangedTrigger : StyledElementTrigger<Control>
 {
     /// <summary>
     /// Identifies the <see cref="PropertyName"/> avalonia property.
