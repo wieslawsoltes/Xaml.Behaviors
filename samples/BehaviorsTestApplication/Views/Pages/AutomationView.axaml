@@ -3,8 +3,6 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:i="using:Avalonia.Xaml.Interactivity"
-             xmlns:ia="using:Avalonia.Xaml.Interactions.Custom.Automation"
              xmlns:vm="using:BehaviorsTestApplication.ViewModels"
              x:DataType="vm:MainWindowViewModel"
              mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="450">
@@ -13,32 +11,30 @@
   </Design.DataContext>
   <StackPanel Margin="5" Spacing="10">
     <Button x:Name="TargetButton" Content="Automation Button">
-      <i:Interaction.Behaviors>
-        <ia:AutomationNameBehavior Name="Initial Name" />
-      </i:Interaction.Behaviors>
-      <i:Interaction.Triggers>
-        <ia:AutomationNameChangedTrigger>
+      <Interaction.Behaviors>
+        <AutomationNameBehavior Name="Initial Name" />
+        <AutomationNameChangedTrigger>
           <ChangeAvaloniaPropertyAction TargetObject="{Binding ElementName=OutputText}"
                                         TargetProperty="Text"
                                         Value="Name changed" />
-        </ia:AutomationNameChangedTrigger>
-      </i:Interaction.Triggers>
+        </AutomationNameChangedTrigger>
+      </Interaction.Behaviors>
     </Button>
     <TextBlock x:Name="OutputText" Text="Waiting" />
     <Button Content="Set Automation Id">
-      <i:Interaction.Behaviors>
+      <Interaction.Behaviors>
         <EventTriggerBehavior EventName="Click">
-          <ia:SetAutomationIdAction TargetControl="{Binding ElementName=TargetButton}"
+          <SetAutomationIdAction TargetControl="{Binding ElementName=TargetButton}"
                                    AutomationId="AutoButton" />
         </EventTriggerBehavior>
-      </i:Interaction.Behaviors>
+      </Interaction.Behaviors>
     </Button>
     <Button Content="Invoke Click">
-      <i:Interaction.Behaviors>
+      <Interaction.Behaviors>
         <EventTriggerBehavior EventName="Click">
-          <ia:InvokeClickAction TargetButton="{Binding ElementName=TargetButton}" />
+          <InvokeClickAction TargetButton="{Binding ElementName=TargetButton}" />
         </EventTriggerBehavior>
-      </i:Interaction.Behaviors>
+      </Interaction.Behaviors>
     </Button>
   </StackPanel>
 </UserControl>

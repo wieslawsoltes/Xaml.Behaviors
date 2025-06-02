@@ -1,8 +1,10 @@
-using Avalonia;
+// Copyright (c) Wiesław Šoltés. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for details.
+using Avalonia.Automation;
 using Avalonia.Controls;
 using Avalonia.Xaml.Interactivity;
 
-namespace Avalonia.Xaml.Interactions.Custom.Automation;
+namespace Avalonia.Xaml.Interactions.Custom;
 
 /// <summary>
 /// Sets <see cref="AutomationProperties.NameProperty"/> on the associated control when attached.
@@ -10,15 +12,15 @@ namespace Avalonia.Xaml.Interactions.Custom.Automation;
 public class AutomationNameBehavior : StyledElementBehavior<Control>
 {
     /// <summary>
-    /// Identifies the <see cref="Name"/> avalonia property.
+    /// Identifies the <see cref="AutomationName"/> avalonia property.
     /// </summary>
-    public static readonly StyledProperty<string?> NameProperty =
-        AvaloniaProperty.Register<AutomationNameBehavior, string?>(nameof(Name));
+    public static readonly StyledProperty<string?> AutomationNameProperty =
+        AvaloniaProperty.Register<AutomationNameBehavior, string?>(nameof(AutomationName));
 
     /// <summary>
     /// Gets or sets the automation name. This is an avalonia property.
     /// </summary>
-    public string? Name
+    public string? AutomationName
     {
         get => GetValue(NameProperty);
         set => SetValue(NameProperty, value);
@@ -34,7 +36,7 @@ public class AutomationNameBehavior : StyledElementBehavior<Control>
     /// <inheritdoc />
     protected override void OnDetaching()
     {
-        SetAutomationName(null);
+        SetAutomationPropertiesName(null);
         base.OnDetaching();
     }
 
@@ -43,7 +45,7 @@ public class AutomationNameBehavior : StyledElementBehavior<Control>
     {
         base.OnPropertyChanged(change);
 
-        if (change.Property == NameProperty)
+        if (change.Property == AutomationNameProperty)
         {
             UpdateName();
         }
@@ -51,10 +53,10 @@ public class AutomationNameBehavior : StyledElementBehavior<Control>
 
     private void UpdateName()
     {
-        SetAutomationName(Name);
+        SetAutomationPropertiesName(AutomationName);
     }
 
-    private void SetAutomationName(string? value)
+    private void SetAutomationPropertiesName(string? value)
     {
         if (AssociatedObject is null)
         {
