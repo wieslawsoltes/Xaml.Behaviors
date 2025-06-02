@@ -1,0 +1,43 @@
+<UserControl x:Class="BehaviorsTestApplication.Views.Pages.TabControlNavigationView"
+             xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:BehaviorsTestApplication.ViewModels"
+             mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="450"
+             x:CompileBindings="True" x:DataType="vm:MainWindowViewModel">
+  <StackPanel Orientation="Vertical" Spacing="4">
+    <Grid ColumnDefinitions="Auto,*,Auto" MaxWidth="660" HorizontalAlignment="Stretch" Margin="0 16 0 0">
+      <Button Grid.Column="0" VerticalAlignment="Center" Padding="10,20" Margin="4">
+        <Path Data="M20,11V13H8L13.5,18.5L12.08,19.92L4.16,12L12.08,4.08L13.5,5.5L8,11H20Z" Fill="Black"/>
+        <Interaction.Behaviors>
+          <ButtonClickEventTriggerBehavior>
+            <TabControlPreviousAction TabControl="{Binding #tabs}" />
+          </ButtonClickEventTriggerBehavior>
+        </Interaction.Behaviors>
+      </Button>
+      <TabControl x:Name="tabs" Grid.Column="1">
+        <Interaction.Behaviors>
+          <TabControlKeyNavigationBehavior Orientation="Horizontal" />
+        </Interaction.Behaviors>
+        <TabItem Header="First">
+          <TextBlock Text="Tab 1" Margin="10" />
+        </TabItem>
+        <TabItem Header="Second">
+          <TextBlock Text="Tab 2" Margin="10" />
+        </TabItem>
+        <TabItem Header="Third">
+          <TextBlock Text="Tab 3" Margin="10" />
+        </TabItem>
+      </TabControl>
+      <Button Grid.Column="2" VerticalAlignment="Center" Padding="10,20" Margin="4">
+        <Path Data="M4,11V13H16L10.5,18.5L11.92,19.92L19.84,12L11.92,4.08L10.5,5.5L16,11H4Z" Fill="Black"/>
+        <Interaction.Behaviors>
+          <ButtonClickEventTriggerBehavior>
+            <TabControlNextAction TabControl="{Binding #tabs}" />
+          </ButtonClickEventTriggerBehavior>
+        </Interaction.Behaviors>
+      </Button>
+    </Grid>
+  </StackPanel>
+</UserControl>
