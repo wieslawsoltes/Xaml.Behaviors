@@ -4,7 +4,6 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="using:BehaviorsTestApplication.ViewModels"
-             xmlns:collections="using:Avalonia.Xaml.Interactions.Custom.Collections"
              x:DataType="vm:MainWindowViewModel"
              mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="450">
   <Design.DataContext>
@@ -20,22 +19,20 @@
       </ItemsControl.ItemTemplate>
     </ItemsControl>
     <Interaction.Behaviors>
-      <collections:CollectionChangedBehavior Collection="{Binding Items}">
-        <collections:CollectionChangedBehavior.AddedActions>
+      <CollectionChangedBehavior Collection="{Binding Items}">
+        <CollectionChangedBehavior.AddedActions>
           <ChangePropertyAction TargetObject="MessageText" PropertyName="Text" Value="Item Added" />
-        </collections:CollectionChangedBehavior.AddedActions>
-        <collections:CollectionChangedBehavior.RemovedActions>
+        </CollectionChangedBehavior.AddedActions>
+        <CollectionChangedBehavior.RemovedActions>
           <ChangePropertyAction TargetObject="MessageText" PropertyName="Text" Value="Item Removed" />
-        </collections:CollectionChangedBehavior.RemovedActions>
-        <collections:CollectionChangedBehavior.ResetActions>
+        </CollectionChangedBehavior.RemovedActions>
+        <CollectionChangedBehavior.ResetActions>
           <ChangePropertyAction TargetObject="MessageText" PropertyName="Text" Value="Items Cleared" />
-        </collections:CollectionChangedBehavior.ResetActions>
-      </collections:CollectionChangedBehavior>
-    </Interaction.Behaviors>
-    <Interaction.Triggers>
-      <collections:CollectionChangedTrigger Collection="{Binding Items}">
+        </CollectionChangedBehavior.ResetActions>
+      </CollectionChangedBehavior>
+      <CollectionChangedTrigger Collection="{Binding Items}">
         <ChangePropertyAction TargetObject="MessageText" PropertyName="Foreground" Value="Red" />
-      </collections:CollectionChangedTrigger>
-    </Interaction.Triggers>
+      </CollectionChangedTrigger>
+    </Interaction.Behaviors>
   </StackPanel>
 </UserControl>

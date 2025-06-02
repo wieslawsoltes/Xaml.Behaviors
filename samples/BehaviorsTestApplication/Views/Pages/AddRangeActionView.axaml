@@ -4,7 +4,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="using:BehaviorsTestApplication.ViewModels"
-             xmlns:collections="using:Avalonia.Xaml.Interactions.Custom.Collections"
+             xmlns:generic="clr-namespace:System.Collections.Generic;assembly=System.Collections"
              x:DataType="vm:MainWindowViewModel"
              mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="450">
   <Design.DataContext>
@@ -15,8 +15,8 @@
       <Button Content="Add Range">
         <Interaction.Behaviors>
           <EventTriggerBehavior EventName="Click">
-            <collections:AddRangeAction Target="{Binding Items}">
-              <x:Array Type="vm:ItemViewModel">
+            <AddRangeAction Target="{Binding Items}">
+              <generic:List x:TypeArguments="vm:ItemViewModel">
                 <vm:ItemViewModel>
                   <x:Arguments>
                     <x:String>Added 1</x:String>
@@ -29,15 +29,15 @@
                     <x:String>Gray</x:String>
                   </x:Arguments>
                 </vm:ItemViewModel>
-              </x:Array>
-            </collections:AddRangeAction>
+              </generic:List>
+            </AddRangeAction>
           </EventTriggerBehavior>
         </Interaction.Behaviors>
       </Button>
       <Button Content="Clear">
         <Interaction.Behaviors>
           <EventTriggerBehavior EventName="Click">
-            <collections:ClearCollectionAction Target="{Binding Items}" />
+            <ClearCollectionAction Target="{Binding Items}" />
           </EventTriggerBehavior>
         </Interaction.Behaviors>
       </Button>

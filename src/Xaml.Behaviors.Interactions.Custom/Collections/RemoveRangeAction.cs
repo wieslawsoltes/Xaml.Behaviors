@@ -1,7 +1,11 @@
+// Copyright (c) Wiesław Šoltés. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for details.
 using System.Collections;
+using Avalonia.Controls;
+using Avalonia.Metadata;
 using Avalonia.Xaml.Interactivity;
 
-namespace Avalonia.Xaml.Interactions.Custom.Collections;
+namespace Avalonia.Xaml.Interactions.Custom;
 
 /// <summary>
 /// Removes a range of items from a target <see cref="IList"/> when invoked.
@@ -43,7 +47,7 @@ public sealed class RemoveRangeAction : AvaloniaObject, IAction
     /// <inheritdoc />
     public object Execute(object? sender, object? parameter)
     {
-        if (Target is not IList list || Items is null)
+        if (Target is not { } list || Items is null)
         {
             return false;
         }

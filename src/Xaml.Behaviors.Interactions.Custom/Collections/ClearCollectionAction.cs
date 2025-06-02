@@ -1,7 +1,10 @@
+// Copyright (c) Wiesław Šoltés. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for details.
 using System.Collections;
+using Avalonia.Controls;
 using Avalonia.Xaml.Interactivity;
 
-namespace Avalonia.Xaml.Interactions.Custom.Collections;
+namespace Avalonia.Xaml.Interactions.Custom;
 
 /// <summary>
 /// Clears all items from a target <see cref="IList"/> when invoked.
@@ -27,7 +30,7 @@ public sealed class ClearCollectionAction : AvaloniaObject, IAction
     /// <inheritdoc />
     public object Execute(object? sender, object? parameter)
     {
-        if (Target is not IList list)
+        if (Target is not { } list)
         {
             return false;
         }

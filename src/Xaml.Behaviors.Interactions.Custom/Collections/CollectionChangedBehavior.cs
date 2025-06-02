@@ -1,8 +1,12 @@
+// Copyright (c) Wiesław Šoltés. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for details.
 using System;
 using System.Collections.Specialized;
+using Avalonia.Controls;
+using Avalonia.Metadata;
 using Avalonia.Xaml.Interactivity;
 
-namespace Avalonia.Xaml.Interactions.Custom.Collections;
+namespace Avalonia.Xaml.Interactions.Custom;
 
 /// <summary>
 /// Executes different sets of actions when the observed collection changes.

@@ -4,7 +4,6 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="using:BehaviorsTestApplication.ViewModels"
-             xmlns:custom="using:Avalonia.Xaml.Interactions.Custom"
              x:DataType="vm:MainWindowViewModel"
              mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="450">
   <Design.DataContext>
@@ -15,14 +14,14 @@
       <Button Content="Move First To Last">
         <Interaction.Behaviors>
           <EventTriggerBehavior EventName="Click">
-            <custom:MoveItemInItemsControlAction ItemsControl="ItemsControl" FromIndex="0" ToIndex="-1" />
+            <MoveItemInItemsControlAction ItemsControl="ItemsControl" FromIndex="0" ToIndex="-1" />
           </EventTriggerBehavior>
         </Interaction.Behaviors>
       </Button>
       <Button Content="Remove First">
         <Interaction.Behaviors>
           <EventTriggerBehavior EventName="Click">
-            <custom:RemoveItemAtAction ItemsControl="Items" Index="0" />
+            <RemoveItemAtAction ItemsControl="ItemsControl" Index="0" />
           </EventTriggerBehavior>
         </Interaction.Behaviors>
       </Button>

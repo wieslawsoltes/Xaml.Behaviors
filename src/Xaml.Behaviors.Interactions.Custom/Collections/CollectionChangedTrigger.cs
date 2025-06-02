@@ -1,7 +1,10 @@
+// Copyright (c) Wiesław Šoltés. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for details.
 using System.Collections.Specialized;
+using Avalonia.Controls;
 using Avalonia.Xaml.Interactivity;
 
-namespace Avalonia.Xaml.Interactions.Custom.Collections;
+namespace Avalonia.Xaml.Interactions.Custom;
 
 /// <summary>
 /// Executes associated actions whenever the bound collection raises a <see cref="INotifyCollectionChanged.CollectionChanged"/> event.
@@ -38,13 +41,21 @@ public sealed class CollectionChangedTrigger : StyledElementTrigger
     protected override void OnAttached()
     {
         base.OnAttached();
-        Collection?.CollectionChanged += CollectionChanged;
+        
+        if (Collection is not null)
+        {
+            Collection.CollectionChanged += CollectionChanged;
+        }
     }
 
     /// <inheritdoc />
     protected override void OnDetaching()
     {
-        Collection?.CollectionChanged -= CollectionChanged;
+        if (Collection is not null)
+        {
+            Collection.CollectionChanged -= CollectionChanged;
+        }
+
         base.OnDetaching();
     }
 
