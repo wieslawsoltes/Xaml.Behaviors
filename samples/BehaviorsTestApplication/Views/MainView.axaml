@@ -109,6 +109,9 @@
       <TabItem Header="ChangeAvaloniaPropertyAction">
         <pages:ChangeAvaloniaPropertyActionView />
       </TabItem>
+      <TabItem Header="ViewModel Property Actions">
+        <pages:ViewModelPropertyActionsView />
+      </TabItem>
       <TabItem Header="Custom Action">
         <pages:CustomActionView />
       </TabItem>
