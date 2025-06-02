@@ -2,6 +2,7 @@
 // Licensed under the MIT license. See LICENSE file in the project root for details.
 using Avalonia.Controls;
 using Avalonia.Controls.Notifications;
+using Avalonia.Metadata;
 using Avalonia.Xaml.Interactivity;
 
 namespace Avalonia.Xaml.Interactions.Custom;
@@ -36,6 +37,7 @@ public class ShowNotificationAction : StyledElementAction
     /// <summary>
     /// Gets or sets the <see cref="INotification"/> instance to show. This is an avalonia property.
     /// </summary>
+    [Content]
     public INotification? Notification
     {
         get => GetValue(NotificationProperty);
