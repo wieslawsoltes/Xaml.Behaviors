@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel.DataAnnotations;
 using System.Reactive.Linq;
 using System.Windows.Input;
 using Avalonia.Controls;
@@ -69,6 +70,12 @@ public partial class MainWindowViewModel : ViewModelBase
         Values = Observable.Interval(TimeSpan.FromSeconds(1)).Select(_ => _value++);
 
         MyString = "";
+        ValidatedText = "";
+        ValidatedNumber = 0m;
+        SelectedItem = null;
+        ValidatedSlider = 0.0;
+        ValidatedDate = DateTimeOffset.Now;
+        ValidatedItem = null;
 
         IsLoading = true;
         Progress = 30;
@@ -120,6 +127,28 @@ public partial class MainWindowViewModel : ViewModelBase
     [Reactive] public partial double Progress { get; set; }
 
     [Reactive] public partial string Greeting { get; set; }
+
+    [Reactive] public partial string ValidatedText { get; set; }
+
+    [Reactive] public partial bool IsTextValid { get; set; }
+
+    [Reactive] public partial decimal ValidatedNumber { get; set; }
+
+    [Reactive] public partial bool IsNumberValid { get; set; }
+
+    [Reactive] public partial ItemViewModel? SelectedItem { get; set; }
+
+    [Reactive] public partial double ValidatedSlider { get; set; }
+
+    [Reactive] public partial bool IsSliderValid { get; set; }
+
+    [Reactive] public partial DateTimeOffset? ValidatedDate { get; set; }
+
+    [Reactive] public partial bool IsDateValid { get; set; }
+
+    [Reactive] public partial ItemViewModel? ValidatedItem { get; set; }
+
+    [Reactive] public partial bool IsItemValid { get; set; }
 
     public IObservable<int> Values { get; }
 

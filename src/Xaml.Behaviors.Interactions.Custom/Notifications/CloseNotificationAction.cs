@@ -1,13 +1,14 @@
 // Copyright (c) Wiesław Šoltés. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for details.
 using Avalonia.Controls.Notifications;
+using Avalonia.Metadata;
 
 namespace Avalonia.Xaml.Interactions.Custom;
 
 /// <summary>
 /// Action that closes the specified <see cref="NotificationCard"/>.
 /// </summary>
-public class CloseNotificationAction : Avalonia.Xaml.Interactivity.StyledElementAction
+public class CloseNotificationAction : Interactivity.StyledElementAction
 {
     /// <summary>
     /// Gets or sets the notification card to close.
@@ -18,6 +19,7 @@ public class CloseNotificationAction : Avalonia.Xaml.Interactivity.StyledElement
     /// <summary>
     /// 
     /// </summary>
+    [Content]
     public NotificationCard? NotificationCard
     {
         get => GetValue(NotificationCardProperty);

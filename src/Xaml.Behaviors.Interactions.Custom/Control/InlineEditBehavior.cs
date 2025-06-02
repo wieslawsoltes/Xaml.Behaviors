@@ -43,6 +43,12 @@ public class InlineEditBehavior : StyledElementBehavior<Control>
         AvaloniaProperty.Register<InlineEditBehavior, Key>(nameof(CancelKey), Key.Escape);
 
     /// <summary>
+    /// Identifies the <see cref="EditOnAssociatedObjectDoubleTapped"/> avalonia property.
+    /// </summary>
+    public static readonly StyledProperty<bool> EditOnAssociatedObjectDoubleTappedProperty =
+        AvaloniaProperty.Register<InlineEditBehavior, bool>(nameof(EditOnAssociatedObjectDoubleTapped), false);
+
+    /// <summary>
     /// Editing control to show when editing begins.
     /// </summary>
     [ResolveByName]
@@ -89,6 +95,15 @@ public class InlineEditBehavior : StyledElementBehavior<Control>
         set => SetValue(CancelKeyProperty, value);
     }
 
+    /// <summary>
+    /// Gets or sets a value indicating whether double tapping the associated object starts editing.
+    /// </summary>
+    public bool EditOnAssociatedObjectDoubleTapped
+    {
+        get => GetValue(EditOnAssociatedObjectDoubleTappedProperty);
+        set => SetValue(EditOnAssociatedObjectDoubleTappedProperty, value);
+    }
+
     /// <inheritdoc />
     protected override void OnAttachedToVisualTree()
     {
@@ -96,6 +111,11 @@ public class InlineEditBehavior : StyledElementBehavior<Control>
         {
             DisplayControl.AddHandler(InputElement.DoubleTappedEvent, OnDisplayActivate, RoutingStrategies.Tunnel);
             DisplayControl.AddHandler(InputElement.KeyDownEvent, OnDisplayKeyDown, RoutingStrategies.Tunnel);
+        }
+
+        if (EditOnAssociatedObjectDoubleTapped && AssociatedObject is not null)
+        {
+            AssociatedObject.AddHandler(InputElement.DoubleTappedEvent, OnAssociatedObjectActivate, RoutingStrategies.Tunnel);
         }
 
         if (EditControl is not null)
@@ -115,12 +135,19 @@ public class InlineEditBehavior : StyledElementBehavior<Control>
             DisplayControl.RemoveHandler(InputElement.KeyDownEvent, OnDisplayKeyDown);
         }
 
+        if (EditOnAssociatedObjectDoubleTapped && AssociatedObject is not null)
+        {
+            AssociatedObject.RemoveHandler(InputElement.DoubleTappedEvent, OnAssociatedObjectActivate);
+        }
+
         if (EditControl is not null)
         {
             EditControl.RemoveHandler(InputElement.KeyDownEvent, OnEditKeyDown);
             EditControl.RemoveHandler(InputElement.LostFocusEvent, OnEditLostFocus);
         }
     }
+
+    private void OnAssociatedObjectActivate(object? sender, RoutedEventArgs e) => BeginEdit();
 
     private void OnDisplayActivate(object? sender, RoutedEventArgs e) => BeginEdit();
 
