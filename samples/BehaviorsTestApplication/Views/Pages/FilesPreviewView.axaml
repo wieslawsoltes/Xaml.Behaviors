@@ -19,7 +19,7 @@
       </Interaction.Behaviors>
       <TextBlock Text="Drag files here" HorizontalAlignment="Center" VerticalAlignment="Center" />
     </Border>
-    <ItemsControl Items="{Binding #PreviewBehavior.PreviewFiles}" />
+    <ItemsControl ItemsSource="{Binding #PreviewBehavior.PreviewFiles}" />
 
     <TextBlock Text="DragOverEventTrigger + AddPreviewFilesAction" HorizontalAlignment="Center" Margin="0,20,0,0"/>
     <Border Background="Transparent" Padding="20" BorderThickness="1" BorderBrush="{DynamicResource SystemAccentColor}">
