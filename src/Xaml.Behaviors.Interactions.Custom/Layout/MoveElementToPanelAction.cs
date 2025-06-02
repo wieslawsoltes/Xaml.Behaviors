@@ -1,5 +1,6 @@
+// Copyright (c) Wiesław Šoltés. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for details.
 using Avalonia.Controls;
-using Avalonia.Metadata;
 using Avalonia.Xaml.Interactivity;
 
 namespace Avalonia.Xaml.Interactions.Custom;
@@ -34,11 +35,6 @@ public sealed class MoveElementToPanelAction : StyledElementAction
         }
 
         if (sender is not Control element)
-        {
-            element = AssociatedObject;
-        }
-
-        if (element is null)
         {
             return false;
         }

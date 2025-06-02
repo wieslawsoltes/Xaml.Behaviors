@@ -4,7 +4,6 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:behaviors="using:Avalonia.Xaml.Interactions.DragAndDrop"
-             xmlns:triggers="using:Avalonia.Xaml.Interactions.Events"
              mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="300">
   <Grid ColumnDefinitions="*,*" Margin="5">
     <StackPanel x:Name="LeftPanel" Background="LightGray" Margin="5">
@@ -25,15 +24,15 @@
     </StackPanel>
     <StackPanel x:Name="RightPanel" Grid.Column="1" Background="LightGray" Margin="5">
       <Interaction.Behaviors>
-        <behaviors:PanelDropBehavior />
+        <PanelDropBehavior />
+        <DragEnterEventTrigger>
+          <ChangePropertyAction TargetObject="InfoText" PropertyName="Text" Value="Drag Enter" />
+        </DragEnterEventTrigger>
+        <DropEventTrigger>
+          <ChangePropertyAction TargetObject="InfoText" PropertyName="Text" Value="Dropped" />
+        </DropEventTrigger>
       </Interaction.Behaviors>
       <TextBlock x:Name="InfoText" Text="Right Panel" Margin="5" />
-      <triggers:DragEnterEventTrigger>
-        <ChangePropertyAction TargetObject="InfoText" PropertyName="Text" Value="Drag Enter" />
-      </triggers:DragEnterEventTrigger>
-      <triggers:DropEventTrigger>
-        <ChangePropertyAction TargetObject="InfoText" PropertyName="Text" Value="Dropped" />
-      </triggers:DropEventTrigger>
     </StackPanel>
   </Grid>
 </UserControl>
