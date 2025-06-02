@@ -1,0 +1,36 @@
+<UserControl x:Class="BehaviorsTestApplication.Views.Pages.ContextDialogView"
+             xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:BehaviorsTestApplication.ViewModels"
+             x:DataType="vm:MainWindowViewModel"
+             mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="450">
+  <Design.DataContext>
+    <vm:MainWindowViewModel />
+  </Design.DataContext>
+  <StackPanel>
+    <Button x:Name="OpenButton" Content="Open Context Dialog" Margin="5" />
+    <Button x:Name="CloseButton" Content="Close Context Dialog" Margin="5" />
+    <Border x:Name="Target" Margin="5" Padding="20" Background="{DynamicResource GrayBrush}">
+      <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="Target" />
+      <Interaction.Behaviors>
+        <ContextDialogBehavior x:Name="Dialog" Placement="Pointer">
+          <ContextDialogBehavior.DialogContent>
+            <Border Padding="10" Background="White" BorderBrush="Black" BorderThickness="1">
+              <TextBlock Text="Context Dialog Content" />
+            </Border>
+          </ContextDialogBehavior.DialogContent>
+        </ContextDialogBehavior>
+      </Interaction.Behaviors>
+    </Border>
+  </StackPanel>
+  <Interaction.Behaviors>
+    <EventTriggerBehavior EventName="Click" SourceObject="OpenButton">
+      <ShowContextDialogAction TargetDialog="{Binding #Dialog}" />
+    </EventTriggerBehavior>
+    <EventTriggerBehavior EventName="Click" SourceObject="CloseButton">
+      <HideContextDialogAction TargetDialog="{Binding #Dialog}" />
+    </EventTriggerBehavior>
+  </Interaction.Behaviors>
+</UserControl>
