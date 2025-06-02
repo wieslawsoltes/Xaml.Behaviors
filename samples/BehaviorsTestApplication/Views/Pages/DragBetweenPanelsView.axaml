@@ -3,22 +3,21 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:behaviors="using:Avalonia.Xaml.Interactions.DragAndDrop"
              mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="300">
   <Grid ColumnDefinitions="*,*" Margin="5">
     <StackPanel x:Name="LeftPanel" Background="LightGray" Margin="5">
       <Interaction.Behaviors>
-        <behaviors:PanelDropBehavior />
+        <PanelDropBehavior />
       </Interaction.Behaviors>
       <TextBlock Text="Left Panel" Margin="5" />
       <Rectangle Width="40" Height="40" Fill="Red" Margin="5">
         <Interaction.Behaviors>
-          <behaviors:PanelDragBehavior />
+          <PanelDragBehavior />
         </Interaction.Behaviors>
       </Rectangle>
       <Rectangle Width="40" Height="40" Fill="Blue" Margin="5">
         <Interaction.Behaviors>
-          <behaviors:PanelDragBehavior />
+          <PanelDragBehavior />
         </Interaction.Behaviors>
       </Rectangle>
     </StackPanel>
