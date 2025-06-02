@@ -7,7 +7,9 @@
              Name="EditableItemUserControl">
   <Panel Background="Transparent">
     <Interaction.Behaviors>
-      <InlineEditBehavior EditControl="TextBoxEdit" DisplayControl="TextStackPanel" />
+      <InlineEditBehavior EditControl="TextBoxEdit"
+                          DisplayControl="TextStackPanel"
+                          EditOnAssociatedObjectDoubleTapped="True" />
     </Interaction.Behaviors>
     <TextBox x:Name="TextBoxEdit"
              IsVisible="False"
