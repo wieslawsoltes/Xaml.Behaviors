@@ -54,19 +54,16 @@ public sealed class CollectionChangedBehavior : DisposingBehavior<AvaloniaObject
     /// <summary>
     /// Actions invoked when items are added to the collection.
     /// </summary>
-    [Content]
     public ActionCollection AddedActions => _addedActions ??= [];
 
     /// <summary>
     /// Actions invoked when items are removed from the collection.
     /// </summary>
-    [Content]
     public ActionCollection RemovedActions => _removedActions ??= [];
 
     /// <summary>
     /// Actions invoked when the collection is reset.
     /// </summary>
-    [Content]
     public ActionCollection ResetActions => _resetActions ??= [];
 
     private void OnCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
