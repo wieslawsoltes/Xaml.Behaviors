@@ -190,6 +190,9 @@
       <TabItem Header="BehaviorCollectionTemplate">
         <pages:BehaviorCollectionTemplateView />
       </TabItem>
+      <TabItem Header="ActionCollectionTemplate">
+        <pages:ActionCollectionTemplateView />
+      </TabItem>
       <TabItem Header="TemplateBinding">
         <pages:TemplateBindingView />
       </TabItem>
