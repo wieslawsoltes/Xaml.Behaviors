@@ -578,6 +578,12 @@ This section provides an overview of all available classes and their purpose in 
 
 - **SelectionAdorner**
   *A visual adorner used to indicate selection or to show drag outlines during drag–drop operations.*
+- **AdornerVisibilityBehavior**
+  *Behavior that shows or hides an adorner on a control.*
+- **AdornerVisibleTrigger**
+  *Trigger that fires when an adorner becomes visible.*
+- **SetAdornerVisibleAction**
+  *Action used to change the visibility of an attached adorner.*
 
 ### Events
 - **InteractiveBehaviorBase**
