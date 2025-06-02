@@ -1,0 +1,37 @@
+<UserControl x:Class="BehaviorsTestApplication.Views.Pages.DragBetweenPanelsView"
+             xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="300">
+  <Grid ColumnDefinitions="*,*" Margin="5">
+    <StackPanel x:Name="LeftPanel" Background="LightGray" Margin="5">
+      <Interaction.Behaviors>
+        <PanelDropBehavior />
+      </Interaction.Behaviors>
+      <TextBlock Text="Left Panel" Margin="5" />
+      <Rectangle Width="40" Height="40" Fill="Red" Margin="5">
+        <Interaction.Behaviors>
+          <PanelDragBehavior />
+        </Interaction.Behaviors>
+      </Rectangle>
+      <Rectangle Width="40" Height="40" Fill="Blue" Margin="5">
+        <Interaction.Behaviors>
+          <PanelDragBehavior />
+        </Interaction.Behaviors>
+      </Rectangle>
+    </StackPanel>
+    <StackPanel x:Name="RightPanel" Grid.Column="1" Background="LightGray" Margin="5">
+      <Interaction.Behaviors>
+        <PanelDropBehavior />
+        <DragEnterEventTrigger>
+          <ChangePropertyAction TargetObject="InfoText" PropertyName="Text" Value="Drag Enter" />
+        </DragEnterEventTrigger>
+        <DropEventTrigger>
+          <ChangePropertyAction TargetObject="InfoText" PropertyName="Text" Value="Dropped" />
+        </DropEventTrigger>
+      </Interaction.Behaviors>
+      <TextBlock x:Name="InfoText" Text="Right Panel" Margin="5" />
+    </StackPanel>
+  </Grid>
+</UserControl>
