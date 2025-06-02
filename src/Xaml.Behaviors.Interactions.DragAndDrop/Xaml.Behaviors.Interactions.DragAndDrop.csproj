@@ -22,6 +22,7 @@
   <Import Project="..\..\build\TrimmingEnable.targets" />
 
   <ItemGroup>
+    <ProjectReference Include="..\Xaml.Behaviors.Interactions.Events\Xaml.Behaviors.Interactions.Events.csproj" />
     <ProjectReference Include="..\Xaml.Behaviors.Interactions\Xaml.Behaviors.Interactions.csproj" />
     <ProjectReference Include="..\Xaml.Behaviors.Interactivity\Xaml.Behaviors.Interactivity.csproj" />
   </ItemGroup>
