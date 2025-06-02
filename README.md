@@ -292,6 +292,12 @@ This section provides an overview of all available classes and their purpose in 
 ### AutoCompleteBox
 - **FocusAutoCompleteBoxTextBoxBehavior**
   *Ensures the text box within an AutoCompleteBox gets focus automatically.*
+- **AutoCompleteBoxOpenDropDownOnFocusBehavior**
+  *Opens the AutoCompleteBox drop-down when the control receives focus.*
+- **AutoCompleteBoxSelectionChangedTrigger**
+  *Triggers actions when the AutoCompleteBox selection changes.*
+- **ClearAutoCompleteBoxSelectionAction**
+  *Clears the AutoCompleteBox selection and text.*
 
 ### Carousel
 - **CarouselKeyNavigationBehavior**
