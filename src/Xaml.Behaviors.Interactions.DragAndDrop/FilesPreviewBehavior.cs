@@ -1,6 +1,8 @@
+// Copyright (c) Wiesław Šoltés. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for details.
 using Avalonia.Collections;
-using Avalonia.Controls;
 using Avalonia.Input;
+using Avalonia.Platform.Storage;
 
 namespace Avalonia.Xaml.Interactions.DragAndDrop;
 
@@ -9,18 +11,18 @@ namespace Avalonia.Xaml.Interactions.DragAndDrop;
 /// </summary>
 public sealed class FilesPreviewBehavior : DragAndDropEventsBehavior
 {
-    private AvaloniaList<string>? _previewFiles;
+    private AvaloniaList<IStorageItem>? _previewFiles;
 
     /// <summary>
     /// Identifies the <seealso cref="PreviewFiles"/> avalonia property.
     /// </summary>
-    public static readonly DirectProperty<FilesPreviewBehavior, AvaloniaList<string>> PreviewFilesProperty =
-        AvaloniaProperty.RegisterDirect<FilesPreviewBehavior, AvaloniaList<string>>(nameof(PreviewFiles), b => b.PreviewFiles);
+    public static readonly DirectProperty<FilesPreviewBehavior, AvaloniaList<IStorageItem>> PreviewFilesProperty =
+        AvaloniaProperty.RegisterDirect<FilesPreviewBehavior, AvaloniaList<IStorageItem>>(nameof(PreviewFiles), b => b.PreviewFiles);
 
     /// <summary>
     /// Gets the collection of file paths currently previewed. This is an avalonia property.
     /// </summary>
-    public AvaloniaList<string> PreviewFiles => _previewFiles ??= [];
+    public AvaloniaList<IStorageItem> PreviewFiles => _previewFiles ??= [];
 
     /// <inheritdoc />
     protected override void OnDragEnter(object? sender, DragEventArgs e)
@@ -63,7 +65,7 @@ public sealed class FilesPreviewBehavior : DragAndDropEventsBehavior
         list.Clear();
         foreach (var file in files)
         {
-            list.Add(file.Path);
+            list.Add(file);
         }
     }
 

@@ -1,3 +1,5 @@
+// Copyright (c) Wiesław Šoltés. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for details.
 using System.Collections;
 using Avalonia.Controls;
 using Avalonia.Input;
@@ -56,7 +58,7 @@ public sealed class AddPreviewFilesAction : StyledElementAction
             list.Clear();
             foreach (var file in files)
             {
-                list.Add(file.Path);
+                list.Add(file);
             }
 
             return true;

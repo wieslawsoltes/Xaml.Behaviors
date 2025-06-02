@@ -23,11 +23,11 @@
 
     <TextBlock Text="DragOverEventTrigger + AddPreviewFilesAction" HorizontalAlignment="Center" Margin="0,20,0,0"/>
     <Border Background="Transparent" Padding="20" BorderThickness="1" BorderBrush="{DynamicResource SystemAccentColor}">
-      <Interaction.Triggers>
-        <drag:DragOverEventTrigger>
-          <drag:AddPreviewFilesAction ItemsControl="{Binding ElementName=ActionList}" />
-        </drag:DragOverEventTrigger>
-      </Interaction.Triggers>
+      <Interaction.Behaviors>
+        <DragOverEventTrigger>
+          <AddPreviewFilesAction ItemsControl="{Binding ElementName=ActionList}" />
+        </DragOverEventTrigger>
+      </Interaction.Behaviors>
       <TextBlock Text="Drag files here" HorizontalAlignment="Center" VerticalAlignment="Center" />
     </Border>
     <ItemsControl x:Name="ActionList" />
