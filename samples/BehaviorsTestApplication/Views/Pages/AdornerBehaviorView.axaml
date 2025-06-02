@@ -4,7 +4,6 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="using:BehaviorsTestApplication.ViewModels"
-             xmlns:ia="using:Avalonia.Xaml.Interactions.Custom"
              x:CompileBindings="True" x:DataType="vm:MainWindowViewModel"
              mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="450">
   <Design.DataContext>
@@ -17,13 +16,13 @@
             BorderBrush="Gray"
             BorderThickness="1">
       <Interaction.Behaviors>
-        <ia:AdornerVisibilityBehavior x:Name="AdornerBehavior">
-          <ia:AdornerVisibilityBehavior.AdornerTemplate>
+        <AdornerVisibilityBehavior x:Name="AdornerBehavior">
+          <AdornerVisibilityBehavior.AdornerTemplate>
             <Template>
               <Border BorderBrush="Red" BorderThickness="2" />
             </Template>
-          </ia:AdornerVisibilityBehavior.AdornerTemplate>
-        </ia:AdornerVisibilityBehavior>
+          </AdornerVisibilityBehavior.AdornerTemplate>
+        </AdornerVisibilityBehavior>
       </Interaction.Behaviors>
     </Border>
     <StackPanel Orientation="Horizontal" Spacing="5">
@@ -33,10 +32,10 @@
   </StackPanel>
   <Interaction.Behaviors>
     <EventTriggerBehavior EventName="Click" SourceObject="ShowButton">
-      <ia:SetAdornerVisibleAction TargetBehavior="{Binding ElementName=AdornerBehavior}" IsVisible="True" />
+      <SetAdornerVisibleAction TargetBehavior="{Binding ElementName=AdornerBehavior}" IsVisible="True" />
     </EventTriggerBehavior>
     <EventTriggerBehavior EventName="Click" SourceObject="HideButton">
-      <ia:SetAdornerVisibleAction TargetBehavior="{Binding ElementName=AdornerBehavior}" IsVisible="False" />
+      <SetAdornerVisibleAction TargetBehavior="{Binding ElementName=AdornerBehavior}" IsVisible="False" />
     </EventTriggerBehavior>
   </Interaction.Behaviors>
 </UserControl>
