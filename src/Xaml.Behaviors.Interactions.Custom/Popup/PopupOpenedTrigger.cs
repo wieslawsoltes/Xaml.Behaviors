@@ -1,6 +1,5 @@
 using System;
 using Avalonia.Controls.Primitives;
-using Avalonia.Interactivity;
 using Avalonia.Xaml.Interactivity;
 
 namespace Avalonia.Xaml.Interactions.Custom;
