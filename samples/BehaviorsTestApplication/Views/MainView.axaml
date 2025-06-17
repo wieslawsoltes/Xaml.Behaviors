@@ -322,6 +322,12 @@
       <TabItem Header="Carousel Navigation">
         <pages:CarouselNavigationView />
       </TabItem>
+      <TabItem Header="TabControl Navigation">
+        <pages:TabControlNavigationView />
+      </TabItem>
+      <TabItem Header="TabControl Selection Trigger">
+        <pages:TabControlSelectionChangedTriggerView />
+      </TabItem>
       <TabItem Header="Theme Variant">
         <pages:ThemeVariantView />
       </TabItem>
