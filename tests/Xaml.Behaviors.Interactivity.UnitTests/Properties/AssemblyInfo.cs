@@ -1,6 +1,6 @@
 ﻿using System.Reflection;
 using Xunit;
 
-[assembly: AssemblyTitle("Avalonia.Xaml.Interactivity.UnitTests")]
+[assembly: AssemblyTitle("Xaml.Behaviors.Interactivity.UnitTests")]
 
 [assembly: CollectionBehavior(DisableTestParallelization = true)]
