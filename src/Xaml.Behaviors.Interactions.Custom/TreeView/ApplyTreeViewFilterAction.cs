@@ -1,3 +1,5 @@
+// Copyright (c) Wiesław Šoltés. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for details.
 using Avalonia.Controls;
 using Avalonia.Metadata;
 using Avalonia.Xaml.Interactivity;
@@ -49,7 +51,7 @@ public sealed class ApplyTreeViewFilterAction : StyledElementAction
             return false;
         }
 
-        var treeView = TreeView ?? AssociatedObject as TreeView;
+        var treeView = TreeView ?? sender as TreeView;
         if (treeView is null)
         {
             return false;
