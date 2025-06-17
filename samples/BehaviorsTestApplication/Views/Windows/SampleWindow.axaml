@@ -1,0 +1,15 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        x:Class="BehaviorsTestApplication.Views.Windows.SampleWindow"
+        Width="300" Height="200" Title="Sample Window">
+  <StackPanel Margin="10" Spacing="5">
+    <TextBlock Text="This is a window" />
+    <Button Content="Close">
+      <Interaction.Behaviors>
+        <EventTriggerBehavior EventName="Click">
+          <CloseWindowAction />
+        </EventTriggerBehavior>
+      </Interaction.Behaviors>
+    </Button>
+  </StackPanel>
+</Window>
