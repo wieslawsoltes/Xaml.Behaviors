@@ -303,6 +303,16 @@ This section provides an overview of all available classes and their purpose in 
 - **CarouselSelectionChangedTrigger**
   *Triggers actions when the Carousel selection changes.*
 
+### TabControl
+- **TabControlKeyNavigationBehavior**
+  *Enables keyboard navigation for a TabControl using arrow keys.*
+- **TabControlNextAction**
+  *Advances the target TabControl to the next tab.*
+- **TabControlPreviousAction**
+  *Moves the target TabControl to the previous tab.*
+- **TabControlSelectionChangedTrigger**
+  *Triggers actions when the TabControl selection changes.*
+
 ### Button
 - **ButtonClickEventTriggerBehavior**  
   *Listens for a button’s click event and triggers associated actions.*
@@ -1159,6 +1169,16 @@ This section provides an overview of all available classes and their purpose in 
   *Triggers actions when the pane is about to close.*
 - **SplitViewPaneClosedTrigger**
   *Triggers actions after the pane has closed.*
+
+### Window
+- **DialogOpenedTrigger**
+  *Triggers actions when a window is opened.*
+- **DialogClosedTrigger**
+  *Triggers actions when a window is closed.*
+- **ShowDialogAction**
+  *Shows a window as a dialog.*
+- **CloseWindowAction**
+  *Closes a window when executed.*
 
 ## Interactivity (Infrastructure)
 
