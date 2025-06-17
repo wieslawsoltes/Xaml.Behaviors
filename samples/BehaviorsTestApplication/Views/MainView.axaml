@@ -325,6 +325,12 @@
       <TabItem Header="Carousel Navigation">
         <pages:CarouselNavigationView />
       </TabItem>
+      <TabItem Header="TabControl Navigation">
+        <pages:TabControlNavigationView />
+      </TabItem>
+      <TabItem Header="TabControl Selection Trigger">
+        <pages:TabControlSelectionChangedTriggerView />
+      </TabItem>
       <TabItem Header="Theme Variant">
         <pages:ThemeVariantView />
       </TabItem>
@@ -390,6 +396,9 @@
       </TabItem>
       <TabItem Header="Popup Event Triggers">
         <pages:PopupEventTriggersView />
+      </TabItem>
+      <TabItem Header="Icon Sample">
+        <pages:IconView />
       </TabItem>
     </SingleSelectionTabControl>
   </DockPanel>
