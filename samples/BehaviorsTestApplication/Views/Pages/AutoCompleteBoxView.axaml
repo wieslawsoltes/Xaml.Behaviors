@@ -10,15 +10,13 @@
     <vm:MainWindowViewModel />
   </Design.DataContext>
   <StackPanel Spacing="4" Margin="5">
-    <AutoCompleteBox Width="200" Items="{Binding Items}" x:Name="Box">
+    <AutoCompleteBox Width="200" ItemsSource="{Binding Items}" x:Name="Box">
       <Interaction.Behaviors>
         <AutoCompleteBoxOpenDropDownOnFocusBehavior />
-      </Interaction.Behaviors>
-      <Interaction.Triggers>
         <AutoCompleteBoxSelectionChangedTrigger>
           <ClearAutoCompleteBoxSelectionAction AutoCompleteBox="{Binding #Box}" />
         </AutoCompleteBoxSelectionChangedTrigger>
-      </Interaction.Triggers>
+      </Interaction.Behaviors>
     </AutoCompleteBox>
   </StackPanel>
 </UserControl>
