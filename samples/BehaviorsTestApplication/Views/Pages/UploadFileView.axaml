@@ -23,9 +23,9 @@
       </Interaction.Behaviors>
     </Button>
     <TextBlock Text="Upload Completed" IsVisible="False">
-      <Interaction.Triggers>
+      <Interaction.Behaviors>
         <ia:UploadCompletedTrigger IsCompleted="{Binding UploadCompleted}" />
-      </Interaction.Triggers>
+      </Interaction.Behaviors>
     </TextBlock>
   </StackPanel>
 </UserControl>

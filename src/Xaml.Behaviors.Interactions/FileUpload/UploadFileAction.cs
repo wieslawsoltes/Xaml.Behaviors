@@ -1,9 +1,9 @@
+// Copyright (c) Wiesław Šoltés. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for details.
 using System;
 using System.IO;
 using System.Net.Http;
 using System.Threading.Tasks;
-using Avalonia.Controls;
-using Avalonia.LogicalTree;
 using Avalonia.Threading;
 
 namespace Avalonia.Xaml.Interactions.Core;
@@ -54,17 +54,17 @@ public class UploadFileAction : InvokeCommandActionBase
     /// <inheritdoc />
     public override object Execute(object? sender, object? parameter)
     {
-        if (sender is not Visual visual)
+        if (sender is not Visual)
         {
             return false;
         }
 
-        Dispatcher.UIThread.InvokeAsync(async () => await UploadAsync(visual));
+        Dispatcher.UIThread.InvokeAsync(async () => await UploadAsync());
 
         return true;
     }
 
-    private async Task UploadAsync(Visual visual)
+    private async Task UploadAsync()
     {
         if (IsEnabled != true || Command is null || FilePath is null || Url is null)
         {
@@ -78,7 +78,11 @@ public class UploadFileAction : InvokeCommandActionBase
 
         try
         {
+#if NET6_0_OR_GREATER
             await using var stream = File.OpenRead(FilePath);
+#else
+            using var stream = File.OpenRead(FilePath);
+#endif
             using var content = new StreamContent(stream);
             using var client = new HttpClient();
             var response = await client.PostAsync(Url, content);

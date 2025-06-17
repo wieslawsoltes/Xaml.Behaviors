@@ -2,8 +2,6 @@ using System;
 using System.IO;
 using System.Net.Http;
 using System.Threading.Tasks;
-using Avalonia.Controls;
-using Avalonia.LogicalTree;
 
 namespace Avalonia.Xaml.Interactions.Core;
 
@@ -57,15 +55,15 @@ public abstract class UploadFileBehaviorBase : InvokeCommandBehaviorBase
     /// <param name="parameter">Optional parameter.</param>
     protected async Task Execute(object? sender, object? parameter)
     {
-        if (sender is not Visual visual)
+        if (sender is not Visual)
         {
             return;
         }
 
-        await UploadAsync(visual);
+        await UploadAsync();
     }
 
-    private async Task UploadAsync(Visual visual)
+    private async Task UploadAsync()
     {
         if (IsEnabled != true || Command is null || FilePath is null || Url is null)
         {
@@ -79,7 +77,11 @@ public abstract class UploadFileBehaviorBase : InvokeCommandBehaviorBase
 
         try
         {
+#if NET6_0_OR_GREATER
             await using var stream = File.OpenRead(FilePath);
+#else
+            using var stream = File.OpenRead(FilePath);
+#endif
             using var content = new StreamContent(stream);
             using var client = new HttpClient();
             var response = await client.PostAsync(Url, content);
