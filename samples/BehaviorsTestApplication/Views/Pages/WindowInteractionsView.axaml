@@ -15,14 +15,12 @@
       <Interaction.Behaviors>
         <EventTriggerBehavior EventName="Click">
           <ShowWindowAction>
-            <ShowWindowAction.Window>
-              <views:SampleWindow />
-            </ShowWindowAction.Window>
+            <views:SampleWindow />
           </ShowWindowAction>
         </EventTriggerBehavior>
       </Interaction.Behaviors>
     </Button>
-    <TextBlock x:Name="StateText" Text="Window state: {Binding $parent[Window].WindowState}" />
+    <TextBlock x:Name="StateText" Text="{Binding $parent[Window].WindowState, StringFormat={}Window state: {0}}" />
   </StackPanel>
   <Interaction.Behaviors>
     <CenterWindowBehavior Window="{Binding $parent[Window]}" />

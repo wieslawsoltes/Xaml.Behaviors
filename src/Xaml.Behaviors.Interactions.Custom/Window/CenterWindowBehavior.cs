@@ -1,6 +1,6 @@
-using Avalonia;
 using Avalonia.Controls;
 using Avalonia.VisualTree;
+using Avalonia.Xaml.Interactivity;
 
 namespace Avalonia.Xaml.Interactions.Custom;
 
@@ -34,13 +34,13 @@ public class CenterWindowBehavior : StyledElementBehavior<Control>
 
     private void Center()
     {
-        var window = Window ?? (AssociatedObject?.GetVisualRoot() as Window);
+        var window = Window ?? AssociatedObject?.GetVisualRoot() as Window;
         if (window is null)
         {
             return;
         }
 
-        var screen = window.Screens?.ScreenFromWindow(window);
+        var screen = window.Screens.ScreenFromWindow(window);
         if (screen is null)
         {
             return;

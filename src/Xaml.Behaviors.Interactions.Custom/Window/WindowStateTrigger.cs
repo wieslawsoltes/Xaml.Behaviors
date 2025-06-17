@@ -2,6 +2,7 @@ using System;
 using Avalonia.Controls;
 using Avalonia.Reactive;
 using Avalonia.Threading;
+using Avalonia.VisualTree;
 using Avalonia.Xaml.Interactivity;
 
 namespace Avalonia.Xaml.Interactions.Custom;
@@ -9,13 +10,29 @@ namespace Avalonia.Xaml.Interactions.Custom;
 /// <summary>
 /// Executes actions when the window state matches the specified value.
 /// </summary>
-public class WindowStateTrigger : AttachedToVisualTreeTriggerBase<Window>
+public class WindowStateTrigger : AttachedToVisualTreeTriggerBase<Control>
 {
+    /// <summary>
+    /// Identifies the <see cref="Window"/> avalonia property.
+    /// </summary>
+    public static readonly StyledProperty<Window?> WindowProperty =
+        AvaloniaProperty.Register<WindowStateTrigger, Window?>(nameof(Window));
+
     /// <summary>
     /// Identifies the <see cref="State"/> avalonia property.
     /// </summary>
     public static readonly StyledProperty<WindowState> StateProperty =
-        AvaloniaProperty.Register<WindowStateTrigger, WindowState>(nameof(State), WindowState.Normal);
+        AvaloniaProperty.Register<WindowStateTrigger, WindowState>(nameof(State));
+
+    /// <summary>
+    /// Gets or sets the window. If not set, the visual root window is used.
+    /// </summary>
+    [ResolveByName]
+    public Window? Window
+    {
+        get => GetValue(WindowProperty);
+        set => SetValue(WindowProperty, value);
+    }
 
     /// <summary>
     /// Gets or sets the window state to trigger on. This is an avalonia property.
@@ -31,12 +48,15 @@ public class WindowStateTrigger : AttachedToVisualTreeTriggerBase<Window>
     /// <inheritdoc />
     protected override IDisposable OnAttachedToVisualTreeOverride()
     {
-        if (AssociatedObject is { } window)
+        var window = Window ?? AssociatedObject?.GetVisualRoot() as Window;
+        if (window is null)
         {
-            _subscription = window.GetObservable(Window.WindowStateProperty)
-                .Subscribe(new AnonymousObserver<WindowState>(OnStateChanged));
-            OnStateChanged(window.WindowState);
+            return DisposableAction.Empty;
         }
+
+        _subscription = window.GetObservable(Window.WindowStateProperty)
+            .Subscribe(new AnonymousObserver<WindowState>(OnStateChanged));
+        OnStateChanged(window.WindowState);
 
         return DisposableAction.Create(() => _subscription?.Dispose());
     }
