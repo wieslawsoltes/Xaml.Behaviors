@@ -1,0 +1,33 @@
+<UserControl x:Class="BehaviorsTestApplication.Views.Pages.PopupEventTriggersView"
+             xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="200">
+  <StackPanel>
+    <Button x:Name="OpenButton" Content="Open Popup" Margin="5" />
+    <TextBlock x:Name="StatusText" Margin="5" />
+    <Popup x:Name="DemoPopup" Placement="Bottom">
+      <Border Background="LightYellow" Padding="10">
+        <Button Content="Close">
+          <Interaction.Behaviors>
+            <ButtonHidePopupOnClickBehavior />
+          </Interaction.Behaviors>
+        </Button>
+      </Border>
+      <Interaction.Behaviors>
+        <PopupOpenedTrigger>
+          <ChangePropertyAction TargetObject="StatusText" PropertyName="Text" Value="Popup opened" />
+        </PopupOpenedTrigger>
+        <PopupClosedTrigger>
+          <ChangePropertyAction TargetObject="StatusText" PropertyName="Text" Value="Popup closed" />
+        </PopupClosedTrigger>
+      </Interaction.Behaviors>
+    </Popup>
+  </StackPanel>
+  <Interaction.Behaviors>
+    <EventTriggerBehavior EventName="Click" SourceObject="OpenButton">
+      <ShowPopupAction TargetControl="OpenButton" Popup="{Binding #DemoPopup}" />
+    </EventTriggerBehavior>
+  </Interaction.Behaviors>
+</UserControl>

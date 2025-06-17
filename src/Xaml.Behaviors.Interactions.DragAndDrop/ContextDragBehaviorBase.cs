@@ -140,11 +140,21 @@ public abstract class ContextDragBehaviorBase : StyledElementBehavior<Control>
             if (e.Source is Control control
                 && AssociatedObject?.DataContext == control.DataContext)
             {
-                if ((control as ISelectable ?? control.Parent as ISelectable ?? control.FindLogicalAncestorOfType<ISelectable>())?.IsSelected ?? false) e.Handled = true; //avoid deselection on drag
+                if ((control as ISelectable
+                    ?? control.Parent as ISelectable
+                    ?? control.FindLogicalAncestorOfType<ISelectable>())
+                        ?.IsSelected
+                    ?? false)
+                {
+                    e.Handled = true; //avoid deselection on drag
+                }
+
                 _dragStartPoint = e.GetPosition(null);
                 _triggerEvent = e;
                 _lock = true;
                 _captured = true;
+
+                return;
             }
         }
         e.Handled = false;
