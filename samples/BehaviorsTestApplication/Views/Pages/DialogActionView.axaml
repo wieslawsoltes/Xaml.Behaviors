@@ -23,7 +23,7 @@
       <ShowDialogAction Dialog="{DynamicResource SampleDialog}" />
     </EventTriggerBehavior>
     <EventTriggerBehavior EventName="Click" SourceObject="CloseButton">
-      <CloseWindowAction Window="{DynamicResource SampleDialog}" />
+      <CloseWindowAction TargetWindow="{DynamicResource SampleDialog}" />
     </EventTriggerBehavior>
     <DialogOpenedTrigger SourceObject="{DynamicResource SampleDialog}">
       <ChangePropertyAction TargetObject="Status" PropertyName="Text" Value="Opened" />
