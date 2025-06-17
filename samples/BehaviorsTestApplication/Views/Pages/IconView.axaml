@@ -14,7 +14,7 @@
       <Interaction.Behaviors>
         <PathIconDataBehavior Data="{Binding PlusIcon}" />
         <PathIconDataChangedTrigger>
-          <ChangeAvaloniaPropertyAction TargetProperty="{x:Static PathIcon.ForegroundProperty}"
+          <ChangeAvaloniaPropertyAction TargetProperty="{x:Static TemplatedControl.ForegroundProperty}"
                                         Value="Red" />
         </PathIconDataChangedTrigger>
       </Interaction.Behaviors>
