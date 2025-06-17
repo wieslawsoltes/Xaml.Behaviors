@@ -67,6 +67,24 @@
       <TabItem Header="AutoSelectBehavior">
         <pages:AutoSelectBehaviorView />
       </TabItem>
+      <TabItem Header="TextBoxValidationBehavior">
+        <pages:TextBoxValidationBehaviorView />
+      </TabItem>
+      <TabItem Header="NumericUpDownValidationBehavior">
+        <pages:NumericUpDownValidationBehaviorView />
+      </TabItem>
+      <TabItem Header="NotNullValidationRule">
+        <pages:NotNullValidationRuleView />
+      </TabItem>
+      <TabItem Header="SliderValidationBehavior">
+        <pages:SliderValidationBehaviorView />
+      </TabItem>
+      <TabItem Header="DatePickerValidationBehavior">
+        <pages:DatePickerValidationBehaviorView />
+      </TabItem>
+      <TabItem Header="ComboBoxValidationBehavior">
+        <pages:ComboBoxValidationBehaviorView />
+      </TabItem>
       <TabItem Header="FocusControlBehavior">
         <pages:FocusControlBehaviorView />
       </TabItem>
@@ -151,8 +169,14 @@
       <TabItem Header="ListBoxFilterBehavior">
         <pages:ListBoxFilterBehaviorView />
       </TabItem>
+      <TabItem Header="EditableListBox DoubleTap">
+        <pages:EditableDoubleTappedListBoxView />
+      </TabItem>
       <TabItem Header="EditableTree">
         <pages:EditableTreeViewView />
+      </TabItem>
+      <TabItem Header="EditableTree DoubleTap">
+        <pages:EditableDoubleTappedTreeViewView />
       </TabItem>
       <TabItem Header="Editable Drag TreeView">
         <pages:EditableDragTreeViewView />
@@ -177,6 +201,9 @@
       </TabItem>
       <TabItem Header="BehaviorCollectionTemplate">
         <pages:BehaviorCollectionTemplateView />
+      </TabItem>
+      <TabItem Header="ActionCollectionTemplate">
+        <pages:ActionCollectionTemplateView />
       </TabItem>
       <TabItem Header="TemplateBinding">
         <pages:TemplateBindingView />
@@ -220,11 +247,17 @@
       <TabItem Header="ShowContextMenuAction">
         <pages:ShowContextMenuActionView />
       </TabItem>
+      <TabItem Header="ShowHidePopupAction">
+        <pages:ShowHidePopupActionView />
+      </TabItem>
       <TabItem Header="SetEnabledAction">
         <pages:SetEnabledActionView />
       </TabItem>
       <TabItem Header="ShowNotificationAction">
         <pages:ShowNotificationActionView />
+      </TabItem>
+      <TabItem Header="Dialog Actions">
+        <pages:DialogActionView />
       </TabItem>
       <TabItem Header="File Drop Handler">
         <pages:FileDropHandlerView />
@@ -298,6 +331,12 @@
       <TabItem Header="Carousel Navigation">
         <pages:CarouselNavigationView />
       </TabItem>
+      <TabItem Header="TabControl Navigation">
+        <pages:TabControlNavigationView />
+      </TabItem>
+      <TabItem Header="TabControl Selection Trigger">
+        <pages:TabControlSelectionChangedTriggerView />
+      </TabItem>
       <TabItem Header="Theme Variant">
         <pages:ThemeVariantView />
       </TabItem>
@@ -343,6 +382,9 @@
       <TabItem Header="ViewportBehavior">
         <pages:ViewportBehaviorView />
       </TabItem>
+      <TabItem Header="Window Interactions">
+        <pages:WindowInteractionsView />
+      </TabItem>
       <TabItem Header="Events Behaviors">
         <pages:EventsBehaviorsView />
       </TabItem>
@@ -357,6 +399,12 @@
       </TabItem>
       <TabItem Header="Gesture Event Triggers">
         <pages:GestureEventTriggersView />
+      </TabItem>
+      <TabItem Header="Popup Event Triggers">
+        <pages:PopupEventTriggersView />
+      </TabItem>
+      <TabItem Header="Icon Sample">
+        <pages:IconView />
       </TabItem>
     </SingleSelectionTabControl>
   </DockPanel>
