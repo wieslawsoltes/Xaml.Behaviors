@@ -9,13 +9,13 @@ namespace Avalonia.Xaml.Interactions.Custom;
 /// <summary>
 /// Raises <see cref="Button.ClickEvent"/> on the target button when executed.
 /// </summary>
-public class InvokeClickAction : StyledElementAction
+public class InvokeButtonClickAction : StyledElementAction
 {
     /// <summary>
     /// Identifies the <see cref="TargetButton"/> avalonia property.
     /// </summary>
     public static readonly StyledProperty<Button?> TargetButtonProperty =
-        AvaloniaProperty.Register<InvokeClickAction, Button?>(nameof(TargetButton));
+        AvaloniaProperty.Register<InvokeButtonClickAction, Button?>(nameof(TargetButton));
 
     /// <summary>
     /// Gets or sets the target button. This is an avalonia property.

@@ -12,7 +12,7 @@
   <StackPanel Margin="5" Spacing="10">
     <Button x:Name="TargetButton" Content="Automation Button">
       <Interaction.Behaviors>
-        <AutomationNameBehavior Name="Initial Name" />
+        <AutomationNameBehavior Name="InitialName" />
         <AutomationNameChangedTrigger>
           <ChangeAvaloniaPropertyAction TargetObject="{Binding ElementName=OutputText}"
                                         TargetProperty="Text"
@@ -32,7 +32,7 @@
     <Button Content="Invoke Click">
       <Interaction.Behaviors>
         <EventTriggerBehavior EventName="Click">
-          <InvokeClickAction TargetButton="{Binding ElementName=TargetButton}" />
+          <InvokeButtonClickAction TargetButton="{Binding ElementName=TargetButton}" />
         </EventTriggerBehavior>
       </Interaction.Behaviors>
     </Button>
