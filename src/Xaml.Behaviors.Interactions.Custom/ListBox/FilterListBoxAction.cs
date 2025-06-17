@@ -1,8 +1,8 @@
+// Copyright (c) Wiesław Šoltés. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for details.
 using System;
-using System.Linq;
 using System.Reflection;
 using Avalonia.Controls;
-using Avalonia.Metadata;
 using Avalonia.Xaml.Interactivity;
 
 namespace Avalonia.Xaml.Interactions.Custom;
@@ -76,7 +76,7 @@ public sealed class FilterListBoxAction : StyledElementAction
         var visibleCount = 0;
         foreach (var item in listBox.Items)
         {
-            var container = listBox.ItemContainerGenerator.ContainerFromItem(item) as ListBoxItem;
+            var container = listBox.ContainerFromItem(item) as ListBoxItem;
             if (container is null)
             {
                 continue;

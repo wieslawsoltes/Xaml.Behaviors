@@ -1,10 +1,11 @@
+// Copyright (c) Wiesław Šoltés. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for details.
 using System;
 using System.Linq;
 using System.Reflection;
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Interactivity;
-using Avalonia.Metadata;
 using Avalonia.Xaml.Interactivity;
 
 namespace Avalonia.Xaml.Interactions.Custom;
@@ -101,7 +102,7 @@ public sealed class ListBoxFilterBehavior : StyledElementBehavior<ListBox>
         var visibleCount = 0;
         foreach (var item in AssociatedObject.Items)
         {
-            var container = AssociatedObject.ItemContainerGenerator.ContainerFromItem(item) as ListBoxItem;
+            var container = AssociatedObject.ContainerFromItem(item) as ListBoxItem;
             if (container is null)
             {
                 continue;
@@ -127,7 +128,7 @@ public sealed class ListBoxFilterBehavior : StyledElementBehavior<ListBox>
 
         AssociatedObject.SelectedItem = AssociatedObject.Items.Cast<object>()
             .FirstOrDefault(x =>
-                (AssociatedObject.ItemContainerGenerator.ContainerFromItem(x) as ListBoxItem)?.IsVisible == true);
+                (AssociatedObject.ContainerFromItem(x) as ListBoxItem)?.IsVisible == true);
 
         if (NoMatchesControl is not null)
         {
