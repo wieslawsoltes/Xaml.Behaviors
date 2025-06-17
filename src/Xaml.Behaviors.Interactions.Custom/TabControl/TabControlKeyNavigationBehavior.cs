@@ -1,3 +1,7 @@
+// Copyright (c) Wiesław Šoltés. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for details.
+
+using System;
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Interactivity;
@@ -15,7 +19,7 @@ public class TabControlKeyNavigationBehavior : StyledElementBehavior<TabControl>
     /// Identifies the <seealso cref="Orientation"/> avalonia property.
     /// </summary>
     public static readonly StyledProperty<Orientation> OrientationProperty =
-        AvaloniaProperty.Register<TabControlKeyNavigationBehavior, Orientation>(nameof(Orientation), Orientation.Horizontal);
+        AvaloniaProperty.Register<TabControlKeyNavigationBehavior, Orientation>(nameof(Orientation));
 
     /// <summary>
     /// Gets or sets the orientation used for navigation. This is an avalonia property.
