@@ -4,7 +4,6 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="using:BehaviorsTestApplication.ViewModels"
-             xmlns:ia="using:Avalonia.Xaml.Interactions.Custom"
              x:DataType="vm:MainWindowViewModel"
              mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="450">
   <Design.DataContext>
@@ -13,9 +12,9 @@
   <StackPanel Spacing="10" Margin="5">
     <TextBox x:Name="SearchBox">
       <Interaction.Behaviors>
-        <ia:ListBoxFilterTrigger ListBox="ListBox">
-          <ia:FilterListBoxAction ListBox="ListBox" FilterText="{Binding Text, ElementName=SearchBox}" />
-        </ia:ListBoxFilterTrigger>
+        <ListBoxFilterTrigger ListBox="ListBox">
+          <FilterListBoxAction ListBox="ListBox" FilterText="{Binding Text, ElementName=SearchBox}" />
+        </ListBoxFilterTrigger>
       </Interaction.Behaviors>
     </TextBox>
     <TextBlock x:Name="NoMatchesText" Text="No matches found" IsVisible="False" />
