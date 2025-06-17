@@ -15,7 +15,7 @@
         <AutomationNameBehavior Name="InitialName" />
         <AutomationNameChangedTrigger>
           <ChangeAvaloniaPropertyAction TargetObject="{Binding ElementName=OutputText}"
-                                        TargetProperty="Text"
+                                        TargetProperty="{x:Static TextBlock.TextProperty}"
                                         Value="Name changed" />
         </AutomationNameChangedTrigger>
       </Interaction.Behaviors>
