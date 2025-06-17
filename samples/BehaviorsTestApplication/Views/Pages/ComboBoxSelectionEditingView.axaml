@@ -19,14 +19,12 @@
       </ComboBox.Items>
       <Interaction.Behaviors>
         <ComboBoxBeginEditBehavior />
-      </Interaction.Behaviors>
-      <Interaction.Triggers>
         <ComboBoxSelectionChangedTrigger>
           <ChangePropertyAction TargetObject="Message"
                                 PropertyName="Text"
                                 Value="{Binding SelectedItem, ElementName=Editor}" />
         </ComboBoxSelectionChangedTrigger>
-      </Interaction.Triggers>
+      </Interaction.Behaviors>
     </ComboBox>
     <Button Content="Select Item 2" Width="120">
       <Interaction.Behaviors>
