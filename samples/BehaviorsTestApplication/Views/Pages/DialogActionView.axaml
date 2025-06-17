@@ -23,13 +23,13 @@
       <ShowDialogAction Dialog="{DynamicResource #SampleDialog}" />
     </EventTriggerBehavior>
     <EventTriggerBehavior EventName="Click" SourceObject="CloseButton">
-      <CloseWindowAction Window="{Binding #SampleDialog}" />
+      <CloseWindowAction Window="{DynamicResource #SampleDialog}" />
     </EventTriggerBehavior>
-    <DialogOpenedTrigger SourceObject="{Binding #SampleDialog}">
-      <ChangePropertyAction TargetObject="Status" Property="Text" Value="Opened" />
+    <DialogOpenedTrigger SourceObject="{DynamicResource #SampleDialog}">
+      <ChangePropertyAction TargetObject="Status" PropertyName="Text" Value="Opened" />
     </DialogOpenedTrigger>
-    <DialogClosedTrigger SourceObject="{Binding #SampleDialog}">
-      <ChangePropertyAction TargetObject="Status" Property="Text" Value="Closed" />
+    <DialogClosedTrigger SourceObject="{DynamicResource #SampleDialog}">
+      <ChangePropertyAction TargetObject="Status" PropertyName="Text" Value="Closed" />
     </DialogClosedTrigger>
   </Interaction.Behaviors>
 </UserControl>
