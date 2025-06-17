@@ -20,15 +20,15 @@
   </StackPanel>
   <Interaction.Behaviors>
     <EventTriggerBehavior EventName="Click" SourceObject="OpenButton">
-      <ShowDialogAction Dialog="{DynamicResource #SampleDialog}" />
+      <ShowDialogAction Dialog="{DynamicResource SampleDialog}" />
     </EventTriggerBehavior>
     <EventTriggerBehavior EventName="Click" SourceObject="CloseButton">
-      <CloseWindowAction Window="{DynamicResource #SampleDialog}" />
+      <CloseWindowAction Window="{DynamicResource SampleDialog}" />
     </EventTriggerBehavior>
-    <DialogOpenedTrigger SourceObject="{DynamicResource #SampleDialog}">
+    <DialogOpenedTrigger SourceObject="{DynamicResource SampleDialog}">
       <ChangePropertyAction TargetObject="Status" PropertyName="Text" Value="Opened" />
     </DialogOpenedTrigger>
-    <DialogClosedTrigger SourceObject="{DynamicResource #SampleDialog}">
+    <DialogClosedTrigger SourceObject="{DynamicResource SampleDialog}">
       <ChangePropertyAction TargetObject="Status" PropertyName="Text" Value="Closed" />
     </DialogClosedTrigger>
   </Interaction.Behaviors>

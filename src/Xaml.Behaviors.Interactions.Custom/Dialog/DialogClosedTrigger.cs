@@ -9,7 +9,7 @@ namespace Avalonia.Xaml.Interactions.Custom;
 /// <summary>
 /// Executes actions when the dialog window is closed.
 /// </summary>
-public class DialogClosedTrigger : StyledElementTrigger<Window>
+public class DialogClosedTrigger : StyledElementTrigger<Control>
 {
     /// <summary>
     /// Identifies the <seealso cref="SourceObject"/> avalonia property.
@@ -30,7 +30,7 @@ public class DialogClosedTrigger : StyledElementTrigger<Window>
     /// <inheritdoc />
     protected override void OnAttachedToVisualTree()
     {
-        var window = SourceObject ?? AssociatedObject;
+        var window = SourceObject;
         if (window is not null)
         {
             window.Closed += OnClosed;
@@ -40,7 +40,7 @@ public class DialogClosedTrigger : StyledElementTrigger<Window>
     /// <inheritdoc />
     protected override void OnDetachedFromVisualTree()
     {
-        var window = SourceObject ?? AssociatedObject;
+        var window = SourceObject;
         if (window is not null)
         {
             window.Closed -= OnClosed;

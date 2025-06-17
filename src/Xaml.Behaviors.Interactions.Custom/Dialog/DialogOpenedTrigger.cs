@@ -9,7 +9,7 @@ namespace Avalonia.Xaml.Interactions.Custom;
 /// <summary>
 /// Executes actions when the dialog window is opened.
 /// </summary>
-public class DialogOpenedTrigger : StyledElementTrigger<Window>
+public class DialogOpenedTrigger : StyledElementTrigger<Control>
 {
     /// <summary>
     /// Identifies the <seealso cref="SourceObject"/> avalonia property.
@@ -30,7 +30,7 @@ public class DialogOpenedTrigger : StyledElementTrigger<Window>
     /// <inheritdoc />
     protected override void OnAttachedToVisualTree()
     {
-        var window = SourceObject ?? AssociatedObject;
+        var window = SourceObject;
         if (window is not null)
         {
             window.Opened += OnOpened;
@@ -40,7 +40,7 @@ public class DialogOpenedTrigger : StyledElementTrigger<Window>
     /// <inheritdoc />
     protected override void OnDetachedFromVisualTree()
     {
-        var window = SourceObject ?? AssociatedObject;
+        var window = SourceObject;
         if (window is not null)
         {
             window.Opened -= OnOpened;
