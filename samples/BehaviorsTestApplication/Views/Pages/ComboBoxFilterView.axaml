@@ -9,7 +9,13 @@
     <vm:MainWindowViewModel />
   </Design.DataContext>
   <StackPanel Margin="5" Spacing="5">
-    <TextBox x:Name="FilterBox" Watermark="Type to filter" />
+    <TextBox x:Name="FilterBox" Watermark="Type to filter">
+      <Interaction.Behaviors>
+        <TextChangedTrigger>
+          <FilterComboBoxItemsAction ComboBox="ItemsComboBox" SearchBox="FilterBox" />
+        </TextChangedTrigger>
+      </Interaction.Behaviors>
+    </TextBox>
     <ComboBox x:Name="ItemsComboBox" Width="200">
       <ComboBox.Items>
         <x:String>Apple</x:String>
@@ -23,10 +29,5 @@
       </Interaction.Behaviors>
     </ComboBox>
     <TextBlock x:Name="NoMatchesText" Text="No matches" IsVisible="False" />
-    <Interaction.Triggers>
-      <TextChangedTrigger SourceObject="FilterBox">
-        <FilterComboBoxItemsAction ComboBox="ItemsComboBox" SearchBox="FilterBox" />
-      </TextChangedTrigger>
-    </Interaction.Triggers>
   </StackPanel>
 </UserControl>

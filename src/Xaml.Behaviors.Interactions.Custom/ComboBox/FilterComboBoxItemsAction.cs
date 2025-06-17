@@ -1,3 +1,5 @@
+// Copyright (c) Wiesław Šoltés. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for details.
 using System.Linq;
 using Avalonia.Controls;
 using Avalonia.Xaml.Interactivity;
@@ -8,7 +10,7 @@ namespace Avalonia.Xaml.Interactions.Custom;
 /// Filters items of a <see cref="ComboBox"/> using text from the
 /// associated <see cref="SearchBox"/> or the provided parameter.
 /// </summary>
-public sealed class FilterComboBoxItemsAction : StyledElementAction<ComboBox>
+public sealed class FilterComboBoxItemsAction : StyledElementAction
 {
     /// <summary>
     /// Identifies the <seealso cref="ComboBox"/> avalonia property.
@@ -50,7 +52,7 @@ public sealed class FilterComboBoxItemsAction : StyledElementAction<ComboBox>
             return false;
         }
 
-        var combo = GetValue(ComboBoxProperty) is not null ? ComboBox : AssociatedObject;
+        var combo = GetValue(ComboBoxProperty);
         if (combo is null)
         {
             return false;
@@ -64,7 +66,7 @@ public sealed class FilterComboBoxItemsAction : StyledElementAction<ComboBox>
 
         foreach (var item in items)
         {
-            var container = combo.ItemContainerGenerator.ContainerFromItem(item) as ComboBoxItem;
+            var container = combo.ContainerFromItem(item) as ComboBoxItem;
             var text = item?.ToString()?.ToLowerInvariant() ?? string.Empty;
             var visible = text.Contains(query);
             if (container is not null)
