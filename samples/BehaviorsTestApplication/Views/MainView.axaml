@@ -391,6 +391,9 @@
       <TabItem Header="Gesture Event Triggers">
         <pages:GestureEventTriggersView />
       </TabItem>
+      <TabItem Header="Icon Sample">
+        <pages:IconView />
+      </TabItem>
     </SingleSelectionTabControl>
   </DockPanel>
 </UserControl>
