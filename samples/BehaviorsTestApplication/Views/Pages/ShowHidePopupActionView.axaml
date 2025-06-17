@@ -1,0 +1,30 @@
+<UserControl x:Class="BehaviorsTestApplication.Views.Pages.ShowHidePopupActionView"
+             xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:BehaviorsTestApplication.ViewModels"
+             x:DataType="vm:MainWindowViewModel"
+             mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="200">
+  <Design.DataContext>
+    <vm:MainWindowViewModel />
+  </Design.DataContext>
+  <StackPanel>
+    <Button x:Name="ShowButton" Content="Show Popup" Margin="5" />
+    <Button x:Name="HideButton" Content="Hide Popup" Margin="5" />
+    <Border x:Name="Target" Margin="5" Padding="5" Background="LightGray" />
+    <Popup x:Name="TargetPopup" Placement="Bottom">
+      <Border Background="LightYellow" Padding="10">
+        <TextBlock Text="Popup content" />
+      </Border>
+    </Popup>
+  </StackPanel>
+  <Interaction.Behaviors>
+    <EventTriggerBehavior EventName="Click" SourceObject="ShowButton">
+      <ShowPopupAction TargetControl="Target" Popup="{Binding #TargetPopup}" />
+    </EventTriggerBehavior>
+    <EventTriggerBehavior EventName="Click" SourceObject="HideButton">
+      <HidePopupAction TargetControl="Target" Popup="{Binding #TargetPopup}" />
+    </EventTriggerBehavior>
+  </Interaction.Behaviors>
+</UserControl>
