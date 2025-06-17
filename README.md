@@ -1170,6 +1170,16 @@ This section provides an overview of all available classes and their purpose in 
 - **SplitViewPaneClosedTrigger**
   *Triggers actions after the pane has closed.*
 
+### Window
+- **DialogOpenedTrigger**
+  *Triggers actions when a window is opened.*
+- **DialogClosedTrigger**
+  *Triggers actions when a window is closed.*
+- **ShowDialogAction**
+  *Shows a window as a dialog.*
+- **CloseWindowAction**
+  *Closes a window when executed.*
+
 ## Interactivity (Infrastructure)
 
 ### AvaloniaObject
