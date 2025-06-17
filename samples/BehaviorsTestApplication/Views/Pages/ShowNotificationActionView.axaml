@@ -21,14 +21,12 @@
   <Interaction.Behaviors>
     <EventTriggerBehavior EventName="Click" SourceObject="ShowButton">
       <ShowNotificationAction NotificationManager="{Binding #Manager.NotificationManager}">
-        <ShowNotificationAction.Notification>
-          <Notification Title="Hello" Message="Custom notification" />
-        </ShowNotificationAction.Notification>
+        <Notification Title="Hello" Message="Custom notification" />
       </ShowNotificationAction>
     </EventTriggerBehavior>
     <!-- TODO: -->
-    <!-- <EventTriggerBehavior EventName="Click" SourceObject="CloseButton"> -->
-    <!--   <CloseNotificationAction NotificationCard="{Binding ElementName=Card}" /> -->
-    <!-- </EventTriggerBehavior> -->
+    <!--<EventTriggerBehavior EventName="Click" SourceObject="CloseButton">
+      <CloseNotificationAction NotificationCard="{Binding ElementName=Card}" />
+    </EventTriggerBehavior>-->
   </Interaction.Behaviors>
 </UserControl>
