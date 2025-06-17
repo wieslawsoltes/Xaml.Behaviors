@@ -1,5 +1,5 @@
+using System;
 using Avalonia.Controls;
-using Avalonia.Interactivity;
 using Avalonia.Xaml.Interactivity;
 
 namespace Avalonia.Xaml.Interactions.Custom;
@@ -27,7 +27,7 @@ public class DialogOpenedTrigger : StyledElementTrigger<Window>
         }
     }
 
-    private void OnOpened(object? sender, RoutedEventArgs e)
+    private void OnOpened(object? sender, EventArgs e)
     {
         Execute(e);
     }

@@ -20,7 +20,7 @@
   </StackPanel>
   <Interaction.Behaviors>
     <EventTriggerBehavior EventName="Click" SourceObject="OpenButton">
-      <ShowDialogAction Dialog="{Binding #SampleDialog}" />
+      <ShowDialogAction Dialog="{DynamicResource #SampleDialog}" />
     </EventTriggerBehavior>
     <EventTriggerBehavior EventName="Click" SourceObject="CloseButton">
       <CloseWindowAction Window="{Binding #SampleDialog}" />
