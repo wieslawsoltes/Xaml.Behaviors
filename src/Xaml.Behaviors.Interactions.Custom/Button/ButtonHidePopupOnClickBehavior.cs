@@ -4,7 +4,7 @@ using System;
 using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
 using Avalonia.Interactivity;
-using Avalonia.VisualTree;
+using Avalonia.LogicalTree;
 using Avalonia.Xaml.Interactivity;
 
 namespace Avalonia.Xaml.Interactions.Custom;
@@ -24,7 +24,7 @@ public class ButtonHidePopupOnClickBehavior : AttachedToVisualTreeBehavior<Butto
             return DisposableAction.Empty;
         }
 
-        var popup = button.FindAncestorOfType<Popup>();
+        var popup = button.FindLogicalAncestorOfType<Popup>();
         if (popup is null)
         {
             return DisposableAction.Empty;
