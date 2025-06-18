@@ -1,8 +1,6 @@
 // Copyright (c) Wiesław Šoltés. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for details.
-using System;
 using System.Diagnostics.CodeAnalysis;
-using System.Reflection;
 using Avalonia.Controls;
 using Avalonia.Xaml.Interactivity;
 
@@ -68,32 +66,8 @@ public class SetViewModelPropertyAction : StyledElementAction
         {
             return false;
         }
-
-        var info = target.GetType().GetRuntimeProperty(propertyName);
-        if (info is null || !info.CanWrite)
-        {
-            return false;
-        }
-
-        object? result = Value;
-        var type = info.PropertyType;
-        if (result is not null && !type.IsInstanceOfType(result))
-        {
-            var str = Value?.ToString();
-            if (str is not null)
-            {
-                if (type.GetTypeInfo().IsEnum)
-                {
-                    result = Enum.Parse(type, str);
-                }
-                else
-                {
-                    result = TypeConverterHelper.Convert(str, type);
-                }
-            }
-        }
-
-        info.SetValue(target, result, null);
+        
+        PropertyHelper.UpdatePropertyValue(target, propertyName, Value);
         return true;
     }
 }
