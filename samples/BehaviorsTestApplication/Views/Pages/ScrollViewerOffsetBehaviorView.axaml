@@ -1,0 +1,26 @@
+<UserControl x:Class="BehaviorsTestApplication.Views.Pages.ScrollViewerOffsetBehaviorView"
+             xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:BehaviorsTestApplication.ViewModels"
+             x:DataType="vm:MainWindowViewModel"
+             mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="250">
+  <Design.DataContext>
+    <vm:MainWindowViewModel />
+  </Design.DataContext>
+  <StackPanel Spacing="10">
+    <Slider x:Name="OffsetSlider" Minimum="0" Maximum="400" Width="200" />
+    <ScrollViewer Height="150">
+      <StackPanel Spacing="20">
+        <Border Height="40" Background="LightGray" />
+        <Border Height="40" Background="LightGray" />
+        <Border Height="40" Background="LightGray" />
+        <Border Height="600" Background="LightGray" />
+      </StackPanel>
+      <Interaction.Behaviors>
+        <ScrollViewerOffsetBehavior VerticalOffset="{Binding Value, ElementName=OffsetSlider}" />
+      </Interaction.Behaviors>
+    </ScrollViewer>
+  </StackPanel>
+</UserControl>
