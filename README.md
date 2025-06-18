@@ -234,6 +234,10 @@ This section provides an overview of all available classes and their purpose in 
 
 - **PopupAction**
   *Displays a popup window for showing additional UI content.*
+- **ShowPopupAction**
+  *Opens an existing popup for a control.*
+- **HidePopupAction**
+  *Closes an existing popup associated with a control.*
 
 - **ShowFlyoutAction**
   *Shows a flyout attached to a control or specified explicitly.*
@@ -323,8 +327,10 @@ This section provides an overview of all available classes and their purpose in 
 - **ButtonHideFlyoutBehavior**  
   *Hides an attached flyout when the button is interacted with.*
 
-- **ButtonHideFlyoutOnClickBehavior**  
+- **ButtonHideFlyoutOnClickBehavior**
   *Automatically hides the flyout attached to the button when it is clicked.*
+- **ButtonHidePopupOnClickBehavior**
+  *Automatically closes the popup containing the button when it is clicked.*
 
 ### Clipboard
 - **ClearClipboardAction**  
@@ -691,6 +697,10 @@ This section provides an overview of all available classes and their purpose in 
   *Triggers actions on text input events.*
 - **TextInputMethodClientRequestedEventTrigger**
   *Triggers actions when a text input method client is requested.*
+- **PopupOpenedTrigger**
+  *Triggers actions when a popup is opened.*
+- **PopupClosedTrigger**
+  *Triggers actions when a popup is closed.*
 
 ### ExecuteCommand Core
 - **ExecuteCommandBehaviorBase**  
@@ -1151,6 +1161,14 @@ This section provides an overview of all available classes and their purpose in 
 
 - **TextBoxSelectAllTextBehavior**
   *Selects all text in a TextBox immediately upon attachment.*
+
+### TreeView
+- **TreeViewFilterBehavior**
+  *Filters tree view nodes based on a search box.*
+- **TreeViewFilterTextChangedTrigger**
+  *Triggers actions when the search box text changes.*
+- **ApplyTreeViewFilterAction**
+  *Filters the target TreeView using a provided query.*
 
 ### TreeViewItem
 - **ToggleIsExpandedOnDoubleTappedBehavior**
