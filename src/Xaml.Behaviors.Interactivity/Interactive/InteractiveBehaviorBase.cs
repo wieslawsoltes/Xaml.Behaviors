@@ -1,20 +1,19 @@
 // Copyright (c) Wiesław Šoltés. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for details.
 using Avalonia.Interactivity;
-using Avalonia.Xaml.Interactivity;
 
-namespace Avalonia.Xaml.Interactions.Events;
+namespace Avalonia.Xaml.Interactivity;
 
 /// <summary>
-/// Base class for triggers that listen for routed events.
+/// Base class for behaviors that listen for routed events.
 /// </summary>
-public abstract class InteractiveTriggerBase : StyledElementTrigger<Interactive>
+public abstract class InteractiveBehaviorBase : StyledElementBehavior<Interactive>
 {
     /// <summary>
     /// Identifies the <see cref="RoutingStrategies"/> avalonia property.
     /// </summary>
     public static readonly StyledProperty<RoutingStrategies> RoutingStrategiesProperty =
-        AvaloniaProperty.Register<InteractiveTriggerBase, RoutingStrategies>(
+        AvaloniaProperty.Register<InteractiveBehaviorBase, RoutingStrategies>(
             nameof(RoutingStrategies),
             RoutingStrategies.Bubble);
 
@@ -25,19 +24,5 @@ public abstract class InteractiveTriggerBase : StyledElementTrigger<Interactive>
     {
         get => GetValue(RoutingStrategiesProperty);
         set => SetValue(RoutingStrategiesProperty, value);
-    }
-
-    /// <summary>
-    /// Executes the actions associated with this trigger.
-    /// </summary>
-    /// <param name="parameter">Event arguments passed to the actions.</param>
-    protected void Execute(object? parameter)
-    {
-        if (!IsEnabled)
-        {
-            return;
-        }
-
-        Interaction.ExecuteActions(AssociatedObject, Actions, parameter);
     }
 }

@@ -3,6 +3,7 @@
 using Avalonia.Input;
 using Avalonia.Input.TextInput;
 using Avalonia.Interactivity;
+using Avalonia.Xaml.Interactivity;
 
 namespace Avalonia.Xaml.Interactions.Events;
 
