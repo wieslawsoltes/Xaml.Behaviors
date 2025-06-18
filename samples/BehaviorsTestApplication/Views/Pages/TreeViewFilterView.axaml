@@ -1,0 +1,40 @@
+<UserControl x:Class="BehaviorsTestApplication.Views.Pages.TreeViewFilterView"
+             xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:BehaviorsTestApplication.ViewModels"
+             x:DataType="vm:MainWindowViewModel"
+             mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="450">
+  <Design.DataContext>
+    <vm:MainWindowViewModel />
+  </Design.DataContext>
+  <DockPanel>
+    <TextBox x:Name="SearchBox"
+             Watermark="Search..."
+             Margin="0,0,0,8"
+             DockPanel.Dock="Top">
+      <Interaction.Behaviors>
+        <TreeViewFilterTextChangedTrigger SearchBox="SearchBox">
+          <ApplyTreeViewFilterAction TreeView="Tree"
+                                        Query="{Binding Text, ElementName=SearchBox}" />
+        </TreeViewFilterTextChangedTrigger>
+      </Interaction.Behaviors>
+    </TextBox>
+    <TextBlock x:Name="NoMatchesText"
+               Text="No items match the search."
+               Margin="0,0,0,8"
+               IsVisible="False"
+               DockPanel.Dock="Top" />
+    <TreeView x:Name="Tree" ItemsSource="{Binding Items}">
+      <Interaction.Behaviors>
+        <TreeViewFilterBehavior SearchBox="SearchBox" NoMatchesControl="NoMatchesText" />
+      </Interaction.Behaviors>
+      <TreeView.ItemTemplate>
+        <TreeDataTemplate DataType="vm:ItemViewModel" ItemsSource="{Binding Items}">
+          <TextBlock Text="{Binding Value}" />
+        </TreeDataTemplate>
+      </TreeView.ItemTemplate>
+    </TreeView>
+  </DockPanel>
+</UserControl>

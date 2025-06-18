@@ -234,6 +234,10 @@ This section provides an overview of all available classes and their purpose in 
 
 - **PopupAction**
   *Displays a popup window for showing additional UI content.*
+- **ShowPopupAction**
+  *Opens an existing popup for a control.*
+- **HidePopupAction**
+  *Closes an existing popup associated with a control.*
 
 - **ShowFlyoutAction**
   *Shows a flyout attached to a control or specified explicitly.*
@@ -305,6 +309,16 @@ This section provides an overview of all available classes and their purpose in 
 - **CarouselSelectionChangedTrigger**
   *Triggers actions when the Carousel selection changes.*
 
+### TabControl
+- **TabControlKeyNavigationBehavior**
+  *Enables keyboard navigation for a TabControl using arrow keys.*
+- **TabControlNextAction**
+  *Advances the target TabControl to the next tab.*
+- **TabControlPreviousAction**
+  *Moves the target TabControl to the previous tab.*
+- **TabControlSelectionChangedTrigger**
+  *Triggers actions when the TabControl selection changes.*
+
 ### Button
 - **ButtonClickEventTriggerBehavior**  
   *Listens for a button’s click event and triggers associated actions.*
@@ -315,8 +329,10 @@ This section provides an overview of all available classes and their purpose in 
 - **ButtonHideFlyoutBehavior**  
   *Hides an attached flyout when the button is interacted with.*
 
-- **ButtonHideFlyoutOnClickBehavior**  
+- **ButtonHideFlyoutOnClickBehavior**
   *Automatically hides the flyout attached to the button when it is clicked.*
+- **ButtonHidePopupOnClickBehavior**
+  *Automatically closes the popup containing the button when it is clicked.*
 
 ### Clipboard
 - **ClearClipboardAction**  
@@ -687,6 +703,10 @@ This section provides an overview of all available classes and their purpose in 
   *Triggers actions on text input events.*
 - **TextInputMethodClientRequestedEventTrigger**
   *Triggers actions when a text input method client is requested.*
+- **PopupOpenedTrigger**
+  *Triggers actions when a popup is opened.*
+- **PopupClosedTrigger**
+  *Triggers actions when a popup is closed.*
 - **DragEnterEventTrigger**
   *Triggers actions when a drag operation enters the element.*
 - **DragLeaveEventTrigger**
@@ -1156,6 +1176,14 @@ This section provides an overview of all available classes and their purpose in 
 - **TextBoxSelectAllTextBehavior**
   *Selects all text in a TextBox immediately upon attachment.*
 
+### TreeView
+- **TreeViewFilterBehavior**
+  *Filters tree view nodes based on a search box.*
+- **TreeViewFilterTextChangedTrigger**
+  *Triggers actions when the search box text changes.*
+- **ApplyTreeViewFilterAction**
+  *Filters the target TreeView using a provided query.*
+
 ### TreeViewItem
 - **ToggleIsExpandedOnDoubleTappedBehavior**
   *Toggles the IsExpanded property of a TreeViewItem when it is double-tapped.*
@@ -1173,6 +1201,16 @@ This section provides an overview of all available classes and their purpose in 
   *Triggers actions when the pane is about to close.*
 - **SplitViewPaneClosedTrigger**
   *Triggers actions after the pane has closed.*
+
+### Window
+- **DialogOpenedTrigger**
+  *Triggers actions when a window is opened.*
+- **DialogClosedTrigger**
+  *Triggers actions when a window is closed.*
+- **ShowDialogAction**
+  *Shows a window as a dialog.*
+- **CloseWindowAction**
+  *Closes a window when executed.*
 
 ## Interactivity (Infrastructure)
 
