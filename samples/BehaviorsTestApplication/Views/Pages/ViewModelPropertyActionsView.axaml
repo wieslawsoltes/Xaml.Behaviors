@@ -25,13 +25,16 @@
         </EventTriggerBehavior>
       </Interaction.Behaviors>
     </Button>
-    <CheckBox Content="Toggle Loading" IsChecked="{Binding IsLoading}">
+    <CheckBox Content="Toggle Loading" 
+              IsChecked="{Binding IsLoading}"
+              IsEnabled="False" />
+    <Button Content="Toggle Loading">
       <Interaction.Behaviors>
         <EventTriggerBehavior EventName="Click">
           <ToggleViewModelBooleanAction PropertyName="IsLoading" />
         </EventTriggerBehavior>
       </Interaction.Behaviors>
-    </CheckBox>
+    </Button>
     <Border>
       <Interaction.Behaviors>
         <ViewModelPropertyChangedTrigger PropertyName="Count">
