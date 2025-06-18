@@ -1,5 +1,6 @@
 // Copyright (c) Wiesław Šoltés. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for details.
+using System.Diagnostics.CodeAnalysis;
 using Avalonia.Controls;
 using Avalonia.Xaml.Interactivity;
 
@@ -8,6 +9,7 @@ namespace Avalonia.Xaml.Interactions.Custom;
 /// <summary>
 /// Sets a view model property when the associated control is loaded.
 /// </summary>
+[RequiresUnreferencedCode("This functionality is not compatible with trimming.")]
 public class SetViewModelPropertyOnLoadBehavior : StyledElementBehavior<Control>
 {
     /// <summary>
@@ -51,18 +53,12 @@ public class SetViewModelPropertyOnLoadBehavior : StyledElementBehavior<Control>
             return;
         }
 
-        var name = PropertyName;
-        if (string.IsNullOrEmpty(name))
+        var propertyName = PropertyName;
+        if (string.IsNullOrEmpty(propertyName))
         {
             return;
         }
 
-        var info = target.GetType().GetProperty(name);
-        if (info is null || !info.CanWrite)
-        {
-            return;
-        }
-
-        info.SetValue(target, Value, null);
+        PropertyHelper.UpdatePropertyValue(target, propertyName, Value);
     }
 }
