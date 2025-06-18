@@ -29,7 +29,7 @@ public class ContextDialogBehavior : AttachedToVisualTreeBehavior<Control>
     /// Identifies the <see cref="Placement"/> avalonia property.
     /// </summary>
     public static readonly StyledProperty<PlacementMode> PlacementProperty =
-        AvaloniaProperty.Register<ContextDialogBehavior, PlacementMode>(nameof(Placement), PlacementMode.Pointer);
+        AvaloniaProperty.Register<ContextDialogBehavior, PlacementMode>(nameof(Placement));
 
     private Popup? _popup;
 
@@ -100,9 +100,8 @@ public class ContextDialogBehavior : AttachedToVisualTreeBehavior<Control>
     {
         _popup = new Popup
         {
-            PlacementMode = Placement,
+            Placement = Placement,
             PlacementTarget = AssociatedObject,
-            StaysOpen = true,
             IsLightDismissEnabled = true,
             Child = DialogContent
         };
@@ -129,7 +128,7 @@ public class ContextDialogBehavior : AttachedToVisualTreeBehavior<Control>
 
         if (IsOpen)
         {
-            _popup.Open(AssociatedObject);
+            _popup.Open();
             Opened?.Invoke(this, EventArgs.Empty);
         }
         else
