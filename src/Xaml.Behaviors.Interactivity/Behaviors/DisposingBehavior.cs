@@ -1,9 +1,8 @@
 // Copyright (c) Wiesław Šoltés. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for details.
 using System;
-using Avalonia.Xaml.Interactivity;
 
-namespace Avalonia.Xaml.Interactions.Custom;
+namespace Avalonia.Xaml.Interactivity;
 
 /// <summary>
 /// A base class for behaviors with disposable resources.
