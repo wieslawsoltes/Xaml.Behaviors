@@ -274,6 +274,9 @@
       <TabItem Header="Drag and Drop">
         <pages:DragAndDropView />
       </TabItem>
+      <TabItem Header="Files Preview">
+        <pages:FilesPreviewView />
+      </TabItem>
       <TabItem Header="TypedDragBehavior">
         <pages:TypedDragBehaviorView />
       </TabItem>
