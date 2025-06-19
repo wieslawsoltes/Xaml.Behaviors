@@ -256,6 +256,12 @@ This section provides an overview of all available classes and their purpose in 
 
 - **SplitViewTogglePaneAction**
   *Toggles the `IsPaneOpen` state of a `SplitView`.*
+- **SetViewModelPropertyAction**
+  *Sets a property on the DataContext to a specified value.*
+- **IncrementViewModelPropertyAction**
+  *Adds a numeric delta to a view model property.*
+- **ToggleViewModelBooleanAction**
+  *Toggles a boolean view model property.*
 
 ### Animations
 - **FadeInBehavior**
@@ -469,6 +475,8 @@ This section provides an overview of all available classes and their purpose in 
   *Performs actions when the bound data meets a specified condition.*
 - **PropertyChangedTrigger**
   *Triggers actions when a property value changes.*
+- **ViewModelPropertyChangedTrigger**
+  *Invokes actions when a DataContext property changes.*
 
 - **DetachedFromLogicalTreeTrigger**
   *Triggers actions when the control is removed from the logical tree.*
@@ -503,8 +511,10 @@ This section provides an overview of all available classes and their purpose in 
 - **InvokeCommandActionBase**  
   *The base class for actions that invoke commands, with support for parameter conversion.*
 
-- **LoadedBehavior**  
+- **LoadedBehavior**
   *A base class for behaviors that run when a control is loaded into the visual tree.*
+- **SetViewModelPropertyOnLoadBehavior**
+  *Sets a view model property when the associated control is loaded.*
 
 - **LoadedTrigger**  
   *Triggers actions when the control’s Loaded event fires.*

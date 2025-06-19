@@ -1,0 +1,49 @@
+<UserControl x:Class="BehaviorsTestApplication.Views.Pages.ViewModelPropertyActionsView"
+             xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:BehaviorsTestApplication.ViewModels"
+             x:DataType="vm:MainWindowViewModel"
+             mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="450">
+  <Design.DataContext>
+    <vm:MainWindowViewModel />
+  </Design.DataContext>
+  <StackPanel Margin="5" Spacing="8">
+    <TextBlock Name="CountText" Text="{Binding Count}" HorizontalAlignment="Center" />
+    <Button Content="Set Count To 5">
+      <Interaction.Behaviors>
+        <EventTriggerBehavior EventName="Click">
+          <SetViewModelPropertyAction PropertyName="Count" Value="5" />
+        </EventTriggerBehavior>
+      </Interaction.Behaviors>
+    </Button>
+    <Button Content="Increment Count">
+      <Interaction.Behaviors>
+        <EventTriggerBehavior EventName="Click">
+          <IncrementViewModelPropertyAction PropertyName="Count" Delta="1" />
+        </EventTriggerBehavior>
+      </Interaction.Behaviors>
+    </Button>
+    <CheckBox Content="Toggle Loading" 
+              IsChecked="{Binding IsLoading}"
+              IsEnabled="False" />
+    <Button Content="Toggle Loading">
+      <Interaction.Behaviors>
+        <EventTriggerBehavior EventName="Click">
+          <ToggleViewModelBooleanAction PropertyName="IsLoading" />
+        </EventTriggerBehavior>
+      </Interaction.Behaviors>
+    </Button>
+    <Border>
+      <Interaction.Behaviors>
+        <ViewModelPropertyChangedTrigger PropertyName="Count">
+          <ChangePropertyAction TargetObject="CountText" PropertyName="Text" Value="{Binding Count}" />
+        </ViewModelPropertyChangedTrigger>
+      </Interaction.Behaviors>
+    </Border>
+    <Interaction.Behaviors>
+      <SetViewModelPropertyOnLoadBehavior PropertyName="Count" Value="1" />
+    </Interaction.Behaviors>
+  </StackPanel>
+</UserControl>
