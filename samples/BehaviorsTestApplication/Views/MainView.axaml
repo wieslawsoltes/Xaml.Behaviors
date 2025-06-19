@@ -283,6 +283,9 @@
       <TabItem Header="Mouse Drag Behaviors">
         <pages:MouseDragBehaviorView />
       </TabItem>
+      <TabItem Header="Drag Between Panels">
+        <pages:DragBetweenPanelsView />
+      </TabItem>
       <TabItem Header="Cursor Behavior">
         <pages:CursorView />
       </TabItem>
