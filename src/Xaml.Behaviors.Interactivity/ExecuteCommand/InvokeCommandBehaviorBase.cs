@@ -3,9 +3,8 @@
 using System.Windows.Input;
 using Avalonia.Controls;
 using Avalonia.Data.Converters;
-using Avalonia.Xaml.Interactivity;
 
-namespace Avalonia.Xaml.Interactions.Core;
+namespace Avalonia.Xaml.Interactivity;
 
 /// <summary>
 /// Invoke command behavior base class.
