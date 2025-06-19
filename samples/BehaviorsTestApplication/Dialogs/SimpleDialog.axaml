@@ -1,0 +1,10 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        x:Class="BehaviorsTestApplication.Dialogs.SimpleDialog"
+        Width="300" Height="150"
+        WindowStartupLocation="CenterOwner">
+  <StackPanel Margin="20">
+    <TextBlock Text="Dialog content" Margin="0 0 0 10" />
+    <Button x:Name="CloseButton" Content="Close" HorizontalAlignment="Center" />
+  </StackPanel>
+</Window>

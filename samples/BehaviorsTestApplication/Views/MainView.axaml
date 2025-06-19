@@ -250,11 +250,17 @@
       <TabItem Header="ShowContextMenuAction">
         <pages:ShowContextMenuActionView />
       </TabItem>
+      <TabItem Header="ShowHidePopupAction">
+        <pages:ShowHidePopupActionView />
+      </TabItem>
       <TabItem Header="SetEnabledAction">
         <pages:SetEnabledActionView />
       </TabItem>
       <TabItem Header="ShowNotificationAction">
         <pages:ShowNotificationActionView />
+      </TabItem>
+      <TabItem Header="Dialog Actions">
+        <pages:DialogActionView />
       </TabItem>
       <TabItem Header="File Drop Handler">
         <pages:FileDropHandlerView />
@@ -328,6 +334,12 @@
       <TabItem Header="Carousel Navigation">
         <pages:CarouselNavigationView />
       </TabItem>
+      <TabItem Header="TabControl Navigation">
+        <pages:TabControlNavigationView />
+      </TabItem>
+      <TabItem Header="TabControl Selection Trigger">
+        <pages:TabControlSelectionChangedTriggerView />
+      </TabItem>
       <TabItem Header="Theme Variant">
         <pages:ThemeVariantView />
       </TabItem>
@@ -370,8 +382,23 @@
       <TabItem Header="ToggleIsExpandedOnDoubleTappedBehavior">
         <pages:ToggleIsExpandedOnDoubleTappedBehaviorView />
       </TabItem>
+      <TabItem Header="TreeView Filter">
+        <pages:TreeViewFilterView />
+      </TabItem>
       <TabItem Header="ViewportBehavior">
         <pages:ViewportBehaviorView />
+      </TabItem>
+      <TabItem Header="ScrollChangedTrigger">
+        <pages:ScrollChangedTriggerView />
+      </TabItem>
+      <TabItem Header="ScrollViewerOffsetBehavior">
+        <pages:ScrollViewerOffsetBehaviorView />
+      </TabItem>
+      <TabItem Header="ScrollToOffsetAction">
+        <pages:ScrollToOffsetActionView />
+      </TabItem>
+      <TabItem Header="Window Interactions">
+        <pages:WindowInteractionsView />
       </TabItem>
       <TabItem Header="Events Behaviors">
         <pages:EventsBehaviorsView />
@@ -387,6 +414,12 @@
       </TabItem>
       <TabItem Header="Gesture Event Triggers">
         <pages:GestureEventTriggersView />
+      </TabItem>
+      <TabItem Header="Popup Event Triggers">
+        <pages:PopupEventTriggersView />
+      </TabItem>
+      <TabItem Header="Icon Sample">
+        <pages:IconView />
       </TabItem>
     </SingleSelectionTabControl>
   </DockPanel>
