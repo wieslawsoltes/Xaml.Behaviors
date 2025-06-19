@@ -3,7 +3,6 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="using:BehaviorsTestApplication.ViewModels"
-             xmlns:drag="using:Avalonia.Xaml.Interactions.DragAndDrop"
              x:Class="BehaviorsTestApplication.Views.Pages.FilesPreviewView"
              x:DataType="vm:MainWindowViewModel"
              mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="450">
@@ -15,7 +14,7 @@
     <TextBlock Text="FilesPreviewBehavior" HorizontalAlignment="Center"/>
     <Border Background="Transparent" Padding="20" BorderThickness="1" BorderBrush="{DynamicResource SystemAccentColor}">
       <Interaction.Behaviors>
-        <drag:FilesPreviewBehavior x:Name="PreviewBehavior" />
+        <FilesPreviewBehavior x:Name="PreviewBehavior" />
       </Interaction.Behaviors>
       <TextBlock Text="Drag files here" HorizontalAlignment="Center" VerticalAlignment="Center" />
     </Border>
