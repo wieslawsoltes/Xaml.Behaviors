@@ -234,6 +234,10 @@ This section provides an overview of all available classes and their purpose in 
 
 - **PopupAction**
   *Displays a popup window for showing additional UI content.*
+- **ShowPopupAction**
+  *Opens an existing popup for a control.*
+- **HidePopupAction**
+  *Closes an existing popup associated with a control.*
 
 - **ShowFlyoutAction**
   *Shows a flyout attached to a control or specified explicitly.*
@@ -246,12 +250,20 @@ This section provides an overview of all available classes and their purpose in 
 
 - **RemoveElementAction**
   *Removes a control from its parent container when executed.*
+- **MoveElementToPanelAction**
+  *Moves a control to the specified panel.*
 
 - **ShowContextMenuAction**
   *Displays a control's context menu programmatically.*
 
 - **SplitViewTogglePaneAction**
   *Toggles the `IsPaneOpen` state of a `SplitView`.*
+- **SetViewModelPropertyAction**
+  *Sets a property on the DataContext to a specified value.*
+- **IncrementViewModelPropertyAction**
+  *Adds a numeric delta to a view model property.*
+- **ToggleViewModelBooleanAction**
+  *Toggles a boolean view model property.*
 
 ### Animations
 - **FadeInBehavior**
@@ -303,6 +315,16 @@ This section provides an overview of all available classes and their purpose in 
 - **CarouselSelectionChangedTrigger**
   *Triggers actions when the Carousel selection changes.*
 
+### TabControl
+- **TabControlKeyNavigationBehavior**
+  *Enables keyboard navigation for a TabControl using arrow keys.*
+- **TabControlNextAction**
+  *Advances the target TabControl to the next tab.*
+- **TabControlPreviousAction**
+  *Moves the target TabControl to the previous tab.*
+- **TabControlSelectionChangedTrigger**
+  *Triggers actions when the TabControl selection changes.*
+
 ### Button
 - **ButtonClickEventTriggerBehavior**  
   *Listens for a button’s click event and triggers associated actions.*
@@ -313,8 +335,10 @@ This section provides an overview of all available classes and their purpose in 
 - **ButtonHideFlyoutBehavior**  
   *Hides an attached flyout when the button is interacted with.*
 
-- **ButtonHideFlyoutOnClickBehavior**  
+- **ButtonHideFlyoutOnClickBehavior**
   *Automatically hides the flyout attached to the button when it is clicked.*
+- **ButtonHidePopupOnClickBehavior**
+  *Automatically closes the popup containing the button when it is clicked.*
 
 ### Clipboard
 - **ClearClipboardAction**  
@@ -453,6 +477,8 @@ This section provides an overview of all available classes and their purpose in 
   *Performs actions when the bound data meets a specified condition.*
 - **PropertyChangedTrigger**
   *Triggers actions when a property value changes.*
+- **ViewModelPropertyChangedTrigger**
+  *Invokes actions when a DataContext property changes.*
 
 - **DetachedFromLogicalTreeTrigger**
   *Triggers actions when the control is removed from the logical tree.*
@@ -487,8 +513,10 @@ This section provides an overview of all available classes and their purpose in 
 - **InvokeCommandActionBase**  
   *The base class for actions that invoke commands, with support for parameter conversion.*
 
-- **LoadedBehavior**  
+- **LoadedBehavior**
   *A base class for behaviors that run when a control is loaded into the visual tree.*
+- **SetViewModelPropertyOnLoadBehavior**
+  *Sets a view model property when the associated control is loaded.*
 
 - **LoadedTrigger**  
   *Triggers actions when the control’s Loaded event fires.*
@@ -561,6 +589,10 @@ This section provides an overview of all available classes and their purpose in 
 
 - **TypedDragBehavior**
   *Provides drag behavior for items of a specified data type.*
+- **PanelDragBehavior**
+  *Starts drag operations using the dragged control as context so it can be moved between panels.*
+- **PanelDropBehavior**
+  *Accepts dragged controls and inserts them into the target panel.*
 
 ### Draggable
 - **CanvasDragBehavior**  
@@ -681,6 +713,18 @@ This section provides an overview of all available classes and their purpose in 
   *Triggers actions on text input events.*
 - **TextInputMethodClientRequestedEventTrigger**
   *Triggers actions when a text input method client is requested.*
+- **PopupOpenedTrigger**
+  *Triggers actions when a popup is opened.*
+- **PopupClosedTrigger**
+  *Triggers actions when a popup is closed.*
+- **DragEnterEventTrigger**
+  *Triggers actions when a drag operation enters the element.*
+- **DragLeaveEventTrigger**
+  *Triggers actions when a drag operation leaves the element.*
+- **DragOverEventTrigger**
+  *Triggers actions while a drag is over the element.*
+- **DropEventTrigger**
+  *Triggers actions when an item is dropped on the element.*
 
 ### ExecuteCommand Core
 - **ExecuteCommandBehaviorBase**  
@@ -1142,6 +1186,14 @@ This section provides an overview of all available classes and their purpose in 
 - **TextBoxSelectAllTextBehavior**
   *Selects all text in a TextBox immediately upon attachment.*
 
+### TreeView
+- **TreeViewFilterBehavior**
+  *Filters tree view nodes based on a search box.*
+- **TreeViewFilterTextChangedTrigger**
+  *Triggers actions when the search box text changes.*
+- **ApplyTreeViewFilterAction**
+  *Filters the target TreeView using a provided query.*
+
 ### TreeViewItem
 - **ToggleIsExpandedOnDoubleTappedBehavior**
   *Toggles the IsExpanded property of a TreeViewItem when it is double-tapped.*
@@ -1159,6 +1211,16 @@ This section provides an overview of all available classes and their purpose in 
   *Triggers actions when the pane is about to close.*
 - **SplitViewPaneClosedTrigger**
   *Triggers actions after the pane has closed.*
+
+### Window
+- **DialogOpenedTrigger**
+  *Triggers actions when a window is opened.*
+- **DialogClosedTrigger**
+  *Triggers actions when a window is closed.*
+- **ShowDialogAction**
+  *Shows a window as a dialog.*
+- **CloseWindowAction**
+  *Closes a window when executed.*
 
 ## Interactivity (Infrastructure)
 
