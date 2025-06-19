@@ -2,34 +2,33 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:custom="clr-namespace:Avalonia.Xaml.Interactions.Custom;assembly=Xaml.Behaviors.Interactions.Custom"
              x:Class="BehaviorsTestApplication.Views.Pages.ChromeTabDragView"
              mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="400">
   <TabControl>
     <TabItem Header="Tab 1">
       <Interaction.Behaviors>
-        <custom:TabDragOutsideBehavior />
-        <custom:TabDragOutsideTrigger>
-          <custom:OpenTabInWindowAction />
-        </custom:TabDragOutsideTrigger>
+        <TabDragOutsideBehavior />
+        <TabDragOutsideTrigger>
+          <OpenTabInWindowAction />
+        </TabDragOutsideTrigger>
       </Interaction.Behaviors>
       <TextBlock Text="Tab 1 content" Margin="20" />
     </TabItem>
     <TabItem Header="Tab 2">
       <Interaction.Behaviors>
-        <custom:TabDragOutsideBehavior />
-        <custom:TabDragOutsideTrigger>
-          <custom:OpenTabInWindowAction />
-        </custom:TabDragOutsideTrigger>
+        <TabDragOutsideBehavior />
+        <TabDragOutsideTrigger>
+          <OpenTabInWindowAction />
+        </TabDragOutsideTrigger>
       </Interaction.Behaviors>
       <TextBlock Text="Tab 2 content" Margin="20" />
     </TabItem>
     <TabItem Header="Tab 3">
       <Interaction.Behaviors>
-        <custom:TabDragOutsideBehavior />
-        <custom:TabDragOutsideTrigger>
-          <custom:OpenTabInWindowAction />
-        </custom:TabDragOutsideTrigger>
+        <TabDragOutsideBehavior />
+        <TabDragOutsideTrigger>
+          <OpenTabInWindowAction />
+        </TabDragOutsideTrigger>
       </Interaction.Behaviors>
       <TextBlock Text="Tab 3 content" Margin="20" />
     </TabItem>
