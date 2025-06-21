@@ -231,6 +231,8 @@ This section provides an overview of all available classes and their purpose in 
 
 - **ShowControlAction**
   *Shows a control and gives it focus when executed.*
+- **DelayedShowControlAction**
+  *Shows a control after waiting for a specified delay.*
 
 - **PopupAction**
   *Displays a popup window for showing additional UI content.*
@@ -526,6 +528,10 @@ This section provides an overview of all available classes and their purpose in 
 
 - **LoadedTrigger**  
   *Triggers actions when the control’s Loaded event fires.*
+- **DelayedLoadBehavior**
+  *Hides the control then shows it after a specified delay when attached to the visual tree.*
+- **DelayedLoadTrigger**
+  *Invokes actions after the control is loaded and a delay period expires.*
 
 - **ResourcesChangedBehavior**  
   *A base class for behaviors that respond when a control’s resources change.*

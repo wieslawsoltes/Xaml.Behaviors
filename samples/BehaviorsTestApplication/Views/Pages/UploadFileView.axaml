@@ -1,0 +1,30 @@
+<UserControl x:Class="BehaviorsTestApplication.Views.Pages.UploadFileView"
+             xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:BehaviorsTestApplication.ViewModels"
+             x:DataType="vm:MainWindowViewModel"
+             mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="450">
+  <Design.DataContext>
+    <vm:MainWindowViewModel />
+  </Design.DataContext>
+  <StackPanel Spacing="8" Margin="5">
+    <TextBox Watermark="File path" Text="{Binding UploadFilePath}" />
+    <TextBox Watermark="Upload URL" Text="{Binding UploadUrl}" />
+    <Button Content="Upload">
+      <Interaction.Behaviors>
+        <EventTriggerBehavior EventName="Click">
+          <UploadFileAction FilePath="{Binding UploadFilePath}"
+                            Url="{Binding UploadUrl}"
+                            Command="{Binding UploadCompletedCommand}" />
+        </EventTriggerBehavior>
+      </Interaction.Behaviors>
+    </Button>
+    <TextBlock Text="Upload Completed" IsVisible="False">
+      <Interaction.Behaviors>
+        <UploadCompletedTrigger IsCompleted="{Binding UploadCompleted}" />
+      </Interaction.Behaviors>
+    </TextBlock>
+  </StackPanel>
+</UserControl>

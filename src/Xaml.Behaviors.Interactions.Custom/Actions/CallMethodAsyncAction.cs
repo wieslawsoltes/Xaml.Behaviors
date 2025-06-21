@@ -8,7 +8,7 @@ using Avalonia.Controls;
 using Avalonia.Threading;
 using Avalonia.Xaml.Interactivity;
 
-namespace Avalonia.Xaml.Interactions.Core;
+namespace Avalonia.Xaml.Interactions.Custom;
 
 /// <summary>
 /// An action that calls an asynchronous method on a specified object when invoked.

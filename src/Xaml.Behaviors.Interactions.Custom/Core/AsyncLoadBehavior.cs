@@ -6,7 +6,7 @@ using Avalonia.Controls;
 using Avalonia.Xaml.Interactivity;
 using Avalonia.Threading;
 
-namespace Avalonia.Xaml.Interactions.Core;
+namespace Avalonia.Xaml.Interactions.Custom;
 
 /// <summary>
 /// Behavior that calls an asynchronous method when the associated control is loaded.

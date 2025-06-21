@@ -1,7 +1,6 @@
 // Copyright (c) Wiesław Šoltés. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for details.
 using Avalonia.Input;
-using Avalonia.Interactivity;
 using Avalonia.Xaml.Interactivity;
 
 namespace Avalonia.Xaml.Interactions.Events;
@@ -11,11 +10,6 @@ namespace Avalonia.Xaml.Interactions.Events;
 /// </summary>
 public sealed class DragOverEventTrigger : InteractiveTriggerBase
 {
-    static DragOverEventTrigger()
-    {
-        RoutingStrategiesProperty.OverrideMetadata<DragOverEventTrigger>(new StyledPropertyMetadata<RoutingStrategies>(RoutingStrategies.Direct | RoutingStrategies.Bubble));
-    }
-
     /// <inheritdoc />
     protected override void OnAttachedToVisualTree()
     {
