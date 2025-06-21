@@ -11,11 +11,6 @@ namespace Avalonia.Xaml.Interactions.Events;
 /// </summary>
 public sealed class DragLeaveEventTrigger : InteractiveTriggerBase
 {
-    static DragLeaveEventTrigger()
-    {
-        RoutingStrategiesProperty.OverrideMetadata<DragLeaveEventTrigger>(new StyledPropertyMetadata<RoutingStrategies>(RoutingStrategies.Direct | RoutingStrategies.Bubble));
-    }
-
     /// <inheritdoc />
     protected override void OnAttachedToVisualTree()
     {

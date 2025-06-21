@@ -11,7 +11,7 @@ namespace Avalonia.Xaml.Interactions.Core;
 /// A trigger that invokes its actions after a specified interval.
 /// </summary>
 [RequiresUnreferencedCode("This functionality is not compatible with trimming.")]
-public class TimerTrigger : EventTriggerBehavior
+public class TimerTrigger : EventTriggerBase
 {
     /// <summary>
     /// Identifies the <see cref="MillisecondsPerTick"/> avalonia property.
