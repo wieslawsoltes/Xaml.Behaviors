@@ -253,6 +253,9 @@
       <TabItem Header="ShowContextMenuAction">
         <pages:ShowContextMenuActionView />
       </TabItem>
+      <TabItem Header="ContextDialog">
+        <pages:ContextDialogView />
+      </TabItem>
       <TabItem Header="ShowHidePopupAction">
         <pages:ShowHidePopupActionView />
       </TabItem>
