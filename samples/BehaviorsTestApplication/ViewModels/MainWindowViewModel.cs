@@ -65,6 +65,17 @@ public partial class MainWindowViewModel : ViewModelBase
             }
         ];
 
+        Suggestions =
+        [
+            "Apple",
+            "Banana",
+            "Cherry",
+            "Date",
+            "Elderberry",
+            "Fig",
+            "Grape"
+        ];
+
         FileItems = new ObservableCollection<Uri>();
 
         Values = Observable.Interval(TimeSpan.FromSeconds(1)).Select(_ => _value++);
@@ -114,6 +125,9 @@ public partial class MainWindowViewModel : ViewModelBase
 
     [Reactive]
     public partial ObservableCollection<ItemViewModel>? Items { get; set; }
+
+    [Reactive]
+    public partial ObservableCollection<string>? Suggestions { get; set; }
 
     [Reactive]
     public partial ObservableCollection<Uri>? FileItems { get; set; }

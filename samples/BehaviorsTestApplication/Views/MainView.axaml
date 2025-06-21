@@ -343,6 +343,9 @@
       <TabItem Header="Carousel Navigation">
         <pages:CarouselNavigationView />
       </TabItem>
+      <TabItem Header="AutoCompleteBox">
+        <pages:AutoCompleteBoxView />
+      </TabItem>
       <TabItem Header="TabControl Navigation">
         <pages:TabControlNavigationView />
       </TabItem>
