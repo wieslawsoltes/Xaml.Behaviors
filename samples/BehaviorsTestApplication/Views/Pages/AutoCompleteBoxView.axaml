@@ -10,11 +10,21 @@
     <vm:MainWindowViewModel />
   </Design.DataContext>
   <StackPanel Spacing="4" Margin="5">
-    <AutoCompleteBox Width="200" ItemsSource="{Binding Items}" x:Name="Box">
+    <AutoCompleteBox Width="200" 
+                     ItemsSource="{Binding Suggestions}"
+                     MinimumPrefixLength="0"
+                     x:Name="Box1">
       <Interaction.Behaviors>
         <AutoCompleteBoxOpenDropDownOnFocusBehavior />
+      </Interaction.Behaviors>
+    </AutoCompleteBox>
+    <AutoCompleteBox Width="200" 
+                     ItemsSource="{Binding Suggestions}"
+                     MinimumPrefixLength="0"
+                     x:Name="Box2">
+      <Interaction.Behaviors>
         <AutoCompleteBoxSelectionChangedTrigger>
-          <ClearAutoCompleteBoxSelectionAction AutoCompleteBox="{Binding #Box}" />
+          <ClearAutoCompleteBoxSelectionAction AutoCompleteBox="{Binding #Box2}" />
         </AutoCompleteBoxSelectionChangedTrigger>
       </Interaction.Behaviors>
     </AutoCompleteBox>
