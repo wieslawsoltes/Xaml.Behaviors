@@ -109,6 +109,9 @@
       <TabItem Header="ChangeAvaloniaPropertyAction">
         <pages:ChangeAvaloniaPropertyActionView />
       </TabItem>
+      <TabItem Header="ViewModel Property Actions">
+        <pages:ViewModelPropertyActionsView />
+      </TabItem>
       <TabItem Header="Custom Action">
         <pages:CustomActionView />
       </TabItem>
@@ -144,6 +147,15 @@
       </TabItem>
       <TabItem Header="ClearItemsControlAction">
         <pages:ClearItemsControlActionView />
+      </TabItem>
+      <TabItem Header="AddRangeAction">
+        <pages:AddRangeActionView />
+      </TabItem>
+      <TabItem Header="MoveItemInItemsControlAction">
+        <pages:MoveItemInItemsControlActionView />
+      </TabItem>
+      <TabItem Header="CollectionChangedTrigger">
+        <pages:CollectionChangedTriggerBehaviorView />
       </TabItem>
       <TabItem Header="Remove Items Sample">
         <pages:RemoveItemsSampleView />
@@ -265,6 +277,9 @@
       <TabItem Header="Drag and Drop">
         <pages:DragAndDropView />
       </TabItem>
+      <TabItem Header="Files Preview">
+        <pages:FilesPreviewView />
+      </TabItem>
       <TabItem Header="TypedDragBehavior">
         <pages:TypedDragBehaviorView />
       </TabItem>
@@ -273,6 +288,9 @@
       </TabItem>
       <TabItem Header="Mouse Drag Behaviors">
         <pages:MouseDragBehaviorView />
+      </TabItem>
+      <TabItem Header="Drag Between Panels">
+        <pages:DragBetweenPanelsView />
       </TabItem>
       <TabItem Header="Cursor Behavior">
         <pages:CursorView />
@@ -328,6 +346,9 @@
       <TabItem Header="Carousel Navigation">
         <pages:CarouselNavigationView />
       </TabItem>
+      <TabItem Header="AutoCompleteBox">
+        <pages:AutoCompleteBoxView />
+      </TabItem>
       <TabItem Header="TabControl Navigation">
         <pages:TabControlNavigationView />
       </TabItem>
@@ -366,6 +387,9 @@
       </TabItem>
       <TabItem Header="AnimateOnAttachedBehavior">
         <pages:AnimateOnAttachedBehaviorView />
+      </TabItem>
+      <TabItem Header="Async Loading">
+        <pages:AsyncLoadingView />
       </TabItem>
       <TabItem Header="ThemeVariantTrigger">
         <pages:ThemeVariantTriggerView />

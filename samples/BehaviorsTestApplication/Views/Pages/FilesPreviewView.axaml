@@ -1,0 +1,34 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:BehaviorsTestApplication.ViewModels"
+             x:Class="BehaviorsTestApplication.Views.Pages.FilesPreviewView"
+             x:DataType="vm:MainWindowViewModel"
+             mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="450">
+  <Design.DataContext>
+    <vm:MainWindowViewModel />
+  </Design.DataContext>
+
+  <StackPanel Margin="5" Spacing="12">
+    <TextBlock Text="FilesPreviewBehavior" HorizontalAlignment="Center"/>
+    <Border Background="Transparent" Padding="20" BorderThickness="1" BorderBrush="{DynamicResource SystemAccentColor}">
+      <Interaction.Behaviors>
+        <FilesPreviewBehavior x:Name="PreviewBehavior" />
+      </Interaction.Behaviors>
+      <TextBlock Text="Drag files here" HorizontalAlignment="Center" VerticalAlignment="Center" />
+    </Border>
+    <ItemsControl ItemsSource="{Binding #PreviewBehavior.PreviewFiles}" />
+
+    <TextBlock Text="DragOverEventTrigger + AddPreviewFilesAction" HorizontalAlignment="Center" Margin="0,20,0,0"/>
+    <Border Background="Transparent" Padding="20" BorderThickness="1" BorderBrush="{DynamicResource SystemAccentColor}">
+      <Interaction.Behaviors>
+        <DragOverEventTrigger>
+          <AddPreviewFilesAction ItemsControl="{Binding ElementName=ActionList}" />
+        </DragOverEventTrigger>
+      </Interaction.Behaviors>
+      <TextBlock Text="Drag files here" HorizontalAlignment="Center" VerticalAlignment="Center" />
+    </Border>
+    <ItemsControl x:Name="ActionList" />
+  </StackPanel>
+</UserControl>

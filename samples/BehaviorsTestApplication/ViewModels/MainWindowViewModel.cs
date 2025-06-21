@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 using System.Reactive.Linq;
 using System.Windows.Input;
+using System.Threading.Tasks;
 using Avalonia.Controls;
 using Avalonia.Platform.Storage;
 using ReactiveUI;
@@ -65,6 +66,17 @@ public partial class MainWindowViewModel : ViewModelBase
             }
         ];
 
+        Suggestions =
+        [
+            "Apple",
+            "Banana",
+            "Cherry",
+            "Date",
+            "Elderberry",
+            "Fig",
+            "Grape"
+        ];
+
         FileItems = new ObservableCollection<Uri>();
 
         Values = Observable.Interval(TimeSpan.FromSeconds(1)).Select(_ => _value++);
@@ -114,6 +126,9 @@ public partial class MainWindowViewModel : ViewModelBase
 
     [Reactive]
     public partial ObservableCollection<ItemViewModel>? Items { get; set; }
+
+    [Reactive]
+    public partial ObservableCollection<string>? Suggestions { get; set; }
 
     [Reactive]
     public partial ObservableCollection<Uri>? FileItems { get; set; }
@@ -252,5 +267,19 @@ public partial class MainWindowViewModel : ViewModelBase
         {
             Greeting = control.Text;
         }
+    }
+
+    public async Task LoadDataAsync()
+    {
+        IsLoading = true;
+        Progress = 0;
+
+        for (var i = 0; i <= 100; i += 20)
+        {
+            await Task.Delay(100);
+            Progress = i;
+        }
+
+        IsLoading = false;
     }
 }
