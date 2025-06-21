@@ -91,7 +91,7 @@ public class ContextDialogBehavior : AttachedToVisualTreeBehavior<Control>
         }
         else if (change.Property == PlacementProperty)
         {
-            _popup.PlacementMode = Placement;
+            _popup.Placement = Placement;
         }
     }
 
