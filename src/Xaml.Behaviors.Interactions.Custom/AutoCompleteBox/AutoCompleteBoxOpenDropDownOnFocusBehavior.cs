@@ -3,6 +3,7 @@
 using System;
 using Avalonia.Controls;
 using Avalonia.Input;
+using Avalonia.Threading;
 using Avalonia.Xaml.Interactivity;
 
 namespace Avalonia.Xaml.Interactions.Custom;
@@ -32,6 +33,9 @@ public class AutoCompleteBoxOpenDropDownOnFocusBehavior : AttachedToVisualTreeBe
             return;
         }
 
-        AssociatedObject.IsDropDownOpen = true;
+        Dispatcher.UIThread.Post(() =>
+        {
+            AssociatedObject.SetCurrentValue(AutoCompleteBox.IsDropDownOpenProperty, true);
+        });
     }
 }
