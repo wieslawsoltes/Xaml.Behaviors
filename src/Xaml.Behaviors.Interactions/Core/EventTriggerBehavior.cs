@@ -5,7 +5,6 @@ using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using Avalonia.Xaml.Interactivity;
 using Avalonia.Controls;
-using Avalonia.Interactivity;
 
 namespace Avalonia.Xaml.Interactions.Core;
 
@@ -32,7 +31,7 @@ public class EventTriggerBehavior : StyledElementTrigger
     private object? _resolvedSource;
     private Delegate? _eventHandler;
     private bool _isLoadedEventRegistered;
-    private IDisposable? _disposable;
+    private IDisposable? _tryRegisterEventHandlerDisposable;
 
     /// <summary>
     /// Gets or sets the name of the event to listen for. This is an avalonia property.
@@ -61,46 +60,21 @@ public class EventTriggerBehavior : StyledElementTrigger
         
         if (change.Property == EventNameProperty)
         {
-            EventNameChanged(change);
+            var oldEventName = change.GetOldValue<string?>();
+            if (oldEventName is not null)
+            {
+                UnregisterEvent(oldEventName, _resolvedSource);
+            }
+
+            var newEventName = change.GetNewValue<string?>();
+            if (newEventName is not null)
+            {
+                RegisterEvent(newEventName, _resolvedSource);
+            }
         }
         else if (change.Property == SourceObjectProperty)
         {
-            SourceObjectChanged(change);
-        }
-    }
-
-    [RequiresUnreferencedCode("This functionality is not compatible with trimming.")]
-    private void EventNameChanged(AvaloniaPropertyChangedEventArgs e)
-    {
-        if (e.Sender is not EventTriggerBehavior behavior)
-        {
-            return;
-        }
-
-        if (behavior.AssociatedObject is null || behavior._resolvedSource is null)
-        {
-            return;
-        }
-
-        var oldEventName = e.GetOldValue<string?>();
-        var newEventName = e.GetNewValue<string?>();
-
-        if (oldEventName is not null)
-        {
-            behavior.UnregisterEvent(oldEventName);
-        }
-
-        if (newEventName is not null)
-        {
-            behavior.RegisterEvent(newEventName);
-        }
-    }
-
-    private void SourceObjectChanged(AvaloniaPropertyChangedEventArgs e)
-    {
-        if (e.Sender is EventTriggerBehavior behavior)
-        {
-            behavior.SetResolvedSource(behavior.ComputeResolvedSource());
+            SetResolvedSource(EventName, SourceObject ?? AssociatedObject);
         }
     }
 
@@ -110,7 +84,8 @@ public class EventTriggerBehavior : StyledElementTrigger
     protected override void OnAttached()
     {
         base.OnAttached();
-        SetResolvedSource(ComputeResolvedSource());
+
+        SetResolvedSource(EventName, SourceObject ?? AssociatedObject);
     }
 
     /// <summary>
@@ -119,43 +94,30 @@ public class EventTriggerBehavior : StyledElementTrigger
     protected override void OnDetaching()
     {
         base.OnDetaching();
-        SetResolvedSource(null);
+        SetResolvedSource(EventName, null);
     }
 
-    private void SetResolvedSource(object? newSource)
+    private void SetResolvedSource(string? eventName, object? newSource)
     {
-        if (AssociatedObject is null || _resolvedSource == newSource)
+        if (_resolvedSource == newSource)
         {
             return;
         }
 
         if (_resolvedSource is not null)
         {
-            UnregisterEvent(EventName);
+            UnregisterEvent(eventName, _resolvedSource);
         }
 
         _resolvedSource = newSource;
 
         if (_resolvedSource is not null)
         {
-            RegisterEvent(EventName);
+            RegisterEvent(eventName, _resolvedSource);
         }
     }
 
-    private object? ComputeResolvedSource()
-    {
-        // If the SourceObject property is set at all, we want to use it. It is possible that it is data
-        // bound and bindings haven't been evaluated yet. Plus, this makes the API more predictable.
-        if (GetValue(SourceObjectProperty) is not null)
-        {
-            return SourceObject;
-        }
-
-        return AssociatedObject;
-    }
-
-    [RequiresUnreferencedCode("This functionality is not compatible with trimming.")]
-    private void RegisterEvent(string? eventName)
+    private void RegisterEvent(string? eventName, object? resolvedSource)
     {
         if (string.IsNullOrEmpty(eventName))
         {
@@ -164,62 +126,15 @@ public class EventTriggerBehavior : StyledElementTrigger
 
         if (eventName != EventNameDefaultValue)
         {
-            if (_resolvedSource is null)
-            {
-                return;
-            }
-
-            if (eventName is null)
-            {
-                return;
-            }
-
-            var disposable = AddEventHandlerRegistry.TryRegisterEventHandler(_resolvedSource, eventName, AttachedToVisualTree);
-            if (disposable is not null)
-            {
-                _disposable = disposable;
-                return;
-            }
-   
-            var sourceObjectType = _resolvedSource.GetType();
-            var eventInfo = sourceObjectType.GetRuntimeEvent(EventName);
-            if (eventInfo is null)
-            {
-                return;
-                // TODO: SourceObjects might not be set when OnAttached() is called.
-                // throw new ArgumentException(string.Format(
-                //     CultureInfo.CurrentCulture,
-                //     "Cannot find an event named {0} on type {1}.",
-                //     EventName,
-                //     sourceObjectType.Name));
-            }
-
-            var methodInfo = typeof(EventTriggerBehavior).GetTypeInfo().GetDeclaredMethod("AttachedToVisualTree");
-            if (methodInfo is not null)
-            {
-                var eventHandlerType = eventInfo.EventHandlerType;
-                if (eventHandlerType is not null)
-                {
-                    _eventHandler = methodInfo.CreateDelegate(eventHandlerType, this);
-                    if (_eventHandler is not null)
-                    {
-                        eventInfo.AddEventHandler(_resolvedSource, _eventHandler);
-                    }
-                }
-            }
+            RegisterUserEvent(eventName, resolvedSource);
         }
         else if (!_isLoadedEventRegistered)
         {
-            if (_resolvedSource is Control element && !IsElementLoaded(element))
-            {
-                _isLoadedEventRegistered = true;
-                element.AttachedToVisualTree += AttachedToVisualTree;
-            }
+            RegisterDefaultEvent(resolvedSource);
         }
     }
 
-    [RequiresUnreferencedCode("This functionality is not compatible with trimming.")]
-    private void UnregisterEvent(string? eventName)
+    private void UnregisterEvent(string? eventName, object? resolvedSource)
     {
         if (string.IsNullOrEmpty(eventName))
         {
@@ -228,32 +143,98 @@ public class EventTriggerBehavior : StyledElementTrigger
 
         if (eventName != EventNameDefaultValue)
         {
-            if (_disposable is not null)
-            {
-                _disposable.Dispose();
-                _disposable = null;
-                return;
-            }
-
-            if (_eventHandler is null)
-            {
-                return;
-            }
-
-            if (_resolvedSource is not null)
-            {
-                var eventInfo = _resolvedSource.GetType().GetRuntimeEvent(eventName);
-                eventInfo?.RemoveEventHandler(_resolvedSource, _eventHandler); 
-            }
-            _eventHandler = null;
+            UnregisterUserEvent(eventName, resolvedSource);
         }
         else if (_isLoadedEventRegistered)
         {
-            _isLoadedEventRegistered = false;
-            if (_resolvedSource is Control element)
+            UnregisterDefaultEvent(resolvedSource);
+        }
+    }
+
+    private void RegisterUserEvent(string eventName, object? resolvedSource)
+    {
+        if (resolvedSource is null)
+        {
+            return;
+        }
+
+        var disposable = AddEventHandlerRegistry.TryRegisterEventHandler(resolvedSource, eventName, AttachedToVisualTree);
+        if (disposable is not null)
+        {
+            _tryRegisterEventHandlerDisposable = disposable;
+            return;
+        }
+
+        AddEventHandler(eventName, resolvedSource);
+    }
+
+    private void UnregisterUserEvent(string eventName, object? resolvedSource)
+    {
+        if (_tryRegisterEventHandlerDisposable is not null)
+        {
+            _tryRegisterEventHandlerDisposable.Dispose();
+            _tryRegisterEventHandlerDisposable = null;
+            return;
+        }
+
+        if (_eventHandler is null)
+        {
+            return;
+        }
+
+        if (resolvedSource is not null)
+        {
+            RemoveEventHandler(eventName, resolvedSource);
+        }
+
+        _eventHandler = null;
+    }
+
+    private void AddEventHandler(string eventName, object resolvedSource)
+    {   
+        var sourceObjectType = resolvedSource.GetType();
+        var eventInfo = sourceObjectType.GetRuntimeEvent(eventName);
+        if (eventInfo is null)
+        {
+            return;
+        }
+
+        var methodInfo = typeof(EventTriggerBehavior).GetTypeInfo().GetDeclaredMethod("AttachedToVisualTree");
+        if (methodInfo is not null)
+        {
+            var eventHandlerType = eventInfo.EventHandlerType;
+            if (eventHandlerType is not null)
             {
-                element.AttachedToVisualTree -= AttachedToVisualTree; 
+                _eventHandler = methodInfo.CreateDelegate(eventHandlerType, this);
+                if (_eventHandler is not null)
+                {
+                    eventInfo.AddEventHandler(resolvedSource, _eventHandler);
+                }
             }
+        }
+    }
+
+    private void RemoveEventHandler(string eventName, object resolvedSource)
+    {
+        var eventInfo = resolvedSource.GetType().GetRuntimeEvent(eventName);
+        eventInfo?.RemoveEventHandler(resolvedSource, _eventHandler);
+    }
+
+    private void RegisterDefaultEvent(object? resolvedSource)
+    {
+        if (resolvedSource is Control element && !IsElementLoaded(element))
+        {
+            _isLoadedEventRegistered = true;
+            element.AttachedToVisualTree += AttachedToVisualTree;
+        }
+    }
+
+    private void UnregisterDefaultEvent(object? resolvedSource)
+    {
+        _isLoadedEventRegistered = false;
+        if (resolvedSource is Control element)
+        {
+            element.AttachedToVisualTree -= AttachedToVisualTree; 
         }
     }
 
