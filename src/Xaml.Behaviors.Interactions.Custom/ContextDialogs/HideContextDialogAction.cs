@@ -1,6 +1,5 @@
 // Copyright (c) Wiesław Šoltés. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for details.
-
 using Avalonia.Controls;
 using Avalonia.Xaml.Interactivity;
 
@@ -9,7 +8,7 @@ namespace Avalonia.Xaml.Interactions.Custom;
 /// <summary>
 /// Closes a <see cref="ContextDialogBehavior"/> when executed.
 /// </summary>
-public class HideContextDialogAction : Avalonia.Xaml.Interactivity.StyledElementAction
+public class HideContextDialogAction : StyledElementAction
 {
     /// <summary>
     /// Identifies the <see cref="TargetDialog"/> avalonia property.
@@ -41,7 +40,7 @@ public class HideContextDialogAction : Avalonia.Xaml.Interactivity.StyledElement
             return false;
         }
 
-        dialog.IsOpen = false;
+        dialog.SetCurrentValue(ContextDialogBehavior.IsOpenProperty, false);
         return true;
     }
 }
