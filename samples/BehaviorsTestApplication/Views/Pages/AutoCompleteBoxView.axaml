@@ -1,0 +1,32 @@
+<UserControl x:Class="BehaviorsTestApplication.Views.Pages.AutoCompleteBoxView"
+             xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:BehaviorsTestApplication.ViewModels"
+             x:DataType="vm:MainWindowViewModel"
+             mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="200">
+  <Design.DataContext>
+    <vm:MainWindowViewModel />
+  </Design.DataContext>
+  <StackPanel Spacing="4" Margin="5">
+    <AutoCompleteBox Width="200" 
+                     ItemsSource="{Binding Suggestions}"
+                     MinimumPrefixLength="0"
+                     x:Name="Box1">
+      <Interaction.Behaviors>
+        <AutoCompleteBoxOpenDropDownOnFocusBehavior />
+      </Interaction.Behaviors>
+    </AutoCompleteBox>
+    <AutoCompleteBox Width="200" 
+                     ItemsSource="{Binding Suggestions}"
+                     MinimumPrefixLength="0"
+                     x:Name="Box2">
+      <Interaction.Behaviors>
+        <AutoCompleteBoxSelectionChangedTrigger>
+          <ClearAutoCompleteBoxSelectionAction AutoCompleteBox="{Binding #Box2}" />
+        </AutoCompleteBoxSelectionChangedTrigger>
+      </Interaction.Behaviors>
+    </AutoCompleteBox>
+  </StackPanel>
+</UserControl>
