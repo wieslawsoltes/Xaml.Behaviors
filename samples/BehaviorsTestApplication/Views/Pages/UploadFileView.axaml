@@ -4,7 +4,6 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="using:BehaviorsTestApplication.ViewModels"
-             xmlns:ia="using:Avalonia.Xaml.Interactions.Core"
              x:DataType="vm:MainWindowViewModel"
              mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="450">
   <Design.DataContext>
@@ -15,16 +14,16 @@
     <TextBox Watermark="Upload URL" Text="{Binding UploadUrl}" />
     <Button Content="Upload">
       <Interaction.Behaviors>
-        <ia:EventTriggerBehavior EventName="Click">
-          <ia:UploadFileAction FilePath="{Binding UploadFilePath}"
-                               Url="{Binding UploadUrl}"
-                               Command="{Binding UploadCompletedCommand}" />
-        </ia:EventTriggerBehavior>
+        <EventTriggerBehavior EventName="Click">
+          <UploadFileAction FilePath="{Binding UploadFilePath}"
+                            Url="{Binding UploadUrl}"
+                            Command="{Binding UploadCompletedCommand}" />
+        </EventTriggerBehavior>
       </Interaction.Behaviors>
     </Button>
     <TextBlock Text="Upload Completed" IsVisible="False">
       <Interaction.Behaviors>
-        <ia:UploadCompletedTrigger IsCompleted="{Binding UploadCompleted}" />
+        <UploadCompletedTrigger IsCompleted="{Binding UploadCompleted}" />
       </Interaction.Behaviors>
     </TextBlock>
   </StackPanel>
