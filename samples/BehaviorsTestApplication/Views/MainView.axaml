@@ -385,6 +385,15 @@
       <TabItem Header="FadeInBehavior">
         <pages:FadeInBehaviorView />
       </TabItem>
+      <TabItem Header="DelayedLoadBehavior">
+        <pages:DelayedLoadBehaviorView />
+      </TabItem>
+      <TabItem Header="DelayedLoadTrigger">
+        <pages:DelayedLoadTriggerView />
+      </TabItem>
+      <TabItem Header="DelayedShowControlAction">
+        <pages:DelayedShowControlActionView />
+      </TabItem>
       <TabItem Header="AnimateOnAttachedBehavior">
         <pages:AnimateOnAttachedBehaviorView />
       </TabItem>
