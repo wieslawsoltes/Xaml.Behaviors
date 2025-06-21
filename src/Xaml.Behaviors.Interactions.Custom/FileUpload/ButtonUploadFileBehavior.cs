@@ -3,7 +3,7 @@
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 
-namespace Avalonia.Xaml.Interactions.Core;
+namespace Avalonia.Xaml.Interactions.Custom;
 
 /// <summary>
 /// Upload file behavior for <see cref="Button"/>.

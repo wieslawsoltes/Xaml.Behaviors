@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using Avalonia.Threading;
 using Avalonia.Xaml.Interactivity;
 
-namespace Avalonia.Xaml.Interactions.Core;
+namespace Avalonia.Xaml.Interactions.Custom;
 
 /// <summary>
 /// Asynchronously uploads a file to a specified URL and invokes a command when completed.

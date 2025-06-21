@@ -3,7 +3,7 @@
 using Avalonia.Threading;
 using Avalonia.Xaml.Interactivity;
 
-namespace Avalonia.Xaml.Interactions.Core;
+namespace Avalonia.Xaml.Interactions.Custom;
 
 /// <summary>
 /// Executes actions when the bound value becomes <c>true</c>.

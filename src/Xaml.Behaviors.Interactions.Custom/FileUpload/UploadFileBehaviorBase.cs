@@ -6,7 +6,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using Avalonia.Xaml.Interactivity;
 
-namespace Avalonia.Xaml.Interactions.Core;
+namespace Avalonia.Xaml.Interactions.Custom;
 
 /// <summary>
 /// Base class for behaviors that upload a file to a URL.
