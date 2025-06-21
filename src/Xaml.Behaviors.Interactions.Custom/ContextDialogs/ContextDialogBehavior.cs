@@ -141,7 +141,7 @@ public class ContextDialogBehavior : AttachedToVisualTreeBehavior<Control>
     {
         if (_popup is not null)
         {
-            IsOpen = false;
+            SetCurrentValue(IsOpenProperty, false);
             Closed?.Invoke(this, EventArgs.Empty);
         }
     }
