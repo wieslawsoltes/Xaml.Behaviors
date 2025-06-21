@@ -2,9 +2,8 @@
 // Licensed under the MIT license. See LICENSE file in the project root for details.
 using System.Windows.Input;
 using Avalonia.Data.Converters;
-using Avalonia.Xaml.Interactivity;
 
-namespace Avalonia.Xaml.Interactions.Core;
+namespace Avalonia.Xaml.Interactivity;
 
 /// <summary>
 /// Command action base class.
