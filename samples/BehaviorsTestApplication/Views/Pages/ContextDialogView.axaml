@@ -15,7 +15,7 @@
     <Border x:Name="Target" Margin="5" Padding="20" Background="{DynamicResource GrayBrush}">
       <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="Target" />
       <Interaction.Behaviors>
-        <ContextDialogBehavior x:Name="Dialog" Placement="Pointer">
+        <ContextDialogBehavior x:Name="Dialog" Placement="Center" IsLightDismissEnabled="False">
           <ContextDialogBehavior.DialogContent>
             <Border Padding="10" Background="White" BorderBrush="Black" BorderThickness="1">
               <TextBlock Text="Context Dialog Content" />
