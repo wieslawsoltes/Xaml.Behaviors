@@ -1,0 +1,40 @@
+<UserControl x:Class="BehaviorsTestApplication.Views.Pages.AutomationView"
+             xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:BehaviorsTestApplication.ViewModels"
+             x:DataType="vm:MainWindowViewModel"
+             mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="450">
+  <Design.DataContext>
+    <vm:MainWindowViewModel />
+  </Design.DataContext>
+  <StackPanel Margin="5" Spacing="10">
+    <Button x:Name="TargetButton" Content="Automation Button">
+      <Interaction.Behaviors>
+        <AutomationNameBehavior Name="InitialName" />
+        <AutomationNameChangedTrigger>
+          <ChangeAvaloniaPropertyAction TargetObject="{Binding ElementName=OutputText}"
+                                        TargetProperty="{x:Static TextBlock.TextProperty}"
+                                        Value="Name changed" />
+        </AutomationNameChangedTrigger>
+      </Interaction.Behaviors>
+    </Button>
+    <TextBlock x:Name="OutputText" Text="Waiting" />
+    <Button Content="Set Automation Id">
+      <Interaction.Behaviors>
+        <EventTriggerBehavior EventName="Click">
+          <SetAutomationIdAction TargetControl="{Binding ElementName=TargetButton}"
+                                   AutomationId="AutoButton" />
+        </EventTriggerBehavior>
+      </Interaction.Behaviors>
+    </Button>
+    <Button Content="Invoke Click">
+      <Interaction.Behaviors>
+        <EventTriggerBehavior EventName="Click">
+          <InvokeButtonClickAction TargetButton="{Binding ElementName=TargetButton}" />
+        </EventTriggerBehavior>
+      </Interaction.Behaviors>
+    </Button>
+  </StackPanel>
+</UserControl>

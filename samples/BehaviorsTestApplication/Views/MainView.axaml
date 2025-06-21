@@ -448,6 +448,9 @@
       <TabItem Header="Icon Sample">
         <pages:IconView />
       </TabItem>
+      <TabItem Header="Automation">
+        <pages:AutomationView />
+      </TabItem>
     </SingleSelectionTabControl>
   </DockPanel>
 </UserControl>
