@@ -31,6 +31,12 @@ public class ContextDialogBehavior : AttachedToVisualTreeBehavior<Control>
     public static readonly StyledProperty<PlacementMode> PlacementProperty =
         AvaloniaProperty.Register<ContextDialogBehavior, PlacementMode>(nameof(Placement));
 
+    /// <summary>
+    /// Identifies the <see cref="IsLightDismissEnabled"/> avalonia property.
+    /// </summary>
+    public static readonly StyledProperty<bool> IsLightDismissEnabledProperty =
+        AvaloniaProperty.Register<ContextDialogBehavior, bool>(nameof(IsLightDismissEnabled), true);
+
     private Popup? _popup;
 
     /// <summary>
@@ -71,6 +77,15 @@ public class ContextDialogBehavior : AttachedToVisualTreeBehavior<Control>
         set => SetValue(PlacementProperty, value);
     }
 
+    /// <summary>
+    /// Gets or sets a value that determines how the dialog can be dismissed. This is an avalonia property.
+    /// </summary>
+    public bool IsLightDismissEnabled
+    {
+        get => GetValue(IsLightDismissEnabledProperty);
+        set => SetValue(IsLightDismissEnabledProperty, value);
+    }
+
     /// <inheritdoc />
     protected override void OnPropertyChanged(AvaloniaPropertyChangedEventArgs change)
     {
@@ -102,21 +117,33 @@ public class ContextDialogBehavior : AttachedToVisualTreeBehavior<Control>
         {
             Placement = Placement,
             PlacementTarget = AssociatedObject,
-            IsLightDismissEnabled = true,
+            IsLightDismissEnabled = IsLightDismissEnabled,
             Child = DialogContent
         };
 
         UpdatePopup();
+        
+        _popup.Closed += PopupOnClosed;
 
         return DisposableAction.Create(() =>
         {
             if (_popup is not null)
             {
+                _popup.Closed -= PopupOnClosed;
                 _popup.Close();
                 Closed?.Invoke(this, EventArgs.Empty);
                 _popup = null;
             }
         });
+    }
+
+    private void PopupOnClosed(object? sender, EventArgs e)
+    {
+        if (_popup is not null)
+        {
+            IsOpen = false;
+            Closed?.Invoke(this, EventArgs.Empty);
+        }
     }
 
     private void UpdatePopup()
