@@ -313,6 +313,14 @@ This section provides an overview of all available classes and their purpose in 
 - **ClearAutoCompleteBoxSelectionAction**
   *Clears the AutoCompleteBox selection and text.*
 
+### Automation
+- **AutomationNameBehavior**
+  *Applies an automation name to the associated control.*
+- **AutomationNameChangedTrigger**
+  *Triggers actions when the automation name of the control changes.*
+- **SetAutomationIdAction**
+  *Sets the automation ID on a target control.*
+
 ### Carousel
 - **CarouselKeyNavigationBehavior**
   *Enables keyboard navigation for a Carousel using arrow keys.*
@@ -322,6 +330,18 @@ This section provides an overview of all available classes and their purpose in 
   *Moves the target Carousel to the previous page.*
 - **CarouselSelectionChangedTrigger**
   *Triggers actions when the Carousel selection changes.*
+
+### Collections
+- **AddRangeAction**
+  *Adds multiple items to an `IList`.*
+- **RemoveRangeAction**
+  *Removes multiple items from an `IList`.*
+- **ClearCollectionAction**
+  *Clears all items from an `IList`.*
+- **CollectionChangedBehavior**
+  *Invokes actions based on collection change notifications.*
+- **CollectionChangedTrigger**
+  *Triggers actions whenever the observed collection changes.*
 
 ### TabControl
 - **TabControlKeyNavigationBehavior**
@@ -389,6 +409,18 @@ This section provides an overview of all available classes and their purpose in 
   *Provides static methods to apply sliding animations (from left, right, top, or bottom) to a control.*
 - **FluidMoveBehavior**
   *Animates layout changes of a control or its children.*
+
+### ContextDialogs
+- **ContextDialogBehavior**
+  *Manages a popup-based context dialog for a control.*
+- **ShowContextDialogAction**
+  *Opens a context dialog using a specified behavior.*
+- **HideContextDialogAction**
+  *Closes a context dialog using a specified behavior.*
+- **ContextDialogOpenedTrigger**
+  *Triggers actions when a context dialog is opened.*
+- **ContextDialogClosedTrigger**
+  *Triggers actions when a context dialog is closed.*
 
 ### Control
 - **BindPointerOverBehavior**  
@@ -833,8 +865,18 @@ This section provides an overview of all available classes and their purpose in 
 - **ExecuteCommandOnTextInputMethodClientRequestedBehavior**  
   *Executes a command when text input method (virtual keyboard) is requested.*
 
-- **InvokeCommandBehaviorBase**  
+- **InvokeCommandBehaviorBase**
   *The base class that supports converting parameters and invoking a bound command.*
+
+### FileUpload
+- **ButtonUploadFileBehavior**
+  *Opens a file dialog and uploads the selected file when the button is clicked.*
+- **UploadFileBehaviorBase**
+  *Base behavior for uploading a file to a specified URL.*
+- **UploadFileAction**
+  *Uploads a file asynchronously and invokes a command when finished.*
+- **UploadCompletedTrigger**
+  *Invokes actions when an upload is marked complete.*
 
 ### Focus
 - **AutoFocusBehavior**
@@ -903,8 +945,16 @@ This section provides an overview of all available classes and their purpose in 
 - **ScrollGestureInertiaStartingGestureTrigger**  
   *Triggers actions when the inertia phase of a scroll gesture begins.*
 
-- **TappedGestureTrigger**  
+- **TappedGestureTrigger**
   *Triggers actions on a simple tap gesture.*
+
+### Icon
+- **PathIconDataBehavior**
+  *Sets the Data property of a PathIcon when attached.*
+- **SetPathIconDataAction**
+  *Changes the Data of a PathIcon when executed.*
+- **PathIconDataChangedTrigger**
+  *Triggers actions when a PathIcon's Data changes.*
 
 ### InputElement Actions
 - **CapturePointerAction**  
@@ -1223,6 +1273,40 @@ This section provides an overview of all available classes and their purpose in 
   *Triggers actions when the pane is about to close.*
 - **SplitViewPaneClosedTrigger**
   *Triggers actions after the pane has closed.*
+
+### Validation
+- **ComboBoxValidationBehavior**
+  *Validates the selected item of a ComboBox.*
+- **DatePickerValidationBehavior**
+  *Validates the selected date of a DatePicker.*
+- **SliderValidationBehavior**
+  *Validates the value of a range-based control like Slider.*
+- **NumericUpDownValidationBehavior**
+  *Validates the value of a NumericUpDown.*
+- **TextBoxValidationBehavior**
+  *Validates the text value of a TextBox.*
+- **PropertyValidationBehavior**
+  *Base behavior for validating an Avalonia property using rules.*
+- **IValidationRule**
+  *Defines a method used to validate a value.*
+- **RequiredTextValidationRule**
+  *Ensures text is not empty.*
+- **RequiredDecimalValidationRule**
+  *Ensures a decimal value is provided.*
+- **RequiredDateValidationRule**
+  *Ensures a date value is provided.*
+- **MaxValueValidationRule**
+  *Checks that a numeric value does not exceed a maximum.*
+- **MinValueValidationRule**
+  *Checks that a numeric value is not below a minimum.*
+- **MinLengthValidationRule**
+  *Requires a string to have a minimum length.*
+- **NotNullValidationRule**
+  *Ensures an object is not null.*
+- **RangeValidationRule**
+  *Validates that a value is within a specified range.*
+- **RegexValidationRule**
+  *Validates a string using a regular expression.*
 
 ### Window
 - **DialogOpenedTrigger**
