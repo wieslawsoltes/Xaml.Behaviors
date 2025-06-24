@@ -15,7 +15,7 @@
   </StackPanel>
   <Interaction.Behaviors>
     <BindingBehavior TargetObject="{Binding #TargetText}"
-                     TargetProperty="Text"
+                     TargetProperty="{x:Static TextBlock.TextProperty}"
                      Binding="{Binding Text, ElementName=SourceBox}" />
   </Interaction.Behaviors>
 </UserControl>
