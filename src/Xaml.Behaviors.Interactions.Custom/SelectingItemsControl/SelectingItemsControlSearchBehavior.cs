@@ -1,5 +1,7 @@
 // Copyright (c) Wiesław Šoltés. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for details.
+using System;
+using System.Collections;
 using System.Linq;
 using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
@@ -15,6 +17,22 @@ namespace Avalonia.Xaml.Interactions.Custom;
 public sealed class SelectingItemsControlSearchBehavior : StyledElementBehavior<SelectingItemsControl>
 {
     /// <summary>
+    /// Sort order for tab items.
+    /// </summary>
+    public enum SortDirection
+    {
+        /// <summary>
+        /// Sort items ascending.
+        /// </summary>
+        Ascending,
+
+        /// <summary>
+        /// Sort items descending.
+        /// </summary>
+        Descending
+    }
+
+    /// <summary>
     /// Identifies the <seealso cref="SearchBox"/> avalonia property.
     /// </summary>
     public static readonly StyledProperty<TextBox?> SearchBoxProperty =
@@ -25,6 +43,12 @@ public sealed class SelectingItemsControlSearchBehavior : StyledElementBehavior<
     /// </summary>
     public static readonly StyledProperty<TextBlock?> NoMatchesControlProperty =
         AvaloniaProperty.Register<SelectingItemsControlSearchBehavior, TextBlock?>(nameof(NoMatchesControl));
+
+    /// <summary>
+    /// Identifies the <seealso cref="SortOrder"/> avalonia property.
+    /// </summary>
+    public static readonly StyledProperty<SortDirection> SortOrderProperty =
+        AvaloniaProperty.Register<SelectingItemsControlSearchBehavior, SortDirection>(nameof(SortOrder), SortDirection.Ascending);
 
     /// <summary>
     /// Gets or sets the search box control.
@@ -44,6 +68,15 @@ public sealed class SelectingItemsControlSearchBehavior : StyledElementBehavior<
     {
         get => GetValue(NoMatchesControlProperty);
         set => SetValue(NoMatchesControlProperty, value);
+    }
+
+    /// <summary>
+    /// Gets or sets the sort order for the items.
+    /// </summary>
+    public SortDirection SortOrder
+    {
+        get => GetValue(SortOrderProperty);
+        set => SetValue(SortOrderProperty, value);
     }
 
     /// <inheritdoc />
@@ -76,6 +109,24 @@ public sealed class SelectingItemsControlSearchBehavior : StyledElementBehavior<
         var query = SearchBox?.Text?.ToLowerInvariant() ?? string.Empty;
         var visibleCount = 0;
         var tabItems = AssociatedObject.Items.OfType<TabItem>().ToList();
+
+        tabItems = SortOrder == SortDirection.Ascending
+            ? tabItems.OrderBy(x => x.Header?.ToString(), StringComparer.OrdinalIgnoreCase).ToList()
+            : tabItems.OrderByDescending(x => x.Header?.ToString(), StringComparer.OrdinalIgnoreCase).ToList();
+
+        if (AssociatedObject.Items is IList list)
+        {
+            for (var i = 0; i < tabItems.Count; i++)
+            {
+                var item = tabItems[i];
+                var currentIndex = list.IndexOf(item);
+                if (currentIndex != i)
+                {
+                    list.RemoveAt(currentIndex);
+                    list.Insert(i, item);
+                }
+            }
+        }
 
         foreach (var item in tabItems)
         {

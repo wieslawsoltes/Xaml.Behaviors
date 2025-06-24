@@ -29,7 +29,8 @@
     <SingleSelectionTabControl x:Name="PagesTabControl" SelectedIndex="0" Classes="sidebar">
       <Interaction.Behaviors>
         <SelectingItemsControlSearchBehavior SearchBox="SearchBox"
-                                             NoMatchesControl="NoMatchesText" />
+                                             NoMatchesControl="NoMatchesText"
+                                             SortOrder="Ascending" />
       </Interaction.Behaviors>
       <TabItem Header="CallMethodAction">
         <pages:CallMethodActionView />
