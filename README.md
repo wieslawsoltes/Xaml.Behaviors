@@ -520,18 +520,18 @@ This section provides an overview of all available classes and their purpose in 
 - **ViewModelPropertyChangedTrigger** ([Sample](samples/BehaviorsTestApplication/Views/Pages/ViewModelPropertyActionsView.axaml))
   *Invokes actions when a DataContext property changes.*
 
-- **DetachedFromLogicalTreeTrigger** (No sample available.)
+- **DetachedFromLogicalTreeTrigger** ([Sample](samples/BehaviorsTestApplication/Views/Pages/DetachedFromLogicalTreeTriggerView.axaml))
   *Triggers actions when the control is removed from the logical tree.*
 
-- **DetachedFromVisualTreeTrigger** (No sample available.)
+- **DetachedFromVisualTreeTrigger** ([Sample](samples/BehaviorsTestApplication/Views/Pages/DetachedFromVisualTreeTriggerView.axaml))
   *Triggers actions when the control is removed from the visual tree.*
 
-- **DisposingBehavior** (No sample available.)
+- **DisposingBehavior** ([Sample](samples/BehaviorsTestApplication/Views/Pages/DisposingBehaviorView.axaml))
   *A base class for behaviors that manage disposable resources automatically.*
 
-- **DisposingTrigger** (No sample available.)
+- **DisposingTrigger** ([Sample](samples/BehaviorsTestApplication/Views/Pages/DisposingTriggerView.axaml))
   *A base class for triggers that need to dispose of resources when detached.*
-- **DisposableAction** (No sample available.)
+- **DisposableAction** ([Sample](samples/BehaviorsTestApplication/Views/Pages/DisposableActionView.axaml))
   *Executes a delegate when the object is disposed.*
 
 - **EventTriggerBehavior** ([Sample](samples/BehaviorsTestApplication/Views/Pages/EventTriggerBehaviorView.axaml))
@@ -541,19 +541,19 @@ This section provides an overview of all available classes and their purpose in 
 - **TimerTrigger** ([Sample](samples/BehaviorsTestApplication/Views/Pages/TimerTriggerView.axaml))
   *Invokes actions repeatedly after a set interval.*
 
-- **InitializedBehavior** (No sample available.)
+- **InitializedBehavior** ([Sample](samples/BehaviorsTestApplication/Views/Pages/InitializedBehaviorView.axaml))
   *A base class for behaviors that execute code when the associated object is initialized.*
 
-- **InitializedTrigger** (No sample available.)
+- **InitializedTrigger** ([Sample](samples/BehaviorsTestApplication/Views/Pages/InitializedTriggerView.axaml))
   *Triggers actions once the control is initialized.*
 
 - **InvokeCommandAction** ([Sample](samples/BehaviorsTestApplication/Views/Pages/InvokeCommandActionView.axaml))
   *Executes a bound ICommand when the action is invoked.*
 
-- **InvokeCommandActionBase** (No sample available.)
+- **InvokeCommandActionBase** ([Sample](samples/BehaviorsTestApplication/Views/Pages/InvokeCommandActionBaseView.axaml))
   *The base class for actions that invoke commands, with support for parameter conversion.*
 
-- **LoadedBehavior** (No sample available.)
+- **LoadedBehavior** ([Sample](samples/BehaviorsTestApplication/Views/Pages/LoadedBehaviorView.axaml))
   *A base class for behaviors that run when a control is loaded into the visual tree.*
 - **SetViewModelPropertyOnLoadBehavior** ([Sample](samples/BehaviorsTestApplication/Views/Pages/ViewModelPropertyActionsView.axaml))
   *Sets a view model property when the associated control is loaded.*
@@ -565,13 +565,13 @@ This section provides an overview of all available classes and their purpose in 
 - **DelayedLoadTrigger** ([Sample](samples/BehaviorsTestApplication/Views/Pages/DelayedLoadTriggerView.axaml))
   *Invokes actions after the control is loaded and a delay period expires.*
 
-- **ResourcesChangedBehavior** (No sample available.)
+- **ResourcesChangedBehavior** ([Sample](samples/BehaviorsTestApplication/Views/Pages/ResourcesChangedBehaviorView.axaml))
   *A base class for behaviors that respond when a control’s resources change.*
 
-- **ResourcesChangedTrigger** (No sample available.)
+- **ResourcesChangedTrigger** ([Sample](samples/BehaviorsTestApplication/Views/Pages/ResourcesChangedTriggerView.axaml))
   *Triggers actions when the control’s resources are modified.*
 
-- **RoutedEventTriggerBase** (No sample available.)
+- **RoutedEventTriggerBase** ([Sample](samples/BehaviorsTestApplication/Views/Pages/RoutedEventTriggerBaseView.axaml))
   *A base class for triggers that listen for a routed event and execute actions.*
 
 - **RoutedEventTriggerBase<T>** (No sample available.)
@@ -580,7 +580,7 @@ This section provides an overview of all available classes and their purpose in 
 - **RoutedEventTriggerBehavior** ([Sample](samples/BehaviorsTestApplication/Views/Pages/RoutedEventTriggerBehaviorView.axaml))
   *Listens for a routed event on the associated object and triggers its actions.*
 
-- **UnloadedTrigger** (No sample available.)
+- **UnloadedTrigger** ([Sample](samples/BehaviorsTestApplication/Views/Pages/UnloadedTriggerView.axaml))
   *Triggers actions when the control is unloaded from the visual tree.*
 
 - **ValueChangedTriggerBehavior** ([Sample](samples/BehaviorsTestApplication/Views/Pages/ValueChangedTriggerBehaviorView.axaml))
