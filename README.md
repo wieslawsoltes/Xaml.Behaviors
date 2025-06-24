@@ -1143,8 +1143,9 @@ This section provides an overview of all available classes and their purpose in 
 ### SelectingItemsControl
 - **SelectingItemsControlEventsBehavior** (No sample available.)
   *Handles selection-changed events in controls that support item selection (like ListBox) to trigger custom actions.*
-- **SelectingItemsControlSearchBehavior** ([Sample](samples/BehaviorsTestApplication/Views/MainView.axaml))
-  *Enables searching and highlights matching items within a SelectingItemsControl.*
+  - **SelectingItemsControlSearchBehavior** ([Sample](samples/BehaviorsTestApplication/Views/MainView.axaml))
+    *Enables searching and highlights matching items within a SelectingItemsControl.*
+    Sorting can be enabled with `EnableSorting` and configured using the `SortOrder` property (ascending by default).
 
 ### Show
 - **ShowBehaviorBase** (No sample available.)
