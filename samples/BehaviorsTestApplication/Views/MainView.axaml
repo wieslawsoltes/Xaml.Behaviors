@@ -516,6 +516,45 @@
       <TabItem Header="DataContextChangedTrigger">
         <pages:DataContextChangedTriggerView />
       </TabItem>
+      <TabItem Header="DetachedFromLogicalTreeTrigger">
+        <pages:DetachedFromLogicalTreeTriggerView />
+      </TabItem>
+      <TabItem Header="DetachedFromVisualTreeTrigger">
+        <pages:DetachedFromVisualTreeTriggerView />
+      </TabItem>
+      <TabItem Header="DisposingBehavior">
+        <pages:DisposingBehaviorView />
+      </TabItem>
+      <TabItem Header="DisposingTrigger">
+        <pages:DisposingTriggerView />
+      </TabItem>
+      <TabItem Header="DisposableAction">
+        <pages:DisposableActionView />
+      </TabItem>
+      <TabItem Header="InitializedBehavior">
+        <pages:InitializedBehaviorView />
+      </TabItem>
+      <TabItem Header="InitializedTrigger">
+        <pages:InitializedTriggerView />
+      </TabItem>
+      <TabItem Header="InvokeCommandActionBase">
+        <pages:InvokeCommandActionBaseView />
+      </TabItem>
+      <TabItem Header="LoadedBehavior">
+        <pages:LoadedBehaviorView />
+      </TabItem>
+      <TabItem Header="ResourcesChangedBehavior">
+        <pages:ResourcesChangedBehaviorView />
+      </TabItem>
+      <TabItem Header="ResourcesChangedTrigger">
+        <pages:ResourcesChangedTriggerView />
+      </TabItem>
+      <TabItem Header="RoutedEventTriggerBase">
+        <pages:RoutedEventTriggerBaseView />
+      </TabItem>
+      <TabItem Header="UnloadedTrigger">
+        <pages:UnloadedTriggerView />
+      </TabItem>
     </SingleSelectionTabControl>
   </DockPanel>
 </UserControl>
