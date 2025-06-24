@@ -1,6 +1,7 @@
 // Copyright (c) Wiesław Šoltés. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for details.
 using System.Collections;
+using System.Linq;
 using Avalonia.Controls;
 using Avalonia.Metadata;
 using Avalonia.Xaml.Interactivity;
@@ -52,7 +53,9 @@ public sealed class RemoveRangeAction : AvaloniaObject, IAction
             return false;
         }
 
-        foreach (var item in Items)
+        var items = Items.Cast<object>().ToList();
+  
+        foreach (var item in items)
         {
             if (list.Contains(item))
             {
