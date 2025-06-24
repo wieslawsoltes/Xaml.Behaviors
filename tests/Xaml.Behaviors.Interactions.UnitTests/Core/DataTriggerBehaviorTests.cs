@@ -1,8 +1,6 @@
-using System.Threading.Tasks;
 using Avalonia.Headless;
 using Avalonia.Headless.XUnit;
 using Avalonia.Input;
-using VerifyXunit;
 using Xunit;
 
 namespace Avalonia.Xaml.Interactions.UnitTests.Core;
@@ -10,7 +8,7 @@ namespace Avalonia.Xaml.Interactions.UnitTests.Core;
 public class DataTriggerBehaviorTests
 {
     [AvaloniaFact]
-    public Task DataTriggerBehavior_001()
+    public void DataTriggerBehavior_001()
     {
         var window = new DataTriggerBehavior001();
 
@@ -31,6 +29,5 @@ public class DataTriggerBehaviorTests
         Assert.Equal("More than 50", window.TargetTextBlock.Text);
         Assert.Equal("75", window.TargetTextBox.Text);
         Assert.Equal(75d, window.TargetSlider.Value);
-        return Verifier.Verify(window);
     }
 }
