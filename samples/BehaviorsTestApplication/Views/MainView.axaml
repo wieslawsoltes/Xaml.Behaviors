@@ -30,6 +30,7 @@
       <Interaction.Behaviors>
         <SelectingItemsControlSearchBehavior SearchBox="SearchBox"
                                              NoMatchesControl="NoMatchesText"
+                                             EnableSorting="True"
                                              SortOrder="Ascending" />
       </Interaction.Behaviors>
       <TabItem Header="CallMethodAction">

@@ -45,6 +45,12 @@ public sealed class SelectingItemsControlSearchBehavior : StyledElementBehavior<
         AvaloniaProperty.Register<SelectingItemsControlSearchBehavior, TextBlock?>(nameof(NoMatchesControl));
 
     /// <summary>
+    /// Identifies the <seealso cref="EnableSorting"/> avalonia property.
+    /// </summary>
+    public static readonly StyledProperty<bool> EnableSortingProperty =
+        AvaloniaProperty.Register<SelectingItemsControlSearchBehavior, bool>(nameof(EnableSorting));
+
+    /// <summary>
     /// Identifies the <seealso cref="SortOrder"/> avalonia property.
     /// </summary>
     public static readonly StyledProperty<SortDirection> SortOrderProperty =
@@ -68,6 +74,15 @@ public sealed class SelectingItemsControlSearchBehavior : StyledElementBehavior<
     {
         get => GetValue(NoMatchesControlProperty);
         set => SetValue(NoMatchesControlProperty, value);
+    }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether items should be sorted.
+    /// </summary>
+    public bool EnableSorting
+    {
+        get => GetValue(EnableSortingProperty);
+        set => SetValue(EnableSortingProperty, value);
     }
 
     /// <summary>
@@ -110,20 +125,23 @@ public sealed class SelectingItemsControlSearchBehavior : StyledElementBehavior<
         var visibleCount = 0;
         var tabItems = AssociatedObject.Items.OfType<TabItem>().ToList();
 
-        tabItems = SortOrder == SortDirection.Ascending
-            ? tabItems.OrderBy(x => x.Header?.ToString(), StringComparer.OrdinalIgnoreCase).ToList()
-            : tabItems.OrderByDescending(x => x.Header?.ToString(), StringComparer.OrdinalIgnoreCase).ToList();
-
-        if (AssociatedObject.Items is IList list)
+        if (EnableSorting)
         {
-            for (var i = 0; i < tabItems.Count; i++)
+            tabItems = SortOrder == SortDirection.Ascending
+                ? tabItems.OrderBy(x => x.Header?.ToString(), StringComparer.OrdinalIgnoreCase).ToList()
+                : tabItems.OrderByDescending(x => x.Header?.ToString(), StringComparer.OrdinalIgnoreCase).ToList();
+
+            if (AssociatedObject.Items is IList list)
             {
-                var item = tabItems[i];
-                var currentIndex = list.IndexOf(item);
-                if (currentIndex != i)
+                for (var i = 0; i < tabItems.Count; i++)
                 {
-                    list.RemoveAt(currentIndex);
-                    list.Insert(i, item);
+                    var item = tabItems[i];
+                    var currentIndex = list.IndexOf(item);
+                    if (currentIndex != i)
+                    {
+                        list.RemoveAt(currentIndex);
+                        list.Insert(i, item);
+                    }
                 }
             }
         }
