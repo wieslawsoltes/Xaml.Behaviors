@@ -5,13 +5,12 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="using:BehaviorsTestApplication.ViewModels"
              x:DataType="vm:MainWindowViewModel"
-             mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="450"
-             xmlns:controls="clr-namespace:Avalonia.Controls">
+             mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="450">
   <Design.DataContext>
     <vm:MainWindowViewModel />
   </Design.DataContext>
   <StackPanel Spacing="10" Margin="5">
-    <ListBox x:Name="ItemsListBox" ItemsSource="{Binding Items}" SelectionMode="Extended" Height="200">
+    <ListBox x:Name="ItemsListBox" ItemsSource="{Binding Items}" SelectionMode="Multiple" Height="200">
       <ListBox.ItemTemplate>
         <DataTemplate DataType="vm:ItemViewModel">
           <TextBlock Text="{Binding Value}" Margin="5" />
