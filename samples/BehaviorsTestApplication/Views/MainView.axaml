@@ -468,6 +468,27 @@
       <TabItem Header="Automation">
         <pages:AutomationView />
       </TabItem>
+      <TabItem Header="ActualThemeVariantChangedBehavior">
+        <pages:ActualThemeVariantChangedBehaviorView />
+      </TabItem>
+      <TabItem Header="AttachedToLogicalTreeBehavior">
+        <pages:AttachedToLogicalTreeBehaviorView />
+      </TabItem>
+      <TabItem Header="AttachedToLogicalTreeTrigger">
+        <pages:AttachedToLogicalTreeTriggerView />
+      </TabItem>
+      <TabItem Header="AttachedToVisualTreeTrigger">
+        <pages:AttachedToVisualTreeTriggerView />
+      </TabItem>
+      <TabItem Header="BindingBehavior">
+        <pages:BindingBehaviorView />
+      </TabItem>
+      <TabItem Header="DataContextChangedBehavior">
+        <pages:DataContextChangedBehaviorView />
+      </TabItem>
+      <TabItem Header="DataContextChangedTrigger">
+        <pages:DataContextChangedTriggerView />
+      </TabItem>
     </SingleSelectionTabControl>
   </DockPanel>
 </UserControl>
