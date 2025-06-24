@@ -12,11 +12,11 @@
   <StackPanel Spacing="5">
     <StackPanel x:Name="Container">
       <Border x:Name="Target" Background="LightGray" Padding="20">
-        <Interaction.Triggers>
+        <Interaction.Behaviors>
           <DetachedFromVisualTreeTrigger>
             <ChangePropertyAction TargetObject="MessageText" PropertyName="Text" Value="Detached" />
           </DetachedFromVisualTreeTrigger>
-        </Interaction.Triggers>
+        </Interaction.Behaviors>
         <TextBlock Text="Target" />
       </Border>
     </StackPanel>

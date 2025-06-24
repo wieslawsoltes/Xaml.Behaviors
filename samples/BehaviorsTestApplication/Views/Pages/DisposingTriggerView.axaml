@@ -12,11 +12,11 @@
   </Design.DataContext>
   <StackPanel Spacing="5">
     <Border x:Name="Target" Background="LightGray" Padding="20">
-      <Interaction.Triggers>
+      <Interaction.Behaviors>
         <t:PointerPressedDisposingTrigger>
           <ChangePropertyAction TargetObject="MessageText" PropertyName="Text" Value="Pressed" />
         </t:PointerPressedDisposingTrigger>
-      </Interaction.Triggers>
+      </Interaction.Behaviors>
       <TextBlock Text="Click me" />
     </Border>
     <TextBlock x:Name="MessageText" />

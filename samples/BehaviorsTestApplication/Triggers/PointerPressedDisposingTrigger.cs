@@ -1,12 +1,12 @@
 using System;
-using Avalonia;
+using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Xaml.Interactivity;
 
 namespace BehaviorsTestApplication.Triggers;
 
-public class PointerPressedDisposingTrigger : DisposingTrigger<StyledElement>
+public class PointerPressedDisposingTrigger : DisposingTrigger<Control>
 {
     protected override IDisposable OnAttachedOverride()
     {

@@ -11,11 +11,11 @@
   </Design.DataContext>
   <StackPanel Spacing="5">
     <Border x:Name="Target" Background="LightGray" Padding="20">
-      <Interaction.Triggers>
+      <Interaction.Behaviors>
         <InitializedTrigger>
           <ChangePropertyAction TargetObject="MessageText" PropertyName="Text" Value="Initialized" />
         </InitializedTrigger>
-      </Interaction.Triggers>
+      </Interaction.Behaviors>
       <TextBlock Text="Target" />
     </Border>
     <TextBlock x:Name="MessageText" />
