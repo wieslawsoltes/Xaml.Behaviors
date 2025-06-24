@@ -102,6 +102,8 @@ public sealed class SelectingItemsControlSearchBehavior : StyledElementBehavior<
             SearchBox.AddHandler(InputElement.TextInputEvent, SearchBox_TextChanged, RoutingStrategies.Bubble);
             SearchBox.AddHandler(TextBox.TextChangedEvent, SearchBox_TextChanged, RoutingStrategies.Bubble);
         }
+
+        SortItems();
     }
 
     /// <inheritdoc />
@@ -114,6 +116,33 @@ public sealed class SelectingItemsControlSearchBehavior : StyledElementBehavior<
         }
     }
 
+    private void SortItems()
+    {
+        if (AssociatedObject is null || !EnableSorting)
+        {
+            return;
+        }
+
+        var tabItems = AssociatedObject.Items.OfType<TabItem>().ToList();
+        tabItems = SortOrder == SortDirection.Ascending
+            ? tabItems.OrderBy(x => x.Header?.ToString(), StringComparer.OrdinalIgnoreCase).ToList()
+            : tabItems.OrderByDescending(x => x.Header?.ToString(), StringComparer.OrdinalIgnoreCase).ToList();
+
+        if (AssociatedObject.Items is IList list)
+        {
+            for (var i = 0; i < tabItems.Count; i++)
+            {
+                var item = tabItems[i];
+                var currentIndex = list.IndexOf(item);
+                if (currentIndex != i)
+                {
+                    list.RemoveAt(currentIndex);
+                    list.Insert(i, item);
+                }
+            }
+        }
+    }
+
     private void SearchBox_TextChanged(object? sender, RoutedEventArgs e)
     {
         if (AssociatedObject is null)
@@ -123,28 +152,10 @@ public sealed class SelectingItemsControlSearchBehavior : StyledElementBehavior<
 
         var query = SearchBox?.Text?.ToLowerInvariant() ?? string.Empty;
         var visibleCount = 0;
+
+        SortItems();
+
         var tabItems = AssociatedObject.Items.OfType<TabItem>().ToList();
-
-        if (EnableSorting)
-        {
-            tabItems = SortOrder == SortDirection.Ascending
-                ? tabItems.OrderBy(x => x.Header?.ToString(), StringComparer.OrdinalIgnoreCase).ToList()
-                : tabItems.OrderByDescending(x => x.Header?.ToString(), StringComparer.OrdinalIgnoreCase).ToList();
-
-            if (AssociatedObject.Items is IList list)
-            {
-                for (var i = 0; i < tabItems.Count; i++)
-                {
-                    var item = tabItems[i];
-                    var currentIndex = list.IndexOf(item);
-                    if (currentIndex != i)
-                    {
-                        list.RemoveAt(currentIndex);
-                        list.Insert(i, item);
-                    }
-                }
-            }
-        }
 
         foreach (var item in tabItems)
         {
