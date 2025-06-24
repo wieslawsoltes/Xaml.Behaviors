@@ -10,6 +10,7 @@
     <vm:MainWindowViewModel />
   </Design.DataContext>
   <StackPanel>
+    <TextBlock x:Name="Status" Margin="5" />
     <Button x:Name="OpenButton" Content="Open Context Dialog" Margin="5" />
     <Button x:Name="CloseButton" Content="Close Context Dialog" Margin="5" />
     <Border x:Name="Target" Margin="5" Padding="20" Background="{DynamicResource GrayBrush}">
@@ -32,5 +33,11 @@
     <EventTriggerBehavior EventName="Click" SourceObject="CloseButton">
       <HideContextDialogAction TargetDialog="{Binding #Dialog}" />
     </EventTriggerBehavior>
+    <ContextDialogOpenedTrigger SourceObject="{Binding #Dialog}">
+      <ChangePropertyAction TargetObject="Status" PropertyName="Text" Value="Opened" />
+    </ContextDialogOpenedTrigger>
+    <ContextDialogClosedTrigger SourceObject="{Binding #Dialog}">
+      <ChangePropertyAction TargetObject="Status" PropertyName="Text" Value="Closed" />
+    </ContextDialogClosedTrigger>
   </Interaction.Behaviors>
 </UserControl>
