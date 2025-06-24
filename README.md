@@ -271,7 +271,7 @@ This section provides an overview of all available classes and their purpose in 
 - **FadeInBehavior** ([Sample](samples/BehaviorsTestApplication/Views/Pages/FadeInBehaviorView.axaml))
   *Animates the fade-in effect for the associated element, gradually increasing its opacity.*
 
-- **StartAnimationAction** (No sample available.)
+ - **StartAnimationAction** ([Sample](samples/BehaviorsTestApplication/Views/Pages/StartAnimationActionView.axaml))
   *Triggers a defined animation on the target control when executed.*
 - **AnimateOnAttachedBehavior** ([Sample](samples/BehaviorsTestApplication/Views/Pages/AnimateOnAttachedBehaviorView.axaml))
   *Runs a specified animation when the control appears in the visual tree.*
@@ -279,7 +279,7 @@ This section provides an overview of all available classes and their purpose in 
   *Creates an animation in code using an <code>IAnimationBuilder</code> and starts it.*
 - **RunAnimationTrigger** ([Sample](samples/BehaviorsTestApplication/Views/Pages/RunAnimationTriggerView.axaml))
   *Runs an animation and invokes actions when it completes.*
-- **IAnimationBuilder** (No sample available.)
+ - **IAnimationBuilder** ([Sample](samples/BehaviorsTestApplication/Views/Pages/AnimationBuilderView.axaml))
   *Interface for providing animations from view models in an MVVM friendly way.*
 
 - **PlayAnimationBehavior** ([Sample](samples/BehaviorsTestApplication/Views/Pages/AnimationBehaviorView.axaml))
@@ -304,7 +304,7 @@ This section provides an overview of all available classes and their purpose in 
   *Triggers actions when the `Transitions` property of a control changes.*
 
 ### AutoCompleteBox
-- **FocusAutoCompleteBoxTextBoxBehavior** (No sample available.)
+ - **FocusAutoCompleteBoxTextBoxBehavior** ([Sample](samples/BehaviorsTestApplication/Views/Pages/FocusAutoCompleteBoxTextBoxBehaviorView.axaml))
   *Ensures the text box within an AutoCompleteBox gets focus automatically.*
 - **AutoCompleteBoxOpenDropDownOnFocusBehavior** ([Sample](samples/BehaviorsTestApplication/Views/Pages/AutoCompleteBoxView.axaml))
   *Opens the AutoCompleteBox drop-down when the control receives focus.*
@@ -328,13 +328,13 @@ This section provides an overview of all available classes and their purpose in 
   *Advances the target Carousel to the next page.*
 - **CarouselPreviousAction** ([Sample](samples/BehaviorsTestApplication/Views/Pages/CarouselNavigationView.axaml))
   *Moves the target Carousel to the previous page.*
-- **CarouselSelectionChangedTrigger** (No sample available.)
+ - **CarouselSelectionChangedTrigger** ([Sample](samples/BehaviorsTestApplication/Views/Pages/CarouselSelectionChangedTriggerView.axaml))
   *Triggers actions when the Carousel selection changes.*
 
 ### Collections
 - **AddRangeAction** ([Sample](samples/BehaviorsTestApplication/Views/Pages/AddRangeActionView.axaml))
   *Adds multiple items to an `IList`.*
-- **RemoveRangeAction** (No sample available.)
+ - **RemoveRangeAction** ([Sample](samples/BehaviorsTestApplication/Views/Pages/RemoveRangeActionView.axaml))
   *Removes multiple items from an `IList`.*
 - **ClearCollectionAction** ([Sample](samples/BehaviorsTestApplication/Views/Pages/AddRangeActionView.axaml))
   *Clears all items from an `IList`.*
@@ -357,13 +357,13 @@ This section provides an overview of all available classes and their purpose in 
 - **ButtonClickEventTriggerBehavior** ([Sample](samples/BehaviorsTestApplication/Views/Pages/ButtonClickEventTriggerBehaviorView.axaml))
   *Listens for a button’s click event and triggers associated actions.*
 
-- **ButtonExecuteCommandOnKeyDownBehavior** (No sample available.)
+ - **ButtonExecuteCommandOnKeyDownBehavior** ([Sample](samples/BehaviorsTestApplication/Views/Pages/ButtonExecuteCommandOnKeyDownBehaviorView.axaml))
   *Executes a command when a specified key is pressed while the button is focused.*
 
-- **ButtonHideFlyoutBehavior** (No sample available.)
+ - **ButtonHideFlyoutBehavior** ([Sample](samples/BehaviorsTestApplication/Views/Pages/ButtonHideFlyoutBehaviorView.axaml))
   *Hides an attached flyout when the button is interacted with.*
 
-- **ButtonHideFlyoutOnClickBehavior** (No sample available.)
+ - **ButtonHideFlyoutOnClickBehavior** ([Sample](samples/BehaviorsTestApplication/Views/Pages/ButtonHideFlyoutOnClickBehaviorView.axaml))
   *Automatically hides the flyout attached to the button when it is clicked.*
 - **ButtonHidePopupOnClickBehavior** ([Sample](samples/BehaviorsTestApplication/Views/Pages/PopupEventTriggersView.axaml))
   *Automatically closes the popup containing the button when it is clicked.*
@@ -402,7 +402,7 @@ This section provides an overview of all available classes and their purpose in 
   *Displays an error notification via a manager.*
 
 ### Composition
-- **SelectingItemsControlBehavior** (No sample available.)
+ - **SelectingItemsControlBehavior** ([Sample](samples/BehaviorsTestApplication/Views/Pages/SelectingItemsControlBehaviorView.axaml))
   *Animates selection transitions in items controls such as ListBox or TabControl.*
 
 - **SlidingAnimation** ([Sample](samples/BehaviorsTestApplication/Views/Pages/SlidingAnimationView.axaml))

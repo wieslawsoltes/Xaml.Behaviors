@@ -1,0 +1,21 @@
+<UserControl x:Class="BehaviorsTestApplication.Views.Pages.AnimationBuilderView"
+             xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:BehaviorsTestApplication.ViewModels"
+             x:DataType="vm:CustomAnimatorViewModel"
+             mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="150">
+  <Design.DataContext>
+    <vm:CustomAnimatorViewModel />
+  </Design.DataContext>
+  <Border Name="AnimatedBorder" Width="200" Height="40" Background="LightGray" HorizontalAlignment="Center" VerticalAlignment="Center">
+    <Interaction.Behaviors>
+      <RunAnimationTrigger AnimationBuilder="{Binding AnimationBuilder}">
+        <ChangeAvaloniaPropertyAction TargetObject="AnimatedBorder"
+                                      TargetProperty="{x:Static Border.BackgroundProperty}"
+                                      Value="{DynamicResource RedBrush}" />
+      </RunAnimationTrigger>
+    </Interaction.Behaviors>
+  </Border>
+</UserControl>

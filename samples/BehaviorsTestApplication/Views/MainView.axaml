@@ -153,6 +153,9 @@
       <TabItem Header="AddRangeAction">
         <pages:AddRangeActionView />
       </TabItem>
+      <TabItem Header="RemoveRangeAction">
+        <pages:RemoveRangeActionView />
+      </TabItem>
       <TabItem Header="MoveItemInItemsControlAction">
         <pages:MoveItemInItemsControlActionView />
       </TabItem>
@@ -198,6 +201,12 @@
       <TabItem Header="Animation Completed Trigger">
         <pages:AnimationCompletedTriggerView />
       </TabItem>
+      <TabItem Header="StartAnimationAction">
+        <pages:StartAnimationActionView />
+      </TabItem>
+      <TabItem Header="AnimationBuilder">
+        <pages:AnimationBuilderView />
+      </TabItem>
       <TabItem Header="StartBuiltAnimationAction">
         <pages:StartBuiltAnimationActionView />
       </TabItem>
@@ -206,6 +215,9 @@
       </TabItem>
       <TabItem Header="FluidMoveBehavior">
         <pages:FluidMoveBehaviorView />
+      </TabItem>
+      <TabItem Header="SelectingItemsControlBehavior">
+        <pages:SelectingItemsControlBehaviorView />
       </TabItem>
       <TabItem Header="BehaviorCollectionTemplate">
         <pages:BehaviorCollectionTemplateView />
@@ -227,6 +239,9 @@
       </TabItem>
       <TabItem Header="ExecuteCommand Behaviors">
         <pages:ExecuteCommandBehaviorsView />
+      </TabItem>
+      <TabItem Header="ButtonExecuteCommandOnKeyDownBehavior">
+        <pages:ButtonExecuteCommandOnKeyDownBehaviorView />
       </TabItem>
       <TabItem Header="Storage Provider">
         <pages:StorageProviderView />
@@ -351,8 +366,14 @@
       <TabItem Header="Carousel Navigation">
         <pages:CarouselNavigationView />
       </TabItem>
+      <TabItem Header="CarouselSelectionChangedTrigger">
+        <pages:CarouselSelectionChangedTriggerView />
+      </TabItem>
       <TabItem Header="AutoCompleteBox">
         <pages:AutoCompleteBoxView />
+      </TabItem>
+      <TabItem Header="FocusAutoCompleteBoxTextBoxBehavior">
+        <pages:FocusAutoCompleteBoxTextBoxBehaviorView />
       </TabItem>
       <TabItem Header="TabControl Navigation">
         <pages:TabControlNavigationView />
@@ -377,6 +398,12 @@
       </TabItem>
       <TabItem Header="HideAttachedFlyoutBehavior">
         <pages:HideAttachedFlyoutBehaviorView />
+      </TabItem>
+      <TabItem Header="ButtonHideFlyoutBehavior">
+        <pages:ButtonHideFlyoutBehaviorView />
+      </TabItem>
+      <TabItem Header="ButtonHideFlyoutOnClickBehavior">
+        <pages:ButtonHideFlyoutOnClickBehaviorView />
       </TabItem>
       <TabItem Header="HideOnKeyPressedBehavior">
         <pages:HideOnKeyPressedBehaviorView />
