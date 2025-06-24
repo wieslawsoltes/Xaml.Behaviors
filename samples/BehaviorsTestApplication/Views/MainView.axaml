@@ -448,6 +448,18 @@
       <TabItem Header="Popup Event Triggers">
         <pages:PopupEventTriggersView />
       </TabItem>
+      <TabItem Header="Focus Triggers">
+        <pages:FocusTriggersView />
+      </TabItem>
+      <TabItem Header="Key Input Triggers">
+        <pages:KeyInputTriggersView />
+      </TabItem>
+      <TabItem Header="Pointer Extra Triggers">
+        <pages:PointerExtraTriggersView />
+      </TabItem>
+      <TabItem Header="Gesture Triggers">
+        <pages:GestureTriggersView />
+      </TabItem>
       <TabItem Header="Icon Sample">
         <pages:IconView />
       </TabItem>

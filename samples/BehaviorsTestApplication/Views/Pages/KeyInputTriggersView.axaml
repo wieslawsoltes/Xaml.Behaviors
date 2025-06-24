@@ -1,0 +1,26 @@
+<UserControl x:Class="BehaviorsTestApplication.Views.Pages.KeyInputTriggersView"
+             xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="300" d:DesignHeight="150">
+  <StackPanel Margin="5">
+    <TextBlock x:Name="InfoText" Text="Press keys" Margin="5" />
+    <TextBox Width="200" Margin="5">
+      <Interaction.Behaviors>
+        <KeyDownTrigger>
+          <ChangePropertyAction TargetObject="InfoText" PropertyName="Text" Value="Key Down" />
+        </KeyDownTrigger>
+        <KeyUpTrigger>
+          <ChangePropertyAction TargetObject="InfoText" PropertyName="Text" Value="Key Up" />
+        </KeyUpTrigger>
+        <TextInputTrigger>
+          <ChangePropertyAction TargetObject="InfoText" PropertyName="Text" Value="Text Input" />
+        </TextInputTrigger>
+        <TextInputMethodClientRequestedTrigger>
+          <ChangePropertyAction TargetObject="InfoText" PropertyName="Text" Value="Input Method Requested" />
+        </TextInputMethodClientRequestedTrigger>
+      </Interaction.Behaviors>
+    </TextBox>
+  </StackPanel>
+</UserControl>
