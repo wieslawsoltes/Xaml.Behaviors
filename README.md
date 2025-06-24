@@ -976,17 +976,17 @@ This section provides an overview of all available classes and their purpose in 
 - **ShowToolTipAction** ([Sample](samples/BehaviorsTestApplication/Views/Pages/ToolTipHelpersView.axaml))
   *Shows the ToolTip for the associated or target control.*
 
-### InputElement Triggers
-- **DoubleTappedTrigger** (No sample available.)
+-### InputElement Triggers
+- **DoubleTappedTrigger** ([Sample](samples/BehaviorsTestApplication/Views/Pages/GestureTriggersView.axaml))
   *Listens for a double-tap event and executes its actions.*
 
-- **GotFocusTrigger** (No sample available.)
+- **GotFocusTrigger** ([Sample](samples/BehaviorsTestApplication/Views/Pages/FocusTriggersView.axaml))
   *Triggers actions when the control receives focus.*
 
-- **HoldingTrigger** (No sample available.)
+- **HoldingTrigger** ([Sample](samples/BehaviorsTestApplication/Views/Pages/GestureTriggersView.axaml))
   *Triggers actions when a holding gesture is detected.*
 
-- **KeyDownTrigger** (No sample available.)
+- **KeyDownTrigger** ([Sample](samples/BehaviorsTestApplication/Views/Pages/KeyInputTriggersView.axaml))
   *Listens for key down events and triggers actions if the pressed key (or gesture) matches the specified criteria.*
 - **KeyGestureTrigger** ([Sample](samples/BehaviorsTestApplication/Views/Pages/KeyGestureTriggerView.axaml))
   *Triggers actions based on a specified key gesture.*
@@ -994,19 +994,19 @@ This section provides an overview of all available classes and their purpose in 
 - **KeyTrigger** ([Sample](samples/BehaviorsTestApplication/Views/Pages/KeyTriggerView.axaml))
   *Listens for key down or key up events and triggers actions when the configured key or gesture occurs.*
 
-- **KeyUpTrigger** (No sample available.)
+- **KeyUpTrigger** ([Sample](samples/BehaviorsTestApplication/Views/Pages/KeyInputTriggersView.axaml))
   *Listens for key up events and triggers actions when conditions are met.*
 
-- **LostFocusTrigger** (No sample available.)
+- **LostFocusTrigger** ([Sample](samples/BehaviorsTestApplication/Views/Pages/FocusTriggersView.axaml))
   *Triggers actions when the control loses focus.*
 
-- **PointerCaptureLostTrigger** (No sample available.)
+- **PointerCaptureLostTrigger** ([Sample](samples/BehaviorsTestApplication/Views/Pages/PointerExtraTriggersView.axaml))
   *Triggers actions when pointer capture is lost by the control.*
 
-- **PointerEnteredTrigger** (No sample available.)
+- **PointerEnteredTrigger** ([Sample](samples/BehaviorsTestApplication/Views/Pages/PointerExtraTriggersView.axaml))
   *Triggers actions when the pointer enters the control’s area.*
 
-- **PointerExitedTrigger** (No sample available.)
+- **PointerExitedTrigger** ([Sample](samples/BehaviorsTestApplication/Views/Pages/PointerExtraTriggersView.axaml))
   *Triggers actions when the pointer exits the control’s area.*
 
 - **PointerMovedTrigger** ([Sample](samples/BehaviorsTestApplication/Views/Pages/PointerTriggersView.axaml))
@@ -1018,20 +1018,20 @@ This section provides an overview of all available classes and their purpose in 
 - **PointerReleasedTrigger** ([Sample](samples/BehaviorsTestApplication/Views/Pages/PointerTriggersView.axaml))
   *Triggers actions when the pointer is released on the control.*
 
-- **PointerWheelChangedTrigger** (No sample available.)
+- **PointerWheelChangedTrigger** ([Sample](samples/BehaviorsTestApplication/Views/Pages/PointerExtraTriggersView.axaml))
   *Triggers actions on mouse wheel (or equivalent) changes.*
 
-- **TappedTrigger** (No sample available.)
+- **TappedTrigger** ([Sample](samples/BehaviorsTestApplication/Views/Pages/GestureTriggersView.axaml))
   *Triggers actions on a tap event.*
 - **ToolTipOpeningTrigger** ([Sample](samples/BehaviorsTestApplication/Views/Pages/ToolTipHelpersView.axaml))
   *Triggers actions when a tooltip is about to open.*
 - **ToolTipClosingTrigger** ([Sample](samples/BehaviorsTestApplication/Views/Pages/ToolTipHelpersView.axaml))
   *Triggers actions when a tooltip is closing.*
 
-- **TextInputMethodClientRequestedTrigger** (No sample available.)
+- **TextInputMethodClientRequestedTrigger** ([Sample](samples/BehaviorsTestApplication/Views/Pages/KeyInputTriggersView.axaml))
   *Triggers actions when a text input method (virtual keyboard) is requested.*
 
-- **TextInputTrigger** (No sample available.)
+- **TextInputTrigger** ([Sample](samples/BehaviorsTestApplication/Views/Pages/KeyInputTriggersView.axaml))
   *Triggers actions on text input events.*
 
 ### WriteableBitmap
