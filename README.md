@@ -214,1175 +214,1175 @@ This section provides an overview of all available classes and their purpose in 
 ## Interactions
 
 ### Actions
-- **AddClassAction**  
+- **AddClassAction** ([Sample](samples/BehaviorsTestApplication/Views/Pages/AddRemoveClassActionView.axaml))
   *Adds a style class to a control’s class collection, making it easy to change the appearance dynamically.*
 
-- **ChangeAvaloniaPropertyAction**  
+- **ChangeAvaloniaPropertyAction** ([Sample](samples/BehaviorsTestApplication/Views/Pages/ChangeAvaloniaPropertyActionView.axaml))
   *Changes the value of an Avalonia property on a target object at runtime.*
 
-- **CloseNotificationAction**  
+- **CloseNotificationAction** ([Sample](samples/BehaviorsTestApplication/Views/Pages/ShowNotificationActionView.axaml))
   *Closes an open notification, for example, from a notification control.*
 
-- **FocusControlAction**
+- **FocusControlAction** ([Sample](samples/BehaviorsTestApplication/Views/Pages/FocusControlActionView.axaml))
   *Sets the keyboard focus on a specified control or the associated control.*
 
-- **HideControlAction**
+- **HideControlAction** ([Sample](samples/BehaviorsTestApplication/Views/Pages/HideShowControlActionView.axaml))
   *Hides a control by setting its `IsVisible` property to false.*
 
-- **ShowControlAction**
+- **ShowControlAction** ([Sample](samples/BehaviorsTestApplication/Views/Pages/HideShowControlActionView.axaml))
   *Shows a control and gives it focus when executed.*
-- **DelayedShowControlAction**
+- **DelayedShowControlAction** ([Sample](samples/BehaviorsTestApplication/Views/Pages/DelayedShowControlActionView.axaml))
   *Shows a control after waiting for a specified delay.*
 
-- **PopupAction**
+- **PopupAction** ([Sample](samples/BehaviorsTestApplication/Views/Pages/ShowHidePopupActionView.axaml))
   *Displays a popup window for showing additional UI content.*
-- **ShowPopupAction**
+- **ShowPopupAction** ([Sample](samples/BehaviorsTestApplication/Views/Pages/PopupEventTriggersView.axaml))
   *Opens an existing popup for a control.*
-- **HidePopupAction**
+- **HidePopupAction** ([Sample](samples/BehaviorsTestApplication/Views/Pages/ShowHidePopupActionView.axaml))
   *Closes an existing popup associated with a control.*
 
-- **ShowFlyoutAction**
+- **ShowFlyoutAction** ([Sample](samples/BehaviorsTestApplication/Views/Pages/ShowHideFlyoutActionView.axaml))
   *Shows a flyout attached to a control or specified explicitly.*
 
-- **HideFlyoutAction**
+- **HideFlyoutAction** ([Sample](samples/BehaviorsTestApplication/Views/Pages/ShowHideFlyoutActionView.axaml))
   *Hides a flyout attached to a control or specified explicitly.*
 
-- **RemoveClassAction**
+- **RemoveClassAction** ([Sample](samples/BehaviorsTestApplication/Views/Pages/AddRemoveClassActionView.axaml))
   *Removes a style class from a control’s class collection.*
 
-- **RemoveElementAction**
+- **RemoveElementAction** ([Sample](samples/BehaviorsTestApplication/Views/Pages/RemoveElementActionView.axaml))
   *Removes a control from its parent container when executed.*
-- **MoveElementToPanelAction**
+- **MoveElementToPanelAction** (No sample available.)
   *Moves a control to the specified panel.*
 
-- **ShowContextMenuAction**
+- **ShowContextMenuAction** ([Sample](samples/BehaviorsTestApplication/Views/Pages/ShowContextMenuActionView.axaml))
   *Displays a control's context menu programmatically.*
 
-- **SplitViewTogglePaneAction**
+- **SplitViewTogglePaneAction** ([Sample](samples/BehaviorsTestApplication/Views/Pages/SplitViewStateBehaviorView.axaml))
   *Toggles the `IsPaneOpen` state of a `SplitView`.*
-- **SetViewModelPropertyAction**
+- **SetViewModelPropertyAction** ([Sample](samples/BehaviorsTestApplication/Views/Pages/ViewModelPropertyActionsView.axaml))
   *Sets a property on the DataContext to a specified value.*
-- **IncrementViewModelPropertyAction**
+- **IncrementViewModelPropertyAction** ([Sample](samples/BehaviorsTestApplication/Views/Pages/ViewModelPropertyActionsView.axaml))
   *Adds a numeric delta to a view model property.*
-- **ToggleViewModelBooleanAction**
+- **ToggleViewModelBooleanAction** ([Sample](samples/BehaviorsTestApplication/Views/Pages/ViewModelPropertyActionsView.axaml))
   *Toggles a boolean view model property.*
 
 ### Animations
-- **FadeInBehavior**
+- **FadeInBehavior** ([Sample](samples/BehaviorsTestApplication/Views/Pages/FadeInBehaviorView.axaml))
   *Animates the fade-in effect for the associated element, gradually increasing its opacity.*
 
-- **StartAnimationAction**
+- **StartAnimationAction** (No sample available.)
   *Triggers a defined animation on the target control when executed.*
-- **AnimateOnAttachedBehavior**
+- **AnimateOnAttachedBehavior** ([Sample](samples/BehaviorsTestApplication/Views/Pages/AnimateOnAttachedBehaviorView.axaml))
   *Runs a specified animation when the control appears in the visual tree.*
-- **StartBuiltAnimationAction**
+- **StartBuiltAnimationAction** ([Sample](samples/BehaviorsTestApplication/Views/Pages/StartBuiltAnimationActionView.axaml))
   *Creates an animation in code using an <code>IAnimationBuilder</code> and starts it.*
-- **RunAnimationTrigger**
+- **RunAnimationTrigger** ([Sample](samples/BehaviorsTestApplication/Views/Pages/RunAnimationTriggerView.axaml))
   *Runs an animation and invokes actions when it completes.*
-- **IAnimationBuilder**
+- **IAnimationBuilder** (No sample available.)
   *Interface for providing animations from view models in an MVVM friendly way.*
 
-- **PlayAnimationBehavior**
+- **PlayAnimationBehavior** ([Sample](samples/BehaviorsTestApplication/Views/Pages/AnimationBehaviorView.axaml))
   *Runs a supplied animation automatically when the control appears in the visual tree.*
 
-- **BeginAnimationAction**
+- **BeginAnimationAction** ([Sample](samples/BehaviorsTestApplication/Views/Pages/AnimationBehaviorView.axaml))
   *Starts an animation on a specified control, allowing the target to be chosen explicitly.*
 
-- **AnimationCompletedTrigger**
+- **AnimationCompletedTrigger** ([Sample](samples/BehaviorsTestApplication/Views/Pages/AnimationCompletedTriggerView.axaml))
   *Plays an animation and invokes actions once the animation finishes running.*
 
 ### Transitions
-- **TransitionsBehavior**
+- **TransitionsBehavior** ([Sample](samples/BehaviorsTestApplication/Views/Pages/TransitionsBehaviorView.axaml))
   *Sets the `Transitions` collection on the associated control when attached.*
-- **AddTransitionAction**
+- **AddTransitionAction** ([Sample](samples/BehaviorsTestApplication/Views/Pages/TransitionsActionsView.axaml))
   *Adds a transition to a control's `Transitions` collection.*
-- **RemoveTransitionAction**
+- **RemoveTransitionAction** ([Sample](samples/BehaviorsTestApplication/Views/Pages/TransitionsActionsView.axaml))
   *Removes a transition from a control's `Transitions` collection.*
-- **ClearTransitionsAction**
+- **ClearTransitionsAction** ([Sample](samples/BehaviorsTestApplication/Views/Pages/TransitionsActionsView.axaml))
   *Clears all transitions from a control.*
-- **TransitionsChangedTrigger**
+- **TransitionsChangedTrigger** ([Sample](samples/BehaviorsTestApplication/Views/Pages/TransitionsChangedTriggerView.axaml))
   *Triggers actions when the `Transitions` property of a control changes.*
 
 ### AutoCompleteBox
-- **FocusAutoCompleteBoxTextBoxBehavior**
+- **FocusAutoCompleteBoxTextBoxBehavior** (No sample available.)
   *Ensures the text box within an AutoCompleteBox gets focus automatically.*
-- **AutoCompleteBoxOpenDropDownOnFocusBehavior**
+- **AutoCompleteBoxOpenDropDownOnFocusBehavior** ([Sample](samples/BehaviorsTestApplication/Views/Pages/AutoCompleteBoxView.axaml))
   *Opens the AutoCompleteBox drop-down when the control receives focus.*
-- **AutoCompleteBoxSelectionChangedTrigger**
+- **AutoCompleteBoxSelectionChangedTrigger** ([Sample](samples/BehaviorsTestApplication/Views/Pages/AutoCompleteBoxView.axaml))
   *Triggers actions when the AutoCompleteBox selection changes.*
-- **ClearAutoCompleteBoxSelectionAction**
+- **ClearAutoCompleteBoxSelectionAction** ([Sample](samples/BehaviorsTestApplication/Views/Pages/AutoCompleteBoxView.axaml))
   *Clears the AutoCompleteBox selection and text.*
 
 ### Automation
-- **AutomationNameBehavior**
+- **AutomationNameBehavior** ([Sample](samples/BehaviorsTestApplication/Views/Pages/AutomationView.axaml))
   *Applies an automation name to the associated control.*
-- **AutomationNameChangedTrigger**
+- **AutomationNameChangedTrigger** ([Sample](samples/BehaviorsTestApplication/Views/Pages/AutomationView.axaml))
   *Triggers actions when the automation name of the control changes.*
-- **SetAutomationIdAction**
+- **SetAutomationIdAction** ([Sample](samples/BehaviorsTestApplication/Views/Pages/AutomationView.axaml))
   *Sets the automation ID on a target control.*
 
 ### Carousel
-- **CarouselKeyNavigationBehavior**
+- **CarouselKeyNavigationBehavior** ([Sample](samples/BehaviorsTestApplication/Views/Pages/CarouselNavigationView.axaml))
   *Enables keyboard navigation for a Carousel using arrow keys.*
-- **CarouselNextAction**
+- **CarouselNextAction** ([Sample](samples/BehaviorsTestApplication/Views/Pages/CarouselNavigationView.axaml))
   *Advances the target Carousel to the next page.*
-- **CarouselPreviousAction**
+- **CarouselPreviousAction** ([Sample](samples/BehaviorsTestApplication/Views/Pages/CarouselNavigationView.axaml))
   *Moves the target Carousel to the previous page.*
-- **CarouselSelectionChangedTrigger**
+- **CarouselSelectionChangedTrigger** (No sample available.)
   *Triggers actions when the Carousel selection changes.*
 
 ### Collections
-- **AddRangeAction**
+- **AddRangeAction** ([Sample](samples/BehaviorsTestApplication/Views/Pages/AddRangeActionView.axaml))
   *Adds multiple items to an `IList`.*
-- **RemoveRangeAction**
+- **RemoveRangeAction** (No sample available.)
   *Removes multiple items from an `IList`.*
-- **ClearCollectionAction**
+- **ClearCollectionAction** ([Sample](samples/BehaviorsTestApplication/Views/Pages/AddRangeActionView.axaml))
   *Clears all items from an `IList`.*
-- **CollectionChangedBehavior**
+- **CollectionChangedBehavior** ([Sample](samples/BehaviorsTestApplication/Views/Pages/CollectionChangedTriggerBehaviorView.axaml))
   *Invokes actions based on collection change notifications.*
-- **CollectionChangedTrigger**
+- **CollectionChangedTrigger** ([Sample](samples/BehaviorsTestApplication/Views/Pages/CollectionChangedTriggerBehaviorView.axaml))
   *Triggers actions whenever the observed collection changes.*
 
 ### TabControl
-- **TabControlKeyNavigationBehavior**
+- **TabControlKeyNavigationBehavior** ([Sample](samples/BehaviorsTestApplication/Views/Pages/TabControlNavigationView.axaml))
   *Enables keyboard navigation for a TabControl using arrow keys.*
-- **TabControlNextAction**
+- **TabControlNextAction** ([Sample](samples/BehaviorsTestApplication/Views/Pages/TabControlNavigationView.axaml))
   *Advances the target TabControl to the next tab.*
-- **TabControlPreviousAction**
+- **TabControlPreviousAction** ([Sample](samples/BehaviorsTestApplication/Views/Pages/TabControlNavigationView.axaml))
   *Moves the target TabControl to the previous tab.*
-- **TabControlSelectionChangedTrigger**
+- **TabControlSelectionChangedTrigger** ([Sample](samples/BehaviorsTestApplication/Views/Pages/TabControlSelectionChangedTriggerView.axaml))
   *Triggers actions when the TabControl selection changes.*
 
 ### Button
-- **ButtonClickEventTriggerBehavior**  
+- **ButtonClickEventTriggerBehavior** ([Sample](samples/BehaviorsTestApplication/Views/Pages/ButtonClickEventTriggerBehaviorView.axaml))
   *Listens for a button’s click event and triggers associated actions.*
 
-- **ButtonExecuteCommandOnKeyDownBehavior**  
+- **ButtonExecuteCommandOnKeyDownBehavior** (No sample available.)
   *Executes a command when a specified key is pressed while the button is focused.*
 
-- **ButtonHideFlyoutBehavior**  
+- **ButtonHideFlyoutBehavior** (No sample available.)
   *Hides an attached flyout when the button is interacted with.*
 
-- **ButtonHideFlyoutOnClickBehavior**
+- **ButtonHideFlyoutOnClickBehavior** (No sample available.)
   *Automatically hides the flyout attached to the button when it is clicked.*
-- **ButtonHidePopupOnClickBehavior**
+- **ButtonHidePopupOnClickBehavior** ([Sample](samples/BehaviorsTestApplication/Views/Pages/PopupEventTriggersView.axaml))
   *Automatically closes the popup containing the button when it is clicked.*
 
 ### Clipboard
-- **ClearClipboardAction**  
+- **ClearClipboardAction** ([Sample](samples/BehaviorsTestApplication/Views/Pages/ClipboardView.axaml))
   *Clears all contents from the system clipboard.*
 
-- **GetClipboardDataAction**  
+- **GetClipboardDataAction** ([Sample](samples/BehaviorsTestApplication/Views/Pages/GetClipboardDataActionView.axaml))
   *Retrieves data from the clipboard in a specified format.*
 
-- **GetClipboardFormatsAction**  
+- **GetClipboardFormatsAction** ([Sample](samples/BehaviorsTestApplication/Views/Pages/GetClipboardFormatsActionView.axaml))
   *Retrieves the list of available formats from the clipboard.*
 
-- **GetClipboardTextAction**  
+- **GetClipboardTextAction** ([Sample](samples/BehaviorsTestApplication/Views/Pages/ClipboardView.axaml))
   *Retrieves plain text from the clipboard.*
 
-- **SetClipboardDataObjectAction**  
+- **SetClipboardDataObjectAction** ([Sample](samples/BehaviorsTestApplication/Views/Pages/SetClipboardDataObjectActionView.axaml))
   *Places a custom data object onto the clipboard.*
 
-- **SetClipboardTextAction**  
+- **SetClipboardTextAction** ([Sample](samples/BehaviorsTestApplication/Views/Pages/ClipboardView.axaml))
   *Places text onto the clipboard.*
 
 ### Notifications
-- **NotificationManagerBehavior**
+- **NotificationManagerBehavior** ([Sample](samples/BehaviorsTestApplication/Views/Pages/NotificationsView.axaml))
   *Creates a notification manager for a window when attached.*
-- **ShowNotificationAction**
+- **ShowNotificationAction** ([Sample](samples/BehaviorsTestApplication/Views/Pages/ShowNotificationActionView.axaml))
   *Shows a notification using an attached notification manager.*
-- **ShowInformationNotificationAction**
+- **ShowInformationNotificationAction** ([Sample](samples/BehaviorsTestApplication/Views/Pages/NotificationsView.axaml))
   *Displays an information notification via a manager.*
-- **ShowSuccessNotificationAction**
+- **ShowSuccessNotificationAction** ([Sample](samples/BehaviorsTestApplication/Views/Pages/NotificationsView.axaml))
   *Displays a success notification via a manager.*
-- **ShowWarningNotificationAction**
+- **ShowWarningNotificationAction** ([Sample](samples/BehaviorsTestApplication/Views/Pages/NotificationsView.axaml))
   *Displays a warning notification via a manager.*
-- **ShowErrorNotificationAction**
+- **ShowErrorNotificationAction** ([Sample](samples/BehaviorsTestApplication/Views/Pages/NotificationsView.axaml))
   *Displays an error notification via a manager.*
 
 ### Composition
-- **SelectingItemsControlBehavior**  
+- **SelectingItemsControlBehavior** (No sample available.)
   *Animates selection transitions in items controls such as ListBox or TabControl.*
 
-- **SlidingAnimation**
+- **SlidingAnimation** ([Sample](samples/BehaviorsTestApplication/Views/Pages/SlidingAnimationView.axaml))
   *Provides static methods to apply sliding animations (from left, right, top, or bottom) to a control.*
-- **FluidMoveBehavior**
+- **FluidMoveBehavior** ([Sample](samples/BehaviorsTestApplication/Views/Pages/FluidMoveBehaviorView.axaml))
   *Animates layout changes of a control or its children.*
 
 ### ContextDialogs
-- **ContextDialogBehavior**
+- **ContextDialogBehavior** ([Sample](samples/BehaviorsTestApplication/Views/Pages/ContextDialogView.axaml))
   *Manages a popup-based context dialog for a control.*
-- **ShowContextDialogAction**
+- **ShowContextDialogAction** ([Sample](samples/BehaviorsTestApplication/Views/Pages/ContextDialogView.axaml))
   *Opens a context dialog using a specified behavior.*
-- **HideContextDialogAction**
+- **HideContextDialogAction** ([Sample](samples/BehaviorsTestApplication/Views/Pages/ContextDialogView.axaml))
   *Closes a context dialog using a specified behavior.*
-- **ContextDialogOpenedTrigger**
+- **ContextDialogOpenedTrigger** (No sample available.)
   *Triggers actions when a context dialog is opened.*
-- **ContextDialogClosedTrigger**
+- **ContextDialogClosedTrigger** (No sample available.)
   *Triggers actions when a context dialog is closed.*
 
 ### Control
-- **BindPointerOverBehavior**  
+- **BindPointerOverBehavior** ([Sample](samples/BehaviorsTestApplication/Views/Pages/BindPointerOverBehaviorView.axaml))
   *Two‑way binds a boolean property to a control’s pointer-over state.*
 
-- **BindTagToVisualRootDataContextBehavior**  
+- **BindTagToVisualRootDataContextBehavior** ([Sample](samples/BehaviorsTestApplication/Views/Pages/BindTagToVisualRootDataContextBehaviorView.axaml))
   *Binds the control’s Tag property to the DataContext of its visual root, enabling inherited data contexts.*
 
-- **BoundsObserverBehavior**  
+- **BoundsObserverBehavior** ([Sample](samples/BehaviorsTestApplication/Views/Pages/BoundsObserverBehaviorView.axaml))
   *Observes a control’s bounds changes and updates two‑way bound Width and Height properties.*
 
-- **DragControlBehavior**  
+- **DragControlBehavior** ([Sample](samples/BehaviorsTestApplication/Views/Pages/CustomBehaviorView.axaml))
   *Enables a control to be moved (dragged) around by changing its RenderTransform during pointer events.*
 
-- **HideAttachedFlyoutBehavior**  
+- **HideAttachedFlyoutBehavior** ([Sample](samples/BehaviorsTestApplication/Views/Pages/HideAttachedFlyoutBehaviorView.axaml))
   *Hides a flyout that is attached to a control when a condition is met.*
 
-- **HideOnKeyPressedBehavior**  
+- **HideOnKeyPressedBehavior** ([Sample](samples/BehaviorsTestApplication/Views/Pages/HideOnKeyPressedBehaviorView.axaml))
   *Hides the target control when a specified key is pressed.*
 
-- **HideOnLostFocusBehavior**
+- **HideOnLostFocusBehavior** ([Sample](samples/BehaviorsTestApplication/Views/Pages/HideOnLostFocusBehaviorView.axaml))
   *Hides the target control when it loses focus.*
 
-- **InlineEditBehavior**
+- **InlineEditBehavior** ([Sample](samples/BehaviorsTestApplication/Views/Pages/EditableDraggableListBoxView.axaml))
   *Toggles display and edit controls to enable in-place text editing.*
 
-- **ShowPointerPositionBehavior**
+- **ShowPointerPositionBehavior** ([Sample](samples/BehaviorsTestApplication/Views/Pages/CustomActionView.axaml))
   *Displays the current pointer position (x, y coordinates) in a TextBlock for debugging or UI feedback.*
 
-- **SetCursorBehavior**
+- **SetCursorBehavior** ([Sample](samples/BehaviorsTestApplication/Views/Pages/CursorView.axaml))
   *Applies a custom cursor to the associated control.*
 
-- **PointerOverCursorBehavior**
+- **PointerOverCursorBehavior** ([Sample](samples/BehaviorsTestApplication/Views/Pages/CursorView.axaml))
   *Changes the cursor while the pointer is over the control and resets it on exit.*
 
-- **SetCursorFromProviderBehavior**
+- **SetCursorFromProviderBehavior** ([Sample](samples/BehaviorsTestApplication/Views/Pages/DrawnCursorView.axaml))
   *Uses an `ICursorProvider` implementation to supply the cursor for the associated control.*
 
-- **SizeChangedTrigger**
+- **SizeChangedTrigger** ([Sample](samples/BehaviorsTestApplication/Views/Pages/SizeChangedTriggerView.axaml))
   *Triggers actions when the associated control's size changes.*
 
 ### Converters
-- **PointerEventArgsConverter**  
+- **PointerEventArgsConverter** ([Sample](samples/BehaviorsTestApplication/Views/Pages/PointerTriggersView.axaml))
   *Converts pointer event arguments into a tuple (x, y) representing the pointer’s location.*
 
 ### Core (General Infrastructure)
-- **ActualThemeVariantChangedBehavior**  
+- **ActualThemeVariantChangedBehavior** (No sample available.)
   *A base class for behaviors that react to theme variant changes (e.g. switching from light to dark mode).*
 
-- **ActualThemeVariantChangedTrigger**
+- **ActualThemeVariantChangedTrigger** ([Sample](samples/BehaviorsTestApplication/Views/Pages/ActualThemeVariantChangedTriggerView.axaml))
   *Triggers actions when the actual theme variant of a control changes.*
-- **ThemeVariantBehavior**
+- **ThemeVariantBehavior** ([Sample](samples/BehaviorsTestApplication/Views/Pages/ThemeVariantView.axaml))
   *Applies a specific theme variant to the associated control.*
-- **ThemeVariantTrigger**
+- **ThemeVariantTrigger** ([Sample](samples/BehaviorsTestApplication/Views/Pages/ThemeVariantTriggerView.axaml))
   *Triggers actions when the theme variant of a control changes.*
-- **SetThemeVariantAction**
+- **SetThemeVariantAction** ([Sample](samples/BehaviorsTestApplication/Views/Pages/ThemeVariantView.axaml))
   *Sets the requested theme variant on a target control.*
 
-- **AttachedToLogicalTreeBehavior**  
+- **AttachedToLogicalTreeBehavior** (No sample available.)
   *A base class for behaviors that require notification when the associated object is added to the logical tree.*
 
-- **AttachedToLogicalTreeTrigger**  
+- **AttachedToLogicalTreeTrigger** (No sample available.)
   *Triggers actions when an element is attached to the logical tree.*
 
-- **AttachedToVisualTreeBehavior**  
+- **AttachedToVisualTreeBehavior** ([Sample](samples/BehaviorsTestApplication/Views/Pages/FocusOnAttachedToVisualTreeBehaviorView.axaml))
   *A base class for behaviors that depend on the control being attached to the visual tree.*
 
-- **AttachedToVisualTreeTrigger**  
+- **AttachedToVisualTreeTrigger** (No sample available.)
   *Triggers actions when the associated element is added to the visual tree.*
 
-- **BindingBehavior**  
+- **BindingBehavior** (No sample available.)
   *Establishes a binding on a target property using an Avalonia binding.*
 
-- **BindingTriggerBehavior**  
+- **BindingTriggerBehavior** ([Sample](samples/BehaviorsTestApplication/Views/Pages/BindingTriggerBehaviorView.axaml))
   *Monitors a binding’s value and triggers actions when a specified condition is met.*
 
-- **CallMethodAction**  
+- **CallMethodAction** ([Sample](samples/BehaviorsTestApplication/Views/Pages/CallMethodActionView.axaml))
   *Invokes a method on a target object when the action is executed.*
 
-- **ChangePropertyAction**
+- **ChangePropertyAction** ([Sample](samples/BehaviorsTestApplication/Views/Pages/ChangePropertyActionView.axaml))
   *Changes a property on a target object to a new value using type conversion if needed.*
-- **LaunchUriOrFileAction**
+- **LaunchUriOrFileAction** ([Sample](samples/BehaviorsTestApplication/Views/Pages/LaunchUriOrFileActionView.axaml))
   *Opens a URI or file using the default associated application.*
 
-- **DataContextChangedBehavior**  
+- **DataContextChangedBehavior** (No sample available.)
   *A base class for behaviors that react to changes in the DataContext.*
 
-- **DataContextChangedTrigger**  
+- **DataContextChangedTrigger** (No sample available.)
   *Triggers actions when the DataContext of a control changes.*
 
-- **DataTriggerBehavior**
+- **DataTriggerBehavior** ([Sample](samples/BehaviorsTestApplication/Views/Pages/DataTriggerBehaviorView.axaml))
   *Evaluates a data binding against a given condition and triggers actions when the condition is true.*
-- **DataTrigger**
+- **DataTrigger** ([Sample](samples/BehaviorsTestApplication/Views/Pages/DataTriggerBehaviorView.axaml))
   *Performs actions when the bound data meets a specified condition.*
-- **PropertyChangedTrigger**
+- **PropertyChangedTrigger** ([Sample](samples/BehaviorsTestApplication/Views/Pages/PropertyChangedTriggerView.axaml))
   *Triggers actions when a property value changes.*
-- **ViewModelPropertyChangedTrigger**
+- **ViewModelPropertyChangedTrigger** ([Sample](samples/BehaviorsTestApplication/Views/Pages/ViewModelPropertyActionsView.axaml))
   *Invokes actions when a DataContext property changes.*
 
-- **DetachedFromLogicalTreeTrigger**
+- **DetachedFromLogicalTreeTrigger** (No sample available.)
   *Triggers actions when the control is removed from the logical tree.*
 
-- **DetachedFromVisualTreeTrigger**  
+- **DetachedFromVisualTreeTrigger** (No sample available.)
   *Triggers actions when the control is removed from the visual tree.*
 
-- **DisposingBehavior**  
+- **DisposingBehavior** (No sample available.)
   *A base class for behaviors that manage disposable resources automatically.*
 
-- **DisposingTrigger**
+- **DisposingTrigger** (No sample available.)
   *A base class for triggers that need to dispose of resources when detached.*
-- **DisposableAction**
+- **DisposableAction** (No sample available.)
   *Executes a delegate when the object is disposed.*
 
-- **EventTriggerBehavior**
+- **EventTriggerBehavior** ([Sample](samples/BehaviorsTestApplication/Views/Pages/EventTriggerBehaviorView.axaml))
   *Listens for a specified event on the associated object and triggers actions accordingly.*
-- **EventTrigger**
+- **EventTrigger** ([Sample](samples/BehaviorsTestApplication/Views/Pages/RoutedEventTriggerBehaviorView.axaml))
   *Executes its actions when the configured event is raised.*
-- **TimerTrigger**
+- **TimerTrigger** ([Sample](samples/BehaviorsTestApplication/Views/Pages/TimerTriggerView.axaml))
   *Invokes actions repeatedly after a set interval.*
 
-- **InitializedBehavior**  
+- **InitializedBehavior** (No sample available.)
   *A base class for behaviors that execute code when the associated object is initialized.*
 
-- **InitializedTrigger**  
+- **InitializedTrigger** (No sample available.)
   *Triggers actions once the control is initialized.*
 
-- **InvokeCommandAction**  
+- **InvokeCommandAction** ([Sample](samples/BehaviorsTestApplication/Views/Pages/InvokeCommandActionView.axaml))
   *Executes a bound ICommand when the action is invoked.*
 
-- **InvokeCommandActionBase**  
+- **InvokeCommandActionBase** (No sample available.)
   *The base class for actions that invoke commands, with support for parameter conversion.*
 
-- **LoadedBehavior**
+- **LoadedBehavior** (No sample available.)
   *A base class for behaviors that run when a control is loaded into the visual tree.*
-- **SetViewModelPropertyOnLoadBehavior**
+- **SetViewModelPropertyOnLoadBehavior** ([Sample](samples/BehaviorsTestApplication/Views/Pages/ViewModelPropertyActionsView.axaml))
   *Sets a view model property when the associated control is loaded.*
 
-- **LoadedTrigger**  
+- **LoadedTrigger** (No sample available.)
   *Triggers actions when the control’s Loaded event fires.*
-- **DelayedLoadBehavior**
+- **DelayedLoadBehavior** ([Sample](samples/BehaviorsTestApplication/Views/Pages/DelayedLoadBehaviorView.axaml))
   *Hides the control then shows it after a specified delay when attached to the visual tree.*
-- **DelayedLoadTrigger**
+- **DelayedLoadTrigger** ([Sample](samples/BehaviorsTestApplication/Views/Pages/DelayedLoadTriggerView.axaml))
   *Invokes actions after the control is loaded and a delay period expires.*
 
-- **ResourcesChangedBehavior**  
+- **ResourcesChangedBehavior** (No sample available.)
   *A base class for behaviors that respond when a control’s resources change.*
 
-- **ResourcesChangedTrigger**  
+- **ResourcesChangedTrigger** (No sample available.)
   *Triggers actions when the control’s resources are modified.*
 
-- **RoutedEventTriggerBase**  
+- **RoutedEventTriggerBase** (No sample available.)
   *A base class for triggers that listen for a routed event and execute actions.*
 
-- **RoutedEventTriggerBase<T>**
+- **RoutedEventTriggerBase<T>** (No sample available.)
   *Generic version of RoutedEventTriggerBase for strongly typed routed event args.*
 
-- **RoutedEventTriggerBehavior**  
+- **RoutedEventTriggerBehavior** ([Sample](samples/BehaviorsTestApplication/Views/Pages/RoutedEventTriggerBehaviorView.axaml))
   *Listens for a routed event on the associated object and triggers its actions.*
 
-- **UnloadedTrigger**  
+- **UnloadedTrigger** (No sample available.)
   *Triggers actions when the control is unloaded from the visual tree.*
 
-- **ValueChangedTriggerBehavior**
+- **ValueChangedTriggerBehavior** ([Sample](samples/BehaviorsTestApplication/Views/Pages/ValueChangedTriggerBehaviorView.axaml))
   *Triggers actions when the value of a bound property changes.*
 
-- **IfElseTrigger**
+- **IfElseTrigger** ([Sample](samples/BehaviorsTestApplication/Views/Pages/IfElseTriggerView.axaml))
   *Executes one collection of actions when a condition is true and another when it is false.*
 
 ### DragAndDrop
-- **ContextDragBehavior**
+- **ContextDragBehavior** ([Sample](samples/BehaviorsTestApplication/Views/Pages/EditableDraggableListBoxView.axaml))
   *Enables drag operations using a “context” (data payload) that is carried during the drag–drop operation.*
 
-- **ContextDragWithDirectionBehavior**
+- **ContextDragWithDirectionBehavior** ([Sample](samples/BehaviorsTestApplication/Views/Pages/EditableDragTreeViewView.axaml))
   *Starts a drag operation and includes the drag direction in the data object.*
 
-- **ContextDropBehavior**  
+- **ContextDropBehavior** ([Sample](samples/BehaviorsTestApplication/Views/Pages/TypedDragBehaviorView.axaml))
   *Handles drop events and passes context data between the drag source and drop target.*
 
-- **DropHandlerBase**  
+- **DropHandlerBase** (No sample available.)
   *Provides common helper methods (move, swap, insert) for implementing custom drop logic.*
 
-- **IDragHandler**  
+- **IDragHandler** (No sample available.)
   *Interface for classes that handle additional logic before and after a drag–drop operation.*
 
-- **IDropHandler**
+- **IDropHandler** (No sample available.)
   *Interface for classes that implement validation and handling of drop operations.*
 
-- **DropBehaviorBase**
+- **DropBehaviorBase** (No sample available.)
   *Base class for behaviors that handle drag-and-drop events and execute commands.*
 
-- **ContextDragBehaviorBase**
+- **ContextDragBehaviorBase** (No sample available.)
   *Base class for context drag behaviors that initiate a drag using context data.*
 
-- **ContextDropBehaviorBase**
+- **ContextDropBehaviorBase** (No sample available.)
   *Base class for context drop behaviors handling dropped context data.*
 
-- **DragAndDropEventsBehavior**
+- **DragAndDropEventsBehavior** (No sample available.)
   *Abstract behavior used to attach handlers for drag-and-drop events.*
 
-- **FilesDropBehavior**
+- **FilesDropBehavior** ([Sample](samples/BehaviorsTestApplication/Views/Pages/ContentControlFilesDropBehaviorView.axaml))
   *Executes a command with a collection of dropped files.*
-- **ContentControlFilesDropBehavior**
+- **ContentControlFilesDropBehavior** ([Sample](samples/BehaviorsTestApplication/Views/Pages/ContentControlFilesDropBehaviorView.axaml))
   *Executes a command with dropped files on a ContentControl.*
 
-- **TextDropBehavior**
+- **TextDropBehavior** ([Sample](samples/BehaviorsTestApplication/Views/Pages/FileDropHandlerView.axaml))
   *Executes a command with dropped text.*
 
-- **TypedDragBehaviorBase**
+- **TypedDragBehaviorBase** (No sample available.)
   *Base class for drag behaviors working with a specific data type.*
 
-- **TypedDragBehavior**
+- **TypedDragBehavior** ([Sample](samples/BehaviorsTestApplication/Views/Pages/TypedDragBehaviorView.axaml))
   *Provides drag behavior for items of a specified data type.*
-- **PanelDragBehavior**
+- **PanelDragBehavior** ([Sample](samples/BehaviorsTestApplication/Views/Pages/DragBetweenPanelsView.axaml))
   *Starts drag operations using the dragged control as context so it can be moved between panels.*
-- **PanelDropBehavior**
+- **PanelDropBehavior** ([Sample](samples/BehaviorsTestApplication/Views/Pages/DragBetweenPanelsView.axaml))
   *Accepts dragged controls and inserts them into the target panel.*
 
 ### Draggable
-- **CanvasDragBehavior**  
+- **CanvasDragBehavior** (No sample available.)
   *Enables a control to be dragged within a Canvas by updating its RenderTransform based on pointer movements.*
 
-- **GridDragBehavior**  
+- **GridDragBehavior** ([Sample](samples/BehaviorsTestApplication/Views/Pages/DraggableView.axaml))
   *Allows grid cells (or items) to be swapped or repositioned by dragging within a Grid layout.*
 
-- **ItemDragBehavior**
+- **ItemDragBehavior** (No sample available.)
   *Enables reordering of items in an ItemsControl by dragging and dropping items.*
-- **MouseDragElementBehavior**
+- **MouseDragElementBehavior** ([Sample](samples/BehaviorsTestApplication/Views/Pages/MouseDragBehaviorView.axaml))
   *Allows an element to be dragged using the mouse.*
-- **MultiMouseDragElementBehavior**
+- **MultiMouseDragElementBehavior** ([Sample](samples/BehaviorsTestApplication/Views/Pages/MouseDragBehaviorView.axaml))
   *Supports dragging multiple elements simultaneously with the mouse.*
 
-- **SelectionAdorner**
+- **SelectionAdorner** (No sample available.)
   *A visual adorner used to indicate selection or to show drag outlines during drag–drop operations.*
 
 ### Events
-- **InteractiveBehaviorBase**
+- **InteractiveBehaviorBase** (No sample available.)
   *Base class for behaviors that listen to UI events, providing common functionality for event triggers.*
-- **InteractionTriggerBehavior**
+- **InteractionTriggerBehavior** ([Sample](samples/BehaviorsTestApplication/Views/ReactiveUI/InteractionTriggerBehaviorView.axaml))
   *Base behavior for creating custom event-based triggers.*
 
-- **DoubleTappedEventBehavior**  
+- **DoubleTappedEventBehavior** (No sample available.)
   *Listens for double-tap events and triggers its actions when detected.*
 
-- **GotFocusEventBehavior**  
+- **GotFocusEventBehavior** (No sample available.)
   *Executes actions when the associated control receives focus.*
 
-- **KeyDownEventBehavior**  
+- **KeyDownEventBehavior** (No sample available.)
   *Monitors key down events and triggers actions when the specified key is pressed.*
 
-- **KeyUpEventBehavior**  
+- **KeyUpEventBehavior** (No sample available.)
   *Monitors key up events and triggers actions when the specified key is released.*
 
-- **LostFocusEventBehavior**  
+- **LostFocusEventBehavior** (No sample available.)
   *Triggers actions when the control loses focus.*
 
-- **PointerCaptureLostEventBehavior**  
+- **PointerCaptureLostEventBehavior** (No sample available.)
   *Listens for events when pointer capture is lost and triggers associated actions.*
 
-- **PointerEnteredEventBehavior**  
+- **PointerEnteredEventBehavior** (No sample available.)
   *Triggers actions when the pointer enters the bounds of a control.*
 
-- **PointerEventsBehavior**  
+- **PointerEventsBehavior** (No sample available.)
   *A base class that simplifies handling of pointer events (pressed, moved, released).*
 
-- **PointerExitedEventBehavior**  
+- **PointerExitedEventBehavior** (No sample available.)
   *Triggers actions when the pointer exits a control.*
 
-- **PointerMovedEventBehavior**  
+- **PointerMovedEventBehavior** (No sample available.)
   *Triggers actions when the pointer moves over a control.*
 
-- **PointerPressedEventBehavior**  
+- **PointerPressedEventBehavior** (No sample available.)
   *Triggers actions on pointer press events.*
 
-- **PointerReleasedEventBehavior**  
+- **PointerReleasedEventBehavior** (No sample available.)
   *Triggers actions on pointer release events.*
 
-- **PointerWheelChangedEventBehavior**  
+- **PointerWheelChangedEventBehavior** (No sample available.)
   *Triggers actions when the pointer wheel (scroll) changes.*
 
-- **RightTappedEventBehavior**  
+- **RightTappedEventBehavior** (No sample available.)
   *Triggers actions when the control is right-tapped.*
 
-- **ScrollGestureEndedEventBehavior**  
+- **ScrollGestureEndedEventBehavior** (No sample available.)
   *Triggers actions when a scroll gesture ends.*
 
-- **ScrollGestureEventBehavior**  
+- **ScrollGestureEventBehavior** (No sample available.)
   *Monitors scroll gestures and triggers actions when they occur.*
 
-- **TappedEventBehavior**  
+- **TappedEventBehavior** (No sample available.)
   *Triggers actions on simple tap events.*
 
-- **TextInputEventBehavior**  
+- **TextInputEventBehavior** (No sample available.)
   *Listens for text input events and triggers actions accordingly.*
 
-- **TextInputMethodClientRequestedEventBehavior**
+- **TextInputMethodClientRequestedEventBehavior** (No sample available.)
   *Triggers actions when a text input method client is requested (for virtual keyboards, etc.).*
 
 ### Event Triggers
-- **DoubleTappedEventTrigger**
+- **DoubleTappedEventTrigger** ([Sample](samples/BehaviorsTestApplication/Views/Pages/GestureEventTriggersView.axaml))
   *Triggers actions when a double-tap gesture occurs.*
-- **GotFocusEventTrigger**
+- **GotFocusEventTrigger** ([Sample](samples/BehaviorsTestApplication/Views/Pages/FocusEventTriggersView.axaml))
   *Triggers actions when the control receives focus.*
-- **KeyDownEventTrigger**
+- **KeyDownEventTrigger** ([Sample](samples/BehaviorsTestApplication/Views/Pages/KeyEventTriggersView.axaml))
   *Triggers actions when a key is pressed.*
-- **KeyUpEventTrigger**
+- **KeyUpEventTrigger** ([Sample](samples/BehaviorsTestApplication/Views/Pages/KeyEventTriggersView.axaml))
   *Triggers actions when a key is released.*
-- **LostFocusEventTrigger**
+- **LostFocusEventTrigger** ([Sample](samples/BehaviorsTestApplication/Views/Pages/FocusEventTriggersView.axaml))
   *Triggers actions when the control loses focus.*
-- **PointerCaptureLostEventTrigger**
+- **PointerCaptureLostEventTrigger** ([Sample](samples/BehaviorsTestApplication/Views/Pages/PointerEventTriggersView.axaml))
   *Triggers actions when pointer capture is lost.*
-- **PointerEnteredEventTrigger**
+- **PointerEnteredEventTrigger** ([Sample](samples/BehaviorsTestApplication/Views/Pages/PointerEventTriggersView.axaml))
   *Triggers actions when the pointer enters the control.*
-- **PointerEventsTrigger**
+- **PointerEventsTrigger** (No sample available.)
   *Triggers actions for pointer press, move, and release events.*
-- **PointerExitedEventTrigger**
+- **PointerExitedEventTrigger** ([Sample](samples/BehaviorsTestApplication/Views/Pages/PointerEventTriggersView.axaml))
   *Triggers actions when the pointer exits the control.*
-- **PointerMovedEventTrigger**
+- **PointerMovedEventTrigger** ([Sample](samples/BehaviorsTestApplication/Views/Pages/PointerEventTriggersView.axaml))
   *Triggers actions when the pointer moves.*
-- **PointerPressedEventTrigger**
+- **PointerPressedEventTrigger** ([Sample](samples/BehaviorsTestApplication/Views/Pages/EventsBehaviorsView.axaml))
   *Triggers actions when the pointer is pressed.*
-- **PointerReleasedEventTrigger**
+- **PointerReleasedEventTrigger** ([Sample](samples/BehaviorsTestApplication/Views/Pages/PointerEventTriggersView.axaml))
   *Triggers actions when the pointer is released.*
-- **PointerWheelChangedEventTrigger**
+- **PointerWheelChangedEventTrigger** ([Sample](samples/BehaviorsTestApplication/Views/Pages/PointerEventTriggersView.axaml))
   *Triggers actions when the pointer wheel changes.*
-- **RightTappedEventTrigger**
+- **RightTappedEventTrigger** ([Sample](samples/BehaviorsTestApplication/Views/Pages/GestureEventTriggersView.axaml))
   *Triggers actions on a right-tap gesture.*
-- **ScrollGestureEndedEventTrigger**
+- **ScrollGestureEndedEventTrigger** ([Sample](samples/BehaviorsTestApplication/Views/Pages/GestureEventTriggersView.axaml))
   *Triggers actions when a scroll gesture ends.*
-- **ScrollGestureEventTrigger**
+- **ScrollGestureEventTrigger** ([Sample](samples/BehaviorsTestApplication/Views/Pages/GestureEventTriggersView.axaml))
   *Triggers actions during a scroll gesture.*
-- **TappedEventTrigger**
+- **TappedEventTrigger** ([Sample](samples/BehaviorsTestApplication/Views/Pages/GestureEventTriggersView.axaml))
   *Triggers actions when the control is tapped.*
-- **TextInputEventTrigger**
+- **TextInputEventTrigger** ([Sample](samples/BehaviorsTestApplication/Views/Pages/KeyEventTriggersView.axaml))
   *Triggers actions on text input events.*
-- **TextInputMethodClientRequestedEventTrigger**
+- **TextInputMethodClientRequestedEventTrigger** ([Sample](samples/BehaviorsTestApplication/Views/Pages/KeyEventTriggersView.axaml))
   *Triggers actions when a text input method client is requested.*
-- **PopupOpenedTrigger**
+- **PopupOpenedTrigger** ([Sample](samples/BehaviorsTestApplication/Views/Pages/PopupEventTriggersView.axaml))
   *Triggers actions when a popup is opened.*
-- **PopupClosedTrigger**
+- **PopupClosedTrigger** ([Sample](samples/BehaviorsTestApplication/Views/Pages/PopupEventTriggersView.axaml))
   *Triggers actions when a popup is closed.*
-- **DragEnterEventTrigger**
+- **DragEnterEventTrigger** ([Sample](samples/BehaviorsTestApplication/Views/Pages/DragBetweenPanelsView.axaml))
   *Triggers actions when a drag operation enters the element.*
-- **DragLeaveEventTrigger**
+- **DragLeaveEventTrigger** (No sample available.)
   *Triggers actions when a drag operation leaves the element.*
-- **DragOverEventTrigger**
+- **DragOverEventTrigger** ([Sample](samples/BehaviorsTestApplication/Views/Pages/FilesPreviewView.axaml))
   *Triggers actions while a drag is over the element.*
-- **DropEventTrigger**
+- **DropEventTrigger** ([Sample](samples/BehaviorsTestApplication/Views/Pages/DragBetweenPanelsView.axaml))
   *Triggers actions when an item is dropped on the element.*
 
 ### ExecuteCommand Core
-- **ExecuteCommandBehaviorBase**  
+- **ExecuteCommandBehaviorBase** (No sample available.)
   *Provides the core functionality for executing a command from within a behavior.*
 
-- **ExecuteCommandOnKeyBehaviorBase**  
+- **ExecuteCommandOnKeyBehaviorBase** (No sample available.)
   *A base class for command behaviors triggered by key events.*
 
-- **ExecuteCommandRoutedEventBehaviorBase**  
+- **ExecuteCommandRoutedEventBehaviorBase** (No sample available.)
   *A base class for command behaviors that respond to routed events.*
 
 ### ExecuteCommand
-- **ExecuteCommandOnActivatedBehavior**  
+- **ExecuteCommandOnActivatedBehavior** (No sample available.)
   *Executes a command when the main window (or target window) is activated.*
 
-- **ExecuteCommandOnDoubleTappedBehavior**  
+- **ExecuteCommandOnDoubleTappedBehavior** ([Sample](samples/BehaviorsTestApplication/Views/Pages/ExecuteCommandBehaviorsView.axaml))
   *Executes a command when the associated control is double-tapped.*
 
-- **ExecuteCommandOnGotFocusBehavior**  
+- **ExecuteCommandOnGotFocusBehavior** (No sample available.)
   *Executes a command when the control gains focus.*
 
-- **ExecuteCommandOnHoldingBehavior**  
+- **ExecuteCommandOnHoldingBehavior** (No sample available.)
   *Executes a command when a holding (long press) gesture is detected.*
 
-- **ExecuteCommandOnKeyDownBehavior**  
+- **ExecuteCommandOnKeyDownBehavior** ([Sample](samples/BehaviorsTestApplication/Views/Pages/ExecuteCommandBehaviorsView.axaml))
   *Executes a command in response to a key down event matching a specified key or gesture.*
 
-- **ExecuteCommandOnKeyUpBehavior**  
+- **ExecuteCommandOnKeyUpBehavior** (No sample available.)
   *Executes a command in response to a key up event matching a specified key or gesture.*
 
-- **ExecuteCommandOnLostFocusBehavior**  
+- **ExecuteCommandOnLostFocusBehavior** (No sample available.)
   *Executes a command when the control loses focus.*
 
-- **ExecuteCommandOnPinchBehavior**  
+- **ExecuteCommandOnPinchBehavior** (No sample available.)
   *Executes a command when a pinch gesture is in progress.*
 
-- **ExecuteCommandOnPinchEndedBehavior**  
+- **ExecuteCommandOnPinchEndedBehavior** (No sample available.)
   *Executes a command when a pinch gesture ends.*
 
-- **ExecuteCommandOnPointerCaptureLostBehavior**  
+- **ExecuteCommandOnPointerCaptureLostBehavior** (No sample available.)
   *Executes a command when pointer capture is lost from the control.*
 
-- **ExecuteCommandOnPointerEnteredBehavior**  
+- **ExecuteCommandOnPointerEnteredBehavior** ([Sample](samples/BehaviorsTestApplication/Views/Pages/ExecuteCommandBehaviorsView.axaml))
   *Executes a command when the pointer enters the control’s area.*
 
-- **ExecuteCommandOnPointerExitedBehavior**  
+- **ExecuteCommandOnPointerExitedBehavior** (No sample available.)
   *Executes a command when the pointer exits the control’s area.*
 
-- **ExecuteCommandOnPointerMovedBehavior**  
+- **ExecuteCommandOnPointerMovedBehavior** (No sample available.)
   *Executes a command when the pointer moves over the control.*
 
-- **ExecuteCommandOnPointerPressedBehavior**  
+- **ExecuteCommandOnPointerPressedBehavior** ([Sample](samples/BehaviorsTestApplication/Views/Pages/ExecuteCommandBehaviorsView.axaml))
   *Executes a command when the pointer is pressed on the control.*
 
-- **ExecuteCommandOnPointerReleasedBehavior**  
+- **ExecuteCommandOnPointerReleasedBehavior** (No sample available.)
   *Executes a command when the pointer is released over the control.*
 
-- **ExecuteCommandOnPointerTouchPadGestureMagnifyBehavior**  
+- **ExecuteCommandOnPointerTouchPadGestureMagnifyBehavior** (No sample available.)
   *Executes a command during a touchpad magnify gesture.*
 
-- **ExecuteCommandOnPointerTouchPadGestureRotateBehavior**  
+- **ExecuteCommandOnPointerTouchPadGestureRotateBehavior** (No sample available.)
   *Executes a command during a touchpad rotation gesture.*
 
-- **ExecuteCommandOnPointerTouchPadGestureSwipeBehavior**  
+- **ExecuteCommandOnPointerTouchPadGestureSwipeBehavior** (No sample available.)
   *Executes a command during a touchpad swipe gesture.*
 
-- **ExecuteCommandOnPointerWheelChangedBehavior**  
+- **ExecuteCommandOnPointerWheelChangedBehavior** (No sample available.)
   *Executes a command when the pointer wheel delta changes.*
 
-- **ExecuteCommandOnPullGestureBehavior**  
+- **ExecuteCommandOnPullGestureBehavior** (No sample available.)
   *Executes a command when a pull gesture is detected.*
 
-- **ExecuteCommandOnPullGestureEndedBehavior**  
+- **ExecuteCommandOnPullGestureEndedBehavior** (No sample available.)
   *Executes a command when a pull gesture ends.*
 
-- **ExecuteCommandOnRightTappedBehavior**  
+- **ExecuteCommandOnRightTappedBehavior** (No sample available.)
   *Executes a command when the control is right-tapped.*
 
-- **ExecuteCommandOnScrollGestureBehavior**  
+- **ExecuteCommandOnScrollGestureBehavior** (No sample available.)
   *Executes a command during a scroll gesture.*
 
-- **ExecuteCommandOnScrollGestureEndedBehavior**  
+- **ExecuteCommandOnScrollGestureEndedBehavior** (No sample available.)
   *Executes a command when a scroll gesture ends.*
 
-- **ExecuteCommandOnScrollGestureInertiaStartingBehavior**  
+- **ExecuteCommandOnScrollGestureInertiaStartingBehavior** (No sample available.)
   *Executes a command when the inertia phase of a scroll gesture starts.*
 
-- **ExecuteCommandOnTappedBehavior**  
+- **ExecuteCommandOnTappedBehavior** (No sample available.)
   *Executes a command when a tap event occurs.*
 
-- **ExecuteCommandOnTextInputBehavior**  
+- **ExecuteCommandOnTextInputBehavior** (No sample available.)
   *Executes a command in response to text input events.*
 
-- **ExecuteCommandOnTextInputMethodClientRequestedBehavior**  
+- **ExecuteCommandOnTextInputMethodClientRequestedBehavior** (No sample available.)
   *Executes a command when text input method (virtual keyboard) is requested.*
 
-- **InvokeCommandBehaviorBase**
+- **InvokeCommandBehaviorBase** (No sample available.)
   *The base class that supports converting parameters and invoking a bound command.*
 
 ### FileUpload
-- **ButtonUploadFileBehavior**
+- **ButtonUploadFileBehavior** (No sample available.)
   *Opens a file dialog and uploads the selected file when the button is clicked.*
-- **UploadFileBehaviorBase**
+- **UploadFileBehaviorBase** (No sample available.)
   *Base behavior for uploading a file to a specified URL.*
-- **UploadFileAction**
+- **UploadFileAction** ([Sample](samples/BehaviorsTestApplication/Views/Pages/UploadFileView.axaml))
   *Uploads a file asynchronously and invokes a command when finished.*
-- **UploadCompletedTrigger**
+- **UploadCompletedTrigger** ([Sample](samples/BehaviorsTestApplication/Views/Pages/UploadFileView.axaml))
   *Invokes actions when an upload is marked complete.*
 
 ### Focus
-- **AutoFocusBehavior**
+- **AutoFocusBehavior** ([Sample](samples/BehaviorsTestApplication/Views/Pages/AutoFocusBehaviorView.axaml))
   *Automatically sets the focus on the associated control when it is loaded.*
-- **FocusBehavior**
+- **FocusBehavior** ([Sample](samples/BehaviorsTestApplication/Views/Pages/HideOnLostFocusBehaviorView.axaml))
   *Exposes a two‑way bindable IsFocused property to control focus state.*
 
-- **FocusBehaviorBase**  
+- **FocusBehaviorBase** (No sample available.)
   *Provides a base implementation for focus behaviors, including support for navigation methods and key modifiers.*
 
-- **FocusControlBehavior**  
+- **FocusControlBehavior** ([Sample](samples/BehaviorsTestApplication/Views/Pages/FocusControlBehaviorView.axaml))
   *Forces focus onto a specified control when triggered.*
 
-- **FocusOnAttachedBehavior**  
+- **FocusOnAttachedBehavior** ([Sample](samples/BehaviorsTestApplication/Views/Pages/FocusOnAttachedBehaviorView.axaml))
   *Immediately focuses the control when the behavior is attached.*
 
-- **FocusOnAttachedToVisualTreeBehavior**  
+- **FocusOnAttachedToVisualTreeBehavior** ([Sample](samples/BehaviorsTestApplication/Views/Pages/FocusOnAttachedToVisualTreeBehaviorView.axaml))
   *Focuses the control as soon as it is attached to the visual tree.*
 
-- **FocusOnPointerMovedBehavior**  
+- **FocusOnPointerMovedBehavior** ([Sample](samples/BehaviorsTestApplication/Views/Pages/FocusOnPointerMovedBehaviorView.axaml))
   *Sets focus on the control when pointer movement is detected.*
 
-- **FocusOnPointerPressedBehavior**  
+- **FocusOnPointerPressedBehavior** ([Sample](samples/BehaviorsTestApplication/Views/Pages/FocusOnPointerPressedBehaviorView.axaml))
   *Focuses the control when a pointer press event occurs.*
 
-- **FocusSelectedItemBehavior**  
+- **FocusSelectedItemBehavior** ([Sample](samples/BehaviorsTestApplication/Views/Pages/FocusSelectedItemBehaviorView.axaml))
   *Focuses the currently selected item in an ItemsControl.*
 
 ### Gestures
-- **DoubleTappedGestureTrigger**  
+- **DoubleTappedGestureTrigger** (No sample available.)
   *Triggers actions when a double-tap gesture is detected.*
 
-- **HoldingGestureTrigger**  
+- **HoldingGestureTrigger** (No sample available.)
   *Triggers actions when a holding (long press) gesture is detected.*
 
-- **PinchEndedGestureTrigger**  
+- **PinchEndedGestureTrigger** (No sample available.)
   *Triggers actions when a pinch gesture has ended.*
 
-- **PinchGestureTrigger**  
+- **PinchGestureTrigger** (No sample available.)
   *Triggers actions during a pinch gesture.*
 
-- **PointerTouchPadGestureMagnifyGestureTrigger**  
+- **PointerTouchPadGestureMagnifyGestureTrigger** (No sample available.)
   *Triggers actions during a touchpad magnification gesture.*
 
-- **PointerTouchPadGestureRotateGestureTrigger**  
+- **PointerTouchPadGestureRotateGestureTrigger** (No sample available.)
   *Triggers actions during a touchpad rotation gesture.*
 
-- **PointerTouchPadGestureSwipeGestureTrigger**  
+- **PointerTouchPadGestureSwipeGestureTrigger** (No sample available.)
   *Triggers actions during a touchpad swipe gesture.*
 
-- **PullGestureEndedGestureTrigger**  
+- **PullGestureEndedGestureTrigger** (No sample available.)
   *Triggers actions when a pull gesture ends.*
 
-- **PullGestureGestureTrigger**  
+- **PullGestureGestureTrigger** (No sample available.)
   *Triggers actions during a pull gesture.*
 
-- **RightTappedGestureTrigger**  
+- **RightTappedGestureTrigger** (No sample available.)
   *Triggers actions on a right-tap gesture.*
 
-- **ScrollGestureEndedGestureTrigger**  
+- **ScrollGestureEndedGestureTrigger** (No sample available.)
   *Triggers actions when a scroll gesture completes.*
 
-- **ScrollGestureGestureTrigger**  
+- **ScrollGestureGestureTrigger** (No sample available.)
   *Triggers actions during a scroll gesture.*
 
-- **ScrollGestureInertiaStartingGestureTrigger**  
+- **ScrollGestureInertiaStartingGestureTrigger** (No sample available.)
   *Triggers actions when the inertia phase of a scroll gesture begins.*
 
-- **TappedGestureTrigger**
+- **TappedGestureTrigger** (No sample available.)
   *Triggers actions on a simple tap gesture.*
 
 ### Icon
-- **PathIconDataBehavior**
+- **PathIconDataBehavior** ([Sample](samples/BehaviorsTestApplication/Views/Pages/IconView.axaml))
   *Sets the Data property of a PathIcon when attached.*
-- **SetPathIconDataAction**
+- **SetPathIconDataAction** ([Sample](samples/BehaviorsTestApplication/Views/Pages/IconView.axaml))
   *Changes the Data of a PathIcon when executed.*
-- **PathIconDataChangedTrigger**
+- **PathIconDataChangedTrigger** ([Sample](samples/BehaviorsTestApplication/Views/Pages/IconView.axaml))
   *Triggers actions when a PathIcon's Data changes.*
 
 ### InputElement Actions
-- **CapturePointerAction**  
+- **CapturePointerAction** ([Sample](samples/BehaviorsTestApplication/Views/Pages/PointerTriggersView.axaml))
   *Captures the pointer (mouse, touch) to a target control so that subsequent pointer events are routed there.*
 
-- **ReleasePointerCaptureAction**
+- **ReleasePointerCaptureAction** ([Sample](samples/BehaviorsTestApplication/Views/Pages/PointerTriggersView.axaml))
   *Releases a previously captured pointer from the control.*
 
-- **SetCursorFromProviderAction**
+- **SetCursorFromProviderAction** ([Sample](samples/BehaviorsTestApplication/Views/Pages/DrawnCursorView.axaml))
   *Sets the cursor of a control using a cursor created by an `ICursorProvider`.*
-- **SetCursorAction**
+- **SetCursorAction** ([Sample](samples/BehaviorsTestApplication/Views/Pages/DrawnCursorView.axaml))
   *Sets the cursor of a control to a predefined cursor.*
-- **SetEnabledAction**
+- **SetEnabledAction** ([Sample](samples/BehaviorsTestApplication/Views/Pages/SetEnabledActionView.axaml))
   *Enables or disables the associated control.*
-- **HideToolTipAction**
+- **HideToolTipAction** ([Sample](samples/BehaviorsTestApplication/Views/Pages/ToolTipHelpersView.axaml))
   *Hides the ToolTip of the target control.*
-- **SetToolTipTipAction**
+- **SetToolTipTipAction** ([Sample](samples/BehaviorsTestApplication/Views/Pages/ToolTipHelpersView.axaml))
   *Sets the ToolTip's tip text on the associated or target control.*
-- **ShowToolTipAction**
+- **ShowToolTipAction** ([Sample](samples/BehaviorsTestApplication/Views/Pages/ToolTipHelpersView.axaml))
   *Shows the ToolTip for the associated or target control.*
 
 ### InputElement Triggers
-- **DoubleTappedTrigger**  
+- **DoubleTappedTrigger** (No sample available.)
   *Listens for a double-tap event and executes its actions.*
 
-- **GotFocusTrigger**  
+- **GotFocusTrigger** (No sample available.)
   *Triggers actions when the control receives focus.*
 
-- **HoldingTrigger**  
+- **HoldingTrigger** (No sample available.)
   *Triggers actions when a holding gesture is detected.*
 
-- **KeyDownTrigger**
+- **KeyDownTrigger** (No sample available.)
   *Listens for key down events and triggers actions if the pressed key (or gesture) matches the specified criteria.*
-- **KeyGestureTrigger**
+- **KeyGestureTrigger** ([Sample](samples/BehaviorsTestApplication/Views/Pages/KeyGestureTriggerView.axaml))
   *Triggers actions based on a specified key gesture.*
 
-- **KeyTrigger**
+- **KeyTrigger** ([Sample](samples/BehaviorsTestApplication/Views/Pages/KeyTriggerView.axaml))
   *Listens for key down or key up events and triggers actions when the configured key or gesture occurs.*
 
-- **KeyUpTrigger**
+- **KeyUpTrigger** (No sample available.)
   *Listens for key up events and triggers actions when conditions are met.*
 
-- **LostFocusTrigger**  
+- **LostFocusTrigger** (No sample available.)
   *Triggers actions when the control loses focus.*
 
-- **PointerCaptureLostTrigger**  
+- **PointerCaptureLostTrigger** (No sample available.)
   *Triggers actions when pointer capture is lost by the control.*
 
-- **PointerEnteredTrigger**  
+- **PointerEnteredTrigger** (No sample available.)
   *Triggers actions when the pointer enters the control’s area.*
 
-- **PointerExitedTrigger**  
+- **PointerExitedTrigger** (No sample available.)
   *Triggers actions when the pointer exits the control’s area.*
 
-- **PointerMovedTrigger**  
+- **PointerMovedTrigger** ([Sample](samples/BehaviorsTestApplication/Views/Pages/PointerTriggersView.axaml))
   *Triggers actions on pointer movement over the control.*
 
-- **PointerPressedTrigger**  
+- **PointerPressedTrigger** ([Sample](samples/BehaviorsTestApplication/Views/Pages/PointerTriggersView.axaml))
   *Triggers actions when the pointer is pressed on the control.*
 
-- **PointerReleasedTrigger**  
+- **PointerReleasedTrigger** ([Sample](samples/BehaviorsTestApplication/Views/Pages/PointerTriggersView.axaml))
   *Triggers actions when the pointer is released on the control.*
 
-- **PointerWheelChangedTrigger**  
+- **PointerWheelChangedTrigger** (No sample available.)
   *Triggers actions on mouse wheel (or equivalent) changes.*
 
-- **TappedTrigger**
+- **TappedTrigger** (No sample available.)
   *Triggers actions on a tap event.*
-- **ToolTipOpeningTrigger**
+- **ToolTipOpeningTrigger** ([Sample](samples/BehaviorsTestApplication/Views/Pages/ToolTipHelpersView.axaml))
   *Triggers actions when a tooltip is about to open.*
-- **ToolTipClosingTrigger**
+- **ToolTipClosingTrigger** ([Sample](samples/BehaviorsTestApplication/Views/Pages/ToolTipHelpersView.axaml))
   *Triggers actions when a tooltip is closing.*
 
-- **TextInputMethodClientRequestedTrigger**
+- **TextInputMethodClientRequestedTrigger** (No sample available.)
   *Triggers actions when a text input method (virtual keyboard) is requested.*
 
-- **TextInputTrigger**  
+- **TextInputTrigger** (No sample available.)
   *Triggers actions on text input events.*
 
 ### WriteableBitmap
-- **IWriteableBitmapRenderer**
+- **IWriteableBitmapRenderer** (No sample available.)
   *Defines a method used to render into a WriteableBitmap so view models can supply drawing logic.*
-- **WriteableBitmapRenderBehavior**
+- **WriteableBitmapRenderBehavior** ([Sample](samples/BehaviorsTestApplication/Views/Pages/WriteableBitmapView.axaml))
   *Creates a writeable bitmap and updates it using a renderer on a timer.*
-- **WriteableBitmapRenderAction**
+- **WriteableBitmapRenderAction** (No sample available.)
   *Invokes a renderer to update a writeable bitmap.*
-- **WriteableBitmapTimerTrigger**
+- **WriteableBitmapTimerTrigger** (No sample available.)
   *Fires its actions on a timer and passes the writeable bitmap as a parameter.*
-- **WriteableBitmapBehavior**
+- **WriteableBitmapBehavior** ([Sample](samples/BehaviorsTestApplication/Views/Pages/WriteableBitmapView.axaml))
   *Creates a writeable bitmap and renders it once or on demand without animation.*
-- **WriteableBitmapTrigger**
+- **WriteableBitmapTrigger** (No sample available.)
   *Manually executes its actions with the provided writeable bitmap when triggered.*
 
 ### RenderTargetBitmap
-- **IRenderTargetBitmapRenderer**
+- **IRenderTargetBitmapRenderer** (No sample available.)
   *Defines a method used to render into a RenderTargetBitmap.*
-- **IRenderTargetBitmapSimpleRenderer**
+- **IRenderTargetBitmapSimpleRenderer** (No sample available.)
   *Provides a simple rendering method for StaticRenderTargetBitmapBehavior.*
-- **RenderRenderTargetBitmapAction**
+- **RenderRenderTargetBitmapAction** ([Sample](samples/BehaviorsTestApplication/Views/Pages/RenderTargetBitmapView.axaml))
   *Invokes IRenderTargetBitmapRenderHost.Render on the specified target.*
-- **RenderTargetBitmapBehavior**
+- **RenderTargetBitmapBehavior** ([Sample](samples/BehaviorsTestApplication/Views/Pages/RenderTargetBitmapView.axaml))
   *Creates and updates a RenderTargetBitmap via a renderer.*
-- **StaticRenderTargetBitmapBehavior**
+- **StaticRenderTargetBitmapBehavior** ([Sample](samples/BehaviorsTestApplication/Views/Pages/RenderTargetBitmapView.axaml))
   *Draws once into a RenderTargetBitmap and assigns it to the associated Image.*
-- **RenderTargetBitmapTrigger**
+- **RenderTargetBitmapTrigger** (No sample available.)
   *Triggers actions when RenderTargetBitmap rendering completes.*
 ### ItemsControl
-- **ItemNudgeDropBehavior**  
+- **ItemNudgeDropBehavior** (No sample available.)
   *Provides “nudge” effects for items in an ItemsControl during drag–drop reordering.*
 
-- **ItemsControlContainerClearingTrigger**  
+- **ItemsControlContainerClearingTrigger** (No sample available.)
   *Triggers actions when the ItemsControl clears its container(s).*
 
-- **ItemsControlContainerEventsBehavior**  
+- **ItemsControlContainerEventsBehavior** (No sample available.)
   *A base behavior that listens for container events (prepared, index changed, clearing) on an ItemsControl.*
 
-- **ItemsControlContainerIndexChangedTrigger**  
+- **ItemsControlContainerIndexChangedTrigger** (No sample available.)
   *Triggers actions when the index of an item’s container changes.*
 
-- **ItemsControlContainerPreparedTrigger**
+- **ItemsControlContainerPreparedTrigger** (No sample available.)
   *Triggers actions when a container for an item is prepared.*
 
-- **ItemsControlPreparingContainerTrigger**
+- **ItemsControlPreparingContainerTrigger** (No sample available.)
   *Executes actions when the ItemsControl raises the PreparingContainer event.*
 
-- **ScrollToItemBehavior**
+- **ScrollToItemBehavior** (No sample available.)
   *Automatically scrolls the ItemsControl to make a specified item visible.*
 
-- **ScrollToItemIndexBehavior**
+- **ScrollToItemIndexBehavior** (No sample available.)
   *Scrolls to a specific item index in the ItemsControl.*
 
-- **AddItemToItemsControlAction**
+- **AddItemToItemsControlAction** ([Sample](samples/BehaviorsTestApplication/Views/Pages/AddItemToItemsControlActionView.axaml))
   *Adds an item to an ItemsControl's collection.*
 
-- **InsertItemToItemsControlAction**
+- **InsertItemToItemsControlAction** ([Sample](samples/BehaviorsTestApplication/Views/Pages/InsertItemToItemsControlActionView.axaml))
   *Inserts an item at a specific index in an ItemsControl.*
 
-- **ClearItemsControlAction**
+- **ClearItemsControlAction** ([Sample](samples/BehaviorsTestApplication/Views/Pages/ClearItemsControlActionView.axaml))
   *Clears all items from an ItemsControl.*
 
-- **RemoveItemInItemsControlAction**
+- **RemoveItemInItemsControlAction** ([Sample](samples/BehaviorsTestApplication/Views/Pages/RemoveItemInItemsControlActionView.axaml))
   *Removes the specified item from an ItemsControl.*
 
 ### ListBox
-- **ListBoxSelectAllBehavior**
+- **ListBoxSelectAllBehavior** (No sample available.)
   *Selects all items in a ListBox when the behavior is attached.*
-- **RemoveItemInListBoxAction**
+- **RemoveItemInListBoxAction** ([Sample](samples/BehaviorsTestApplication/Views/Pages/RemoveItemInListBoxActionView.axaml))
   *Removes the specified item from a ListBox.*
 
-- **ListBoxUnselectAllBehavior**
+- **ListBoxUnselectAllBehavior** (No sample available.)
   *Clears the selection in a ListBox.*
 
 ### ListBoxItem
-- **SelectListBoxItemOnPointerMovedBehavior**
+- **SelectListBoxItemOnPointerMovedBehavior** (No sample available.)
   *Automatically selects a ListBoxItem when the pointer moves over it.*
-- **InlineEditBehavior**
+- **InlineEditBehavior** ([Sample](samples/BehaviorsTestApplication/Views/Pages/EditableDraggableListBoxView.axaml))
   *Toggles between a display element and a TextBox editor to enable inline editing (activated by double-tap or F2; ends on Enter, Escape, or losing focus).* 
 
 ### Responsive
-- **AdaptiveBehavior**
+- **AdaptiveBehavior** ([Sample](samples/BehaviorsTestApplication/Views/Pages/AdaptiveBehaviorView.axaml))
   *Observes bounds changes of a control (or a specified source) and conditionally adds or removes CSS-style classes based on adaptive rules.*
 
-- **AdaptiveClassSetter**
+- **AdaptiveClassSetter** ([Sample](samples/BehaviorsTestApplication/Views/Pages/AdaptiveBehaviorView.axaml))
   *Specifies comparison conditions (min/max width/height) and the class to apply when those conditions are met.*
 
-- **AspectRatioBehavior**
+- **AspectRatioBehavior** ([Sample](samples/BehaviorsTestApplication/Views/Pages/AspectRatioBehaviorView.axaml))
   *Observes bounds changes and toggles CSS-style classes when the control's aspect ratio matches specified rules.*
 
-- **AspectRatioClassSetter**
+- **AspectRatioClassSetter** ([Sample](samples/BehaviorsTestApplication/Views/Pages/AspectRatioBehaviorView.axaml))
   *Defines aspect ratio comparison conditions and the class to apply when those conditions are met.*
 
 ### ScrollViewer
-- **HorizontalScrollViewerBehavior**
+- **HorizontalScrollViewerBehavior** (No sample available.)
   *Enables horizontal scrolling via the pointer wheel. Optionally requires the Shift key and supports line or page scrolling.*
-- **ViewportBehavior**
+- **ViewportBehavior** ([Sample](samples/BehaviorsTestApplication/Views/Pages/ViewportBehaviorView.axaml))
   *Tracks when the associated element enters or exits a ScrollViewer's viewport.*
 
 ### Screen
-- **ActiveScreenBehavior**
+- **ActiveScreenBehavior** (No sample available.)
   *Provides the currently active screen for a window.*
-- **RequestScreenDetailsAction**
+- **RequestScreenDetailsAction** ([Sample](samples/BehaviorsTestApplication/Views/Pages/ScreenView.axaml))
   *Requests extended screen information using a Screens instance.*
-- **ScreensChangedTrigger**
+- **ScreensChangedTrigger** (No sample available.)
   *Triggers actions when the available screens change.*
 
 ### SelectingItemsControl
-- **SelectingItemsControlEventsBehavior**
+- **SelectingItemsControlEventsBehavior** (No sample available.)
   *Handles selection-changed events in controls that support item selection (like ListBox) to trigger custom actions.*
-- **SelectingItemsControlSearchBehavior**
+- **SelectingItemsControlSearchBehavior** ([Sample](samples/BehaviorsTestApplication/Views/MainView.axaml))
   *Enables searching and highlights matching items within a SelectingItemsControl.*
 
 ### Show
-- **ShowBehaviorBase**  
+- **ShowBehaviorBase** (No sample available.)
   *A base class for behaviors that “show” (make visible) a target control when a trigger condition is met.*
 
-- **ShowOnDoubleTappedBehavior**  
+- **ShowOnDoubleTappedBehavior** (No sample available.)
   *Shows a control when a double-tap gesture is detected.*
 
-- **ShowOnKeyDownBehavior**  
+- **ShowOnKeyDownBehavior** (No sample available.)
   *Shows a control when a specified key (or key gesture) is pressed.*
 
-- **ShowOnTappedBehavior**  
+- **ShowOnTappedBehavior** (No sample available.)
   *Shows the target control when it is tapped.*
 
 ### StorageProvider – Button
-- **ButtonOpenFilePickerBehavior**  
+- **ButtonOpenFilePickerBehavior** ([Sample](samples/BehaviorsTestApplication/Views/Pages/StorageProviderView.axaml))
   *Attaches to a Button to open a file picker dialog when clicked.*
 
-- **ButtonOpenFolderPickerBehavior**  
+- **ButtonOpenFolderPickerBehavior** ([Sample](samples/BehaviorsTestApplication/Views/Pages/StorageProviderView.axaml))
   *Attaches to a Button to open a folder picker dialog when clicked.*
 
-- **ButtonSaveFilePickerBehavior**  
+- **ButtonSaveFilePickerBehavior** ([Sample](samples/BehaviorsTestApplication/Views/Pages/StorageProviderView.axaml))
   *Attaches to a Button to open a save file picker dialog when clicked.*
 
 ### StorageProvider – Converters
-- **StorageFileToReadStreamConverter**  
+- **StorageFileToReadStreamConverter** (No sample available.)
   *Converts an IStorageFile into a read stream (asynchronously).*
 
-- **StorageFileToWriteStreamConverter**  
+- **StorageFileToWriteStreamConverter** (No sample available.)
   *Converts an IStorageFile into a write stream (asynchronously).*
 
-- **StorageItemToPathConverter**  
+- **StorageItemToPathConverter** ([Sample](samples/BehaviorsTestApplication/Views/Pages/StorageProviderView.axaml))
   *Extracts the file system path from an IStorageItem.*
 
 ### StorageProvider – Core
-- **PickerActionBase**  
+- **PickerActionBase** (No sample available.)
   *Base class for actions that invoke file/folder picker dialogs.*
 
-- **PickerBehaviorBase**  
+- **PickerBehaviorBase** (No sample available.)
   *Base class for behaviors that wrap file/folder picker functionality.*
 
 ### StorageProvider – MenuItem
-- **MenuItemOpenFilePickerBehavior**  
+- **MenuItemOpenFilePickerBehavior** ([Sample](samples/BehaviorsTestApplication/Views/Pages/StorageProviderView.axaml))
   *Opens a file picker dialog when a MenuItem is clicked.*
 
-- **MenuItemSaveFilePickerBehavior**  
+- **MenuItemSaveFilePickerBehavior** ([Sample](samples/BehaviorsTestApplication/Views/Pages/StorageProviderView.axaml))
   *Opens a save file picker dialog when a MenuItem is clicked.*
 
-- **MenuItemOpenFolderPickerBehavior**  
+- **MenuItemOpenFolderPickerBehavior** ([Sample](samples/BehaviorsTestApplication/Views/Pages/StorageProviderView.axaml))
   *Opens a folder picker dialog when a MenuItem is clicked.*
 
 ### StorageProvider
-- **OpenFilePickerAction**  
+- **OpenFilePickerAction** ([Sample](samples/BehaviorsTestApplication/Views/Pages/StorageProviderView.axaml))
   *Opens a file picker dialog and passes the selected file(s) as a command parameter.*
 
-- **OpenFilePickerBehaviorBase**  
+- **OpenFilePickerBehaviorBase** (No sample available.)
   *Base behavior for opening file picker dialogs.*
 
-- **OpenFolderPickerAction**  
+- **OpenFolderPickerAction** ([Sample](samples/BehaviorsTestApplication/Views/Pages/StorageProviderView.axaml))
   *Opens a folder picker dialog and passes the selected folder(s) as a command parameter.*
 
-- **OpenFolderPickerBehaviorBase**  
+- **OpenFolderPickerBehaviorBase** (No sample available.)
   *Base behavior for opening folder picker dialogs.*
 
-- **SaveFilePickerAction**  
+- **SaveFilePickerAction** ([Sample](samples/BehaviorsTestApplication/Views/Pages/StorageProviderView.axaml))
   *Opens a save file picker dialog and passes the chosen file as a command parameter.*
 
-- **SaveFilePickerBehaviorBase**
+- **SaveFilePickerBehaviorBase** (No sample available.)
   *Base behavior for saving files using a file picker dialog.*
 
 ### Scripting
-- **ExecuteScriptAction**
+- **ExecuteScriptAction** ([Sample](samples/BehaviorsTestApplication/Views/Pages/ExecuteScriptActionView.axaml))
   *Executes a C# script using the Roslyn scripting API.*
 
 ### ReactiveUI
-- **ClearNavigationStackAction**
+- **ClearNavigationStackAction** ([Sample](samples/BehaviorsTestApplication/Views/ReactiveUI/ReactiveNavigationView.axaml))
   *Resets the ReactiveUI navigation stack.*
 
-- **NavigateAction**
+- **NavigateAction** ([Sample](samples/BehaviorsTestApplication/Views/ReactiveUI/ReactiveNavigationView.axaml))
   *Navigates to a specified `IRoutableViewModel` using a router.*
 
-- **NavigateToAction**
+- **NavigateToAction** ([Sample](samples/BehaviorsTestApplication/Views/ReactiveUI/ReactiveNavigationView.axaml))
   *Resolves and navigates to a view model type using a router.*
 
-- **NavigateBackAction**
+- **NavigateBackAction** ([Sample](samples/BehaviorsTestApplication/Views/ReactiveUI/ReactiveNavigationView.axaml))
   *Navigates back within a `RoutingState` stack.*
 
-- **NavigateAndReset**
+- **NavigateAndReset** ([Sample](samples/BehaviorsTestApplication/Views/ReactiveUI/ReactiveNavigationView.axaml))
   *Navigates to a view model and clears the navigation stack.*
-- **NavigateToAndResetAction**
+- **NavigateToAndResetAction** ([Sample](samples/BehaviorsTestApplication/Views/ReactiveUI/ReactiveNavigationView.axaml))
   *Resolves a view model type, clears the navigation stack, and navigates to it.*
-- **ObservableTriggerBehavior**
+- **ObservableTriggerBehavior** ([Sample](samples/BehaviorsTestApplication/Views/ReactiveUI/ObservableTriggerBehaviorView.axaml))
   *Subscribes to an `IObservable` and executes actions whenever the observable emits a value.*
 
 ### TextBox
-- **AutoSelectBehavior**
+- **AutoSelectBehavior** ([Sample](samples/BehaviorsTestApplication/Views/Pages/AutoSelectBehaviorView.axaml))
   *Selects all text in a TextBox when it is loaded.*
-- **TextBoxSelectAllOnGotFocusBehavior**
+- **TextBoxSelectAllOnGotFocusBehavior** (No sample available.)
   *Selects all text in a TextBox when it gains focus.*
 
-- **TextBoxSelectAllTextBehavior**
+- **TextBoxSelectAllTextBehavior** (No sample available.)
   *Selects all text in a TextBox immediately upon attachment.*
 
 ### TreeView
-- **TreeViewFilterBehavior**
+- **TreeViewFilterBehavior** ([Sample](samples/BehaviorsTestApplication/Views/Pages/TreeViewFilterView.axaml))
   *Filters tree view nodes based on a search box.*
-- **TreeViewFilterTextChangedTrigger**
+- **TreeViewFilterTextChangedTrigger** ([Sample](samples/BehaviorsTestApplication/Views/Pages/TreeViewFilterView.axaml))
   *Triggers actions when the search box text changes.*
-- **ApplyTreeViewFilterAction**
+- **ApplyTreeViewFilterAction** ([Sample](samples/BehaviorsTestApplication/Views/Pages/TreeViewFilterView.axaml))
   *Filters the target TreeView using a provided query.*
 
 ### TreeViewItem
-- **ToggleIsExpandedOnDoubleTappedBehavior**
+- **ToggleIsExpandedOnDoubleTappedBehavior** ([Sample](samples/BehaviorsTestApplication/Views/Pages/ToggleIsExpandedOnDoubleTappedBehaviorView.axaml))
   *Toggles the IsExpanded property of a TreeViewItem when it is double-tapped.*
 
 ### SplitView
-- **SplitViewStateBehavior**
+- **SplitViewStateBehavior** ([Sample](samples/BehaviorsTestApplication/Views/Pages/SplitViewStateBehaviorView.axaml))
   *Automatically updates `DisplayMode`, `PanePlacement`, and `IsPaneOpen` based on size conditions.*
-- **SplitViewStateSetter**
+- **SplitViewStateSetter** ([Sample](samples/BehaviorsTestApplication/Views/Pages/SplitViewStateBehaviorView.axaml))
   *Specifies size conditions and target values used by SplitViewStateBehavior.*
-- **SplitViewPaneOpeningTrigger**
+- **SplitViewPaneOpeningTrigger** ([Sample](samples/BehaviorsTestApplication/Views/Pages/SplitViewStateBehaviorView.axaml))
   *Triggers actions when the pane is about to open.*
-- **SplitViewPaneOpenedTrigger**
+- **SplitViewPaneOpenedTrigger** ([Sample](samples/BehaviorsTestApplication/Views/Pages/SplitViewStateBehaviorView.axaml))
   *Triggers actions after the pane has opened.*
-- **SplitViewPaneClosingTrigger**
+- **SplitViewPaneClosingTrigger** ([Sample](samples/BehaviorsTestApplication/Views/Pages/SplitViewStateBehaviorView.axaml))
   *Triggers actions when the pane is about to close.*
-- **SplitViewPaneClosedTrigger**
+- **SplitViewPaneClosedTrigger** ([Sample](samples/BehaviorsTestApplication/Views/Pages/SplitViewStateBehaviorView.axaml))
   *Triggers actions after the pane has closed.*
 
 ### Validation
-- **ComboBoxValidationBehavior**
+- **ComboBoxValidationBehavior** ([Sample](samples/BehaviorsTestApplication/Views/Pages/ComboBoxValidationBehaviorView.axaml))
   *Validates the selected item of a ComboBox.*
-- **DatePickerValidationBehavior**
+- **DatePickerValidationBehavior** ([Sample](samples/BehaviorsTestApplication/Views/Pages/DatePickerValidationBehaviorView.axaml))
   *Validates the selected date of a DatePicker.*
-- **SliderValidationBehavior**
+- **SliderValidationBehavior** ([Sample](samples/BehaviorsTestApplication/Views/Pages/SliderValidationBehaviorView.axaml))
   *Validates the value of a range-based control like Slider.*
-- **NumericUpDownValidationBehavior**
+- **NumericUpDownValidationBehavior** ([Sample](samples/BehaviorsTestApplication/Views/Pages/NumericUpDownValidationBehaviorView.axaml))
   *Validates the value of a NumericUpDown.*
-- **TextBoxValidationBehavior**
+- **TextBoxValidationBehavior** ([Sample](samples/BehaviorsTestApplication/Views/Pages/TextBoxValidationBehaviorView.axaml))
   *Validates the text value of a TextBox.*
-- **PropertyValidationBehavior**
+- **PropertyValidationBehavior** (No sample available.)
   *Base behavior for validating an Avalonia property using rules.*
-- **IValidationRule**
+- **IValidationRule** (No sample available.)
   *Defines a method used to validate a value.*
-- **RequiredTextValidationRule**
+- **RequiredTextValidationRule** ([Sample](samples/BehaviorsTestApplication/Views/Pages/TextBoxValidationBehaviorView.axaml))
   *Ensures text is not empty.*
-- **RequiredDecimalValidationRule**
+- **RequiredDecimalValidationRule** ([Sample](samples/BehaviorsTestApplication/Views/Pages/NumericUpDownValidationBehaviorView.axaml))
   *Ensures a decimal value is provided.*
-- **RequiredDateValidationRule**
+- **RequiredDateValidationRule** ([Sample](samples/BehaviorsTestApplication/Views/Pages/DatePickerValidationBehaviorView.axaml))
   *Ensures a date value is provided.*
-- **MaxValueValidationRule**
+- **MaxValueValidationRule** ([Sample](samples/BehaviorsTestApplication/Views/Pages/NumericUpDownValidationBehaviorView.axaml))
   *Checks that a numeric value does not exceed a maximum.*
-- **MinValueValidationRule**
+- **MinValueValidationRule** ([Sample](samples/BehaviorsTestApplication/Views/Pages/NumericUpDownValidationBehaviorView.axaml))
   *Checks that a numeric value is not below a minimum.*
-- **MinLengthValidationRule**
+- **MinLengthValidationRule** (No sample available.)
   *Requires a string to have a minimum length.*
-- **NotNullValidationRule**
+- **NotNullValidationRule** ([Sample](samples/BehaviorsTestApplication/Views/Pages/NotNullValidationRuleView.axaml))
   *Ensures an object is not null.*
-- **RangeValidationRule**
+- **RangeValidationRule** ([Sample](samples/BehaviorsTestApplication/Views/Pages/DatePickerValidationBehaviorView.axaml))
   *Validates that a value is within a specified range.*
-- **RegexValidationRule**
+- **RegexValidationRule** ([Sample](samples/BehaviorsTestApplication/Views/Pages/TextBoxValidationBehaviorView.axaml))
   *Validates a string using a regular expression.*
 
 ### Window
-- **DialogOpenedTrigger**
+- **DialogOpenedTrigger** ([Sample](samples/BehaviorsTestApplication/Views/Pages/DialogActionView.axaml))
   *Triggers actions when a window is opened.*
-- **DialogClosedTrigger**
+- **DialogClosedTrigger** ([Sample](samples/BehaviorsTestApplication/Views/Pages/DialogActionView.axaml))
   *Triggers actions when a window is closed.*
-- **ShowDialogAction**
+- **ShowDialogAction** ([Sample](samples/BehaviorsTestApplication/Views/Pages/DialogActionView.axaml))
   *Shows a window as a dialog.*
-- **CloseWindowAction**
+- **CloseWindowAction** ([Sample](samples/BehaviorsTestApplication/Views/Pages/DialogActionView.axaml))
   *Closes a window when executed.*
 
 ## Interactivity (Infrastructure)
 
 ### AvaloniaObject
-- **Action**  
+- **Action** ([Sample](samples/BehaviorsTestApplication/Views/Pages/RemoveElementActionView.axaml))
   *The base class for actions that can be executed by triggers.*
 
-- **Behavior**  
+- **Behavior** ([Sample](samples/BehaviorsTestApplication/Views/Pages/CustomBehaviorView.axaml))
   *The base class for behaviors that attach to Avalonia objects.*
 
-- **Behavior<T>**
+- **Behavior<T>** (No sample available.)
   *Generic base class for behaviors that require a specific type of associated object.*
 
-- **Trigger**  
+- **Trigger** ([Sample](samples/BehaviorsTestApplication/Views/Pages/PointerTriggersView.axaml))
   *A base class for triggers that execute a collection of actions when activated.*
 
-- **Trigger<T>**
+- **Trigger<T>** (No sample available.)
   *Generic version of Trigger for strongly typed associated objects.*
 
 ### Collections
-- **ActionCollection**  
+- **ActionCollection** ([Sample](samples/BehaviorsTestApplication/Views/Pages/ActionCollectionTemplateView.axaml))
   *A collection of actions that can be executed by a trigger.*
 
-- **BehaviorCollection**  
+- **BehaviorCollection** ([Sample](samples/BehaviorsTestApplication/Views/Pages/BehaviorCollectionTemplateView.axaml))
   *A collection of behaviors attached to a single Avalonia object.*
 
 ### Contract
-- **ComparisonConditionType**  
+- **ComparisonConditionType** (No sample available.)
   *Defines the types of comparisons (equal, not equal, less than, etc.) used in data and adaptive triggers.*
 
-- **IAction**  
+- **IAction** (No sample available.)
   *Interface that defines the Execute method for custom actions.*
 
-- **IBehavior**  
+- **IBehavior** (No sample available.)
   *Interface for behaviors that can attach and detach from an Avalonia object.*
 
-- **IBehaviorEventsHandler**  
+- **IBehaviorEventsHandler** (No sample available.)
   *Interface for handling events (loaded, attached, etc.) within behaviors.*
 
-- **ITrigger**  
+- **ITrigger** (No sample available.)
   *Interface for triggers that encapsulate a collection of actions.*
 
 ### StyledElement
-- **StyledElementAction**  
+- **StyledElementAction** (No sample available.)
   *A base class for actions that work with StyledElement objects.*
 
-- **StyledElementBehavior**  
+- **StyledElementBehavior** (No sample available.)
   *A base class for behaviors targeting StyledElement objects.*
 
-- **StyledElementBehavior<T>**
+- **StyledElementBehavior<T>** (No sample available.)
   *Generic base class for behaviors that are attached to a specific type of StyledElement.*
 
-- **StyledElementTrigger**  
+- **StyledElementTrigger** (No sample available.)
   *A base trigger class for StyledElement objects.*
 
-- **StyledElementTrigger<T>**
+- **StyledElementTrigger<T>** (No sample available.)
   *Generic version of the StyledElementTrigger for typed associated objects.*
 
 ### Templates
-- **BehaviorCollectionTemplate**
+- **BehaviorCollectionTemplate** ([Sample](samples/BehaviorsTestApplication/Views/Pages/BehaviorCollectionTemplateView.axaml))
   *Defines a XAML template for creating a collection of behaviors.*
-- **ObjectTemplate**
+- **ObjectTemplate** ([Sample](samples/BehaviorsTestApplication/Views/Pages/ObjectTemplateView.axaml))
   *A template for creating custom objects.*
 
 ### Interactivity
-- **Interaction**  
+- **Interaction** ([Sample](samples/BehaviorsTestApplication/Views/Pages/WindowInteractionsView.axaml))
   *A static helper class for managing behavior collections and executing actions associated with triggers.*
 
 ## Resources
