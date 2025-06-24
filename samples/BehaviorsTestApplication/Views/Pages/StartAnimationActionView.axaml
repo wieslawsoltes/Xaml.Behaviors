@@ -1,0 +1,35 @@
+<UserControl x:Class="BehaviorsTestApplication.Views.Pages.StartAnimationActionView"
+             xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:BehaviorsTestApplication.ViewModels"
+             x:DataType="vm:MainWindowViewModel"
+             mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="150">
+  <Design.DataContext>
+    <vm:MainWindowViewModel />
+  </Design.DataContext>
+  <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="12">
+    <Border x:Name="AnimatedBorder" Width="100" Height="100" Background="SteelBlue" />
+    <Button x:Name="StartButton" Content="Start Animation">
+      <Interaction.Behaviors>
+        <EventTriggerBehavior EventName="Click" SourceObject="StartButton">
+          <StartAnimationAction>
+            <!-- TODO: Error AVLN2200 Avalonia: Could not determine target type of Setter
+            <StartAnimationAction.Animation>
+              <Animation Duration="0:0:1">
+                <KeyFrame Cue="0%">
+                  <Setter Property="{x:Static Visual.OpacityProperty}" Value="0" />
+                </KeyFrame>
+                <KeyFrame Cue="100%">
+                  <Setter Property="{x:Static Visual.OpacityProperty}" Value="1" />
+                </KeyFrame>
+              </Animation>
+            </StartAnimationAction.Animation>
+            -->
+          </StartAnimationAction>
+        </EventTriggerBehavior>
+      </Interaction.Behaviors>
+    </Button>
+  </StackPanel>
+</UserControl>
