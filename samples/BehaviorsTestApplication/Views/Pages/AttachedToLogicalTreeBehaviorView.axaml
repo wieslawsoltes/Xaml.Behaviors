@@ -1,0 +1,22 @@
+<UserControl x:Class="BehaviorsTestApplication.Views.Pages.AttachedToLogicalTreeBehaviorView"
+             xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:BehaviorsTestApplication.ViewModels"
+             xmlns:b="using:BehaviorsTestApplication.Behaviors"
+             x:DataType="vm:MainWindowViewModel"
+             mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="120">
+  <Design.DataContext>
+    <vm:MainWindowViewModel />
+  </Design.DataContext>
+  <StackPanel Spacing="5">
+    <Border x:Name="Target" Background="LightGray" Padding="20">
+      <Interaction.Behaviors>
+        <b:AttachedToLogicalTreeMessageBehavior Target="{Binding #MessageText}" />
+      </Interaction.Behaviors>
+      <TextBlock Text="Target" />
+    </Border>
+    <TextBlock x:Name="MessageText" />
+  </StackPanel>
+</UserControl>

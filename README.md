@@ -417,9 +417,9 @@ This section provides an overview of all available classes and their purpose in 
   *Opens a context dialog using a specified behavior.*
 - **HideContextDialogAction** ([Sample](samples/BehaviorsTestApplication/Views/Pages/ContextDialogView.axaml))
   *Closes a context dialog using a specified behavior.*
-- **ContextDialogOpenedTrigger** (No sample available.)
+- **ContextDialogOpenedTrigger** ([Sample](samples/BehaviorsTestApplication/Views/Pages/ContextDialogView.axaml))
   *Triggers actions when a context dialog is opened.*
-- **ContextDialogClosedTrigger** (No sample available.)
+- **ContextDialogClosedTrigger** ([Sample](samples/BehaviorsTestApplication/Views/Pages/ContextDialogView.axaml))
   *Triggers actions when a context dialog is closed.*
 
 ### Control
@@ -467,7 +467,7 @@ This section provides an overview of all available classes and their purpose in 
   *Converts pointer event arguments into a tuple (x, y) representing the pointer’s location.*
 
 ### Core (General Infrastructure)
-- **ActualThemeVariantChangedBehavior** (No sample available.)
+- **ActualThemeVariantChangedBehavior** ([Sample](samples/BehaviorsTestApplication/Views/Pages/ActualThemeVariantChangedBehaviorView.axaml))
   *A base class for behaviors that react to theme variant changes (e.g. switching from light to dark mode).*
 
 - **ActualThemeVariantChangedTrigger** ([Sample](samples/BehaviorsTestApplication/Views/Pages/ActualThemeVariantChangedTriggerView.axaml))
@@ -479,19 +479,19 @@ This section provides an overview of all available classes and their purpose in 
 - **SetThemeVariantAction** ([Sample](samples/BehaviorsTestApplication/Views/Pages/ThemeVariantView.axaml))
   *Sets the requested theme variant on a target control.*
 
-- **AttachedToLogicalTreeBehavior** (No sample available.)
+- **AttachedToLogicalTreeBehavior** ([Sample](samples/BehaviorsTestApplication/Views/Pages/AttachedToLogicalTreeBehaviorView.axaml))
   *A base class for behaviors that require notification when the associated object is added to the logical tree.*
 
-- **AttachedToLogicalTreeTrigger** (No sample available.)
+- **AttachedToLogicalTreeTrigger** ([Sample](samples/BehaviorsTestApplication/Views/Pages/AttachedToLogicalTreeTriggerView.axaml))
   *Triggers actions when an element is attached to the logical tree.*
 
 - **AttachedToVisualTreeBehavior** ([Sample](samples/BehaviorsTestApplication/Views/Pages/FocusOnAttachedToVisualTreeBehaviorView.axaml))
   *A base class for behaviors that depend on the control being attached to the visual tree.*
 
-- **AttachedToVisualTreeTrigger** (No sample available.)
+- **AttachedToVisualTreeTrigger** ([Sample](samples/BehaviorsTestApplication/Views/Pages/AttachedToVisualTreeTriggerView.axaml))
   *Triggers actions when the associated element is added to the visual tree.*
 
-- **BindingBehavior** (No sample available.)
+- **BindingBehavior** ([Sample](samples/BehaviorsTestApplication/Views/Pages/BindingBehaviorView.axaml))
   *Establishes a binding on a target property using an Avalonia binding.*
 
 - **BindingTriggerBehavior** ([Sample](samples/BehaviorsTestApplication/Views/Pages/BindingTriggerBehaviorView.axaml))
@@ -505,10 +505,10 @@ This section provides an overview of all available classes and their purpose in 
 - **LaunchUriOrFileAction** ([Sample](samples/BehaviorsTestApplication/Views/Pages/LaunchUriOrFileActionView.axaml))
   *Opens a URI or file using the default associated application.*
 
-- **DataContextChangedBehavior** (No sample available.)
+- **DataContextChangedBehavior** ([Sample](samples/BehaviorsTestApplication/Views/Pages/DataContextChangedBehaviorView.axaml))
   *A base class for behaviors that react to changes in the DataContext.*
 
-- **DataContextChangedTrigger** (No sample available.)
+- **DataContextChangedTrigger** ([Sample](samples/BehaviorsTestApplication/Views/Pages/DataContextChangedTriggerView.axaml))
   *Triggers actions when the DataContext of a control changes.*
 
 - **DataTriggerBehavior** ([Sample](samples/BehaviorsTestApplication/Views/Pages/DataTriggerBehaviorView.axaml))
