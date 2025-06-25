@@ -1,0 +1,24 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        x:Class="Avalonia.Xaml.Interactions.UnitTests.Core.DataTriggerBehavior002"
+        Title="DataTriggerBehavior002">
+  <StackPanel>
+    <Border Name="TargetBorder" IsVisible="False">
+      <StackPanel>
+        <TextBlock Name="TargetTextBlock" />
+      </StackPanel>
+      <Interaction.Behaviors>
+        <DataTriggerBehavior Binding="{Binding #InputTextBox.Text}" ComparisonCondition="Equal" Value="">
+          <ChangePropertyAction PropertyName="IsVisible" Value="False" />
+        </DataTriggerBehavior>
+        <DataTriggerBehavior Binding="{Binding #InputTextBox.Text}" ComparisonCondition="NotEqual" Value="">
+          <ChangePropertyAction PropertyName="IsVisible" Value="True" />
+        </DataTriggerBehavior>
+        <DataTriggerBehavior Binding="{Binding #InputTextBox.Text}" ComparisonCondition="NotEqual" Value="">
+          <ChangePropertyAction TargetObject="TargetTextBlock" PropertyName="Text" Value="{Binding #InputTextBox.Text}" />
+        </DataTriggerBehavior>
+      </Interaction.Behaviors>
+    </Border>
+    <TextBox Name="InputTextBox" Text="" />
+  </StackPanel>
+</Window>

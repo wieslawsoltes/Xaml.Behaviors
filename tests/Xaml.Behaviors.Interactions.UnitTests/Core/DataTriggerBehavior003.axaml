@@ -1,0 +1,24 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        x:Class="Avalonia.Xaml.Interactions.UnitTests.Core.DataTriggerBehavior003"
+        Title="DataTriggerBehavior003">
+  <StackPanel>
+    <TextBlock Name="TargetTextBlock" Text="">
+      <Interaction.Behaviors>
+        <DataTriggerBehavior Binding="{Binding #TargetSlider.Value}" ComparisonCondition="LessThan">
+          <DataTriggerBehavior.Value>
+            <x:String>25</x:String>
+          </DataTriggerBehavior.Value>
+          <ChangePropertyAction PropertyName="Text" Value="Less than 25" />
+        </DataTriggerBehavior>
+        <DataTriggerBehavior Binding="{Binding #TargetSlider.Value}" ComparisonCondition="GreaterThanOrEqual">
+          <DataTriggerBehavior.Value>
+            <x:String>25</x:String>
+          </DataTriggerBehavior.Value>
+          <ChangePropertyAction PropertyName="Text" Value="Greater or equal 25" />
+        </DataTriggerBehavior>
+      </Interaction.Behaviors>
+    </TextBlock>
+    <Slider Name="TargetSlider" Minimum="0" Maximum="50" SmallChange="5" Value="0" />
+  </StackPanel>
+</Window>
