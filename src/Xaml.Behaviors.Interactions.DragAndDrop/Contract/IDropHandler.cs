@@ -2,6 +2,7 @@
 // Licensed under the MIT license. See LICENSE file in the project root for details.
 using Avalonia.Input;
 using Avalonia.Interactivity;
+using System.Threading.Tasks;
 
 namespace Avalonia.Xaml.Interactions.DragAndDrop;
 
@@ -65,6 +66,17 @@ public interface IDropHandler
     /// <param name="state"></param>
     /// <returns></returns>
     bool Execute(object? sender, DragEventArgs e, object? sourceContext, object? targetContext, object? state);
+
+    /// <summary>
+    /// Executes the drop logic asynchronously.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    /// <param name="sourceContext"></param>
+    /// <param name="targetContext"></param>
+    /// <param name="state"></param>
+    /// <returns></returns>
+    Task<bool> ExecuteAsync(object? sender, DragEventArgs e, object? sourceContext, object? targetContext, object? state);
 
     /// <summary>
     /// Cancels the drag operation.

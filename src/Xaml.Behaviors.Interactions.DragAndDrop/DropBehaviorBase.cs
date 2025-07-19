@@ -57,9 +57,31 @@ public abstract class DropBehaviorBase : InvokeCommandBehaviorBase
         Handler?.Over(sender, e, null, null);
     }
 
-    private void Drop(object? sender, DragEventArgs e)
+    private async void Drop(object? sender, DragEventArgs e)
     {
-        Handler?.Drop(sender, e, null, null);
+        if (Handler is null)
+        {
+            return;
+        }
+
+        if (!Handler.Validate(sender, e, null, null, null))
+        {
+            e.DragEffects = DragDropEffects.None;
+            e.Handled = true;
+            return;
+        }
+
+        var result = await Handler.ExecuteAsync(sender, e, null, null, null);
+        if (result == false)
+        {
+            e.DragEffects = DragDropEffects.None;
+            e.Handled = true;
+        }
+        else
+        {
+            e.DragEffects |= DragDropEffects.Copy | DragDropEffects.Move | DragDropEffects.Link;
+            e.Handled = true;
+        }
     }
 
     /// <summary>
