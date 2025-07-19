@@ -297,6 +297,9 @@
       <TabItem Header="Drag and Drop">
         <pages:DragAndDropView />
       </TabItem>
+      <TabItem Header="DragDrop Commands">
+        <pages:DragDropCommandsView />
+      </TabItem>
       <TabItem Header="Files Preview">
         <pages:FilesPreviewView />
       </TabItem>
