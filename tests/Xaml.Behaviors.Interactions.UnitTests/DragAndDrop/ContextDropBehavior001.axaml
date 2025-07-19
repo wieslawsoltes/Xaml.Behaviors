@@ -1,0 +1,23 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:local="clr-namespace:Avalonia.Xaml.Interactions.UnitTests.DragAndDrop"
+        x:Class="Avalonia.Xaml.Interactions.UnitTests.DragAndDrop.ContextDropBehavior001"
+        Title="ContextDropBehavior001" Width="200" Height="100">
+  <Window.Resources>
+    <local:TestDropHandler x:Key="Handler" />
+  </Window.Resources>
+  <Grid ColumnDefinitions="*,*">
+    <StackPanel Name="LeftPanel" Margin="5">
+      <Rectangle Name="DragRectangle" Width="20" Height="20" Fill="Blue" Margin="5">
+        <Interaction.Behaviors>
+          <PanelDragBehavior />
+        </Interaction.Behaviors>
+      </Rectangle>
+    </StackPanel>
+    <Border Name="DropBorder" Grid.Column="1" Background="LightGray" Margin="5" Width="100" Height="50">
+      <Interaction.Behaviors>
+        <ContextDropBehavior Handler="{StaticResource Handler}" Context="TargetContext" />
+      </Interaction.Behaviors>
+    </Border>
+  </Grid>
+</Window>
