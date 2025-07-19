@@ -20,6 +20,21 @@ public abstract class TypedDragBehaviorBase : StyledElementBehavior<Control>
     private bool _lock;
 
     /// <summary>
+    /// Identifies the <see cref="AllowedEffects"/> avalonia property.
+    /// </summary>
+    public static readonly StyledProperty<DragDropEffects> AllowedEffectsProperty =
+        AvaloniaProperty.Register<TypedDragBehaviorBase, DragDropEffects>(nameof(AllowedEffects), DragDropEffects.Move);
+
+    /// <summary>
+    /// Gets or sets the drag drop effects allowed for the operation.
+    /// </summary>
+    public DragDropEffects AllowedEffects
+    {
+        get => GetValue(AllowedEffectsProperty);
+        set => SetValue(AllowedEffectsProperty, value);
+    }
+
+    /// <summary>
     /// Identifies the <see cref="DataType"/> avalonia property.
     /// </summary>
     public static readonly StyledProperty<Type?> DataTypeProperty =
@@ -71,26 +86,7 @@ public abstract class TypedDragBehaviorBase : StyledElementBehavior<Control>
         var data = new DataObject();
         data.Set(ContextDropBehaviorBase.DataFormat, value!);
 
-        var effect = DragDropEffects.None;
-
-        if (triggerEvent.KeyModifiers.HasFlag(KeyModifiers.Alt))
-        {
-            effect |= DragDropEffects.Link;
-        }
-        else if (triggerEvent.KeyModifiers.HasFlag(KeyModifiers.Shift))
-        {
-            effect |= DragDropEffects.Move;
-        }
-        else if (triggerEvent.KeyModifiers.HasFlag(KeyModifiers.Control))
-        {
-            effect |= DragDropEffects.Copy;
-        }
-        else
-        {
-            effect |= DragDropEffects.Move;
-        }
-
-        await DragDrop.DoDragDrop(triggerEvent, data, effect);
+        await DragDrop.DoDragDrop(triggerEvent, data, AllowedEffects);
     }
 
     private void AssociatedObject_PointerPressed(object? sender, PointerPressedEventArgs e)
