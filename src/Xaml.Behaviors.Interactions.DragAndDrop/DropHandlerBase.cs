@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Wiesław Šoltés. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for details.
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Avalonia.Input;
 using Avalonia.Interactivity;
 
@@ -195,6 +196,20 @@ public abstract class DropHandlerBase : IDropHandler
     public virtual bool Execute(object? sender, DragEventArgs e, object? sourceContext, object? targetContext, object? state)
     {
         return false;
+    }
+
+    /// <summary>
+    /// Executes the drop operation asynchronously.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    /// <param name="sourceContext"></param>
+    /// <param name="targetContext"></param>
+    /// <param name="state"></param>
+    /// <returns></returns>
+    public virtual Task<bool> ExecuteAsync(object? sender, DragEventArgs e, object? sourceContext, object? targetContext, object? state)
+    {
+        return Task.FromResult(Execute(sender, e, sourceContext, targetContext, state));
     }
 
     /// <summary>
