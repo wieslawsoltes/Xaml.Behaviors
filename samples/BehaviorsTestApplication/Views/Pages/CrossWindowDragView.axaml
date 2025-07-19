@@ -1,0 +1,46 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:BehaviorsTestApplication.ViewModels"
+             xmlns:views="using:BehaviorsTestApplication.Views.Windows"
+             x:Class="BehaviorsTestApplication.Views.Pages.CrossWindowDragView"
+             x:DataType="vm:DragAndDropSampleViewModel"
+             x:CompileBindings="True"
+             mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="300">
+  <Design.DataContext>
+    <vm:DragAndDropSampleViewModel />
+  </Design.DataContext>
+
+  <UserControl.Styles>
+    <Style Selector="ListBox.CrossWindowDrag ListBoxItem">
+      <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+      <Setter Property="(Interaction.Behaviors)">
+        <BehaviorCollectionTemplate>
+          <BehaviorCollection>
+            <ContextDragBehavior />
+          </BehaviorCollection>
+        </BehaviorCollectionTemplate>
+      </Setter>
+    </Style>
+  </UserControl.Styles>
+
+  <StackPanel Margin="5" Spacing="5">
+    <Button Content="Open Drop Window">
+      <Interaction.Behaviors>
+        <EventTriggerBehavior EventName="Click">
+          <ShowWindowAction>
+            <views:CrossWindowDragWindow DataContext="{Binding}" />
+          </ShowWindowAction>
+        </EventTriggerBehavior>
+      </Interaction.Behaviors>
+    </Button>
+    <ListBox ItemsSource="{Binding Items}" Classes="CrossWindowDrag">
+      <ListBox.ItemTemplate>
+        <DataTemplate DataType="vm:DragItemViewModel">
+          <TextBlock Text="{Binding Title}" />
+        </DataTemplate>
+      </ListBox.ItemTemplate>
+    </ListBox>
+  </StackPanel>
+</UserControl>
