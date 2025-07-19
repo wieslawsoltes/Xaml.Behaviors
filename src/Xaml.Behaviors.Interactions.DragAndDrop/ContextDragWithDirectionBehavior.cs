@@ -102,32 +102,9 @@ public sealed class ContextDragWithDirectionBehavior : StyledElementBehavior<Con
         AssociatedObject?.RemoveHandler(InputElement.PointerCaptureLostEvent, AssociatedObject_CaptureLost);
     }
 
-    private async Task DoDragDrop(PointerEventArgs triggerEvent, object? value, string direction)
+    private Task DoDragDrop(PointerEventArgs triggerEvent, object? value, string direction)
     {
-        var data = new DataObject();
-        data.Set(ContextDropBehavior.DataFormat, value!);
-        data.Set("direction", direction);
-
-        var effect = DragDropEffects.None;
-
-        if (triggerEvent.KeyModifiers.HasFlag(KeyModifiers.Alt))
-        {
-            effect |= DragDropEffects.Link;
-        }
-        else if (triggerEvent.KeyModifiers.HasFlag(KeyModifiers.Shift))
-        {
-            effect |= DragDropEffects.Move;
-        }
-        else if (triggerEvent.KeyModifiers.HasFlag(KeyModifiers.Control))
-        {
-            effect |= DragDropEffects.Copy;
-        }
-        else
-        {
-            effect |= DragDropEffects.Move;
-        }
-
-        await DragDrop.DoDragDrop(triggerEvent, data, effect);
+        return DragService.StartDragAsync(triggerEvent, value, ("direction", direction));
     }
 
     private void Released()

@@ -99,31 +99,9 @@ public abstract class ContextDragBehaviorBase : StyledElementBehavior<Control>
     /// <param name="context"></param>
     protected abstract void OnAfterDragDrop(object? sender, PointerEventArgs e, object? context);
 
-    private async Task DoDragDrop(PointerEventArgs triggerEvent, object? value)
+    private Task DoDragDrop(PointerEventArgs triggerEvent, object? value)
     {
-        var data = new DataObject();
-        data.Set(ContextDropBehaviorBase.DataFormat, value!);
-
-        var effect = DragDropEffects.None;
-
-        if (triggerEvent.KeyModifiers.HasFlag(KeyModifiers.Alt))
-        {
-            effect |= DragDropEffects.Link;
-        }
-        else if (triggerEvent.KeyModifiers.HasFlag(KeyModifiers.Shift))
-        {
-            effect |= DragDropEffects.Move;
-        }
-        else if (triggerEvent.KeyModifiers.HasFlag(KeyModifiers.Control))
-        {
-            effect |= DragDropEffects.Copy;
-        }
-        else
-        {
-            effect |= DragDropEffects.Move;
-        }
-
-        await DragDrop.DoDragDrop(triggerEvent, data, effect);
+        return DragService.StartDragAsync(triggerEvent, value);
     }
 
     private void Released()
