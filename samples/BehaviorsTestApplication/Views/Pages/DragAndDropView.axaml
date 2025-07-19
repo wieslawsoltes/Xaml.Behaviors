@@ -16,6 +16,9 @@
     <!-- IconGrabber, MIT License, author: Primer, taken from: https://www.svgrepo.com/svg/347759/grabber -->
     <PathGeometry x:Key="IconGrabberGeometry">M15 18a1 1 0 100-2 1 1 0 000 2zm1-6a1 1 0 11-2 0 1 1 0 012 0zm-7 6a1 1 0 100-2 1 1 0 000 2zm0-5a1 1 0 100-2 1 1 0 000 2zm7-6a1 1 0 11-2 0 1 1 0 012 0zM9 8a1 1 0 100-2 1 1 0 000 2z</PathGeometry>
     <GeometryDrawing x:Key="IconGrabber" Brush="Black" Geometry="{StaticResource IconGrabberGeometry}" />
+    <ObjectTemplate x:Key="ReorderPlaceholder">
+      <Border BorderThickness="0 0 0 2" BorderBrush="{DynamicResource SystemAccentColor}"/>
+    </ObjectTemplate>
   </UserControl.Resources>
 
   <UserControl.Styles>
@@ -33,12 +36,31 @@
       </Setter>
     </Style>
 
+    <Style Selector="ListBox.Reorder">
+      <Setter Property="ItemsPanel">
+        <ItemsPanelTemplate>
+          <StackPanel Orientation="Vertical" />
+        </ItemsPanelTemplate>
+      </Setter>
+    </Style>
+
     <Style Selector="ListBox.ItemsDragAndDrop ListBoxItem">
       <Setter Property="HorizontalContentAlignment" Value="Stretch" />
       <Setter Property="(Interaction.Behaviors)">
         <BehaviorCollectionTemplate>
           <BehaviorCollection>
             <ContextDragBehavior HorizontalDragThreshold="3" VerticalDragThreshold="3" />
+          </BehaviorCollection>
+        </BehaviorCollectionTemplate>
+      </Setter>
+    </Style>
+
+    <Style Selector="ListBox.Reorder ListBoxItem">
+      <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+      <Setter Property="(Interaction.Behaviors)">
+        <BehaviorCollectionTemplate>
+          <BehaviorCollection>
+            <ListReorderDragBehavior PlaceholderTemplate="{StaticResource ReorderPlaceholder}" Orientation="Vertical" />
           </BehaviorCollection>
         </BehaviorCollectionTemplate>
       </Setter>
@@ -218,6 +240,17 @@
     <TabItem Header="ListBox">
       <ListBox ItemsSource="{Binding Items}"
                Classes="ItemsDragAndDrop">
+        <ListBox.ItemTemplate>
+          <DataTemplate DataType="vm:DragItemViewModel">
+            <TextBlock Text="{Binding Title}" />
+          </DataTemplate>
+        </ListBox.ItemTemplate>
+      </ListBox>
+    </TabItem>
+
+    <TabItem Header="Reorder Behavior">
+      <ListBox ItemsSource="{Binding Items}"
+               Classes="Reorder">
         <ListBox.ItemTemplate>
           <DataTemplate DataType="vm:DragItemViewModel">
             <TextBlock Text="{Binding Title}" />
