@@ -1,0 +1,10 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:local="using:Avalonia.Xaml.Interactions.UnitTests.DragAndDrop"
+        x:Class="Avalonia.Xaml.Interactions.UnitTests.DragAndDrop.ContextDragEscapeWindow">
+  <Border x:Name="TargetBorder" Width="100" Height="100" Background="Gray">
+    <Interaction.Behaviors>
+      <local:TestContextDragBehavior x:Name="TestBehavior" HorizontalDragThreshold="0" VerticalDragThreshold="0" />
+    </Interaction.Behaviors>
+  </Border>
+</Window>
