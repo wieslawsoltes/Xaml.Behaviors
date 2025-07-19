@@ -1,0 +1,23 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:drag="clr-namespace:Avalonia.Xaml.Interactions.Draggable;assembly=Xaml.Behaviors.Interactions.Draggable"
+        x:Class="Avalonia.Xaml.Interactions.UnitTests.Core.ItemDragHorizontalWindow"
+        Width="150" Height="100">
+  <ListBox Name="TargetListBox">
+    <ListBox.ItemsPanel>
+      <ItemsPanelTemplate>
+        <StackPanel Orientation="Horizontal" />
+      </ItemsPanelTemplate>
+    </ListBox.ItemsPanel>
+    <ListBoxItem Name="Item1" Content="A">
+      <Interaction.Behaviors>
+        <drag:ItemDragBehavior Orientation="Horizontal" />
+      </Interaction.Behaviors>
+    </ListBoxItem>
+    <ListBoxItem Name="Item2" Content="B">
+      <Interaction.Behaviors>
+        <drag:ItemDragBehavior Orientation="Horizontal" />
+      </Interaction.Behaviors>
+    </ListBoxItem>
+  </ListBox>
+</Window>

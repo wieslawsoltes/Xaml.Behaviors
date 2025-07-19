@@ -4,6 +4,7 @@ using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
 using Avalonia.Input;
 using Avalonia.Interactivity;
+using Avalonia.Layout;
 using Avalonia.Xaml.Interactivity;
 
 namespace Avalonia.Xaml.Interactions.Draggable;
@@ -183,6 +184,9 @@ public class GridDragBehavior : StyledElementBehavior<Control>
             }
 
             var position = e.GetPosition(_parent);
+            position = new Point(
+                DragOrientationHelper.Coordinate(position, Orientation.Horizontal),
+                DragOrientationHelper.Coordinate(position, Orientation.Vertical));
 
             Control? target = null;
 
