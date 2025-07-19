@@ -16,19 +16,24 @@ public sealed class PanelDropBehavior : DropBehaviorBase
     public PanelDropBehavior()
     {
         PassEventArgsToCommand = true;
-        Handler = new PanelDropHandler(ExecuteCommand);
+        Handler = new PanelDropHandler(this, ExecuteCommand);
     }
 
-    private sealed class PanelDropHandler(System.Action<object?> execute) : DropHandlerBase
+    /// <summary>
+    /// Gets or sets the data format used for drag operations.
+    /// </summary>
+    public string DataFormat { get; set; } = "Context";
+
+    private sealed class PanelDropHandler(PanelDropBehavior owner, System.Action<object?> execute) : DropHandlerBase
     {
         public override bool Validate(object? sender, DragEventArgs e, object? sourceContext, object? targetContext, object? state)
         {
-            return e.Data.Contains(ContextDropBehavior.DataFormat) && e.Data.Get(ContextDropBehavior.DataFormat) is Control && sender is Panel;
+            return e.Data.Contains(owner.DataFormat) && e.Data.Get(owner.DataFormat) is Control && sender is Panel;
         }
 
         public override bool Execute(object? sender, DragEventArgs e, object? sourceContext, object? targetContext, object? state)
         {
-            if (sender is not Panel target || e.Data.Get(ContextDropBehavior.DataFormat) is not Control control)
+            if (sender is not Panel target || e.Data.Get(owner.DataFormat) is not Control control)
             {
                 return false;
             }

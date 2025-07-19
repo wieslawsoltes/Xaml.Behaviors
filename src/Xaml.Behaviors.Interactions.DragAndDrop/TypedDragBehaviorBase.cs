@@ -20,6 +20,21 @@ public abstract class TypedDragBehaviorBase : StyledElementBehavior<Control>
     private bool _lock;
 
     /// <summary>
+    /// Identifies the <see cref="DataFormat"/> avalonia property.
+    /// </summary>
+    public static readonly StyledProperty<string> DataFormatProperty =
+        AvaloniaProperty.Register<TypedDragBehaviorBase, string>(nameof(DataFormat), "Context");
+
+    /// <summary>
+    /// Gets or sets the data format used for drag operations.
+    /// </summary>
+    public string DataFormat
+    {
+        get => GetValue(DataFormatProperty);
+        set => SetValue(DataFormatProperty, value);
+    }
+
+    /// <summary>
     /// Identifies the <see cref="DataType"/> avalonia property.
     /// </summary>
     public static readonly StyledProperty<Type?> DataTypeProperty =
@@ -69,7 +84,7 @@ public abstract class TypedDragBehaviorBase : StyledElementBehavior<Control>
     private async Task DoDragDrop(PointerEventArgs triggerEvent, object? value)
     {
         var data = new DataObject();
-        data.Set(ContextDropBehaviorBase.DataFormat, value!);
+        data.Set(DataFormat, value!);
 
         var effect = DragDropEffects.None;
 

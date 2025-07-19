@@ -21,6 +21,21 @@ public abstract class ContextDragBehaviorBase : StyledElementBehavior<Control>
     private bool _captured;
 
     /// <summary>
+    /// Identifies the <see cref="DataFormat"/> avalonia property.
+    /// </summary>
+    public static readonly StyledProperty<string> DataFormatProperty =
+        AvaloniaProperty.Register<ContextDragBehaviorBase, string>(nameof(DataFormat), nameof(Context));
+
+    /// <summary>
+    /// Gets or sets the data format used for drag operations.
+    /// </summary>
+    public string DataFormat
+    {
+        get => GetValue(DataFormatProperty);
+        set => SetValue(DataFormatProperty, value);
+    }
+
+    /// <summary>
     /// Identifies the <see cref="Context"/> avalonia property.
     /// </summary>
     public static readonly StyledProperty<object?> ContextProperty =
@@ -102,7 +117,7 @@ public abstract class ContextDragBehaviorBase : StyledElementBehavior<Control>
     private async Task DoDragDrop(PointerEventArgs triggerEvent, object? value)
     {
         var data = new DataObject();
-        data.Set(ContextDropBehaviorBase.DataFormat, value!);
+        data.Set(DataFormat, value!);
 
         var effect = DragDropEffects.None;
 
