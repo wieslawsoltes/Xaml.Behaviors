@@ -878,6 +878,10 @@ This section provides an overview of all available classes and their purpose in 
 - **UploadCompletedTrigger** ([Sample](samples/BehaviorsTestApplication/Views/Pages/UploadFileView.axaml))
   *Invokes actions when an upload is marked complete.*
 
+### Remote Drop Handling
+- **RemoteDropHandler** ([Sample](samples/BehaviorsTestApplication/Views/Pages/RemoteDropHandlerView.axaml))
+  *Uploads dropped files asynchronously to a remote service.*
+
 ### Focus
 - **AutoFocusBehavior** ([Sample](samples/BehaviorsTestApplication/Views/Pages/AutoFocusBehaviorView.axaml))
   *Automatically sets the focus on the associated control when it is loaded.*
