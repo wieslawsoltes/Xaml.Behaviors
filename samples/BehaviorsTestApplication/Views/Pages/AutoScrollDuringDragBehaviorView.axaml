@@ -1,0 +1,25 @@
+<UserControl x:Class="BehaviorsTestApplication.Views.Pages.AutoScrollDuringDragBehaviorView"
+             xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="250">
+  <ScrollViewer Width="300" Height="200">
+    <Interaction.Behaviors>
+      <AutoScrollDuringDragBehavior />
+    </Interaction.Behaviors>
+    <Canvas Width="600" Height="400" Background="LightGray">
+      <Rectangle Fill="Red" Width="40" Height="40" Canvas.Left="20" Canvas.Top="20">
+        <Interaction.Behaviors>
+          <MouseDragElementBehavior />
+        </Interaction.Behaviors>
+      </Rectangle>
+      <Rectangle Fill="Green" Width="40" Height="40" Canvas.Left="200" Canvas.Top="150">
+        <Interaction.Behaviors>
+          <MouseDragElementBehavior />
+        </Interaction.Behaviors>
+      </Rectangle>
+    </Canvas>
+  </ScrollViewer>
+</UserControl>
+
