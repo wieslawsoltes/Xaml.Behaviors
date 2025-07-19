@@ -45,6 +45,12 @@ public class ItemDragBehavior : StyledElementBehavior<Control>
         AvaloniaProperty.Register<ItemDragBehavior, double>(nameof(VerticalDragThreshold), 3);
 
     /// <summary>
+    /// Identifies the <see cref="AllowExternalDrop"/> avalonia property.
+    /// </summary>
+    public static readonly StyledProperty<bool> AllowExternalDropProperty =
+        AvaloniaProperty.Register<ItemDragBehavior, bool>(nameof(AllowExternalDrop), true);
+
+    /// <summary>
     /// Gets or sets the orientation of the drag operation.
     /// </summary>
     public Orientation Orientation
@@ -71,6 +77,15 @@ public class ItemDragBehavior : StyledElementBehavior<Control>
         set => SetValue(VerticalDragThresholdProperty, value);
     }
 
+    /// <summary>
+    /// Gets or sets a value indicating whether dragging can start when the pointer leaves the control.
+    /// </summary>
+    public bool AllowExternalDrop
+    {
+        get => GetValue(AllowExternalDropProperty);
+        set => SetValue(AllowExternalDropProperty, value);
+    }
+
     /// <inheritdoc />
     protected override void OnAttachedToVisualTree()
     {
@@ -80,6 +95,7 @@ public class ItemDragBehavior : StyledElementBehavior<Control>
             AssociatedObject.AddHandler(InputElement.PointerPressedEvent, PointerPressed, RoutingStrategies.Tunnel);
             AssociatedObject.AddHandler(InputElement.PointerMovedEvent, PointerMoved, RoutingStrategies.Tunnel);
             AssociatedObject.AddHandler(InputElement.PointerCaptureLostEvent, PointerCaptureLost, RoutingStrategies.Tunnel);
+            AssociatedObject.AddHandler(InputElement.PointerExitedEvent, PointerExited, RoutingStrategies.Tunnel);
         }
     }
 
@@ -92,6 +108,7 @@ public class ItemDragBehavior : StyledElementBehavior<Control>
             AssociatedObject.RemoveHandler(InputElement.PointerPressedEvent, PointerPressed);
             AssociatedObject.RemoveHandler(InputElement.PointerMovedEvent, PointerMoved);
             AssociatedObject.RemoveHandler(InputElement.PointerCaptureLostEvent, PointerCaptureLost);
+            AssociatedObject.RemoveHandler(InputElement.PointerExitedEvent, PointerExited);
         }
     }
 
@@ -137,6 +154,15 @@ public class ItemDragBehavior : StyledElementBehavior<Control>
     {
         Released();
         _captured = false;
+    }
+
+    private void PointerExited(object? sender, PointerEventArgs e)
+    {
+        if (_captured && !_dragStarted && !AllowExternalDrop)
+        {
+            Released();
+            _captured = false;
+        }
     }
 
     private void Released()
