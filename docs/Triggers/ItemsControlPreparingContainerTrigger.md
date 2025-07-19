@@ -1,0 +1,3 @@
+# ItemsControlPreparingContainerTrigger
+
+TODO: Document the ItemsControlPreparingContainerTrigger.

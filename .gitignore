@@ -276,6 +276,8 @@ __pycache__/
 
 # Cake - Uncomment if you are using it
 tools/**
+# Allow custom documentation tool
+!tools/GenerateDocs/**
 # !tools/packages.config
 
 # Telerik's JustMock configuration file

@@ -30,6 +30,8 @@
     <PackageVersion Include="Microsoft.SourceLink.GitHub" Version="8.0.0" />
     <PackageVersion Include="Nuke.Common" Version="9.0.4" />
     <PackageVersion Include="System.Runtime.Serialization.Formatters" Version="9.0.6" />
+    <PackageVersion Include="System.Reflection.MetadataLoadContext" Version="8.0.0" />
     <PackageVersion Include="Microsoft.CodeAnalysis.CSharp.Scripting" Version="4.14.0" />
+    <PackageVersion Include="Mono.Cecil" Version="0.11.5" />
   </ItemGroup>
 </Project>

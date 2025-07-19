@@ -1,0 +1,3 @@
+# PointerTouchPadGestureMagnifyGestureTrigger
+
+TODO: Document the PointerTouchPadGestureMagnifyGestureTrigger.
