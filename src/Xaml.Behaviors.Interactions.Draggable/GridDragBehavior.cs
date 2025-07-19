@@ -1,5 +1,6 @@
 ﻿// Copyright (c) Wiesław Šoltés. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for details.
+using System;
 using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
 using Avalonia.Input;
@@ -11,7 +12,7 @@ namespace Avalonia.Xaml.Interactions.Draggable;
 /// <summary>
 /// Allows dragging of grid child controls with optional layout copying.
 /// </summary>
-public class GridDragBehavior : StyledElementBehavior<Control>
+public class GridDragBehavior : BoundedDragBehavior
 {
     /// <summary>
     /// Identifies the <see cref="CopyColumn"/> avalonia property.
@@ -183,6 +184,17 @@ public class GridDragBehavior : StyledElementBehavior<Control>
             }
 
             var position = e.GetPosition(_parent);
+
+            var container = BoundingContainer ?? _parent;
+            if (container is not null)
+            {
+                var relative = e.GetPosition(container);
+                if (relative.X < 0 || relative.Y < 0 ||
+                    relative.X > container.Bounds.Width || relative.Y > container.Bounds.Height)
+                {
+                    return;
+                }
+            }
 
             Control? target = null;
 

@@ -1,5 +1,6 @@
 ﻿// Copyright (c) Wiesław Šoltés. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for details.
+using System;
 using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
 using Avalonia.Input;
@@ -11,7 +12,7 @@ namespace Avalonia.Xaml.Interactions.Draggable;
 /// <summary>
 /// Enables dragging of child controls within a <see cref="Canvas"/>.
 /// </summary>
-public class CanvasDragBehavior : StyledElementBehavior<Control>
+public class CanvasDragBehavior : BoundedDragBehavior
 {
     private bool _enableDrag;
     private Point _start;
@@ -127,10 +128,30 @@ public class CanvasDragBehavior : StyledElementBehavior<Control>
             var deltaX = position.X - _start.X;
             var deltaY = position.Y - _start.Y;
             _start = position;
+
             var left = Canvas.GetLeft(_draggedContainer);
             var top = Canvas.GetTop(_draggedContainer);
-            Canvas.SetLeft(_draggedContainer, left + deltaX);
-            Canvas.SetTop(_draggedContainer, top + deltaY);
+
+            var newLeft = left + deltaX;
+            var newTop = top + deltaY;
+
+            var container = BoundingContainer ?? _parent;
+            if (container is not null)
+            {
+                var bounds = container.Bounds;
+                var elementBounds = _draggedContainer.Bounds;
+
+                var minX = 0d;
+                var minY = 0d;
+                var maxX = bounds.Width - elementBounds.Width;
+                var maxY = bounds.Height - elementBounds.Height;
+
+                newLeft = Math.Min(Math.Max(newLeft, minX), maxX);
+                newTop = Math.Min(Math.Max(newTop, minY), maxY);
+            }
+
+            Canvas.SetLeft(_draggedContainer, newLeft);
+            Canvas.SetTop(_draggedContainer, newTop);
         }
     }
 
