@@ -18,6 +18,7 @@ Welcome to the project documentation. Below is the table of contents that mirror
   - [Advanced Usage](../README.md#advanced-usage)
 - [Docs](../README.md#docs)
 - [Interactions](../README.md#interactions)
+- [Interactions Index](interactions.md)
 - [Interactivity (Infrastructure)](../README.md#interactivity-infrastructure)
 - [Resources](../README.md#resources)
 - [License](../README.md#license)
