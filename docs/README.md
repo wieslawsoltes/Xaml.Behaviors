@@ -23,3 +23,9 @@ Welcome to the project documentation. Below is the table of contents that mirror
 - [License](../README.md#license)
 
 For detailed information about each section, refer to the [project README](../README.md).
+
+## Drag-and-drop behavior updates
+
+`TypedDragBehaviorBase` now exposes an `AllowedEffects` property. Set this to the
+desired combination of `DragDropEffects` (e.g. `Move`, `Copy`) to control which
+operations are permitted when a drag is initiated.
