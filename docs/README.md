@@ -19,6 +19,7 @@ Welcome to the project documentation. Below is the table of contents that mirror
 - [Docs](../README.md#docs)
 - [Interactions](../README.md#interactions)
 - [Interactivity (Infrastructure)](../README.md#interactivity-infrastructure)
+- [Message Behaviors](../README.md#message-behaviors)
 - [Resources](../README.md#resources)
 - [License](../README.md#license)
 

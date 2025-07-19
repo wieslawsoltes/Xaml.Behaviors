@@ -589,6 +589,80 @@ This section provides an overview of all available classes and their purpose in 
 - **IfElseTrigger** ([Sample](samples/BehaviorsTestApplication/Views/Pages/IfElseTriggerView.axaml))
   *Executes one collection of actions when a condition is true and another when it is false.*
 
+### Message Behaviors
+- **ActualThemeVariantChangedMessageBehavior** ([Sample](samples/BehaviorsTestApplication/Views/Pages/ActualThemeVariantChangedBehaviorView.axaml))
+  *Updates a `TextBlock` when the theme variant changes using the `Target` property.*
+  ```xaml
+  <ThemeVariantScope>
+    <Interaction.Behaviors>
+      <b:ActualThemeVariantChangedMessageBehavior Target="{Binding #MessageText}" />
+    </Interaction.Behaviors>
+  </ThemeVariantScope>
+  ```
+- **AttachedToLogicalTreeMessageBehavior** ([Sample](samples/BehaviorsTestApplication/Views/Pages/AttachedToLogicalTreeBehaviorView.axaml))
+  *Sets text when the associated control is added to the logical tree.*
+  ```xaml
+  <Border>
+    <Interaction.Behaviors>
+      <b:AttachedToLogicalTreeMessageBehavior Target="{Binding #MessageText}" />
+    </Interaction.Behaviors>
+  </Border>
+  ```
+- **DataContextChangedMessageBehavior** ([Sample](samples/BehaviorsTestApplication/Views/Pages/DataContextChangedBehaviorView.axaml))
+  *Uses the `Target` property to show when the data context changes.*
+  ```xaml
+  <Border>
+    <Interaction.Behaviors>
+      <b:DataContextChangedMessageBehavior Target="{Binding #MessageText}" />
+    </Interaction.Behaviors>
+  </Border>
+  ```
+- **DisposableActionBehavior** ([Sample](samples/BehaviorsTestApplication/Views/Pages/DisposableActionView.axaml))
+  *Executes cleanup logic through a disposable action.*
+  ```xaml
+  <Border>
+    <Interaction.Behaviors>
+      <b:DisposableActionBehavior Target="{Binding #MessageText}" />
+    </Interaction.Behaviors>
+  </Border>
+  ```
+- **DisposingMessageBehavior** ([Sample](samples/BehaviorsTestApplication/Views/Pages/DisposingBehaviorView.axaml))
+  *Writes a message when pointer events occur and disposes handlers automatically.*
+  ```xaml
+  <Border>
+    <Interaction.Behaviors>
+      <b:DisposingMessageBehavior Target="{Binding #MessageText}" />
+    </Interaction.Behaviors>
+  </Border>
+  ```
+- **InitializedMessageBehavior** ([Sample](samples/BehaviorsTestApplication/Views/Pages/InitializedBehaviorView.axaml))
+  *Displays a message when the control is initialized.*
+  ```xaml
+  <Border>
+    <Interaction.Behaviors>
+      <b:InitializedMessageBehavior Target="{Binding #MessageText}" />
+    </Interaction.Behaviors>
+  </Border>
+  ```
+- **LoadedMessageBehavior** ([Sample](samples/BehaviorsTestApplication/Views/Pages/LoadedBehaviorView.axaml))
+  *Shows text once the control is loaded.*
+  ```xaml
+  <Button>
+    <Interaction.Behaviors>
+      <b:LoadedMessageBehavior Target="{Binding #MessageText}" />
+    </Interaction.Behaviors>
+  </Button>
+  ```
+- **ResourcesChangedMessageBehavior** ([Sample](samples/BehaviorsTestApplication/Views/Pages/ResourcesChangedBehaviorView.axaml))
+  *Reports when the control's resources change via the `Target` property.*
+  ```xaml
+  <Border>
+    <Interaction.Behaviors>
+      <b:ResourcesChangedMessageBehavior Target="{Binding #MessageText}" />
+    </Interaction.Behaviors>
+  </Border>
+  ```
+
 ### DragAndDrop
 - **ContextDragBehavior** ([Sample](samples/BehaviorsTestApplication/Views/Pages/EditableDraggableListBoxView.axaml))
   *Enables drag operations using a “context” (data payload) that is carried during the drag–drop operation.*
