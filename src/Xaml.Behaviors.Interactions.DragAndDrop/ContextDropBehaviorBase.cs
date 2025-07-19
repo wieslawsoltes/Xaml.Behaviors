@@ -13,9 +13,19 @@ namespace Avalonia.Xaml.Interactions.DragAndDrop;
 public abstract class ContextDropBehaviorBase : StyledElementBehavior<Control>
 {
     /// <summary>
-    /// Identifies the data format used to store context information.
+    /// Identifies the <see cref="DataFormat"/> avalonia property.
     /// </summary>
-    public static string DataFormat = nameof(Context);
+    public static readonly StyledProperty<string> DataFormatProperty =
+        AvaloniaProperty.Register<ContextDropBehaviorBase, string>(nameof(DataFormat), nameof(Context));
+
+    /// <summary>
+    /// Gets or sets the data format used to store context information.
+    /// </summary>
+    public string DataFormat
+    {
+        get => GetValue(DataFormatProperty);
+        set => SetValue(DataFormatProperty, value);
+    }
 
     /// <summary>
     /// Identifies the <see cref="Context"/> avalonia property.
@@ -94,8 +104,8 @@ public abstract class ContextDropBehaviorBase : StyledElementBehavior<Control>
 
     private void DragEnter(object? sender, DragEventArgs e)
     {
-        var sourceContext = e.Data.Contains(ContextDropBehavior.DataFormat) 
-            ? e.Data.Get(ContextDropBehavior.DataFormat) 
+        var sourceContext = e.Data.Contains(DataFormat)
+            ? e.Data.Get(DataFormat)
             : null;
         var targetContext = Context ?? AssociatedObject?.DataContext;
         OnEnter(sender, e, sourceContext, targetContext);
@@ -108,8 +118,8 @@ public abstract class ContextDropBehaviorBase : StyledElementBehavior<Control>
 
     private void DragOver(object? sender, DragEventArgs e)
     {
-        var sourceContext = e.Data.Contains(ContextDropBehavior.DataFormat) 
-            ? e.Data.Get(ContextDropBehavior.DataFormat) 
+        var sourceContext = e.Data.Contains(DataFormat)
+            ? e.Data.Get(DataFormat)
             : null;
         var targetContext = Context ?? AssociatedObject?.DataContext;
         OnOver(sender, e, sourceContext, targetContext);
@@ -117,8 +127,8 @@ public abstract class ContextDropBehaviorBase : StyledElementBehavior<Control>
 
     private void Drop(object? sender, DragEventArgs e)
     {
-        var sourceContext = e.Data.Contains(ContextDropBehavior.DataFormat) 
-            ? e.Data.Get(ContextDropBehavior.DataFormat) 
+        var sourceContext = e.Data.Contains(DataFormat)
+            ? e.Data.Get(DataFormat)
             : null;
         var targetContext = Context ?? AssociatedObject?.DataContext;
         OnDrop(sender, e, sourceContext, targetContext);
