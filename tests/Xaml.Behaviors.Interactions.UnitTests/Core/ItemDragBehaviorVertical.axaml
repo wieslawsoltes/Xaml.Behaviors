@@ -1,0 +1,20 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:core="clr-namespace:Avalonia.Xaml.Interactions.UnitTests.Core"
+        xmlns:id="clr-namespace:Avalonia.Xaml.Interactions.Draggable;assembly=Xaml.Behaviors.Interactions.Draggable"
+        x:Class="Avalonia.Xaml.Interactions.UnitTests.Core.ItemDragBehaviorVertical"
+        x:DataType="core:ItemDragBehaviorVertical"
+        Title="ItemDragBehaviorVertical">
+  <Window.Styles>
+    <Style Selector="ListBoxItem">
+      <Setter Property="(Interaction.Behaviors)">
+        <BehaviorCollectionTemplate>
+          <BehaviorCollection>
+            <id:ItemDragBehavior Orientation="Vertical" HorizontalDragThreshold="0" VerticalDragThreshold="0" />
+          </BehaviorCollection>
+        </BehaviorCollectionTemplate>
+      </Setter>
+    </Style>
+  </Window.Styles>
+  <ListBox Name="TargetListBox" ItemsSource="{Binding Items}" />
+</Window>
