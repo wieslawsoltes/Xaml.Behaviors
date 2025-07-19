@@ -7,11 +7,17 @@
   <StackPanel Margin="5" Spacing="12">
     <TextBlock Text="MouseDragElementBehavior" HorizontalAlignment="Center"/>
     <Canvas Width="300" Height="120" Background="LightGray">
-      <Rectangle Fill="Red" Width="40" Height="40" Canvas.Left="20" Canvas.Top="20">
+      <Border Background="Red" Width="40" Height="40" Canvas.Left="20" Canvas.Top="20"
+              DragHandleBehavior.Handle="{Binding ElementName=Handle1}">
+        <Border>
+          <Rectangle Fill="Red"/> <!-- visual -->
+          <Border x:Name="Handle1" Background="Black" Width="10" Height="10"
+                  HorizontalAlignment="Right" VerticalAlignment="Top"/>
+        </Border>
         <Interaction.Behaviors>
-          <MouseDragElementBehavior ConstrainToParentBounds="True" />
+          <DragHandleBehavior />
         </Interaction.Behaviors>
-      </Rectangle>
+      </Border>
       <Rectangle Fill="Green" Width="40" Height="40" Canvas.Left="120" Canvas.Top="20">
         <Interaction.Behaviors>
           <MouseDragElementBehavior ConstrainToParentBounds="True" />
