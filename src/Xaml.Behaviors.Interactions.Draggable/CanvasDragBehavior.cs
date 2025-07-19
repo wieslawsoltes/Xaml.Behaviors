@@ -4,6 +4,7 @@ using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
 using Avalonia.Input;
 using Avalonia.Interactivity;
+using Avalonia.Layout;
 using Avalonia.Xaml.Interactivity;
 
 namespace Avalonia.Xaml.Interactions.Draggable;
@@ -124,8 +125,8 @@ public class CanvasDragBehavior : StyledElementBehavior<Control>
             }
 
             var position = e.GetPosition(_parent);
-            var deltaX = position.X - _start.X;
-            var deltaY = position.Y - _start.Y;
+            var deltaX = DragOrientationHelper.Delta(_start, position, Orientation.Horizontal);
+            var deltaY = DragOrientationHelper.Delta(_start, position, Orientation.Vertical);
             _start = position;
             var left = Canvas.GetLeft(_draggedContainer);
             var top = Canvas.GetTop(_draggedContainer);

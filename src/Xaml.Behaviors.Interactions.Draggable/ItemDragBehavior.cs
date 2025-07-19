@@ -270,17 +270,16 @@ public class ItemDragBehavior : StyledElementBehavior<Control>
 
             var orientation = Orientation;
             var position = e.GetPosition(_itemsControl);
-            var delta = orientation == Orientation.Horizontal ? position.X - _start.X : position.Y - _start.Y;
+            var delta = DragOrientationHelper.Delta(_start, position, orientation);
 
             if (!_dragStarted)
             {
-                var diff = _start - position;
+                var diff = DragOrientationHelper.Distance(_start, position, orientation);
                 var horizontalDragThreshold = HorizontalDragThreshold;
                 var verticalDragThreshold = VerticalDragThreshold;
-
                 if (orientation == Orientation.Horizontal)
                 {
-                    if (Math.Abs(diff.X) > horizontalDragThreshold)
+                    if (diff > horizontalDragThreshold)
                     {
                         _dragStarted = true;
                     }
@@ -291,7 +290,7 @@ public class ItemDragBehavior : StyledElementBehavior<Control>
                 }
                 else
                 {
-                    if (Math.Abs(diff.Y) > verticalDragThreshold)
+                    if (diff > verticalDragThreshold)
                     {
                         _dragStarted = true;
                     }
@@ -302,29 +301,22 @@ public class ItemDragBehavior : StyledElementBehavior<Control>
                 }
             }
 
-            if (orientation == Orientation.Horizontal)
-            {
-                SetTranslateTransform(_draggedContainer, delta, 0);
-            }
-            else
-            {
-                SetTranslateTransform(_draggedContainer, 0, delta);
-            }
+            SetTranslateTransform(
+                _draggedContainer,
+                DragOrientationHelper.Select(delta, 0, orientation),
+                DragOrientationHelper.Select(0, delta, orientation));
 
             _draggedIndex = _itemsControl.IndexFromContainer(_draggedContainer);
             _targetIndex = -1;
 
             var draggedBounds = _draggedContainer.Bounds;
 
-            var draggedStart = orientation == Orientation.Horizontal ? draggedBounds.X : draggedBounds.Y;
+            var draggedStart = DragOrientationHelper.Start(draggedBounds, orientation);
 
-            var draggedDeltaStart = orientation == Orientation.Horizontal
-                ? draggedBounds.X + delta
-                : draggedBounds.Y + delta;
+            var draggedDeltaStart = draggedStart + delta;
 
-            var draggedDeltaEnd = orientation == Orientation.Horizontal
-                ? draggedBounds.X + delta + draggedBounds.Width
-                : draggedBounds.Y + delta + draggedBounds.Height;
+            var draggedDeltaEnd = draggedDeltaStart +
+                DragOrientationHelper.Size(draggedBounds.Size, orientation);
 
             var i = 0;
 
@@ -339,52 +331,35 @@ public class ItemDragBehavior : StyledElementBehavior<Control>
 
                 var targetBounds = targetContainer.Bounds;
 
-                var targetStart = orientation == Orientation.Horizontal ? targetBounds.X : targetBounds.Y;
+                var targetStart = DragOrientationHelper.Start(targetBounds, orientation);
 
-                var targetMid = orientation == Orientation.Horizontal
-                    ? targetBounds.X + targetBounds.Width / 2
-                    : targetBounds.Y + targetBounds.Height / 2;
+                var targetMid = DragOrientationHelper.Mid(targetBounds, orientation);
 
                 var targetIndex = _itemsControl.IndexFromContainer(targetContainer);
 
                 if (targetStart > draggedStart && draggedDeltaEnd >= targetMid)
                 {
-                    if (orientation == Orientation.Horizontal)
-                    {
-                        SetTranslateTransform(targetContainer, -draggedBounds.Width, 0);
-                    }
-                    else
-                    {
-                        SetTranslateTransform(targetContainer, 0, -draggedBounds.Height);
-                    }
+                    SetTranslateTransform(
+                        targetContainer,
+                        DragOrientationHelper.Select(-draggedBounds.Width, 0, orientation),
+                        DragOrientationHelper.Select(0, -draggedBounds.Height, orientation));
 
                     _targetIndex = _targetIndex == -1 ? targetIndex :
                         targetIndex > _targetIndex ? targetIndex : _targetIndex;
                 }
                 else if (targetStart < draggedStart && draggedDeltaStart <= targetMid)
                 {
-                    if (orientation == Orientation.Horizontal)
-                    {
-                        SetTranslateTransform(targetContainer, draggedBounds.Width, 0);
-                    }
-                    else
-                    {
-                        SetTranslateTransform(targetContainer, 0, draggedBounds.Height);
-                    }
+                    SetTranslateTransform(
+                        targetContainer,
+                        DragOrientationHelper.Select(draggedBounds.Width, 0, orientation),
+                        DragOrientationHelper.Select(0, draggedBounds.Height, orientation));
 
                     _targetIndex = _targetIndex == -1 ? targetIndex :
                         targetIndex < _targetIndex ? targetIndex : _targetIndex;
                 }
                 else
                 {
-                    if (orientation == Orientation.Horizontal)
-                    {
-                        SetTranslateTransform(targetContainer, 0, 0);
-                    }
-                    else
-                    {
-                        SetTranslateTransform(targetContainer, 0, 0);
-                    }
+                    SetTranslateTransform(targetContainer, 0, 0);
                 }
 
                 i++;

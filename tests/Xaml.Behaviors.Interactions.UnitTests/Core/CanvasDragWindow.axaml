@@ -1,0 +1,13 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:drag="clr-namespace:Avalonia.Xaml.Interactions.Draggable;assembly=Xaml.Behaviors.Interactions.Draggable"
+        x:Class="Avalonia.Xaml.Interactions.UnitTests.Core.CanvasDragWindow"
+        Width="100" Height="100">
+  <Canvas>
+    <Border Name="Target" Width="20" Height="20" Background="Red" Canvas.Left="0" Canvas.Top="0">
+      <Interaction.Behaviors>
+        <drag:CanvasDragBehavior />
+      </Interaction.Behaviors>
+    </Border>
+  </Canvas>
+</Window>

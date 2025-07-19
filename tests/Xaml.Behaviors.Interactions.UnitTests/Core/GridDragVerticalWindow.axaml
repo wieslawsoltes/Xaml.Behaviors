@@ -1,0 +1,18 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:drag="clr-namespace:Avalonia.Xaml.Interactions.Draggable;assembly=Xaml.Behaviors.Interactions.Draggable"
+        x:Class="Avalonia.Xaml.Interactions.UnitTests.Core.GridDragVerticalWindow"
+        Width="100" Height="100">
+  <Grid RowDefinitions="*,*" Name="MainGrid">
+    <Border Name="Source" Background="Red">
+      <Interaction.Behaviors>
+        <drag:GridDragBehavior />
+      </Interaction.Behaviors>
+    </Border>
+    <Border Name="Target" Grid.Row="1" Background="Blue">
+      <Interaction.Behaviors>
+        <drag:GridDragBehavior />
+      </Interaction.Behaviors>
+    </Border>
+  </Grid>
+</Window>
