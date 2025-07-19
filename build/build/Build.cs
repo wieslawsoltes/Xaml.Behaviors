@@ -96,6 +96,18 @@ class Build : NukeBuild
                 .EnableNoRestore());
         });
 
+    Target Docs => _ => _
+        .DependsOn(Compile)
+        .Executes(() =>
+        {
+            DotNetRun(s => s
+                .SetProjectFile(RootDirectory / "tools" / "GenerateDocs" / "GenerateDocs.csproj")
+                .SetConfiguration(Configuration)
+                .SetApplicationArguments($"{RootDirectory} {Configuration}")
+                .EnableNoBuild()
+                .EnableNoRestore());
+        });
+
     Target Pack => _ => _
         .DependsOn(Test)
         .Executes(() =>

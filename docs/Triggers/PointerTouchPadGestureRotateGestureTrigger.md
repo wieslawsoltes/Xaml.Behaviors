@@ -1,0 +1,3 @@
+# PointerTouchPadGestureRotateGestureTrigger
+
+TODO: Document the PointerTouchPadGestureRotateGestureTrigger.

@@ -23,3 +23,15 @@ Welcome to the project documentation. Below is the table of contents that mirror
 - [License](../README.md#license)
 
 For detailed information about each section, refer to the [project README](../README.md).
+
+## Generating API Docs
+
+After building the solution you can create markdown stubs for behaviors,
+actions and triggers. Run the following command:
+
+```bash
+./build.sh --target Docs
+```
+
+New files will appear under `docs/Behaviors`, `docs/Actions` and `docs/Triggers`
+for any components that are missing documentation.

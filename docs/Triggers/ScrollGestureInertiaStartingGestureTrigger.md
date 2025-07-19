@@ -1,0 +1,3 @@
+# ScrollGestureInertiaStartingGestureTrigger
+
+TODO: Document the ScrollGestureInertiaStartingGestureTrigger.

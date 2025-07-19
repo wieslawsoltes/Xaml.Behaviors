@@ -1,0 +1,3 @@
+# TextInputMethodClientRequestedEventTrigger
+
+TODO: Document the TextInputMethodClientRequestedEventTrigger.

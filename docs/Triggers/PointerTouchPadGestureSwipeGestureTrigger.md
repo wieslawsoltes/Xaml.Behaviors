@@ -1,0 +1,3 @@
+# PointerTouchPadGestureSwipeGestureTrigger
+
+TODO: Document the PointerTouchPadGestureSwipeGestureTrigger.

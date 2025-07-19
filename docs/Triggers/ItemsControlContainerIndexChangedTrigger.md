@@ -1,0 +1,3 @@
+# ItemsControlContainerIndexChangedTrigger
+
+TODO: Document the ItemsControlContainerIndexChangedTrigger.
