@@ -291,6 +291,9 @@
       <TabItem Header="Upload File">
         <pages:UploadFileView />
       </TabItem>
+      <TabItem Header="Remote Drop Handler">
+        <pages:RemoteDropHandlerView />
+      </TabItem>
       <TabItem Header="ContentControlFilesDropBehavior">
         <pages:ContentControlFilesDropBehaviorView />
       </TabItem>
