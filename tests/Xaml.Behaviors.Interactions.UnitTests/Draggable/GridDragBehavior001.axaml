@@ -1,0 +1,15 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:drag="clr-namespace:Avalonia.Xaml.Interactions.Draggable;assembly=Xaml.Behaviors.Interactions.Draggable"
+        x:Class="Avalonia.Xaml.Interactions.UnitTests.Draggable.GridDragBehavior001"
+        Title="GridDragBehavior001">
+  <Grid Width="100" Height="50" Name="DragGrid" ColumnDefinitions="50,50">
+    <Border Name="BoundingBorder" Grid.ColumnSpan="2" Width="50" Height="50" IsHitTestVisible="False" HorizontalAlignment="Left" VerticalAlignment="Top" />
+    <Button Name="LeftButton" Grid.Column="0" Width="50" Height="50">
+      <Interaction.Behaviors>
+        <drag:GridDragBehavior BoundingContainer="BoundingBorder" />
+      </Interaction.Behaviors>
+    </Button>
+    <Button Name="RightButton" Grid.Column="1" Width="50" Height="50" />
+  </Grid>
+</Window>
