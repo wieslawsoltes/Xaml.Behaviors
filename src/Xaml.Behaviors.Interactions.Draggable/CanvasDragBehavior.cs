@@ -17,8 +17,12 @@ public class CanvasDragBehavior : StyledElementBehavior<Control>
     private Point _start;
     private Control? _parent;
     private Control? _draggedContainer;
-    private Control? _adorner;
     private bool _captured;
+
+    /// <summary>
+    /// Gets or sets the provider used to display drag visuals.
+    /// </summary>
+    public IDragVisualProvider DragVisualProvider { get; set; } = new SelectionDragVisualProvider();
 
     /// <inheritdoc />
     protected override void OnAttachedToVisualTree()
@@ -46,32 +50,12 @@ public class CanvasDragBehavior : StyledElementBehavior<Control>
 
     private void AddAdorner(Control control)
     {
-        var layer = AdornerLayer.GetAdornerLayer(control);
-        if (layer is null)
-        {
-            return;
-        }
-
-        _adorner = new SelectionAdorner()
-        {
-            [AdornerLayer.AdornedElementProperty] = control
-        };
-
-        ((ISetLogicalParent) _adorner).SetParent(control);
-        layer.Children.Add(_adorner);
+        DragVisualProvider.Show(control);
     }
 
     private void RemoveAdorner(Control control)
     {
-        var layer = AdornerLayer.GetAdornerLayer(control);
-        if (layer is null || _adorner is null)
-        {
-            return;
-        }
-
-        layer.Children.Remove(_adorner);
-        ((ISetLogicalParent) _adorner).SetParent(null);
-        _adorner = null;
+        DragVisualProvider.Hide(control);
     }
 
     private void Pressed(object? sender, PointerPressedEventArgs e)
@@ -87,7 +71,7 @@ public class CanvasDragBehavior : StyledElementBehavior<Control>
 
             SetDraggingPseudoClasses(_draggedContainer, true);
 
-            // AddAdorner(_draggedContainer);
+            AddAdorner(_draggedContainer);
 
             _captured = true;
         }
@@ -140,7 +124,7 @@ public class CanvasDragBehavior : StyledElementBehavior<Control>
         {
             if (_parent is not null && _draggedContainer is not null)
             {
-                // RemoveAdorner(_draggedContainer);
+                RemoveAdorner(_draggedContainer);
             }
 
             if (_draggedContainer is not null)
