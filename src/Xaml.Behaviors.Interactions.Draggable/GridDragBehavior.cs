@@ -4,6 +4,7 @@ using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
 using Avalonia.Input;
 using Avalonia.Interactivity;
+using Avalonia.Xaml.Interactions.DragAndDrop;
 using Avalonia.Xaml.Interactivity;
 
 namespace Avalonia.Xaml.Interactions.Draggable;
@@ -105,18 +106,25 @@ public class GridDragBehavior : StyledElementBehavior<Control>
 
     private void AddAdorner(Control control)
     {
+        var template = ContextDragBehaviorBase.GetDragPreviewTemplate(control);
+        if (template is null)
+        {
+            return;
+        }
+
         var layer = AdornerLayer.GetAdornerLayer(control);
         if (layer is null)
         {
             return;
         }
 
-        _adorner = new SelectionAdorner()
+        _adorner = new DragPreviewAdorner()
         {
+            Content = template.Build(control.DataContext),
             [AdornerLayer.AdornedElementProperty] = control
         };
 
-        ((ISetLogicalParent) _adorner).SetParent(control);
+        ((ISetLogicalParent)_adorner).SetParent(control);
         layer.Children.Add(_adorner);
     }
 
@@ -129,7 +137,7 @@ public class GridDragBehavior : StyledElementBehavior<Control>
         }
 
         layer.Children.Remove(_adorner);
-        ((ISetLogicalParent) _adorner).SetParent(null);
+        ((ISetLogicalParent)_adorner).SetParent(null);
         _adorner = null;
     }
 
@@ -146,7 +154,7 @@ public class GridDragBehavior : StyledElementBehavior<Control>
 
             SetDraggingPseudoClasses(_draggedContainer, true);
 
-            // AddAdorner(_draggedContainer);
+            AddAdorner(_draggedContainer);
 
             _captured = true;
         }
@@ -295,7 +303,7 @@ public class GridDragBehavior : StyledElementBehavior<Control>
         {
             if (_parent is not null && _draggedContainer is not null)
             {
-                // RemoveAdorner(_draggedContainer);
+                RemoveAdorner(_draggedContainer);
             }
 
             if (_draggedContainer is not null)

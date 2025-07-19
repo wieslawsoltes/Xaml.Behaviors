@@ -3,6 +3,7 @@
 using System;
 using System.Threading.Tasks;
 using Avalonia.Controls;
+using Avalonia.Controls.Templates;
 using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.LogicalTree;
@@ -19,6 +20,7 @@ public abstract class ContextDragBehaviorBase : StyledElementBehavior<Control>
     private PointerEventArgs? _triggerEvent;
     private bool _lock;
     private bool _captured;
+    private Control? _previewAdorner;
 
     /// <summary>
     /// Identifies the <see cref="Context"/> avalonia property.
@@ -37,6 +39,29 @@ public abstract class ContextDragBehaviorBase : StyledElementBehavior<Control>
     /// </summary>
     public static readonly StyledProperty<double> VerticalDragThresholdProperty =
         AvaloniaProperty.Register<ContextDragBehaviorBase, double>(nameof(VerticalDragThreshold), 3);
+
+    /// <summary>
+    /// Identifies the <see cref="DragPreviewTemplate"/> attached avalonia property.
+    /// </summary>
+    public static readonly AttachedProperty<IDataTemplate?> DragPreviewTemplateProperty =
+        AvaloniaProperty.RegisterAttached<ContextDragBehaviorBase, Control, IDataTemplate?>(
+            "DragPreviewTemplate");
+
+    /// <summary>
+    /// Gets the <see cref="IDataTemplate"/> used to create the drag preview.
+    /// </summary>
+    /// <param name="control">The control to read the template from.</param>
+    /// <returns>The <see cref="IDataTemplate"/> value.</returns>
+    public static IDataTemplate? GetDragPreviewTemplate(Control control) =>
+        control.GetValue(DragPreviewTemplateProperty);
+
+    /// <summary>
+    /// Sets the <see cref="IDataTemplate"/> used to create the drag preview.
+    /// </summary>
+    /// <param name="control">The control to set the template on.</param>
+    /// <param name="value">The template.</param>
+    public static void SetDragPreviewTemplate(Control control, IDataTemplate? value) =>
+        control.SetValue(DragPreviewTemplateProperty, value);
 
     /// <summary>
     /// Gets or sets context data passed to the drag handler.
@@ -126,10 +151,58 @@ public abstract class ContextDragBehaviorBase : StyledElementBehavior<Control>
         await DragDrop.DoDragDrop(triggerEvent, data, effect);
     }
 
+    private void AddPreviewAdorner()
+    {
+        if (AssociatedObject is null)
+        {
+            return;
+        }
+
+        var template = GetDragPreviewTemplate(AssociatedObject);
+        if (template is null)
+        {
+            return;
+        }
+
+        var layer = AdornerLayer.GetAdornerLayer(AssociatedObject);
+        if (layer is null)
+        {
+            return;
+        }
+
+        _previewAdorner = new Avalonia.Xaml.Interactions.Draggable.DragPreviewAdorner
+        {
+            Content = template.Build(AssociatedObject.DataContext),
+            [AdornerLayer.AdornedElementProperty] = AssociatedObject
+        };
+
+        ((ISetLogicalParent)_previewAdorner).SetParent(AssociatedObject);
+        layer.Children.Add(_previewAdorner);
+    }
+
+    private void RemovePreviewAdorner()
+    {
+        if (AssociatedObject is null || _previewAdorner is null)
+        {
+            return;
+        }
+
+        var layer = AdornerLayer.GetAdornerLayer(AssociatedObject);
+        if (layer is null)
+        {
+            return;
+        }
+
+        layer.Children.Remove(_previewAdorner);
+        ((ISetLogicalParent)_previewAdorner).SetParent(null);
+        _previewAdorner = null;
+    }
+
     private void Released()
     {
         _triggerEvent = null;
         _lock = false;
+        RemovePreviewAdorner();
     }
 
     private void AssociatedObject_PointerPressed(object? sender, PointerPressedEventArgs e)
@@ -197,12 +270,14 @@ public abstract class ContextDragBehaviorBase : StyledElementBehavior<Control>
                 }
 
                 var context = Context ?? AssociatedObject?.DataContext;
-                    
-                OnBeforeDragDrop(sender, _triggerEvent, context);
 
+                AddPreviewAdorner();
+                OnBeforeDragDrop(sender, _triggerEvent, context);
+                
                 await DoDragDrop(_triggerEvent, context);
 
                 OnAfterDragDrop(sender, _triggerEvent, context);
+                RemovePreviewAdorner();
 
                 _triggerEvent = null;
             }
