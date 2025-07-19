@@ -1,0 +1,22 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        x:Class="Avalonia.Xaml.Interactions.UnitTests.DragAndDrop.PanelDragDrop001"
+        Title="PanelDragDrop001" Width="200" Height="100">
+  <Grid ColumnDefinitions="*,*">
+    <StackPanel Name="LeftPanel" Background="LightGray" Margin="5">
+      <Interaction.Behaviors>
+        <PanelDropBehavior />
+      </Interaction.Behaviors>
+      <Rectangle Name="DragRectangle" Width="20" Height="20" Fill="Red" Margin="5">
+        <Interaction.Behaviors>
+          <PanelDragBehavior />
+        </Interaction.Behaviors>
+      </Rectangle>
+    </StackPanel>
+    <StackPanel Name="RightPanel" Grid.Column="1" Background="LightGray" Margin="5">
+      <Interaction.Behaviors>
+        <PanelDropBehavior />
+      </Interaction.Behaviors>
+    </StackPanel>
+  </Grid>
+</Window>
