@@ -106,7 +106,7 @@ public abstract class BaseDataGridDropHandler<T> : DropHandlerBase
         int maxDepth = 16;
         DataGridRow? row = null;
         StyledElement? current = sourceChild;
-        while (maxDepth --> 0 || row is null)
+        while (maxDepth-- > 0 && row is null)
         {
             if (current is DataGridRow dgr)
                 row = dgr;

@@ -31,6 +31,7 @@
     <ProjectReference Include="..\..\src\Xaml.Behaviors.Interactions.Events\Xaml.Behaviors.Interactions.Events.csproj" />
     <ProjectReference Include="..\..\src\Xaml.Behaviors.Interactions.Responsive\Xaml.Behaviors.Interactions.Responsive.csproj" />
     <ProjectReference Include="..\..\src\Xaml.Behaviors.Interactivity\Xaml.Behaviors.Interactivity.csproj" />
+    <ProjectReference Include="..\..\samples\BehaviorsTestApplication\BehaviorsTestApplication.csproj" />
   </ItemGroup>
 
 </Project>
