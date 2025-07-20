@@ -195,6 +195,7 @@
         <TreeView ItemsSource="{Binding Nodes}"
                   Classes="NodesDragAndDrop"
                   SelectedItems="{Binding SelectedTreeNodes, Mode=TwoWay}"
+                  AllowDrop="True"
                   Grid.Column="0">
           <TreeView.ItemTemplate>
             <TreeDataTemplate DataType="vm:DragNodeViewModel" ItemsSource="{Binding Nodes}">
@@ -205,6 +206,7 @@
         <GridSplitter Width="8" ResizeDirection="Columns" ResizeBehavior="PreviousAndNext" Background="Transparent" Grid.Column="1"/>
         <ListBox ItemsSource="{Binding Nodes}"
                  Classes="NodesDragAndDrop"
+                 AllowDrop="True"
                  Grid.Column="2">
           <ListBox.ItemTemplate>
             <DataTemplate DataType="vm:DragNodeViewModel">
@@ -217,7 +219,8 @@
 
     <TabItem Header="ListBox">
       <ListBox ItemsSource="{Binding Items}"
-               Classes="ItemsDragAndDrop">
+               Classes="ItemsDragAndDrop"
+               AllowDrop="True">
         <ListBox.ItemTemplate>
           <DataTemplate DataType="vm:DragItemViewModel">
             <TextBlock Text="{Binding Title}" />
@@ -233,7 +236,8 @@
           ItemsSource="{Binding Items}"
           CanUserResizeColumns="True"
           HeadersVisibility="All"
-          Classes="DragAndDrop ItemsDragAndDrop">
+          Classes="DragAndDrop ItemsDragAndDrop"
+          AllowDrop="True">
           <DataGrid.Columns>
             <DataGridTextColumn
               Width="*"

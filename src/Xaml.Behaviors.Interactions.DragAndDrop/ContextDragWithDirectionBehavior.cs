@@ -105,7 +105,7 @@ public sealed class ContextDragWithDirectionBehavior : StyledElementBehavior<Con
     private async Task DoDragDrop(PointerEventArgs triggerEvent, object? value, string direction)
     {
         var data = new DataObject();
-        data.Set(ContextDropBehavior.DataFormat, value!);
+        data.Set(ContextDropBehaviorBase.DataFormat, value!);
         data.Set("direction", direction);
 
         var effect = DragDropEffects.None;
