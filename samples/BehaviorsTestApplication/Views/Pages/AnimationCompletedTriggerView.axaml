@@ -14,18 +14,16 @@
     <Border x:Name="AnimatedBorder" Width="100" Height="100" Background="SteelBlue">
       <Interaction.Behaviors>
         <AnimationCompletedTrigger>
-          <!-- TODO: Error AVLN2200 Avalonia: Could not determine target type of Setter
           <AnimationCompletedTrigger.Animation>
-            <Animation Duration="0:0:1">
+            <Animation Duration="0:0:1" x:SetterTargetType="Visual">
               <KeyFrame Cue="0%">
-                <Setter Property="{x:Static Visual.OpacityProperty}" Value="0" />
+                <Setter Property="Opacity" Value="0" />
               </KeyFrame>
               <KeyFrame Cue="100%">
-                <Setter Property="{x:Static Visual.OpacityProperty}" Value="1" />
+                <Setter Property="Opacity" Value="1" />
               </KeyFrame>
             </Animation>
           </AnimationCompletedTrigger.Animation>
-          -->
           <ChangePropertyAction TargetObject="{Binding #MessageText}" PropertyName="Text" Value="Completed!" />
         </AnimationCompletedTrigger>
       </Interaction.Behaviors>
