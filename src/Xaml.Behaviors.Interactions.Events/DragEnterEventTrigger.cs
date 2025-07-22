@@ -13,7 +13,7 @@ public sealed class DragEnterEventTrigger : InteractiveTriggerBase
     /// <inheritdoc />
     protected override void OnAttachedToVisualTree()
     {
-        AssociatedObject?.AddHandler(DragDrop.DragEnterEvent, OnDragEnter, RoutingStrategies);
+        AssociatedObject?.AddHandler(DragDrop.DragEnterEvent, OnDragEnter, RoutingStrategies, true);
     }
 
     /// <inheritdoc />

@@ -2,6 +2,7 @@
 // Licensed under the MIT license. See LICENSE file in the project root for details.
 using Avalonia.Controls;
 using Avalonia.Input;
+using Avalonia.Interactivity;
 using Avalonia.Xaml.Interactivity;
 
 namespace Avalonia.Xaml.Interactions.DragAndDrop;
@@ -42,10 +43,10 @@ public abstract class DragAndDropEventsBehavior : StyledElementBehavior<Control>
     private void AttachEvents(Control targetControl)
     {
         DragDrop.SetAllowDrop(targetControl, true);
-        targetControl.AddHandler(DragDrop.DragEnterEvent, DragEnter);
-        targetControl.AddHandler(DragDrop.DragLeaveEvent, DragLeave);
-        targetControl.AddHandler(DragDrop.DragOverEvent, DragOver);
-        targetControl.AddHandler(DragDrop.DropEvent, Drop);
+        targetControl.AddHandler(DragDrop.DragEnterEvent, DragEnter, RoutingStrategies.Bubble, true);
+        targetControl.AddHandler(DragDrop.DragLeaveEvent, DragLeave, RoutingStrategies.Bubble, true);
+        targetControl.AddHandler(DragDrop.DragOverEvent, DragOver, RoutingStrategies.Bubble, true);
+        targetControl.AddHandler(DragDrop.DropEvent, Drop, RoutingStrategies.Bubble, true);
     }
 
     /// <inheritdoc />

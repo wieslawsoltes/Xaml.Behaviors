@@ -39,10 +39,10 @@ public abstract class ContextDropBehaviorBase : StyledElementBehavior<Control>
         {
             DragDrop.SetAllowDrop(AssociatedObject, true);
         }
-        AssociatedObject?.AddHandler(DragDrop.DragEnterEvent, DragEnter);
-        AssociatedObject?.AddHandler(DragDrop.DragLeaveEvent, DragLeave);
-        AssociatedObject?.AddHandler(DragDrop.DragOverEvent, DragOver);
-        AssociatedObject?.AddHandler(DragDrop.DropEvent, Drop);
+        AssociatedObject?.AddHandler(DragDrop.DragEnterEvent, DragEnter, RoutingStrategies.Bubble, true);
+        AssociatedObject?.AddHandler(DragDrop.DragLeaveEvent, DragLeave, RoutingStrategies.Bubble, true);
+        AssociatedObject?.AddHandler(DragDrop.DragOverEvent, DragOver, RoutingStrategies.Bubble, true);
+        AssociatedObject?.AddHandler(DragDrop.DropEvent, Drop, RoutingStrategies.Bubble, true);
     }
 
     /// <inheritdoc />

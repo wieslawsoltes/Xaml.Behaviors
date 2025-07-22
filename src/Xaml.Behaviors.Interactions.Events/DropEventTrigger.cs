@@ -13,7 +13,7 @@ public sealed class DropEventTrigger : InteractiveTriggerBase
     /// <inheritdoc />
     protected override void OnAttachedToVisualTree()
     {
-        AssociatedObject?.AddHandler(DragDrop.DropEvent, OnDrop, RoutingStrategies);
+        AssociatedObject?.AddHandler(DragDrop.DropEvent, OnDrop, RoutingStrategies, true);
     }
 
     /// <inheritdoc />

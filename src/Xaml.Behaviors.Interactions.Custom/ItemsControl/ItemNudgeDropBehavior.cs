@@ -33,9 +33,9 @@ public class ItemNudgeDropBehavior : StyledElementBehavior<ItemsControl>
     /// <inheritdoc />
     protected override void OnAttachedToVisualTree()
     {
-        AssociatedObject?.AddHandler(DragDrop.DragLeaveEvent, OnDragLeave);
-        AssociatedObject?.AddHandler(DragDrop.DragOverEvent, OnDragOver);
-        AssociatedObject?.AddHandler(DragDrop.DropEvent, OnDrop);
+        AssociatedObject?.AddHandler(DragDrop.DragLeaveEvent, OnDragLeave, RoutingStrategies.Bubble, true);
+        AssociatedObject?.AddHandler(DragDrop.DragOverEvent, OnDragOver, RoutingStrategies.Bubble, true);
+        AssociatedObject?.AddHandler(DragDrop.DropEvent, OnDrop, RoutingStrategies.Bubble, true);
     }
 
     /// <inheritdoc />

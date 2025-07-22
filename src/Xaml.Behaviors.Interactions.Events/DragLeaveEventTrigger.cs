@@ -14,7 +14,7 @@ public sealed class DragLeaveEventTrigger : InteractiveTriggerBase
     /// <inheritdoc />
     protected override void OnAttachedToVisualTree()
     {
-        AssociatedObject?.AddHandler(DragDrop.DragLeaveEvent, OnDragLeave, RoutingStrategies);
+        AssociatedObject?.AddHandler(DragDrop.DragLeaveEvent, OnDragLeave, RoutingStrategies, true);
     }
 
     /// <inheritdoc />
