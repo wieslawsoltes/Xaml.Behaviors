@@ -19,6 +19,16 @@
     <ObjectTemplate x:Key="ReorderPlaceholder">
       <Border BorderThickness="0 0 0 2" BorderBrush="{DynamicResource SystemAccentColor}"/>
     </ObjectTemplate>
+
+    <!-- Preview template for Managed drag sample -->
+    <DataTemplate x:Key="ManagedDragPreviewTemplate" DataType="vm:DragItemViewModel">
+      <Border CornerRadius="6" Background="{DynamicResource SystemAccentColor}" Opacity="1" Padding="8">
+        <StackPanel Orientation="Horizontal" Spacing="8">
+          <Path Data="{StaticResource IconGrabberGeometry}" Fill="White" Width="12" Height="12" VerticalAlignment="Center"/>
+          <TextBlock Text="{Binding Title}" Foreground="White" FontWeight="SemiBold"/>
+        </StackPanel>
+      </Border>
+    </DataTemplate>
   </UserControl.Resources>
 
   <UserControl.Styles>
@@ -31,6 +41,20 @@
         <BehaviorCollectionTemplate>
           <BehaviorCollection>
             <ContextDropBehavior Handler="{StaticResource ItemsListBoxDropHandler}" />
+          </BehaviorCollection>
+        </BehaviorCollectionTemplate>
+      </Setter>
+    </Style>
+
+    <!-- Managed in-process drag/drop styles with preview -->
+    <Style Selector="ListBox.ManagedItemsDragAndDrop">
+      <Style.Resources>
+        <ItemsListBoxDropHandler x:Key="ItemsListBoxDropHandler" />
+      </Style.Resources>
+      <Setter Property="(Interaction.Behaviors)">
+        <BehaviorCollectionTemplate>
+          <BehaviorCollection>
+            <ManagedContextDropBehavior Handler="{StaticResource ItemsListBoxDropHandler}" OverClass="TargetHighlight" />
           </BehaviorCollection>
         </BehaviorCollectionTemplate>
       </Setter>
@@ -50,6 +74,22 @@
         <BehaviorCollectionTemplate>
           <BehaviorCollection>
             <ContextDragBehavior HorizontalDragThreshold="3" VerticalDragThreshold="3" />
+          </BehaviorCollection>
+        </BehaviorCollectionTemplate>
+      </Setter>
+    </Style>
+
+    <!-- Item-level managed drag with preview template -->
+    <Style Selector="ListBox.ManagedItemsDragAndDrop ListBoxItem">
+      <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+      <Setter Property="(Interaction.Behaviors)">
+        <BehaviorCollectionTemplate>
+          <BehaviorCollection>
+            <ManagedContextDragBehavior HorizontalDragThreshold="3"
+                                        VerticalDragThreshold="3"
+                                        PreviewTemplate="{StaticResource ManagedDragPreviewTemplate}"
+                                        PreviewOpacity="0.75"
+                                        UsePointerRelativePreviewOffset="True" />
           </BehaviorCollection>
         </BehaviorCollectionTemplate>
       </Setter>
@@ -248,6 +288,20 @@
       </ListBox>
     </TabItem>
 
+    <!-- New managed in-process drag/drop sample with preview window -->
+    <TabItem Header="Managed (Preview)">
+      <ListBox ItemsSource="{Binding Items}"
+               Classes="ManagedItemsDragAndDrop">
+        <ListBox.ItemTemplate>
+          <DataTemplate DataType="vm:DragItemViewModel">
+            <Border Padding="6" Background="{DynamicResource ThemeBackgroundBrush}">
+              <TextBlock Text="{Binding Title}" />
+            </Border>
+          </DataTemplate>
+        </ListBox.ItemTemplate>
+      </ListBox>
+    </TabItem>
+
     <TabItem Header="Reorder Behavior">
       <ListBox ItemsSource="{Binding Items}"
                Classes="Reorder">
@@ -283,4 +337,3 @@
   </TabControl>
 
 </UserControl>
-
