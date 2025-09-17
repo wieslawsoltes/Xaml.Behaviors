@@ -8,6 +8,8 @@ public class DragAndDropSampleViewModel : ViewModelBase
 {
     private ObservableCollection<DragItemViewModel> _items;
     private ObservableCollection<DragNodeViewModel> _nodes;
+    private ObservableCollection<DragItemViewModel> _managedSourceItems;
+    private ObservableCollection<DragItemViewModel> _managedTargetItems;
         
     public ObservableCollection<DragItemViewModel> Items
     {
@@ -22,6 +24,18 @@ public class DragAndDropSampleViewModel : ViewModelBase
     }
 
     public ObservableCollection<DragNodeViewModel> SelectedTreeNodes { get; }
+
+    public ObservableCollection<DragItemViewModel> ManagedSourceItems
+    {
+        get => _managedSourceItems;
+        set => this.RaiseAndSetIfChanged(ref _managedSourceItems, value);
+    }
+
+    public ObservableCollection<DragItemViewModel> ManagedTargetItems
+    {
+        get => _managedTargetItems;
+        set => this.RaiseAndSetIfChanged(ref _managedTargetItems, value);
+    }
 
     private bool _hasMultipleTreeNodesSelected;
     public bool HasMultipleTreeNodesSelected
@@ -39,6 +53,20 @@ public class DragAndDropSampleViewModel : ViewModelBase
             new() { Title = "Item2" },
             new() { Title = "Item3" },
             new() { Title = "Item4" }
+        ];
+
+        _managedSourceItems =
+        [
+            new() { Title = "PreviewItem0" },
+            new() { Title = "PreviewItem1" },
+            new() { Title = "PreviewItem2" },
+            new() { Title = "PreviewItem3" }
+        ];
+
+        _managedTargetItems =
+        [
+            new() { Title = "PreviewItem4" },
+            new() { Title = "PreviewItem5" }
         ];
 
         SelectedTreeNodes = new();

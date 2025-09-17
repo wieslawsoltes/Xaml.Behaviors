@@ -25,4 +25,8 @@
     <ProjectReference Include="..\Xaml.Behaviors.Interactivity\Xaml.Behaviors.Interactivity.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="ManagedDragDrop\" />
+  </ItemGroup>
+
 </Project>
