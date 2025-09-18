@@ -1,0 +1,55 @@
+<UserControl x:Class="BehaviorsTestApplication.Views.Pages.CanvasDragBehaviorView"
+             xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:BehaviorsTestApplication.ViewModels"
+             x:DataType="vm:MainWindowViewModel"
+             mc:Ignorable="d"
+             d:DesignWidth="600"
+             d:DesignHeight="450">
+  <Design.DataContext>
+    <vm:MainWindowViewModel />
+  </Design.DataContext>
+
+  <StackPanel Spacing="12" Margin="16">
+    <TextBlock Text="CanvasDragBehavior lets you reposition controls by dragging them within a Canvas. Each card remembers its new coordinates."
+               TextWrapping="Wrap" />
+    <Border BorderBrush="{DynamicResource ThemeBorderBrush}"
+            BorderThickness="1"
+            CornerRadius="6"
+            Background="{DynamicResource ThemeBackgroundBrush}"
+            Padding="12">
+      <Canvas Width="400" Height="260" ClipToBounds="True">
+        <Border Canvas.Left="40"
+                Canvas.Top="40"
+                Width="120"
+                Height="80"
+                Background="{DynamicResource SystemAccentColor}"
+                CornerRadius="6">
+          <Interaction.Behaviors>
+            <CanvasDragBehavior />
+          </Interaction.Behaviors>
+          <TextBlock Text="Drag me" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="White" />
+        </Border>
+        <Border Canvas.Left="220"
+                Canvas.Top="120"
+                Width="120"
+                Height="80"
+                Background="{DynamicResource ThemeControlHighBrush}"
+                CornerRadius="6">
+          <Interaction.Behaviors>
+            <CanvasDragBehavior />
+          </Interaction.Behaviors>
+          <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="4">
+            <TextBlock Text="Drag me too" TextAlignment="Center" />
+            <TextBlock Text="Hold and move to explore" FontSize="11" TextAlignment="Center" />
+          </StackPanel>
+        </Border>
+      </Canvas>
+    </Border>
+    <TextBlock Text="Tip: the behavior attaches to each draggable element, so you can mix movable cards with static decorations within the same canvas."
+               FontSize="12"
+               TextWrapping="Wrap" />
+  </StackPanel>
+</UserControl>

@@ -19,5 +19,22 @@
         </HoldingTrigger>
       </Interaction.Behaviors>
     </Border>
+    <TextBlock x:Name="GestureInfo" Text="Gesture triggers area" Margin="5" />
+    <Border Width="200" Height="100" Background="Lavender" Margin="5">
+      <Interaction.Behaviors>
+        <TappedGestureTrigger>
+          <ChangePropertyAction TargetObject="GestureInfo" PropertyName="Text" Value="TappedGestureTrigger fired" />
+        </TappedGestureTrigger>
+        <DoubleTappedGestureTrigger>
+          <ChangePropertyAction TargetObject="GestureInfo" PropertyName="Text" Value="DoubleTappedGestureTrigger fired" />
+        </DoubleTappedGestureTrigger>
+        <RightTappedGestureTrigger>
+          <ChangePropertyAction TargetObject="GestureInfo" PropertyName="Text" Value="RightTappedGestureTrigger fired" />
+        </RightTappedGestureTrigger>
+        <HoldingGestureTrigger>
+          <ChangePropertyAction TargetObject="GestureInfo" PropertyName="Text" Value="HoldingGestureTrigger fired" />
+        </HoldingGestureTrigger>
+      </Interaction.Behaviors>
+    </Border>
   </StackPanel>
 </UserControl>

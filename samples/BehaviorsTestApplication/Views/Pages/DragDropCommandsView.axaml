@@ -1,0 +1,31 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:BehaviorsTestApplication.ViewModels"
+             x:Class="BehaviorsTestApplication.Views.Pages.DragDropCommandsView"
+             x:DataType="vm:DragDropCommandsViewModel"
+             x:CompileBindings="True"
+             mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="200">
+  <Design.DataContext>
+    <vm:DragDropCommandsViewModel />
+  </Design.DataContext>
+
+  <StackPanel Spacing="12" Margin="5">
+    <Border Background="LightGray" Height="100" CornerRadius="4">
+      <Interaction.Behaviors>
+        <DragDropCommandsBehavior DragEnterCommand="{Binding EnterCommand}"
+                                   DragOverCommand="{Binding OverCommand}"
+                                   DragLeaveCommand="{Binding LeaveCommand}"
+                                   DropCommand="{Binding DropCommand}" />
+      </Interaction.Behaviors>
+      <TextBlock Text="{Binding Status}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+    </Border>
+
+    <Rectangle Fill="SkyBlue" Width="80" Height="40" HorizontalAlignment="Center">
+      <Interaction.Behaviors>
+        <ContextDragBehavior Context="DragMe" />
+      </Interaction.Behaviors>
+    </Rectangle>
+  </StackPanel>
+</UserControl>

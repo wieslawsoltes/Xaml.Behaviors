@@ -1,0 +1,39 @@
+<UserControl x:Class="BehaviorsTestApplication.Views.Pages.ScrollGestureTriggersView"
+             xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:local="using:BehaviorsTestApplication.Views.Pages"
+             x:DataType="local:ScrollGestureTriggersView"
+             mc:Ignorable="d"
+             d:DesignWidth="360"
+             d:DesignHeight="360">
+  <StackPanel Margin="16" Spacing="12">
+    <TextBlock Text="Use a touchpad scroll gesture in the area to fire scroll gesture triggers (requires platform support)." TextWrapping="Wrap" />
+    <Border x:Name="ScrollGestureSurface"
+            Background="Honeydew"
+            CornerRadius="8"
+            Height="180">
+      <Interaction.Behaviors>
+        <ScrollGestureGestureTrigger>
+          <CallMethodAction TargetObject="{Binding}" MethodName="OnScroll" />
+        </ScrollGestureGestureTrigger>
+        <ScrollGestureEndedGestureTrigger>
+          <CallMethodAction TargetObject="{Binding}" MethodName="OnScrollEnded" />
+        </ScrollGestureEndedGestureTrigger>
+        <ScrollGestureInertiaStartingGestureTrigger>
+          <CallMethodAction TargetObject="{Binding}" MethodName="OnScrollInertia" />
+        </ScrollGestureInertiaStartingGestureTrigger>
+      </Interaction.Behaviors>
+      <TextBlock Text="Scroll here" HorizontalAlignment="Center" VerticalAlignment="Center" />
+    </Border>
+    <ListBox ItemsSource="{Binding Events}" Height="120" />
+    <Button Content="Clear" HorizontalAlignment="Left">
+      <Interaction.Behaviors>
+        <EventTriggerBehavior EventName="Click">
+          <CallMethodAction TargetObject="{Binding}" MethodName="Clear" />
+        </EventTriggerBehavior>
+      </Interaction.Behaviors>
+    </Button>
+  </StackPanel>
+</UserControl>

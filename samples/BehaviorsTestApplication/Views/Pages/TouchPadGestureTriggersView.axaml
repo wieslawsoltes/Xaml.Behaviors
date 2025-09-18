@@ -1,0 +1,39 @@
+<UserControl x:Class="BehaviorsTestApplication.Views.Pages.TouchPadGestureTriggersView"
+             xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:local="using:BehaviorsTestApplication.Views.Pages"
+             x:DataType="local:TouchPadGestureTriggersView"
+             mc:Ignorable="d"
+             d:DesignWidth="360"
+             d:DesignHeight="360">
+  <StackPanel Margin="16" Spacing="12">
+    <TextBlock Text="Use touchpad gestures (magnify, rotate, swipe) on the area. Logging helps verify trigger invocations. Support depends on platform hardware." TextWrapping="Wrap" />
+    <Border x:Name="TouchPadSurface"
+            Background="LightYellow"
+            CornerRadius="8"
+            Height="180">
+      <Interaction.Behaviors>
+        <PointerTouchPadGestureMagnifyGestureTrigger>
+          <CallMethodAction TargetObject="{Binding}" MethodName="OnMagnify" />
+        </PointerTouchPadGestureMagnifyGestureTrigger>
+        <PointerTouchPadGestureRotateGestureTrigger>
+          <CallMethodAction TargetObject="{Binding}" MethodName="OnRotate" />
+        </PointerTouchPadGestureRotateGestureTrigger>
+        <PointerTouchPadGestureSwipeGestureTrigger>
+          <CallMethodAction TargetObject="{Binding}" MethodName="OnSwipe" />
+        </PointerTouchPadGestureSwipeGestureTrigger>
+      </Interaction.Behaviors>
+      <TextBlock Text="Perform touchpad gestures here" HorizontalAlignment="Center" VerticalAlignment="Center" TextWrapping="Wrap" />
+    </Border>
+    <ListBox ItemsSource="{Binding Events}" Height="120" />
+    <Button Content="Clear" HorizontalAlignment="Left">
+      <Interaction.Behaviors>
+        <EventTriggerBehavior EventName="Click">
+          <CallMethodAction TargetObject="{Binding}" MethodName="Clear" />
+        </EventTriggerBehavior>
+      </Interaction.Behaviors>
+    </Button>
+  </StackPanel>
+</UserControl>

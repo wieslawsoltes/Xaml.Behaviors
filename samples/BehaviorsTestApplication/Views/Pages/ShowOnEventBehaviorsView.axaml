@@ -1,0 +1,121 @@
+<UserControl x:Class="BehaviorsTestApplication.Views.Pages.ShowOnEventBehaviorsView"
+             xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:BehaviorsTestApplication.ViewModels"
+             x:DataType="vm:MainWindowViewModel"
+             mc:Ignorable="d"
+             d:DesignWidth="800"
+             d:DesignHeight="450">
+  <Design.DataContext>
+    <vm:MainWindowViewModel />
+  </Design.DataContext>
+
+  <ScrollViewer>
+    <StackPanel Spacing="20" Margin="16">
+      <TextBlock Text="ShowOn* behaviors toggle the visibility of a target control when a specific gesture occurs. Each section demonstrates a different trigger."
+                 TextWrapping="Wrap" />
+
+      <Grid ColumnDefinitions="*,*,*" ColumnSpacing="16">
+        <!-- Tapped -->
+        <StackPanel Spacing="10">
+          <TextBlock Text="ShowOnTappedBehavior" FontWeight="SemiBold" />
+          <Border Padding="16"
+                  Background="{DynamicResource ThemeControlHighBrush}"
+                  Cursor="Hand">
+            <Interaction.Behaviors>
+              <ShowOnTappedBehavior TargetControl="{Binding #TappedReveal}" />
+            </Interaction.Behaviors>
+            <TextBlock Text="Tap here to reveal the message" HorizontalAlignment="Center" />
+          </Border>
+          <Border x:Name="TappedReveal"
+                  IsVisible="False"
+                  Padding="12"
+                  CornerRadius="4"
+                  Background="{DynamicResource ThemeBackgroundBrush}"
+                  BorderBrush="{DynamicResource ThemeBorderBrush}"
+                  BorderThickness="1">
+            <StackPanel Spacing="6">
+              <TextBlock Text="The tapped gesture just revealed this content." />
+              <Button Content="Hide again" HorizontalAlignment="Left">
+                <Interaction.Behaviors>
+                  <EventTriggerBehavior EventName="Click">
+                    <ChangePropertyAction TargetObject="{Binding #TappedReveal}"
+                                          PropertyName="IsVisible"
+                                          Value="False" />
+                  </EventTriggerBehavior>
+                </Interaction.Behaviors>
+              </Button>
+            </StackPanel>
+          </Border>
+        </StackPanel>
+
+        <!-- DoubleTapped -->
+        <StackPanel Grid.Column="1" Spacing="10">
+          <TextBlock Text="ShowOnDoubleTappedBehavior" FontWeight="SemiBold" />
+          <Border Padding="16"
+                  Background="{DynamicResource ThemeControlHighBrush}"
+                  Cursor="Hand">
+            <Interaction.Behaviors>
+              <ShowOnDoubleTappedBehavior TargetControl="{Binding #DoubleTappedReveal}" />
+            </Interaction.Behaviors>
+            <TextBlock Text="Double-tap to toggle visibility" HorizontalAlignment="Center" />
+          </Border>
+          <Border x:Name="DoubleTappedReveal"
+                  IsVisible="False"
+                  Padding="12"
+                  CornerRadius="4"
+                  Background="{DynamicResource ThemeBackgroundBrush}"
+                  BorderBrush="{DynamicResource ThemeBorderBrush}"
+                  BorderThickness="1">
+            <StackPanel Spacing="6">
+              <TextBlock Text="Double tapping the trigger surface shows this card." />
+              <Button Content="Hide again" HorizontalAlignment="Left">
+                <Interaction.Behaviors>
+                  <EventTriggerBehavior EventName="Click">
+                    <ChangePropertyAction TargetObject="{Binding #DoubleTappedReveal}"
+                                          PropertyName="IsVisible"
+                                          Value="False" />
+                  </EventTriggerBehavior>
+                </Interaction.Behaviors>
+              </Button>
+            </StackPanel>
+          </Border>
+        </StackPanel>
+
+        <!-- KeyDown -->
+        <StackPanel Grid.Column="2" Spacing="10">
+          <TextBlock Text="ShowOnKeyDownBehavior" FontWeight="SemiBold" />
+          <TextBlock Text="Focus the textbox and press Enter to display the panel." FontSize="12" TextWrapping="Wrap" />
+          <TextBox Width="220"
+                   Watermark="Press Enter">
+            <Interaction.Behaviors>
+              <ShowOnKeyDownBehavior TargetControl="{Binding #KeyDownReveal}" Key="Enter" />
+            </Interaction.Behaviors>
+          </TextBox>
+          <Border x:Name="KeyDownReveal"
+                  IsVisible="False"
+                  Padding="12"
+                  CornerRadius="4"
+                  Background="{DynamicResource ThemeBackgroundBrush}"
+                  BorderBrush="{DynamicResource ThemeBorderBrush}"
+                  BorderThickness="1">
+            <StackPanel Spacing="6">
+              <TextBlock Text="The Enter key revealed this content." />
+              <Button Content="Hide again" HorizontalAlignment="Left">
+                <Interaction.Behaviors>
+                  <EventTriggerBehavior EventName="Click">
+                    <ChangePropertyAction TargetObject="{Binding #KeyDownReveal}"
+                                          PropertyName="IsVisible"
+                                          Value="False" />
+                  </EventTriggerBehavior>
+                </Interaction.Behaviors>
+              </Button>
+            </StackPanel>
+          </Border>
+        </StackPanel>
+      </Grid>
+    </StackPanel>
+  </ScrollViewer>
+</UserControl>

@@ -6,31 +6,101 @@
              xmlns:vm="using:BehaviorsTestApplication.ViewModels"
              xmlns:renderers="using:BehaviorsTestApplication.Renderers"
              x:DataType="vm:MainWindowViewModel"
-             mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="450">
+             mc:Ignorable="d" d:DesignWidth="700" d:DesignHeight="600">
   <Design.DataContext>
     <vm:MainWindowViewModel />
   </Design.DataContext>
-  <StackPanel Spacing="10" Margin="5">
-    <TextBlock Text="Animated" />
-    <Image Width="256" Height="256">
-      <Interaction.Behaviors>
-        <WriteableBitmapRenderBehavior x:Name="AnimatedBehavior">
-          <WriteableBitmapRenderBehavior.Renderer>
-            <renderers:SampleWriteableBitmapRenderer />
-          </WriteableBitmapRenderBehavior.Renderer>
-        </WriteableBitmapRenderBehavior>
-      </Interaction.Behaviors>
-    </Image>
-    <TextBlock Text="Non animated" Margin="0,10,0,0" />
-    <Image Width="256" Height="256">
-      <Interaction.Behaviors>
-        <WriteableBitmapBehavior x:Name="StaticBehavior">
-          <WriteableBitmapBehavior.Renderer>
-            <renderers:SampleWriteableBitmapRenderer />
-          </WriteableBitmapBehavior.Renderer>
-        </WriteableBitmapBehavior>
-      </Interaction.Behaviors>
-    </Image>
-    <Button Content="Render Once" Margin="0,10,0,0" Click="OnRenderOnce" />
+  <StackPanel Spacing="16" Margin="10">
+    <TextBlock Text="WriteableBitmap behaviors render custom content into bitmaps. The samples below show animated, manual, trigger-based, and timer-based scenarios." TextWrapping="Wrap" />
+
+    <StackPanel Spacing="10">
+      <TextBlock Text="Animated" />
+      <Image Width="256" Height="256">
+        <Interaction.Behaviors>
+          <WriteableBitmapRenderBehavior x:Name="AnimatedBehavior">
+            <WriteableBitmapRenderBehavior.Renderer>
+              <renderers:SampleWriteableBitmapRenderer />
+            </WriteableBitmapRenderBehavior.Renderer>
+          </WriteableBitmapRenderBehavior>
+        </Interaction.Behaviors>
+      </Image>
+    </StackPanel>
+
+    <StackPanel Spacing="10">
+      <TextBlock Text="Manual render action" />
+      <Image Width="256" Height="256">
+        <Interaction.Behaviors>
+          <WriteableBitmapBehavior x:Name="StaticWriteableBehavior">
+            <WriteableBitmapBehavior.Renderer>
+              <renderers:SampleWriteableBitmapRenderer />
+            </WriteableBitmapBehavior.Renderer>
+          </WriteableBitmapBehavior>
+        </Interaction.Behaviors>
+      </Image>
+      <Button Content="Render Once">
+        <Interaction.Behaviors>
+          <EventTriggerBehavior EventName="Click">
+            <WriteableBitmapRenderAction Bitmap="{Binding ElementName=StaticWriteableBehavior, Path=Bitmap}">
+              <WriteableBitmapRenderAction.Renderer>
+                <renderers:SampleWriteableBitmapRenderer />
+              </WriteableBitmapRenderAction.Renderer>
+            </WriteableBitmapRenderAction>
+            <SetViewModelPropertyAction PropertyName="WriteableBitmapStatusMessage"
+                                        Value="Static bitmap rendered via WriteableBitmapRenderAction." />
+          </EventTriggerBehavior>
+        </Interaction.Behaviors>
+      </Button>
+      <TextBlock Text="{Binding WriteableBitmapStatusMessage}" FontSize="12" />
+    </StackPanel>
+
+    <StackPanel Spacing="10">
+      <TextBlock Text="Trigger-driven rendering" />
+      <ToggleSwitch Content="Enable timer"
+                    IsChecked="{Binding IsWriteableBitmapTimerEnabled}" />
+      <StackPanel Orientation="Horizontal" Spacing="8" VerticalAlignment="Center">
+        <TextBlock Text="Interval (ms)" VerticalAlignment="Center" />
+        <NumericUpDown Width="100"
+                       Minimum="50"
+                       Maximum="2000"
+                       Increment="50"
+                       Value="{Binding WriteableBitmapTimerInterval, Mode=TwoWay}" />
+      </StackPanel>
+      <Image Width="256" Height="256">
+        <Interaction.Behaviors>
+          <WriteableBitmapBehavior x:Name="TriggerWriteableBehavior">
+            <WriteableBitmapBehavior.Renderer>
+              <renderers:SampleWriteableBitmapRenderer />
+            </WriteableBitmapBehavior.Renderer>
+          </WriteableBitmapBehavior>
+          <WriteableBitmapTrigger x:Name="ManualWriteableTrigger"
+                                  Bitmap="{Binding ElementName=TriggerWriteableBehavior, Path=Bitmap}">
+            <WriteableBitmapRenderAction Bitmap="{Binding ElementName=TriggerWriteableBehavior, Path=Bitmap}">
+              <WriteableBitmapRenderAction.Renderer>
+                <renderers:SampleWriteableBitmapRenderer />
+              </WriteableBitmapRenderAction.Renderer>
+            </WriteableBitmapRenderAction>
+            <InvokeCommandAction Command="{Binding UpdateManualWriteableBitmapMessageCommand}" />
+          </WriteableBitmapTrigger>
+          <WriteableBitmapTimerTrigger Bitmap="{Binding ElementName=TriggerWriteableBehavior, Path=Bitmap}"
+                                       MillisecondsPerTick="{Binding WriteableBitmapTimerInterval}"
+                                       IsEnabled="{Binding IsWriteableBitmapTimerEnabled}">
+            <WriteableBitmapRenderAction Bitmap="{Binding ElementName=TriggerWriteableBehavior, Path=Bitmap}">
+              <WriteableBitmapRenderAction.Renderer>
+                <renderers:SampleWriteableBitmapRenderer />
+              </WriteableBitmapRenderAction.Renderer>
+            </WriteableBitmapRenderAction>
+            <InvokeCommandAction Command="{Binding UpdateWriteableBitmapTimerMessageCommand}" />
+          </WriteableBitmapTimerTrigger>
+        </Interaction.Behaviors>
+      </Image>
+      <Button Content="Trigger manually">
+        <Interaction.Behaviors>
+          <EventTriggerBehavior EventName="Click">
+            <CallMethodAction TargetObject="ManualWriteableTrigger" MethodName="Trigger" />
+          </EventTriggerBehavior>
+        </Interaction.Behaviors>
+      </Button>
+      <TextBlock Text="{Binding WriteableBitmapTimerMessage}" FontSize="12" />
+    </StackPanel>
   </StackPanel>
 </UserControl>

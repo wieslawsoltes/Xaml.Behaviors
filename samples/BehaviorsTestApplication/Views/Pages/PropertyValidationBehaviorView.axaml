@@ -1,0 +1,39 @@
+<UserControl x:Class="BehaviorsTestApplication.Views.Pages.PropertyValidationBehaviorView"
+             xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:BehaviorsTestApplication.ViewModels"
+             xmlns:custom="using:Avalonia.Xaml.Interactions.Custom"
+             xmlns:sys="clr-namespace:System;assembly=System.Runtime"
+             x:DataType="vm:MainWindowViewModel"
+             mc:Ignorable="d"
+             d:DesignWidth="500"
+             d:DesignHeight="300">
+  <Design.DataContext>
+    <vm:MainWindowViewModel />
+  </Design.DataContext>
+
+  <StackPanel Spacing="12" Margin="16">
+    <TextBlock Text="PropertyValidationBehavior applies rules to a dependency property and surfaces IsValid/Error values." TextWrapping="Wrap" />
+    <TextBox Width="260" Watermark="Enter at least 3 characters" Text="{Binding ValidatedText}">
+      <Interaction.Behaviors>
+        <custom:PropertyValidationBehavior x:TypeArguments="TextBox, sys:String"
+                                           Property="{x:Static TextBox.TextProperty}"
+                                           IsValid="{Binding IsTextValid, Mode=TwoWay}"
+                                           Error="{Binding TextValidationError, Mode=TwoWay}">
+          <custom:RequiredTextValidationRule ErrorMessage="Value is required." />
+          <custom:MinLengthValidationRule Length="3" ErrorMessage="Minimum length is 3." />
+        </custom:PropertyValidationBehavior>
+      </Interaction.Behaviors>
+    </TextBox>
+    <CheckBox Content="Is valid" IsChecked="{Binding IsTextValid}" IsEnabled="False" />
+    <Border Background="{DynamicResource ThemeBackgroundBrush}"
+            BorderBrush="{DynamicResource ThemeBorderBrush}"
+            BorderThickness="1"
+            CornerRadius="4"
+            Padding="8">
+      <TextBlock Text="{Binding TextValidationError}" Foreground="{DynamicResource SystemAccentColor}" TextWrapping="Wrap" />
+    </Border>
+  </StackPanel>
+</UserControl>

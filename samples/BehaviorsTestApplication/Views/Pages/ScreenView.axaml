@@ -3,14 +3,67 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="450">
-  <DockPanel>
-    <Button x:Name="RequestDetailsButton" DockPanel.Dock="Top" Content="Request Screen Details">
+             xmlns:vm="using:BehaviorsTestApplication.ViewModels"
+             x:DataType="vm:MainWindowViewModel"
+             mc:Ignorable="d"
+             d:DesignWidth="600"
+             d:DesignHeight="450">
+  <Design.DataContext>
+    <vm:MainWindowViewModel />
+  </Design.DataContext>
+
+  <StackPanel Spacing="12" Margin="12">
+    <Interaction.Behaviors>
+      <ScreensChangedTrigger>
+        <CallMethodAction TargetObject="{Binding}" MethodName="OnScreensChanged" />
+      </ScreensChangedTrigger>
+    </Interaction.Behaviors>
+    <TextBlock Text="ActiveScreenBehavior tracks which monitor currently hosts this window. Move the window between displays to see the values update."
+               TextWrapping="Wrap" />
+
+    <Border Padding="12"
+            Background="{DynamicResource ThemeBackgroundBrush}" 
+            BorderBrush="{DynamicResource ThemeBorderBrush}"
+            BorderThickness="1"
+            CornerRadius="4">
+      <StackPanel Spacing="6">
+        <TextBlock Text="Active screen"
+                   FontWeight="SemiBold" />
+        <TextBlock Text="{Binding ActiveScreenSummary}"
+                   FontSize="14"
+                   FontWeight="Bold"
+                   TextWrapping="Wrap" />
+        <TextBlock Text="{Binding ActiveScreenDiagnostics}"
+                   FontFamily="monospace"
+                   TextWrapping="Wrap"
+                   FontSize="13" />
+        <TextBlock Text="If nothing appears, try dragging the window slightly to trigger the monitor detection."
+                   FontStyle="Italic"
+                   TextWrapping="Wrap" />
+      </StackPanel>
+    </Border>
+
+    <Button x:Name="RequestDetailsButton"
+            Content="Request Screen Details"
+            HorizontalAlignment="Left">
       <Interaction.Behaviors>
         <EventTriggerBehavior EventName="Click">
           <RequestScreenDetailsAction />
         </EventTriggerBehavior>
       </Interaction.Behaviors>
     </Button>
-  </DockPanel>
+
+    <TextBlock Text="The button above still demonstrates RequestScreenDetailsAction for comparison."
+               TextWrapping="Wrap"
+               FontSize="12" />
+    <TextBlock Text="Screen events" FontWeight="SemiBold" />
+    <ListBox ItemsSource="{Binding ScreenEvents}" Height="120" />
+    <Button Content="Clear events" HorizontalAlignment="Left">
+      <Interaction.Behaviors>
+        <EventTriggerBehavior EventName="Click">
+          <CallMethodAction TargetObject="{Binding}" MethodName="ClearScreenEvents" />
+        </EventTriggerBehavior>
+      </Interaction.Behaviors>
+    </Button>
+  </StackPanel>
 </UserControl>

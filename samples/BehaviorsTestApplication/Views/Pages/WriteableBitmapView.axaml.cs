@@ -14,11 +14,4 @@ public partial class WriteableBitmapView : UserControl
     {
         AvaloniaXamlLoader.Load(this);
     }
-
-    private void OnRenderOnce(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
-    {
-        // TODO:
-        // var behavior = this.FindControl<WriteableBitmapBehavior>("StaticBehavior");
-        // behavior?.Render();
-    }
 }

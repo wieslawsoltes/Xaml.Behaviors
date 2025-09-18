@@ -1,0 +1,36 @@
+<UserControl x:Class="BehaviorsTestApplication.Views.Pages.GestureAdvancedTriggersView"
+             xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:local="using:BehaviorsTestApplication.Views.Pages"
+             x:DataType="local:GestureAdvancedTriggersView"
+             mc:Ignorable="d"
+             d:DesignWidth="320"
+             d:DesignHeight="360">
+  <StackPanel Margin="16" Spacing="12">
+    <TextBlock Text="Use a touch device to perform pinch gestures on the area below. Logs capture both PinchGestureTrigger and PinchEndedGestureTrigger." TextWrapping="Wrap" />
+    <Border x:Name="GestureSurface"
+            Background="LightSteelBlue"
+            CornerRadius="8"
+            Height="180">
+      <Interaction.Behaviors>
+        <PinchGestureTrigger>
+          <CallMethodAction TargetObject="{Binding}" MethodName="OnPinch" />
+        </PinchGestureTrigger>
+        <PinchEndedGestureTrigger>
+          <CallMethodAction TargetObject="{Binding}" MethodName="OnPinchEnded" />
+        </PinchEndedGestureTrigger>
+      </Interaction.Behaviors>
+      <TextBlock Text="Pinch here" HorizontalAlignment="Center" VerticalAlignment="Center" />
+    </Border>
+    <ListBox ItemsSource="{Binding Events}" Height="120" />
+    <Button Content="Clear" HorizontalAlignment="Left">
+      <Interaction.Behaviors>
+        <EventTriggerBehavior EventName="Click">
+          <CallMethodAction TargetObject="{Binding}" MethodName="Clear" />
+        </EventTriggerBehavior>
+      </Interaction.Behaviors>
+    </Button>
+  </StackPanel>
+</UserControl>
