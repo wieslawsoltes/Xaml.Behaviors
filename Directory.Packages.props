@@ -14,7 +14,7 @@
     <PackageVersion Include="Avalonia.Headless.XUnit" Version="$(AvaloniaVersion)" />
     <PackageVersion Include="Avalonia.Controls.DataGrid" Version="11.3.6" />
     <PackageVersion Include="ReactiveGenerator" Version="0.12.0" />
-    <PackageVersion Include="ReactiveUI" Version="21.0.1" />
+    <PackageVersion Include="ReactiveUI" Version="20.4.1" />
     <PackageVersion Include="xunit" Version="2.9.3" />
     <PackageVersion Include="xunit.abstractions" Version="2.0.3" />
     <PackageVersion Include="xunit.assert" Version="2.9.3" />
