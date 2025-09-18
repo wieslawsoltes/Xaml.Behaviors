@@ -5,24 +5,153 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="using:BehaviorsTestApplication.ViewModels"
              x:DataType="vm:ExecuteCommandBehaviorsViewModel"
-             mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="300">
+             mc:Ignorable="d"
+             d:DesignWidth="560"
+             d:DesignHeight="500">
   <Design.DataContext>
     <vm:ExecuteCommandBehaviorsViewModel />
   </Design.DataContext>
 
-  <StackPanel Spacing="10">
-    <Border Background="LightGray" Padding="20" Focusable="True">
-      <TextBlock Text="Interact with me" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-      <Interaction.Behaviors>
-        <ExecuteCommandOnPointerEnteredBehavior Command="{Binding PointerEnteredCommand}" />
-        <ExecuteCommandOnPointerPressedBehavior Command="{Binding PointerPressedCommand}" />
-        <ExecuteCommandOnDoubleTappedBehavior Command="{Binding DoubleTappedCommand}" />
-      </Interaction.Behaviors>
-    </Border>
-    <TextBox Width="200" Watermark="Press Enter" Focusable="True">
-      <Interaction.Behaviors>
-        <ExecuteCommandOnKeyDownBehavior Command="{Binding KeyDownCommand}" Key="Enter" />
-      </Interaction.Behaviors>
-    </TextBox>
-  </StackPanel>
+  <Interaction.Behaviors>
+    <ExecuteCommandOnActivatedBehavior Command="{Binding ActivatedCommand}" />
+  </Interaction.Behaviors>
+
+  <ScrollViewer>
+    <StackPanel Spacing="16" Margin="16">
+      <TextBlock Text="ExecuteCommand behaviors wire common UI events to commands without code-behind. Interact with each area and watch the log update." 
+                 TextWrapping="Wrap" />
+
+      <StackPanel Spacing="8">
+        <TextBlock Text="Focus events" FontWeight="SemiBold" />
+        <TextBlock Text="Tab between the boxes to fire focus commands." FontSize="12" TextWrapping="Wrap" />
+        <StackPanel Orientation="Horizontal" Spacing="12">
+          <TextBox Width="160" Watermark="Focus me">
+            <Interaction.Behaviors>
+              <ExecuteCommandOnGotFocusBehavior Command="{Binding GotFocusCommand}" />
+            </Interaction.Behaviors>
+          </TextBox>
+          <TextBox Width="160" Watermark="... then leave">
+            <Interaction.Behaviors>
+              <ExecuteCommandOnLostFocusBehavior Command="{Binding LostFocusCommand}" />
+            </Interaction.Behaviors>
+          </TextBox>
+        </StackPanel>
+      </StackPanel>
+
+      <StackPanel Spacing="8">
+        <TextBlock Text="Keyboard and text input" FontWeight="SemiBold" />
+        <TextBlock Text="Key down/up and text input all route to commands." FontSize="12" TextWrapping="Wrap" />
+        <TextBox Width="260" Watermark="Type here" AcceptsReturn="False">
+          <Interaction.Behaviors>
+            <ExecuteCommandOnKeyDownBehavior Command="{Binding KeyDownCommand}" />
+            <ExecuteCommandOnKeyUpBehavior Command="{Binding KeyUpCommand}" />
+            <ExecuteCommandOnTextInputBehavior Command="{Binding TextInputCommand}" />
+          </Interaction.Behaviors>
+        </TextBox>
+      </StackPanel>
+
+      <StackPanel Spacing="8">
+        <TextBlock Text="Text input method client requested" FontWeight="SemiBold" />
+        <TextBlock Text="Some platforms raise this when the OS needs an input panel. Focus the box while using an IME to trigger the command." FontSize="12" TextWrapping="Wrap" />
+        <TextBox Width="260" Watermark="Focus with IME enabled">
+          <Interaction.Behaviors>
+            <ExecuteCommandOnTextInputMethodClientRequestedBehavior Command="{Binding TextInputMethodRequestedCommand}" />
+          </Interaction.Behaviors>
+        </TextBox>
+      </StackPanel>
+
+      <StackPanel Spacing="8">
+        <TextBlock Text="Pull gestures" FontWeight="SemiBold" />
+        <TextBlock Text="Requires touch hardware that supports pull gestures." FontSize="12" TextWrapping="Wrap" />
+        <Border Height="100" Background="{DynamicResource ThemeControlLowBrush}" CornerRadius="6">
+          <Interaction.Behaviors>
+            <ExecuteCommandOnPullGestureBehavior Command="{Binding PullCommand}" />
+            <ExecuteCommandOnPullGestureEndedBehavior Command="{Binding PullEndedCommand}" />
+          </Interaction.Behaviors>
+          <TextBlock Text="Pull gesture area" HorizontalAlignment="Center" VerticalAlignment="Center" />
+        </Border>
+      </StackPanel>
+
+      <StackPanel Spacing="8">
+        <TextBlock Text="Scroll gestures" FontWeight="SemiBold" />
+        <TextBlock Text="Touchpad scroll gestures trigger three commands." FontSize="12" TextWrapping="Wrap" />
+        <Border Height="100" Background="{DynamicResource ThemeControlMidBrush}" CornerRadius="6">
+          <Interaction.Behaviors>
+            <ExecuteCommandOnScrollGestureBehavior Command="{Binding ScrollGestureCommand}" />
+            <ExecuteCommandOnScrollGestureEndedBehavior Command="{Binding ScrollGestureEndedCommand}" />
+            <ExecuteCommandOnScrollGestureInertiaStartingBehavior Command="{Binding ScrollGestureInertiaCommand}" />
+          </Interaction.Behaviors>
+          <TextBlock Text="Scroll gesture area" HorizontalAlignment="Center" VerticalAlignment="Center" />
+        </Border>
+      </StackPanel>
+
+      <StackPanel Spacing="8">
+        <TextBlock Text="Touchpad gestures" FontWeight="SemiBold" />
+        <TextBlock Text="Magnify, rotate, and swipe gestures send commands." FontSize="12" TextWrapping="Wrap" />
+        <Border Height="100" Background="{DynamicResource ThemeControlHighBrush}" CornerRadius="6">
+          <Interaction.Behaviors>
+            <ExecuteCommandOnPointerTouchPadGestureMagnifyBehavior Command="{Binding TouchPadMagnifyCommand}" />
+            <ExecuteCommandOnPointerTouchPadGestureRotateBehavior Command="{Binding TouchPadRotateCommand}" />
+            <ExecuteCommandOnPointerTouchPadGestureSwipeBehavior Command="{Binding TouchPadSwipeCommand}" />
+          </Interaction.Behaviors>
+          <TextBlock Text="Touchpad gesture area" HorizontalAlignment="Center" VerticalAlignment="Center" />
+        </Border>
+      </StackPanel>
+
+      <StackPanel Spacing="8">
+        <TextBlock Text="Tapped gestures" FontWeight="SemiBold" />
+        <TextBlock Text="Try tap, double tap and right tap on the card." FontSize="12" TextWrapping="Wrap" />
+        <Border Padding="16" Background="{DynamicResource ThemeControlHighBrush}" Cursor="Hand">
+          <Interaction.Behaviors>
+            <ExecuteCommandOnTappedBehavior Command="{Binding TappedCommand}" />
+            <ExecuteCommandOnDoubleTappedBehavior Command="{Binding DoubleTappedCommand}" />
+            <ExecuteCommandOnRightTappedBehavior Command="{Binding RightTappedCommand}" />
+            <ExecuteCommandOnHoldingBehavior Command="{Binding HoldingCommand}" />
+          </Interaction.Behaviors>
+          <TextBlock Text="Tap, double tap, right tap or hold here" HorizontalAlignment="Center" TextWrapping="Wrap" />
+        </Border>
+      </StackPanel>
+
+      <StackPanel Spacing="8">
+        <TextBlock Text="Pointer events" FontWeight="SemiBold" />
+        <TextBlock Text="Move the pointer across the panel, press/release, or capture and drag outside to exercise pointer commands." FontSize="12" TextWrapping="Wrap" />
+        <Border Padding="24"
+                Background="{DynamicResource ThemeBackgroundBrush}"
+                BorderBrush="{DynamicResource ThemeBorderBrush}"
+                BorderThickness="1">
+          <Interaction.Behaviors>
+            <ExecuteCommandOnPointerEnteredBehavior Command="{Binding PointerEnteredCommand}" />
+            <ExecuteCommandOnPointerMovedBehavior Command="{Binding PointerMovedCommand}" />
+            <ExecuteCommandOnPointerExitedBehavior Command="{Binding PointerExitedCommand}" />
+            <ExecuteCommandOnPointerPressedBehavior Command="{Binding PointerPressedCommand}" />
+            <ExecuteCommandOnPointerReleasedBehavior Command="{Binding PointerReleasedCommand}" />
+            <ExecuteCommandOnPointerCaptureLostBehavior Command="{Binding PointerCaptureLostCommand}" />
+          </Interaction.Behaviors>
+          <TextBlock Text="Pointer interactions region" HorizontalAlignment="Center" />
+        </Border>
+      </StackPanel>
+
+      <StackPanel Spacing="8">
+        <TextBlock Text="Pointer wheel" FontWeight="SemiBold" />
+        <TextBlock Text="Scroll the mouse wheel over the box to trigger the command." FontSize="12" TextWrapping="Wrap" />
+        <Border Padding="16"
+                Background="{DynamicResource ThemeBackgroundBrush}"
+                BorderBrush="{DynamicResource ThemeBorderBrush}"
+                BorderThickness="1">
+          <Interaction.Behaviors>
+            <ExecuteCommandOnPointerWheelChangedBehavior Command="{Binding PointerWheelChangedCommand}" />
+          </Interaction.Behaviors>
+          <TextBlock Text="Scroll here" HorizontalAlignment="Center" />
+        </Border>
+      </StackPanel>
+
+      <StackPanel Spacing="8">
+        <StackPanel Orientation="Horizontal" Spacing="8">
+          <TextBlock Text="Event log" FontWeight="SemiBold" VerticalAlignment="Center" />
+          <Button Content="Clear" Command="{Binding ClearLogCommand}" />
+        </StackPanel>
+        <ListBox ItemsSource="{Binding Events}" Height="180" />
+      </StackPanel>
+    </StackPanel>
+  </ScrollViewer>
 </UserControl>

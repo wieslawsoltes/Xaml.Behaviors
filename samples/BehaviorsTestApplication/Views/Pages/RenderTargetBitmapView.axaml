@@ -4,32 +4,41 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="using:BehaviorsTestApplication.ViewModels"
-             xmlns:r="using:BehaviorsTestApplication.Renderers"
+             xmlns:renderers="using:BehaviorsTestApplication.Renderers"
              x:DataType="vm:MainWindowViewModel"
              mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="450">
   <Design.DataContext>
     <vm:MainWindowViewModel />
   </Design.DataContext>
-  <StackPanel Spacing="10" HorizontalAlignment="Center">
+  <StackPanel Spacing="10" Margin="5" HorizontalAlignment="Center">
+    <ToggleSwitch Content="Auto render" IsChecked="{Binding IsRenderTriggerEnabled}" />
     <Image Width="200" Height="200">
       <Interaction.Behaviors>
-        <RenderTargetBitmapBehavior PixelWidth="200" PixelHeight="200">
+        <RenderTargetBitmapBehavior x:Name="AnimatedRenderTarget"
+                                    PixelWidth="200" PixelHeight="200">
           <RenderTargetBitmapBehavior.Renderer>
-            <r:RotatingSquareRenderer />
+            <renderers:RotatingSquareRenderer />
           </RenderTargetBitmapBehavior.Renderer>
         </RenderTargetBitmapBehavior>
+        <RenderTargetBitmapTrigger Target="AnimatedRenderTarget"
+                                   MillisecondsPerTick="250"
+                                   IsEnabled="{Binding IsRenderTriggerEnabled}">
+          <InvokeCommandAction Command="{Binding UpdateRenderTimestampCommand}" />
+        </RenderTargetBitmapTrigger>
       </Interaction.Behaviors>
     </Image>
+    <TextBlock Text="{Binding RenderTriggerMessage}" FontSize="12" />
     <Image Width="200" Height="200">
       <Interaction.Behaviors>
-        <StaticRenderTargetBitmapBehavior x:Name="StaticBehavior" PixelWidth="200" PixelHeight="200">
+        <StaticRenderTargetBitmapBehavior x:Name="StaticBehavior"
+                                          PixelWidth="200"
+                                          PixelHeight="200">
           <StaticRenderTargetBitmapBehavior.Renderer>
-            <r:SolidSquareRenderer />
+            <renderers:SolidSquareRenderer />
           </StaticRenderTargetBitmapBehavior.Renderer>
         </StaticRenderTargetBitmapBehavior>
       </Interaction.Behaviors>
     </Image>
-    <!-- TODO: -->
     <Button Content="Render Static">
       <Interaction.Behaviors>
         <EventTriggerBehavior EventName="Click">

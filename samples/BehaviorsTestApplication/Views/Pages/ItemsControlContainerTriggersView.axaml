@@ -1,0 +1,89 @@
+<UserControl x:Class="BehaviorsTestApplication.Views.Pages.ItemsControlContainerTriggersView"
+             xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:BehaviorsTestApplication.ViewModels"
+             x:DataType="vm:MainWindowViewModel"
+             mc:Ignorable="d"
+             d:DesignWidth="700"
+             d:DesignHeight="400">
+  <Design.DataContext>
+    <vm:MainWindowViewModel />
+  </Design.DataContext>
+
+  <Grid ColumnDefinitions="2*,*,2*" ColumnSpacing="16" Margin="16">
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="*" />
+    </Grid.RowDefinitions>
+
+    <TextBlock Grid.ColumnSpan="3"
+               Text="ItemsControl container triggers surface lifecycle events for item containers. Scroll the list and change selection to see events populate the log."
+               TextWrapping="Wrap" />
+
+    <ListBox Grid.Row="1"
+             Grid.Column="0"
+             ItemsSource="{Binding Items}"
+             SelectedItem="{Binding SelectedItem, Mode=TwoWay}"
+             Height="260">
+      <Interaction.Behaviors>
+        <ItemsControlPreparingContainerTrigger>
+          <CallMethodAction MethodName="OnContainerPreparing" TargetObject="{Binding}" />
+        </ItemsControlPreparingContainerTrigger>
+        <ItemsControlContainerPreparedTrigger>
+          <CallMethodAction MethodName="OnContainerPrepared" TargetObject="{Binding}" />
+        </ItemsControlContainerPreparedTrigger>
+        <ItemsControlContainerClearingTrigger>
+          <CallMethodAction MethodName="OnContainerClearing" TargetObject="{Binding}" />
+        </ItemsControlContainerClearingTrigger>
+        <ItemsControlContainerIndexChangedTrigger>
+          <CallMethodAction MethodName="OnContainerIndexChanged" TargetObject="{Binding}" />
+        </ItemsControlContainerIndexChangedTrigger>
+      </Interaction.Behaviors>
+      <ListBox.ItemTemplate>
+        <DataTemplate x:DataType="vm:ItemViewModel">
+          <StackPanel Orientation="Horizontal" Spacing="8">
+            <TextBlock Text="{Binding Value}" />
+            <TextBlock Text="(Color: {Binding Color})" FontSize="11" />
+          </StackPanel>
+        </DataTemplate>
+      </ListBox.ItemTemplate>
+    </ListBox>
+
+    <StackPanel Grid.Row="1" Grid.Column="1" Spacing="8" VerticalAlignment="Center">
+      <Button Content="Add item">
+        <Interaction.Behaviors>
+          <EventTriggerBehavior EventName="Click">
+            <CallMethodAction MethodName="AddSampleItem" TargetObject="{Binding}" />
+          </EventTriggerBehavior>
+        </Interaction.Behaviors>
+      </Button>
+      <Button Content="Remove selected">
+        <Interaction.Behaviors>
+          <EventTriggerBehavior EventName="Click">
+            <CallMethodAction MethodName="RemoveSelectedItem" TargetObject="{Binding}" />
+          </EventTriggerBehavior>
+        </Interaction.Behaviors>
+      </Button>
+    </StackPanel>
+
+    <Border Grid.Row="1"
+            Grid.Column="2"
+            BorderThickness="1"
+            BorderBrush="{DynamicResource ThemeBorderBrush}"
+            CornerRadius="6">
+      <StackPanel Margin="8" Spacing="8">
+        <TextBlock Text="Event log" FontWeight="SemiBold" />
+        <ListBox ItemsSource="{Binding ContainerEventLog}" Height="220" />
+        <Button Content="Clear log">
+          <Interaction.Behaviors>
+            <EventTriggerBehavior EventName="Click">
+              <CallMethodAction MethodName="ClearContainerLog" TargetObject="{Binding}" />
+            </EventTriggerBehavior>
+          </Interaction.Behaviors>
+        </Button>
+      </StackPanel>
+    </Border>
+  </Grid>
+</UserControl>

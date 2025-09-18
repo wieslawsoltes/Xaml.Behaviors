@@ -32,6 +32,7 @@
     </DataTemplate>
 
     <behaviors:ManagedItemsListBoxDropHandler x:Key="ManagedItemsDropHandler" />
+    <behaviors:ItemsListBoxDropHandler x:Key="ItemsDropHandler" />
   </UserControl.Resources>
 
   <UserControl.Styles>
@@ -343,6 +344,75 @@
           </DataTemplate>
         </ListBox.ItemTemplate>
       </ListBox>
+    </TabItem>
+
+    <TabItem Header="ItemDragBehavior">
+      <StackPanel Spacing="12" Margin="12">
+        <TextBlock Text="ItemDragBehavior reorders list items by dragging them directly within the control."
+                   TextWrapping="Wrap" />
+        <ListBox ItemsSource="{Binding Items}"
+                 MinHeight="220">
+          <ListBox.Styles>
+            <Style Selector="ListBoxItem">
+              <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+              <Setter Property="(Interaction.Behaviors)">
+                <BehaviorCollectionTemplate>
+                  <BehaviorCollection>
+                    <ItemDragBehavior Orientation="Vertical" />
+                  </BehaviorCollection>
+                </BehaviorCollectionTemplate>
+              </Setter>
+            </Style>
+            <Style Selector="ListBoxItem:dragging">
+              <Setter Property="Opacity" Value="0.6" />
+            </Style>
+          </ListBox.Styles>
+          <ListBox.ItemTemplate>
+            <DataTemplate DataType="vm:DragItemViewModel">
+              <Border Padding="8"
+                      Margin="2"
+                      Background="{DynamicResource ThemeBackgroundBrush}"
+                      CornerRadius="4">
+                <TextBlock Text="{Binding Title}" />
+              </Border>
+            </DataTemplate>
+          </ListBox.ItemTemplate>
+        </ListBox>
+        <TextBlock Text="Drag items up or down to change their order; release to commit the move."
+                   FontSize="12"
+                   TextWrapping="Wrap" />
+      </StackPanel>
+    </TabItem>
+
+    <TabItem Header="ItemNudgeDropBehavior">
+      <StackPanel Spacing="12" Margin="12">
+        <TextBlock Text="ItemNudgeDropBehavior nudges neighbouring items out of the way during a drag-over to preview the drop location."
+                   TextWrapping="Wrap" />
+        <ListBox ItemsSource="{Binding Items}"
+                 DragDrop.AllowDrop="True"
+                 MinHeight="220">
+          <Interaction.Behaviors>
+            <ContextDropBehavior Handler="{StaticResource ItemsDropHandler}" />
+            <ItemNudgeDropBehavior Orientation="Vertical" />
+          </Interaction.Behaviors>
+          <ListBox.ItemTemplate>
+            <DataTemplate DataType="vm:DragItemViewModel">
+              <Border Padding="8"
+                      Margin="2"
+                      Background="{DynamicResource ThemeBackgroundBrush}"
+                      CornerRadius="4">
+                <Interaction.Behaviors>
+                  <ContextDragBehavior />
+                </Interaction.Behaviors>
+                <TextBlock Text="{Binding Title}" />
+              </Border>
+            </DataTemplate>
+          </ListBox.ItemTemplate>
+        </ListBox>
+        <TextBlock Text="Start a drag on any item and hover between neighbours to see them slide aside before dropping."
+                   FontSize="12"
+                   TextWrapping="Wrap" />
+      </StackPanel>
     </TabItem>
 
     <TabItem Header="DataGrid">

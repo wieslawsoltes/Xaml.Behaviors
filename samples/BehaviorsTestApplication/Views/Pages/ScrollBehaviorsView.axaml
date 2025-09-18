@@ -1,0 +1,99 @@
+<UserControl x:Class="BehaviorsTestApplication.Views.Pages.ScrollBehaviorsView"
+             xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:BehaviorsTestApplication.ViewModels"
+             x:DataType="vm:MainWindowViewModel"
+             mc:Ignorable="d"
+             d:DesignWidth="700"
+             d:DesignHeight="500">
+  <Design.DataContext>
+    <vm:MainWindowViewModel />
+  </Design.DataContext>
+
+  <ScrollViewer>
+    <StackPanel Spacing="16" Margin="16">
+      <TextBlock Text="ScrollToItemBehavior and ScrollToItemIndexBehavior subscribe to observables and automatically bring targets into view. Use the controls below to publish new requests." 
+                 TextWrapping="Wrap" />
+
+      <Border Padding="12" BorderThickness="1" BorderBrush="{DynamicResource ThemeBorderBrush}" CornerRadius="6">
+        <Grid ColumnDefinitions="2*,Auto,3*" RowDefinitions="Auto,Auto,Auto" RowSpacing="8" ColumnSpacing="12">
+          <Grid.Styles>
+            <Style Selector="Button">
+              <Setter Property="HorizontalAlignment" Value="Left" />
+            </Style>
+          </Grid.Styles>
+
+          <TextBlock Text="All items" FontWeight="SemiBold" Grid.Row="0" Grid.Column="0" />
+          <TextBlock Text="Scroll to item" FontWeight="SemiBold" Grid.Row="0" Grid.Column="2" />
+
+          <ListBox Grid.Row="1"
+                   Grid.Column="0"
+                   Grid.RowSpan="2"
+                   Width="220"
+                   Height="260"
+                   ItemsSource="{Binding ScrollDemoItems}"
+                   SelectedItem="{Binding ScrollSelectedItem, Mode=TwoWay}">
+            <Interaction.Behaviors>
+              <ScrollToItemBehavior Item="{Binding ScrollToItemObservable}" />
+              <ScrollToItemIndexBehavior ItemIndex="{Binding ScrollToIndexObservable}" />
+            </Interaction.Behaviors>
+          </ListBox>
+
+          <StackPanel Grid.Row="1" Grid.Column="2" Spacing="8">
+            <ComboBox Width="220"
+                      ItemsSource="{Binding ScrollDemoItems}"
+                      SelectedItem="{Binding ScrollSelectedItem, Mode=TwoWay}" />
+            <Button Content="Scroll selected item"
+                    Command="{Binding ScrollToItemCommand}"
+                    CommandParameter="{Binding ScrollSelectedItem}" />
+          </StackPanel>
+
+          <StackPanel Grid.Row="2" Grid.Column="2" Spacing="8">
+            <StackPanel Orientation="Horizontal" Spacing="8">
+              <TextBlock Text="Index" VerticalAlignment="Center" />
+              <NumericUpDown Width="80"
+                             Minimum="0"
+                             Maximum="{Binding MaxScrollIndex}"
+                             Value="{Binding ScrollTargetIndex, Mode=TwoWay}" />
+            </StackPanel>
+            <Button Content="Scroll to index"
+                    Command="{Binding ScrollToIndexCommand}"
+                    CommandParameter="{Binding ScrollTargetIndex}" />
+          </StackPanel>
+        </Grid>
+      </Border>
+
+      <StackPanel Spacing="8">
+        <TextBlock Text="HorizontalScrollViewerBehavior" FontWeight="SemiBold" />
+        <TextBlock Text="Scroll with the mouse wheel to move the cards sideways. Use the checkbox to require holding Shift." FontSize="12" TextWrapping="Wrap" />
+        <StackPanel Orientation="Horizontal" Spacing="12">
+          <CheckBox Content="Require Shift"
+                    IsChecked="{Binding RequireShiftForHorizontalScroll, Mode=TwoWay}" />
+          <ComboBox Width="140"
+                    ItemsSource="{Binding ScrollChangeSizeOptions}"
+                    SelectedItem="{Binding SelectedScrollChangeSize, Mode=TwoWay}" />
+        </StackPanel>
+        <Border Padding="12" BorderBrush="{DynamicResource ThemeBorderBrush}" BorderThickness="1" CornerRadius="6">
+          <ScrollViewer HorizontalScrollBarVisibility="Auto"
+                        VerticalScrollBarVisibility="Disabled">
+            <Interaction.Behaviors>
+              <HorizontalScrollViewerBehavior RequireShiftKey="{Binding RequireShiftForHorizontalScroll}"
+                                               ScrollChangeSize="{Binding SelectedScrollChangeSize}" />
+            </Interaction.Behaviors>
+            <StackPanel Orientation="Horizontal" Spacing="12">
+              <Border Width="120" Height="80" Background="{DynamicResource SystemAccentColor}" CornerRadius="6" />
+              <Border Width="120" Height="80" Background="{DynamicResource ThemeAccentBrush}" CornerRadius="6" />
+              <Border Width="120" Height="80" Background="{DynamicResource ThemeControlHighBrush}" CornerRadius="6" />
+              <Border Width="120" Height="80" Background="{DynamicResource ThemeControlLowBrush}" CornerRadius="6" />
+              <Border Width="120" Height="80" Background="{DynamicResource ThemeBackgroundBrush}" BorderBrush="{DynamicResource ThemeBorderBrush}" BorderThickness="1" CornerRadius="6" />
+              <Border Width="120" Height="80" Background="{DynamicResource ThemeControlHighBrush}" CornerRadius="6" />
+              <Border Width="120" Height="80" Background="{DynamicResource ThemeAccentBrush}" CornerRadius="6" />
+            </StackPanel>
+          </ScrollViewer>
+        </Border>
+      </StackPanel>
+    </StackPanel>
+  </ScrollViewer>
+</UserControl>

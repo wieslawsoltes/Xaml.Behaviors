@@ -3,9 +3,9 @@ using Avalonia.Markup.Xaml;
 
 namespace BehaviorsTestApplication.Views.Pages;
 
-public partial class WriteableBitmapView : UserControl
+public partial class MoveElementActionsView : UserControl
 {
-    public WriteableBitmapView()
+    public MoveElementActionsView()
     {
         InitializeComponent();
     }

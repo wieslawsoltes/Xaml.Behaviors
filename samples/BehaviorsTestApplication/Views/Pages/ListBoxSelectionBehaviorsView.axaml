@@ -1,0 +1,86 @@
+<UserControl x:Class="BehaviorsTestApplication.Views.Pages.ListBoxSelectionBehaviorsView"
+             xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:BehaviorsTestApplication.ViewModels"
+             x:DataType="vm:MainWindowViewModel"
+             mc:Ignorable="d"
+             d:DesignWidth="800"
+             d:DesignHeight="600">
+  <Design.DataContext>
+    <vm:MainWindowViewModel />
+  </Design.DataContext>
+
+  <ScrollViewer>
+    <StackPanel Spacing="16" Margin="16">
+      <TextBlock Text="ListBox selection helpers demonstrate automatic select-all, clearing selection, and pointer-driven focus."
+                 TextWrapping="Wrap" />
+
+      <Grid ColumnDefinitions="*,*" ColumnSpacing="16">
+        <StackPanel Spacing="8">
+          <TextBlock Text="ListBoxSelectAllBehavior" FontWeight="SemiBold" />
+          <TextBlock Text="Attaching automatically selects every item when the list loads."
+                     FontSize="12"
+                     TextWrapping="Wrap" />
+          <ListBox ItemsSource="{Binding Items}"
+                   SelectionMode="Multiple"
+                   Height="180">
+            <Interaction.Behaviors>
+              <ListBoxSelectAllBehavior />
+            </Interaction.Behaviors>
+          </ListBox>
+        </StackPanel>
+
+        <StackPanel Grid.Column="1" Spacing="8">
+          <TextBlock Text="ListBoxUnselectAllBehavior" FontWeight="SemiBold" />
+          <TextBlock Text="Clears the initial selection when the control is attached."
+                     FontSize="12"
+                     TextWrapping="Wrap" />
+          <ListBox ItemsSource="{Binding Items}"
+                   SelectedIndex="0"
+                   Height="180">
+            <Interaction.Behaviors>
+              <ListBoxUnselectAllBehavior />
+            </Interaction.Behaviors>
+          </ListBox>
+        </StackPanel>
+      </Grid>
+
+      <StackPanel Spacing="8">
+        <TextBlock Text="SelectListBoxItemOnPointerMovedBehavior" FontWeight="SemiBold" />
+        <TextBlock Text="Hover an item to select it and place keyboard focus."
+                   FontSize="12"
+                   TextWrapping="Wrap" />
+        <ListBox ItemsSource="{Binding Items}"
+                 Height="220">
+          <ListBox.ItemTemplate>
+            <DataTemplate x:DataType="vm:ItemViewModel">
+              <Border Margin="2"
+                      Padding="8"
+                      Background="{DynamicResource ThemeControlLowBrush}"
+                      CornerRadius="4">
+                <Interaction.Behaviors>
+                  <SelectListBoxItemOnPointerMovedBehavior />
+                </Interaction.Behaviors>
+                <TextBlock Text="{Binding Value}" />
+              </Border>
+            </DataTemplate>
+          </ListBox.ItemTemplate>
+        </ListBox>
+      </StackPanel>
+
+      <StackPanel Spacing="8">
+        <TextBlock Text="TextBoxSelectAllTextBehavior" FontWeight="SemiBold" />
+        <TextBlock Text="The text below is fully selected when the box attaches to the visual tree, making it easy to overwrite."
+                   FontSize="12"
+                   TextWrapping="Wrap" />
+        <TextBox Text="Hover to edit this text" Width="240">
+          <Interaction.Behaviors>
+            <TextBoxSelectAllTextBehavior />
+          </Interaction.Behaviors>
+        </TextBox>
+      </StackPanel>
+    </StackPanel>
+  </ScrollViewer>
+</UserControl>

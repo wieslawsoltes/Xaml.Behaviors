@@ -1,0 +1,28 @@
+<UserControl x:Class="BehaviorsTestApplication.Views.Pages.TaskCompletedTriggerView"
+             xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:BehaviorsTestApplication.ViewModels"
+             x:DataType="vm:MainWindowViewModel"
+             mc:Ignorable="d"
+             d:DesignWidth="500"
+             d:DesignHeight="260">
+  <Design.DataContext>
+    <vm:MainWindowViewModel />
+  </Design.DataContext>
+
+  <StackPanel Spacing="12" Margin="16">
+    <TextBlock Text="TaskCompletedTrigger monitors a Task and runs actions when it finishes." TextWrapping="Wrap" />
+    <TextBlock Text="{Binding TaskStatusMessage}" FontWeight="SemiBold" />
+    <Button Width="140" Content="Start task" Command="{Binding StartSampleTaskCommand}">
+      <Interaction.Behaviors>
+        <TaskCompletedTrigger Task="{Binding SampleTask}">
+          <SetViewModelPropertyAction PropertyName="TaskCompletedIndicator" Value="True" />
+          <SetViewModelPropertyAction PropertyName="TaskStatusMessage" Value="Task finished via trigger." />
+        </TaskCompletedTrigger>
+      </Interaction.Behaviors>
+    </Button>
+    <CheckBox Content="Completed" IsChecked="{Binding TaskCompletedIndicator}" IsEnabled="False" />
+  </StackPanel>
+</UserControl>

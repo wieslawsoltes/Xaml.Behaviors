@@ -60,6 +60,12 @@
       <TabItem Header="TimerTrigger">
         <pages:TimerTriggerView />
       </TabItem>
+      <TabItem Header="TaskCompletedTrigger">
+        <pages:TaskCompletedTriggerView />
+      </TabItem>
+      <TabItem Header="LoadedTrigger">
+        <pages:LoadedTriggerView />
+      </TabItem>
       <TabItem Header="InvokeCommandAction">
         <pages:InvokeCommandActionView />
       </TabItem>
@@ -77,6 +83,9 @@
       </TabItem>
       <TabItem Header="NotNullValidationRule">
         <pages:NotNullValidationRuleView />
+      </TabItem>
+      <TabItem Header="PropertyValidationBehavior">
+        <pages:PropertyValidationBehaviorView />
       </TabItem>
       <TabItem Header="SliderValidationBehavior">
         <pages:SliderValidationBehaviorView />
@@ -159,8 +168,14 @@
       <TabItem Header="MoveItemInItemsControlAction">
         <pages:MoveItemInItemsControlActionView />
       </TabItem>
+      <TabItem Header="MoveElementToPanelAction">
+        <pages:MoveElementActionsView />
+      </TabItem>
       <TabItem Header="CollectionChangedTrigger">
         <pages:CollectionChangedTriggerBehaviorView />
+      </TabItem>
+      <TabItem Header="ItemsControl Container Triggers">
+        <pages:ItemsControlContainerTriggersView />
       </TabItem>
       <TabItem Header="Remove Items Sample">
         <pages:RemoveItemsSampleView />
@@ -219,6 +234,9 @@
       <TabItem Header="SelectingItemsControlBehavior">
         <pages:SelectingItemsControlBehaviorView />
       </TabItem>
+      <TabItem Header="ListBox Selection Behaviors">
+        <pages:ListBoxSelectionBehaviorsView />
+      </TabItem>
       <TabItem Header="BehaviorCollectionTemplate">
         <pages:BehaviorCollectionTemplateView />
       </TabItem>
@@ -276,6 +294,9 @@
       <TabItem Header="ShowHidePopupAction">
         <pages:ShowHidePopupActionView />
       </TabItem>
+      <TabItem Header="ShowOn Event Behaviors">
+        <pages:ShowOnEventBehaviorsView />
+      </TabItem>
       <TabItem Header="SetEnabledAction">
         <pages:SetEnabledActionView />
       </TabItem>
@@ -311,6 +332,9 @@
       </TabItem>
       <TabItem Header="Mouse Drag Behaviors">
         <pages:MouseDragBehaviorView />
+      </TabItem>
+      <TabItem Header="Canvas Drag Behavior">
+        <pages:CanvasDragBehaviorView />
       </TabItem>
       <TabItem Header="Auto Scroll During Drag">
         <pages:AutoScrollDuringDragBehaviorView />
@@ -462,6 +486,9 @@
       <TabItem Header="ScrollToOffsetAction">
         <pages:ScrollToOffsetActionView />
       </TabItem>
+      <TabItem Header="Scroll Behaviors">
+        <pages:ScrollBehaviorsView />
+      </TabItem>
       <TabItem Header="Window Interactions">
         <pages:WindowInteractionsView />
       </TabItem>
@@ -477,8 +504,26 @@
       <TabItem Header="Pointer Event Triggers">
         <pages:PointerEventTriggersView />
       </TabItem>
+      <TabItem Header="PointerEventsTrigger">
+        <pages:PointerEventsTriggerView />
+      </TabItem>
+      <TabItem Header="DragLeaveEventTrigger">
+        <pages:DragLeaveEventTriggerView />
+      </TabItem>
       <TabItem Header="Gesture Event Triggers">
         <pages:GestureEventTriggersView />
+      </TabItem>
+      <TabItem Header="Gesture Advanced Triggers">
+        <pages:GestureAdvancedTriggersView />
+      </TabItem>
+      <TabItem Header="Pull Gesture Triggers">
+        <pages:PullGestureTriggersView />
+      </TabItem>
+      <TabItem Header="Scroll Gesture Triggers">
+        <pages:ScrollGestureTriggersView />
+      </TabItem>
+      <TabItem Header="TouchPad Gesture Triggers">
+        <pages:TouchPadGestureTriggersView />
       </TabItem>
       <TabItem Header="Popup Event Triggers">
         <pages:PopupEventTriggersView />

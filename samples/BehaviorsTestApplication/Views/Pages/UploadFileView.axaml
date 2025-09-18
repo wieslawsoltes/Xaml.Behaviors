@@ -5,26 +5,81 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="using:BehaviorsTestApplication.ViewModels"
              x:DataType="vm:MainWindowViewModel"
-             mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="450">
+             mc:Ignorable="d"
+             d:DesignWidth="600"
+             d:DesignHeight="450">
   <Design.DataContext>
     <vm:MainWindowViewModel />
   </Design.DataContext>
-  <StackPanel Spacing="8" Margin="5">
-    <TextBox Watermark="File path" Text="{Binding UploadFilePath}" />
-    <TextBox Watermark="Upload URL" Text="{Binding UploadUrl}" />
-    <Button Content="Upload">
-      <Interaction.Behaviors>
-        <EventTriggerBehavior EventName="Click">
-          <UploadFileAction FilePath="{Binding UploadFilePath}"
-                            Url="{Binding UploadUrl}"
-                            Command="{Binding UploadCompletedCommand}" />
-        </EventTriggerBehavior>
-      </Interaction.Behaviors>
-    </Button>
-    <TextBlock Text="Upload Completed" IsVisible="False">
-      <Interaction.Behaviors>
-        <UploadCompletedTrigger IsCompleted="{Binding UploadCompleted}" />
-      </Interaction.Behaviors>
-    </TextBlock>
+
+  <StackPanel Spacing="12" Margin="12">
+    <TextBlock Text="Demonstrates both UploadFileAction and ButtonUploadFileBehavior. The behavior listens for Button.Click automatically and forwards the request to the view-model command."
+               TextWrapping="Wrap" />
+
+    <StackPanel Spacing="4">
+      <TextBlock Text="Sample file path" FontWeight="SemiBold" />
+      <TextBox Watermark="File path" Text="{Binding UploadFilePath}" />
+    </StackPanel>
+
+    <StackPanel Spacing="4">
+      <TextBlock Text="Upload URL" FontWeight="SemiBold" />
+      <TextBox Watermark="Upload URL" Text="{Binding UploadUrl}" />
+    </StackPanel>
+
+    <StackPanel Spacing="6">
+      <Button Content="Upload (ButtonUploadFileBehavior)"
+              HorizontalAlignment="Left">
+        <Interaction.Behaviors>
+          <ButtonUploadFileBehavior FilePath="{Binding UploadFilePath}"
+                                    Url="{Binding UploadUrl}"
+                                    Command="{Binding UploadCompletedCommand}" />
+          <EventTriggerBehavior EventName="Click">
+            <InvokeCommandAction Command="{Binding BeginUploadCommand}" />
+          </EventTriggerBehavior>
+        </Interaction.Behaviors>
+      </Button>
+      <TextBlock Text="Uses the behavior variant which hooks up the click handler for you."
+                 FontSize="12"
+                 TextWrapping="Wrap" />
+    </StackPanel>
+
+    <StackPanel Spacing="6">
+      <Button Content="Upload (UploadFileAction)"
+              HorizontalAlignment="Left">
+        <Interaction.Behaviors>
+          <EventTriggerBehavior EventName="Click">
+            <InvokeCommandAction Command="{Binding BeginUploadCommand}" />
+            <UploadFileAction FilePath="{Binding UploadFilePath}"
+                              Url="{Binding UploadUrl}"
+                              Command="{Binding UploadCompletedCommand}" />
+          </EventTriggerBehavior>
+        </Interaction.Behaviors>
+      </Button>
+      <TextBlock Text="Retains the action-based approach for comparison with existing samples."
+                 FontSize="12"
+                 TextWrapping="Wrap" />
+    </StackPanel>
+
+    <Border Padding="12"
+            BorderThickness="1"
+            CornerRadius="4"
+            Background="{DynamicResource ThemeBackgroundBrush}"
+            BorderBrush="{DynamicResource ThemeBorderBrush}">
+      <StackPanel Spacing="6">
+        <TextBlock Text="Status" FontWeight="SemiBold" />
+        <TextBlock Text="{Binding UploadStatusMessage}"
+                   TextWrapping="Wrap" />
+        <TextBlock Text="Upload completed"
+                   Foreground="{DynamicResource ThemeAccentBrush}">
+          <Interaction.Behaviors>
+            <UploadCompletedTrigger IsCompleted="{Binding UploadCompleted}" />
+          </Interaction.Behaviors>
+        </TextBlock>
+        <TextBlock Text="Success depends on the file path being valid and the URL accepting POST requests; failures are silently ignored by the behavior."
+                   FontSize="12"
+                   FontStyle="Italic"
+                   TextWrapping="Wrap" />
+      </StackPanel>
+    </Border>
   </StackPanel>
 </UserControl>

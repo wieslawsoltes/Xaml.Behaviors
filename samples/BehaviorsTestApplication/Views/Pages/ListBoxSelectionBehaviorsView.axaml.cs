@@ -3,9 +3,9 @@ using Avalonia.Markup.Xaml;
 
 namespace BehaviorsTestApplication.Views.Pages;
 
-public partial class WriteableBitmapView : UserControl
+public partial class ListBoxSelectionBehaviorsView : UserControl
 {
-    public WriteableBitmapView()
+    public ListBoxSelectionBehaviorsView()
     {
         InitializeComponent();
     }

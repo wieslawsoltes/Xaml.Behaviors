@@ -1,0 +1,59 @@
+<UserControl x:Class="BehaviorsTestApplication.Views.Pages.MoveElementActionsView"
+             xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             d:DesignWidth="600"
+             d:DesignHeight="300">
+  <Grid ColumnDefinitions="*,*" ColumnSpacing="16" Margin="16">
+    <Grid.Styles>
+      <Style Selector="StackPanel">
+        <Setter Property="Spacing" Value="8" />
+      </Style>
+      <Style Selector="Border">
+        <Setter Property="Padding" Value="12" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="BorderBrush" Value="{DynamicResource ThemeBorderBrush}" />
+        <Setter Property="CornerRadius" Value="6" />
+      </Style>
+    </Grid.Styles>
+
+    <StackPanel Grid.Column="0">
+      <TextBlock Text="Panel A" FontWeight="SemiBold" />
+      <Border Background="{DynamicResource ThemeBackgroundBrush}">
+        <StackPanel x:Name="LeftPanel" Spacing="8">
+          <TextBlock Text="Start here – click the card to move it to Panel B." TextWrapping="Wrap" />
+          <Border x:Name="MovableCard" Background="{DynamicResource ThemeControlHighBrush}" Padding="16" CornerRadius="6">
+            <StackPanel>
+              <TextBlock Text="Movable card" FontWeight="SemiBold" />
+              <Button Content="Move to Panel B">
+                <Interaction.Behaviors>
+                  <EventTriggerBehavior EventName="Click">
+                    <MoveElementToPanelAction TargetPanel="RightPanel" />
+                  </EventTriggerBehavior>
+                </Interaction.Behaviors>
+              </Button>
+            </StackPanel>
+          </Border>
+        </StackPanel>
+      </Border>
+    </StackPanel>
+
+    <StackPanel Grid.Column="1">
+      <TextBlock Text="Panel B" FontWeight="SemiBold" />
+      <Border Background="{DynamicResource ThemeBackgroundBrush}">
+        <StackPanel x:Name="RightPanel" Spacing="8">
+          <TextBlock Text="When the card moves here, use the button to send it back." TextWrapping="Wrap" />
+          <Button Content="Move card back" HorizontalAlignment="Left">
+            <Interaction.Behaviors>
+              <EventTriggerBehavior EventName="Click">
+                <MoveElementToPanelAction TargetPanel="LeftPanel" />
+              </EventTriggerBehavior>
+            </Interaction.Behaviors>
+          </Button>
+        </StackPanel>
+      </Border>
+    </StackPanel>
+  </Grid>
+</UserControl>

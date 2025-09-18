@@ -6,6 +6,7 @@
         Title="XamlBehaviors Test Application" Width="1000" Height="700"
         x:DataType="vm:MainWindowViewModel">
   <Interaction.Behaviors>
+    <ActiveScreenBehavior ActiveScreen="{Binding ActiveScreen, Mode=OneWayToSource}" />
 
     <!-- TopLevel Logical tree special case -->
     <!--

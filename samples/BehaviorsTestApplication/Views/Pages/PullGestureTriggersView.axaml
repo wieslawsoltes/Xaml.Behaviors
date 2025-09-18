@@ -1,0 +1,36 @@
+<UserControl x:Class="BehaviorsTestApplication.Views.Pages.PullGestureTriggersView"
+             xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:local="using:BehaviorsTestApplication.Views.Pages"
+             x:DataType="local:PullGestureTriggersView"
+             mc:Ignorable="d"
+             d:DesignWidth="320"
+             d:DesignHeight="360">
+  <StackPanel Margin="16" Spacing="12">
+    <TextBlock Text="Perform a pull gesture (touchpad two-finger pull) on the box to raise PullGesture triggers." TextWrapping="Wrap" />
+    <Border x:Name="PullSurface"
+            Background="LightGray"
+            CornerRadius="8"
+            Height="180">
+      <Interaction.Behaviors>
+        <PullGestureGestureTrigger>
+          <CallMethodAction TargetObject="{Binding}" MethodName="OnPull" />
+        </PullGestureGestureTrigger>
+        <PullGestureEndedGestureTrigger>
+          <CallMethodAction TargetObject="{Binding}" MethodName="OnPullEnded" />
+        </PullGestureEndedGestureTrigger>
+      </Interaction.Behaviors>
+      <TextBlock Text="Pull here" HorizontalAlignment="Center" VerticalAlignment="Center" />
+    </Border>
+    <ListBox ItemsSource="{Binding Events}" Height="120" />
+    <Button Content="Clear" HorizontalAlignment="Left">
+      <Interaction.Behaviors>
+        <EventTriggerBehavior EventName="Click">
+          <CallMethodAction TargetObject="{Binding}" MethodName="Clear" />
+        </EventTriggerBehavior>
+      </Interaction.Behaviors>
+    </Button>
+  </StackPanel>
+</UserControl>
