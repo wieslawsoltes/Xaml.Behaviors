@@ -1,6 +1,7 @@
 using System;
 using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Controls.Metadata;
 using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.VisualTree;
@@ -48,6 +49,7 @@ public sealed class ManagedContextDropArgs
 /// Drop target behavior that integrates with <see cref="ManagedDragDropService"/>.
 /// It mirrors the semantics of <see cref="ContextDropBehavior"/> but works entirely in-process.
 /// </summary>
+[PseudoClasses("wants-drop", "dragover")]
 public class ManagedContextDropBehavior : StyledElementBehavior<Control>
 {
     /// <summary>
@@ -126,6 +128,9 @@ public class ManagedContextDropBehavior : StyledElementBehavior<Control>
     }
 
     private bool _isOver;
+    private bool _wantsDrop; // tracks whether pseudo class is applied
+    private const string DropTargetPseudoClass = "droptarget";
+    private const string DragOverPseudoClass = "dragover";
 
     /// <inheritdoc />
     protected override void OnAttachedToVisualTree()
@@ -142,11 +147,57 @@ public class ManagedContextDropBehavior : StyledElementBehavior<Control>
         ManagedDragDropService.Instance.DragMoved -= OnDragMoved;
         ManagedDragDropService.Instance.DragEnded -= OnDragEnded;
         UpdateOver(false);
+        UpdateWantsDrop(false);
     }
 
     private void OnDragStarted()
     {
         UpdateOver(false);
+        var svc = ManagedDragDropService.Instance;
+        var compatible = AllowDrop && Handler is not null && svc.IsDragging && string.Equals(svc.DataFormat, AcceptDataFormat, StringComparison.Ordinal);
+        if (compatible)
+        {
+            var target = AssociatedObject;
+            try
+            {
+                if (target is not null)
+                {
+                    Point local = default;
+                    if (target.GetVisualRoot() is TopLevel tl)
+                    {
+                        var pTop = tl.PointToClient(svc.ScreenPosition);
+                        local = tl.TranslatePoint(pTop, target) ?? default;
+                    }
+                    var e = CreateDragEventArgs(DragDrop.DragEnterEvent, local, svc);
+                    if (e is null)
+                    {
+                        compatible = false;
+                    }
+                    else
+                    {
+                        bool valid;
+                        try
+                        {
+                            valid = Handler!.Validate(target, e, svc.Payload, Context ?? target.DataContext, null);
+                        }
+                        catch
+                        {
+                            valid = false;
+                        }
+                        compatible = valid;
+                    }
+                }
+                else
+                {
+                    compatible = false;
+                }
+            }
+            catch
+            {
+                compatible = false;
+            }
+        }
+        UpdateWantsDrop(compatible);
         InvokeHandlerEnter();
     }
 
@@ -214,6 +265,7 @@ public class ManagedContextDropBehavior : StyledElementBehavior<Control>
             if (_isOver)
                 InvokeHandlerLeave();
             UpdateOver(false);
+            UpdateWantsDrop(false);
         }
     }
 
@@ -226,6 +278,31 @@ public class ManagedContextDropBehavior : StyledElementBehavior<Control>
         if (!string.IsNullOrWhiteSpace(cls))
         {
             target.Classes.Set(cls!, over);
+        }
+        // Apply/remove dragover pseudo class
+        if (target.Classes is IPseudoClasses pcDragOver)
+        {
+            if (over)
+                pcDragOver.Add(DragOverPseudoClass);
+            else
+                pcDragOver.Remove(DragOverPseudoClass);
+        }
+    }
+
+    private void UpdateWantsDrop(bool wants)
+    {
+        if (_wantsDrop == wants)
+            return;
+        _wantsDrop = wants;
+        var target = AssociatedObject;
+        if (target is null)
+            return;
+        if (target.Classes is IPseudoClasses pc)
+        {
+            if (wants)
+                pc.Add(DropTargetPseudoClass);
+            else
+                pc.Remove(DropTargetPseudoClass);
         }
     }
 
