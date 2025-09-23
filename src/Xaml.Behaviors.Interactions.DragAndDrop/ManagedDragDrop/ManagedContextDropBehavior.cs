@@ -129,7 +129,7 @@ public class ManagedContextDropBehavior : StyledElementBehavior<Control>
 
     private bool _isOver;
     private bool _wantsDrop; // tracks whether pseudo class is applied
-    private const string WantsDropPseudoClass = "wants-drop";
+    private const string DropTargetPseudoClass = "droptarget";
     private const string DragOverPseudoClass = "dragover";
 
     /// <inheritdoc />
@@ -300,9 +300,9 @@ public class ManagedContextDropBehavior : StyledElementBehavior<Control>
         if (target.Classes is IPseudoClasses pc)
         {
             if (wants)
-                pc.Add(WantsDropPseudoClass);
+                pc.Add(DropTargetPseudoClass);
             else
-                pc.Remove(WantsDropPseudoClass);
+                pc.Remove(DropTargetPseudoClass);
         }
     }
 
