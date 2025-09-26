@@ -111,6 +111,9 @@
       <TabItem Header="FocusOnPointerPressedBehavior">
         <pages:FocusOnPointerPressedBehaviorView />
       </TabItem>
+      <TabItem Header="FocusOnVisibleBehavior">
+        <pages:FocusOnVisibleBehaviorView />
+      </TabItem>
       <TabItem Header="FocusSelectedItemBehavior">
         <pages:FocusSelectedItemBehaviorView />
       </TabItem>

@@ -902,6 +902,9 @@ This section provides an overview of all available classes and their purpose in 
 - **FocusOnPointerPressedBehavior** ([Sample](samples/BehaviorsTestApplication/Views/Pages/FocusOnPointerPressedBehaviorView.axaml))
   *Focuses the control when a pointer press event occurs.*
 
+- **FocusOnVisibleBehavior** ([Sample](samples/BehaviorsTestApplication/Views/Pages/FocusOnVisibleBehaviorView.axaml))
+  *Automatically focuses the control when its IsVisible property changes to true.*
+
 - **FocusSelectedItemBehavior** ([Sample](samples/BehaviorsTestApplication/Views/Pages/FocusSelectedItemBehaviorView.axaml))
   *Focuses the currently selected item in an ItemsControl.*
 
