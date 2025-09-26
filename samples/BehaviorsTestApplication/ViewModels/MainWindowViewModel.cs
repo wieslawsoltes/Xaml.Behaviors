@@ -89,6 +89,7 @@ public partial class MainWindowViewModel : ViewModelBase
 
         FileItems = new ObservableCollection<Uri>();
         DocumentsFolderPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+        RecentOpenFilePaths = Array.Empty<string>();
 
         Values = Observable.Interval(TimeSpan.FromSeconds(1)).Select(_ => _value++);
 
@@ -247,6 +248,9 @@ public partial class MainWindowViewModel : ViewModelBase
 
     [Reactive]
     public partial string? DocumentsFolderPath { get; set; }
+
+    [Reactive]
+    public partial IReadOnlyList<string>? RecentOpenFilePaths { get; set; }
 
     [Reactive]
     public partial string UploadFilePath { get; set; }

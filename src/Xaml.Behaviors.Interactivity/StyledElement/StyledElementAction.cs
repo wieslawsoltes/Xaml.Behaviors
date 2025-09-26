@@ -55,6 +55,8 @@ public abstract class StyledElementAction : StyledElement, IAction
 
     internal void DetachActionFromLogicalTree(StyledElement parent)
     {
+        OnDetaching();
+
 #if false
         Dispatcher.UIThread.Post(() =>
         {
@@ -66,5 +68,12 @@ public abstract class StyledElementAction : StyledElement, IAction
             }
         });
 #endif
+    }
+
+    /// <summary>
+    /// Called when the action is detached from its logical parent.
+    /// </summary>
+    protected virtual void OnDetaching()
+    {
     }
 }

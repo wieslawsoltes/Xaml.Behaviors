@@ -19,7 +19,9 @@
                                             Title="Open Files"
                                             SuggestedFileName="MyFile"
                                             AllowMultiple="True"
-                                            FileTypeFilter="Text Files|*.txt|Markdown Files|*.md|All Files|*.*" />
+                                            FileTypeFilter="Text Files|*.txt|Markdown Files|*.md|All Files|*.*"
+                                            StoreSelectedFiles="True"
+                                            SelectedFilePaths="{Binding RecentOpenFilePaths, Mode=TwoWay}" />
           </Interaction.Behaviors>
         </MenuItem>
         <MenuItem Header="Open Folders">
@@ -83,7 +85,9 @@
                                       Title="Open Files"
                                       SuggestedFileName="MyFile"
                                       AllowMultiple="True"
-                                      FileTypeFilter="Text Files|*.txt|Markdown Files|*.md|All Files|*.*" />
+                                      FileTypeFilter="Text Files|*.txt|Markdown Files|*.md|All Files|*.*"
+                                      StoreSelectedFiles="True"
+                                      SelectedFilePaths="{Binding RecentOpenFilePaths, Mode=TwoWay}" />
       </Interaction.Behaviors>
     </Button>
     <Button Content="Open Folders" Grid.Row="2" Grid.Column="2" Margin="0,5,0,5">
@@ -91,6 +95,7 @@
         <ButtonOpenFolderPickerBehavior Command="{Binding OpenFoldersCommand}"
                                         Title="Open Folders"
                                         AllowMultiple="True"
+                                        StoreSelectedFolders="True"
                                         SuggestedStartLocationPath="{Binding DocumentsFolderPath}" />
       </Interaction.Behaviors>
     </Button>
@@ -104,7 +109,11 @@
                                       FileTypeChoices="Text Files (*.txt)|*.txt|Markdown Files (*.md)|*.md|All Files (*.*)|*.*" />
       </Interaction.Behaviors>
     </Button>
-    <ListBox Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="5"
-             ItemsSource="{Binding FileItems}" />
+    <Grid Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="5" ColumnDefinitions="1*,1*" RowDefinitions="Auto,*" Margin="5,10,5,0">
+      <TextBlock Grid.Column="0" Text="Command Results" FontWeight="SemiBold" />
+      <TextBlock Grid.Column="1" Text="Recent Paths (Two-way binding)" FontWeight="SemiBold" />
+      <ListBox Grid.Row="1" Grid.Column="0" ItemsSource="{Binding FileItems}" />
+      <ListBox Grid.Row="1" Grid.Column="1" ItemsSource="{Binding RecentOpenFilePaths}" />
+    </Grid>
   </Grid>
 </UserControl>

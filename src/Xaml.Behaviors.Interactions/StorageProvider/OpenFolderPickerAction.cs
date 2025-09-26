@@ -1,5 +1,6 @@
 // Copyright (c) Wiesław Šoltés. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for details.
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Avalonia.Controls;
@@ -21,12 +22,57 @@ public class OpenFolderPickerAction : PickerActionBase
         AvaloniaProperty.Register<OpenFolderPickerAction, bool>(nameof(AllowMultiple));
 
     /// <summary>
+    /// Identifies the <seealso cref="StoreSelectedFolders"/> avalonia property.
+    /// </summary>
+    public static readonly StyledProperty<bool> StoreSelectedFoldersProperty =
+        AvaloniaProperty.Register<OpenFolderPickerAction, bool>(nameof(StoreSelectedFolders));
+
+    /// <summary>
+    /// Identifies the <seealso cref="SelectedFolders"/> avalonia property.
+    /// </summary>
+    public static readonly StyledProperty<IReadOnlyList<IStorageFolder>?> SelectedFoldersProperty =
+        AvaloniaProperty.Register<OpenFolderPickerAction, IReadOnlyList<IStorageFolder>?>(nameof(SelectedFolders));
+
+    /// <summary>
+    /// Identifies the <seealso cref="SelectedFolderPaths"/> avalonia property.
+    /// </summary>
+    public static readonly StyledProperty<IReadOnlyList<string>?> SelectedFolderPathsProperty =
+        AvaloniaProperty.Register<OpenFolderPickerAction, IReadOnlyList<string>?>(nameof(SelectedFolderPaths));
+
+    /// <summary>
     /// Gets or sets an option indicating whether open picker allows users to select multiple folders. This is an avalonia property.
     /// </summary>
     public bool AllowMultiple
     {
         get => GetValue(AllowMultipleProperty);
         set => SetValue(AllowMultipleProperty, value);
+    }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether the selected folders should be stored on the action for later binding.
+    /// </summary>
+    public bool StoreSelectedFolders
+    {
+        get => GetValue(StoreSelectedFoldersProperty);
+        set => SetValue(StoreSelectedFoldersProperty, value);
+    }
+
+    /// <summary>
+    /// Gets the folders returned by the most recent picker operation. This is an avalonia property.
+    /// </summary>
+    public IReadOnlyList<IStorageFolder>? SelectedFolders
+    {
+        get => GetValue(SelectedFoldersProperty);
+        private set => SetValue(SelectedFoldersProperty, value);
+    }
+
+    /// <summary>
+    /// Gets the folder paths returned by the most recent picker operation. This is an avalonia property.
+    /// </summary>
+    public IReadOnlyList<string>? SelectedFolderPaths
+    {
+        get => GetValue(SelectedFolderPathsProperty);
+        private set => SetValue(SelectedFolderPathsProperty, value);
     }
     
     /// <summary>
@@ -80,7 +126,19 @@ public class OpenFolderPickerAction : PickerActionBase
 
         if (folders.Count <= 0)
         {
+            if (StoreSelectedFolders)
+            {
+                SelectedFolders = null;
+                SelectedFolderPaths = null;
+            }
             return;
+        }
+
+        if (StoreSelectedFolders)
+        {
+            var foldersList = folders.ToList();
+            SelectedFolders = foldersList;
+            SelectedFolderPaths = ConvertToPaths(foldersList);
         }
 
         var resolvedParameter = ResolveParameter(folders);
@@ -91,5 +149,22 @@ public class OpenFolderPickerAction : PickerActionBase
         }
 
         Command.Execute(resolvedParameter);
+    }
+
+    private static IReadOnlyList<string> ConvertToPaths(IEnumerable<IStorageFolder> folders)
+    {
+        return folders.Select(static f => f.Path.IsAbsoluteUri ? f.Path.LocalPath : f.Path.ToString()).ToList();
+    }
+
+    /// <inheritdoc />
+    protected override void OnDetaching()
+    {
+        base.OnDetaching();
+
+        if (StoreSelectedFolders)
+        {
+            SelectedFolders = null;
+            SelectedFolderPaths = null;
+        }
     }
 }

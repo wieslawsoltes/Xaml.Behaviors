@@ -1,5 +1,6 @@
 // Copyright (c) Wiesław Šoltés. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for details.
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Avalonia.Controls;
@@ -32,6 +33,24 @@ public abstract class SaveFilePickerBehaviorBase : PickerBehaviorBase
         AvaloniaProperty.Register<SaveFilePickerBehaviorBase, bool?>(nameof(ShowOverwritePrompt));
 
     /// <summary>
+    /// Identifies the <seealso cref="StoreSavedFile"/> avalonia property.
+    /// </summary>
+    public static readonly StyledProperty<bool> StoreSavedFileProperty =
+        AvaloniaProperty.Register<SaveFilePickerBehaviorBase, bool>(nameof(StoreSavedFile));
+
+    /// <summary>
+    /// Identifies the <seealso cref="SavedFile"/> avalonia property.
+    /// </summary>
+    public static readonly StyledProperty<IStorageFile?> SavedFileProperty =
+        AvaloniaProperty.Register<SaveFilePickerBehaviorBase, IStorageFile?>(nameof(SavedFile));
+
+    /// <summary>
+    /// Identifies the <seealso cref="SavedFilePath"/> avalonia property.
+    /// </summary>
+    public static readonly StyledProperty<string?> SavedFilePathProperty =
+        AvaloniaProperty.Register<SaveFilePickerBehaviorBase, string?>(nameof(SavedFilePath));
+
+    /// <summary>
     /// Gets or sets the default extension to be used to save the file. This is an avalonia property.
     /// </summary>
     public string? DefaultExtension
@@ -56,6 +75,33 @@ public abstract class SaveFilePickerBehaviorBase : PickerBehaviorBase
     {
         get => GetValue(ShowOverwritePromptProperty);
         set => SetValue(ShowOverwritePromptProperty, value);
+    }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether the saved file should be stored on the behavior for later binding.
+    /// </summary>
+    public bool StoreSavedFile
+    {
+        get => GetValue(StoreSavedFileProperty);
+        set => SetValue(StoreSavedFileProperty, value);
+    }
+
+    /// <summary>
+    /// Gets the file produced by the most recent picker operation. This is an avalonia property.
+    /// </summary>
+    public IStorageFile? SavedFile
+    {
+        get => GetValue(SavedFileProperty);
+        protected set => SetValue(SavedFileProperty, value);
+    }
+
+    /// <summary>
+    /// Gets the file path produced by the most recent picker operation. This is an avalonia property.
+    /// </summary>
+    public string? SavedFilePath
+    {
+        get => GetValue(SavedFilePathProperty);
+        protected set => SetValue(SavedFilePathProperty, value);
     }
 
     /// <summary>
@@ -110,7 +156,18 @@ public abstract class SaveFilePickerBehaviorBase : PickerBehaviorBase
 
         if (file is null)
         {
+            if (StoreSavedFile)
+            {
+                SavedFile = null;
+                SavedFilePath = null;
+            }
             return;
+        }
+
+        if (StoreSavedFile)
+        {
+            SavedFile = file;
+            SavedFilePath = file.Path.IsAbsoluteUri ? file.Path.LocalPath : file.Path.ToString();
         }
 
         var resolvedParameter = ResolveParameter(file);
@@ -121,5 +178,17 @@ public abstract class SaveFilePickerBehaviorBase : PickerBehaviorBase
         }
 
         Command.Execute(resolvedParameter);
+    }
+
+    /// <inheritdoc />
+    protected override void OnDetaching()
+    {
+        base.OnDetaching();
+
+        if (StoreSavedFile)
+        {
+            SavedFile = null;
+            SavedFilePath = null;
+        }
     }
 }
