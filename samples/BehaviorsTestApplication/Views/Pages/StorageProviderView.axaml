@@ -90,7 +90,8 @@
       <Interaction.Behaviors>
         <ButtonOpenFolderPickerBehavior Command="{Binding OpenFoldersCommand}"
                                         Title="Open Folders"
-                                        AllowMultiple="True" />
+                                        AllowMultiple="True"
+                                        SuggestedStartLocationPath="{Binding DocumentsFolderPath}" />
       </Interaction.Behaviors>
     </Button>
     <Button Content="Save File" Grid.Row="2" Grid.Column="4" Margin="0,5,5,5">

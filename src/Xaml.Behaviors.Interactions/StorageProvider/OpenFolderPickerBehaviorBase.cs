@@ -58,16 +58,18 @@ public abstract class OpenFolderPickerBehaviorBase : PickerBehaviorBase
             return;
         }
 
-        var storageProvider = StorageProvider ?? (visual.GetSelfAndLogicalAncestors().LastOrDefault() as TopLevel)?.StorageProvider;
+        var storageProvider = ResolveStorageProvider(visual);
         if (storageProvider is null)
         {
             return;
         }
 
+        var suggestedStartLocation = ResolveSuggestedStartLocation(storageProvider);
+
         var folders = await storageProvider.OpenFolderPickerAsync(new FolderPickerOpenOptions
         {
             Title = Title,
-            SuggestedStartLocation = SuggestedStartLocation,
+            SuggestedStartLocation = suggestedStartLocation,
             SuggestedFileName = SuggestedFileName,
             AllowMultiple = AllowMultiple
         });
