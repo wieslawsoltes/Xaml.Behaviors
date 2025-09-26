@@ -92,16 +92,18 @@ public class SaveFilePickerAction : PickerActionBase
             return;
         }
 
-        var storageProvider = StorageProvider ?? (visual.GetSelfAndLogicalAncestors().LastOrDefault() as TopLevel)?.StorageProvider;
+        var storageProvider = ResolveStorageProvider(visual);
         if (storageProvider is null)
         {
             return;
         }
 
+        var suggestedStartLocation = ResolveSuggestedStartLocation(storageProvider);
+
         var file = await storageProvider.SaveFilePickerAsync(new FilePickerSaveOptions
         {
             Title = Title,
-            SuggestedStartLocation = SuggestedStartLocation,
+            SuggestedStartLocation = suggestedStartLocation,
             SuggestedFileName = SuggestedFileName,
             DefaultExtension = DefaultExtension,
             FileTypeChoices = FileTypeChoices is not null 

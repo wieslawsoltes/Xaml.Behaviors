@@ -88,6 +88,7 @@ public partial class MainWindowViewModel : ViewModelBase
         ];
 
         FileItems = new ObservableCollection<Uri>();
+        DocumentsFolderPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
 
         Values = Observable.Interval(TimeSpan.FromSeconds(1)).Select(_ => _value++);
 
@@ -243,6 +244,9 @@ public partial class MainWindowViewModel : ViewModelBase
 
     [Reactive]
     public partial ObservableCollection<Uri>? FileItems { get; set; }
+
+    [Reactive]
+    public partial string? DocumentsFolderPath { get; set; }
 
     [Reactive]
     public partial string UploadFilePath { get; set; }
