@@ -89,6 +89,10 @@ public partial class MainWindowViewModel : ViewModelBase
 
         FileItems = new ObservableCollection<Uri>();
         DocumentsFolderPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+        NewDirectoryPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "BehaviorsTestDirectory");
+
+        // DocumentsFolder is set to null initially. In real applications, you would obtain
+        // an IStorageFolder from a previous picker operation or storage provider.
 
         Values = Observable.Interval(TimeSpan.FromSeconds(1)).Select(_ => _value++);
 
@@ -247,6 +251,12 @@ public partial class MainWindowViewModel : ViewModelBase
 
     [Reactive]
     public partial string? DocumentsFolderPath { get; set; }
+
+    [Reactive]
+    public partial string? NewDirectoryPath { get; set; }
+
+    [Reactive]
+    public partial IStorageFolder? DocumentsFolder { get; set; }
 
     [Reactive]
     public partial string UploadFilePath { get; set; }
@@ -442,6 +452,12 @@ public partial class MainWindowViewModel : ViewModelBase
             Console.WriteLine($"OpenFoldersCommand: {folder.Name}, {folder.Path}");
 
             FileItems.Add(folder.Path);
+
+            // Set the first folder as DocumentsFolder to demonstrate SuggestedStartLocation usage
+            if (DocumentsFolder is null)
+            {
+                DocumentsFolder = folder;
+            }
         }
     }
 

@@ -1,7 +1,6 @@
 // Copyright (c) Wiesław Šoltés. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for details.
 using System;
-using System.IO;
 using System.Linq;
 using Avalonia;
 using Avalonia.Controls;
@@ -46,6 +45,12 @@ public abstract class PickerBehaviorBase : InvokeCommandBehaviorBase
     /// </summary>
     public static readonly StyledProperty<string?> SuggestedFileNameProperty =
         AvaloniaProperty.Register<PickerBehaviorBase, string?>(nameof(SuggestedFileName));
+
+    /// <summary>
+    /// Identifies the <seealso cref="CreateSuggestedStartLocationDirectory"/> avalonia property.
+    /// </summary>
+    public static readonly StyledProperty<bool> CreateSuggestedStartLocationDirectoryProperty =
+        AvaloniaProperty.Register<PickerBehaviorBase, bool>(nameof(CreateSuggestedStartLocationDirectory), false);
 
     /// <summary>
     /// Gets or sets the storage provider that the picker uses to access the file system. This is an avalonia property.
@@ -93,6 +98,15 @@ public abstract class PickerBehaviorBase : InvokeCommandBehaviorBase
     }
 
     /// <summary>
+    /// Gets or sets a value indicating whether to create the suggested start location directory if it doesn't exist. This is an avalonia property.
+    /// </summary>
+    public bool CreateSuggestedStartLocationDirectory
+    {
+        get => GetValue(CreateSuggestedStartLocationDirectoryProperty);
+        set => SetValue(CreateSuggestedStartLocationDirectoryProperty, value);
+    }
+
+    /// <summary>
     /// Resolves the storage provider using the configured value or the provided fallback visual.
     /// </summary>
     /// <param name="fallbackVisual">Visual used as a fallback source when the property is unset.</param>
@@ -123,55 +137,11 @@ public abstract class PickerBehaviorBase : InvokeCommandBehaviorBase
     /// <returns>The resolved <see cref="IStorageFolder"/> instance or null.</returns>
     protected IStorageFolder? ResolveSuggestedStartLocation(IStorageProvider? provider)
     {
-        if (SuggestedStartLocation is not null || provider is null)
-        {
-            return SuggestedStartLocation;
-        }
-
-        var path = SuggestedStartLocationPath;
-        if (string.IsNullOrWhiteSpace(path))
-        {
-            return null;
-        }
-
-        if (!TryCreateUri(path, out var uri))
-        {
-            return null;
-        }
-
-        try
-        {
-            return provider.TryGetFolderFromPathAsync(uri).ConfigureAwait(false).GetAwaiter().GetResult();
-        }
-        catch
-        {
-            return null;
-        }
-    }
-
-    private static bool TryCreateUri(string path, out Uri uri)
-    {
-        if (Uri.TryCreate(path, UriKind.Absolute, out uri))
-        {
-            return true;
-        }
-
-        try
-        {
-            var fullPath = Path.GetFullPath(path);
-            if (Path.IsPathRooted(fullPath))
-            {
-                uri = new Uri(fullPath);
-                return true;
-            }
-        }
-        catch
-        {
-            // ignored
-        }
-
-        uri = null!;
-        return false;
+        return PickerSuggestedStartLocationHelper.Resolve(
+            SuggestedStartLocation,
+            SuggestedStartLocationPath,
+            CreateSuggestedStartLocationDirectory,
+            provider);
     }
 
     private static IStorageProvider? ResolveFromObject(object? target)
