@@ -1,7 +1,6 @@
 // Copyright (c) Wiesław Šoltés. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for details.
 using System;
-using System.IO;
 using System.Linq;
 using Avalonia;
 using Avalonia.Controls;
@@ -138,74 +137,11 @@ public abstract class PickerBehaviorBase : InvokeCommandBehaviorBase
     /// <returns>The resolved <see cref="IStorageFolder"/> instance or null.</returns>
     protected IStorageFolder? ResolveSuggestedStartLocation(IStorageProvider? provider)
     {
-        if (SuggestedStartLocation is not null || provider is null)
-        {
-            return SuggestedStartLocation;
-        }
-
-        var path = SuggestedStartLocationPath;
-        if (string.IsNullOrWhiteSpace(path))
-        {
-            return null;
-        }
-
-        if (!TryCreateUri(path, out var uri))
-        {
-            return null;
-        }
-
-        try
-        {
-            var folder = provider.TryGetFolderFromPathAsync(uri).ConfigureAwait(false).GetAwaiter().GetResult();
-
-            if (folder is null && CreateSuggestedStartLocationDirectory)
-            {
-                try
-                {
-                    var fullPath = Path.GetFullPath(path);
-                    if (!Directory.Exists(fullPath))
-                    {
-                        Directory.CreateDirectory(fullPath);
-                        folder = provider.TryGetFolderFromPathAsync(uri).ConfigureAwait(false).GetAwaiter().GetResult();
-                    }
-                }
-                catch
-                {
-                    // Gracefully fail if directory creation fails
-                }
-            }
-
-            return folder;
-        }
-        catch
-        {
-            return null;
-        }
-    }
-
-    private static bool TryCreateUri(string path, out Uri uri)
-    {
-        if (Uri.TryCreate(path, UriKind.Absolute, out uri))
-        {
-            return true;
-        }
-
-        try
-        {
-            var fullPath = Path.GetFullPath(path);
-            if (Path.IsPathRooted(fullPath))
-            {
-                uri = new Uri(fullPath);
-                return true;
-            }
-        }
-        catch
-        {
-            // ignored
-        }
-
-        uri = null!;
-        return false;
+        return PickerSuggestedStartLocationHelper.Resolve(
+            SuggestedStartLocation,
+            SuggestedStartLocationPath,
+            CreateSuggestedStartLocationDirectory,
+            provider);
     }
 
     private static IStorageProvider? ResolveFromObject(object? target)
