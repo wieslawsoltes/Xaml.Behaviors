@@ -1,0 +1,184 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:custom="using:Avalonia.Xaml.Interactions.Custom"
+             mc:Ignorable="d" d:DesignWidth="900" d:DesignHeight="600"
+             x:Class="BehaviorsTestApplication.Views.Pages.ExitAnimationsView">
+  <TabControl>
+    <TabItem Header="Back">
+      <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+        <WrapPanel Margin="12" ItemSpacing="16" HorizontalAlignment="Center">
+          <Border Width="220" Height="150" Background="#E8F5E9" CornerRadius="12" custom:ExitAnimations.BackOutDown="900">
+            <TextBlock Text="Back Out Down" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" />
+          </Border>
+          <Border Width="220" Height="150" Background="#E8F5E9" CornerRadius="12" custom:ExitAnimations.BackOutUp="900">
+            <TextBlock Text="Back Out Up" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" />
+          </Border>
+          <Border Width="220" Height="150" Background="#E8F5E9" CornerRadius="12" custom:ExitAnimations.BackOutLeft="900">
+            <TextBlock Text="Back Out Left" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" />
+          </Border>
+          <Border Width="220" Height="150" Background="#E8F5E9" CornerRadius="12" custom:ExitAnimations.BackOutRight="900">
+            <TextBlock Text="Back Out Right" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" />
+          </Border>
+        </WrapPanel>
+      </ScrollViewer>
+    </TabItem>
+    <TabItem Header="Bounce">
+      <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+        <WrapPanel Margin="12" ItemSpacing="16" HorizontalAlignment="Center">
+          <Border Width="220" Height="150" Background="#FFF8E1" CornerRadius="12" custom:ExitAnimations.BounceOut="900">
+            <TextBlock Text="Bounce Out" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" />
+          </Border>
+          <Border Width="220" Height="150" Background="#FFF8E1" CornerRadius="12" custom:ExitAnimations.BounceOutDown="900">
+            <TextBlock Text="Bounce Out Down" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" />
+          </Border>
+          <Border Width="220" Height="150" Background="#FFF8E1" CornerRadius="12" custom:ExitAnimations.BounceOutUp="900">
+            <TextBlock Text="Bounce Out Up" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" />
+          </Border>
+          <Border Width="220" Height="150" Background="#FFF8E1" CornerRadius="12" custom:ExitAnimations.BounceOutLeft="900">
+            <TextBlock Text="Bounce Out Left" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" />
+          </Border>
+          <Border Width="220" Height="150" Background="#FFF8E1" CornerRadius="12" custom:ExitAnimations.BounceOutRight="900">
+            <TextBlock Text="Bounce Out Right" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" />
+          </Border>
+        </WrapPanel>
+      </ScrollViewer>
+    </TabItem>
+    <TabItem Header="Fade">
+      <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+        <WrapPanel Margin="12" ItemSpacing="16" HorizontalAlignment="Center">
+          <Border Width="200" Height="140" Background="#E1F5FE" CornerRadius="12" custom:ExitAnimations.FadeOut="900">
+            <TextBlock Text="Fade Out" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="16" />
+          </Border>
+          <Border Width="200" Height="140" Background="#E1F5FE" CornerRadius="12" custom:ExitAnimations.FadeOutDown="900">
+            <TextBlock Text="Fade Out Down" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="16" />
+          </Border>
+          <Border Width="200" Height="140" Background="#E1F5FE" CornerRadius="12" custom:ExitAnimations.FadeOutDownBig="900">
+            <TextBlock Text="Fade Out Down Big" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="16" />
+          </Border>
+          <Border Width="200" Height="140" Background="#E1F5FE" CornerRadius="12" custom:ExitAnimations.FadeOutUp="900">
+            <TextBlock Text="Fade Out Up" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="16" />
+          </Border>
+          <Border Width="200" Height="140" Background="#E1F5FE" CornerRadius="12" custom:ExitAnimations.FadeOutUpBig="900">
+            <TextBlock Text="Fade Out Up Big" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="16" />
+          </Border>
+          <Border Width="200" Height="140" Background="#E1F5FE" CornerRadius="12" custom:ExitAnimations.FadeOutLeft="900">
+            <TextBlock Text="Fade Out Left" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="16" />
+          </Border>
+          <Border Width="200" Height="140" Background="#E1F5FE" CornerRadius="12" custom:ExitAnimations.FadeOutLeftBig="900">
+            <TextBlock Text="Fade Out Left Big" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="16" />
+          </Border>
+          <Border Width="200" Height="140" Background="#E1F5FE" CornerRadius="12" custom:ExitAnimations.FadeOutRight="900">
+            <TextBlock Text="Fade Out Right" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="16" />
+          </Border>
+          <Border Width="200" Height="140" Background="#E1F5FE" CornerRadius="12" custom:ExitAnimations.FadeOutRightBig="900">
+            <TextBlock Text="Fade Out Right Big" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="16" />
+          </Border>
+          <Border Width="200" Height="140" Background="#E1F5FE" CornerRadius="12" custom:ExitAnimations.FadeOutTopLeft="900">
+            <TextBlock Text="Fade Out Top Left" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="16" />
+          </Border>
+          <Border Width="200" Height="140" Background="#E1F5FE" CornerRadius="12" custom:ExitAnimations.FadeOutTopRight="900">
+            <TextBlock Text="Fade Out Top Right" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="16" />
+          </Border>
+          <Border Width="200" Height="140" Background="#E1F5FE" CornerRadius="12" custom:ExitAnimations.FadeOutBottomLeft="900">
+            <TextBlock Text="Fade Out Bottom Left" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="16" />
+          </Border>
+          <Border Width="200" Height="140" Background="#E1F5FE" CornerRadius="12" custom:ExitAnimations.FadeOutBottomRight="900">
+            <TextBlock Text="Fade Out Bottom Right" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="16" />
+          </Border>
+        </WrapPanel>
+      </ScrollViewer>
+    </TabItem>
+    <TabItem Header="Flip &amp; LightSpeed">
+      <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+        <WrapPanel Margin="12" ItemSpacing="16" HorizontalAlignment="Center">
+          <Border Width="220" Height="150" Background="#FCE4EC" CornerRadius="12" custom:ExitAnimations.FlipOutX="900">
+            <TextBlock Text="Flip Out X" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" />
+          </Border>
+          <Border Width="220" Height="150" Background="#FCE4EC" CornerRadius="12" custom:ExitAnimations.FlipOutY="900">
+            <TextBlock Text="Flip Out Y" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" />
+          </Border>
+          <Border Width="220" Height="150" Background="#FFECB3" CornerRadius="12" custom:ExitAnimations.LightSpeedOutLeft="900">
+            <TextBlock Text="Light Speed Out Left" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" />
+          </Border>
+          <Border Width="220" Height="150" Background="#FFECB3" CornerRadius="12" custom:ExitAnimations.LightSpeedOutRight="900">
+            <TextBlock Text="Light Speed Out Right" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" />
+          </Border>
+        </WrapPanel>
+      </ScrollViewer>
+    </TabItem>
+    <TabItem Header="Rotate">
+      <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+        <WrapPanel Margin="12" ItemSpacing="16" HorizontalAlignment="Center">
+          <Border Width="220" Height="150" Background="#D1C4E9" CornerRadius="12" custom:ExitAnimations.RotateOut="900">
+            <TextBlock Text="Rotate Out" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" />
+          </Border>
+          <Border Width="220" Height="150" Background="#D1C4E9" CornerRadius="12" custom:ExitAnimations.RotateOutDownLeft="900">
+            <TextBlock Text="Rotate Out Down Left" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" />
+          </Border>
+          <Border Width="220" Height="150" Background="#D1C4E9" CornerRadius="12" custom:ExitAnimations.RotateOutDownRight="900">
+            <TextBlock Text="Rotate Out Down Right" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" />
+          </Border>
+          <Border Width="220" Height="150" Background="#D1C4E9" CornerRadius="12" custom:ExitAnimations.RotateOutUpLeft="900">
+            <TextBlock Text="Rotate Out Up Left" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" />
+          </Border>
+          <Border Width="220" Height="150" Background="#D1C4E9" CornerRadius="12" custom:ExitAnimations.RotateOutUpRight="900">
+            <TextBlock Text="Rotate Out Up Right" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" />
+          </Border>
+        </WrapPanel>
+      </ScrollViewer>
+    </TabItem>
+    <TabItem Header="Slide">
+      <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+        <WrapPanel Margin="12" ItemSpacing="16" HorizontalAlignment="Center">
+          <Border Width="220" Height="150" Background="#FFCCBC" CornerRadius="12" custom:ExitAnimations.SlideOutDown="900">
+            <TextBlock Text="Slide Out Down" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" />
+          </Border>
+          <Border Width="220" Height="150" Background="#FFCCBC" CornerRadius="12" custom:ExitAnimations.SlideOutUp="900">
+            <TextBlock Text="Slide Out Up" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" />
+          </Border>
+          <Border Width="220" Height="150" Background="#FFCCBC" CornerRadius="12" custom:ExitAnimations.SlideOutLeft="900">
+            <TextBlock Text="Slide Out Left" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" />
+          </Border>
+          <Border Width="220" Height="150" Background="#FFCCBC" CornerRadius="12" custom:ExitAnimations.SlideOutRight="900">
+            <TextBlock Text="Slide Out Right" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" />
+          </Border>
+        </WrapPanel>
+      </ScrollViewer>
+    </TabItem>
+    <TabItem Header="Zoom">
+      <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+        <WrapPanel Margin="12" ItemSpacing="16" HorizontalAlignment="Center">
+          <Border Width="220" Height="150" Background="#E0F2F1" CornerRadius="12" custom:ExitAnimations.ZoomOut="900">
+            <TextBlock Text="Zoom Out" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" />
+          </Border>
+          <Border Width="220" Height="150" Background="#E0F2F1" CornerRadius="12" custom:ExitAnimations.ZoomOutDown="900">
+            <TextBlock Text="Zoom Out Down" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" />
+          </Border>
+          <Border Width="220" Height="150" Background="#E0F2F1" CornerRadius="12" custom:ExitAnimations.ZoomOutUp="900">
+            <TextBlock Text="Zoom Out Up" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" />
+          </Border>
+          <Border Width="220" Height="150" Background="#E0F2F1" CornerRadius="12" custom:ExitAnimations.ZoomOutLeft="900">
+            <TextBlock Text="Zoom Out Left" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" />
+          </Border>
+          <Border Width="220" Height="150" Background="#E0F2F1" CornerRadius="12" custom:ExitAnimations.ZoomOutRight="900">
+            <TextBlock Text="Zoom Out Right" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" />
+          </Border>
+        </WrapPanel>
+      </ScrollViewer>
+    </TabItem>
+    <TabItem Header="Special">
+      <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+        <WrapPanel Margin="12" ItemSpacing="16" HorizontalAlignment="Center">
+          <Border Width="220" Height="150" Background="#F3E5F5" CornerRadius="12" custom:ExitAnimations.Hinge="1200">
+            <TextBlock Text="Hinge" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" />
+          </Border>
+          <Border Width="220" Height="150" Background="#F3E5F5" CornerRadius="12" custom:ExitAnimations.RollOut="900">
+            <TextBlock Text="Roll Out" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" />
+          </Border>
+        </WrapPanel>
+      </ScrollViewer>
+    </TabItem>
+  </TabControl>
+</UserControl>

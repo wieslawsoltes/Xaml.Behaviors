@@ -1,0 +1,38 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:custom="using:Avalonia.Xaml.Interactions.Custom"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="BehaviorsTestApplication.Views.Pages.FadeAnimationView">
+  <TabControl>
+    <TabItem Header="Fade In">
+      <Panel ClipToBounds="True">
+        <Border Name="Border1"
+                Background="LightBlue"
+                custom:FadeAnimation.FadeIn="1000">
+          <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="6">
+            <TextBlock Text="TextBlock" FontSize="16"/>
+            <CheckBox IsChecked="True" Content="CheckBox" />
+            <TextBlock Text="TextBlock" FontSize="16"/>
+            <TextBox Text="TextBox" Width="200"/>
+          </StackPanel>
+        </Border>
+      </Panel>
+    </TabItem>
+    <TabItem Header="Fade Out">
+      <Panel ClipToBounds="True">
+        <Border Name="Border2"
+                Background="LightGreen"
+                custom:FadeAnimation.FadeOut="1000">
+          <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="6">
+            <TextBlock Text="TextBlock" FontSize="16"/>
+            <CheckBox IsChecked="True" Content="CheckBox" />
+            <TextBlock Text="TextBlock" FontSize="16"/>
+            <TextBox Text="TextBox" Width="200"/>
+          </StackPanel>
+        </Border>
+      </Panel>
+    </TabItem>
+  </TabControl>
+</UserControl>

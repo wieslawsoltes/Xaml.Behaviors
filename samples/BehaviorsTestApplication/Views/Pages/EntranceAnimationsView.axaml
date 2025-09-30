@@ -1,0 +1,187 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:custom="using:Avalonia.Xaml.Interactions.Custom"
+             mc:Ignorable="d" d:DesignWidth="900" d:DesignHeight="600"
+             x:Class="BehaviorsTestApplication.Views.Pages.EntranceAnimationsView">
+  <TabControl>
+    <TabItem Header="Back">
+      <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+        <WrapPanel Margin="12" ItemSpacing="16" HorizontalAlignment="Center">
+          <Border Width="220" Height="150" Background="#E8F5E9" CornerRadius="12" custom:EntranceAnimations.BackInDown="900">
+            <TextBlock Text="Back In Down" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" />
+          </Border>
+          <Border Width="220" Height="150" Background="#E8F5E9" CornerRadius="12" custom:EntranceAnimations.BackInUp="900">
+            <TextBlock Text="Back In Up" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" />
+          </Border>
+          <Border Width="220" Height="150" Background="#E8F5E9" CornerRadius="12" custom:EntranceAnimations.BackInLeft="900">
+            <TextBlock Text="Back In Left" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" />
+          </Border>
+          <Border Width="220" Height="150" Background="#E8F5E9" CornerRadius="12" custom:EntranceAnimations.BackInRight="900">
+            <TextBlock Text="Back In Right" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" />
+          </Border>
+        </WrapPanel>
+      </ScrollViewer>
+    </TabItem>
+    <TabItem Header="Bounce">
+      <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+        <WrapPanel Margin="12" ItemSpacing="16" HorizontalAlignment="Center">
+          <Border Width="220" Height="150" Background="#FFF8E1" CornerRadius="12" custom:EntranceAnimations.BounceIn="900">
+            <TextBlock Text="Bounce In" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" />
+          </Border>
+          <Border Width="220" Height="150" Background="#FFF8E1" CornerRadius="12" custom:EntranceAnimations.BounceInDown="900">
+            <TextBlock Text="Bounce In Down" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" />
+          </Border>
+          <Border Width="220" Height="150" Background="#FFF8E1" CornerRadius="12" custom:EntranceAnimations.BounceInUp="900">
+            <TextBlock Text="Bounce In Up" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" />
+          </Border>
+          <Border Width="220" Height="150" Background="#FFF8E1" CornerRadius="12" custom:EntranceAnimations.BounceInLeft="900">
+            <TextBlock Text="Bounce In Left" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" />
+          </Border>
+          <Border Width="220" Height="150" Background="#FFF8E1" CornerRadius="12" custom:EntranceAnimations.BounceInRight="900">
+            <TextBlock Text="Bounce In Right" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" />
+          </Border>
+        </WrapPanel>
+      </ScrollViewer>
+    </TabItem>
+    <TabItem Header="Fade">
+      <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+        <WrapPanel Margin="12" ItemSpacing="16" HorizontalAlignment="Center">
+          <Border Width="200" Height="140" Background="#E1F5FE" CornerRadius="12" custom:EntranceAnimations.FadeIn="900">
+            <TextBlock Text="Fade In" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="16" />
+          </Border>
+          <Border Width="200" Height="140" Background="#E1F5FE" CornerRadius="12" custom:EntranceAnimations.FadeInDown="900">
+            <TextBlock Text="Fade In Down" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="16" />
+          </Border>
+          <Border Width="200" Height="140" Background="#E1F5FE" CornerRadius="12" custom:EntranceAnimations.FadeInDownBig="900">
+            <TextBlock Text="Fade In Down Big" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="16" />
+          </Border>
+          <Border Width="200" Height="140" Background="#E1F5FE" CornerRadius="12" custom:EntranceAnimations.FadeInUp="900">
+            <TextBlock Text="Fade In Up" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="16" />
+          </Border>
+          <Border Width="200" Height="140" Background="#E1F5FE" CornerRadius="12" custom:EntranceAnimations.FadeInUpBig="900">
+            <TextBlock Text="Fade In Up Big" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="16" />
+          </Border>
+          <Border Width="200" Height="140" Background="#E1F5FE" CornerRadius="12" custom:EntranceAnimations.FadeInLeft="900">
+            <TextBlock Text="Fade In Left" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="16" />
+          </Border>
+          <Border Width="200" Height="140" Background="#E1F5FE" CornerRadius="12" custom:EntranceAnimations.FadeInLeftBig="900">
+            <TextBlock Text="Fade In Left Big" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="16" />
+          </Border>
+          <Border Width="200" Height="140" Background="#E1F5FE" CornerRadius="12" custom:EntranceAnimations.FadeInRight="900">
+            <TextBlock Text="Fade In Right" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="16" />
+          </Border>
+          <Border Width="200" Height="140" Background="#E1F5FE" CornerRadius="12" custom:EntranceAnimations.FadeInRightBig="900">
+            <TextBlock Text="Fade In Right Big" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="16" />
+          </Border>
+          <Border Width="200" Height="140" Background="#E1F5FE" CornerRadius="12" custom:EntranceAnimations.FadeInTopLeft="900">
+            <TextBlock Text="Fade In Top Left" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="16" />
+          </Border>
+          <Border Width="200" Height="140" Background="#E1F5FE" CornerRadius="12" custom:EntranceAnimations.FadeInTopRight="900">
+            <TextBlock Text="Fade In Top Right" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="16" />
+          </Border>
+          <Border Width="200" Height="140" Background="#E1F5FE" CornerRadius="12" custom:EntranceAnimations.FadeInBottomLeft="900">
+            <TextBlock Text="Fade In Bottom Left" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="16" />
+          </Border>
+          <Border Width="200" Height="140" Background="#E1F5FE" CornerRadius="12" custom:EntranceAnimations.FadeInBottomRight="900">
+            <TextBlock Text="Fade In Bottom Right" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="16" />
+          </Border>
+        </WrapPanel>
+      </ScrollViewer>
+    </TabItem>
+    <TabItem Header="Flip &amp; LightSpeed">
+      <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+        <WrapPanel Margin="12" ItemSpacing="16" HorizontalAlignment="Center">
+          <Border Width="220" Height="150" Background="#FCE4EC" CornerRadius="12" custom:EntranceAnimations.FlipInX="1000">
+            <TextBlock Text="Flip In X" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" />
+          </Border>
+          <Border Width="220" Height="150" Background="#FCE4EC" CornerRadius="12" custom:EntranceAnimations.FlipInY="1000">
+            <TextBlock Text="Flip In Y" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" />
+          </Border>
+          <Border Width="220" Height="150" Background="#FFECB3" CornerRadius="12" custom:EntranceAnimations.LightSpeedInLeft="900">
+            <TextBlock Text="Light Speed In Left" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" />
+          </Border>
+          <Border Width="220" Height="150" Background="#FFECB3" CornerRadius="12" custom:EntranceAnimations.LightSpeedInRight="900">
+            <TextBlock Text="Light Speed In Right" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" />
+          </Border>
+        </WrapPanel>
+      </ScrollViewer>
+    </TabItem>
+    <TabItem Header="Rotate">
+      <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+        <WrapPanel Margin="12" ItemSpacing="16" HorizontalAlignment="Center">
+          <Border Width="220" Height="150" Background="#D1C4E9" CornerRadius="12" custom:EntranceAnimations.RotateIn="900">
+            <TextBlock Text="Rotate In" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" />
+          </Border>
+          <Border Width="220" Height="150" Background="#D1C4E9" CornerRadius="12" custom:EntranceAnimations.RotateInDownLeft="900">
+            <TextBlock Text="Rotate In Down Left" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" />
+          </Border>
+          <Border Width="220" Height="150" Background="#D1C4E9" CornerRadius="12" custom:EntranceAnimations.RotateInDownRight="900">
+            <TextBlock Text="Rotate In Down Right" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" />
+          </Border>
+          <Border Width="220" Height="150" Background="#D1C4E9" CornerRadius="12" custom:EntranceAnimations.RotateInUpLeft="900">
+            <TextBlock Text="Rotate In Up Left" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" />
+          </Border>
+          <Border Width="220" Height="150" Background="#D1C4E9" CornerRadius="12" custom:EntranceAnimations.RotateInUpRight="900">
+            <TextBlock Text="Rotate In Up Right" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" />
+          </Border>
+        </WrapPanel>
+      </ScrollViewer>
+    </TabItem>
+    <TabItem Header="Slide">
+      <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+        <WrapPanel Margin="12" ItemSpacing="16" HorizontalAlignment="Center">
+          <Border Width="220" Height="150" Background="#FFCCBC" CornerRadius="12" custom:EntranceAnimations.SlideInDown="900">
+            <TextBlock Text="Slide In Down" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" />
+          </Border>
+          <Border Width="220" Height="150" Background="#FFCCBC" CornerRadius="12" custom:EntranceAnimations.SlideInUp="900">
+            <TextBlock Text="Slide In Up" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" />
+          </Border>
+          <Border Width="220" Height="150" Background="#FFCCBC" CornerRadius="12" custom:EntranceAnimations.SlideInLeft="900">
+            <TextBlock Text="Slide In Left" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" />
+          </Border>
+          <Border Width="220" Height="150" Background="#FFCCBC" CornerRadius="12" custom:EntranceAnimations.SlideInRight="900">
+            <TextBlock Text="Slide In Right" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" />
+          </Border>
+        </WrapPanel>
+      </ScrollViewer>
+    </TabItem>
+    <TabItem Header="Zoom">
+      <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+        <WrapPanel Margin="12" ItemSpacing="16" HorizontalAlignment="Center">
+          <Border Width="220" Height="150" Background="#E0F2F1" CornerRadius="12" custom:EntranceAnimations.ZoomIn="900">
+            <TextBlock Text="Zoom In" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" />
+          </Border>
+          <Border Width="220" Height="150" Background="#E0F2F1" CornerRadius="12" custom:EntranceAnimations.ZoomInDown="900">
+            <TextBlock Text="Zoom In Down" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" />
+          </Border>
+          <Border Width="220" Height="150" Background="#E0F2F1" CornerRadius="12" custom:EntranceAnimations.ZoomInUp="900">
+            <TextBlock Text="Zoom In Up" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" />
+          </Border>
+          <Border Width="220" Height="150" Background="#E0F2F1" CornerRadius="12" custom:EntranceAnimations.ZoomInLeft="900">
+            <TextBlock Text="Zoom In Left" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" />
+          </Border>
+          <Border Width="220" Height="150" Background="#E0F2F1" CornerRadius="12" custom:EntranceAnimations.ZoomInRight="900">
+            <TextBlock Text="Zoom In Right" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" />
+          </Border>
+        </WrapPanel>
+      </ScrollViewer>
+    </TabItem>
+    <TabItem Header="Special">
+      <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+        <WrapPanel Margin="12" ItemSpacing="16" HorizontalAlignment="Center">
+          <Border Width="220" Height="150" Background="#F3E5F5" CornerRadius="12" custom:EntranceAnimations.FadeInZoom="900">
+            <TextBlock Text="Fade In Zoom" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" />
+          </Border>
+          <Border Width="220" Height="150" Background="#F3E5F5" CornerRadius="12" custom:EntranceAnimations.JackInTheBox="1100">
+            <TextBlock Text="Jack In The Box" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" />
+          </Border>
+          <Border Width="220" Height="150" Background="#F3E5F5" CornerRadius="12" custom:EntranceAnimations.RollIn="900">
+            <TextBlock Text="Roll In" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" />
+          </Border>
+        </WrapPanel>
+      </ScrollViewer>
+    </TabItem>
+  </TabControl>
+</UserControl>
