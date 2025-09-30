@@ -48,6 +48,12 @@ public abstract class PickerActionBase : InvokeCommandActionBase
         AvaloniaProperty.Register<PickerActionBase, string?>(nameof(SuggestedFileName));
 
     /// <summary>
+    /// Identifies the <seealso cref="CreateSuggestedStartLocationDirectory"/> avalonia property.
+    /// </summary>
+    public static readonly StyledProperty<bool> CreateSuggestedStartLocationDirectoryProperty =
+        AvaloniaProperty.Register<PickerActionBase, bool>(nameof(CreateSuggestedStartLocationDirectory), false);
+
+    /// <summary>
     /// Gets or sets the storage provider that the picker uses to access the file system. This is an avalonia property.
     /// </summary>
     public IStorageProvider? StorageProvider
@@ -90,6 +96,15 @@ public abstract class PickerActionBase : InvokeCommandActionBase
     {
         get => GetValue(SuggestedFileNameProperty);
         set => SetValue(SuggestedFileNameProperty, value);
+    }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether to create the suggested start location directory if it doesn't exist. This is an avalonia property.
+    /// </summary>
+    public bool CreateSuggestedStartLocationDirectory
+    {
+        get => GetValue(CreateSuggestedStartLocationDirectoryProperty);
+        set => SetValue(CreateSuggestedStartLocationDirectoryProperty, value);
     }
 
     /// <summary>
@@ -141,7 +156,26 @@ public abstract class PickerActionBase : InvokeCommandActionBase
 
         try
         {
-            return provider.TryGetFolderFromPathAsync(uri).ConfigureAwait(false).GetAwaiter().GetResult();
+            var folder = provider.TryGetFolderFromPathAsync(uri).ConfigureAwait(false).GetAwaiter().GetResult();
+
+            if (folder is null && CreateSuggestedStartLocationDirectory)
+            {
+                try
+                {
+                    var fullPath = Path.GetFullPath(path);
+                    if (!Directory.Exists(fullPath))
+                    {
+                        Directory.CreateDirectory(fullPath);
+                        folder = provider.TryGetFolderFromPathAsync(uri).ConfigureAwait(false).GetAwaiter().GetResult();
+                    }
+                }
+                catch
+                {
+                    // Gracefully fail if directory creation fails
+                }
+            }
+
+            return folder;
         }
         catch
         {
