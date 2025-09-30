@@ -1,0 +1,146 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:custom="using:Avalonia.Xaml.Interactions.Custom"
+             mc:Ignorable="d" d:DesignWidth="900" d:DesignHeight="600"
+             x:Class="BehaviorsTestApplication.Views.Pages.FramerMotionAnimationsView">
+  <TabControl>
+    <TabItem Header="Fade In">
+      <Border Margin="12" Width="220" Height="150" Background="#E3F2FD" CornerRadius="12" custom:FramerMotionAnimations.FadeIn="800">
+        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="6">
+          <TextBlock Text="Fade In" FontSize="18" HorizontalAlignment="Center" />
+          <TextBlock Text="Default Framer fade" TextWrapping="Wrap" HorizontalAlignment="Center" />
+        </StackPanel>
+      </Border>
+    </TabItem>
+    <TabItem Header="Fade In Up">
+      <Border Margin="12" Width="220" Height="150" Background="#F1F8E9" CornerRadius="12" custom:FramerMotionAnimations.FadeInUp="900">
+        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="6">
+          <TextBlock Text="Fade In Up" FontSize="18" HorizontalAlignment="Center" />
+          <TextBlock Text="Rise with damped spring" TextWrapping="Wrap" HorizontalAlignment="Center" />
+        </StackPanel>
+      </Border>
+    </TabItem>
+    <TabItem Header="Fade In Down">
+      <Border Margin="12" Width="220" Height="150" Background="#F1F8E9" CornerRadius="12" custom:FramerMotionAnimations.FadeInDown="900">
+        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="6">
+          <TextBlock Text="Fade In Down" FontSize="18" HorizontalAlignment="Center" />
+          <TextBlock Text="Drop in from top" TextWrapping="Wrap" HorizontalAlignment="Center" />
+        </StackPanel>
+      </Border>
+    </TabItem>
+    <TabItem Header="Fade In Left">
+      <Border Margin="12" Width="220" Height="150" Background="#FFF3E0" CornerRadius="12" custom:FramerMotionAnimations.FadeInLeft="900">
+        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="6">
+          <TextBlock Text="Fade In Left" FontSize="18" HorizontalAlignment="Center" />
+          <TextBlock Text="Directional fade" TextWrapping="Wrap" HorizontalAlignment="Center" />
+        </StackPanel>
+      </Border>
+    </TabItem>
+    <TabItem Header="Fade In Right">
+      <Border Margin="12" Width="220" Height="150" Background="#FFF3E0" CornerRadius="12" custom:FramerMotionAnimations.FadeInRight="900">
+        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="6">
+          <TextBlock Text="Fade In Right" FontSize="18" HorizontalAlignment="Center" />
+          <TextBlock Text="Directional fade" TextWrapping="Wrap" HorizontalAlignment="Center" />
+        </StackPanel>
+      </Border>
+    </TabItem>
+    <TabItem Header="Slide In Left">
+      <Border Margin="12" Width="220" Height="150" Background="#E0F2F1" CornerRadius="12" custom:FramerMotionAnimations.SlideInFromLeft="900">
+        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="6">
+          <TextBlock Text="Slide In Left" FontSize="18" HorizontalAlignment="Center" />
+          <TextBlock Text="Framer-esque slide" TextWrapping="Wrap" HorizontalAlignment="Center" />
+        </StackPanel>
+      </Border>
+    </TabItem>
+    <TabItem Header="Slide In Right">
+      <Border Margin="12" Width="220" Height="150" Background="#E0F2F1" CornerRadius="12" custom:FramerMotionAnimations.SlideInFromRight="900">
+        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="6">
+          <TextBlock Text="Slide In Right" FontSize="18" HorizontalAlignment="Center" />
+          <TextBlock Text="Framer-esque slide" TextWrapping="Wrap" HorizontalAlignment="Center" />
+        </StackPanel>
+      </Border>
+    </TabItem>
+    <TabItem Header="Slide In Top">
+      <Border Margin="12" Width="220" Height="150" Background="#E0F2F1" CornerRadius="12" custom:FramerMotionAnimations.SlideInFromTop="900">
+        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="6">
+          <TextBlock Text="Slide In Top" FontSize="18" HorizontalAlignment="Center" />
+          <TextBlock Text="Framer slide vertical" TextWrapping="Wrap" HorizontalAlignment="Center" />
+        </StackPanel>
+      </Border>
+    </TabItem>
+    <TabItem Header="Slide In Bottom">
+      <Border Margin="12" Width="220" Height="150" Background="#E0F2F1" CornerRadius="12" custom:FramerMotionAnimations.SlideInFromBottom="900">
+        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="6">
+          <TextBlock Text="Slide In Bottom" FontSize="18" HorizontalAlignment="Center" />
+          <TextBlock Text="Framer slide vertical" TextWrapping="Wrap" HorizontalAlignment="Center" />
+        </StackPanel>
+      </Border>
+    </TabItem>
+    <TabItem Header="Pop In">
+      <Border Margin="12" Width="220" Height="150" Background="#F8BBD0" CornerRadius="12" custom:FramerMotionAnimations.PopIn="800">
+        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="6">
+          <TextBlock Text="Pop In" FontSize="18" HorizontalAlignment="Center" />
+          <TextBlock Text="Overshooting scale" TextWrapping="Wrap" HorizontalAlignment="Center" />
+        </StackPanel>
+      </Border>
+    </TabItem>
+    <TabItem Header="Pop Out">
+      <Border Margin="12" Width="220" Height="150" Background="#F8BBD0" CornerRadius="12" custom:FramerMotionAnimations.PopOut="700">
+        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="6">
+          <TextBlock Text="Pop Out" FontSize="18" HorizontalAlignment="Center" />
+          <TextBlock Text="Scale &amp; fade" TextWrapping="Wrap" HorizontalAlignment="Center" />
+        </StackPanel>
+      </Border>
+    </TabItem>
+    <TabItem Header="Spring In">
+      <Border Margin="12" Width="220" Height="150" Background="#C5CAE9" CornerRadius="12" custom:FramerMotionAnimations.SpringIn="900">
+        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="6">
+          <TextBlock Text="Spring In" FontSize="18" HorizontalAlignment="Center" />
+          <TextBlock Text="Bouncy translate" TextWrapping="Wrap" HorizontalAlignment="Center" />
+        </StackPanel>
+      </Border>
+    </TabItem>
+    <TabItem Header="Spring Out">
+      <Border Margin="12" Width="220" Height="150" Background="#C5CAE9" CornerRadius="12" custom:FramerMotionAnimations.SpringOut="900">
+        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="6">
+          <TextBlock Text="Spring Out" FontSize="18" HorizontalAlignment="Center" />
+          <TextBlock Text="Exit with overshoot" TextWrapping="Wrap" HorizontalAlignment="Center" />
+        </StackPanel>
+      </Border>
+    </TabItem>
+    <TabItem Header="Rotate In">
+      <Border Margin="12" Width="220" Height="150" Background="#FFECB3" CornerRadius="12" custom:FramerMotionAnimations.RotateIn="900">
+        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="6">
+          <TextBlock Text="Rotate In" FontSize="18" HorizontalAlignment="Center" />
+          <TextBlock Text="Framer rotate entry" TextWrapping="Wrap" HorizontalAlignment="Center" />
+        </StackPanel>
+      </Border>
+    </TabItem>
+    <TabItem Header="Rotate Out">
+      <Border Margin="12" Width="220" Height="150" Background="#FFECB3" CornerRadius="12" custom:FramerMotionAnimations.RotateOut="900">
+        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="6">
+          <TextBlock Text="Rotate Out" FontSize="18" HorizontalAlignment="Center" />
+          <TextBlock Text="Framer rotate exit" TextWrapping="Wrap" HorizontalAlignment="Center" />
+        </StackPanel>
+      </Border>
+    </TabItem>
+    <TabItem Header="Scale In">
+      <Border Margin="12" Width="220" Height="150" Background="#DCEDC8" CornerRadius="12" custom:FramerMotionAnimations.ScaleIn="800">
+        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="6">
+          <TextBlock Text="Scale In" FontSize="18" HorizontalAlignment="Center" />
+          <TextBlock Text="Ease overshoot scale" TextWrapping="Wrap" HorizontalAlignment="Center" />
+        </StackPanel>
+      </Border>
+    </TabItem>
+    <TabItem Header="Scale Out">
+      <Border Margin="12" Width="220" Height="150" Background="#DCEDC8" CornerRadius="12" custom:FramerMotionAnimations.ScaleOut="800">
+        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="6">
+          <TextBlock Text="Scale Out" FontSize="18" HorizontalAlignment="Center" />
+          <TextBlock Text="Ease scale exit" TextWrapping="Wrap" HorizontalAlignment="Center" />
+        </StackPanel>
+      </Border>
+    </TabItem>
+  </TabControl>
+</UserControl>

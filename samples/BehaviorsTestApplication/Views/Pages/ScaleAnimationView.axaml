@@ -1,0 +1,80 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:custom="using:Avalonia.Xaml.Interactions.Custom"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="BehaviorsTestApplication.Views.Pages.ScaleAnimationView">
+  <TabControl>
+    <TabItem Header="Scale In">
+      <Panel ClipToBounds="False">
+        <Border Name="Border1"
+                Background="LightCoral"
+                custom:ScaleAnimation.ScaleIn="1000">
+          <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="6">
+            <TextBlock Text="TextBlock" FontSize="16"/>
+            <CheckBox IsChecked="True" Content="CheckBox" />
+            <TextBlock Text="TextBlock" FontSize="16"/>
+            <TextBox Text="TextBox" Width="200"/>
+          </StackPanel>
+        </Border>
+      </Panel>
+    </TabItem>
+    <TabItem Header="Scale Out">
+      <Panel ClipToBounds="False">
+        <Border Name="Border2"
+                Background="LightYellow"
+                custom:ScaleAnimation.ScaleOut="1000">
+          <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="6">
+            <TextBlock Text="TextBlock" FontSize="16"/>
+            <CheckBox IsChecked="True" Content="CheckBox" />
+            <TextBlock Text="TextBlock" FontSize="16"/>
+            <TextBox Text="TextBox" Width="200"/>
+          </StackPanel>
+        </Border>
+      </Panel>
+    </TabItem>
+    <TabItem Header="Zoom In">
+      <Panel ClipToBounds="False">
+        <Border Name="Border3"
+                Background="LightSalmon"
+                custom:ScaleAnimation.ZoomIn="1000">
+          <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="6">
+            <TextBlock Text="TextBlock" FontSize="16"/>
+            <CheckBox IsChecked="True" Content="CheckBox" />
+            <TextBlock Text="TextBlock" FontSize="16"/>
+            <TextBox Text="TextBox" Width="200"/>
+          </StackPanel>
+        </Border>
+      </Panel>
+    </TabItem>
+    <TabItem Header="Zoom Out">
+      <Panel ClipToBounds="False">
+        <Border Name="Border4"
+                Background="LightSeaGreen"
+                custom:ScaleAnimation.ZoomOut="1000">
+          <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="6">
+            <TextBlock Text="TextBlock" FontSize="16"/>
+            <CheckBox IsChecked="True" Content="CheckBox" />
+            <TextBlock Text="TextBlock" FontSize="16"/>
+            <TextBox Text="TextBox" Width="200"/>
+          </StackPanel>
+        </Border>
+      </Panel>
+    </TabItem>
+    <TabItem Header="Bounce">
+      <Panel ClipToBounds="False">
+        <Border Name="Border5"
+                Background="LightSkyBlue"
+                custom:ScaleAnimation.Bounce="1000">
+          <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="6">
+            <TextBlock Text="TextBlock" FontSize="16"/>
+            <CheckBox IsChecked="True" Content="CheckBox" />
+            <TextBlock Text="TextBlock" FontSize="16"/>
+            <TextBox Text="TextBox" Width="200"/>
+          </StackPanel>
+        </Border>
+      </Panel>
+    </TabItem>
+  </TabControl>
+</UserControl>

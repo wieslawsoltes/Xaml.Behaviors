@@ -407,6 +407,22 @@ This section provides an overview of all available classes and their purpose in 
 
 - **SlidingAnimation** ([Sample](samples/BehaviorsTestApplication/Views/Pages/SlidingAnimationView.axaml))
   *Provides static methods to apply sliding animations (from left, right, top, or bottom) to a control.*
+- **FadeAnimation** ([Sample](samples/BehaviorsTestApplication/Views/Pages/FadeAnimationView.axaml))
+  *Adds composition-driven fade-in, fade-out, and custom opacity transitions.*
+- **ScaleAnimation** ([Sample](samples/BehaviorsTestApplication/Views/Pages/ScaleAnimationView.axaml))
+  *Provides scale, zoom, and bounce helpers implemented with composition animations.*
+- **RotateAnimation** ([Sample](samples/BehaviorsTestApplication/Views/Pages/RotateAnimationView.axaml))
+  *Offers rotation-based composition animations including swing and flip effects.*
+- **EntranceAnimations** ([Sample](samples/BehaviorsTestApplication/Views/Pages/EntranceAnimationsView.axaml))
+  *Ready-to-use fade/slide/zoom entrance animations inspired by CSS motion libraries.*
+- **AttentionAnimations** ([Sample](samples/BehaviorsTestApplication/Views/Pages/AttentionAnimationsView.axaml))
+  *Pulse, shake, flash, and tada animations that mirror common web attention patterns.*
+- **SpecialAnimations** ([Sample](samples/BehaviorsTestApplication/Views/Pages/SpecialAnimationsView.axaml))
+  *House bespoke effects such as the animate.css `flip` approximation implemented via composition helpers.*
+- **ExitAnimations** ([Sample](samples/BehaviorsTestApplication/Views/Pages/ExitAnimationsView.axaml))
+  *Animate.css-inspired exits (back, bounce, fade, rotate, slide, zoom, hinge, roll) built with composition.*
+- **FramerMotionAnimations** ([Sample](samples/BehaviorsTestApplication/Views/Pages/FramerMotionAnimationsView.axaml))
+  *Framer Motion style fade, slide, pop, spring, rotate, and scale presets expressed with composition APIs.*
 - **FluidMoveBehavior** ([Sample](samples/BehaviorsTestApplication/Views/Pages/FluidMoveBehaviorView.axaml))
   *Animates layout changes of a control or its children.*
 
