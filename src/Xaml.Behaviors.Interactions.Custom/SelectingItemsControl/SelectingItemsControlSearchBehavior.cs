@@ -2,6 +2,7 @@
 // Licensed under the MIT license. See LICENSE file in the project root for details.
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
@@ -123,24 +124,10 @@ public sealed class SelectingItemsControlSearchBehavior : StyledElementBehavior<
             return;
         }
 
-        var tabItems = AssociatedObject.Items.OfType<TabItem>().ToList();
-        tabItems = SortOrder == SortDirection.Ascending
-            ? tabItems.OrderBy(x => x.Header?.ToString(), StringComparer.OrdinalIgnoreCase).ToList()
-            : tabItems.OrderByDescending(x => x.Header?.ToString(), StringComparer.OrdinalIgnoreCase).ToList();
-
-        if (AssociatedObject.Items is IList list)
-        {
-            for (var i = 0; i < tabItems.Count; i++)
-            {
-                var item = tabItems[i];
-                var currentIndex = list.IndexOf(item);
-                if (currentIndex != i)
-                {
-                    list.RemoveAt(currentIndex);
-                    list.Insert(i, item);
-                }
-            }
-        }
+        var tabItemComparer = SortOrder == SortDirection.Ascending
+            ? Comparer<Object>.Create((x, y) => (x as TabItem)?.Header?.ToString()?.CompareTo((y as TabItem)?.Header?.ToString()) ?? -1)
+            : Comparer<Object>.Create((x, y) => (y as TabItem)?.Header?.ToString()?.CompareTo((x as TabItem)?.Header?.ToString()) ?? -1);
+        ArrayList.Adapter(AssociatedObject.Items).Sort(tabItemComparer);
     }
 
     private void SearchBox_TextChanged(object? sender, RoutedEventArgs e)
