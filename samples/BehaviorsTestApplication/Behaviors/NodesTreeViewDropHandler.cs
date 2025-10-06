@@ -1,5 +1,6 @@
 using Avalonia.Controls;
 using Avalonia.Input;
+using Avalonia.LogicalTree;
 using Avalonia.VisualTree;
 using BehaviorsTestApplication.ViewModels;
 
@@ -38,6 +39,15 @@ public class NodesTreeViewDropHandler : BaseTreeViewDropHandler
             if (sourceIndex < 0 || targetIndex < 0)
             {
                 return (false, false);
+            }
+
+            if (e.Source is Control c)
+            {
+                var treeViewItem = c.FindLogicalAncestorOfType<TreeViewItem>();
+                if (treeViewItem is not null && e.GetPosition(treeViewItem).Y > treeViewItem.Bounds.Height / 2)
+                    targetIndex++;
+                if (sourceParent == targetParent && targetIndex > sourceIndex)
+                    targetIndex--;
             }
 
             switch (e.DragEffects)

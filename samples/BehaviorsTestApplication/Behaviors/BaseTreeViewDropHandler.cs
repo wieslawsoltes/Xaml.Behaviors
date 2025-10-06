@@ -33,11 +33,15 @@ public abstract class BaseTreeViewDropHandler : DropHandlerBase
                 // Reordering effect: adorner layer, on top or bottom.
                 // Change of parent: highlight parent.
 
-                var itemToApplyStyle = (willSourceItemChangeParent && targetItem?.Parent is TreeViewItem tviParent) ?
-                                       tviParent : targetItem;
-                string direction = e.Data.Contains("direction") ? (string)e.Data.Get("direction")! : "down";
-                ApplyDraggingStyleToItem(itemToApplyStyle!, direction, willSourceItemChangeParent);
-                ClearDraggingStyleFromAllItems(sender, exceptThis: itemToApplyStyle);
+                if (targetItem is not null)
+                {
+                    var isDirectionUp = e.GetPosition(targetItem).Y < targetItem.Bounds.Height / 2;
+                    var itemToApplyStyle = (willSourceItemChangeParent && targetItem?.Parent is TreeViewItem tviParent) ?
+                                           tviParent : targetItem;
+                    string direction = e.Data.Contains("direction") ? (string)e.Data.Get("direction")! : "down";
+                    ApplyDraggingStyleToItem(itemToApplyStyle!, isDirectionUp, willSourceItemChangeParent);
+                    ClearDraggingStyleFromAllItems(sender, exceptThis: itemToApplyStyle);
+                }
             }
             return valid;
         }
@@ -70,16 +74,7 @@ public abstract class BaseTreeViewDropHandler : DropHandlerBase
         if (sourceChild is null)
             return null;
 
-        int maxDepth = 16;
-        StyledElement? current = sourceChild;
-        while (maxDepth --> 0)
-        {
-            if (current is TreeViewItem tvi)
-                return tvi;
-            else
-                current = current?.Parent;
-        }
-        return null;
+        return sourceChild.FindLogicalAncestorOfType<TreeViewItem>();
     }
 
     private static void ClearDraggingStyleFromAllItems(object? sender, TreeViewItem? exceptThis = null)
@@ -102,7 +97,7 @@ public abstract class BaseTreeViewDropHandler : DropHandlerBase
         }
     }
 
-    private static void ApplyDraggingStyleToItem(TreeViewItem? item, string direction, bool willSourceItemBeMovedToDifferentParent)
+    private static void ApplyDraggingStyleToItem(TreeViewItem? item, bool isDirectionUp, bool willSourceItemBeMovedToDifferentParent)
     {
         if (item is null)
             return;
@@ -117,13 +112,13 @@ public abstract class BaseTreeViewDropHandler : DropHandlerBase
             item.Classes.Remove(rowDraggingUpStyleClass);
             item.Classes.Add(targetHighlightStyleClass);
         }
-        else if (direction == "up")
+        else if (isDirectionUp)
         {
             item.Classes.Remove(rowDraggingDownStyleClass);
             item.Classes.Remove(targetHighlightStyleClass);
             item.Classes.Add(rowDraggingUpStyleClass);
         }
-        else if (direction == "down")
+        else
         {
             item.Classes.Remove(rowDraggingUpStyleClass);
             item.Classes.Remove(targetHighlightStyleClass);
