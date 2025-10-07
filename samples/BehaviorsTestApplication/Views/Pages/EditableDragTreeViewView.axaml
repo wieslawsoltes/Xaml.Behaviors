@@ -11,6 +11,7 @@
     <vm:DragAndDropSampleViewModel />
   </Design.DataContext>
   <UserControl.Styles>
+    <StyleInclude Source="avares://Xaml.Behaviors.Interactions.DragAndDrop/Styles.axaml" />
     <Style Selector="TreeView.NodesEditableDrag">
       <Style.Resources>
         <NodesTreeViewDropHandler x:Key="NodesTreeViewDropHandler" />
@@ -35,23 +36,6 @@
           </BehaviorCollection>
         </BehaviorCollectionTemplate>
       </Setter>
-    </Style>
-    <Style Selector="TreeView.NodesEditableDrag TreeViewItem.DraggingUp">
-      <Setter Property="AdornerLayer.Adorner">
-        <Template>
-          <Border BorderThickness="0 2 0 0" BorderBrush="{DynamicResource SystemAccentColor}" IsHitTestVisible="False"/>
-        </Template>
-      </Setter>
-    </Style>
-    <Style Selector="TreeView.NodesEditableDrag TreeViewItem.DraggingDown">
-      <Setter Property="AdornerLayer.Adorner">
-        <Template>
-          <Border BorderThickness="0 0 0 2" BorderBrush="{DynamicResource SystemAccentColor}" IsHitTestVisible="False"/>
-        </Template>
-      </Setter>
-    </Style>
-    <Style Selector="TreeViewItem.TargetHighlight">
-      <Setter Property="Background" Value="{DynamicResource TreeViewItemBackgroundPointerOver}"/>
     </Style>
   </UserControl.Styles>
   <TreeView ItemsSource="{Binding Nodes}" Classes="NodesEditableDrag">

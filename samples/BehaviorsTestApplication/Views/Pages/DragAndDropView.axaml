@@ -36,6 +36,8 @@
   </UserControl.Resources>
 
   <UserControl.Styles>
+    <StyleInclude Source="avares://Xaml.Behaviors.Interactions.DragAndDrop/Styles.axaml" />
+    <StyleInclude Source="avares://Xaml.Behaviors.Interactions.DragAndDrop.DataGrid/Styles.axaml" />
 
     <Style Selector="ListBox.ItemsDragAndDrop">
       <Style.Resources>
@@ -159,28 +161,6 @@
       </Setter>
     </Style>
 
-    <Style Selector="TreeView.NodesDragAndDrop TreeViewItem.DraggingUp">
-      <Setter Property="AdornerLayer.Adorner">
-        <Template>
-          <Border BorderThickness="0 2 0 0" BorderBrush="{DynamicResource SystemAccentColor}"/>
-        </Template>
-      </Setter>
-    </Style>
-
-    <Style Selector="TreeView.NodesDragAndDrop TreeViewItem.DraggingDown">
-      <Setter Property="AdornerLayer.Adorner">
-        <Template>
-          <Border BorderThickness="0 0 0 2" BorderBrush="{DynamicResource SystemAccentColor}"/>
-        </Template>
-      </Setter>
-    </Style>
-
-    <Style Selector="TreeViewItem.TargetHighlight">
-      <Setter
-        Property="Background"
-        Value="{DynamicResource TreeViewItemBackgroundPointerOver}"/>
-    </Style>
-
     <Style Selector="DataGrid.DragAndDrop">
       <Style.Resources>
         <ItemsDataGridDropHandler x:Key="ItemsDataGridDropHandler" />
@@ -197,22 +177,6 @@
       </Setter>
     </Style>
 
-    <Style Selector="DataGrid.DragAndDrop DataGridRow.DraggingUp">
-      <Setter Property="AdornerLayer.Adorner">
-        <Template>
-          <Border BorderThickness="0 2 0 0" BorderBrush="{DynamicResource SystemAccentColor}" IsHitTestVisible="False"/>
-        </Template>
-      </Setter>
-    </Style>
-  
-    <Style Selector="DataGrid.DragAndDrop DataGridRow.DraggingDown">
-      <Setter Property="AdornerLayer.Adorner">
-        <Template>
-          <Border BorderThickness="0 0 0 2" BorderBrush="{DynamicResource SystemAccentColor}" IsHitTestVisible="False"/>
-        </Template>
-      </Setter>
-    </Style>
-  
     <!-- This makes only the DataGridRowHeader available for dragging, instead of making the entire row draggable -->
     <!-- Which prevents a conflict between text selection in a cell and drag-and-drop -->
     <Style Selector="DataGrid.DragAndDrop DataGridRowHeader">

@@ -79,6 +79,7 @@ and install the package like this:
 | [Xaml.Behaviors.Interactions](https://www.nuget.org/packages/Xaml.Behaviors.Interactions) | Core collection of common triggers and actions for Avalonia. |
 | [Xaml.Behaviors.Interactions.Custom](https://www.nuget.org/packages/Xaml.Behaviors.Interactions.Custom) | Custom behaviors and actions for common Avalonia controls. |
 | [Xaml.Behaviors.Interactions.DragAndDrop](https://www.nuget.org/packages/Xaml.Behaviors.Interactions.DragAndDrop) | Behaviors that enable drag-and-drop support in Avalonia. |
+| [Xaml.Behaviors.Interactions.DragAndDrop.DataGrid](https://www.nuget.org/packages/Xaml.Behaviors.Interactions.DragAndDrop.DataGrid) | DataGrid-specific drag-and-drop helpers built on top of the drag-and-drop framework. |
 | [Xaml.Behaviors.Interactions.Draggable](https://www.nuget.org/packages/Xaml.Behaviors.Interactions.Draggable) | Draggable element behaviors for moving controls around. |
 | [Xaml.Behaviors.Interactions.Events](https://www.nuget.org/packages/Xaml.Behaviors.Interactions.Events) | Behaviors responding to Avalonia input and focus events. |
 | [Xaml.Behaviors.Interactions.ReactiveUI](https://www.nuget.org/packages/Xaml.Behaviors.Interactions.ReactiveUI) | Behaviors integrating ReactiveUI navigation patterns. |
@@ -609,16 +610,22 @@ This section provides an overview of all available classes and their purpose in 
 - **ContextDragBehavior** ([Sample](samples/BehaviorsTestApplication/Views/Pages/EditableDraggableListBoxView.axaml))
   *Enables drag operations using a “context” (data payload) that is carried during the drag–drop operation.*
 
-- **ContextDragWithDirectionBehavior** ([Sample](samples/BehaviorsTestApplication/Views/Pages/EditableDragTreeViewView.axaml))
-  *Starts a drag operation and includes the drag direction in the data object.*
+  - **ContextDragWithDirectionBehavior** ([Sample](samples/BehaviorsTestApplication/Views/Pages/EditableDragTreeViewView.axaml))
+    *Starts a drag operation and includes the drag direction in the data object.*
 
-- **ContextDropBehavior** ([Sample](samples/BehaviorsTestApplication/Views/Pages/TypedDragBehaviorView.axaml))
-  *Handles drop events and passes context data between the drag source and drop target.*
+  - **ContextDropBehavior** ([Sample](samples/BehaviorsTestApplication/Views/Pages/TypedDragBehaviorView.axaml))
+    *Handles drop events and passes context data between the drag source and drop target.*
 
-- **DropHandlerBase** (No sample available.)
-  *Provides common helper methods (move, swap, insert) for implementing custom drop logic.*
+  - **BaseDataGridDropHandler&lt;T&gt;** *(Xaml.Behaviors.Interactions.DragAndDrop.DataGrid)* ([Sample](samples/BehaviorsTestApplication/Views/Pages/DragAndDropView.axaml))
+    *Reusable helper that implements copy, move and swap behaviors for `DataGrid` rows while previewing the final drop position.* Import the bundled adorners with `&lt;StyleInclude Source="avares://Xaml.Behaviors.Interactions.DragAndDrop.DataGrid/Styles.axaml"/&gt;`.
 
-- **IDragHandler** (No sample available.)
+  - **BaseTreeViewDropHandler** *(Xaml.Behaviors.Interactions.DragAndDrop)* ([Sample](samples/BehaviorsTestApplication/Views/Pages/EditableDragTreeViewView.axaml))
+    *Adds consistent drag adorners and validation hooks for hierarchical `TreeView` scenarios, including parent highlighting.* Bring in the default `TreeViewItem` adorners with `&lt;StyleInclude Source="avares://Xaml.Behaviors.Interactions.DragAndDrop/Styles.axaml"/&gt;`.
+
+  - **DropHandlerBase** (No sample available.)
+    *Provides common helper methods (move, swap, insert) for implementing custom drop logic.*
+
+  - **IDragHandler** (No sample available.)
   *Interface for classes that handle additional logic before and after a drag–drop operation.*
 
 - **IDropHandler** (No sample available.)

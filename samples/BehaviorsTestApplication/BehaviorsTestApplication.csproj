@@ -51,6 +51,7 @@
     <ProjectReference Include="..\..\src\Xaml.Behaviors.Interactions\Xaml.Behaviors.Interactions.csproj" />
     <ProjectReference Include="..\..\src\Xaml.Behaviors.Interactions.Custom\Xaml.Behaviors.Interactions.Custom.csproj" />
     <ProjectReference Include="..\..\src\Xaml.Behaviors.Interactions.DragAndDrop\Xaml.Behaviors.Interactions.DragAndDrop.csproj" />
+    <ProjectReference Include="..\..\src\Xaml.Behaviors.Interactions.DragAndDrop.DataGrid\Xaml.Behaviors.Interactions.DragAndDrop.DataGrid.csproj" />
     <ProjectReference Include="..\..\src\Xaml.Behaviors.Interactions.Draggable\Xaml.Behaviors.Interactions.Draggable.csproj" />
     <ProjectReference Include="..\..\src\Xaml.Behaviors.Interactions.Events\Xaml.Behaviors.Interactions.Events.csproj" />
     <ProjectReference Include="..\..\src\Xaml.Behaviors.Interactions.Responsive\Xaml.Behaviors.Interactions.Responsive.csproj" />
