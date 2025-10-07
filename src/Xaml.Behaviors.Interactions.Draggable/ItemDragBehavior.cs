@@ -249,6 +249,11 @@ public class ItemDragBehavior : StyledElementBehavior<Control>
                 itemCollection.RemoveAt(draggedIndex);
                 itemCollection.Insert(targetIndex, draggedItem);
 
+                var control = itemsControl?.ContainerFromIndex(targetIndex);
+                if (control is not null)
+                {
+                    Attach(control);
+                }
                 if (itemsControl is SelectingItemsControl selectingItemsControl)
                 {
                     selectingItemsControl.SelectedIndex = targetIndex;
