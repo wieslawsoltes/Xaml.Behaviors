@@ -41,13 +41,21 @@ public class NodesTreeViewDropHandler : BaseTreeViewDropHandler
                 return (false, false);
             }
 
+            var insertIndex = targetIndex;
+
             if (e.Source is Control c)
             {
                 var treeViewItem = c.FindLogicalAncestorOfType<TreeViewItem>();
                 if (treeViewItem is not null && e.GetPosition(treeViewItem).Y > treeViewItem.Bounds.Height / 2)
-                    targetIndex++;
-                if (sourceParent == targetParent && targetIndex > sourceIndex)
-                    targetIndex--;
+                {
+                    insertIndex = targetIndex + 1;
+                }
+            }
+
+            var adjustedTargetIndex = insertIndex;
+            if (sourceParent == targetParent && adjustedTargetIndex > sourceIndex)
+            {
+                adjustedTargetIndex--;
             }
 
             switch (e.DragEffects)
@@ -57,7 +65,7 @@ public class NodesTreeViewDropHandler : BaseTreeViewDropHandler
                         if (bExecute)
                         {
                             var clone = new DragNodeViewModel() { Title = sourceNode.Title + "_copy" };
-                            InsertItem(targetNodes, clone, targetIndex + 1);
+                            InsertItem(targetNodes, clone, insertIndex);
                         }
 
                         return (true, areSourceNodesDifferentThanTargetNodes);
@@ -68,26 +76,18 @@ public class NodesTreeViewDropHandler : BaseTreeViewDropHandler
                         {
                             if (sourceNodes == targetNodes)
                             {
-                                if (sourceIndex < targetIndex)
-                                {
-                                    sourceNodes.RemoveAt(sourceIndex);
-                                    sourceNodes.Insert(targetIndex, sourceNode);
-                                }
-                                else
-                                {
-                                    int removeIndex = sourceIndex + 1;
-                                    if (sourceNodes.Count + 1 > removeIndex)
-                                    {
-                                        sourceNodes.RemoveAt(removeIndex - 1);
-                                        sourceNodes.Insert(targetIndex, sourceNode);
-                                    }
-                                }
+                                MoveItem(sourceNodes, sourceIndex, adjustedTargetIndex);
                             }
                             else
                             {
                                 sourceNode.Parent = targetParent;
                                 sourceNodes.RemoveAt(sourceIndex);
-                                targetNodes.Add(sourceNode); // always adding to the end
+                                var insertionIndex = insertIndex;
+                                if (insertionIndex > targetNodes.Count)
+                                {
+                                    insertionIndex = targetNodes.Count;
+                                }
+                                targetNodes.Insert(insertionIndex, sourceNode);
                             }
                         }
 
@@ -99,7 +99,7 @@ public class NodesTreeViewDropHandler : BaseTreeViewDropHandler
                         {
                             if (sourceNodes == targetNodes)
                             {
-                                SwapItem(sourceNodes, sourceIndex, targetIndex);
+                                SwapItem(sourceNodes, sourceIndex, adjustedTargetIndex);
                             }
                             else
                             {

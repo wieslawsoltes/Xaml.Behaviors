@@ -70,13 +70,21 @@ public abstract class BaseDataGridDropHandler<T> : DropHandlerBase
             return false;
         }
 
+        int insertIndex = targetIndex;
+
         if (e.Source is Control c)
         {
             var row = FindDataGridRowFromChildView(c);
             if (row is not null && e.GetPosition(row).Y > row.Bounds.Height / 2)
-                targetIndex++;
-            if (targetIndex > sourceIndex)
-                targetIndex--;
+            {
+                insertIndex = targetIndex + 1;
+            }
+        }
+
+        int adjustedTargetIndex = insertIndex;
+        if (adjustedTargetIndex > sourceIndex)
+        {
+            adjustedTargetIndex--;
         }
 
         switch (e.DragEffects)
@@ -86,8 +94,8 @@ public abstract class BaseDataGridDropHandler<T> : DropHandlerBase
                     if (bExecute)
                     {
                         var clone = MakeCopy(items, sourceItem);
-                        InsertItem(items, clone, targetIndex + 1);
-                        dg.SelectedIndex = targetIndex + 1;
+                        InsertItem(items, clone, insertIndex);
+                        dg.SelectedIndex = insertIndex;
                     }
                     return true;
                 }
@@ -95,8 +103,8 @@ public abstract class BaseDataGridDropHandler<T> : DropHandlerBase
                 {
                     if (bExecute)
                     {
-                        MoveItem(items, sourceIndex, targetIndex);
-                        dg.SelectedIndex = targetIndex;
+                        MoveItem(items, sourceIndex, adjustedTargetIndex);
+                        dg.SelectedIndex = adjustedTargetIndex;
                     }
                     return true;
                 }
@@ -104,8 +112,8 @@ public abstract class BaseDataGridDropHandler<T> : DropHandlerBase
                 {
                     if (bExecute)
                     {
-                        SwapItem(items, sourceIndex, targetIndex);
-                        dg.SelectedIndex = targetIndex;
+                        SwapItem(items, sourceIndex, adjustedTargetIndex);
+                        dg.SelectedIndex = adjustedTargetIndex;
                     }
                     return true;
                 }
