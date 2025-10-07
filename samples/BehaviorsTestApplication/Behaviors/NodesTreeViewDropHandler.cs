@@ -2,17 +2,18 @@ using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.LogicalTree;
 using Avalonia.VisualTree;
+using Avalonia.Xaml.Interactions.DragAndDrop;
 using BehaviorsTestApplication.ViewModels;
 
 namespace BehaviorsTestApplication.Behaviors;
 
 public class NodesTreeViewDropHandler : BaseTreeViewDropHandler
 {
-    protected override (bool Valid, bool WillSourceItemBeMovedToDifferentParent) Validate(TreeView tv, DragEventArgs e, object? sourceContext, object? targetContext, bool bExecute)
+    protected override (bool Valid, bool WillSourceItemBeMovedToDifferentParent) Validate(TreeView treeView, DragEventArgs e, object? sourceContext, object? targetContext, bool execute)
     {
         if (sourceContext is not DragNodeViewModel sourceNode
             || targetContext is not DragAndDropSampleViewModel vm
-            || tv.GetVisualAt(e.GetPosition(tv)) is not Control targetControl
+            || treeView.GetVisualAt(e.GetPosition(treeView)) is not Control targetControl
             || targetControl.DataContext is not DragNodeViewModel targetNode
             || sourceNode == targetNode
             || targetNode.IsDescendantOf(sourceNode) // block moving parent to inside child
@@ -29,7 +30,7 @@ public class NodesTreeViewDropHandler : BaseTreeViewDropHandler
         var targetParent = targetNode.Parent;
         var sourceNodes = sourceParent is not null ? sourceParent.Nodes : vm.Nodes;
         var targetNodes = targetParent is not null ? targetParent.Nodes : vm.Nodes;
-        bool areSourceNodesDifferentThanTargetNodes = sourceNodes != targetNodes;
+        var areSourceNodesDifferentThanTargetNodes = sourceNodes != targetNodes;
 
         if (sourceNodes is not null && targetNodes is not null)
         {
@@ -62,7 +63,7 @@ public class NodesTreeViewDropHandler : BaseTreeViewDropHandler
             {
                 case DragDropEffects.Copy:
                     {
-                        if (bExecute)
+                        if (execute)
                         {
                             var clone = new DragNodeViewModel() { Title = sourceNode.Title + "_copy" };
                             InsertItem(targetNodes, clone, insertIndex);
@@ -72,7 +73,7 @@ public class NodesTreeViewDropHandler : BaseTreeViewDropHandler
                     }
                 case DragDropEffects.Move:
                     {
-                        if (bExecute)
+                        if (execute)
                         {
                             if (sourceNodes == targetNodes)
                             {
@@ -95,7 +96,7 @@ public class NodesTreeViewDropHandler : BaseTreeViewDropHandler
                     }
                 case DragDropEffects.Link:
                     {
-                        if (bExecute)
+                        if (execute)
                         {
                             if (sourceNodes == targetNodes)
                             {

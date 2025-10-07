@@ -1,5 +1,6 @@
+// Copyright (c) Wiesław Šoltés. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for details.
 using System.Collections.ObjectModel;
-using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
 using Avalonia.Input;
@@ -7,25 +8,42 @@ using Avalonia.Interactivity;
 using Avalonia.LogicalTree;
 using Avalonia.VisualTree;
 using Avalonia.Xaml.Interactions.DragAndDrop;
-using BehaviorsTestApplication.ViewModels;
 
-namespace BehaviorsTestApplication.Behaviors;
+namespace Avalonia.Xaml.Interactions.DragAndDrop;
 
+/// <summary>
+/// Provides common drag-and-drop logic for <see cref="DataGrid"/> row manipulations.
+/// </summary>
+/// <typeparam name="T">The item type contained by the target <see cref="DataGrid"/>.</typeparam>
 public abstract class BaseDataGridDropHandler<T> : DropHandlerBase
-    where T : ViewModelBase
+    where T : class
 {
-    private const string rowDraggingUpStyleClass = "DraggingUp";
-    private const string rowDraggingDownStyleClass = "DraggingDown";
+    private const string RowDraggingUpStyleClass = "DraggingUp";
+    private const string RowDraggingDownStyleClass = "DraggingDown";
 
+    /// <summary>
+    /// Creates a copy of the source item for copy operations.
+    /// </summary>
+    /// <param name="parentCollection">The collection owning the original item.</param>
+    /// <param name="item">The item to clone.</param>
     protected abstract T MakeCopy(ObservableCollection<T> parentCollection, T item);
 
-    protected abstract bool Validate(DataGrid dg, DragEventArgs e, object? sourceContext, object? targetContext, bool bExecute);
+    /// <summary>
+    /// Validates a pending drag operation and optionally executes it.
+    /// </summary>
+    /// <param name="dg">The target data grid.</param>
+    /// <param name="e">The drag event data.</param>
+    /// <param name="sourceContext">The source context.</param>
+    /// <param name="targetContext">The target context.</param>
+    /// <param name="execute">When true, the handler should execute the drop logic.</param>
+    protected abstract bool Validate(DataGrid dg, DragEventArgs e, object? sourceContext, object? targetContext, bool execute);
 
+    /// <inheritdoc />
     public override bool Validate(object? sender, DragEventArgs e, object? sourceContext, object? targetContext, object? state)
     {
         if (e.Source is Control c && sender is DataGrid dg)
         {
-            bool valid = Validate(dg, e, sourceContext, targetContext, false);
+            var valid = Validate(dg, e, sourceContext, targetContext, false);
             if (valid)
             {
                 var row = FindDataGridRowFromChildView(c);
@@ -42,6 +60,7 @@ public abstract class BaseDataGridDropHandler<T> : DropHandlerBase
         return false;
     }
 
+    /// <inheritdoc />
     public override bool Execute(object? sender, DragEventArgs e, object? sourceContext, object? targetContext, object? state)
     {
         ClearDraggingStyleFromAllRows(sender);
@@ -52,25 +71,35 @@ public abstract class BaseDataGridDropHandler<T> : DropHandlerBase
         return false;
     }
 
+    /// <inheritdoc />
     public override void Cancel(object? sender, RoutedEventArgs e)
     {
         base.Cancel(sender, e);
-        // this is necessary to clear adorner borders when mouse leaves DataGrid
-        // they would remain even after changing screens
+        // Clear adorner borders when the pointer leaves the DataGrid.
         ClearDraggingStyleFromAllRows(sender);
     }
 
-    protected bool RunDropAction(DataGrid dg, DragEventArgs e, bool bExecute, T sourceItem, T targetItem, ObservableCollection<T> items)
+    /// <summary>
+    /// Executes a drop action against the provided <paramref name="items"/> collection.
+    /// </summary>
+    /// <param name="dg">The owning data grid.</param>
+    /// <param name="e">The drag event arguments.</param>
+    /// <param name="execute">True to perform the operation; false to validate only.</param>
+    /// <param name="sourceItem">The item being dragged.</param>
+    /// <param name="targetItem">The item currently under the pointer.</param>
+    /// <param name="items">The backing collection.</param>
+    /// <returns><c>true</c> when the operation is valid; otherwise <c>false</c>.</returns>
+    protected bool RunDropAction(DataGrid dg, DragEventArgs e, bool execute, T sourceItem, T targetItem, ObservableCollection<T> items)
     {
-        int sourceIndex = items.IndexOf(sourceItem);
-        int targetIndex = items.IndexOf(targetItem);
+        var sourceIndex = items.IndexOf(sourceItem);
+        var targetIndex = items.IndexOf(targetItem);
 
         if (sourceIndex < 0 || targetIndex < 0)
         {
             return false;
         }
 
-        int insertIndex = targetIndex;
+        var insertIndex = targetIndex;
 
         if (e.Source is Control c)
         {
@@ -81,7 +110,7 @@ public abstract class BaseDataGridDropHandler<T> : DropHandlerBase
             }
         }
 
-        int adjustedTargetIndex = insertIndex;
+        var adjustedTargetIndex = insertIndex;
         if (adjustedTargetIndex > sourceIndex)
         {
             adjustedTargetIndex--;
@@ -91,7 +120,7 @@ public abstract class BaseDataGridDropHandler<T> : DropHandlerBase
         {
             case DragDropEffects.Copy:
                 {
-                    if (bExecute)
+                    if (execute)
                     {
                         var clone = MakeCopy(items, sourceItem);
                         InsertItem(items, clone, insertIndex);
@@ -101,7 +130,7 @@ public abstract class BaseDataGridDropHandler<T> : DropHandlerBase
                 }
             case DragDropEffects.Move:
                 {
-                    if (bExecute)
+                    if (execute)
                     {
                         MoveItem(items, sourceIndex, adjustedTargetIndex);
                         dg.SelectedIndex = adjustedTargetIndex;
@@ -110,7 +139,7 @@ public abstract class BaseDataGridDropHandler<T> : DropHandlerBase
                 }
             case DragDropEffects.Link:
                 {
-                    if (bExecute)
+                    if (execute)
                     {
                         SwapItem(items, sourceIndex, adjustedTargetIndex);
                         dg.SelectedIndex = adjustedTargetIndex;
@@ -139,6 +168,9 @@ public abstract class BaseDataGridDropHandler<T> : DropHandlerBase
         return null;
     }
 
+    /// <summary>
+    /// Removes drag styling from all materialized rows except the provided instance.
+    /// </summary>
     private static void ClearDraggingStyleFromAllRows(object? sender, DataGridRow? exceptThis = null)
     {
         if (sender is DataGrid dg)
@@ -152,23 +184,26 @@ public abstract class BaseDataGridDropHandler<T> : DropHandlerBase
                 if (r == exceptThis)
                     continue;
 
-                r?.Classes?.Remove(rowDraggingUpStyleClass);
-                r?.Classes?.Remove(rowDraggingDownStyleClass);
+                r?.Classes?.Remove(RowDraggingUpStyleClass);
+                r?.Classes?.Remove(RowDraggingDownStyleClass);
             }
         }
     }
 
-    private static void ApplyDraggingStyleToRow(DataGridRow row, bool IsDirectionUp)
+    /// <summary>
+    /// Applies the drag styling for the given direction to the specified row.
+    /// </summary>
+    private static void ApplyDraggingStyleToRow(DataGridRow row, bool isDirectionUp)
     {
-        if (IsDirectionUp)
+        if (isDirectionUp)
         {
-            row.Classes.Remove(rowDraggingDownStyleClass);
-            row.Classes.Add(rowDraggingUpStyleClass);
+            row.Classes.Remove(RowDraggingDownStyleClass);
+            row.Classes.Add(RowDraggingUpStyleClass);
         }
         else
         {
-            row.Classes.Remove(rowDraggingUpStyleClass);
-            row.Classes.Add(rowDraggingDownStyleClass);
+            row.Classes.Remove(RowDraggingUpStyleClass);
+            row.Classes.Add(RowDraggingDownStyleClass);
         }
     }
 }
