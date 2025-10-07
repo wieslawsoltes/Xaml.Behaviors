@@ -4,6 +4,7 @@ using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
 using Avalonia.Input;
 using Avalonia.Interactivity;
+using Avalonia.LogicalTree;
 using Avalonia.VisualTree;
 using Avalonia.Xaml.Interactions.DragAndDrop;
 using BehaviorsTestApplication.ViewModels;
@@ -28,8 +29,11 @@ public abstract class BaseDataGridDropHandler<T> : DropHandlerBase
             if (valid)
             {
                 var row = FindDataGridRowFromChildView(c);
-                string direction = e.Data.Contains("direction") ? (string) e.Data.Get("direction")! : "down";
-                ApplyDraggingStyleToRow(row!, direction);
+                if (row is not null)
+                {
+                    var isDirectionUp = e.GetPosition(row).Y < row.Bounds.Height / 2;
+                    ApplyDraggingStyleToRow(row, isDirectionUp);
+                }
                 ClearDraggingStyleFromAllRows(sender, exceptThis: row);
             }
             return valid;
@@ -66,36 +70,53 @@ public abstract class BaseDataGridDropHandler<T> : DropHandlerBase
             return false;
         }
 
+        int insertIndex = targetIndex;
+
+        if (e.Source is Control c)
+        {
+            var row = FindDataGridRowFromChildView(c);
+            if (row is not null && e.GetPosition(row).Y > row.Bounds.Height / 2)
+            {
+                insertIndex = targetIndex + 1;
+            }
+        }
+
+        int adjustedTargetIndex = insertIndex;
+        if (adjustedTargetIndex > sourceIndex)
+        {
+            adjustedTargetIndex--;
+        }
+
         switch (e.DragEffects)
         {
             case DragDropEffects.Copy:
-            {
-                if (bExecute)
                 {
-                    var clone = MakeCopy(items, sourceItem);
-                    InsertItem(items, clone, targetIndex + 1);
-                    dg.SelectedIndex = targetIndex + 1;
+                    if (bExecute)
+                    {
+                        var clone = MakeCopy(items, sourceItem);
+                        InsertItem(items, clone, insertIndex);
+                        dg.SelectedIndex = insertIndex;
+                    }
+                    return true;
                 }
-                return true;
-            }
             case DragDropEffects.Move:
-            {
-                if (bExecute)
                 {
-                    MoveItem(items, sourceIndex, targetIndex);
-                    dg.SelectedIndex = targetIndex;
+                    if (bExecute)
+                    {
+                        MoveItem(items, sourceIndex, adjustedTargetIndex);
+                        dg.SelectedIndex = adjustedTargetIndex;
+                    }
+                    return true;
                 }
-                return true;
-            }
             case DragDropEffects.Link:
-            {
-                if (bExecute)
                 {
-                    SwapItem(items, sourceIndex, targetIndex);
-                    dg.SelectedIndex = targetIndex;
+                    if (bExecute)
+                    {
+                        SwapItem(items, sourceIndex, adjustedTargetIndex);
+                        dg.SelectedIndex = adjustedTargetIndex;
+                    }
+                    return true;
                 }
-                return true;
-            }
             default:
                 return false;
         }
@@ -103,17 +124,7 @@ public abstract class BaseDataGridDropHandler<T> : DropHandlerBase
 
     private static DataGridRow? FindDataGridRowFromChildView(StyledElement sourceChild)
     {
-        int maxDepth = 16;
-        DataGridRow? row = null;
-        StyledElement? current = sourceChild;
-        while (maxDepth --> 0 || row is null)
-        {
-            if (current is DataGridRow dgr)
-                row = dgr;
-
-            current = current?.Parent;
-        }
-        return row;
+        return sourceChild.FindLogicalAncestorOfType<DataGridRow>();
     }
 
     private static DataGridRowsPresenter? GetRowsPresenter(Visual v)
@@ -123,7 +134,7 @@ public abstract class BaseDataGridDropHandler<T> : DropHandlerBase
             if (cv is DataGridRowsPresenter dgrp)
                 return dgrp;
             else if (GetRowsPresenter(cv) is DataGridRowsPresenter dgrp2)
-                return dgrp2;                
+                return dgrp2;
         }
         return null;
     }
@@ -133,47 +144,31 @@ public abstract class BaseDataGridDropHandler<T> : DropHandlerBase
         if (sender is DataGrid dg)
         {
             var presenter = GetRowsPresenter(dg);
-            if (presenter is null) return;
+            if (presenter is null)
+                return;
 
             foreach (var r in presenter.Children)
             {
-                if (r == exceptThis) continue;
+                if (r == exceptThis)
+                    continue;
 
-                if (r!.Classes.Contains(rowDraggingUpStyleClass))
-                {
-                    r?.Classes?.Remove(rowDraggingUpStyleClass);
-                }
-                if (r!.Classes.Contains(rowDraggingDownStyleClass))
-                {
-                    r?.Classes?.Remove(rowDraggingDownStyleClass);
-                }
+                r?.Classes?.Remove(rowDraggingUpStyleClass);
+                r?.Classes?.Remove(rowDraggingDownStyleClass);
             }
         }
     }
 
-    private static void ApplyDraggingStyleToRow(DataGridRow row, string direction)
+    private static void ApplyDraggingStyleToRow(DataGridRow row, bool IsDirectionUp)
     {
-        if (direction == "up")
+        if (IsDirectionUp)
         {
-            if (row.Classes.Contains(rowDraggingDownStyleClass) == true)
-            {
-                row.Classes.Remove(rowDraggingDownStyleClass);
-            }
-            if (row.Classes.Contains(rowDraggingUpStyleClass) == false)
-            {
-                row.Classes.Add(rowDraggingUpStyleClass);
-            }
+            row.Classes.Remove(rowDraggingDownStyleClass);
+            row.Classes.Add(rowDraggingUpStyleClass);
         }
-        else if (direction == "down")
+        else
         {
-            if (row.Classes.Contains(rowDraggingUpStyleClass) == true)
-            {
-                row.Classes.Remove(rowDraggingUpStyleClass);
-            }
-            if (row.Classes.Contains(rowDraggingDownStyleClass) == false)
-            {
-                row.Classes.Add(rowDraggingDownStyleClass);
-            }
+            row.Classes.Remove(rowDraggingUpStyleClass);
+            row.Classes.Add(rowDraggingDownStyleClass);
         }
     }
 }

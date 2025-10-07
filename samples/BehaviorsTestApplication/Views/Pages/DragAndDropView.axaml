@@ -153,7 +153,7 @@
       <Setter Property="(Interaction.Behaviors)">
         <BehaviorCollectionTemplate>
           <BehaviorCollection>
-            <ContextDragWithDirectionBehavior HorizontalDragThreshold="3" VerticalDragThreshold="3" />
+            <ContextDragBehavior HorizontalDragThreshold="3" VerticalDragThreshold="3" />
           </BehaviorCollection>
         </BehaviorCollectionTemplate>
       </Setter>
@@ -200,7 +200,7 @@
     <Style Selector="DataGrid.DragAndDrop DataGridRow.DraggingUp">
       <Setter Property="AdornerLayer.Adorner">
         <Template>
-          <Border BorderThickness="0 2 0 0" BorderBrush="{DynamicResource SystemAccentColor}"/>
+          <Border BorderThickness="0 2 0 0" BorderBrush="{DynamicResource SystemAccentColor}" IsHitTestVisible="False"/>
         </Template>
       </Setter>
     </Style>
@@ -208,7 +208,7 @@
     <Style Selector="DataGrid.DragAndDrop DataGridRow.DraggingDown">
       <Setter Property="AdornerLayer.Adorner">
         <Template>
-          <Border BorderThickness="0 0 0 2" BorderBrush="{DynamicResource SystemAccentColor}"/>
+          <Border BorderThickness="0 0 0 2" BorderBrush="{DynamicResource SystemAccentColor}" IsHitTestVisible="False"/>
         </Template>
       </Setter>
     </Style>
@@ -219,7 +219,7 @@
       <Setter Property="(Interaction.Behaviors)">
         <BehaviorCollectionTemplate>
           <BehaviorCollection>
-            <ContextDragWithDirectionBehavior HorizontalDragThreshold="3" VerticalDragThreshold="3" />
+            <ContextDragBehavior HorizontalDragThreshold="3" VerticalDragThreshold="3" />
           </BehaviorCollection>
         </BehaviorCollectionTemplate>
       </Setter>
