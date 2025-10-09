@@ -142,11 +142,12 @@ public abstract class ContextDragBehaviorBase : StyledElementBehavior<Control>
             if (e.Source is Control control
                 && AssociatedObject?.DataContext == control.DataContext)
             {
-                if ((control as ISelectable
+                if ((e.KeyModifiers & (KeyModifiers.Control | KeyModifiers.Meta | KeyModifiers.Shift)) == 0
+                    && ((control as ISelectable
                     ?? control.Parent as ISelectable
                     ?? control.FindLogicalAncestorOfType<ISelectable>())
                         ?.IsSelected
-                    ?? false)
+                    ?? false))
                 {
                     e.Handled = true; //avoid deselection on drag
                 }
