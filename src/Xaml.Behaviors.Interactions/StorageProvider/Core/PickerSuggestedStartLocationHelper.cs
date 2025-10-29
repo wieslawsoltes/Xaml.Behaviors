@@ -27,7 +27,7 @@ internal static class PickerSuggestedStartLocationHelper
             return null;
         }
 
-        if (!TryCreateUri(suggestedStartLocationPath, out var uri))
+        if (!TryCreateUri(suggestedStartLocationPath!, out var uri))
         {
             return null;
         }

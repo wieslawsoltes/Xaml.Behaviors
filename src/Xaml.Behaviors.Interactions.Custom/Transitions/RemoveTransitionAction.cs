@@ -7,7 +7,7 @@ using Avalonia.Xaml.Interactivity;
 namespace Avalonia.Xaml.Interactions.Custom;
 
 /// <summary>
-/// Removes a <see cref="Transition"/> from the <see cref="StyledElement.Transitions"/> collection.
+/// Removes a <see cref="Transition"/> from the <see cref="Animatable.Transitions"/> collection.
 /// </summary>
 public class RemoveTransitionAction : StyledElementAction
 {

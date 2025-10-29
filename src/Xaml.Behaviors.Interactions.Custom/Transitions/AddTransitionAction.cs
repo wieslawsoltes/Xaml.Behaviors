@@ -7,7 +7,7 @@ using Avalonia.Xaml.Interactivity;
 namespace Avalonia.Xaml.Interactions.Custom;
 
 /// <summary>
-/// Adds a <see cref="Transition"/> to the <see cref="StyledElement.Transitions"/> collection.
+/// Adds a <see cref="Transition"/> to the <see cref="Animatable.Transitions"/> collection.
 /// </summary>
 public class AddTransitionAction : StyledElementAction
 {

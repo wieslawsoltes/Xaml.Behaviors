@@ -435,7 +435,7 @@ public partial class MainWindowViewModel : ViewModelBase
         {
             Console.WriteLine($"OpenFilesCommand: {file.Name}, {file.Path}");
 
-            FileItems.Add(file.Path);
+            FileItems?.Add(file.Path);
         }
     }
 
@@ -443,7 +443,7 @@ public partial class MainWindowViewModel : ViewModelBase
     {
         Console.WriteLine($"SaveFileCommand: {file}");
 
-        FileItems.Add(file);
+        FileItems?.Add(file);
     }
 
     private void OpenFolders(IEnumerable<IStorageFolder> folders)
@@ -452,7 +452,7 @@ public partial class MainWindowViewModel : ViewModelBase
         {
             Console.WriteLine($"OpenFoldersCommand: {folder.Name}, {folder.Path}");
 
-            FileItems.Add(folder.Path);
+            FileItems?.Add(folder.Path);
 
             // Set the first folder as DocumentsFolder to demonstrate SuggestedStartLocation usage
             if (DocumentsFolder is null)
@@ -501,7 +501,7 @@ public partial class MainWindowViewModel : ViewModelBase
     {
         if (args.Source is TextBox control)
         {
-            Greeting = control.Text;
+            Greeting = control.Text ?? String.Empty;
         }
     }
 
