@@ -19,6 +19,14 @@
     <UseBackingFields>true</UseBackingFields>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <NoWarn>IL3050;IL2026</NoWarn>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <NoWarn>IL3050;IL2026</NoWarn>
+  </PropertyGroup>
+
   <ItemGroup>
     <AvaloniaResource Include="Assets\*" />
   </ItemGroup>

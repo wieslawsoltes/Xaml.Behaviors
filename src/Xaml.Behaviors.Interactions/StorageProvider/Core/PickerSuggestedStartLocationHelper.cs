@@ -27,7 +27,7 @@ internal static class PickerSuggestedStartLocationHelper
             return null;
         }
 
-        if (!TryCreateUri(suggestedStartLocationPath, out var uri))
+        if (!TryCreateUri(suggestedStartLocationPath!, out var uri))
         {
             return null;
         }
@@ -66,8 +66,9 @@ internal static class PickerSuggestedStartLocationHelper
 
     private static bool TryCreateUri(string path, out Uri uri)
     {
-        if (Uri.TryCreate(path, UriKind.Absolute, out uri))
+        if (Uri.TryCreate(path, UriKind.Absolute, out var newUri))
         {
+            uri = newUri;
             return true;
         }
 

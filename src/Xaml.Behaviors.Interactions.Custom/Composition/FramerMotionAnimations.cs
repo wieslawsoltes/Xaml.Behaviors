@@ -12,54 +12,139 @@ namespace Avalonia.Xaml.Interactions.Custom;
 /// </summary>
 public static class FramerMotionAnimations
 {
+    /// <summary>
+    /// Applies a "fade in" animation effect to the specified UI element over a given duration.
+    /// </summary>
+    /// <param name="element">The UI element to which the animation will be applied.</param>
+    /// <param name="milliseconds">The duration of the animation, in milliseconds. Must be a non-negative value.</param>
     public static void SetFadeIn(Control element, double milliseconds) =>
         Run(element, milliseconds, CreateFadeInDefinition);
 
+    /// <summary>
+    /// Applies a "fade in up" animation effect to the specified UI element over a given duration.
+    /// </summary>
+    /// <param name="element">The UI element to which the animation will be applied.</param>
+    /// <param name="milliseconds">The duration of the animation, in milliseconds. Must be a non-negative value.</param>
     public static void SetFadeInUp(Control element, double milliseconds) =>
         Run(element, milliseconds, () => CreateFadeInDirectional(new Vector3(0f, 40f, 0f)));
 
+    /// <summary>
+    /// Applies a "fade in down" animation effect to the specified UI element over a given duration.
+    /// </summary>
+    /// <param name="element">The UI element to which the animation will be applied.</param>
+    /// <param name="milliseconds">The duration of the animation, in milliseconds. Must be a non-negative value.</param>
     public static void SetFadeInDown(Control element, double milliseconds) =>
         Run(element, milliseconds, () => CreateFadeInDirectional(new Vector3(0f, -40f, 0f)));
 
+    /// <summary>
+    /// Applies a "fade in left" animation effect to the specified UI element over a given duration.
+    /// </summary>
+    /// <param name="element">The UI element to which the animation will be applied.</param>
+    /// <param name="milliseconds">The duration of the animation, in milliseconds. Must be a non-negative value.</param>
     public static void SetFadeInLeft(Control element, double milliseconds) =>
         Run(element, milliseconds, () => CreateFadeInDirectional(new Vector3(-40f, 0f, 0f)));
 
+    /// <summary>
+    /// Applies a "fade in right" animation effect to the specified UI element over a given duration.
+    /// </summary>
+    /// <param name="element">The UI element to which the animation will be applied.</param>
+    /// <param name="milliseconds">The duration of the animation, in milliseconds. Must be a non-negative value.</param>
     public static void SetFadeInRight(Control element, double milliseconds) =>
         Run(element, milliseconds, () => CreateFadeInDirectional(new Vector3(40f, 0f, 0f)));
 
+    /// <summary>
+    /// Applies a "slide in from left" animation effect to the specified UI element over a given duration.
+    /// </summary>
+    /// <param name="element">The UI element to which the animation will be applied.</param>
+    /// <param name="milliseconds">The duration of the animation, in milliseconds. Must be a non-negative value.</param>
     public static void SetSlideInFromLeft(Control element, double milliseconds) =>
         Run(element, milliseconds, () => CreateSlideIn(new Vector3(-120f, 0f, 0f)));
 
+    /// <summary>
+    /// Applies a "slide in from right" animation effect to the specified UI element over a given duration.
+    /// </summary>
+    /// <param name="element">The UI element to which the animation will be applied.</param>
+    /// <param name="milliseconds">The duration of the animation, in milliseconds. Must be a non-negative value.</param>
     public static void SetSlideInFromRight(Control element, double milliseconds) =>
         Run(element, milliseconds, () => CreateSlideIn(new Vector3(120f, 0f, 0f)));
 
+    /// <summary>
+    /// Applies a "slide in from top" animation effect to the specified UI element over a given duration.
+    /// </summary>
+    /// <param name="element">The UI element to which the animation will be applied.</param>
+    /// <param name="milliseconds">The duration of the animation, in milliseconds. Must be a non-negative value.</param>
     public static void SetSlideInFromTop(Control element, double milliseconds) =>
         Run(element, milliseconds, () => CreateSlideIn(new Vector3(0f, -120f, 0f)));
 
+    /// <summary>
+    /// Applies a "slide in from bottom" animation effect to the specified UI element over a given duration.
+    /// </summary>
+    /// <param name="element">The UI element to which the animation will be applied.</param>
+    /// <param name="milliseconds">The duration of the animation, in milliseconds. Must be a non-negative value.</param>
     public static void SetSlideInFromBottom(Control element, double milliseconds) =>
         Run(element, milliseconds, () => CreateSlideIn(new Vector3(0f, 120f, 0f)));
 
+    /// <summary>
+    /// Applies a "pop in" animation effect to the specified UI element over a given duration.
+    /// </summary>
+    /// <param name="element">The UI element to which the animation will be applied.</param>
+    /// <param name="milliseconds">The duration of the animation, in milliseconds. Must be a non-negative value.</param>
     public static void SetPopIn(Control element, double milliseconds) =>
         Run(element, milliseconds, CreatePopInDefinition, ensureCenterPoint: true);
 
+    /// <summary>
+    /// Applies a "pop out" animation effect to the specified UI element over a given duration.
+    /// </summary>
+    /// <param name="element">The UI element to which the animation will be applied.</param>
+    /// <param name="milliseconds">The duration of the animation, in milliseconds. Must be a non-negative value.</param>
     public static void SetPopOut(Control element, double milliseconds) =>
         Run(element, milliseconds, CreatePopOutDefinition, ensureCenterPoint: true);
 
+    /// <summary>
+    /// Applies a "spring in" animation effect to the specified UI element over a given duration.
+    /// </summary>
+    /// <param name="element">The UI element to which the animation will be applied.</param>
+    /// <param name="milliseconds">The duration of the animation, in milliseconds. Must be a non-negative value.</param>
     public static void SetSpringIn(Control element, double milliseconds) =>
         Run(element, milliseconds, CreateSpringInDefinition);
 
+    /// <summary>
+    /// Applies a "spring out" animation effect to the specified UI element over a given duration.
+    /// </summary>
+    /// <param name="element">The UI element to which the animation will be applied.</param>
+    /// <param name="milliseconds">The duration of the animation, in milliseconds. Must be a non-negative value.</param>
     public static void SetSpringOut(Control element, double milliseconds) =>
         Run(element, milliseconds, CreateSpringOutDefinition);
 
+    /// <summary>
+    /// Applies a "rotate in" animation effect to the specified UI element over a given duration.
+    /// </summary>
+    /// <param name="element">The UI element to which the animation will be applied.</param>
+    /// <param name="milliseconds">The duration of the animation, in milliseconds. Must be a non-negative value.</param>
     public static void SetRotateIn(Control element, double milliseconds) =>
         Run(element, milliseconds, () => CreateRotateDefinition(-15f, 0f), ensureCenterPoint: true);
 
+    /// <summary>
+    /// Applies a "rotate out" animation effect to the specified UI element over a given duration.
+    /// </summary>
+    /// <param name="element">The UI element to which the animation will be applied.</param>
+    /// <param name="milliseconds">The duration of the animation, in milliseconds. Must be a non-negative value.</param>
     public static void SetRotateOut(Control element, double milliseconds) =>
         Run(element, milliseconds, () => CreateRotateDefinition(0f, 15f), ensureCenterPoint: true);
 
+    /// <summary>
+    /// Applies a "scale in" animation effect to the specified UI element over a given duration.
+    /// </summary>
+    /// <param name="element">The UI element to which the animation will be applied.</param>
+    /// <param name="milliseconds">The duration of the animation, in milliseconds. Must be a non-negative value.</param>
     public static void SetScaleIn(Control element, double milliseconds) =>
         Run(element, milliseconds, CreateScaleInDefinition, ensureCenterPoint: true);
 
+    /// <summary>
+    /// Applies a "scale out" animation effect to the specified UI element over a given duration.
+    /// </summary>
+    /// <param name="element">The UI element to which the animation will be applied.</param>
+    /// <param name="milliseconds">The duration of the animation, in milliseconds. Must be a non-negative value.</param>
     public static void SetScaleOut(Control element, double milliseconds) =>
         Run(element, milliseconds, CreateScaleOutDefinition, ensureCenterPoint: true);
 

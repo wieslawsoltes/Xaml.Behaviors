@@ -9,7 +9,7 @@ using Avalonia.Xaml.Interactivity;
 namespace Avalonia.Xaml.Interactions.Custom;
 
 /// <summary>
-/// Executes actions whenever the <see cref="StyledElement.Transitions"/> property changes.
+/// Executes actions whenever the <see cref="Animatable.Transitions"/> property changes.
 /// </summary>
 public class TransitionsChangedTrigger : DisposingTrigger<Control>
 {

@@ -59,6 +59,6 @@ public class SetViewModelPropertyOnLoadBehavior : StyledElementBehavior<Control>
             return;
         }
 
-        PropertyHelper.UpdatePropertyValue(target, propertyName, Value);
+        PropertyHelper.UpdatePropertyValue(target, propertyName!, Value);
     }
 }

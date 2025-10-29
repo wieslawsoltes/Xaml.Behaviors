@@ -66,8 +66,8 @@ public class SetViewModelPropertyAction : StyledElementAction
         {
             return false;
         }
-        
-        PropertyHelper.UpdatePropertyValue(target, propertyName, Value);
+
+        PropertyHelper.UpdatePropertyValue(target, propertyName!, Value);
         return true;
     }
 }

@@ -97,16 +97,16 @@ public partial class MainWindowViewModel : ViewModelBase
 
         Values = Observable.Interval(TimeSpan.FromSeconds(1)).Select(_ => _value++);
 
-        MyString = "";
-        ValidatedText = "";
-        ValidatedNumber = 0m;
+        _myString = "";
+        _validatedText = "";
+        _validatedNumber = 0m;
         SelectedItem = null;
         ValidatedSlider = 0.0;
         ValidatedDate = DateTimeOffset.Now;
         ValidatedItem = null;
 
-        IsLoading = true;
-        Progress = 30;
+        _isLoading = true;
+        _progress = 30;
 
         DataContextChangedCommand = ReactiveCommand.Create(DataContextChanged);
 
@@ -127,23 +127,23 @@ public partial class MainWindowViewModel : ViewModelBase
         GetClipboardDataCommand = ReactiveCommand.Create<object?>(GetClipboardData);
         GetClipboardFormatsCommand = ReactiveCommand.Create<IEnumerable<DataFormat>?>(GetClipboardFormats);
 
-        UploadFilePath = string.Empty;
-        UploadUrl = string.Empty;
-        UploadCompleted = false;
+        _uploadFilePath = string.Empty;
+        _uploadUrl = string.Empty;
+        _uploadCompleted = false;
         UploadCompletedCommand = ReactiveCommand.Create<System.Net.Http.HttpResponseMessage>(OnUploadCompleted);
 
-        UploadStatusMessage = "Provide a file path and upload URL, then choose an upload strategy.";
+        _uploadStatusMessage = "Provide a file path and upload URL, then choose an upload strategy.";
         BeginUploadCommand = ReactiveCommand.Create(BeginUpload);
 
-        ActiveScreenSummary = "Active screen info will appear once the window is visible.";
-        ActiveScreenDiagnostics = string.Empty;
+        _activeScreenSummary = "Active screen info will appear once the window is visible.";
+        _activeScreenDiagnostics = string.Empty;
 
         TryPrepareSampleUploadDefaults();
 
-        Greeting = "Entered text will appear here";
+        _greeting = "Entered text will appear here";
         TextChangedCommand = ReactiveCommand.Create<TextChangedEventArgs>(OnTextChanged);
 
-        ScrollDemoItems = new ObservableCollection<string>
+        _scrollDemoItems = new ObservableCollection<string>
         {
             "Alpha",
             "Bravo",
@@ -208,10 +208,10 @@ public partial class MainWindowViewModel : ViewModelBase
         ScreenEvents = new ObservableCollection<string>();
         ContainerEventLog = new ObservableCollection<string>();
 
-        TaskStatusMessage = "Press Start to run a demo task.";
-        WriteableBitmapStatusMessage = "Render not requested yet.";
-        RenderTriggerMessage = "Waiting for trigger...";
-        WriteableBitmapTimerMessage = "Timer disabled.";
+        _taskStatusMessage = "Press Start to run a demo task.";
+        _writeableBitmapStatusMessage = "Render not requested yet.";
+        _renderTriggerMessage = "Waiting for trigger...";
+        _writeableBitmapTimerMessage = "Timer disabled.";
         IsWriteableBitmapTimerEnabled = false;
         WriteableBitmapTimerInterval = 500;
 
@@ -435,7 +435,7 @@ public partial class MainWindowViewModel : ViewModelBase
         {
             Console.WriteLine($"OpenFilesCommand: {file.Name}, {file.Path}");
 
-            FileItems.Add(file.Path);
+            FileItems?.Add(file.Path);
         }
     }
 
@@ -443,7 +443,7 @@ public partial class MainWindowViewModel : ViewModelBase
     {
         Console.WriteLine($"SaveFileCommand: {file}");
 
-        FileItems.Add(file);
+        FileItems?.Add(file);
     }
 
     private void OpenFolders(IEnumerable<IStorageFolder> folders)
@@ -452,7 +452,7 @@ public partial class MainWindowViewModel : ViewModelBase
         {
             Console.WriteLine($"OpenFoldersCommand: {folder.Name}, {folder.Path}");
 
-            FileItems.Add(folder.Path);
+            FileItems?.Add(folder.Path);
 
             // Set the first folder as DocumentsFolder to demonstrate SuggestedStartLocation usage
             if (DocumentsFolder is null)
@@ -501,7 +501,7 @@ public partial class MainWindowViewModel : ViewModelBase
     {
         if (args.Source is TextBox control)
         {
-            Greeting = control.Text;
+            Greeting = control.Text ?? String.Empty;
         }
     }
 
