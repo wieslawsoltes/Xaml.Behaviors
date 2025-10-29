@@ -42,12 +42,12 @@ public sealed class AddPreviewFilesAction : StyledElementAction
             return false;
         }
 
-        if (!e.Data.Contains(DataFormats.Files))
+        if (!e.DataTransfer.Contains(DataFormat.File))
         {
             return false;
         }
 
-        var files = e.Data.GetFiles();
+        var files = e.DataTransfer.TryGetFiles();
         if (files is null)
         {
             return false;

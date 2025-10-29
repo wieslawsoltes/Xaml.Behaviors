@@ -27,18 +27,18 @@ public sealed class FilesDropBehavior : DropBehaviorBase
         /// <inheritdoc />
         public override bool Validate(object? sender, DragEventArgs e, object? sourceContext, object? targetContext, object? state)
         {
-            return e.Data.Contains(DataFormats.Files);
+            return e.DataTransfer.Contains(DataFormat.File);
         }
 
         /// <inheritdoc />
         public override bool Execute(object? sender, DragEventArgs e, object? sourceContext, object? targetContext, object? state)
         {
-            if (!e.Data.Contains(DataFormats.Files))
+            if (!e.DataTransfer.Contains(DataFormat.File))
             {
                 return false;
             }
 
-            var files = e.Data.GetFiles();
+            var files = e.DataTransfer.TryGetFiles();
             if (files is null)
             {
                 return false;

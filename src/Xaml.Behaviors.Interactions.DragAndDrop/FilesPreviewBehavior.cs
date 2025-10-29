@@ -50,12 +50,12 @@ public sealed class FilesPreviewBehavior : DragAndDropEventsBehavior
 
     private void UpdatePreview(DragEventArgs e)
     {
-        if (!e.Data.Contains(DataFormats.Files))
+        if (!e.DataTransfer.Contains(DataFormat.File))
         {
             return;
         }
 
-        var files = e.Data.GetFiles();
+        var files = e.DataTransfer.TryGetFiles();
         if (files is null)
         {
             return;

@@ -1,9 +1,11 @@
 // Copyright (c) Wiesław Šoltés. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for details.
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Avalonia.Controls;
+using Avalonia.Input;
 using Avalonia.Input.Platform;
 using Avalonia.LogicalTree;
 using Avalonia.Threading;
@@ -63,8 +65,8 @@ public class GetClipboardFormatsAction : InvokeCommandActionBase
         {
             return;
         }
-        
-        string[]? formats = null;
+
+        IReadOnlyList<DataFormat>? formats = null;
 
         try
         {
@@ -74,7 +76,7 @@ public class GetClipboardFormatsAction : InvokeCommandActionBase
                 return;
             }
 
-            formats = await clipboard.GetFormatsAsync();
+            formats = await clipboard.GetDataFormatsAsync();
         }
         catch (Exception)
         {

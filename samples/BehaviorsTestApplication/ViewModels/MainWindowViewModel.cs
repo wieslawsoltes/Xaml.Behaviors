@@ -15,6 +15,7 @@ using Avalonia.Platform;
 using Avalonia.Platform.Storage;
 using Avalonia.Xaml.Interactions.Custom;
 using ReactiveUI;
+using Avalonia.Input;
 
 namespace BehaviorsTestApplication.ViewModels;
 
@@ -124,7 +125,7 @@ public partial class MainWindowViewModel : ViewModelBase
 
         GetClipboardTextCommand = ReactiveCommand.Create<string?>(GetClipboardText);
         GetClipboardDataCommand = ReactiveCommand.Create<object?>(GetClipboardData);
-        GetClipboardFormatsCommand = ReactiveCommand.Create<IEnumerable<string>?>(GetClipboardFormats);
+        GetClipboardFormatsCommand = ReactiveCommand.Create<IEnumerable<DataFormat>?>(GetClipboardFormats);
 
         UploadFilePath = string.Empty;
         UploadUrl = string.Empty;
@@ -338,9 +339,9 @@ public partial class MainWindowViewModel : ViewModelBase
     public ObservableCollection<string> ScreenEvents { get; }
 
     [Reactive] internal partial string MyString { get; set; }
-    
+
     [Reactive] public partial bool FocusFlag { get; set; }
-    
+
     [Reactive] public partial bool IsLoading { get; set; }
 
     [Reactive] public partial double Progress { get; set; }
@@ -471,11 +472,12 @@ public partial class MainWindowViewModel : ViewModelBase
         Console.WriteLine($"GetClipboardDataCommand: {data}");
     }
 
-    private void GetClipboardFormats(IEnumerable<string>? formats)
+    private void GetClipboardFormats(IEnumerable<DataFormat>? formats)
     {
         if (formats is not null)
         {
-            Console.WriteLine($"GetClipboardFormatsCommand: {string.Join(',', formats)}");
+            string[] formatNames = formats.Select(f => f.ToString()).ToArray();
+            Console.WriteLine($"GetClipboardFormatsCommand: {string.Join(',', formatNames)}");
         }
     }
 

@@ -17,13 +17,13 @@ public sealed class ContentControlFilesDropBehavior : DropBehaviorBase
     /// <summary>
     /// Identifies the <seealso cref="ContentDuringDrag"/> avalonia property.
     /// </summary>
-    public static readonly StyledProperty<object?> ContentDuringDragProperty = 
+    public static readonly StyledProperty<object?> ContentDuringDragProperty =
         AvaloniaProperty.Register<ContentControlFilesDropBehavior, object?>(nameof(ContentDuringDrag));
 
     /// <summary>
     /// Identifies the <seealso cref="BackgroundDuringDrag"/> avalonia property.
     /// </summary>
-    public static readonly StyledProperty<IBrush?> BackgroundDuringDragProperty = 
+    public static readonly StyledProperty<IBrush?> BackgroundDuringDragProperty =
         AvaloniaProperty.Register<ContentControlFilesDropBehavior, IBrush?>(nameof(BackgroundDuringDrag));
 
     /// <summary>
@@ -83,7 +83,7 @@ public sealed class ContentControlFilesDropBehavior : DropBehaviorBase
         public override void Drop(object? sender, DragEventArgs e, object? sourceContext, object? targetContext)
         {
             base.Drop(sender, e, sourceContext, targetContext);
-            
+
             ClearDragValues(sender);
         }
 
@@ -93,7 +93,7 @@ public sealed class ContentControlFilesDropBehavior : DropBehaviorBase
             object? targetContext,
             object? state)
         {
-            return e.Data.Contains(DataFormats.Files);
+            return e.DataTransfer.Contains(DataFormat.File);
         }
 
         public override bool Execute(object? sender,
@@ -102,12 +102,12 @@ public sealed class ContentControlFilesDropBehavior : DropBehaviorBase
             object? targetContext,
             object? state)
         {
-            if (!e.Data.Contains(DataFormats.Files))
+            if (!e.DataTransfer.Contains(DataFormat.File))
             {
                 return false;
             }
 
-            var files = e.Data.GetFiles();
+            var files = e.DataTransfer.TryGetFiles();
             if (files is null)
             {
                 return false;

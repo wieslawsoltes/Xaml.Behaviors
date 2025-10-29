@@ -74,7 +74,7 @@ public class GetClipboardTextAction : InvokeCommandActionBase
                 return;
             }
 
-            text = await clipboard.GetTextAsync();
+            text = await clipboard.TryGetTextAsync();
         }
         catch (Exception)
         {
