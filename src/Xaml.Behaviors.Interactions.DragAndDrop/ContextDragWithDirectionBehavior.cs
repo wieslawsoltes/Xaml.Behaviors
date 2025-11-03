@@ -104,6 +104,8 @@ public sealed class ContextDragWithDirectionBehavior : StyledElementBehavior<Con
 
     private async Task DoDragDrop(PointerEventArgs triggerEvent, object? value, string direction)
     {
+        // TODO: change to new Avalonia drag'n'drop API
+#pragma warning disable CS0618 // Type or member is obsolete
         var data = new DataObject();
         data.Set(ContextDropBehavior.DataFormat, value!);
         data.Set("direction", direction);
@@ -128,6 +130,7 @@ public sealed class ContextDragWithDirectionBehavior : StyledElementBehavior<Con
         }
 
         await DragDrop.DoDragDrop(triggerEvent, data, effect);
+#pragma warning restore CS0618 // Type or member is obsolete
     }
 
     private void Released()

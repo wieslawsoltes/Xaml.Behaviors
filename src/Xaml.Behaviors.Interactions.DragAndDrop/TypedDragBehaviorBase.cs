@@ -68,6 +68,8 @@ public abstract class TypedDragBehaviorBase : StyledElementBehavior<Control>
 
     private async Task DoDragDrop(PointerEventArgs triggerEvent, object? value)
     {
+        // TODO: change to new Avalonia drag'n'drop API
+#pragma warning disable CS0618 // Type or member is obsolete
         var data = new DataObject();
         data.Set(ContextDropBehaviorBase.DataFormat, value!);
 
@@ -91,6 +93,7 @@ public abstract class TypedDragBehaviorBase : StyledElementBehavior<Control>
         }
 
         await DragDrop.DoDragDrop(triggerEvent, data, effect);
+#pragma warning restore CS0618 // Type or member is obsolete
     }
 
     private void AssociatedObject_PointerPressed(object? sender, PointerPressedEventArgs e)
@@ -98,7 +101,7 @@ public abstract class TypedDragBehaviorBase : StyledElementBehavior<Control>
         var properties = e.GetCurrentPoint(AssociatedObject).Properties;
         if (properties.IsLeftButtonPressed)
         {
-            if (e.Source is Control control 
+            if (e.Source is Control control
                 && AssociatedObject?.DataContext == control.DataContext
                 && DataType is not null
                 && DataType.IsInstanceOfType(control.DataContext))

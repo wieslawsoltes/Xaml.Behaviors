@@ -23,16 +23,21 @@ public sealed class PanelDropBehavior : DropBehaviorBase
     {
         public override bool Validate(object? sender, DragEventArgs e, object? sourceContext, object? targetContext, object? state)
         {
+            // TODO: change to new Avalonia drag'n'drop API
+#pragma warning disable CS0618 // Type or member is obsolete
             return e.Data.Contains(ContextDropBehavior.DataFormat) && e.Data.Get(ContextDropBehavior.DataFormat) is Control && sender is Panel;
+#pragma warning restore CS0618 // Type or member is obsolete
         }
 
         public override bool Execute(object? sender, DragEventArgs e, object? sourceContext, object? targetContext, object? state)
         {
+            // TODO: change to new Avalonia drag'n'drop API
+#pragma warning disable CS0618 // Type or member is obsolete
             if (sender is not Panel target || e.Data.Get(ContextDropBehavior.DataFormat) is not Control control)
             {
                 return false;
             }
-
+#pragma warning restore CS0618 // Type or member is obsolete
             if (control.Parent is Panel source)
             {
                 source.Children.Remove(control);

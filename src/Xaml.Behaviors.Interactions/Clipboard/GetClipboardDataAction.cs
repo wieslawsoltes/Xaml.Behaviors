@@ -88,8 +88,10 @@ public class GetClipboardDataAction : InvokeCommandActionBase
             {
                 return;
             }
-
+            // TODO: change to new Avalonia drag'n'drop API
+#pragma warning disable CS0618 // Type or member is obsolete
             data = await clipboard.GetDataAsync(Format);
+#pragma warning restore CS0618 // Type or member is obsolete
         }
         catch (Exception)
         {

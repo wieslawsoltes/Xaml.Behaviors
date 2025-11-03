@@ -103,6 +103,8 @@ public abstract class ContextDragBehaviorBase : StyledElementBehavior<Control>
 
     private async Task DoDragDrop(PointerEventArgs triggerEvent, object? value)
     {
+        // TODO: change to new Avalonia drag'n'drop API
+#pragma warning disable CS0618 // Type or member is obsolete
         var data = new DataObject();
         data.Set(ContextDropBehaviorBase.DataFormat, value!);
 
@@ -126,6 +128,7 @@ public abstract class ContextDragBehaviorBase : StyledElementBehavior<Control>
         }
 
         await DragDrop.DoDragDrop(triggerEvent, data, effect);
+#pragma warning restore CS0618 // Type or member is obsolete
     }
 
     private void Released()
@@ -199,7 +202,7 @@ public abstract class ContextDragBehaviorBase : StyledElementBehavior<Control>
                 }
 
                 var context = Context ?? AssociatedObject?.DataContext;
-                    
+
                 OnBeforeDragDrop(sender, _triggerEvent, context);
 
                 await DoDragDrop(_triggerEvent, context);

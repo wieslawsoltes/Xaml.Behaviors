@@ -66,7 +66,7 @@ public abstract class ContextDropBehaviorBase : StyledElementBehavior<Control>
     /// <param name="sourceContext"></param>
     /// <param name="targetContext"></param>
     protected abstract void OnEnter(object? sender, DragEventArgs e, object? sourceContext, object? targetContext);
-    
+
     /// <summary>
     /// Called when the drag leaves the target.
     /// </summary>
@@ -94,9 +94,12 @@ public abstract class ContextDropBehaviorBase : StyledElementBehavior<Control>
 
     private void DragEnter(object? sender, DragEventArgs e)
     {
-        var sourceContext = e.Data.Contains(ContextDropBehavior.DataFormat) 
-            ? e.Data.Get(ContextDropBehavior.DataFormat) 
+        // TODO: change to new Avalonia drag'n'drop API
+#pragma warning disable CS0618 // Type or member is obsolete
+        var sourceContext = e.Data.Contains(ContextDropBehavior.DataFormat)
+            ? e.Data.Get(ContextDropBehavior.DataFormat)
             : null;
+#pragma warning restore CS0618 // Type or member is obsolete
         var targetContext = Context ?? AssociatedObject?.DataContext;
         OnEnter(sender, e, sourceContext, targetContext);
     }
@@ -108,18 +111,24 @@ public abstract class ContextDropBehaviorBase : StyledElementBehavior<Control>
 
     private void DragOver(object? sender, DragEventArgs e)
     {
-        var sourceContext = e.Data.Contains(ContextDropBehavior.DataFormat) 
-            ? e.Data.Get(ContextDropBehavior.DataFormat) 
+        // TODO: change to new Avalonia drag'n'drop API
+#pragma warning disable CS0618 // Type or member is obsolete
+        var sourceContext = e.Data.Contains(ContextDropBehavior.DataFormat)
+            ? e.Data.Get(ContextDropBehavior.DataFormat)
             : null;
+#pragma warning restore CS0618 // Type or member is obsolete
         var targetContext = Context ?? AssociatedObject?.DataContext;
         OnOver(sender, e, sourceContext, targetContext);
     }
 
     private void Drop(object? sender, DragEventArgs e)
     {
-        var sourceContext = e.Data.Contains(ContextDropBehavior.DataFormat) 
-            ? e.Data.Get(ContextDropBehavior.DataFormat) 
+        // TODO: change to new Avalonia drag'n'drop API
+#pragma warning disable CS0618 // Type or member is obsolete
+        var sourceContext = e.Data.Contains(ContextDropBehavior.DataFormat)
+            ? e.Data.Get(ContextDropBehavior.DataFormat)
             : null;
+#pragma warning restore CS0618 // Type or member is obsolete
         var targetContext = Context ?? AssociatedObject?.DataContext;
         OnDrop(sender, e, sourceContext, targetContext);
     }

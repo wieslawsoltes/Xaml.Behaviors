@@ -273,7 +273,8 @@ public class ManagedContextDropBehavior : StyledElementBehavior<Control>
     {
         _isOver = over;
         var target = AssociatedObject;
-        if (target is null) return;
+        if (target is null)
+            return;
         var cls = OverClass;
         if (!string.IsNullOrWhiteSpace(cls))
         {
@@ -310,6 +311,8 @@ public class ManagedContextDropBehavior : StyledElementBehavior<Control>
     {
         try
         {
+            // TODO: change to new Avalonia drag'n'drop API
+#pragma warning disable CS0618 // Type or member is obsolete
             var data = new DataObject();
             if (svc.Payload is not null && svc.DataFormat is { })
             {
@@ -317,10 +320,12 @@ public class ManagedContextDropBehavior : StyledElementBehavior<Control>
             }
             // Use Interactive (base for Control) as required by DragEventArgs
             var target = AssociatedObject as Interactive;
-            if (target is null) return null;
+            if (target is null)
+                return null;
             var e = new DragEventArgs(routedEvent, data, target, localPosition, KeyModifiers.None);
             // Propagate current requested effects so handlers can decide behavior
             e.DragEffects = svc.Effects;
+#pragma warning disable CS0618 // Type or member is obsolete
             return e;
         }
         catch
@@ -337,7 +342,8 @@ public class ManagedContextDropBehavior : StyledElementBehavior<Control>
         if (handler is null || target is null || !AllowDrop || !svc.IsDragging || !string.Equals(svc.DataFormat, AcceptDataFormat, StringComparison.Ordinal))
             return;
         var tl = target.GetVisualRoot() as TopLevel;
-        if (tl is null) return;
+        if (tl is null)
+            return;
         var pTop = tl.PointToClient(svc.ScreenPosition);
         var pLocal = tl.TranslatePoint(pTop, target) ?? default;
         var e = CreateDragEventArgs(DragDrop.DragEnterEvent, pLocal, svc);
@@ -363,7 +369,8 @@ public class ManagedContextDropBehavior : StyledElementBehavior<Control>
         if (handler is null || target is null || !_isOver)
             return;
         var tl = target.GetVisualRoot() as TopLevel;
-        if (tl is null) return;
+        if (tl is null)
+            return;
         var pTop = tl.PointToClient(svc.ScreenPosition);
         var pLocal = tl.TranslatePoint(pTop, target) ?? default;
         var e = CreateDragEventArgs(DragDrop.DropEvent, pLocal, svc);
@@ -375,7 +382,8 @@ public class ManagedContextDropBehavior : StyledElementBehavior<Control>
     {
         var handler = Handler;
         var target = AssociatedObject;
-        if (handler is null || target is null) return;
+        if (handler is null || target is null)
+            return;
         handler.Leave(target, new RoutedEventArgs());
     }
 }
