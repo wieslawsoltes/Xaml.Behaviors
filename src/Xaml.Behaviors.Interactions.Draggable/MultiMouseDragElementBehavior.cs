@@ -77,7 +77,7 @@ public class MultiMouseDragElementBehavior : StyledElementBehavior<Control>
     private void Pressed(object? sender, PointerPressedEventArgs e)
     {
         var properties = e.GetCurrentPoint(AssociatedObject).Properties;
-        if (properties.IsLeftButtonPressed && AssociatedObject?.Parent is Control parent)
+        if (properties.IsLeftButtonPressed && AssociatedObject?.Parent is Control parent && IsEnabled)
         {
             _parent = parent;
             _start = e.GetPosition(_parent);

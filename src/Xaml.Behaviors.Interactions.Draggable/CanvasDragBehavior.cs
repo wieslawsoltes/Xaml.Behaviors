@@ -57,7 +57,7 @@ public class CanvasDragBehavior : StyledElementBehavior<Control>
             [AdornerLayer.AdornedElementProperty] = control
         };
 
-        ((ISetLogicalParent) _adorner).SetParent(control);
+        ((ISetLogicalParent)_adorner).SetParent(control);
         layer.Children.Add(_adorner);
     }
 
@@ -70,15 +70,15 @@ public class CanvasDragBehavior : StyledElementBehavior<Control>
         }
 
         layer.Children.Remove(_adorner);
-        ((ISetLogicalParent) _adorner).SetParent(null);
+        ((ISetLogicalParent)_adorner).SetParent(null);
         _adorner = null;
     }
 
     private void Pressed(object? sender, PointerPressedEventArgs e)
     {
         var properties = e.GetCurrentPoint(AssociatedObject).Properties;
-        if (properties.IsLeftButtonPressed 
-            && AssociatedObject?.Parent is Control parent)
+        if (properties.IsLeftButtonPressed
+            && AssociatedObject?.Parent is Control parent && IsEnabled)
         {
             _enableDrag = true;
             _start = e.GetPosition(parent);

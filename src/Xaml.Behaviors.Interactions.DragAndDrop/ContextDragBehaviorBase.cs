@@ -137,7 +137,7 @@ public abstract class ContextDragBehaviorBase : StyledElementBehavior<Control>
     private void AssociatedObject_PointerPressed(object? sender, PointerPressedEventArgs e)
     {
         var properties = e.GetCurrentPoint(AssociatedObject).Properties;
-        if (properties.IsLeftButtonPressed)
+        if (properties.IsLeftButtonPressed && IsEnabled)
         {
             if (e.Source is Control control
                 && AssociatedObject?.DataContext == control.DataContext)
@@ -199,7 +199,7 @@ public abstract class ContextDragBehaviorBase : StyledElementBehavior<Control>
                 }
 
                 var context = Context ?? AssociatedObject?.DataContext;
-                    
+
                 OnBeforeDragDrop(sender, _triggerEvent, context);
 
                 await DoDragDrop(_triggerEvent, context);

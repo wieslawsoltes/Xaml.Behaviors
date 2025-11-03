@@ -74,7 +74,7 @@ public class ListReorderDragBehavior : ItemDragBehavior
     {
         var properties = e.GetCurrentPoint(AssociatedObject).Properties;
         if (properties.IsLeftButtonPressed
-            && AssociatedObject?.Parent is ItemsControl itemsControl)
+            && AssociatedObject?.Parent is ItemsControl itemsControl && IsEnabled)
         {
             _enableDrag = true;
             _dragStarted = false;

@@ -96,7 +96,7 @@ public class AutoScrollDuringDragBehavior : StyledElementBehavior<ScrollViewer>
 
     private void Moved(object? sender, PointerEventArgs e)
     {
-        if (!_dragging || AssociatedObject is null)
+        if (!_dragging || AssociatedObject is null || !IsEnabled)
         {
             return;
         }
