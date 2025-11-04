@@ -235,7 +235,7 @@ public class ManagedContextDragBehavior : StyledElementBehavior<Control>
             _internalDragTcs = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
             try
             { if (AssociatedObject != null) triggerEvent.Pointer?.Capture(AssociatedObject); }
-            catch { }
+            catch (Exception ex) { System.Diagnostics.Debug.WriteLine($"Pointer capture failed: {ex}"); }
             AttachTopLevelHandlers();
             ManagedDragDropService.Instance.Begin(tl, value, DataFormat, effects, client);
             if (AssociatedObject != null)
@@ -250,7 +250,10 @@ public class ManagedContextDragBehavior : StyledElementBehavior<Control>
             DetachTopLevelHandlers();
             try
             { triggerEvent.Pointer?.Capture(null); }
-            catch { }
+            catch (InvalidOperationException)
+            {
+                // Ignore exceptions during pointer release, as the pointer may already be released.
+            }
             DragPreviewService.Hide();
             _internalDragging = false;
             _internalDragTcs = null;

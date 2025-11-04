@@ -75,7 +75,7 @@ public class AutoScrollDuringDragBehavior : StyledElementBehavior<ScrollViewer>
 
     private void Pressed(object? sender, PointerPressedEventArgs e)
     {
-        if (e.GetCurrentPoint(AssociatedObject).Properties.IsLeftButtonPressed)
+        if (e.GetCurrentPoint(AssociatedObject).Properties.IsLeftButtonPressed && IsEnabled)
         {
             _dragging = true;
         }
