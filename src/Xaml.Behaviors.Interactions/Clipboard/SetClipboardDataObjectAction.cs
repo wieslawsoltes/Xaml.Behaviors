@@ -66,7 +66,7 @@ public class SetClipboardDataObjectAction : Interactivity.StyledElementAction
 
     private async Task SetClipboardDataObjectAsync(Visual visual)
     {
-        if (IsEnabled != true || DataTransfer is null)
+        if (!IsEnabled || DataTransfer is null)
         {
             return;
         }

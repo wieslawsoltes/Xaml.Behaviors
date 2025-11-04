@@ -325,7 +325,7 @@ public class ManagedContextDropBehavior : StyledElementBehavior<Control>
             var e = new DragEventArgs(routedEvent, data, target, localPosition, KeyModifiers.None);
             // Propagate current requested effects so handlers can decide behavior
             e.DragEffects = svc.Effects;
-#pragma warning disable CS0618 // Type or member is obsolete
+#pragma warning restore CS0618 // Type or member is obsolete
             return e;
         }
         catch

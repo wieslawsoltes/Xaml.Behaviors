@@ -16,7 +16,7 @@ public static class ExitAnimations
     /// Applies a "back out down" animation effect to the specified UI element over a given duration.
     /// </summary>
     /// <param name="element">The UI element to which the animation will be applied.</param>
-    /// <param name="milliseconds">The duration of the animation, in milliseconds. Must be a non-negative value.</param>
+    /// <param name="milliseconds">The duration of the animation, in milliseconds. Minimum allowed value is 1ms and maximum allowed value is 24 days.</param>
     public static void SetBackOutDown(Control element, double milliseconds) =>
         Run(element, milliseconds, CreateBackOutDown, ensureCenterPoint: true);
 
@@ -24,15 +24,15 @@ public static class ExitAnimations
     /// Applies a "back out left" animation to the specified control over the given duration.
     /// </summary>
     /// <param name="element">The control to which the animation will be applied.</param>
-    /// <param name="milliseconds">The duration of the animation, in milliseconds. Must be a positive value.</param>
+    /// <param name="milliseconds">The duration of the animation, in milliseconds. Minimum allowed value is 1ms and maximum allowed value is 24 days.</param>
     public static void SetBackOutLeft(Control element, double milliseconds) =>
         Run(element, milliseconds, CreateBackOutLeft, ensureCenterPoint: true);
 
     /// <summary>
     /// Applies a "Back Out Right" animation to the specified UI element over the given duration.   
     /// </summary>
-    /// <param name="element">The UI element to which the animation will be applied</param>
-    /// <param name="milliseconds">The duration of the animation, in milliseconds. Must be a non-negative value.</param>
+    /// <param name="element">The UI element to which the animation will be applied.</param>
+    /// <param name="milliseconds">The duration of the animation, in milliseconds. Minimum allowed value is 1ms and maximum allowed value is 24 days.</param>
     public static void SetBackOutRight(Control element, double milliseconds) =>
         Run(element, milliseconds, CreateBackOutRight, ensureCenterPoint: true);
 
@@ -40,7 +40,7 @@ public static class ExitAnimations
     /// Applies a "back out up" animation to the specified UI element over the given duration.
     /// </summary>
     /// <param name="element">The UI element to which the animation will be applied.</param>
-    /// <param name="milliseconds">The duration of the animation, in milliseconds. Must be a positive value.</param>
+    /// <param name="milliseconds">The duration of the animation, in milliseconds. Minimum allowed value is 1ms and maximum allowed value is 24 days.</param>
     public static void SetBackOutUp(Control element, double milliseconds) =>
         Run(element, milliseconds, CreateBackOutUp, ensureCenterPoint: true);
 
@@ -48,7 +48,7 @@ public static class ExitAnimations
     /// Applies a "bounce out" animation effect to the specified UI element over a given duration.
     /// </summary>
     /// <param name="element">The <see cref="Control"/> to which the animation will be applied.</param>
-    /// <param name="milliseconds">The duration of the animation, in milliseconds. Must be a positive value.</param>
+    /// <param name="milliseconds">The duration of the animation, in milliseconds. Minimum allowed value is 1ms and maximum allowed value is 24 days.</param>
     public static void SetBounceOut(Control element, double milliseconds) =>
         Run(element, milliseconds, CreateBounceOut, ensureCenterPoint: true);
 
@@ -56,7 +56,7 @@ public static class ExitAnimations
     /// Applies a "bounce out down" animation effect to the specified control over a given duration.
     /// </summary>
     /// <param name="element">The <see cref="Control"/> to which the animation will be applied.</param>
-    /// <param name="milliseconds">The duration of the animation in milliseconds. Must be a positive value.</param>
+    /// <param name="milliseconds">The duration of the animation in milliseconds. Minimum allowed value is 1ms and maximum allowed value is 24 days.</param>
     public static void SetBounceOutDown(Control element, double milliseconds) =>
         Run(element, milliseconds, CreateBounceOutDown);
 
@@ -64,7 +64,7 @@ public static class ExitAnimations
     /// Applies a "bounce out left" animation to the specified control over the given duration.
     /// </summary>
     /// <param name="element">The control to which the animation will be applied.</param>
-    /// <param name="milliseconds">The duration of the animation, in milliseconds. Must be a positive value.</param>
+    /// <param name="milliseconds">The duration of the animation, in milliseconds. Minimum allowed value is 1ms and maximum allowed value is 24 days.</param>
     public static void SetBounceOutLeft(Control element, double milliseconds) =>
         Run(element, milliseconds, CreateBounceOutLeft);
 
@@ -72,7 +72,7 @@ public static class ExitAnimations
     /// Applies a "bounce out right" animation effect to the specified control over the given duration.
     /// </summary>
     /// <param name="element">The <see cref="Control"/> to which the animation effect will be applied.</param>
-    /// <param name="milliseconds">The duration of the animation in milliseconds. Must be a positive value.</param>
+    /// <param name="milliseconds">The duration of the animation in milliseconds. Minimum allowed value is 1ms and maximum allowed value is 24 days.</param>
     public static void SetBounceOutRight(Control element, double milliseconds) =>
         Run(element, milliseconds, CreateBounceOutRight);
 
@@ -80,7 +80,7 @@ public static class ExitAnimations
     /// Applies a "bounce out up" animation effect to the specified control over a given duration.
     /// </summary>
     /// <param name="element">The <see cref="Control"/> to which the animation will be applied.</param>
-    /// <param name="milliseconds">The duration of the animation in milliseconds. Must be a positive value.</param>
+    /// <param name="milliseconds">The duration of the animation in milliseconds. Minimum allowed value is 1ms and maximum allowed value is 24 days.</param>
     public static void SetBounceOutUp(Control element, double milliseconds) =>
         Run(element, milliseconds, CreateBounceOutUp);
 
@@ -88,7 +88,7 @@ public static class ExitAnimations
     /// Applies a fade-out animation to the specified UI element over the given duration.
     /// </summary>
     /// <param name="element">The <see cref="Control"/> to which the fade-out animation will be applied.</param>
-    /// <param name="milliseconds">The duration of the fade-out animation, in milliseconds. Must be a non-negative value.</param>
+    /// <param name="milliseconds">The duration of the fade-out animation, in milliseconds. Minimum allowed value is 1ms and maximum allowed value is 24 days.</param>
     public static void SetFadeOut(Control element, double milliseconds) =>
         Run(element, milliseconds, CreateFadeOut);
 
@@ -96,7 +96,7 @@ public static class ExitAnimations
     /// Applies a fade-out animation to the specified control, moving it downward over the specified duration.
     /// </summary>
     /// <param name="element">The control to which the fade-out animation will be applied.</param>
-    /// <param name="milliseconds">The duration of the animation, in milliseconds. Must be a non-negative value.</param>
+    /// <param name="milliseconds">The duration of the animation, in milliseconds. Minimum allowed value is 1ms and maximum allowed value is 24 days.</param>
     public static void SetFadeOutDown(Control element, double milliseconds) =>
         Run(element, milliseconds, () => CreateFadeOutOffset(new Vector3(0f, 24f, 0f)));
 
@@ -104,7 +104,7 @@ public static class ExitAnimations
     /// Applies a "fade out and move down" animation effect to the specified UI element over the given duration.
     /// </summary>
     /// <param name="element">The UI element to which the animation effect will be applied.</param>
-    /// <param name="milliseconds">The duration of the animation, in milliseconds. Must be a positive value.</param>
+    /// <param name="milliseconds">The duration of the animation, in milliseconds. Minimum allowed value is 1ms and maximum allowed value is 24 days.</param>
     public static void SetFadeOutDownBig(Control element, double milliseconds) =>
         Run(element, milliseconds, () => CreateFadeOutOffset(new Vector3(0f, 240f, 0f)));
 
@@ -113,7 +113,7 @@ public static class ExitAnimations
     /// specified duration.
     /// </summary>
     /// <param name="element">The <see cref="Control"/> to which the fade-out animation will be applied.</param>
-    /// <param name="milliseconds">The duration of the animation, in milliseconds. Must be a non-negative value.</param>
+    /// <param name="milliseconds">The duration of the animation, in milliseconds. Minimum allowed value is 1ms and maximum allowed value is 24 days.</param>
     public static void SetFadeOutLeft(Control element, double milliseconds) =>
         Run(element, milliseconds, () => CreateFadeOutOffset(new Vector3(-24f, 0f, 0f)));
 
@@ -121,7 +121,7 @@ public static class ExitAnimations
     /// Applies a "fade out to the left" animation effect to the specified control.
     /// </summary>
     /// <param name="element">The <see cref="Control"/> to which the animation will be applied.</param>
-    /// <param name="milliseconds">The duration of the animation in milliseconds. Must be a positive value.</param>
+    /// <param name="milliseconds">The duration of the animation in milliseconds. Minimum allowed value is 1ms and maximum allowed value is 24 days.</param>
     public static void SetFadeOutLeftBig(Control element, double milliseconds) =>
         Run(element, milliseconds, () => CreateFadeOutOffset(new Vector3(-240f, 0f, 0f)));
 
@@ -129,7 +129,7 @@ public static class ExitAnimations
     /// Applies a fade-out animation to the specified UI element, moving it to the right over the specified duration.
     /// </summary>
     /// <param name="element">The UI element to which the fade-out animation will be applied.</param>
-    /// <param name="milliseconds">The duration of the fade-out animation, in milliseconds. Must be a non-negative value.</param>
+    /// <param name="milliseconds">The duration of the fade-out animation, in milliseconds. Minimum allowed value is 1ms and maximum allowed value is 24 days.</param>
     public static void SetFadeOutRight(Control element, double milliseconds) =>
         Run(element, milliseconds, () => CreateFadeOutOffset(new Vector3(24f, 0f, 0f)));
 
@@ -137,7 +137,7 @@ public static class ExitAnimations
     /// Applies a fade-out animation to the specified control, moving it to the right while fading out.
     /// </summary>
     /// <param name="element">The control to which the fade-out animation will be applied.</param>
-    /// <param name="milliseconds">The duration of the animation, in milliseconds. Must be a positive value.</param>
+    /// <param name="milliseconds">The duration of the animation, in milliseconds. Minimum allowed value is 1ms and maximum allowed value is 24 days.</param>
     public static void SetFadeOutRightBig(Control element, double milliseconds) =>
         Run(element, milliseconds, () => CreateFadeOutOffset(new Vector3(240f, 0f, 0f)));
 
@@ -145,7 +145,7 @@ public static class ExitAnimations
     /// Applies a fade-out animation to the specified control, moving it upward as it fades.
     /// </summary>
     /// <param name="element">The <see cref="Control"/> to which the fade-out animation will be applied.</param>
-    /// <param name="milliseconds">The duration of the animation, in milliseconds. Must be a positive value.</param>
+    /// <param name="milliseconds">The duration of the animation, in milliseconds. Minimum allowed value is 1ms and maximum allowed value is 24 days.</param>
     public static void SetFadeOutUp(Control element, double milliseconds) =>
         Run(element, milliseconds, () => CreateFadeOutOffset(new Vector3(0f, -24f, 0f)));
 
@@ -153,7 +153,7 @@ public static class ExitAnimations
     /// Applies a "fade out and move up" animation effect to the specified UI element over a given duration.
     /// </summary>
     /// <param name="element">The UI element to which the animation effect will be applied.</param>
-    /// <param name="milliseconds">The duration of the animation, in milliseconds. Must be a positive value.</param>
+    /// <param name="milliseconds">The duration of the animation, in milliseconds. Minimum allowed value is 1ms and maximum allowed value is 24 days.</param>
     public static void SetFadeOutUpBig(Control element, double milliseconds) =>
         Run(element, milliseconds, () => CreateFadeOutOffset(new Vector3(0f, -240f, 0f)));
 
@@ -161,7 +161,7 @@ public static class ExitAnimations
     /// Applies a fade-out animation to the specified control, moving it upward and left as it fades.
     /// </summary>
     /// <param name="element">The <see cref="Control"/> to which the fade-out animation will be applied.</param>
-    /// <param name="milliseconds">The duration of the animation, in milliseconds. Must be a positive value.</param>
+    /// <param name="milliseconds">The duration of the animation, in milliseconds. Minimum allowed value is 1ms and maximum allowed value is 24 days.</param>
     public static void SetFadeOutTopLeft(Control element, double milliseconds) =>
         Run(element, milliseconds, () => CreateFadeOutOffset(new Vector3(-24f, -24f, 0f)));
 
@@ -169,7 +169,7 @@ public static class ExitAnimations
     /// Applies a fade-out animation to the specified control, moving it upward and right as it fades.
     /// </summary>
     /// <param name="element">The <see cref="Control"/> to which the fade-out animation will be applied.</param>
-    /// <param name="milliseconds">The duration of the animation, in milliseconds. Must be a positive value.</param>
+    /// <param name="milliseconds">The duration of the animation, in milliseconds. Minimum allowed value is 1ms and maximum allowed value is 24 days.</param>
     public static void SetFadeOutTopRight(Control element, double milliseconds) =>
         Run(element, milliseconds, () => CreateFadeOutOffset(new Vector3(24f, -24f, 0f)));
 
@@ -177,7 +177,7 @@ public static class ExitAnimations
     /// Applies a fade-out animation to the specified control, moving it downward and left as it fades.
     /// </summary>
     /// <param name="element">The <see cref="Control"/> to which the fade-out animation will be applied.</param>
-    /// <param name="milliseconds">The duration of the animation, in milliseconds. Must be a positive value.</param>
+    /// <param name="milliseconds">The duration of the animation, in milliseconds. Minimum allowed value is 1ms and maximum allowed value is 24 days.</param>
     public static void SetFadeOutBottomLeft(Control element, double milliseconds) =>
         Run(element, milliseconds, () => CreateFadeOutOffset(new Vector3(-24f, 24f, 0f)));
 
@@ -185,7 +185,7 @@ public static class ExitAnimations
     /// Applies a fade-out animation to the specified control, moving it downward and right as it fades.
     /// </summary>
     /// <param name="element">The <see cref="Control"/> to which the fade-out animation will be applied.</param>
-    /// <param name="milliseconds">The duration of the animation, in milliseconds. Must be a positive value.</param>
+    /// <param name="milliseconds">The duration of the animation, in milliseconds. Minimum allowed value is 1ms and maximum allowed value is 24 days.</param>
     public static void SetFadeOutBottomRight(Control element, double milliseconds) =>
         Run(element, milliseconds, () => CreateFadeOutOffset(new Vector3(24f, 24f, 0f)));
 
@@ -193,7 +193,7 @@ public static class ExitAnimations
     /// Applies a "flip out X" animation effect to the specified UI element over a given duration.
     /// </summary>
     /// <param name="element">The UI element to which the animation will be applied.</param>
-    /// <param name="milliseconds">The duration of the animation, in milliseconds. Must be a non-negative value.</param>
+    /// <param name="milliseconds">The duration of the animation, in milliseconds. Minimum allowed value is 1ms and maximum allowed value is 24 days.</param>
     public static void SetFlipOutX(Control element, double milliseconds) =>
         Run(element, milliseconds, CreateFlipOutX, ensureCenterPoint: true);
 
@@ -201,7 +201,7 @@ public static class ExitAnimations
     /// Applies a "flip out Y" animation effect to the specified UI element over a given duration.
     /// </summary>
     /// <param name="element">The UI element to which the animation will be applied.</param>
-    /// <param name="milliseconds">The duration of the animation, in milliseconds. Must be a non-negative value.</param>
+    /// <param name="milliseconds">The duration of the animation, in milliseconds. Minimum allowed value is 1ms and maximum allowed value is 24 days.</param>
     public static void SetFlipOutY(Control element, double milliseconds) =>
         Run(element, milliseconds, CreateFlipOutY, ensureCenterPoint: true);
 
@@ -209,7 +209,7 @@ public static class ExitAnimations
     /// Applies a "light speed out left" animation effect to the specified UI element over a given duration.
     /// </summary>
     /// <param name="element">The UI element to which the animation will be applied.</param>
-    /// <param name="milliseconds">The duration of the animation, in milliseconds. Must be a non-negative value.</param>
+    /// <param name="milliseconds">The duration of the animation, in milliseconds. Minimum allowed value is 1ms and maximum allowed value is 24 days.</param>
     public static void SetLightSpeedOutLeft(Control element, double milliseconds) =>
         Run(element, milliseconds, () => CreateLightSpeedOut(-1));
 
@@ -217,7 +217,7 @@ public static class ExitAnimations
     /// Applies a "light speed out right" animation effect to the specified UI element over a given duration.
     /// </summary>
     /// <param name="element">The UI element to which the animation will be applied.</param>
-    /// <param name="milliseconds">The duration of the animation, in milliseconds. Must be a non-negative value.</param>
+    /// <param name="milliseconds">The duration of the animation, in milliseconds. Minimum allowed value is 1ms and maximum allowed value is 24 days.</param>
     public static void SetLightSpeedOutRight(Control element, double milliseconds) =>
         Run(element, milliseconds, () => CreateLightSpeedOut(1));
 
@@ -225,7 +225,7 @@ public static class ExitAnimations
     /// Applies a "Rotate out" animation effect to the specified UI element over a given duration.
     /// </summary>
     /// <param name="element">The UI element to which the animation will be applied.</param>
-    /// <param name="milliseconds">The duration of the animation, in milliseconds. Must be a non-negative value.</param>
+    /// <param name="milliseconds">The duration of the animation, in milliseconds. Minimum allowed value is 1ms and maximum allowed value is 24 days.</param>
     public static void SetRotateOut(Control element, double milliseconds) =>
         Run(element, milliseconds, () => CreateRotateOut(90f, new Vector2(0.5f, 0.5f)), ensureCenterPoint: true);
 
@@ -233,7 +233,7 @@ public static class ExitAnimations
     /// Applies a "Rotate Out Down Left" animation effect to the specified UI element over a given duration.
     /// </summary>
     /// <param name="element">The UI element to which the animation will be applied.</param>
-    /// <param name="milliseconds">The duration of the animation, in milliseconds. Must be a non-negative value.</param>
+    /// <param name="milliseconds">The duration of the animation, in milliseconds. Minimum allowed value is 1ms and maximum allowed value is 24 days.</param>
     public static void SetRotateOutDownLeft(Control element, double milliseconds) =>
         Run(element, milliseconds, () => CreateRotateOut(45f, new Vector2(0f, 1f)), ensureCenterPoint: true);
 
@@ -241,7 +241,7 @@ public static class ExitAnimations
     /// Applies a "Rotate Out Down Right" animation effect to the specified UI element over a given duration.
     /// </summary>
     /// <param name="element">The UI element to which the animation will be applied.</param>
-    /// <param name="milliseconds">The duration of the animation, in milliseconds. Must be a non-negative value.</param>
+    /// <param name="milliseconds">The duration of the animation, in milliseconds. Minimum allowed value is 1ms and maximum allowed value is 24 days.</param>
     public static void SetRotateOutDownRight(Control element, double milliseconds) =>
         Run(element, milliseconds, () => CreateRotateOut(-45f, new Vector2(1f, 1f)), ensureCenterPoint: true);
 
@@ -249,7 +249,7 @@ public static class ExitAnimations
     /// Applies a "Rotate Out Up Left" animation effect to the specified UI element over a given duration.
     /// </summary>
     /// <param name="element">The UI element to which the animation will be applied.</param>
-    /// <param name="milliseconds">The duration of the animation, in milliseconds. Must be a non-negative value.</param>
+    /// <param name="milliseconds">The duration of the animation, in milliseconds. Minimum allowed value is 1ms and maximum allowed value is 24 days.</param>
     public static void SetRotateOutUpLeft(Control element, double milliseconds) =>
         Run(element, milliseconds, () => CreateRotateOut(-45f, new Vector2(0f, 0f)), ensureCenterPoint: true);
 
@@ -257,7 +257,7 @@ public static class ExitAnimations
     /// Applies a "Rotate Out Up Right" animation effect to the specified UI element over a given duration.
     /// </summary>
     /// <param name="element">The UI element to which the animation will be applied.</param>
-    /// <param name="milliseconds">The duration of the animation, in milliseconds. Must be a non-negative value.</param>
+    /// <param name="milliseconds">The duration of the animation, in milliseconds. Minimum allowed value is 1ms and maximum allowed value is 24 days.</param>
     public static void SetRotateOutUpRight(Control element, double milliseconds) =>
         Run(element, milliseconds, () => CreateRotateOut(45f, new Vector2(1f, 0f)), ensureCenterPoint: true);
 
@@ -265,7 +265,7 @@ public static class ExitAnimations
     /// Applies a "Slide Out Down" animation effect to the specified UI element over a given duration.
     /// </summary>
     /// <param name="element">The UI element to which the animation will be applied.</param>
-    /// <param name="milliseconds">The duration of the animation, in milliseconds. Must be a non-negative value.</param>
+    /// <param name="milliseconds">The duration of the animation, in milliseconds. Minimum allowed value is 1ms and maximum allowed value is 24 days.</param>
     public static void SetSlideOutDown(Control element, double milliseconds) =>
         Run(element, milliseconds, () => CreateSlideOut(new Vector3(0f, 240f, 0f)));
 
@@ -273,7 +273,7 @@ public static class ExitAnimations
     /// Applies a "Slide Out Left" animation effect to the specified UI element over a given duration.
     /// </summary>
     /// <param name="element">The UI element to which the animation will be applied.</param>
-    /// <param name="milliseconds">The duration of the animation, in milliseconds. Must be a non-negative value.</param>
+    /// <param name="milliseconds">The duration of the animation, in milliseconds. Minimum allowed value is 1ms and maximum allowed value is 24 days.</param>
     public static void SetSlideOutLeft(Control element, double milliseconds) =>
         Run(element, milliseconds, () => CreateSlideOut(new Vector3(-240f, 0f, 0f)));
 
@@ -281,7 +281,7 @@ public static class ExitAnimations
     /// Applies a "Slide Out Right" animation effect to the specified UI element over a given duration.
     /// </summary>
     /// <param name="element">The UI element to which the animation will be applied.</param>
-    /// <param name="milliseconds">The duration of the animation, in milliseconds. Must be a non-negative value.</param>
+    /// <param name="milliseconds">The duration of the animation, in milliseconds. Minimum allowed value is 1ms and maximum allowed value is 24 days.</param>
     public static void SetSlideOutRight(Control element, double milliseconds) =>
         Run(element, milliseconds, () => CreateSlideOut(new Vector3(240f, 0f, 0f)));
 
@@ -289,7 +289,7 @@ public static class ExitAnimations
     /// Applies a "Slide Out Up" animation effect to the specified UI element over a given duration.
     /// </summary>
     /// <param name="element">The UI element to which the animation will be applied.</param>
-    /// <param name="milliseconds">The duration of the animation, in milliseconds. Must be a non-negative value.</param>
+    /// <param name="milliseconds">The duration of the animation, in milliseconds. Minimum allowed value is 1ms and maximum allowed value is 24 days.</param>
     public static void SetSlideOutUp(Control element, double milliseconds) =>
         Run(element, milliseconds, () => CreateSlideOut(new Vector3(0f, -240f, 0f)));
 
@@ -297,7 +297,7 @@ public static class ExitAnimations
     /// Applies a "Zoom out" animation effect to the specified UI element over a given duration.
     /// </summary>
     /// <param name="element">The UI element to which the animation will be applied.</param>
-    /// <param name="milliseconds">The duration of the animation, in milliseconds. Must be a non-negative value.</param>
+    /// <param name="milliseconds">The duration of the animation, in milliseconds. Minimum allowed value is 1ms and maximum allowed value is 24 days.</param>
     public static void SetZoomOut(Control element, double milliseconds) =>
         Run(element, milliseconds, CreateZoomOut, ensureCenterPoint: true);
 
@@ -305,7 +305,7 @@ public static class ExitAnimations
     /// Applies a "Zoom out down" animation effect to the specified UI element over a given duration.
     /// </summary>
     /// <param name="element">The UI element to which the animation will be applied.</param>
-    /// <param name="milliseconds">The duration of the animation, in milliseconds. Must be a non-negative value.</param>
+    /// <param name="milliseconds">The duration of the animation, in milliseconds. Minimum allowed value is 1ms and maximum allowed value is 24 days.</param>
     public static void SetZoomOutDown(Control element, double milliseconds) =>
         Run(element, milliseconds, () => CreateZoomOutDirectional(new Vector3(0f, 240f, 0f)), ensureCenterPoint: true);
 
@@ -313,7 +313,7 @@ public static class ExitAnimations
     /// Applies a "Zoom out left" animation effect to the specified UI element over a given duration.
     /// </summary>
     /// <param name="element">The UI element to which the animation will be applied.</param>
-    /// <param name="milliseconds">The duration of the animation, in milliseconds. Must be a non-negative value.</param>
+    /// <param name="milliseconds">The duration of the animation, in milliseconds. Minimum allowed value is 1ms and maximum allowed value is 24 days.</param>
     public static void SetZoomOutLeft(Control element, double milliseconds) =>
         Run(element, milliseconds, () => CreateZoomOutDirectional(new Vector3(-240f, 0f, 0f)), ensureCenterPoint: true);
 
@@ -321,7 +321,7 @@ public static class ExitAnimations
     /// Applies a "Zoom out right" animation effect to the specified UI element over a given duration.
     /// </summary>
     /// <param name="element">The UI element to which the animation will be applied.</param>
-    /// <param name="milliseconds">The duration of the animation, in milliseconds. Must be a non-negative value.</param>
+    /// <param name="milliseconds">The duration of the animation, in milliseconds. Minimum allowed value is 1ms and maximum allowed value is 24 days.</param>
     public static void SetZoomOutRight(Control element, double milliseconds) =>
         Run(element, milliseconds, () => CreateZoomOutDirectional(new Vector3(240f, 0f, 0f)), ensureCenterPoint: true);
 
@@ -329,7 +329,7 @@ public static class ExitAnimations
     /// Applies a "Zoom out up" animation effect to the specified UI element over a given duration.
     /// </summary>
     /// <param name="element">The UI element to which the animation will be applied.</param>
-    /// <param name="milliseconds">The duration of the animation, in milliseconds. Must be a non-negative value.</param>
+    /// <param name="milliseconds">The duration of the animation, in milliseconds. Minimum allowed value is 1ms and maximum allowed value is 24 days.</param>
     public static void SetZoomOutUp(Control element, double milliseconds) =>
         Run(element, milliseconds, () => CreateZoomOutDirectional(new Vector3(0f, -240f, 0f)), ensureCenterPoint: true);
 
@@ -337,7 +337,7 @@ public static class ExitAnimations
     /// Applies a "Hinge" animation effect to the specified UI element over a given duration.
     /// </summary>
     /// <param name="element">The UI element to which the animation will be applied.</param>
-    /// <param name="milliseconds">The duration of the animation, in milliseconds. Must be a non-negative value.</param>
+    /// <param name="milliseconds">The duration of the animation, in milliseconds. Minimum allowed value is 1ms and maximum allowed value is 24 days.</param>
     public static void SetHinge(Control element, double milliseconds) =>
         Run(element, milliseconds, CreateHinge, ensureCenterPoint: true);
 
@@ -345,7 +345,7 @@ public static class ExitAnimations
     /// Applies a "Roll out" animation effect to the specified UI element over a given duration.
     /// </summary>
     /// <param name="element">The UI element to which the animation will be applied.</param>
-    /// <param name="milliseconds">The duration of the animation, in milliseconds. Must be a non-negative value.</param>
+    /// <param name="milliseconds">The duration of the animation, in milliseconds. Minimum allowed value is 1ms and maximum allowed value is 24 days.</param>
     public static void SetRollOut(Control element, double milliseconds) =>
         Run(element, milliseconds, CreateRollOut);
 

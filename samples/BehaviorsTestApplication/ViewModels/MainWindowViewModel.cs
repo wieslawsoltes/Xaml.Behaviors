@@ -501,7 +501,7 @@ public partial class MainWindowViewModel : ViewModelBase
     {
         if (args.Source is TextBox control)
         {
-            Greeting = control.Text ?? String.Empty;
+            Greeting = control.Text ?? string.Empty;
         }
     }
 
