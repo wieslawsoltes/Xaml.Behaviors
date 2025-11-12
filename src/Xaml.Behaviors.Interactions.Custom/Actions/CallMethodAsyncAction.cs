@@ -1,6 +1,7 @@
 // Copyright (c) Wiesław Šoltés. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for details.
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Reflection;
 using System.Threading.Tasks;
@@ -52,6 +53,7 @@ public class CallMethodAsyncAction : StyledElementAction
     /// <param name="sender">The <see cref="object"/> that is passed to the action by the behavior.</param>
     /// <param name="parameter">The value of this parameter is determined by the caller.</param>
     /// <returns>True if the method is called; else false.</returns>
+    [UnconditionalSuppressMessage("Trimming", "IL2072", Justification = "Reflection is used to invoke view-model members provided by the application.")]
     public override object Execute(object? sender, object? parameter)
     {
         if (!IsEnabled)

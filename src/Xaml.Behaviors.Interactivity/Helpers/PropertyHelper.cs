@@ -16,13 +16,17 @@ internal static class PropertyHelper
 
     private static Type? GetTypeByName(string name)
     {
+        var assemblies = AppDomain.CurrentDomain.GetAssemblies();
+
         return
-            AppDomain.CurrentDomain.GetAssemblies()
+            assemblies
+                .AsEnumerable()
                 .Reverse()
                 .Select(assembly => assembly.GetType(name))
                 .FirstOrDefault(t => t is not null)
             ??
-            AppDomain.CurrentDomain.GetAssemblies()
+            assemblies
+                .AsEnumerable()
                 .Reverse()
                 .SelectMany(assembly => assembly.GetTypes())
                 .FirstOrDefault(t => t.Name == name);
