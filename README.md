@@ -1192,13 +1192,13 @@ This section provides an overview of all available classes and their purpose in 
 
 ### StorageProvider – Button
 - **ButtonOpenFilePickerBehavior** ([Sample](samples/BehaviorsTestApplication/Views/Pages/StorageProviderView.axaml))
-  *Attaches to a Button to open a file picker dialog when clicked.*
+  *Attaches to a Button to open a file picker dialog when clicked and raises the `Pick` event with `FilePickerEventArgs` when files are chosen.*
 
 - **ButtonOpenFolderPickerBehavior** ([Sample](samples/BehaviorsTestApplication/Views/Pages/StorageProviderView.axaml))
-  *Attaches to a Button to open a folder picker dialog when clicked.*
+  *Attaches to a Button to open a folder picker dialog when clicked and publishes the `Pick` event with `FolderPickerEventArgs`.*
 
 - **ButtonSaveFilePickerBehavior** ([Sample](samples/BehaviorsTestApplication/Views/Pages/StorageProviderView.axaml))
-  *Attaches to a Button to open a save file picker dialog when clicked.*
+  *Attaches to a Button to open a save file picker dialog when clicked and emits the `Pick` event with `SaveFilePickerEventArgs`.*
 
 ### StorageProvider – Converters
 - **StorageFileToReadStreamConverter** (No sample available.)
@@ -1212,39 +1212,48 @@ This section provides an overview of all available classes and their purpose in 
 
 ### StorageProvider – Core
 - **PickerActionBase** (No sample available.)
-  *Base class for actions that invoke file/folder picker dialogs.*
+  *Base class for actions that invoke file/folder picker dialogs and handle the `Pick` event pipeline.*
 
 - **PickerBehaviorBase** (No sample available.)
-  *Base class for behaviors that wrap file/folder picker functionality.*
+  *Base class for behaviors that wrap file/folder picker functionality and share picker configuration helpers.*
+
+- **FilePickerEventArgs** (No sample available.)
+  *Event args raised by file picker actions/behaviors containing the selected files and a `Handled` flag to short-circuit command invocation.*
+
+- **FolderPickerEventArgs** (No sample available.)
+  *Event args raised by folder picker actions/behaviors containing the selected folders and a `Handled` flag.*
+
+- **SaveFilePickerEventArgs** (No sample available.)
+  *Event args raised by save file picker actions/behaviors containing the picked file and a `Handled` flag.*
 
 ### StorageProvider – MenuItem
 - **MenuItemOpenFilePickerBehavior** ([Sample](samples/BehaviorsTestApplication/Views/Pages/StorageProviderView.axaml))
-  *Opens a file picker dialog when a MenuItem is clicked.*
+  *Opens a file picker dialog when a MenuItem is clicked and surfaces the `Pick` event with `FilePickerEventArgs`.*
 
 - **MenuItemSaveFilePickerBehavior** ([Sample](samples/BehaviorsTestApplication/Views/Pages/StorageProviderView.axaml))
-  *Opens a save file picker dialog when a MenuItem is clicked.*
+  *Opens a save file picker dialog when a MenuItem is clicked and exposes the `Pick` event with `SaveFilePickerEventArgs`.*
 
 - **MenuItemOpenFolderPickerBehavior** ([Sample](samples/BehaviorsTestApplication/Views/Pages/StorageProviderView.axaml))
-  *Opens a folder picker dialog when a MenuItem is clicked.*
+  *Opens a folder picker dialog when a MenuItem is clicked and exposes the `Pick` event with `FolderPickerEventArgs`.*
 
 ### StorageProvider
 - **OpenFilePickerAction** ([Sample](samples/BehaviorsTestApplication/Views/Pages/StorageProviderView.axaml))
-  *Opens a file picker dialog and passes the selected file(s) as a command parameter.*
+  *Opens a file picker dialog, raises the `Pick` event, and optionally passes the selected file(s) as a command parameter.*
 
 - **OpenFilePickerBehaviorBase** (No sample available.)
-  *Base behavior for opening file picker dialogs.*
+  *Base behavior for opening file picker dialogs, exposing the shared picker configuration and `Pick` event.*
 
 - **OpenFolderPickerAction** ([Sample](samples/BehaviorsTestApplication/Views/Pages/StorageProviderView.axaml))
-  *Opens a folder picker dialog and passes the selected folder(s) as a command parameter.*
+  *Opens a folder picker dialog, raises the `Pick` event, and optionally passes the selected folder(s) as a command parameter.*
 
 - **OpenFolderPickerBehaviorBase** (No sample available.)
-  *Base behavior for opening folder picker dialogs.*
+  *Base behavior for opening folder picker dialogs, exposing the shared picker configuration and `Pick` event.*
 
 - **SaveFilePickerAction** ([Sample](samples/BehaviorsTestApplication/Views/Pages/StorageProviderView.axaml))
-  *Opens a save file picker dialog and passes the chosen file as a command parameter.*
+  *Opens a save file picker dialog, raises the `Pick` event, and optionally passes the chosen file as a command parameter.*
 
 - **SaveFilePickerBehaviorBase** (No sample available.)
-  *Base behavior for saving files using a file picker dialog.*
+  *Base behavior for saving files using a file picker dialog and providing the shared `Pick` event.*
 
 ### Scripting
 - **ExecuteScriptAction** ([Sample](samples/BehaviorsTestApplication/Views/Pages/ExecuteScriptActionView.axaml))

@@ -1,5 +1,6 @@
 // Copyright (c) Wiesław Šoltés. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for details.
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Avalonia.Controls;
@@ -13,6 +14,11 @@ namespace Avalonia.Xaml.Interactions.Core;
 /// </summary>
 public abstract class OpenFilePickerBehaviorBase : PickerBehaviorBase
 {
+    /// <summary>
+    /// Occurs after the file picker successfully returns one or more files.
+    /// </summary>
+    public event EventHandler<FilePickerEventArgs>? Pick;
+
     /// <summary>
     /// Identifies the <seealso cref="AllowMultiple"/> avalonia property.
     /// </summary>
@@ -68,7 +74,8 @@ public abstract class OpenFilePickerBehaviorBase : PickerBehaviorBase
 
     private async Task OpenFilePickerAsync(Visual visual)
     {
-        if (IsEnabled != true || Command is null)
+        var command = Command;
+        if (IsEnabled != true || (command is null && Pick is null))
         {
             return;
         }
@@ -97,13 +104,29 @@ public abstract class OpenFilePickerBehaviorBase : PickerBehaviorBase
             return;
         }
 
-        var resolvedParameter = ResolveParameter(files);
-
-        if (!Command.CanExecute(resolvedParameter))
+        var eventArgs = new FilePickerEventArgs(files);
+        OnPick(eventArgs);
+        if (eventArgs.Handled || command is null)
         {
             return;
         }
 
-        Command.Execute(resolvedParameter);
+        var resolvedParameter = ResolveParameter(files);
+
+        if (!command.CanExecute(resolvedParameter))
+        {
+            return;
+        }
+
+        command.Execute(resolvedParameter);
+    }
+
+    /// <summary>
+    /// Raises the <see cref="Pick"/> event.
+    /// </summary>
+    /// <param name="args">Event arguments describing the picked files.</param>
+    protected virtual void OnPick(FilePickerEventArgs args)
+    {
+        Pick?.Invoke(this, args);
     }
 }
