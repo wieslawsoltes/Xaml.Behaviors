@@ -1,6 +1,5 @@
 ﻿// Copyright (c) Wiesław Šoltés. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for details.
-using Avalonia;
 
 namespace Avalonia.Xaml.Interactivity;
 
@@ -17,23 +16,6 @@ public static class AvaloniaObjectBehaviorsExtensions
     static AvaloniaObjectBehaviorsExtensions()
     {
         Interaction.BehaviorsProperty.AddOwner<AvaloniaObject>();
-    }
-
-    /// <summary>
-    /// Adds instance-level accessors for <see cref="Interaction.BehaviorsProperty"/> to any <see cref="AvaloniaObject"/>.
-    /// </summary>
-    /// <typeparam name="TAvaloniaObject">The concrete object type receiving the extension.</typeparam>
-    /// <param name="obj">The current control being extended.</param>
-    extension<TAvaloniaObject>(TAvaloniaObject obj) where TAvaloniaObject : AvaloniaObject
-    {
-        /// <summary>
-        /// Gets or sets the <see cref="BehaviorCollection"/> associated with this instance.
-        /// </summary>
-        public BehaviorCollection Behaviors
-        {
-            get => Interaction.GetBehaviors(obj);
-            set => Interaction.SetBehaviors(obj, value);
-        }
     }
 
     /// <summary>
