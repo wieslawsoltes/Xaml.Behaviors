@@ -84,3 +84,6 @@ jobs:
         body: Automated release for ${{ env.RELEASE_TAG }}.
         draft: false
         prerelease: ${{ env.IS_PRERELEASE == 'true' }}
+        files: |
+          artifacts/NuGet/*.nupkg
+          artifacts/NuGet/*.snupkg
