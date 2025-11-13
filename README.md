@@ -532,6 +532,10 @@ This section provides an overview of all available classes and their purpose in 
   *Evaluates a data binding against a given condition and triggers actions when the condition is true.*
 - **DataTrigger** ([Sample](samples/BehaviorsTestApplication/Views/Pages/DataTriggerBehaviorView.axaml))
   *Performs actions when the bound data meets a specified condition.*
+- **MultiDataTriggerBehavior** ([Sample](samples/BehaviorsTestApplication/Views/Pages/MultiDataTriggerBehaviorView.axaml))
+  *Evaluates a set of bound conditions and triggers actions only when every comparison succeeds.*
+- **MultiDataTrigger** ([Sample](samples/BehaviorsTestApplication/Views/Pages/MultiDataTriggerBehaviorView.axaml))
+  *Convenience alias of <code>MultiDataTriggerBehavior</code> for XAML usage.*
 - **PropertyChangedTrigger** ([Sample](samples/BehaviorsTestApplication/Views/Pages/PropertyChangedTriggerView.axaml))
   *Triggers actions when a property value changes.*
 - **ViewModelPropertyChangedTrigger** ([Sample](samples/BehaviorsTestApplication/Views/Pages/ViewModelPropertyActionsView.axaml))

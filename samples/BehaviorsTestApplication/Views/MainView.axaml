@@ -45,6 +45,9 @@
       <TabItem Header="DataTriggerBehavior Advanced">
         <pages:DataTriggerBehaviorAdvancedView />
       </TabItem>
+      <TabItem Header="MultiDataTriggerBehavior">
+        <pages:MultiDataTriggerBehaviorView />
+      </TabItem>
       <TabItem Header="BindingTriggerBehavior">
         <pages:BindingTriggerBehaviorView />
       </TabItem>
