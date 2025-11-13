@@ -11,7 +11,7 @@
   </PropertyGroup>
   <PropertyGroup>
     <AnalysisLevel>latest</AnalysisLevel>
-    <LangVersion>13</LangVersion>
+    <LangVersion>14</LangVersion>
     <EnableTrimAnalyzer>true</EnableTrimAnalyzer>
   </PropertyGroup>
 </Project>
