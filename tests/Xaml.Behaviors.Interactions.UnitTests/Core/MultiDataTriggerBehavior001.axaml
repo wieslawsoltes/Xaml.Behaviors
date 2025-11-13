@@ -1,0 +1,70 @@
+﻿<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        x:Class="Avalonia.Xaml.Interactions.UnitTests.Core.MultiDataTriggerBehavior001"
+        Title="MultiDataTriggerBehavior001"
+        Width="320">
+  <StackPanel Margin="16">
+    <TextBlock Name="TargetTextBlock"
+               Text="">
+      <Interaction.Behaviors>
+        <MultiDataTriggerBehavior>
+          <MultiDataTriggerBehavior.Conditions>
+            <Condition Binding="{Binding #TargetSlider.Value}"
+                       ComparisonCondition="GreaterThanOrEqual"
+                       Value="50" />
+            <Condition Binding="{Binding #TargetCheckBox.IsChecked}"
+                       ComparisonCondition="Equal"
+                       Value="True" />
+          </MultiDataTriggerBehavior.Conditions>
+          <ChangePropertyAction PropertyName="Text"
+                                Value="Ready" />
+        </MultiDataTriggerBehavior>
+        <MultiDataTriggerBehavior>
+          <MultiDataTriggerBehavior.Conditions>
+            <Condition Binding="{Binding #TargetSlider.Value}"
+                       ComparisonCondition="GreaterThanOrEqual"
+                       Value="50" />
+            <Condition Binding="{Binding #TargetCheckBox.IsChecked}"
+                       ComparisonCondition="Equal"
+                       Value="False" />
+          </MultiDataTriggerBehavior.Conditions>
+          <ChangePropertyAction PropertyName="Text"
+                                Value="Checkbox unchecked" />
+        </MultiDataTriggerBehavior>
+        <MultiDataTriggerBehavior>
+          <MultiDataTriggerBehavior.Conditions>
+            <Condition Binding="{Binding #TargetSlider.Value}"
+                       ComparisonCondition="LessThan"
+                       Value="50" />
+            <Condition Binding="{Binding #TargetCheckBox.IsChecked}"
+                       ComparisonCondition="Equal"
+                       Value="True" />
+          </MultiDataTriggerBehavior.Conditions>
+          <ChangePropertyAction PropertyName="Text"
+                                Value="Slider too low" />
+        </MultiDataTriggerBehavior>
+        <MultiDataTriggerBehavior>
+          <MultiDataTriggerBehavior.Conditions>
+            <Condition Binding="{Binding #TargetSlider.Value}"
+                       ComparisonCondition="LessThan"
+                       Value="50" />
+            <Condition Binding="{Binding #TargetCheckBox.IsChecked}"
+                       ComparisonCondition="Equal"
+                       Value="False" />
+          </MultiDataTriggerBehavior.Conditions>
+          <ChangePropertyAction PropertyName="Text"
+                                Value="Move slider and check" />
+        </MultiDataTriggerBehavior>
+      </Interaction.Behaviors>
+    </TextBlock>
+    <CheckBox Name="TargetCheckBox"
+              Content="Enabled"
+              Margin="0,8,0,0" />
+    <Slider Name="TargetSlider"
+            Minimum="0"
+            Maximum="100"
+            SmallChange="25"
+            Value="0"
+            Margin="0,8,0,0" />
+  </StackPanel>
+</Window>
