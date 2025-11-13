@@ -1,8 +1,8 @@
 # XAML Behaviors
 
 
-[![Build Status](https://dev.azure.com/wieslawsoltes/GitHub/_apis/build/status/wieslawsoltes.AvaloniaBehaviors?repoName=wieslawsoltes%2FAvaloniaBehaviors&branchName=master)](https://dev.azure.com/wieslawsoltes/GitHub/_build/latest?definitionId=90&repoName=wieslawsoltes%2FAvaloniaBehaviors&branchName=master)
 [![CI](https://github.com/wieslawsoltes/Xaml.Behaviors/actions/workflows/build.yml/badge.svg?branch=master)](https://github.com/wieslawsoltes/Xaml.Behaviors/actions/workflows/build.yml)
+[![Release](https://github.com/wieslawsoltes/Xaml.Behaviors/actions/workflows/release.yml/badge.svg?branch=master)](https://github.com/wieslawsoltes/Xaml.Behaviors/actions/workflows/release.yml)
 
 [![NuGet](https://img.shields.io/nuget/v/Xaml.Behaviors.Avalonia.svg)](https://www.nuget.org/packages/Xaml.Behaviors.Avalonia)
 [![NuGet](https://img.shields.io/nuget/dt/Xaml.Behaviors.Interactivity.svg)](https://www.nuget.org/packages/Xaml.Behaviors.Interactivity)
@@ -71,19 +71,20 @@ and install the package like this:
 
 ### Available Packages
 
-| Package | Description |
-|---------|-------------|
-| [Xaml.Behaviors](https://www.nuget.org/packages/Xaml.Behaviors) | Complete library of behaviors, actions and triggers for Avalonia applications. |
-| [Xaml.Behaviors.Avalonia](https://www.nuget.org/packages/Xaml.Behaviors.Avalonia) | Meta package that bundles all Avalonia XAML Behaviors for easy installation. |
-| [Xaml.Behaviors.Interactivity](https://www.nuget.org/packages/Xaml.Behaviors.Interactivity) | Foundation library providing base classes for actions, triggers and behaviors. |
-| [Xaml.Behaviors.Interactions](https://www.nuget.org/packages/Xaml.Behaviors.Interactions) | Core collection of common triggers and actions for Avalonia. |
-| [Xaml.Behaviors.Interactions.Custom](https://www.nuget.org/packages/Xaml.Behaviors.Interactions.Custom) | Custom behaviors and actions for common Avalonia controls. |
-| [Xaml.Behaviors.Interactions.DragAndDrop](https://www.nuget.org/packages/Xaml.Behaviors.Interactions.DragAndDrop) | Behaviors that enable drag-and-drop support in Avalonia. |
-| [Xaml.Behaviors.Interactions.Draggable](https://www.nuget.org/packages/Xaml.Behaviors.Interactions.Draggable) | Draggable element behaviors for moving controls around. |
-| [Xaml.Behaviors.Interactions.Events](https://www.nuget.org/packages/Xaml.Behaviors.Interactions.Events) | Behaviors responding to Avalonia input and focus events. |
-| [Xaml.Behaviors.Interactions.ReactiveUI](https://www.nuget.org/packages/Xaml.Behaviors.Interactions.ReactiveUI) | Behaviors integrating ReactiveUI navigation patterns. |
-| [Xaml.Behaviors.Interactions.Responsive](https://www.nuget.org/packages/Xaml.Behaviors.Interactions.Responsive) | Behaviors to assist with responsive and adaptive UI layouts. |
-| [Xaml.Behaviors.Interactions.Scripting](https://www.nuget.org/packages/Xaml.Behaviors.Interactions.Scripting) | Execute C# scripts at runtime to add dynamic behavior. |
+| Package | NuGet | Description |
+|---------|-------|-------------|
+| [Xaml.Behaviors](https://www.nuget.org/packages/Xaml.Behaviors) | [![NuGet](https://img.shields.io/nuget/v/Xaml.Behaviors.svg)](https://www.nuget.org/packages/Xaml.Behaviors) | Complete library of behaviors, actions and triggers for Avalonia applications. |
+| [Xaml.Behaviors.Avalonia](https://www.nuget.org/packages/Xaml.Behaviors.Avalonia) | [![NuGet](https://img.shields.io/nuget/v/Xaml.Behaviors.Avalonia.svg)](https://www.nuget.org/packages/Xaml.Behaviors.Avalonia) | Meta package that bundles all Avalonia XAML Behaviors for easy installation. |
+| [Xaml.Behaviors.Interactivity](https://www.nuget.org/packages/Xaml.Behaviors.Interactivity) | [![NuGet](https://img.shields.io/nuget/v/Xaml.Behaviors.Interactivity.svg)](https://www.nuget.org/packages/Xaml.Behaviors.Interactivity) | Foundation library providing base classes for actions, triggers and behaviors. |
+| [Xaml.Behaviors.Interactions](https://www.nuget.org/packages/Xaml.Behaviors.Interactions) | [![NuGet](https://img.shields.io/nuget/v/Xaml.Behaviors.Interactions.svg)](https://www.nuget.org/packages/Xaml.Behaviors.Interactions) | Core collection of common triggers and actions for Avalonia. |
+| [Xaml.Behaviors.Interactions.Custom](https://www.nuget.org/packages/Xaml.Behaviors.Interactions.Custom) | [![NuGet](https://img.shields.io/nuget/v/Xaml.Behaviors.Interactions.Custom.svg)](https://www.nuget.org/packages/Xaml.Behaviors.Interactions.Custom) | Custom behaviors and actions for common Avalonia controls. |
+| [Xaml.Behaviors.Interactions.DragAndDrop](https://www.nuget.org/packages/Xaml.Behaviors.Interactions.DragAndDrop) | [![NuGet](https://img.shields.io/nuget/v/Xaml.Behaviors.Interactions.DragAndDrop.svg)](https://www.nuget.org/packages/Xaml.Behaviors.Interactions.DragAndDrop) | Behaviors that enable drag-and-drop support in Avalonia. |
+| [Xaml.Behaviors.Interactions.DragAndDrop.DataGrid](https://www.nuget.org/packages/Xaml.Behaviors.Interactions.DragAndDrop.DataGrid) | [![NuGet](https://img.shields.io/nuget/v/Xaml.Behaviors.Interactions.DragAndDrop.DataGrid.svg)](https://www.nuget.org/packages/Xaml.Behaviors.Interactions.DragAndDrop.DataGrid) | DataGrid-specific drag-and-drop helpers built on top of the drag-and-drop framework. |
+| [Xaml.Behaviors.Interactions.Draggable](https://www.nuget.org/packages/Xaml.Behaviors.Interactions.Draggable) | [![NuGet](https://img.shields.io/nuget/v/Xaml.Behaviors.Interactions.Draggable.svg)](https://www.nuget.org/packages/Xaml.Behaviors.Interactions.Draggable) | Draggable element behaviors for moving controls around. |
+| [Xaml.Behaviors.Interactions.Events](https://www.nuget.org/packages/Xaml.Behaviors.Interactions.Events) | [![NuGet](https://img.shields.io/nuget/v/Xaml.Behaviors.Interactions.Events.svg)](https://www.nuget.org/packages/Xaml.Behaviors.Interactions.Events) | Behaviors responding to Avalonia input and focus events. |
+| [Xaml.Behaviors.Interactions.ReactiveUI](https://www.nuget.org/packages/Xaml.Behaviors.Interactions.ReactiveUI) | [![NuGet](https://img.shields.io/nuget/v/Xaml.Behaviors.Interactions.ReactiveUI.svg)](https://www.nuget.org/packages/Xaml.Behaviors.Interactions.ReactiveUI) | Behaviors integrating ReactiveUI navigation patterns. |
+| [Xaml.Behaviors.Interactions.Responsive](https://www.nuget.org/packages/Xaml.Behaviors.Interactions.Responsive) | [![NuGet](https://img.shields.io/nuget/v/Xaml.Behaviors.Interactions.Responsive.svg)](https://www.nuget.org/packages/Xaml.Behaviors.Interactions.Responsive) | Behaviors to assist with responsive and adaptive UI layouts. |
+| [Xaml.Behaviors.Interactions.Scripting](https://www.nuget.org/packages/Xaml.Behaviors.Interactions.Scripting) | [![NuGet](https://img.shields.io/nuget/v/Xaml.Behaviors.Interactions.Scripting.svg)](https://www.nuget.org/packages/Xaml.Behaviors.Interactions.Scripting) | Execute C# scripts at runtime to add dynamic behavior. |
 
 ## Getting Started
 
@@ -407,6 +408,22 @@ This section provides an overview of all available classes and their purpose in 
 
 - **SlidingAnimation** ([Sample](samples/BehaviorsTestApplication/Views/Pages/SlidingAnimationView.axaml))
   *Provides static methods to apply sliding animations (from left, right, top, or bottom) to a control.*
+- **FadeAnimation** ([Sample](samples/BehaviorsTestApplication/Views/Pages/FadeAnimationView.axaml))
+  *Adds composition-driven fade-in, fade-out, and custom opacity transitions.*
+- **ScaleAnimation** ([Sample](samples/BehaviorsTestApplication/Views/Pages/ScaleAnimationView.axaml))
+  *Provides scale, zoom, and bounce helpers implemented with composition animations.*
+- **RotateAnimation** ([Sample](samples/BehaviorsTestApplication/Views/Pages/RotateAnimationView.axaml))
+  *Offers rotation-based composition animations including swing and flip effects.*
+- **EntranceAnimations** ([Sample](samples/BehaviorsTestApplication/Views/Pages/EntranceAnimationsView.axaml))
+  *Ready-to-use fade/slide/zoom entrance animations inspired by CSS motion libraries.*
+- **AttentionAnimations** ([Sample](samples/BehaviorsTestApplication/Views/Pages/AttentionAnimationsView.axaml))
+  *Pulse, shake, flash, and tada animations that mirror common web attention patterns.*
+- **SpecialAnimations** ([Sample](samples/BehaviorsTestApplication/Views/Pages/SpecialAnimationsView.axaml))
+  *House bespoke effects such as the animate.css `flip` approximation implemented via composition helpers.*
+- **ExitAnimations** ([Sample](samples/BehaviorsTestApplication/Views/Pages/ExitAnimationsView.axaml))
+  *Animate.css-inspired exits (back, bounce, fade, rotate, slide, zoom, hinge, roll) built with composition.*
+- **FramerMotionAnimations** ([Sample](samples/BehaviorsTestApplication/Views/Pages/FramerMotionAnimationsView.axaml))
+  *Framer Motion style fade, slide, pop, spring, rotate, and scale presets expressed with composition APIs.*
 - **FluidMoveBehavior** ([Sample](samples/BehaviorsTestApplication/Views/Pages/FluidMoveBehaviorView.axaml))
   *Animates layout changes of a control or its children.*
 
@@ -593,16 +610,22 @@ This section provides an overview of all available classes and their purpose in 
 - **ContextDragBehavior** ([Sample](samples/BehaviorsTestApplication/Views/Pages/EditableDraggableListBoxView.axaml))
   *Enables drag operations using a “context” (data payload) that is carried during the drag–drop operation.*
 
-- **ContextDragWithDirectionBehavior** ([Sample](samples/BehaviorsTestApplication/Views/Pages/EditableDragTreeViewView.axaml))
-  *Starts a drag operation and includes the drag direction in the data object.*
+  - **ContextDragWithDirectionBehavior** ([Sample](samples/BehaviorsTestApplication/Views/Pages/EditableDragTreeViewView.axaml))
+    *Starts a drag operation and includes the drag direction in the data object.*
 
-- **ContextDropBehavior** ([Sample](samples/BehaviorsTestApplication/Views/Pages/TypedDragBehaviorView.axaml))
-  *Handles drop events and passes context data between the drag source and drop target.*
+  - **ContextDropBehavior** ([Sample](samples/BehaviorsTestApplication/Views/Pages/TypedDragBehaviorView.axaml))
+    *Handles drop events and passes context data between the drag source and drop target.*
 
-- **DropHandlerBase** (No sample available.)
-  *Provides common helper methods (move, swap, insert) for implementing custom drop logic.*
+  - **BaseDataGridDropHandler&lt;T&gt;** *(Xaml.Behaviors.Interactions.DragAndDrop.DataGrid)* ([Sample](samples/BehaviorsTestApplication/Views/Pages/DragAndDropView.axaml))
+    *Reusable helper that implements copy, move and swap behaviors for `DataGrid` rows while previewing the final drop position.* Import the bundled adorners with `&lt;StyleInclude Source="avares://Xaml.Behaviors.Interactions.DragAndDrop.DataGrid/Styles.axaml"/&gt;`.
 
-- **IDragHandler** (No sample available.)
+  - **BaseTreeViewDropHandler** *(Xaml.Behaviors.Interactions.DragAndDrop)* ([Sample](samples/BehaviorsTestApplication/Views/Pages/EditableDragTreeViewView.axaml))
+    *Adds consistent drag adorners and validation hooks for hierarchical `TreeView` scenarios, including parent highlighting.* Bring in the default `TreeViewItem` adorners with `&lt;StyleInclude Source="avares://Xaml.Behaviors.Interactions.DragAndDrop/Styles.axaml"/&gt;`.
+
+  - **DropHandlerBase** (No sample available.)
+    *Provides common helper methods (move, swap, insert) for implementing custom drop logic.*
+
+  - **IDragHandler** (No sample available.)
   *Interface for classes that handle additional logic before and after a drag–drop operation.*
 
 - **IDropHandler** (No sample available.)
@@ -901,6 +924,9 @@ This section provides an overview of all available classes and their purpose in 
 
 - **FocusOnPointerPressedBehavior** ([Sample](samples/BehaviorsTestApplication/Views/Pages/FocusOnPointerPressedBehaviorView.axaml))
   *Focuses the control when a pointer press event occurs.*
+
+- **FocusOnVisibleBehavior** ([Sample](samples/BehaviorsTestApplication/Views/Pages/FocusOnVisibleBehaviorView.axaml))
+  *Automatically focuses the control when its IsVisible property changes to true.*
 
 - **FocusSelectedItemBehavior** ([Sample](samples/BehaviorsTestApplication/Views/Pages/FocusSelectedItemBehaviorView.axaml))
   *Focuses the currently selected item in an ItemsControl.*

@@ -111,6 +111,9 @@
       <TabItem Header="FocusOnPointerPressedBehavior">
         <pages:FocusOnPointerPressedBehaviorView />
       </TabItem>
+      <TabItem Header="FocusOnVisibleBehavior">
+        <pages:FocusOnVisibleBehaviorView />
+      </TabItem>
       <TabItem Header="FocusSelectedItemBehavior">
         <pages:FocusSelectedItemBehaviorView />
       </TabItem>
@@ -209,6 +212,30 @@
       </TabItem>
       <TabItem Header="Sliding Animation">
         <pages:SlidingAnimationView />
+      </TabItem>
+      <TabItem Header="Fade Animation">
+        <pages:FadeAnimationView />
+      </TabItem>
+      <TabItem Header="Scale Animation">
+        <pages:ScaleAnimationView />
+      </TabItem>
+      <TabItem Header="Rotate Animation">
+        <pages:RotateAnimationView />
+      </TabItem>
+      <TabItem Header="Entrance Animations">
+        <pages:EntranceAnimationsView />
+      </TabItem>
+      <TabItem Header="Attention Animations">
+        <pages:AttentionAnimationsView />
+      </TabItem>
+      <TabItem Header="Exit Animations">
+        <pages:ExitAnimationsView />
+      </TabItem>
+      <TabItem Header="Framer Motion Animations">
+        <pages:FramerMotionAnimationsView />
+      </TabItem>
+      <TabItem Header="Special Animations">
+        <pages:SpecialAnimationsView />
       </TabItem>
       <TabItem Header="Animation Behaviors">
         <pages:AnimationBehaviorView />

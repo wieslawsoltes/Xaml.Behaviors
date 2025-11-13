@@ -156,10 +156,10 @@ public class ManagedContextDragBehavior : StyledElementBehavior<Control>
     {
         var ao = AssociatedObject;
         _topLevel = ao != null ? TopLevel.GetTopLevel(ao) : null;
-        ao?.AddHandler(InputElement.PointerPressedEvent, OnPointerPressed, RoutingStrategies.Tunnel | RoutingStrategies.Bubble);
-        ao?.AddHandler(InputElement.PointerReleasedEvent, OnPointerReleased, RoutingStrategies.Tunnel | RoutingStrategies.Bubble);
-        ao?.AddHandler(InputElement.PointerMovedEvent, OnPointerMoved, RoutingStrategies.Tunnel | RoutingStrategies.Bubble);
-        ao?.AddHandler(InputElement.PointerCaptureLostEvent, OnCaptureLost, RoutingStrategies.Tunnel | RoutingStrategies.Bubble);
+        ao?.AddHandler(InputElement.PointerPressedEvent, OnPointerPressed, RoutingStrategies.Direct | RoutingStrategies.Tunnel | RoutingStrategies.Bubble);
+        ao?.AddHandler(InputElement.PointerReleasedEvent, OnPointerReleased, RoutingStrategies.Direct | RoutingStrategies.Tunnel | RoutingStrategies.Bubble);
+        ao?.AddHandler(InputElement.PointerMovedEvent, OnPointerMoved, RoutingStrategies.Direct | RoutingStrategies.Tunnel | RoutingStrategies.Bubble);
+        ao?.AddHandler(InputElement.PointerCaptureLostEvent, OnCaptureLost, RoutingStrategies.Direct | RoutingStrategies.Tunnel | RoutingStrategies.Bubble);
     }
 
     /// <inheritdoc />
@@ -177,9 +177,9 @@ public class ManagedContextDragBehavior : StyledElementBehavior<Control>
     private void AttachTopLevelHandlers()
     {
         if (_topLevel is null) return;
-        _topLevel.AddHandler(InputElement.PointerMovedEvent, OnTopLevelPointerMoved, RoutingStrategies.Tunnel | RoutingStrategies.Bubble, handledEventsToo: true);
-        _topLevel.AddHandler(InputElement.PointerReleasedEvent, OnTopLevelPointerReleased, RoutingStrategies.Tunnel | RoutingStrategies.Bubble, handledEventsToo: true);
-        _topLevel.AddHandler(InputElement.PointerCaptureLostEvent, OnTopLevelPointerCaptureLost, RoutingStrategies.Tunnel | RoutingStrategies.Bubble, handledEventsToo: true);
+        _topLevel.AddHandler(InputElement.PointerMovedEvent, OnTopLevelPointerMoved, RoutingStrategies.Direct | RoutingStrategies.Tunnel | RoutingStrategies.Bubble, handledEventsToo: true);
+        _topLevel.AddHandler(InputElement.PointerReleasedEvent, OnTopLevelPointerReleased, RoutingStrategies.Direct | RoutingStrategies.Tunnel | RoutingStrategies.Bubble, handledEventsToo: true);
+        _topLevel.AddHandler(InputElement.PointerCaptureLostEvent, OnTopLevelPointerCaptureLost, RoutingStrategies.Direct | RoutingStrategies.Tunnel | RoutingStrategies.Bubble, handledEventsToo: true);
     }
 
     private void DetachTopLevelHandlers()
@@ -293,7 +293,7 @@ public class ManagedContextDragBehavior : StyledElementBehavior<Control>
         var ao = AssociatedObject;
         if (ao is null) return;
         var properties = e.GetCurrentPoint(ao).Properties;
-        if (properties.IsLeftButtonPressed)
+        if (properties.IsLeftButtonPressed && IsEnabled)
         {
             if (e.Source is Control control && ao.DataContext == control.DataContext)
             {
@@ -331,7 +331,7 @@ public class ManagedContextDragBehavior : StyledElementBehavior<Control>
     {
         var ao = AssociatedObject;
         if (ao is null) return;
-        if (!_captured || _triggerEvent is null)
+        if (!_captured || _triggerEvent is null || !IsEnabled)
             return;
 
         if (s_isDragging)

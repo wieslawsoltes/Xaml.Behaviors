@@ -1,0 +1,106 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:custom="using:Avalonia.Xaml.Interactions.Custom"
+             mc:Ignorable="d" d:DesignWidth="900" d:DesignHeight="600"
+             x:Class="BehaviorsTestApplication.Views.Pages.AttentionAnimationsView">
+  <TabControl>
+    <TabItem Header="Bounce">
+      <Border Margin="12" Width="220" Height="150" Background="#FFE6F2" CornerRadius="12" custom:AttentionAnimations.Bounce="900">
+        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="6">
+          <TextBlock Text="Bounce" FontSize="18" HorizontalAlignment="Center" />
+          <TextBlock Text="Y-offset bounce inspired by animate.css" TextWrapping="Wrap" HorizontalAlignment="Center" />
+        </StackPanel>
+      </Border>
+    </TabItem>
+    <TabItem Header="Flash">
+      <Border Margin="12" Width="220" Height="150" Background="#ECEFF1" CornerRadius="12" custom:AttentionAnimations.Flash="900">
+        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="6">
+          <TextBlock Text="Flash" FontSize="18" HorizontalAlignment="Center" />
+          <TextBlock Text="Opacity pulses" TextWrapping="Wrap" HorizontalAlignment="Center" />
+        </StackPanel>
+      </Border>
+    </TabItem>
+    <TabItem Header="Pulse">
+      <Border Margin="12" Width="220" Height="150" Background="#E8F4FF" CornerRadius="12" custom:AttentionAnimations.Pulse="900">
+        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="6">
+          <TextBlock Text="Pulse" FontSize="18" HorizontalAlignment="Center" />
+          <TextBlock Text="Subtle scale pulse" TextWrapping="Wrap" HorizontalAlignment="Center" />
+        </StackPanel>
+      </Border>
+    </TabItem>
+    <TabItem Header="RubberBand">
+      <Border Margin="12" Width="220" Height="150" Background="#FFF3E0" CornerRadius="12" custom:AttentionAnimations.RubberBand="900">
+        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="6">
+          <TextBlock Text="RubberBand" FontSize="18" HorizontalAlignment="Center" />
+          <TextBlock Text="Axis-stretch rubber band" TextWrapping="Wrap" HorizontalAlignment="Center" />
+        </StackPanel>
+      </Border>
+    </TabItem>
+    <TabItem Header="Shake X">
+      <Border Margin="12" Width="220" Height="150" Background="#F1F8E9" CornerRadius="12" custom:AttentionAnimations.ShakeX="900">
+        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="6">
+          <TextBlock Text="Shake X" FontSize="18" HorizontalAlignment="Center" />
+          <TextBlock Text="Horizontal validation shake" TextWrapping="Wrap" HorizontalAlignment="Center" />
+        </StackPanel>
+      </Border>
+    </TabItem>
+    <TabItem Header="Shake Y">
+      <Border Margin="12" Width="220" Height="150" Background="#FFF9C4" CornerRadius="12" custom:AttentionAnimations.ShakeY="900">
+        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="6">
+          <TextBlock Text="Shake Y" FontSize="18" HorizontalAlignment="Center" />
+          <TextBlock Text="Vertical bounce" TextWrapping="Wrap" HorizontalAlignment="Center" />
+        </StackPanel>
+      </Border>
+    </TabItem>
+    <TabItem Header="Head Shake">
+      <Border Margin="12" Width="220" Height="150" Background="#EDE7F6" CornerRadius="12" custom:AttentionAnimations.HeadShake="900">
+        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="6">
+          <TextBlock Text="Head Shake" FontSize="18" HorizontalAlignment="Center" />
+          <TextBlock Text="Rotation plus offset" TextWrapping="Wrap" HorizontalAlignment="Center" />
+        </StackPanel>
+      </Border>
+    </TabItem>
+    <TabItem Header="Swing">
+      <Border Margin="12" Width="220" Height="150" Background="#FFE0B2" CornerRadius="12" custom:AttentionAnimations.Swing="900">
+        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="6">
+          <TextBlock Text="Swing" FontSize="18" HorizontalAlignment="Center" />
+          <TextBlock Text="Top-anchored pendulum" TextWrapping="Wrap" HorizontalAlignment="Center" />
+        </StackPanel>
+      </Border>
+    </TabItem>
+    <TabItem Header="Tada">
+      <Border Margin="12" Width="220" Height="150" Background="#D1C4E9" CornerRadius="12" custom:AttentionAnimations.Tada="1100">
+        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="6">
+          <TextBlock Text="Tada" FontSize="18" HorizontalAlignment="Center" />
+          <TextBlock Text="Celebrate with spin" TextWrapping="Wrap" HorizontalAlignment="Center" />
+        </StackPanel>
+      </Border>
+    </TabItem>
+    <TabItem Header="Wobble">
+      <Border Margin="12" Width="220" Height="150" Background="#DCEDC8" CornerRadius="12" custom:AttentionAnimations.Wobble="1100">
+        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="6">
+          <TextBlock Text="Wobble" FontSize="18" HorizontalAlignment="Center" />
+          <TextBlock Text="Translation + rotation wobble" TextWrapping="Wrap" HorizontalAlignment="Center" />
+        </StackPanel>
+      </Border>
+    </TabItem>
+    <TabItem Header="Jello">
+      <Border Margin="12" Width="220" Height="150" Background="#F8BBD0" CornerRadius="12" custom:AttentionAnimations.Jello="1100">
+        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="6">
+          <TextBlock Text="Jello" FontSize="18" HorizontalAlignment="Center" />
+          <TextBlock Text="Squishy scale effect" TextWrapping="Wrap" HorizontalAlignment="Center" />
+        </StackPanel>
+      </Border>
+    </TabItem>
+    <TabItem Header="Heart Beat">
+      <Border Margin="12" Width="220" Height="150" Background="#FFCDD2" CornerRadius="12" custom:AttentionAnimations.HeartBeat="1200">
+        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="6">
+          <TextBlock Text="Heart Beat" FontSize="18" HorizontalAlignment="Center" />
+          <TextBlock Text="Pulse twice like a heartbeat" TextWrapping="Wrap" HorizontalAlignment="Center" />
+        </StackPanel>
+      </Border>
+    </TabItem>
+  </TabControl>
+</UserControl>

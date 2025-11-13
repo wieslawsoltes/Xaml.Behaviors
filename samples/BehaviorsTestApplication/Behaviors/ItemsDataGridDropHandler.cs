@@ -2,6 +2,7 @@ using System.Collections.ObjectModel;
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.VisualTree;
+using Avalonia.Xaml.Interactions.DragAndDrop;
 using BehaviorsTestApplication.ViewModels;
 
 namespace BehaviorsTestApplication.Behaviors;
@@ -11,7 +12,7 @@ public sealed class ItemsDataGridDropHandler : BaseDataGridDropHandler<DragItemV
     protected override DragItemViewModel MakeCopy(ObservableCollection<DragItemViewModel> parentCollection, DragItemViewModel dragItem) =>
         new() { Title = dragItem.Title };
 
-    protected override bool Validate(DataGrid dg, DragEventArgs e, object? sourceContext, object? targetContext, bool bExecute)
+    protected override bool Validate(DataGrid dg, DragEventArgs e, object? sourceContext, object? targetContext, bool execute)
     {
         if (sourceContext is not DragItemViewModel sourceItem
          || targetContext is not DragAndDropSampleViewModel vm
@@ -22,6 +23,6 @@ public sealed class ItemsDataGridDropHandler : BaseDataGridDropHandler<DragItemV
         }
 
         var items = vm.Items;
-        return RunDropAction(dg, e, bExecute, sourceItem, targetItem, items);
+        return RunDropAction(dg, e, execute, sourceItem, targetItem, items);
     }
 }

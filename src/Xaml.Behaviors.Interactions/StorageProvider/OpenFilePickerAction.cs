@@ -77,16 +77,18 @@ public class OpenFilePickerAction : PickerActionBase
             return;
         }
 
-        var storageProvider = StorageProvider ?? (visual.GetSelfAndLogicalAncestors().LastOrDefault() as TopLevel)?.StorageProvider;
+        var storageProvider = ResolveStorageProvider(visual);
         if (storageProvider is null)
         {
             return;
         }
 
+        var suggestedStartLocation = ResolveSuggestedStartLocation(storageProvider);
+
         var files = await storageProvider.OpenFilePickerAsync(new FilePickerOpenOptions
         {
             Title = Title,
-            SuggestedStartLocation = SuggestedStartLocation,
+            SuggestedStartLocation = suggestedStartLocation,
             SuggestedFileName = SuggestedFileName,
             AllowMultiple = AllowMultiple,
             FileTypeFilter = FileTypeFilter is not null 

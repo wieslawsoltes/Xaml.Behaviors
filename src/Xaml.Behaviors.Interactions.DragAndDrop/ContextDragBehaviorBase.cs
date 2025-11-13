@@ -137,16 +137,17 @@ public abstract class ContextDragBehaviorBase : StyledElementBehavior<Control>
     private void AssociatedObject_PointerPressed(object? sender, PointerPressedEventArgs e)
     {
         var properties = e.GetCurrentPoint(AssociatedObject).Properties;
-        if (properties.IsLeftButtonPressed)
+        if (properties.IsLeftButtonPressed && IsEnabled)
         {
             if (e.Source is Control control
                 && AssociatedObject?.DataContext == control.DataContext)
             {
-                if ((control as ISelectable
+                if ((e.KeyModifiers & (KeyModifiers.Control | KeyModifiers.Meta | KeyModifiers.Shift)) == 0
+                    && ((control as ISelectable
                     ?? control.Parent as ISelectable
                     ?? control.FindLogicalAncestorOfType<ISelectable>())
                         ?.IsSelected
-                    ?? false)
+                    ?? false))
                 {
                     e.Handled = true; //avoid deselection on drag
                 }
@@ -179,7 +180,7 @@ public abstract class ContextDragBehaviorBase : StyledElementBehavior<Control>
     {
         var properties = e.GetCurrentPoint(AssociatedObject).Properties;
         if (_captured
-            && properties.IsLeftButtonPressed &&
+            && properties.IsLeftButtonPressed && IsEnabled &&
             _triggerEvent is not null)
         {
             var point = e.GetPosition(null);

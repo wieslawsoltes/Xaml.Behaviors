@@ -1,0 +1,27 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <Style Selector="TreeViewItem.DraggingUp">
+    <Setter Property="AdornerLayer.Adorner">
+      <Template>
+        <Border BorderThickness="0 2 0 0"
+                BorderBrush="{DynamicResource SystemAccentColor}"
+                IsHitTestVisible="False" />
+      </Template>
+    </Setter>
+  </Style>
+
+  <Style Selector="TreeViewItem.DraggingDown">
+    <Setter Property="AdornerLayer.Adorner">
+      <Template>
+        <Border BorderThickness="0 0 0 2"
+                BorderBrush="{DynamicResource SystemAccentColor}"
+                IsHitTestVisible="False" />
+      </Template>
+    </Setter>
+  </Style>
+
+  <Style Selector="TreeViewItem.TargetHighlight">
+    <Setter Property="Background"
+            Value="{DynamicResource TreeViewItemBackgroundPointerOver}" />
+  </Style>
+</Styles>

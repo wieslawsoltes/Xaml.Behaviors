@@ -1,0 +1,94 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:custom="using:Avalonia.Xaml.Interactions.Custom"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="BehaviorsTestApplication.Views.Pages.RotateAnimationView">
+  <TabControl>
+    <TabItem Header="Rotate Clockwise">
+      <Panel ClipToBounds="False">
+        <Border Name="Border1"
+                Background="Lavender"
+                custom:RotateAnimation.RotateClockwise="2000">
+          <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="6">
+            <TextBlock Text="TextBlock" FontSize="16"/>
+            <CheckBox IsChecked="True" Content="CheckBox" />
+            <TextBlock Text="TextBlock" FontSize="16"/>
+            <TextBox Text="TextBox" Width="200"/>
+          </StackPanel>
+        </Border>
+      </Panel>
+    </TabItem>
+    <TabItem Header="Rotate Counter-Clockwise">
+      <Panel ClipToBounds="False">
+        <Border Name="Border2"
+                Background="Thistle"
+                custom:RotateAnimation.RotateCounterClockwise="2000">
+          <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="6">
+            <TextBlock Text="TextBlock" FontSize="16"/>
+            <CheckBox IsChecked="True" Content="CheckBox" />
+            <TextBlock Text="TextBlock" FontSize="16"/>
+            <TextBox Text="TextBox" Width="200"/>
+          </StackPanel>
+        </Border>
+      </Panel>
+    </TabItem>
+    <TabItem Header="Rotate In">
+      <Panel ClipToBounds="False">
+        <Border Name="Border3"
+                Background="PaleGreen"
+                custom:RotateAnimation.RotateIn="1000">
+          <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="6">
+            <TextBlock Text="TextBlock" FontSize="16"/>
+            <CheckBox IsChecked="True" Content="CheckBox" />
+            <TextBlock Text="TextBlock" FontSize="16"/>
+            <TextBox Text="TextBox" Width="200"/>
+          </StackPanel>
+        </Border>
+      </Panel>
+    </TabItem>
+    <TabItem Header="Rotate Out">
+      <Panel ClipToBounds="False">
+        <Border Name="Border4"
+                Background="PaleTurquoise"
+                custom:RotateAnimation.RotateOut="1000">
+          <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="6">
+            <TextBlock Text="TextBlock" FontSize="16"/>
+            <CheckBox IsChecked="True" Content="CheckBox" />
+            <TextBlock Text="TextBlock" FontSize="16"/>
+            <TextBox Text="TextBox" Width="200"/>
+          </StackPanel>
+        </Border>
+      </Panel>
+    </TabItem>
+    <TabItem Header="Flip">
+      <Panel ClipToBounds="False">
+        <Border Name="Border5"
+                Background="PeachPuff"
+                custom:RotateAnimation.Flip="1000">
+          <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="6">
+            <TextBlock Text="TextBlock" FontSize="16"/>
+            <CheckBox IsChecked="True" Content="CheckBox" />
+            <TextBlock Text="TextBlock" FontSize="16"/>
+            <TextBox Text="TextBox" Width="200"/>
+          </StackPanel>
+        </Border>
+      </Panel>
+    </TabItem>
+    <TabItem Header="Swing">
+      <Panel ClipToBounds="False">
+        <Border Name="Border6"
+                Background="MistyRose"
+                custom:RotateAnimation.Swing="1000">
+          <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="6">
+            <TextBlock Text="TextBlock" FontSize="16"/>
+            <CheckBox IsChecked="True" Content="CheckBox" />
+            <TextBlock Text="TextBlock" FontSize="16"/>
+            <TextBox Text="TextBox" Width="200"/>
+          </StackPanel>
+        </Border>
+      </Panel>
+    </TabItem>
+  </TabControl>
+</UserControl>

@@ -21,10 +21,28 @@ jobs:
     runs-on: ${{ matrix.os }}
 
     steps:
-    - uses: actions/checkout@v1
-    - name: Setup .NET Core
-      uses: actions/setup-dotnet@v1
+    - name: Checkout
+      uses: actions/checkout@v4
+
+    - name: Setup .NET SDK
+      uses: actions/setup-dotnet@v4
+      with:
+        global-json-file: global.json
+
     - name: Build Release
       run: dotnet build --configuration Release
+
     - name: Test Release
       run: dotnet test --configuration Release
+
+    - name: Pack NuGet
+      if: matrix.os == 'ubuntu-latest'
+      run: dotnet run --project build/build/_build.csproj --target Pack --configuration Release
+
+    - name: Upload NuGet artifacts
+      if: matrix.os == 'ubuntu-latest'
+      uses: actions/upload-artifact@v4
+      with:
+        name: nuget-packages
+        path: artifacts/NuGet
+        if-no-files-found: error

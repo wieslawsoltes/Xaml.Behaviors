@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net9.0</TargetFramework>
+    <TargetFramework>net10.0</TargetFramework>
     <GenerateAssemblyInfo>False</GenerateAssemblyInfo>
     <IsPackable>False</IsPackable>
     <Nullable>enable</Nullable>
@@ -29,12 +29,12 @@
     <PackageReference Include="Avalonia.Diagnostics" Condition="'$(Configuration)' == 'Debug'" />
     <PackageReference Include="Avalonia.Themes.Fluent" />
     <PackageReference Include="Avalonia.Fonts.Inter" />
-    <PackageReference Include="Avalonia.ReactiveUI" />
     <PackageReference Include="Avalonia.Controls.DataGrid" />
     <PackageReference Include="ReactiveGenerator">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="ReactiveUI.Avalonia" />
   </ItemGroup>
 
   <ItemGroup>
@@ -51,6 +51,7 @@
     <ProjectReference Include="..\..\src\Xaml.Behaviors.Interactions\Xaml.Behaviors.Interactions.csproj" />
     <ProjectReference Include="..\..\src\Xaml.Behaviors.Interactions.Custom\Xaml.Behaviors.Interactions.Custom.csproj" />
     <ProjectReference Include="..\..\src\Xaml.Behaviors.Interactions.DragAndDrop\Xaml.Behaviors.Interactions.DragAndDrop.csproj" />
+    <ProjectReference Include="..\..\src\Xaml.Behaviors.Interactions.DragAndDrop.DataGrid\Xaml.Behaviors.Interactions.DragAndDrop.DataGrid.csproj" />
     <ProjectReference Include="..\..\src\Xaml.Behaviors.Interactions.Draggable\Xaml.Behaviors.Interactions.Draggable.csproj" />
     <ProjectReference Include="..\..\src\Xaml.Behaviors.Interactions.Events\Xaml.Behaviors.Interactions.Events.csproj" />
     <ProjectReference Include="..\..\src\Xaml.Behaviors.Interactions.Responsive\Xaml.Behaviors.Interactions.Responsive.csproj" />

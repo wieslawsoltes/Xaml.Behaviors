@@ -1,0 +1,23 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:custom="using:Avalonia.Xaml.Interactions.Custom"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="BehaviorsTestApplication.Views.Pages.SpecialAnimationsView">
+  <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="*" />
+    </Grid.RowDefinitions>
+    <TextBlock Text="Special Animations" FontSize="20" Margin="12" />
+    <WrapPanel Grid.Row="1" Margin="12" ItemSpacing="16" HorizontalAlignment="Center">
+      <Border Width="220" Height="160" Background="#FFFDE7" CornerRadius="12" custom:SpecialAnimations.Flip="1000">
+        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="6">
+          <TextBlock Text="Flip" FontSize="18" HorizontalAlignment="Center" />
+          <TextBlock Text="Approximation of animate.css flip" TextWrapping="Wrap" MaxWidth="180" HorizontalAlignment="Center" />
+        </StackPanel>
+      </Border>
+    </WrapPanel>
+  </Grid>
+</UserControl>
