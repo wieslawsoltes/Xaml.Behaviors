@@ -99,7 +99,7 @@ public class ItemDragBehavior : StyledElementBehavior<Control>
     {
         var properties = e.GetCurrentPoint(AssociatedObject).Properties;
         if (properties.IsLeftButtonPressed 
-            && AssociatedObject?.Parent is ItemsControl itemsControl)
+            && AssociatedObject?.Parent is ItemsControl itemsControl && IsEnabled)
         {
             _enableDrag = true;
             _dragStarted = false;
@@ -266,7 +266,7 @@ public class ItemDragBehavior : StyledElementBehavior<Control>
     {
         var properties = e.GetCurrentPoint(AssociatedObject).Properties;
         if (_captured
-            && properties.IsLeftButtonPressed)
+            && properties.IsLeftButtonPressed && IsEnabled)
         {
             if (_itemsControl?.Items is null || _draggedContainer?.RenderTransform is null || !_enableDrag)
             {

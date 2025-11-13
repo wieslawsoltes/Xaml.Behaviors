@@ -78,7 +78,7 @@ public class CanvasDragBehavior : StyledElementBehavior<Control>
     {
         var properties = e.GetCurrentPoint(AssociatedObject).Properties;
         if (properties.IsLeftButtonPressed 
-            && AssociatedObject?.Parent is Control parent)
+            && AssociatedObject?.Parent is Control parent && IsEnabled)
         {
             _enableDrag = true;
             _start = e.GetPosition(parent);
@@ -116,7 +116,7 @@ public class CanvasDragBehavior : StyledElementBehavior<Control>
     {
         var properties = e.GetCurrentPoint(AssociatedObject).Properties;
         if (_captured
-            && properties.IsLeftButtonPressed)
+            && properties.IsLeftButtonPressed && IsEnabled)
         {
             if (_parent is null || _draggedContainer is null || !_enableDrag)
             {

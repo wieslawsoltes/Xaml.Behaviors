@@ -293,7 +293,7 @@ public class ManagedContextDragBehavior : StyledElementBehavior<Control>
         var ao = AssociatedObject;
         if (ao is null) return;
         var properties = e.GetCurrentPoint(ao).Properties;
-        if (properties.IsLeftButtonPressed)
+        if (properties.IsLeftButtonPressed && IsEnabled)
         {
             if (e.Source is Control control && ao.DataContext == control.DataContext)
             {
@@ -331,7 +331,7 @@ public class ManagedContextDragBehavior : StyledElementBehavior<Control>
     {
         var ao = AssociatedObject;
         if (ao is null) return;
-        if (!_captured || _triggerEvent is null)
+        if (!_captured || _triggerEvent is null || !IsEnabled)
             return;
 
         if (s_isDragging)
