@@ -70,7 +70,7 @@ public class ConditionTests
 
 public class ConditionCollectionTests
 {
-    [Fact]
+    [AvaloniaFact]
     public void Can_Add_Conditions()
     {
         var collection = new ConditionCollection();
@@ -82,7 +82,7 @@ public class ConditionCollectionTests
         Assert.Same(condition, collection[0]);
     }
 
-    [Fact]
+    [AvaloniaFact]
     public void Clear_Removes_All_Items()
     {
         var collection = new ConditionCollection
