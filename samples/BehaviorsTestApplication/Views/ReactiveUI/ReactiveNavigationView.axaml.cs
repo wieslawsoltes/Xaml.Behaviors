@@ -1,7 +1,7 @@
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
-using Avalonia.ReactiveUI;
 using BehaviorsTestApplication.ViewModels;
+using ReactiveUI.Avalonia;
 
 namespace BehaviorsTestApplication.Views.Pages;
 
