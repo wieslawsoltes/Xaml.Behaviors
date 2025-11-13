@@ -88,9 +88,9 @@
     </Button>
     <Button Content="Open Folders" Grid.Row="2" Grid.Column="2" Margin="0,5,0,5">
       <Interaction.Behaviors>
-        <ButtonOpenFolderPickerBehavior Command="{Binding OpenFoldersCommand}"
-                                        Title="Open Folders"
+        <ButtonOpenFolderPickerBehavior Title="Open Folders"
                                         AllowMultiple="True"
+                                        Pick="ButtonOpenFolderPickerBehavior_OnPick"
                                         SuggestedStartLocationPath="{Binding DocumentsFolderPath}" />
       </Interaction.Behaviors>
     </Button>

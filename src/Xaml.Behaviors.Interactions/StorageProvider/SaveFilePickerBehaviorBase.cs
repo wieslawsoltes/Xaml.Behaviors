@@ -1,5 +1,6 @@
 // Copyright (c) Wiesław Šoltés. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for details.
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Avalonia.Controls;
@@ -13,6 +14,11 @@ namespace Avalonia.Xaml.Interactions.Core;
 /// </summary>
 public abstract class SaveFilePickerBehaviorBase : PickerBehaviorBase
 {
+    /// <summary>
+    /// Occurs after the save file picker successfully returns a file.
+    /// </summary>
+    public event EventHandler<SaveFilePickerEventArgs>? Pick;
+
     /// <summary>
     /// Identifies the <seealso cref="DefaultExtension"/> avalonia property.
     /// </summary>
@@ -83,7 +89,8 @@ public abstract class SaveFilePickerBehaviorBase : PickerBehaviorBase
 
     private async Task SaveFilePickerAsync(Visual visual)
     {
-        if (IsEnabled != true || Command is null)
+        var command = Command;
+        if (IsEnabled != true || (command is null && Pick is null))
         {
             return;
         }
@@ -113,13 +120,29 @@ public abstract class SaveFilePickerBehaviorBase : PickerBehaviorBase
             return;
         }
 
-        var resolvedParameter = ResolveParameter(file);
-
-        if (!Command.CanExecute(resolvedParameter))
+        var eventArgs = new SaveFilePickerEventArgs(file);
+        OnPick(eventArgs);
+        if (eventArgs.Handled || command is null)
         {
             return;
         }
 
-        Command.Execute(resolvedParameter);
+        var resolvedParameter = ResolveParameter(file);
+
+        if (!command.CanExecute(resolvedParameter))
+        {
+            return;
+        }
+
+        command.Execute(resolvedParameter);
+    }
+
+    /// <summary>
+    /// Raises the <see cref="Pick"/> event.
+    /// </summary>
+    /// <param name="args">Event arguments describing the picked file.</param>
+    protected virtual void OnPick(SaveFilePickerEventArgs args)
+    {
+        Pick?.Invoke(this, args);
     }
 }
