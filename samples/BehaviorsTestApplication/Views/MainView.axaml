@@ -39,9 +39,6 @@
       <TabItem Header="ChangePropertyAction">
         <pages:ChangePropertyActionView />
       </TabItem>
-      <TabItem Header="AvaloniaObject.Behaviors">
-        <pages:BehaviorsExtensionMembersView />
-      </TabItem>
       <TabItem Header="DataTriggerBehavior">
         <pages:DataTriggerBehaviorView />
       </TabItem>
