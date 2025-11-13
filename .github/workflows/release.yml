@@ -1,0 +1,86 @@
+name: GitHub Release
+
+permissions:
+  contents: write
+
+on:
+  push:
+    tags:
+    - v*
+    - release/*
+  workflow_dispatch:
+    inputs:
+      tag_name:
+        description: Existing git tag to release (e.g. v11.3.8)
+        required: true
+
+jobs:
+  release:
+    name: Create GitHub Release
+    runs-on: ubuntu-latest
+    env:
+      NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+
+    - name: Checkout selected tag
+      if: github.event_name == 'workflow_dispatch'
+      run: |
+        git fetch --tags --force
+        git checkout ${{ github.event.inputs.tag_name }}
+
+    - name: Setup .NET SDK
+      uses: actions/setup-dotnet@v4
+      with:
+        global-json-file: global.json
+
+    - name: Pack
+      run: dotnet run --project build/build/_build.csproj --target Pack --configuration Release
+
+    - name: Push NuGet packages
+      run: |
+        if [ -z "$NUGET_API_KEY" ]; then
+          echo "The NUGET_API_KEY secret is not configured."
+          exit 1
+        fi
+
+        shopt -s nullglob
+        packages=(artifacts/NuGet/*.nupkg artifacts/NuGet/*.snupkg)
+        if [ ${#packages[@]} -eq 0 ]; then
+          echo "No packages found in artifacts/NuGet."
+          exit 1
+        fi
+
+        for package in "${packages[@]}"; do
+          dotnet nuget push "$package" --source https://api.nuget.org/v3/index.json --api-key "$NUGET_API_KEY" --skip-duplicate
+        done
+
+    - name: Set release tag from ref
+      if: github.event_name != 'workflow_dispatch'
+      run: echo "RELEASE_TAG=${GITHUB_REF#refs/tags/}" >> $GITHUB_ENV
+
+    - name: Set release tag from input
+      if: github.event_name == 'workflow_dispatch'
+      run: echo "RELEASE_TAG=${{ github.event.inputs.tag_name }}" >> $GITHUB_ENV
+
+    - name: Determine release type
+      run: |
+        tag="$RELEASE_TAG"
+        if [[ "$tag" == *"-alpha"* || "$tag" == *"-beta"* || "$tag" == *"-rc"* || "$tag" == *"-preview"* ]]; then
+          echo "IS_PRERELEASE=true" >> "$GITHUB_ENV"
+        else
+          echo "IS_PRERELEASE=false" >> "$GITHUB_ENV"
+        fi
+
+    - name: Create GitHub release
+      uses: softprops/action-gh-release@v2
+      with:
+        tag_name: ${{ env.RELEASE_TAG }}
+        name: Avalonia.Xaml.Behaviors ${{ env.RELEASE_TAG }}
+        body: Automated release for ${{ env.RELEASE_TAG }}.
+        draft: false
+        prerelease: ${{ env.IS_PRERELEASE == 'true' }}
