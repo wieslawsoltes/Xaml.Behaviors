@@ -158,7 +158,7 @@ public class ListReorderDragBehavior : ItemDragBehavior
     private void OnPointerMoved(object? sender, PointerEventArgs e)
     {
         var properties = e.GetCurrentPoint(AssociatedObject).Properties;
-        if (_captured && properties.IsLeftButtonPressed)
+        if (_captured && properties.IsLeftButtonPressed && IsEnabled)
         {
             if (_itemsControl?.Items is null || !_enableDrag)
             {

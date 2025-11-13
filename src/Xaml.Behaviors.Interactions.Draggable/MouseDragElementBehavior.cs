@@ -99,7 +99,7 @@ public class MouseDragElementBehavior : StyledElementBehavior<Control>
     private void Moved(object? sender, PointerEventArgs e)
     {
         var properties = e.GetCurrentPoint(AssociatedObject).Properties;
-        if (!_captured || !properties.IsLeftButtonPressed || _parent is null || _transform is null)
+        if (!_captured || !properties.IsLeftButtonPressed || _parent is null || _transform is null || !IsEnabled)
         {
             return;
         }

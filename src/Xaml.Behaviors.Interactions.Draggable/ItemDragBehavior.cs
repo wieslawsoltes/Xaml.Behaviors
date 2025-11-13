@@ -98,7 +98,7 @@ public class ItemDragBehavior : StyledElementBehavior<Control>
     private void PointerPressed(object? sender, PointerPressedEventArgs e)
     {
         var properties = e.GetCurrentPoint(AssociatedObject).Properties;
-        if (properties.IsLeftButtonPressed
+        if (properties.IsLeftButtonPressed 
             && AssociatedObject?.Parent is ItemsControl itemsControl && IsEnabled)
         {
             _enableDrag = true;
@@ -202,9 +202,9 @@ public class ItemDragBehavior : StyledElementBehavior<Control>
             {
                 SetTranslateTransform(container, 0, 0);
             }
-
+  
             i++;
-        }
+        }  
     }
 
     private void RemoveTransforms(ItemsControl? itemsControl)
@@ -223,9 +223,9 @@ public class ItemDragBehavior : StyledElementBehavior<Control>
             {
                 SetTranslateTransform(container, 0, 0);
             }
-
+  
             i++;
-        }
+        }  
     }
 
     private void MoveDraggedItem(ItemsControl? itemsControl, int draggedIndex, int targetIndex)
@@ -243,7 +243,7 @@ public class ItemDragBehavior : StyledElementBehavior<Control>
         }
         else
         {
-            if (itemsControl?.Items is { IsReadOnly: false } itemCollection)
+            if (itemsControl?.Items is {IsReadOnly: false} itemCollection)
             {
                 var draggedItem = itemCollection[draggedIndex];
                 itemCollection.RemoveAt(draggedIndex);
@@ -257,7 +257,7 @@ public class ItemDragBehavior : StyledElementBehavior<Control>
                 if (itemsControl is SelectingItemsControl selectingItemsControl)
                 {
                     selectingItemsControl.SelectedIndex = targetIndex;
-                }
+                } 
             }
         }
     }
@@ -266,7 +266,7 @@ public class ItemDragBehavior : StyledElementBehavior<Control>
     {
         var properties = e.GetCurrentPoint(AssociatedObject).Properties;
         if (_captured
-            && properties.IsLeftButtonPressed)
+            && properties.IsLeftButtonPressed && IsEnabled)
         {
             if (_itemsControl?.Items is null || _draggedContainer?.RenderTransform is null || !_enableDrag)
             {

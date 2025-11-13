@@ -42,7 +42,7 @@ public class GridDragBehavior : StyledElementBehavior<Control>
     private Control? _draggedContainer;
     private Control? _adorner;
     private bool _captured;
-
+        
     /// <summary>
     /// Gets or sets whether to copy the dragged element's column.
     /// </summary>
@@ -116,7 +116,7 @@ public class GridDragBehavior : StyledElementBehavior<Control>
             [AdornerLayer.AdornedElementProperty] = control
         };
 
-        ((ISetLogicalParent)_adorner).SetParent(control);
+        ((ISetLogicalParent) _adorner).SetParent(control);
         layer.Children.Add(_adorner);
     }
 
@@ -129,7 +129,7 @@ public class GridDragBehavior : StyledElementBehavior<Control>
         }
 
         layer.Children.Remove(_adorner);
-        ((ISetLogicalParent)_adorner).SetParent(null);
+        ((ISetLogicalParent) _adorner).SetParent(null);
         _adorner = null;
     }
 
@@ -175,7 +175,7 @@ public class GridDragBehavior : StyledElementBehavior<Control>
     {
         var properties = e.GetCurrentPoint(AssociatedObject).Properties;
         if (_captured
-            && properties.IsLeftButtonPressed)
+            && properties.IsLeftButtonPressed && IsEnabled)
         {
             if (_parent is null || _draggedContainer is null || !_enableDrag)
             {
@@ -206,7 +206,7 @@ public class GridDragBehavior : StyledElementBehavior<Control>
             {
                 foreach (var control in itemsControl.GetRealizedContainers())
                 {
-                    if (control is null)
+                    if (control is  null)
                     {
                         continue;
                     }

@@ -176,8 +176,7 @@ public class ManagedContextDragBehavior : StyledElementBehavior<Control>
 
     private void AttachTopLevelHandlers()
     {
-        if (_topLevel is null)
-            return;
+        if (_topLevel is null) return;
         _topLevel.AddHandler(InputElement.PointerMovedEvent, OnTopLevelPointerMoved, RoutingStrategies.Direct | RoutingStrategies.Tunnel | RoutingStrategies.Bubble, handledEventsToo: true);
         _topLevel.AddHandler(InputElement.PointerReleasedEvent, OnTopLevelPointerReleased, RoutingStrategies.Direct | RoutingStrategies.Tunnel | RoutingStrategies.Bubble, handledEventsToo: true);
         _topLevel.AddHandler(InputElement.PointerCaptureLostEvent, OnTopLevelPointerCaptureLost, RoutingStrategies.Direct | RoutingStrategies.Tunnel | RoutingStrategies.Bubble, handledEventsToo: true);
@@ -185,8 +184,7 @@ public class ManagedContextDragBehavior : StyledElementBehavior<Control>
 
     private void DetachTopLevelHandlers()
     {
-        if (_topLevel is null)
-            return;
+        if (_topLevel is null) return;
         _topLevel.RemoveHandler(InputElement.PointerMovedEvent, OnTopLevelPointerMoved);
         _topLevel.RemoveHandler(InputElement.PointerReleasedEvent, OnTopLevelPointerReleased);
         _topLevel.RemoveHandler(InputElement.PointerCaptureLostEvent, OnTopLevelPointerCaptureLost);
@@ -195,10 +193,8 @@ public class ManagedContextDragBehavior : StyledElementBehavior<Control>
     private static DragDropEffects GetDesiredEffects(PointerEventArgs triggerEvent)
     {
         var effect = DragDropEffects.Move;
-        if (triggerEvent.KeyModifiers.HasFlag(KeyModifiers.Alt))
-            effect = DragDropEffects.Link;
-        else if (triggerEvent.KeyModifiers.HasFlag(KeyModifiers.Control))
-            effect = DragDropEffects.Copy;
+        if (triggerEvent.KeyModifiers.HasFlag(KeyModifiers.Alt)) effect = DragDropEffects.Link;
+        else if (triggerEvent.KeyModifiers.HasFlag(KeyModifiers.Control)) effect = DragDropEffects.Copy;
         return effect;
     }
 
@@ -218,8 +214,7 @@ public class ManagedContextDragBehavior : StyledElementBehavior<Control>
     {
         var effects = GetDesiredEffects(triggerEvent);
         var tl = _topLevel ?? TopLevel.GetTopLevel(AssociatedObject);
-        if (tl is null)
-            return;
+        if (tl is null) return;
 
         var client = triggerEvent.GetPosition(tl);
         var previewOffset = UsePointerRelativePreviewOffset && _calculatedPreviewOffset.HasValue
@@ -233,9 +228,7 @@ public class ManagedContextDragBehavior : StyledElementBehavior<Control>
             s_isDragging = true;
             _internalDragging = true;
             _internalDragTcs = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
-            try
-            { if (AssociatedObject != null) triggerEvent.Pointer?.Capture(AssociatedObject); }
-            catch (Exception ex) { System.Diagnostics.Debug.WriteLine($"Pointer capture failed: {ex}"); }
+            try { if (AssociatedObject != null) triggerEvent.Pointer?.Capture(AssociatedObject); } catch { }
             AttachTopLevelHandlers();
             ManagedDragDropService.Instance.Begin(tl, value, DataFormat, effects, client);
             if (AssociatedObject != null)
@@ -248,12 +241,7 @@ public class ManagedContextDragBehavior : StyledElementBehavior<Control>
             if (AssociatedObject != null)
                 AssociatedObject.DetachedFromVisualTree -= AssociatedObject_DetachedFromVisualTree;
             DetachTopLevelHandlers();
-            try
-            { triggerEvent.Pointer?.Capture(null); }
-            catch (InvalidOperationException)
-            {
-                // Ignore exceptions during pointer release, as the pointer may already be released.
-            }
+            try { triggerEvent.Pointer?.Capture(null); } catch { }
             DragPreviewService.Hide();
             _internalDragging = false;
             _internalDragTcs = null;
@@ -270,8 +258,7 @@ public class ManagedContextDragBehavior : StyledElementBehavior<Control>
 
     private void OnTopLevelPointerMoved(object? sender, PointerEventArgs e)
     {
-        if (!_internalDragging || _topLevel is null)
-            return;
+        if (!_internalDragging || _topLevel is null) return;
         var client = e.GetPosition(_topLevel);
         var previewOffset = UsePointerRelativePreviewOffset && _calculatedPreviewOffset.HasValue
             ? _calculatedPreviewOffset.Value
@@ -282,16 +269,14 @@ public class ManagedContextDragBehavior : StyledElementBehavior<Control>
 
     private void OnTopLevelPointerReleased(object? sender, PointerReleasedEventArgs e)
     {
-        if (!_internalDragging)
-            return;
+        if (!_internalDragging) return;
         _internalDragging = false;
         _internalDragTcs?.TrySetResult(true);
     }
 
     private void OnTopLevelPointerCaptureLost(object? sender, PointerCaptureLostEventArgs e)
     {
-        if (!_internalDragging)
-            return;
+        if (!_internalDragging) return;
         _internalDragging = false;
         _internalDragTcs?.TrySetResult(true);
     }
@@ -306,8 +291,7 @@ public class ManagedContextDragBehavior : StyledElementBehavior<Control>
     private void OnPointerPressed(object? sender, PointerPressedEventArgs e)
     {
         var ao = AssociatedObject;
-        if (ao is null)
-            return;
+        if (ao is null) return;
         var properties = e.GetCurrentPoint(ao).Properties;
         if (properties.IsLeftButtonPressed && IsEnabled)
         {
@@ -346,9 +330,8 @@ public class ManagedContextDragBehavior : StyledElementBehavior<Control>
     private async void OnPointerMoved(object? sender, PointerEventArgs e)
     {
         var ao = AssociatedObject;
-        if (ao is null)
-            return;
-        if (!_captured || _triggerEvent is null)
+        if (ao is null) return;
+        if (!_captured || _triggerEvent is null || !IsEnabled)
             return;
 
         if (s_isDragging)
@@ -362,10 +345,7 @@ public class ManagedContextDragBehavior : StyledElementBehavior<Control>
         var diff = _dragStartPoint - point;
         if (Math.Abs(diff.X) > HorizontalDragThreshold || Math.Abs(diff.Y) > VerticalDragThreshold)
         {
-            if (_lock)
-                _lock = false;
-            else
-                return;
+            if (_lock) _lock = false; else return;
 
             var context = Context ?? AssociatedObject?.DataContext;
             if (context is null)
