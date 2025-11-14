@@ -53,8 +53,7 @@ public class SetViewModelPropertyOnLoadBehavior : StyledElementBehavior<Control>
             return;
         }
 
-        var propertyName = PropertyName;
-        if (string.IsNullOrEmpty(propertyName))
+        if (PropertyName is not { Length: > 0 } propertyName)
         {
             return;
         }
