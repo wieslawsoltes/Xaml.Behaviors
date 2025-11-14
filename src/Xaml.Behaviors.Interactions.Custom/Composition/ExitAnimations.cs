@@ -12,129 +12,339 @@ namespace Avalonia.Xaml.Interactions.Custom;
 /// </summary>
 public static class ExitAnimations
 {
+    /// <summary>
+    /// Animates <paramref name="element"/> with the BackOutDown exit effect over the specified duration.
+    /// </summary>
+    /// <param name="element">Control that receives the animation.</param>
+    /// <param name="milliseconds">Animation duration in milliseconds.</param>
     public static void SetBackOutDown(Control element, double milliseconds) =>
         Run(element, milliseconds, CreateBackOutDown, ensureCenterPoint: true);
 
+    /// <summary>
+    /// Animates <paramref name="element"/> with the BackOutLeft exit effect over the specified duration.
+    /// </summary>
+    /// <param name="element">Control that receives the animation.</param>
+    /// <param name="milliseconds">Animation duration in milliseconds.</param>
     public static void SetBackOutLeft(Control element, double milliseconds) =>
         Run(element, milliseconds, CreateBackOutLeft, ensureCenterPoint: true);
 
+    /// <summary>
+    /// Animates <paramref name="element"/> with the BackOutRight exit effect over the specified duration.
+    /// </summary>
+    /// <param name="element">Control that receives the animation.</param>
+    /// <param name="milliseconds">Animation duration in milliseconds.</param>
     public static void SetBackOutRight(Control element, double milliseconds) =>
         Run(element, milliseconds, CreateBackOutRight, ensureCenterPoint: true);
 
+    /// <summary>
+    /// Animates <paramref name="element"/> with the BackOutUp exit effect over the specified duration.
+    /// </summary>
+    /// <param name="element">Control that receives the animation.</param>
+    /// <param name="milliseconds">Animation duration in milliseconds.</param>
     public static void SetBackOutUp(Control element, double milliseconds) =>
         Run(element, milliseconds, CreateBackOutUp, ensureCenterPoint: true);
 
+    /// <summary>
+    /// Animates <paramref name="element"/> with the BounceOut exit effect over the specified duration.
+    /// </summary>
+    /// <param name="element">Control that receives the animation.</param>
+    /// <param name="milliseconds">Animation duration in milliseconds.</param>
     public static void SetBounceOut(Control element, double milliseconds) =>
         Run(element, milliseconds, CreateBounceOut, ensureCenterPoint: true);
 
+    /// <summary>
+    /// Animates <paramref name="element"/> with the BounceOutDown exit effect over the specified duration.
+    /// </summary>
+    /// <param name="element">Control that receives the animation.</param>
+    /// <param name="milliseconds">Animation duration in milliseconds.</param>
     public static void SetBounceOutDown(Control element, double milliseconds) =>
         Run(element, milliseconds, CreateBounceOutDown);
 
+    /// <summary>
+    /// Animates <paramref name="element"/> with the BounceOutLeft exit effect over the specified duration.
+    /// </summary>
+    /// <param name="element">Control that receives the animation.</param>
+    /// <param name="milliseconds">Animation duration in milliseconds.</param>
     public static void SetBounceOutLeft(Control element, double milliseconds) =>
         Run(element, milliseconds, CreateBounceOutLeft);
 
+    /// <summary>
+    /// Animates <paramref name="element"/> with the BounceOutRight exit effect over the specified duration.
+    /// </summary>
+    /// <param name="element">Control that receives the animation.</param>
+    /// <param name="milliseconds">Animation duration in milliseconds.</param>
     public static void SetBounceOutRight(Control element, double milliseconds) =>
         Run(element, milliseconds, CreateBounceOutRight);
 
+    /// <summary>
+    /// Animates <paramref name="element"/> with the BounceOutUp exit effect over the specified duration.
+    /// </summary>
+    /// <param name="element">Control that receives the animation.</param>
+    /// <param name="milliseconds">Animation duration in milliseconds.</param>
     public static void SetBounceOutUp(Control element, double milliseconds) =>
         Run(element, milliseconds, CreateBounceOutUp);
 
+    /// <summary>
+    /// Animates <paramref name="element"/> with the FadeOut exit effect over the specified duration.
+    /// </summary>
+    /// <param name="element">Control that receives the animation.</param>
+    /// <param name="milliseconds">Animation duration in milliseconds.</param>
     public static void SetFadeOut(Control element, double milliseconds) =>
         Run(element, milliseconds, CreateFadeOut);
 
+    /// <summary>
+    /// Animates <paramref name="element"/> with the FadeOutDown exit effect over the specified duration.
+    /// </summary>
+    /// <param name="element">Control that receives the animation.</param>
+    /// <param name="milliseconds">Animation duration in milliseconds.</param>
     public static void SetFadeOutDown(Control element, double milliseconds) =>
         Run(element, milliseconds, () => CreateFadeOutOffset(new Vector3(0f, 24f, 0f)));
 
+    /// <summary>
+    /// Animates <paramref name="element"/> with the FadeOutDownBig exit effect over the specified duration.
+    /// </summary>
+    /// <param name="element">Control that receives the animation.</param>
+    /// <param name="milliseconds">Animation duration in milliseconds.</param>
     public static void SetFadeOutDownBig(Control element, double milliseconds) =>
         Run(element, milliseconds, () => CreateFadeOutOffset(new Vector3(0f, 240f, 0f)));
 
+    /// <summary>
+    /// Animates <paramref name="element"/> with the FadeOutLeft exit effect over the specified duration.
+    /// </summary>
+    /// <param name="element">Control that receives the animation.</param>
+    /// <param name="milliseconds">Animation duration in milliseconds.</param>
     public static void SetFadeOutLeft(Control element, double milliseconds) =>
         Run(element, milliseconds, () => CreateFadeOutOffset(new Vector3(-24f, 0f, 0f)));
 
+    /// <summary>
+    /// Animates <paramref name="element"/> with the FadeOutLeftBig exit effect over the specified duration.
+    /// </summary>
+    /// <param name="element">Control that receives the animation.</param>
+    /// <param name="milliseconds">Animation duration in milliseconds.</param>
     public static void SetFadeOutLeftBig(Control element, double milliseconds) =>
         Run(element, milliseconds, () => CreateFadeOutOffset(new Vector3(-240f, 0f, 0f)));
 
+    /// <summary>
+    /// Animates <paramref name="element"/> with the FadeOutRight exit effect over the specified duration.
+    /// </summary>
+    /// <param name="element">Control that receives the animation.</param>
+    /// <param name="milliseconds">Animation duration in milliseconds.</param>
     public static void SetFadeOutRight(Control element, double milliseconds) =>
         Run(element, milliseconds, () => CreateFadeOutOffset(new Vector3(24f, 0f, 0f)));
 
+    /// <summary>
+    /// Animates <paramref name="element"/> with the FadeOutRightBig exit effect over the specified duration.
+    /// </summary>
+    /// <param name="element">Control that receives the animation.</param>
+    /// <param name="milliseconds">Animation duration in milliseconds.</param>
     public static void SetFadeOutRightBig(Control element, double milliseconds) =>
         Run(element, milliseconds, () => CreateFadeOutOffset(new Vector3(240f, 0f, 0f)));
 
+    /// <summary>
+    /// Animates <paramref name="element"/> with the FadeOutUp exit effect over the specified duration.
+    /// </summary>
+    /// <param name="element">Control that receives the animation.</param>
+    /// <param name="milliseconds">Animation duration in milliseconds.</param>
     public static void SetFadeOutUp(Control element, double milliseconds) =>
         Run(element, milliseconds, () => CreateFadeOutOffset(new Vector3(0f, -24f, 0f)));
 
+    /// <summary>
+    /// Animates <paramref name="element"/> with the FadeOutUpBig exit effect over the specified duration.
+    /// </summary>
+    /// <param name="element">Control that receives the animation.</param>
+    /// <param name="milliseconds">Animation duration in milliseconds.</param>
     public static void SetFadeOutUpBig(Control element, double milliseconds) =>
         Run(element, milliseconds, () => CreateFadeOutOffset(new Vector3(0f, -240f, 0f)));
 
+    /// <summary>
+    /// Animates <paramref name="element"/> with the FadeOutTopLeft exit effect over the specified duration.
+    /// </summary>
+    /// <param name="element">Control that receives the animation.</param>
+    /// <param name="milliseconds">Animation duration in milliseconds.</param>
     public static void SetFadeOutTopLeft(Control element, double milliseconds) =>
         Run(element, milliseconds, () => CreateFadeOutOffset(new Vector3(-24f, -24f, 0f)));
 
+    /// <summary>
+    /// Animates <paramref name="element"/> with the FadeOutTopRight exit effect over the specified duration.
+    /// </summary>
+    /// <param name="element">Control that receives the animation.</param>
+    /// <param name="milliseconds">Animation duration in milliseconds.</param>
     public static void SetFadeOutTopRight(Control element, double milliseconds) =>
         Run(element, milliseconds, () => CreateFadeOutOffset(new Vector3(24f, -24f, 0f)));
 
+    /// <summary>
+    /// Animates <paramref name="element"/> with the FadeOutBottomLeft exit effect over the specified duration.
+    /// </summary>
+    /// <param name="element">Control that receives the animation.</param>
+    /// <param name="milliseconds">Animation duration in milliseconds.</param>
     public static void SetFadeOutBottomLeft(Control element, double milliseconds) =>
         Run(element, milliseconds, () => CreateFadeOutOffset(new Vector3(-24f, 24f, 0f)));
 
+    /// <summary>
+    /// Animates <paramref name="element"/> with the FadeOutBottomRight exit effect over the specified duration.
+    /// </summary>
+    /// <param name="element">Control that receives the animation.</param>
+    /// <param name="milliseconds">Animation duration in milliseconds.</param>
     public static void SetFadeOutBottomRight(Control element, double milliseconds) =>
         Run(element, milliseconds, () => CreateFadeOutOffset(new Vector3(24f, 24f, 0f)));
 
+    /// <summary>
+    /// Animates <paramref name="element"/> with the FlipOutX exit effect over the specified duration.
+    /// </summary>
+    /// <param name="element">Control that receives the animation.</param>
+    /// <param name="milliseconds">Animation duration in milliseconds.</param>
     public static void SetFlipOutX(Control element, double milliseconds) =>
         Run(element, milliseconds, CreateFlipOutX, ensureCenterPoint: true);
 
+    /// <summary>
+    /// Animates <paramref name="element"/> with the FlipOutY exit effect over the specified duration.
+    /// </summary>
+    /// <param name="element">Control that receives the animation.</param>
+    /// <param name="milliseconds">Animation duration in milliseconds.</param>
     public static void SetFlipOutY(Control element, double milliseconds) =>
         Run(element, milliseconds, CreateFlipOutY, ensureCenterPoint: true);
 
+    /// <summary>
+    /// Animates <paramref name="element"/> with the LightSpeedOutLeft exit effect over the specified duration.
+    /// </summary>
+    /// <param name="element">Control that receives the animation.</param>
+    /// <param name="milliseconds">Animation duration in milliseconds.</param>
     public static void SetLightSpeedOutLeft(Control element, double milliseconds) =>
         Run(element, milliseconds, () => CreateLightSpeedOut(-1));
 
+    /// <summary>
+    /// Animates <paramref name="element"/> with the LightSpeedOutRight exit effect over the specified duration.
+    /// </summary>
+    /// <param name="element">Control that receives the animation.</param>
+    /// <param name="milliseconds">Animation duration in milliseconds.</param>
     public static void SetLightSpeedOutRight(Control element, double milliseconds) =>
         Run(element, milliseconds, () => CreateLightSpeedOut(1));
 
+    /// <summary>
+    /// Animates <paramref name="element"/> with the RotateOut exit effect over the specified duration.
+    /// </summary>
+    /// <param name="element">Control that receives the animation.</param>
+    /// <param name="milliseconds">Animation duration in milliseconds.</param>
     public static void SetRotateOut(Control element, double milliseconds) =>
         Run(element, milliseconds, () => CreateRotateOut(90f, new Vector2(0.5f, 0.5f)), ensureCenterPoint: true);
 
+    /// <summary>
+    /// Animates <paramref name="element"/> with the RotateOutDownLeft exit effect over the specified duration.
+    /// </summary>
+    /// <param name="element">Control that receives the animation.</param>
+    /// <param name="milliseconds">Animation duration in milliseconds.</param>
     public static void SetRotateOutDownLeft(Control element, double milliseconds) =>
         Run(element, milliseconds, () => CreateRotateOut(45f, new Vector2(0f, 1f)), ensureCenterPoint: true);
 
+    /// <summary>
+    /// Animates <paramref name="element"/> with the RotateOutDownRight exit effect over the specified duration.
+    /// </summary>
+    /// <param name="element">Control that receives the animation.</param>
+    /// <param name="milliseconds">Animation duration in milliseconds.</param>
     public static void SetRotateOutDownRight(Control element, double milliseconds) =>
         Run(element, milliseconds, () => CreateRotateOut(-45f, new Vector2(1f, 1f)), ensureCenterPoint: true);
 
+    /// <summary>
+    /// Animates <paramref name="element"/> with the RotateOutUpLeft exit effect over the specified duration.
+    /// </summary>
+    /// <param name="element">Control that receives the animation.</param>
+    /// <param name="milliseconds">Animation duration in milliseconds.</param>
     public static void SetRotateOutUpLeft(Control element, double milliseconds) =>
         Run(element, milliseconds, () => CreateRotateOut(-45f, new Vector2(0f, 0f)), ensureCenterPoint: true);
 
+    /// <summary>
+    /// Animates <paramref name="element"/> with the RotateOutUpRight exit effect over the specified duration.
+    /// </summary>
+    /// <param name="element">Control that receives the animation.</param>
+    /// <param name="milliseconds">Animation duration in milliseconds.</param>
     public static void SetRotateOutUpRight(Control element, double milliseconds) =>
         Run(element, milliseconds, () => CreateRotateOut(45f, new Vector2(1f, 0f)), ensureCenterPoint: true);
 
+    /// <summary>
+    /// Animates <paramref name="element"/> with the SlideOutDown exit effect over the specified duration.
+    /// </summary>
+    /// <param name="element">Control that receives the animation.</param>
+    /// <param name="milliseconds">Animation duration in milliseconds.</param>
     public static void SetSlideOutDown(Control element, double milliseconds) =>
         Run(element, milliseconds, () => CreateSlideOut(new Vector3(0f, 240f, 0f)));
 
+    /// <summary>
+    /// Animates <paramref name="element"/> with the SlideOutLeft exit effect over the specified duration.
+    /// </summary>
+    /// <param name="element">Control that receives the animation.</param>
+    /// <param name="milliseconds">Animation duration in milliseconds.</param>
     public static void SetSlideOutLeft(Control element, double milliseconds) =>
         Run(element, milliseconds, () => CreateSlideOut(new Vector3(-240f, 0f, 0f)));
 
+    /// <summary>
+    /// Animates <paramref name="element"/> with the SlideOutRight exit effect over the specified duration.
+    /// </summary>
+    /// <param name="element">Control that receives the animation.</param>
+    /// <param name="milliseconds">Animation duration in milliseconds.</param>
     public static void SetSlideOutRight(Control element, double milliseconds) =>
         Run(element, milliseconds, () => CreateSlideOut(new Vector3(240f, 0f, 0f)));
 
+    /// <summary>
+    /// Animates <paramref name="element"/> with the SlideOutUp exit effect over the specified duration.
+    /// </summary>
+    /// <param name="element">Control that receives the animation.</param>
+    /// <param name="milliseconds">Animation duration in milliseconds.</param>
     public static void SetSlideOutUp(Control element, double milliseconds) =>
         Run(element, milliseconds, () => CreateSlideOut(new Vector3(0f, -240f, 0f)));
 
+    /// <summary>
+    /// Animates <paramref name="element"/> with the ZoomOut exit effect over the specified duration.
+    /// </summary>
+    /// <param name="element">Control that receives the animation.</param>
+    /// <param name="milliseconds">Animation duration in milliseconds.</param>
     public static void SetZoomOut(Control element, double milliseconds) =>
         Run(element, milliseconds, CreateZoomOut, ensureCenterPoint: true);
 
+    /// <summary>
+    /// Animates <paramref name="element"/> with the ZoomOutDown exit effect over the specified duration.
+    /// </summary>
+    /// <param name="element">Control that receives the animation.</param>
+    /// <param name="milliseconds">Animation duration in milliseconds.</param>
     public static void SetZoomOutDown(Control element, double milliseconds) =>
         Run(element, milliseconds, () => CreateZoomOutDirectional(new Vector3(0f, 240f, 0f)), ensureCenterPoint: true);
 
+    /// <summary>
+    /// Animates <paramref name="element"/> with the ZoomOutLeft exit effect over the specified duration.
+    /// </summary>
+    /// <param name="element">Control that receives the animation.</param>
+    /// <param name="milliseconds">Animation duration in milliseconds.</param>
     public static void SetZoomOutLeft(Control element, double milliseconds) =>
         Run(element, milliseconds, () => CreateZoomOutDirectional(new Vector3(-240f, 0f, 0f)), ensureCenterPoint: true);
 
+    /// <summary>
+    /// Animates <paramref name="element"/> with the ZoomOutRight exit effect over the specified duration.
+    /// </summary>
+    /// <param name="element">Control that receives the animation.</param>
+    /// <param name="milliseconds">Animation duration in milliseconds.</param>
     public static void SetZoomOutRight(Control element, double milliseconds) =>
         Run(element, milliseconds, () => CreateZoomOutDirectional(new Vector3(240f, 0f, 0f)), ensureCenterPoint: true);
 
+    /// <summary>
+    /// Animates <paramref name="element"/> with the ZoomOutUp exit effect over the specified duration.
+    /// </summary>
+    /// <param name="element">Control that receives the animation.</param>
+    /// <param name="milliseconds">Animation duration in milliseconds.</param>
     public static void SetZoomOutUp(Control element, double milliseconds) =>
         Run(element, milliseconds, () => CreateZoomOutDirectional(new Vector3(0f, -240f, 0f)), ensureCenterPoint: true);
 
+    /// <summary>
+    /// Animates <paramref name="element"/> with the Hinge exit effect over the specified duration.
+    /// </summary>
+    /// <param name="element">Control that receives the animation.</param>
+    /// <param name="milliseconds">Animation duration in milliseconds.</param>
     public static void SetHinge(Control element, double milliseconds) =>
         Run(element, milliseconds, CreateHinge, ensureCenterPoint: true);
 
+    /// <summary>
+    /// Animates <paramref name="element"/> with the RollOut exit effect over the specified duration.
+    /// </summary>
+    /// <param name="element">Control that receives the animation.</param>
+    /// <param name="milliseconds">Animation duration in milliseconds.</param>
     public static void SetRollOut(Control element, double milliseconds) =>
         Run(element, milliseconds, CreateRollOut);
 

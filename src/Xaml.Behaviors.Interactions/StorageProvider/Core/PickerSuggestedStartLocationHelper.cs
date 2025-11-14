@@ -27,7 +27,7 @@ internal static class PickerSuggestedStartLocationHelper
             return null;
         }
 
-        if (!TryCreateUri(suggestedStartLocationPath, out var uri))
+        if (!TryCreateUri(suggestedStartLocationPath, out var uri) || uri is null)
         {
             return null;
         }
@@ -64,8 +64,14 @@ internal static class PickerSuggestedStartLocationHelper
         }
     }
 
-    private static bool TryCreateUri(string path, out Uri uri)
+    private static bool TryCreateUri(string? path, out Uri? uri)
     {
+        uri = null;
+        if (string.IsNullOrWhiteSpace(path))
+        {
+            return false;
+        }
+
         if (Uri.TryCreate(path, UriKind.Absolute, out uri))
         {
             return true;
@@ -85,7 +91,7 @@ internal static class PickerSuggestedStartLocationHelper
             // ignored
         }
 
-        uri = null!;
+        uri = null;
         return false;
     }
 }

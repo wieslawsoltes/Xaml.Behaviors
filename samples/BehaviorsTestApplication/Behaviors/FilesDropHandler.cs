@@ -8,18 +8,18 @@ public sealed class FilesDropHandler : DropHandlerBase
 {
     public override bool Validate(object? sender, DragEventArgs e, object? sourceContext, object? targetContext, object? state)
     {
-        return e.Data.Contains(DataFormats.Files) && targetContext is MainWindowViewModel;
+        return e.DataTransfer.Contains(DataFormat.File) && targetContext is MainWindowViewModel;
     }
 
     public override bool Execute(object? sender, DragEventArgs e, object? sourceContext, object? targetContext, object? state)
     {
-        if (!e.Data.Contains(DataFormats.Files) || targetContext is not MainWindowViewModel vm)
+        if (!e.DataTransfer.Contains(DataFormat.File) || targetContext is not MainWindowViewModel vm)
         {
             return false;
         }
 
-        var files = e.Data.GetFiles();
-        if (files is null)
+        var files = e.DataTransfer.TryGetFiles();
+        if (files is null || files.Length == 0)
         {
             return false;
         }

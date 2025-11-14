@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
 using System.Reactive.Linq;
@@ -11,6 +12,7 @@ using System.Reactive.Subjects;
 using System.Reflection;
 using System.Threading.Tasks;
 using Avalonia.Controls;
+using Avalonia.Input;
 using Avalonia.Platform;
 using Avalonia.Platform.Storage;
 using Avalonia.Xaml.Interactions.Custom;
@@ -27,6 +29,14 @@ public partial class MainWindowViewModel : ViewModelBase
 
     public MainWindowViewModel()
     {
+        _taskStatusMessage = string.Empty;
+        _renderTriggerMessage = string.Empty;
+        _writeableBitmapStatusMessage = string.Empty;
+        _writeableBitmapTimerMessage = string.Empty;
+        _myString = string.Empty;
+        _greeting = string.Empty;
+        _validatedText = string.Empty;
+
         Count = 0;
         Position = 100.0;
 
@@ -125,6 +135,10 @@ public partial class MainWindowViewModel : ViewModelBase
         GetClipboardTextCommand = ReactiveCommand.Create<string?>(GetClipboardText);
         GetClipboardDataCommand = ReactiveCommand.Create<object?>(GetClipboardData);
         GetClipboardFormatsCommand = ReactiveCommand.Create<IEnumerable<string>?>(GetClipboardFormats);
+
+        var clipboardTransfer = new DataTransfer();
+        clipboardTransfer.Add(DataTransferItem.CreateText("Sample clipboard data object"));
+        ClipboardDataTransfer = clipboardTransfer;
 
         UploadFilePath = string.Empty;
         UploadUrl = string.Empty;
@@ -258,29 +272,53 @@ public partial class MainWindowViewModel : ViewModelBase
     [Reactive]
     public partial IStorageFolder? DocumentsFolder { get; set; }
 
-    [Reactive]
-    public partial string UploadFilePath { get; set; }
+    private string _uploadFilePath = string.Empty;
+    public string UploadFilePath
+    {
+        get => _uploadFilePath;
+        set => this.RaiseAndSetIfChanged(ref _uploadFilePath, value);
+    }
 
-    [Reactive]
-    public partial string UploadUrl { get; set; }
+    private string _uploadUrl = string.Empty;
+    public string UploadUrl
+    {
+        get => _uploadUrl;
+        set => this.RaiseAndSetIfChanged(ref _uploadUrl, value);
+    }
 
     [Reactive]
     public partial bool UploadCompleted { get; set; }
 
-    [Reactive]
-    public partial string UploadStatusMessage { get; set; }
+    private string _uploadStatusMessage = string.Empty;
+    public string UploadStatusMessage
+    {
+        get => _uploadStatusMessage;
+        set => this.RaiseAndSetIfChanged(ref _uploadStatusMessage, value);
+    }
 
     [Reactive]
     public partial Screen? ActiveScreen { get; set; }
 
-    [Reactive]
-    public partial string ActiveScreenSummary { get; set; }
+    private string _activeScreenSummary = string.Empty;
+    public string ActiveScreenSummary
+    {
+        get => _activeScreenSummary;
+        set => this.RaiseAndSetIfChanged(ref _activeScreenSummary, value);
+    }
 
-    [Reactive]
-    public partial string ActiveScreenDiagnostics { get; set; }
+    private string _activeScreenDiagnostics = string.Empty;
+    public string ActiveScreenDiagnostics
+    {
+        get => _activeScreenDiagnostics;
+        set => this.RaiseAndSetIfChanged(ref _activeScreenDiagnostics, value);
+    }
 
-    [Reactive]
-    public partial ObservableCollection<string> ScrollDemoItems { get; set; }
+    private ObservableCollection<string> _scrollDemoItems = new();
+    public ObservableCollection<string> ScrollDemoItems
+    {
+        get => _scrollDemoItems;
+        set => this.RaiseAndSetIfChanged(ref _scrollDemoItems, value);
+    }
 
     [Reactive]
     public partial string? ScrollSelectedItem { get; set; }
@@ -399,6 +437,8 @@ public partial class MainWindowViewModel : ViewModelBase
 
     public ICommand UploadCompletedCommand { get; set; }
 
+    public IAsyncDataTransfer ClipboardDataTransfer { get; }
+
     public ICommand TextChangedCommand { get; }
 
     public ICommand ScrollToItemCommand { get; }
@@ -434,7 +474,10 @@ public partial class MainWindowViewModel : ViewModelBase
         {
             Console.WriteLine($"OpenFilesCommand: {file.Name}, {file.Path}");
 
-            FileItems.Add(file.Path);
+            if (file.Path is { } filePath)
+            {
+                FileItems?.Add(filePath);
+            }
         }
     }
 
@@ -442,7 +485,7 @@ public partial class MainWindowViewModel : ViewModelBase
     {
         Console.WriteLine($"SaveFileCommand: {file}");
 
-        FileItems.Add(file);
+        FileItems?.Add(file);
     }
 
     private void OpenFolders(IEnumerable<IStorageFolder> folders)
@@ -451,7 +494,10 @@ public partial class MainWindowViewModel : ViewModelBase
         {
             Console.WriteLine($"OpenFoldersCommand: {folder.Name}, {folder.Path}");
 
-            FileItems.Add(folder.Path);
+            if (folder.Path is { } folderPath)
+            {
+                FileItems?.Add(folderPath);
+            }
 
             // Set the first folder as DocumentsFolder to demonstrate SuggestedStartLocation usage
             if (DocumentsFolder is null)
@@ -499,7 +545,7 @@ public partial class MainWindowViewModel : ViewModelBase
     {
         if (args.Source is TextBox control)
         {
-            Greeting = control.Text;
+            Greeting = control.Text ?? string.Empty;
         }
     }
 
@@ -601,6 +647,7 @@ public partial class MainWindowViewModel : ViewModelBase
         }
     }
 
+    [UnconditionalSuppressMessage("AOT", "IL2075", Justification = "Sample logging inspects event args via reflection only in debug tooling.")]
     private static string DescribeContainerParameter(object? parameter)
     {
         if (parameter is null)

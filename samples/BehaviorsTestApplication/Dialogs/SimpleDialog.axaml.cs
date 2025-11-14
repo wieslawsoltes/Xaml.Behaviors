@@ -8,7 +8,11 @@ public partial class SimpleDialog : Window
     public SimpleDialog()
     {
         InitializeComponent();
-        this.FindControl<Button>("CloseButton").Click += (_, _) => Close();
+        var closeButton = this.FindControl<Button>("CloseButton");
+        if (closeButton is not null)
+        {
+            closeButton.Click += (_, _) => Close();
+        }
     }
 
     private void InitializeComponent()

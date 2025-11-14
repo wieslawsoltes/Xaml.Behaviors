@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics.CodeAnalysis;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Data;
@@ -11,13 +12,15 @@ namespace Avalonia.Xaml.Interactivity.UnitTests;
 public class ConditionTests
 {
     [AvaloniaFact]
+    [RequiresUnreferencedCode("Tests intentionally exercise Avalonia Binding which uses reflection and is trimmer-unfriendly.")]
     public void Binding_Updates_BindingValue()
     {
         var source = new BindingSource { Value = "Initial" };
         var condition = new Condition
         {
-            Binding = new Binding(nameof(BindingSource.Value))
+            Binding = new Binding
             {
+                Path = nameof(BindingSource.Value),
                 Source = source
             }
         };
@@ -30,12 +33,14 @@ public class ConditionTests
     }
 
     [AvaloniaFact]
+    [RequiresUnreferencedCode("Tests intentionally exercise Avalonia Binding which uses reflection and is trimmer-unfriendly.")]
     public void Setting_Property_After_Binding_Throws()
     {
         var condition = new Condition
         {
-            Binding = new Binding(nameof(BindingSource.Value))
+            Binding = new Binding
             {
+                Path = nameof(BindingSource.Value),
                 Source = new BindingSource()
             }
         };
@@ -44,6 +49,7 @@ public class ConditionTests
     }
 
     [AvaloniaFact]
+    [RequiresUnreferencedCode("Tests intentionally exercise Avalonia Binding which uses reflection and is trimmer-unfriendly.")]
     public void Setting_Binding_After_Property_Throws()
     {
         var condition = new Condition
@@ -52,7 +58,10 @@ public class ConditionTests
         };
 
         Assert.Throws<InvalidOperationException>(() =>
-            condition.Binding = new Binding(nameof(BindingSource.Value)));
+            condition.Binding = new Binding
+            {
+                Path = nameof(BindingSource.Value)
+            });
     }
 
     private class BindingSource : AvaloniaObject

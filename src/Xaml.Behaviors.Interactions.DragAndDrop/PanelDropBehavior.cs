@@ -23,12 +23,19 @@ public sealed class PanelDropBehavior : DropBehaviorBase
     {
         public override bool Validate(object? sender, DragEventArgs e, object? sourceContext, object? targetContext, object? state)
         {
-            return e.Data.Contains(ContextDropBehavior.DataFormat) && e.Data.Get(ContextDropBehavior.DataFormat) is Control && sender is Panel;
+            var key = e.DataTransfer.TryGetValue(ContextDropBehaviorBase.ContextDataTransferFormat);
+            return sender is Panel && DragDropContextStore.Get(key) is Control;
         }
 
         public override bool Execute(object? sender, DragEventArgs e, object? sourceContext, object? targetContext, object? state)
         {
-            if (sender is not Panel target || e.Data.Get(ContextDropBehavior.DataFormat) is not Control control)
+            if (sender is not Panel target)
+            {
+                return false;
+            }
+
+            var key = e.DataTransfer.TryGetValue(ContextDropBehaviorBase.ContextDataTransferFormat);
+            if (DragDropContextStore.Get(key) is not Control control)
             {
                 return false;
             }

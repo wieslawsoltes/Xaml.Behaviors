@@ -30,20 +30,20 @@ public class SetClipboardDataObjectAction : Interactivity.StyledElementAction
         get => GetValue(ClipboardProperty);
         set => SetValue(ClipboardProperty, value);
     }
-    
-    /// <summary>
-    /// Identifies the <seealso cref="IDataObject"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<IDataObject?> DataObjectProperty =
-        AvaloniaProperty.Register<SetClipboardDataObjectAction, IDataObject?>(nameof(DataObject));
 
     /// <summary>
-    /// Gets or sets the text to set to the clipboard. This is an avalonia property.
+    /// Identifies the <seealso cref="DataTransfer"/> avalonia property.
     /// </summary>
-    public IDataObject? DataObject
+    public static readonly StyledProperty<IAsyncDataTransfer?> DataTransferProperty =
+        AvaloniaProperty.Register<SetClipboardDataObjectAction, IAsyncDataTransfer?>(nameof(DataTransfer));
+
+    /// <summary>
+    /// Gets or sets the data transfer content to place on the clipboard.
+    /// </summary>
+    public IAsyncDataTransfer? DataTransfer
     {
-        get => GetValue(DataObjectProperty);
-        set => SetValue(DataObjectProperty, value);
+        get => GetValue(DataTransferProperty);
+        set => SetValue(DataTransferProperty, value);
     }
 
     /// <summary>
@@ -66,7 +66,7 @@ public class SetClipboardDataObjectAction : Interactivity.StyledElementAction
 
     private async Task SetClipboardDataObjectAsync(Visual visual)
     {
-        if (IsEnabled != true || DataObject is null)
+        if (IsEnabled != true || DataTransfer is null)
         {
             return;
         }
@@ -79,7 +79,7 @@ public class SetClipboardDataObjectAction : Interactivity.StyledElementAction
                 return;
             }
 
-            await clipboard.SetDataObjectAsync(DataObject);
+            await clipboard.SetDataAsync(DataTransfer);
         }
         catch (Exception)
         {

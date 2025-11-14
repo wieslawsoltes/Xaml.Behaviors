@@ -34,9 +34,9 @@ public partial class DragLeaveEventTriggerView : UserControl
             return;
         }
 
-        var data = new DataObject();
-        data.Set(DataFormats.Text, "DragLeave sample");
-        await DragDrop.DoDragDrop(e, data, DragDropEffects.Copy);
+        var data = new DataTransfer();
+        data.Add(DataTransferItem.Create(DataFormat.Text, "DragLeave sample"));
+        await DragDrop.DoDragDropAsync(e, data, DragDropEffects.Copy);
     }
 
     private void InitializeComponent()

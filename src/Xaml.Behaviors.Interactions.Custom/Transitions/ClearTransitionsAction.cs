@@ -6,7 +6,7 @@ using Avalonia.Xaml.Interactivity;
 namespace Avalonia.Xaml.Interactions.Custom;
 
 /// <summary>
-/// Clears the <see cref="StyledElement.Transitions"/> collection.
+/// Clears the <see cref="Avalonia.Animation.Transitions"/> collection.
 /// </summary>
 public class ClearTransitionsAction : StyledElementAction
 {

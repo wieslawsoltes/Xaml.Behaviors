@@ -12,8 +12,7 @@ public class CursorViewModel : ViewModelBase
 {
     public CursorViewModel()
     {
-        StandardCursors = Enum.GetValues(typeof(StandardCursorType))
-            .Cast<StandardCursorType>()
+        StandardCursors = Enum.GetValues<StandardCursorType>()
             .Select(x => new StandardCursorModel(x))
             .ToList();
 

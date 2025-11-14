@@ -13,9 +13,10 @@ namespace Avalonia.Xaml.Interactions.DragAndDrop;
 public abstract class ContextDropBehaviorBase : StyledElementBehavior<Control>
 {
     /// <summary>
-    /// Identifies the data format used to store context information.
+    /// Identifies the application data format used to store context identifiers.
     /// </summary>
-    public static string DataFormat = nameof(Context);
+    public static readonly DataFormat<string> ContextDataTransferFormat =
+        DataFormat.CreateStringApplicationFormat("Avalonia.Xaml.Interactions.DragAndDrop.Context");
 
     /// <summary>
     /// Identifies the <see cref="Context"/> avalonia property.
@@ -94,9 +95,8 @@ public abstract class ContextDropBehaviorBase : StyledElementBehavior<Control>
 
     private void DragEnter(object? sender, DragEventArgs e)
     {
-        var sourceContext = e.Data.Contains(ContextDropBehavior.DataFormat) 
-            ? e.Data.Get(ContextDropBehavior.DataFormat) 
-            : null;
+        var sourceContextKey = e.DataTransfer.TryGetValue(ContextDataTransferFormat);
+        var sourceContext = DragDropContextStore.Get(sourceContextKey);
         var targetContext = Context ?? AssociatedObject?.DataContext;
         OnEnter(sender, e, sourceContext, targetContext);
     }
@@ -108,18 +108,16 @@ public abstract class ContextDropBehaviorBase : StyledElementBehavior<Control>
 
     private void DragOver(object? sender, DragEventArgs e)
     {
-        var sourceContext = e.Data.Contains(ContextDropBehavior.DataFormat) 
-            ? e.Data.Get(ContextDropBehavior.DataFormat) 
-            : null;
+        var sourceContextKey = e.DataTransfer.TryGetValue(ContextDataTransferFormat);
+        var sourceContext = DragDropContextStore.Get(sourceContextKey);
         var targetContext = Context ?? AssociatedObject?.DataContext;
         OnOver(sender, e, sourceContext, targetContext);
     }
 
     private void Drop(object? sender, DragEventArgs e)
     {
-        var sourceContext = e.Data.Contains(ContextDropBehavior.DataFormat) 
-            ? e.Data.Get(ContextDropBehavior.DataFormat) 
-            : null;
+        var sourceContextKey = e.DataTransfer.TryGetValue(ContextDataTransferFormat);
+        var sourceContext = DragDropContextStore.Get(sourceContextKey);
         var targetContext = Context ?? AssociatedObject?.DataContext;
         OnDrop(sender, e, sourceContext, targetContext);
     }

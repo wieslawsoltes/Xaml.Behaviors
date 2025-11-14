@@ -7,7 +7,7 @@ using Avalonia.Xaml.Interactivity;
 namespace Avalonia.Xaml.Interactions.Custom;
 
 /// <summary>
-/// Sets the <see cref="StyledElement.Transitions"/> collection on the associated control when attached.
+/// Sets the <see cref="Avalonia.Animation.Transitions"/> collection on the associated control when attached.
 /// </summary>
 public class TransitionsBehavior : AttachedToVisualTreeBehavior<Control>
 {
