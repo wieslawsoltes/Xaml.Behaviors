@@ -264,28 +264,28 @@ public partial class MainWindowViewModel : ViewModelBase
     public partial IStorageFolder? DocumentsFolder { get; set; }
 
     [Reactive]
-    public partial string UploadFilePath { get; set; }
+    public partial string UploadFilePath { get; set; } = string.Empty;
 
     [Reactive]
-    public partial string UploadUrl { get; set; }
+    public partial string UploadUrl { get; set; } = string.Empty;
 
     [Reactive]
     public partial bool UploadCompleted { get; set; }
 
     [Reactive]
-    public partial string UploadStatusMessage { get; set; }
+    public partial string UploadStatusMessage { get; set; } = string.Empty;
 
     [Reactive]
     public partial Screen? ActiveScreen { get; set; }
 
     [Reactive]
-    public partial string ActiveScreenSummary { get; set; }
+    public partial string ActiveScreenSummary { get; set; } = string.Empty;
 
     [Reactive]
-    public partial string ActiveScreenDiagnostics { get; set; }
+    public partial string ActiveScreenDiagnostics { get; set; } = string.Empty;
 
     [Reactive]
-    public partial ObservableCollection<string> ScrollDemoItems { get; set; }
+    public partial ObservableCollection<string> ScrollDemoItems { get; set; } = new();
 
     [Reactive]
     public partial string? ScrollSelectedItem { get; set; }

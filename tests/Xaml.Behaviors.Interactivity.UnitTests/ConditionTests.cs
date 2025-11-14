@@ -16,8 +16,9 @@ public class ConditionTests
         var source = new BindingSource { Value = "Initial" };
         var condition = new Condition
         {
-            Binding = new Binding(nameof(BindingSource.Value))
+            Binding = new Binding
             {
+                Path = nameof(BindingSource.Value),
                 Source = source
             }
         };
@@ -34,8 +35,9 @@ public class ConditionTests
     {
         var condition = new Condition
         {
-            Binding = new Binding(nameof(BindingSource.Value))
+            Binding = new Binding
             {
+                Path = nameof(BindingSource.Value),
                 Source = new BindingSource()
             }
         };
@@ -52,7 +54,10 @@ public class ConditionTests
         };
 
         Assert.Throws<InvalidOperationException>(() =>
-            condition.Binding = new Binding(nameof(BindingSource.Value)));
+            condition.Binding = new Binding
+            {
+                Path = nameof(BindingSource.Value)
+            });
     }
 
     private class BindingSource : AvaloniaObject
