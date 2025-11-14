@@ -16,6 +16,10 @@
   </PropertyGroup>
 
   <PropertyGroup>
+    <NoWarn>$(NoWarn);IL2026;IL3050</NoWarn>
+  </PropertyGroup>
+
+  <PropertyGroup>
     <UseBackingFields>true</UseBackingFields>
   </PropertyGroup>
 
