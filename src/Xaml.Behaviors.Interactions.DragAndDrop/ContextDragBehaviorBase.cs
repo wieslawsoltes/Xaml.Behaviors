@@ -103,8 +103,13 @@ public abstract class ContextDragBehaviorBase : StyledElementBehavior<Control>
 
     private async Task DoDragDrop(PointerEventArgs triggerEvent, object? value)
     {
-        var data = new DataObject();
-        data.Set(ContextDropBehaviorBase.DataFormat, value!);
+        var data = new DataTransfer();
+        var contextKey = DragDropContextStore.Add(value);
+
+        if (contextKey is not null)
+        {
+            data.Add(DataTransferItem.Create(ContextDropBehaviorBase.ContextDataTransferFormat, contextKey));
+        }
 
         var effect = DragDropEffects.None;
 
@@ -125,7 +130,14 @@ public abstract class ContextDragBehaviorBase : StyledElementBehavior<Control>
             effect |= DragDropEffects.Move;
         }
 
-        await DragDrop.DoDragDrop(triggerEvent, data, effect);
+        try
+        {
+            await DragDrop.DoDragDropAsync(triggerEvent, data, effect);
+        }
+        finally
+        {
+            DragDropContextStore.Remove(contextKey);
+        }
     }
 
     private void Released()

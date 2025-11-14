@@ -93,7 +93,7 @@ public sealed class ContentControlFilesDropBehavior : DropBehaviorBase
             object? targetContext,
             object? state)
         {
-            return e.Data.Contains(DataFormats.Files);
+            return e.DataTransfer.Contains(DataFormat.File);
         }
 
         public override bool Execute(object? sender,
@@ -102,13 +102,13 @@ public sealed class ContentControlFilesDropBehavior : DropBehaviorBase
             object? targetContext,
             object? state)
         {
-            if (!e.Data.Contains(DataFormats.Files))
+            if (!e.DataTransfer.Contains(DataFormat.File))
             {
                 return false;
             }
 
-            var files = e.Data.GetFiles();
-            if (files is null)
+            var files = e.DataTransfer.TryGetFiles();
+            if (files is null || files.Length == 0)
             {
                 return false;
             }

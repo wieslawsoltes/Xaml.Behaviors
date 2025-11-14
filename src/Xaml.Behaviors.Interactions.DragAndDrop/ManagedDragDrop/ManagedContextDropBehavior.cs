@@ -310,10 +310,10 @@ public class ManagedContextDropBehavior : StyledElementBehavior<Control>
     {
         try
         {
-            var data = new DataObject();
-            if (svc.Payload is not null && svc.DataFormat is { })
+            var data = new DataTransfer();
+            if (svc.PayloadKey is not null)
             {
-                data.Set(svc.DataFormat, svc.Payload);
+                data.Add(DataTransferItem.Create(ContextDropBehaviorBase.ContextDataTransferFormat, svc.PayloadKey));
             }
             // Use Interactive (base for Control) as required by DragEventArgs
             var target = AssociatedObject as Interactive;

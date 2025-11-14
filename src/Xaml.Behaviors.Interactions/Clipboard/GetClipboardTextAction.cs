@@ -4,6 +4,7 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Avalonia.Controls;
+using Avalonia.Input;
 using Avalonia.Input.Platform;
 using Avalonia.LogicalTree;
 using Avalonia.Threading;
@@ -74,7 +75,7 @@ public class GetClipboardTextAction : InvokeCommandActionBase
                 return;
             }
 
-            text = await clipboard.GetTextAsync();
+            text = await ClipboardExtensions.TryGetTextAsync(clipboard);
         }
         catch (Exception)
         {

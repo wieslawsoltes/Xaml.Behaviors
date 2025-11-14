@@ -36,6 +36,8 @@ public sealed class ManagedDragDropService
     /// </summary>
     public string? DataFormat { get; private set; }
 
+    internal string? PayloadKey { get; private set; }
+
     /// <summary>
     /// Gets the effective drag-drop effects requested by the drag initiator.
     /// </summary>
@@ -88,6 +90,7 @@ public sealed class ManagedDragDropService
         DataFormat = dataFormat;
         Effects = effects;
         CurrentClientPosition = startClient;
+        PayloadKey = DragDropContextStore.Add(payload);
         DragStarted?.Invoke();
     }
 
@@ -110,6 +113,8 @@ public sealed class ManagedDragDropService
         if (!IsDragging) return;
         IsDragging = false;
         DragEnded?.Invoke();
+        DragDropContextStore.Remove(PayloadKey);
+        PayloadKey = null;
         OriginTopLevel = null;
         Payload = null;
         DataFormat = null;

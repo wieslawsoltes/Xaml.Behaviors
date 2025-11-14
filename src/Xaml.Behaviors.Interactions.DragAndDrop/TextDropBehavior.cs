@@ -27,18 +27,18 @@ public sealed class TextDropBehavior : DropBehaviorBase
         /// <inheritdoc />
         public override bool Validate(object? sender, DragEventArgs e, object? sourceContext, object? targetContext, object? state)
         {
-            return e.Data.Contains(DataFormats.Text);
+            return e.DataTransfer.Contains(DataFormat.Text);
         }
 
         /// <inheritdoc />
         public override bool Execute(object? sender, DragEventArgs e, object? sourceContext, object? targetContext, object? state)
         {
-            if (!e.Data.Contains(DataFormats.Text))
+            if (!e.DataTransfer.Contains(DataFormat.Text))
             {
                 return false;
             }
 
-            var text = e.Data.GetText();
+            var text = e.DataTransfer.TryGetText();
             if (text is null)
             {
                 return false;

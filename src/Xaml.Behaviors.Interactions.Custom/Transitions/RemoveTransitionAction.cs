@@ -7,12 +7,12 @@ using Avalonia.Xaml.Interactivity;
 namespace Avalonia.Xaml.Interactions.Custom;
 
 /// <summary>
-/// Removes a <see cref="Transition"/> from the <see cref="StyledElement.Transitions"/> collection.
+/// Removes a <see cref="TransitionBase"/> from the <see cref="Avalonia.Animation.Transitions"/> collection on the target element.
 /// </summary>
 public class RemoveTransitionAction : StyledElementAction
 {
     /// <summary>
-    /// Identifies the <seealso cref="Transition"/> avalonia property.
+    /// Identifies the <seealso cref="TransitionBase"/> avalonia property.
     /// </summary>
     public static readonly StyledProperty<TransitionBase?> TransitionProperty =
         AvaloniaProperty.Register<RemoveTransitionAction, TransitionBase?>(nameof(Transition));

@@ -19,6 +19,8 @@ public sealed class ContextDragWithDirectionBehavior : StyledElementBehavior<Con
     private PointerEventArgs? _triggerEvent;
     private bool _lock;
     private bool _captured;
+    private static readonly DataFormat<string> DirectionDataTransferFormat =
+        DataFormat.CreateStringApplicationFormat("Avalonia.Xaml.Interactions.DragAndDrop.Direction");
 
     /// <summary>
     /// Identifies the <see cref="Context"/> avalonia property.
@@ -104,9 +106,15 @@ public sealed class ContextDragWithDirectionBehavior : StyledElementBehavior<Con
 
     private async Task DoDragDrop(PointerEventArgs triggerEvent, object? value, string direction)
     {
-        var data = new DataObject();
-        data.Set(ContextDropBehavior.DataFormat, value!);
-        data.Set("direction", direction);
+        var data = new DataTransfer();
+        var contextKey = DragDropContextStore.Add(value);
+
+        if (contextKey is not null)
+        {
+            data.Add(DataTransferItem.Create(ContextDropBehaviorBase.ContextDataTransferFormat, contextKey));
+        }
+
+        data.Add(DataTransferItem.Create(DirectionDataTransferFormat, direction));
 
         var effect = DragDropEffects.None;
 
@@ -127,7 +135,14 @@ public sealed class ContextDragWithDirectionBehavior : StyledElementBehavior<Con
             effect |= DragDropEffects.Move;
         }
 
-        await DragDrop.DoDragDrop(triggerEvent, data, effect);
+        try
+        {
+            await DragDrop.DoDragDropAsync(triggerEvent, data, effect);
+        }
+        finally
+        {
+            DragDropContextStore.Remove(contextKey);
+        }
     }
 
     private void Released()

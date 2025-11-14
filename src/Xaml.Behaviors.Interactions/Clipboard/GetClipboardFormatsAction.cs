@@ -4,6 +4,7 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Avalonia.Controls;
+using Avalonia.Input;
 using Avalonia.Input.Platform;
 using Avalonia.LogicalTree;
 using Avalonia.Threading;
@@ -74,7 +75,11 @@ public class GetClipboardFormatsAction : InvokeCommandActionBase
                 return;
             }
 
-            formats = await clipboard.GetFormatsAsync();
+            var dataFormats = await ClipboardExtensions.GetDataFormatsAsync(clipboard);
+            if (dataFormats is not null)
+            {
+                formats = dataFormats.Select(format => format.Identifier).ToArray();
+            }
         }
         catch (Exception)
         {

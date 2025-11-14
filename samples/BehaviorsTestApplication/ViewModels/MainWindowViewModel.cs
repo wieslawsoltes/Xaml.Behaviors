@@ -11,6 +11,7 @@ using System.Reactive.Subjects;
 using System.Reflection;
 using System.Threading.Tasks;
 using Avalonia.Controls;
+using Avalonia.Input;
 using Avalonia.Platform;
 using Avalonia.Platform.Storage;
 using Avalonia.Xaml.Interactions.Custom;
@@ -125,6 +126,10 @@ public partial class MainWindowViewModel : ViewModelBase
         GetClipboardTextCommand = ReactiveCommand.Create<string?>(GetClipboardText);
         GetClipboardDataCommand = ReactiveCommand.Create<object?>(GetClipboardData);
         GetClipboardFormatsCommand = ReactiveCommand.Create<IEnumerable<string>?>(GetClipboardFormats);
+
+        var clipboardTransfer = new DataTransfer();
+        clipboardTransfer.Add(DataTransferItem.CreateText("Sample clipboard data object"));
+        ClipboardDataTransfer = clipboardTransfer;
 
         UploadFilePath = string.Empty;
         UploadUrl = string.Empty;
@@ -398,6 +403,8 @@ public partial class MainWindowViewModel : ViewModelBase
     public ICommand GetClipboardFormatsCommand { get; set; }
 
     public ICommand UploadCompletedCommand { get; set; }
+
+    public IAsyncDataTransfer ClipboardDataTransfer { get; }
 
     public ICommand TextChangedCommand { get; }
 
