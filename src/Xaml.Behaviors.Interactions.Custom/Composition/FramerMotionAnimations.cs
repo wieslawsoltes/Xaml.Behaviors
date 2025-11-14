@@ -12,54 +12,139 @@ namespace Avalonia.Xaml.Interactions.Custom;
 /// </summary>
 public static class FramerMotionAnimations
 {
+    /// <summary>
+    /// Fades the control in using an opacity animation.
+    /// </summary>
+    /// <param name="element">The control to animate.</param>
+    /// <param name="milliseconds">Animation duration expressed in milliseconds.</param>
     public static void SetFadeIn(Control element, double milliseconds) =>
         Run(element, milliseconds, CreateFadeInDefinition);
 
+    /// <summary>
+    /// Fades the control in while translating it upward.
+    /// </summary>
+    /// <param name="element">The control to animate.</param>
+    /// <param name="milliseconds">Animation duration expressed in milliseconds.</param>
     public static void SetFadeInUp(Control element, double milliseconds) =>
         Run(element, milliseconds, () => CreateFadeInDirectional(new Vector3(0f, 40f, 0f)));
 
+    /// <summary>
+    /// Fades the control in while translating it downward.
+    /// </summary>
+    /// <param name="element">The control to animate.</param>
+    /// <param name="milliseconds">Animation duration expressed in milliseconds.</param>
     public static void SetFadeInDown(Control element, double milliseconds) =>
         Run(element, milliseconds, () => CreateFadeInDirectional(new Vector3(0f, -40f, 0f)));
 
+    /// <summary>
+    /// Fades the control in while translating it from the left.
+    /// </summary>
+    /// <param name="element">The control to animate.</param>
+    /// <param name="milliseconds">Animation duration expressed in milliseconds.</param>
     public static void SetFadeInLeft(Control element, double milliseconds) =>
         Run(element, milliseconds, () => CreateFadeInDirectional(new Vector3(-40f, 0f, 0f)));
 
+    /// <summary>
+    /// Fades the control in while translating it from the right.
+    /// </summary>
+    /// <param name="element">The control to animate.</param>
+    /// <param name="milliseconds">Animation duration expressed in milliseconds.</param>
     public static void SetFadeInRight(Control element, double milliseconds) =>
         Run(element, milliseconds, () => CreateFadeInDirectional(new Vector3(40f, 0f, 0f)));
 
+    /// <summary>
+    /// Slides the control in from the left.
+    /// </summary>
+    /// <param name="element">The control to animate.</param>
+    /// <param name="milliseconds">Animation duration expressed in milliseconds.</param>
     public static void SetSlideInFromLeft(Control element, double milliseconds) =>
         Run(element, milliseconds, () => CreateSlideIn(new Vector3(-120f, 0f, 0f)));
 
+    /// <summary>
+    /// Slides the control in from the right.
+    /// </summary>
+    /// <param name="element">The control to animate.</param>
+    /// <param name="milliseconds">Animation duration expressed in milliseconds.</param>
     public static void SetSlideInFromRight(Control element, double milliseconds) =>
         Run(element, milliseconds, () => CreateSlideIn(new Vector3(120f, 0f, 0f)));
 
+    /// <summary>
+    /// Slides the control in from the top.
+    /// </summary>
+    /// <param name="element">The control to animate.</param>
+    /// <param name="milliseconds">Animation duration expressed in milliseconds.</param>
     public static void SetSlideInFromTop(Control element, double milliseconds) =>
         Run(element, milliseconds, () => CreateSlideIn(new Vector3(0f, -120f, 0f)));
 
+    /// <summary>
+    /// Slides the control in from the bottom.
+    /// </summary>
+    /// <param name="element">The control to animate.</param>
+    /// <param name="milliseconds">Animation duration expressed in milliseconds.</param>
     public static void SetSlideInFromBottom(Control element, double milliseconds) =>
         Run(element, milliseconds, () => CreateSlideIn(new Vector3(0f, 120f, 0f)));
 
+    /// <summary>
+    /// Runs a pop-in scale animation centered on the control.
+    /// </summary>
+    /// <param name="element">The control to animate.</param>
+    /// <param name="milliseconds">Animation duration expressed in milliseconds.</param>
     public static void SetPopIn(Control element, double milliseconds) =>
         Run(element, milliseconds, CreatePopInDefinition, ensureCenterPoint: true);
 
+    /// <summary>
+    /// Runs a pop-out scale animation centered on the control.
+    /// </summary>
+    /// <param name="element">The control to animate.</param>
+    /// <param name="milliseconds">Animation duration expressed in milliseconds.</param>
     public static void SetPopOut(Control element, double milliseconds) =>
         Run(element, milliseconds, CreatePopOutDefinition, ensureCenterPoint: true);
 
+    /// <summary>
+    /// Runs a vertical spring-in animation similar to Framer Motion's preset.
+    /// </summary>
+    /// <param name="element">The control to animate.</param>
+    /// <param name="milliseconds">Animation duration expressed in milliseconds.</param>
     public static void SetSpringIn(Control element, double milliseconds) =>
         Run(element, milliseconds, CreateSpringInDefinition);
 
+    /// <summary>
+    /// Runs a vertical spring-out animation similar to Framer Motion's preset.
+    /// </summary>
+    /// <param name="element">The control to animate.</param>
+    /// <param name="milliseconds">Animation duration expressed in milliseconds.</param>
     public static void SetSpringOut(Control element, double milliseconds) =>
         Run(element, milliseconds, CreateSpringOutDefinition);
 
+    /// <summary>
+    /// Rotates the control into view.
+    /// </summary>
+    /// <param name="element">The control to animate.</param>
+    /// <param name="milliseconds">Animation duration expressed in milliseconds.</param>
     public static void SetRotateIn(Control element, double milliseconds) =>
         Run(element, milliseconds, () => CreateRotateDefinition(-15f, 0f), ensureCenterPoint: true);
 
+    /// <summary>
+    /// Rotates the control out of view.
+    /// </summary>
+    /// <param name="element">The control to animate.</param>
+    /// <param name="milliseconds">Animation duration expressed in milliseconds.</param>
     public static void SetRotateOut(Control element, double milliseconds) =>
         Run(element, milliseconds, () => CreateRotateDefinition(0f, 15f), ensureCenterPoint: true);
 
+    /// <summary>
+    /// Scales the control up into view.
+    /// </summary>
+    /// <param name="element">The control to animate.</param>
+    /// <param name="milliseconds">Animation duration expressed in milliseconds.</param>
     public static void SetScaleIn(Control element, double milliseconds) =>
         Run(element, milliseconds, CreateScaleInDefinition, ensureCenterPoint: true);
 
+    /// <summary>
+    /// Scales the control down out of view.
+    /// </summary>
+    /// <param name="element">The control to animate.</param>
+    /// <param name="milliseconds">Animation duration expressed in milliseconds.</param>
     public static void SetScaleOut(Control element, double milliseconds) =>
         Run(element, milliseconds, CreateScaleOutDefinition, ensureCenterPoint: true);
 

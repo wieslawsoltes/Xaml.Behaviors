@@ -4,8 +4,10 @@ using System;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
-using System.Runtime.Serialization.Formatters.Binary;
 using System.Threading.Tasks;
+#if NETSTANDARD2_0
+using System.Runtime.Serialization.Formatters.Binary;
+#endif
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Input.Platform;
@@ -175,6 +177,7 @@ public class GetClipboardDataAction : InvokeCommandActionBase
 
     private static object? TryDeserializeBinaryPayload(byte[]? bytes)
     {
+#if NETSTANDARD2_0
         if (bytes is null || !RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
         {
             return null;
@@ -199,8 +202,13 @@ public class GetClipboardDataAction : InvokeCommandActionBase
 #pragma warning disable SYSLIB0011
         return new BinaryFormatter().Deserialize(stream);
 #pragma warning restore SYSLIB0011
+#else
+        // BinaryFormatter support is disabled on trimming/AOT-friendly targets.
+        return null;
+#endif
     }
 
+#if NETSTANDARD2_0
     private static ReadOnlySpan<byte> SerializedObjectGuid =>
     [
         0x96, 0xa7, 0x9e, 0xfd,
@@ -208,6 +216,7 @@ public class GetClipboardDataAction : InvokeCommandActionBase
         0x70, 0x43,
         0xa6, 0x79, 0x56, 0x10, 0x6b, 0xb2, 0x88, 0xfb
     ];
+#endif
 
     private const string TextFormat = "Text";
     private const string FilesFormat = "Files";
