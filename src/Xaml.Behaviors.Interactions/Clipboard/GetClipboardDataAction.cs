@@ -1,12 +1,16 @@
 // Copyright (c) Wiesław Šoltés. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for details.
 using System;
+using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Threading.Tasks;
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Input.Platform;
 using Avalonia.LogicalTree;
+using Avalonia.Platform.Storage;
 using Avalonia.Threading;
 using Avalonia.Xaml.Interactivity;
 
@@ -80,8 +84,6 @@ public class GetClipboardDataAction : InvokeCommandActionBase
             return;
         }
 
-        object? data = null;
-
         try
         {
             var clipboard = Clipboard ?? (visual.GetSelfAndLogicalAncestors().LastOrDefault() as TopLevel)?.Clipboard;
@@ -90,23 +92,124 @@ public class GetClipboardDataAction : InvokeCommandActionBase
                 return;
             }
 
-            var dataFormat = string.Equals(Format, "Text", StringComparison.OrdinalIgnoreCase)
-                ? DataFormat.Text
-                : DataFormat.CreateStringApplicationFormat(Format);
-            data = await ClipboardExtensions.TryGetValueAsync<string>(clipboard, dataFormat);
+            var data = await GetClipboardDataAsync(clipboard).ConfigureAwait(false);
+            var resolvedParameter = ResolveParameter(data);
+
+            if (!Command.CanExecute(resolvedParameter))
+            {
+                return;
+            }
+
+            Command.Execute(resolvedParameter);
         }
         catch (Exception)
         {
             // ignored
         }
+    }
 
-        var resolvedParameter = ResolveParameter(data);
-
-        if (!Command.CanExecute(resolvedParameter))
+    private async Task<object?> GetClipboardDataAsync(IClipboard clipboard)
+    {
+        var format = Format;
+        if (format is null)
         {
-            return;
+            return null;
         }
 
-        Command.Execute(resolvedParameter);
+        if (IsFormat(format, TextFormat))
+        {
+            return await ClipboardExtensions.TryGetTextAsync(clipboard).ConfigureAwait(false);
+        }
+
+        if (IsFormat(format, FilesFormat))
+        {
+            return await ClipboardExtensions.TryGetFilesAsync(clipboard).ConfigureAwait(false);
+        }
+
+        if (IsFormat(format, FileNamesFormat))
+        {
+            var files = await ClipboardExtensions.TryGetFilesAsync(clipboard).ConfigureAwait(false);
+            return files?
+                .Select(file => file.TryGetLocalPath())
+                .Where(path => path is not null)
+                .ToArray();
+        }
+
+        var dataTransfer = await clipboard.TryGetDataAsync().ConfigureAwait(false);
+        if (dataTransfer is null)
+        {
+            return null;
+        }
+
+        using (dataTransfer)
+        {
+            // Try to treat the format as an application string identifier first.
+            var stringValue = await TryGetApplicationStringAsync(dataTransfer, format).ConfigureAwait(false);
+            if (stringValue is not null)
+            {
+                return stringValue;
+            }
+
+            var bytes = await dataTransfer
+                .TryGetValueAsync(DataFormat.CreateBytesPlatformFormat(format))
+                .ConfigureAwait(false);
+            return TryDeserializeBinaryPayload(bytes) ?? bytes;
+        }
     }
+
+    private static async Task<string?> TryGetApplicationStringAsync(IAsyncDataTransfer dataTransfer, string format)
+    {
+        try
+        {
+            var stringFormat = DataFormat.CreateStringApplicationFormat(format);
+            return await dataTransfer.TryGetValueAsync(stringFormat).ConfigureAwait(false);
+        }
+        catch (ArgumentException)
+        {
+            return null;
+        }
+    }
+
+    private static bool IsFormat(string format, string expected) =>
+        string.Equals(format, expected, StringComparison.OrdinalIgnoreCase);
+
+    private static object? TryDeserializeBinaryPayload(byte[]? bytes)
+    {
+        if (bytes is null || !RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+        {
+            return null;
+        }
+
+        var signature = SerializedObjectGuid;
+        if (bytes.Length < signature.Length)
+        {
+            return null;
+        }
+
+        for (var i = 0; i < signature.Length; i++)
+        {
+            if (bytes[i] != signature[i])
+            {
+                return null;
+            }
+        }
+
+        using var stream = new MemoryStream(bytes);
+        stream.Position = signature.Length;
+#pragma warning disable SYSLIB0011
+        return new BinaryFormatter().Deserialize(stream);
+#pragma warning restore SYSLIB0011
+    }
+
+    private static ReadOnlySpan<byte> SerializedObjectGuid =>
+    [
+        0x96, 0xa7, 0x9e, 0xfd,
+        0x13, 0x3b,
+        0x70, 0x43,
+        0xa6, 0x79, 0x56, 0x10, 0x6b, 0xb2, 0x88, 0xfb
+    ];
+
+    private const string TextFormat = "Text";
+    private const string FilesFormat = "Files";
+    private const string FileNamesFormat = "FileNames";
 }
