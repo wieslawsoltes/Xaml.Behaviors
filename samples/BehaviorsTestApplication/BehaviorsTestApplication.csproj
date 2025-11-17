@@ -61,6 +61,7 @@
     <ProjectReference Include="..\..\src\Xaml.Behaviors.Interactions.Responsive\Xaml.Behaviors.Interactions.Responsive.csproj" />
     <ProjectReference Include="..\..\src\Xaml.Behaviors.Interactivity\Xaml.Behaviors.Interactivity.csproj" />
     <ProjectReference Include="..\..\src\Xaml.Behaviors.Interactions.ReactiveUI\Xaml.Behaviors.Interactions.ReactiveUI.csproj" />
+    <ProjectReference Include="..\..\src\Xaml.Behaviors.Storyboards.Avalonia\Xaml.Behaviors.Storyboards.Avalonia.csproj" />
   </ItemGroup>
 
 

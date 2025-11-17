@@ -1,0 +1,181 @@
+<UserControl x:Class="BehaviorsTestApplication.Views.Pages.StoryboardBehaviorsView"
+             xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:BehaviorsTestApplication.ViewModels"
+             xmlns:sb="using:Avalonia.Xaml.Behaviors.Storyboards"
+             x:DataType="vm:MainWindowViewModel"
+             mc:Ignorable="d"
+             d:DesignWidth="900"
+             d:DesignHeight="500">
+  <Design.DataContext>
+    <vm:MainWindowViewModel />
+  </Design.DataContext>
+  <Grid Margin="24"
+        RowDefinitions="Auto,*"
+        ColumnDefinitions="2*,24,1.4*">
+    <TextBlock Grid.ColumnSpan="3"
+               Text="Pointer-triggered storyboards demonstrate Compose handoff behavior and property-path targeting."
+               FontSize="18"
+               FontWeight="SemiBold"
+               Margin="0,0,0,12" />
+    <Border Grid.Row="1"
+            Background="#1E2435"
+            Padding="24"
+            CornerRadius="18"
+            x:Name="InteractiveCard"
+            RenderTransformOrigin="0.5,0.5">
+      <Border.Background>
+        <SolidColorBrush Color="#FF2E3856" />
+      </Border.Background>
+      <Border.RenderTransform>
+        <TransformGroup>
+          <ScaleTransform ScaleX="1" ScaleY="1" />
+          <SkewTransform AngleX="0" AngleY="0" />
+        </TransformGroup>
+      </Border.RenderTransform>
+      <StackPanel Spacing="8">
+        <TextBlock Text="Pointer Storyboards"
+                   FontSize="20"
+                   FontWeight="SemiBold"
+                   Foreground="White" />
+        <TextBlock Text="Move the pointer inside to start layered animations. Hold the pointer to pause, release to resume, and exit to stop."
+                   TextWrapping="Wrap"
+                   Foreground="#F5F7FF" />
+        <Border BorderBrush="#30364F"
+                BorderThickness="1"
+                CornerRadius="10"
+                Padding="12"
+                Background="#141A2B">
+          <StackPanel Spacing="4">
+            <TextBlock Text="Storyboard keys"
+                       FontWeight="SemiBold"
+                       Foreground="#A8B4FF" />
+            <TextBlock Text="• Card.ColorPulse"
+                       Foreground="#DDE1FF" />
+            <TextBlock Text="• Card.ScaleX"
+                       Foreground="#DDE1FF" />
+            <TextBlock Text="• Card.ScaleY"
+                       Foreground="#DDE1FF" />
+          </StackPanel>
+        </Border>
+      </StackPanel>
+      <Interaction.Behaviors>
+        <EventTriggerBehavior EventName="PointerEntered">
+          <sb:BeginStoryboardAction StoryboardKey="Card.ColorPulse"
+                                    HandoffBehavior="Compose">
+            <sb:BeginStoryboardAction.Storyboard>
+              <Animation Duration="0:0:0.45"
+                         x:SetterTargetType="SolidColorBrush"
+                         PlaybackDirection="Alternate"
+                         IterationCount="Infinite"
+                         FillMode="Forward"
+                         sb:StoryboardService.TargetName="InteractiveCard"
+                         sb:StoryboardService.TargetProperty="(Border.Background).(SolidColorBrush.Color)">
+                <KeyFrame Cue="0%">
+                  <Setter Property="Color"
+                          Value="#FF2E3856" />
+                </KeyFrame>
+                <KeyFrame Cue="100%">
+                  <Setter Property="Color"
+                          Value="#FF8BA0FF" />
+                </KeyFrame>
+              </Animation>
+            </sb:BeginStoryboardAction.Storyboard>
+          </sb:BeginStoryboardAction>
+          <sb:BeginStoryboardAction StoryboardKey="Card.ScaleX"
+                                    HandoffBehavior="Compose">
+            <sb:BeginStoryboardAction.Storyboard>
+              <Animation Duration="0:0:0.35"
+                         x:SetterTargetType="ScaleTransform"
+                         PlaybackDirection="Alternate"
+                         IterationCount="Infinite"
+                         FillMode="Forward"
+                         sb:StoryboardService.TargetName="InteractiveCard"
+                         sb:StoryboardService.TargetProperty="(Border.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)">
+                <KeyFrame Cue="0%">
+                  <Setter Property="ScaleX"
+                          Value="1" />
+                </KeyFrame>
+                <KeyFrame Cue="100%">
+                  <Setter Property="ScaleX"
+                          Value="1.08" />
+                </KeyFrame>
+              </Animation>
+            </sb:BeginStoryboardAction.Storyboard>
+          </sb:BeginStoryboardAction>
+          <sb:BeginStoryboardAction StoryboardKey="Card.ScaleY"
+                                    HandoffBehavior="Compose">
+            <sb:BeginStoryboardAction.Storyboard>
+              <Animation Duration="0:0:0.35"
+                         x:SetterTargetType="ScaleTransform"
+                         PlaybackDirection="Alternate"
+                         IterationCount="Infinite"
+                         FillMode="Forward"
+                         sb:StoryboardService.TargetName="InteractiveCard"
+                         sb:StoryboardService.TargetProperty="(Border.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)">
+                <KeyFrame Cue="0%">
+                  <Setter Property="ScaleY"
+                          Value="1" />
+                </KeyFrame>
+                <KeyFrame Cue="100%">
+                  <Setter Property="ScaleY"
+                          Value="1.08" />
+                </KeyFrame>
+              </Animation>
+            </sb:BeginStoryboardAction.Storyboard>
+          </sb:BeginStoryboardAction>
+        </EventTriggerBehavior>
+        <EventTriggerBehavior EventName="PointerExited">
+          <sb:StopStoryboardAction StoryboardKey="Card.ColorPulse" />
+          <sb:StopStoryboardAction StoryboardKey="Card.ScaleX" />
+          <sb:StopStoryboardAction StoryboardKey="Card.ScaleY" />
+        </EventTriggerBehavior>
+        <EventTriggerBehavior EventName="PointerPressed">
+          <sb:PauseStoryboardAction StoryboardKey="Card.ColorPulse" />
+          <sb:PauseStoryboardAction StoryboardKey="Card.ScaleX" />
+          <sb:PauseStoryboardAction StoryboardKey="Card.ScaleY" />
+        </EventTriggerBehavior>
+        <EventTriggerBehavior EventName="PointerReleased">
+          <sb:ResumeStoryboardAction StoryboardKey="Card.ColorPulse" />
+          <sb:ResumeStoryboardAction StoryboardKey="Card.ScaleX" />
+          <sb:ResumeStoryboardAction StoryboardKey="Card.ScaleY" />
+        </EventTriggerBehavior>
+      </Interaction.Behaviors>
+    </Border>
+    <StackPanel Grid.Row="1"
+                Grid.Column="2"
+                Spacing="12">
+      <TextBlock Text="Pointer interactions"
+                 FontSize="16"
+                 FontWeight="SemiBold" />
+      <TextBlock Text="• PointerEntered → three BeginStoryboardAction instances using Compose handoff layers."
+                 TextWrapping="Wrap" />
+      <TextBlock Text="• PointerPressed/Released → Pause and Resume storyboards without losing the current Cue."
+                 TextWrapping="Wrap" />
+      <TextBlock Text="• PointerExited → Stop the running storyboards so the registry entry is cleaned up."
+                 TextWrapping="Wrap" />
+      <TextBlock Text="Complex Storyboard.TargetProperty values"
+                 FontSize="16"
+                 FontWeight="SemiBold"
+                 Margin="0,12,0,0" />
+      <Border BorderBrush="#C7CBDC"
+              BorderThickness="1"
+              CornerRadius="10"
+              Padding="12">
+        <StackPanel Spacing="6">
+          <TextBlock Text="(Border.Background).(SolidColorBrush.Color)"
+                     FontFamily="Consolas"
+                     TextWrapping="Wrap" />
+          <TextBlock Text="(Border.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)"
+                     FontFamily="Consolas"
+                     TextWrapping="Wrap" />
+          <TextBlock Text="(Border.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)"
+                     FontFamily="Consolas"
+                     TextWrapping="Wrap" />
+        </StackPanel>
+      </Border>
+    </StackPanel>
+  </Grid>
+</UserControl>

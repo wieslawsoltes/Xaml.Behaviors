@@ -1,0 +1,502 @@
+<UserControl x:Class="BehaviorsTestApplication.Views.Pages.StoryboardOrchestrationView"
+             xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:BehaviorsTestApplication.ViewModels"
+             xmlns:i="using:Avalonia.Xaml.Interactivity"
+             xmlns:ia="using:Avalonia.Xaml.Interactions.Core"
+             xmlns:sb="using:Avalonia.Xaml.Behaviors.Storyboards"
+             x:DataType="vm:MainWindowViewModel"
+             mc:Ignorable="d"
+             d:DesignWidth="1000"
+             d:DesignHeight="640">
+  <UserControl.Resources>
+    <Animation x:Key="MissionSequenceStoryboard"
+               Duration="0:0:14"
+               Delay="0:0:0.4"
+               FillMode="Forward"
+               x:SetterTargetType="Border"
+               sb:StoryboardService.TargetName="MissionScene">
+      <KeyFrame Cue="0%">
+        <Setter Property="Padding" Value="18" />
+        <Setter Property="CornerRadius" Value="18" />
+        <Setter Property="BorderBrush" Value="#223044" />
+        <Setter Property="Background">
+          <Setter.Value>
+            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+              <GradientStop Offset="0" Color="#111725" />
+              <GradientStop Offset="1" Color="#090D16" />
+            </LinearGradientBrush>
+          </Setter.Value>
+        </Setter>
+      </KeyFrame>
+      <KeyFrame Cue="0.33">
+        <Setter Property="Padding" Value="26" />
+        <Setter Property="CornerRadius" Value="22" />
+        <Setter Property="BorderBrush" Value="#2C6FE5" />
+        <Setter Property="Background">
+          <Setter.Value>
+            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+              <GradientStop Offset="0" Color="#122037" />
+              <GradientStop Offset="1" Color="#0D1322" />
+            </LinearGradientBrush>
+          </Setter.Value>
+        </Setter>
+      </KeyFrame>
+      <KeyFrame Cue="0.66">
+        <Setter Property="Padding" Value="32" />
+        <Setter Property="CornerRadius" Value="28" />
+        <Setter Property="BorderBrush" Value="#43C8C1" />
+        <Setter Property="Background">
+          <Setter.Value>
+            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+              <GradientStop Offset="0" Color="#12263E" />
+              <GradientStop Offset="1" Color="#1C223A" />
+            </LinearGradientBrush>
+          </Setter.Value>
+        </Setter>
+      </KeyFrame>
+      <KeyFrame Cue="1.0">
+        <Setter Property="Padding" Value="24" />
+        <Setter Property="CornerRadius" Value="24" />
+        <Setter Property="BorderBrush" Value="#55E5A1" />
+        <Setter Property="Background">
+          <Setter.Value>
+            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+              <GradientStop Offset="0" Color="#172742" />
+              <GradientStop Offset="1" Color="#10182A" />
+            </LinearGradientBrush>
+          </Setter.Value>
+        </Setter>
+      </KeyFrame>
+    </Animation>
+
+    <Animation x:Key="TrajectoryStoryboard"
+               Duration="0:0:9"
+               DelayBetweenIterations="0:0:0.4"
+               IterationCount="Infinite"
+               FillMode="Forward"
+               x:SetterTargetType="Ellipse"
+               sb:StoryboardService.TargetName="Orbiter">
+      <KeyFrame Cue="0%">
+        <Setter Property="Canvas.Left" Value="40" />
+        <Setter Property="Canvas.Top" Value="150" />
+        <Setter Property="Opacity" Value="0.8" />
+        <Setter Property="StrokeThickness" Value="3" />
+      </KeyFrame>
+      <KeyFrame Cue="0.25">
+        <Setter Property="Canvas.Left" Value="120" />
+        <Setter Property="Canvas.Top" Value="60" />
+        <Setter Property="Opacity" Value="1" />
+        <Setter Property="StrokeThickness" Value="5" />
+      </KeyFrame>
+      <KeyFrame Cue="0.5">
+        <Setter Property="Canvas.Left" Value="200" />
+        <Setter Property="Canvas.Top" Value="30" />
+        <Setter Property="Opacity" Value="0.95" />
+        <Setter Property="StrokeThickness" Value="4" />
+      </KeyFrame>
+      <KeyFrame Cue="0.75">
+        <Setter Property="Canvas.Left" Value="320" />
+        <Setter Property="Canvas.Top" Value="80" />
+        <Setter Property="Opacity" Value="0.85" />
+        <Setter Property="StrokeThickness" Value="3" />
+      </KeyFrame>
+      <KeyFrame Cue="1">
+        <Setter Property="Canvas.Left" Value="40" />
+        <Setter Property="Canvas.Top" Value="150" />
+        <Setter Property="Opacity" Value="0.78" />
+        <Setter Property="StrokeThickness" Value="3" />
+      </KeyFrame>
+    </Animation>
+
+    <Animation x:Key="TelemetryPulseStoryboard"
+               Duration="0:0:1.4"
+               PlaybackDirection="Alternate"
+               IterationCount="Infinite"
+               FillMode="Forward"
+               x:SetterTargetType="Border"
+               sb:StoryboardService.TargetName="TelemetryPulse">
+      <KeyFrame Cue="0%">
+        <Setter Property="Width" Value="100" />
+        <Setter Property="Opacity" Value="0.15" />
+        <Setter Property="CornerRadius" Value="40" />
+      </KeyFrame>
+      <KeyFrame Cue="100%">
+        <Setter Property="Width" Value="210" />
+        <Setter Property="Opacity" Value="0.4" />
+        <Setter Property="CornerRadius" Value="90" />
+      </KeyFrame>
+    </Animation>
+
+    <Animation x:Key="MissionGlowStoryboard"
+               Duration="0:0:2.4"
+               PlaybackDirection="Alternate"
+               IterationCount="Infinite"
+               FillMode="Forward"
+               x:SetterTargetType="Border"
+               sb:StoryboardService.TargetName="GlowHalo">
+      <KeyFrame Cue="0%">
+        <Setter Property="Opacity" Value="0" />
+        <Setter Property="BorderBrush" Value="#0043C8C1" />
+      </KeyFrame>
+      <KeyFrame Cue="100%">
+        <Setter Property="Opacity" Value="0.8" />
+        <Setter Property="BorderBrush" Value="#9939B7C0" />
+      </KeyFrame>
+    </Animation>
+  </UserControl.Resources>
+
+  <Border x:Name="MissionBoard"
+          Padding="24"
+          Background="#0B111C"
+          BorderBrush="#1E2A3D"
+          BorderThickness="1"
+          CornerRadius="20">
+    <Grid ColumnDefinitions="2.3*,1*"
+          ColumnSpacing="24">
+      <Grid>
+        <Grid.RowDefinitions>
+          <RowDefinition Height="Auto" />
+          <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <StackPanel Spacing="8">
+          <TextBlock Text="Mission Orchestration Board"
+                     FontSize="22"
+                     FontWeight="SemiBold" />
+          <TextBlock Text="Three independent storyboards (sequence, telemetry pulse, and orbital trajectory) are layered together. Start the timeline, compose additional layers, or splice directly into a later cue using seek and skip actions."
+                     TextWrapping="Wrap"
+                     Foreground="#DDE1FF" />
+          <StackPanel Orientation="Horizontal"
+                      Spacing="8">
+            <Border Padding="6,3"
+                    Background="#182132"
+                    CornerRadius="6">
+              <TextBlock Text="Ignition → Transfer → Capture → Dock"
+                         FontSize="12"
+                         Foreground="#8DA2FF" />
+            </Border>
+            <Border Padding="6,3"
+                    Background="#182132"
+                    CornerRadius="6">
+              <TextBlock Text="Handoff Behavior: Compose"
+                         FontSize="12"
+                         Foreground="#8DA2FF" />
+            </Border>
+          </StackPanel>
+        </StackPanel>
+
+        <Border x:Name="MissionScene"
+                Grid.Row="1"
+                Margin="0,18,0,0"
+                Padding="24"
+                CornerRadius="24"
+                BorderBrush="#223044"
+                BorderThickness="2">
+          <Grid>
+            <Border x:Name="GlowHalo"
+                    Background="Transparent"
+                    BorderBrush="Transparent"
+                    BorderThickness="3"
+                    CornerRadius="24"
+                    Opacity="0" />
+            <Grid>
+              <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+              </Grid.RowDefinitions>
+              <Grid>
+                <Canvas>
+                  <Path Stroke="#1F6FEB"
+                        StrokeThickness="3"
+                        Fill="Transparent"
+                        StrokeDashArray="5,6"
+                        Data="M 40,150 C 90,40 200,10 320,60 C 400,96 450,180 360,220"
+                        Opacity="0.4" />
+                  <Ellipse Width="32"
+                           Height="32"
+                           Stroke="#0B1624"
+                           StrokeThickness="2"
+                           Fill="#142032"
+                           Canvas.Left="120"
+                           Canvas.Top="60" />
+                </Canvas>
+                <Border x:Name="TelemetryPulse"
+                        Width="120"
+                        Height="120"
+                        CornerRadius="60"
+                        Background="#552F80ED"
+                        Opacity="0.2"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center" />
+                <Ellipse x:Name="Orbiter"
+                         Width="38"
+                         Height="38"
+                         StrokeThickness="4"
+                         Stroke="#5CE1BC"
+                         Fill="#102022"
+                         Canvas.Left="40"
+                         Canvas.Top="150" />
+                <StackPanel HorizontalAlignment="Right"
+                            VerticalAlignment="Top"
+                            Spacing="4">
+                  <Border Padding="8,4"
+                          Background="#182132"
+                          CornerRadius="8">
+                    <TextBlock Text="Orbit GUID: 6E1-A"
+                               FontSize="12"
+                               Foreground="#D0E3FF" />
+                  </Border>
+                  <Border Padding="8,4"
+                          Background="#182132"
+                          CornerRadius="8">
+                    <TextBlock Text="Telemetry: 37.2 kbps"
+                               FontSize="12"
+                               Foreground="#D0E3FF" />
+                  </Border>
+                </StackPanel>
+              </Grid>
+              <StackPanel Grid.Row="1"
+                          Orientation="Horizontal"
+                          Spacing="12"
+                          Margin="0,20,0,0">
+                <Border Padding="12,6"
+                        Background="#141B29"
+                        CornerRadius="10">
+                  <StackPanel>
+                    <TextBlock Text="T+0s"
+                               Foreground="#8DA2FF"
+                               FontSize="12" />
+                    <TextBlock Text="Ignition"
+                               FontWeight="SemiBold" />
+                  </StackPanel>
+                </Border>
+                <Border Padding="12,6"
+                        Background="#141B29"
+                        CornerRadius="10">
+                  <StackPanel>
+                    <TextBlock Text="T+4s"
+                               Foreground="#8DA2FF"
+                               FontSize="12" />
+                    <TextBlock Text="Trans Lunar"
+                               FontWeight="SemiBold" />
+                  </StackPanel>
+                </Border>
+                <Border Padding="12,6"
+                        Background="#141B29"
+                        CornerRadius="10">
+                  <StackPanel>
+                    <TextBlock Text="T+9s"
+                               Foreground="#8DA2FF"
+                               FontSize="12" />
+                    <TextBlock Text="Capture"
+                               FontWeight="SemiBold" />
+                  </StackPanel>
+                </Border>
+                <Border Padding="12,6"
+                        Background="#141B29"
+                        CornerRadius="10">
+                  <StackPanel>
+                    <TextBlock Text="T+14s"
+                               Foreground="#8DA2FF"
+                               FontSize="12" />
+                    <TextBlock Text="Docking"
+                               FontWeight="SemiBold" />
+                  </StackPanel>
+                </Border>
+              </StackPanel>
+            </Grid>
+          </Grid>
+        </Border>
+      </Grid>
+
+      <StackPanel Grid.Column="1"
+                  Spacing="14">
+        <TextBlock Text="Transport Controls"
+                   FontSize="18"
+                   FontWeight="SemiBold" />
+        <TextBlock Text="Sequence controls operate on Mission.Sequence; telemetry and trajectory run in parallel via Compose handoff layers."
+                   TextWrapping="Wrap"
+                   Foreground="#C7D1FF" />
+
+        <Border Background="#131A2A"
+                CornerRadius="14"
+                Padding="14">
+          <StackPanel Spacing="10">
+            <TextBlock Text="Mission.Sequence"
+                       FontWeight="SemiBold"
+                       Foreground="#8DE2BF" />
+            <WrapPanel>
+              <Button x:Name="SequencePauseButton"
+                      Content="Pause"
+                      Margin="0,0,8,8" />
+              <Button x:Name="SequenceResumeButton"
+                      Content="Resume"
+                      Margin="0,0,8,8" />
+              <Button x:Name="SequenceSeekButton"
+                      Content="Seek +3s"
+                      Margin="0,0,8,8" />
+              <Button x:Name="SequenceSkipButton"
+                      Content="Skip to Dock"
+                      Margin="0,0,8,8" />
+              <Button x:Name="SequenceRestartButton"
+                      Content="Restart"
+                      Margin="0,0,8,8" />
+            </WrapPanel>
+          </StackPanel>
+        </Border>
+
+        <Border Background="#131A2A"
+                CornerRadius="14"
+                Padding="14">
+          <StackPanel Spacing="10">
+            <TextBlock Text="Mission.Telemetry"
+                       FontWeight="SemiBold"
+                       Foreground="#8DB5FF" />
+            <WrapPanel>
+              <Button x:Name="TelemetryLayerButton"
+                      Content="Layer Telemetry"
+                      Margin="0,0,8,8" />
+              <Button x:Name="TelemetryPauseButton"
+                      Content="Pause Telemetry"
+                      Margin="0,0,8,8" />
+              <Button x:Name="TelemetryResumeButton"
+                      Content="Resume Telemetry"
+                      Margin="0,0,8,8" />
+              <Button x:Name="TelemetryRemoveButton"
+                      Content="Remove Layer"
+                      Margin="0,0,8,8" />
+            </WrapPanel>
+          </StackPanel>
+        </Border>
+
+        <Border Background="#131A2A"
+                CornerRadius="14"
+                Padding="14">
+          <StackPanel Spacing="10">
+            <TextBlock Text="Mission.Trajectory"
+                       FontWeight="SemiBold"
+                       Foreground="#F2A55F" />
+            <WrapPanel>
+              <Button x:Name="TrajectoryHalfSpeedButton"
+                      Content="Half Speed"
+                      Margin="0,0,8,8" />
+              <Button x:Name="TrajectoryNormalSpeedButton"
+                      Content="Normal Speed"
+                      Margin="0,0,8,8" />
+              <Button x:Name="TrajectoryBoostSpeedButton"
+                      Content="Boost Speed"
+                      Margin="0,0,8,8" />
+              <Button x:Name="TrajectoryPauseButton"
+                      Content="Pause Path"
+                      Margin="0,0,8,8" />
+              <Button x:Name="TrajectoryResumeButton"
+                      Content="Resume Path"
+                      Margin="0,0,8,8" />
+            </WrapPanel>
+          </StackPanel>
+        </Border>
+      </StackPanel>
+    </Grid>
+    <i:Interaction.Behaviors>
+      <ia:EventTriggerBehavior EventName="Loaded">
+      <sb:BeginStoryboardAction StoryboardKey="Mission.Sequence"
+                                KeepAlive="True"
+                                StoryboardResourceKey="MissionSequenceStoryboard" />
+      <sb:BeginStoryboardAction StoryboardKey="Mission.Trajectory"
+                                KeepAlive="True"
+                                StoryboardResourceKey="TrajectoryStoryboard" />
+    </ia:EventTriggerBehavior>
+    <ia:EventTriggerBehavior EventName="PointerEntered"
+                             SourceObject="MissionScene">
+      <sb:BeginStoryboardAction StoryboardKey="Mission.Glow"
+                                KeepAlive="True"
+                                HandoffBehavior="Compose"
+                                StoryboardResourceKey="MissionGlowStoryboard" />
+    </ia:EventTriggerBehavior>
+    <ia:EventTriggerBehavior EventName="PointerExited"
+                             SourceObject="MissionScene">
+      <sb:StopStoryboardAction StoryboardKey="Mission.Glow" />
+    </ia:EventTriggerBehavior>
+    <ia:EventTriggerBehavior EventName="PointerPressed"
+                             SourceObject="MissionScene">
+      <sb:BeginStoryboardAction StoryboardKey="Mission.Telemetry"
+                                KeepAlive="True"
+                                HandoffBehavior="Compose"
+                                StoryboardResourceKey="TelemetryPulseStoryboard" />
+    </ia:EventTriggerBehavior>
+    <ia:EventTriggerBehavior EventName="PointerReleased"
+                             SourceObject="MissionScene">
+      <sb:StopStoryboardAction StoryboardKey="Mission.Telemetry" />
+    </ia:EventTriggerBehavior>
+    <ia:EventTriggerBehavior EventName="Click"
+                             SourceObject="SequencePauseButton">
+      <sb:PauseStoryboardAction StoryboardKey="Mission.Sequence" />
+    </ia:EventTriggerBehavior>
+    <ia:EventTriggerBehavior EventName="Click"
+                             SourceObject="SequenceResumeButton">
+      <sb:ResumeStoryboardAction StoryboardKey="Mission.Sequence" />
+    </ia:EventTriggerBehavior>
+    <ia:EventTriggerBehavior EventName="Click"
+                             SourceObject="SequenceSeekButton">
+      <sb:SeekStoryboardAction StoryboardKey="Mission.Sequence"
+                               Offset="0:0:3"
+                               Origin="Current" />
+    </ia:EventTriggerBehavior>
+    <ia:EventTriggerBehavior EventName="Click"
+                             SourceObject="SequenceSkipButton">
+      <sb:SkipToFillStoryboardAction StoryboardKey="Mission.Sequence" />
+    </ia:EventTriggerBehavior>
+    <ia:EventTriggerBehavior EventName="Click"
+                             SourceObject="SequenceRestartButton">
+      <sb:StopStoryboardAction StoryboardKey="Mission.Sequence" />
+      <sb:BeginStoryboardAction StoryboardKey="Mission.Sequence"
+                                KeepAlive="True"
+                                StoryboardResourceKey="MissionSequenceStoryboard" />
+    </ia:EventTriggerBehavior>
+    <ia:EventTriggerBehavior EventName="Click"
+                             SourceObject="TelemetryLayerButton">
+      <sb:BeginStoryboardAction StoryboardKey="Mission.Telemetry"
+                                KeepAlive="True"
+                                HandoffBehavior="Compose"
+                                StoryboardResourceKey="TelemetryPulseStoryboard" />
+    </ia:EventTriggerBehavior>
+    <ia:EventTriggerBehavior EventName="Click"
+                             SourceObject="TelemetryPauseButton">
+      <sb:PauseStoryboardAction StoryboardKey="Mission.Telemetry" />
+    </ia:EventTriggerBehavior>
+    <ia:EventTriggerBehavior EventName="Click"
+                             SourceObject="TelemetryResumeButton">
+      <sb:ResumeStoryboardAction StoryboardKey="Mission.Telemetry" />
+    </ia:EventTriggerBehavior>
+    <ia:EventTriggerBehavior EventName="Click"
+                             SourceObject="TelemetryRemoveButton">
+      <sb:StopStoryboardAction StoryboardKey="Mission.Telemetry" />
+    </ia:EventTriggerBehavior>
+    <ia:EventTriggerBehavior EventName="Click"
+                             SourceObject="TrajectoryHalfSpeedButton">
+      <sb:SetSpeedRatioStoryboardAction StoryboardKey="Mission.Trajectory"
+                                        SpeedRatio="0.5" />
+    </ia:EventTriggerBehavior>
+    <ia:EventTriggerBehavior EventName="Click"
+                             SourceObject="TrajectoryNormalSpeedButton">
+      <sb:SetSpeedRatioStoryboardAction StoryboardKey="Mission.Trajectory"
+                                        SpeedRatio="1" />
+    </ia:EventTriggerBehavior>
+    <ia:EventTriggerBehavior EventName="Click"
+                             SourceObject="TrajectoryBoostSpeedButton">
+      <sb:SetSpeedRatioStoryboardAction StoryboardKey="Mission.Trajectory"
+                                        SpeedRatio="1.5" />
+    </ia:EventTriggerBehavior>
+    <ia:EventTriggerBehavior EventName="Click"
+                             SourceObject="TrajectoryPauseButton">
+      <sb:PauseStoryboardAction StoryboardKey="Mission.Trajectory" />
+    </ia:EventTriggerBehavior>
+    <ia:EventTriggerBehavior EventName="Click"
+                             SourceObject="TrajectoryResumeButton">
+      <sb:ResumeStoryboardAction StoryboardKey="Mission.Trajectory" />
+    </ia:EventTriggerBehavior>
+  </i:Interaction.Behaviors>
+  </Border>
+</UserControl>

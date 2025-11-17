@@ -1,0 +1,180 @@
+<UserControl x:Class="BehaviorsTestApplication.Views.Pages.StoryboardTimelineView"
+             xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:sb="using:Avalonia.Xaml.Behaviors.Storyboards"
+             xmlns:i="using:Avalonia.Xaml.Interactivity"
+             xmlns:ia="using:Avalonia.Xaml.Interactions.Core"
+             xmlns:vm="using:BehaviorsTestApplication.ViewModels"
+             x:DataType="vm:MainWindowViewModel"
+             mc:Ignorable="d"
+             d:DesignWidth="900"
+             d:DesignHeight="500">
+  <UserControl.Resources>
+    <Animation x:Key="ComplexTimelineAnimation"
+               Duration="0:0:8"
+               DelayBetweenIterations="0:0:1"
+               IterationCount="Infinite"
+               FillMode="Forward"
+               x:SetterTargetType="Border"
+               sb:StoryboardService.TargetName="TimelineIndicator">
+      <KeyFrame Cue="0%">
+        <Setter Property="Margin" Value="0,18,210,18" />
+        <Setter Property="CornerRadius" Value="6" />
+        <Setter Property="Background" Value="#FF1F6FEB" />
+        <Setter Property="Opacity" Value="1" />
+      </KeyFrame>
+      <KeyFrame Cue="35%">
+        <Setter Property="Margin" Value="70,6,140,30" />
+        <Setter Property="CornerRadius" Value="12" />
+        <Setter Property="Background" Value="#FF39B7C0" />
+        <Setter Property="Opacity" Value="0.95" />
+      </KeyFrame>
+      <KeyFrame Cue="62%">
+        <Setter Property="Margin" Value="150,26,60,10" />
+        <Setter Property="CornerRadius" Value="20" />
+        <Setter Property="Background" Value="#FFF2A55F" />
+        <Setter Property="Opacity" Value="0.85" />
+      </KeyFrame>
+      <KeyFrame Cue="85%">
+        <Setter Property="Margin" Value="220,12,-10,24" />
+        <Setter Property="CornerRadius" Value="8" />
+        <Setter Property="Background" Value="#FFE56F6F" />
+        <Setter Property="Opacity" Value="0.75" />
+      </KeyFrame>
+      <KeyFrame Cue="100%">
+        <Setter Property="Margin" Value="0,18,210,18" />
+        <Setter Property="CornerRadius" Value="6" />
+        <Setter Property="Background" Value="#FF1F6FEB" />
+        <Setter Property="Opacity" Value="1" />
+      </KeyFrame>
+    </Animation>
+  </UserControl.Resources>
+
+  <Grid Margin="24"
+        RowDefinitions="Auto,*,Auto"
+        RowSpacing="20">
+    <StackPanel Spacing="6">
+      <TextBlock Text="Storyboard Timeline Controls"
+                 FontSize="20"
+                 FontWeight="SemiBold" />
+      <TextBlock Text="The indicator below runs a single storyboard made of five timeline segments. Each keyframe changes multiple properties (margin, shape, color, opacity) to simulate a mission: ignition → cruise → capture → reset. Use the transport controls to pause, resume, seek two seconds ahead, skip directly to the fill, or stop the storyboard entirely."
+                 TextWrapping="Wrap"
+                 Foreground="#DDE1FF" />
+    </StackPanel>
+
+    <Border Grid.Row="1"
+            Padding="24"
+            CornerRadius="18"
+            Background="#141A24"
+            BorderBrush="#27344B"
+            BorderThickness="1">
+      <Grid RowDefinitions="Auto,Auto"
+            RowSpacing="12">
+        <StackPanel Orientation="Horizontal" Spacing="6">
+          <TextBlock Text="Timeline duration:"
+                     Foreground="#A8B4FF"
+                     FontWeight="SemiBold" />
+          <TextBlock Text="8 seconds + 1 second fill delay"
+                     Foreground="#E7EBFF" />
+        </StackPanel>
+        <Grid x:Name="TimelineTrackHost"
+              Height="72"
+              Background="#1E2B40">
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+          </Grid.ColumnDefinitions>
+          <Border x:Name="TimelineIndicator"
+                  Height="36"
+                  Margin="0,18,210,18"
+                  HorizontalAlignment="Stretch"
+                  Background="#FF1F6FEB"
+                  CornerRadius="6"
+                  BorderBrush="#661F6FEB"
+                  BorderThickness="1">
+            <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="2">
+              <TextBlock Text="Phase"
+                         FontSize="12"
+                         FontWeight="SemiBold"
+                         Foreground="White"
+                         HorizontalAlignment="Center" />
+              <TextBlock Text="Ignition"
+                         FontSize="11"
+                         Foreground="#F2F4FF"
+                         HorizontalAlignment="Center" />
+            </StackPanel>
+          </Border>
+          <i:Interaction.Behaviors>
+            <ia:EventTriggerBehavior EventName="Loaded">
+              <sb:BeginStoryboardAction StoryboardKey="Timeline.Complex"
+                                        KeepAlive="True"
+                                        StoryboardResourceKey="ComplexTimelineAnimation" />
+            </ia:EventTriggerBehavior>
+          </i:Interaction.Behaviors>
+        </Grid>
+      </Grid>
+    </Border>
+
+    <Grid Grid.Row="2"
+          ColumnDefinitions="*,*"
+          ColumnSpacing="18">
+      <StackPanel Orientation="Horizontal" Spacing="12">
+        <Button x:Name="PauseButton" Content="Pause" Tag="Pause" />
+        <Button x:Name="ResumeButton" Content="Resume" Tag="Resume" />
+        <Button x:Name="SeekButton" Content="Seek +2s" Tag="Seek" />
+        <Button x:Name="SkipButton" Content="Skip To Fill" Tag="Skip" />
+      </StackPanel>
+      <StackPanel Grid.Column="1"
+                  Orientation="Horizontal"
+                  Spacing="12"
+                  HorizontalAlignment="Right">
+        <Button x:Name="StopButton" Content="Stop" Tag="Stop" />
+        <Button x:Name="RestartButton" Content="Restart" Tag="Restart" />
+      </StackPanel>
+    </Grid>
+  </Grid>
+  <i:Interaction.Behaviors>
+    <ia:EventTriggerBehavior EventName="Loaded"
+                             SourceObject="TimelineTrackHost">
+      <sb:BeginStoryboardAction StoryboardKey="Timeline.Complex"
+                                KeepAlive="True"
+                                StoryboardResourceKey="ComplexTimelineAnimation" />
+    </ia:EventTriggerBehavior>
+    <ia:EventTriggerBehavior EventName="Click"
+                             SourceObject="PauseButton">
+      <sb:PauseStoryboardAction StoryboardKey="Timeline.Complex"
+                                TargetName="TimelineIndicator" />
+    </ia:EventTriggerBehavior>
+    <ia:EventTriggerBehavior EventName="Click"
+                             SourceObject="ResumeButton">
+      <sb:ResumeStoryboardAction StoryboardKey="Timeline.Complex"
+                                 TargetName="TimelineIndicator" />
+    </ia:EventTriggerBehavior>
+    <ia:EventTriggerBehavior EventName="Click"
+                             SourceObject="SeekButton">
+      <sb:SeekStoryboardAction StoryboardKey="Timeline.Complex"
+                               TargetName="TimelineIndicator"
+                               Offset="0:0:2"
+                               Origin="Current" />
+    </ia:EventTriggerBehavior>
+    <ia:EventTriggerBehavior EventName="Click"
+                             SourceObject="SkipButton">
+      <sb:SkipToFillStoryboardAction StoryboardKey="Timeline.Complex"
+                                     TargetName="TimelineIndicator" />
+    </ia:EventTriggerBehavior>
+    <ia:EventTriggerBehavior EventName="Click"
+                             SourceObject="StopButton">
+      <sb:StopStoryboardAction StoryboardKey="Timeline.Complex"
+                               TargetName="TimelineIndicator" />
+    </ia:EventTriggerBehavior>
+    <ia:EventTriggerBehavior EventName="Click"
+                             SourceObject="RestartButton">
+      <sb:StopStoryboardAction StoryboardKey="Timeline.Complex"
+                               TargetName="TimelineIndicator" />
+      <sb:BeginStoryboardAction StoryboardKey="Timeline.Complex"
+                                KeepAlive="True"
+                                StoryboardResourceKey="ComplexTimelineAnimation" />
+    </ia:EventTriggerBehavior>
+  </i:Interaction.Behaviors>
+</UserControl>

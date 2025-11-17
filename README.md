@@ -208,6 +208,10 @@ public class RotateOnClickBehavior : Behavior<Button>
 
 Custom triggers and actions follow the same pattern—derive from `Trigger` or `Action` and override the relevant methods. Use these techniques to build a library of reusable interactions tailored to your application.
 
+## Storyboard Behaviors
+
+Avalonia now ships WPF-style storyboard actions through the `Xaml.Behaviors.Storyboards.Avalonia` package. They provide `BeginStoryboardAction`, pointer-driven control actions (pause/resume/seek/stop), and a `StoryboardService` that understands complex property paths. Read the [storyboard guide](docs/storyboards.md) for setup steps plus migration tips, then run the sample app (`samples/BehaviorsTestApplication/Views/Pages/StoryboardBehaviorsView.axaml`) to see pointer-triggered storyboards that compose multiple animations on the same element.
+
 ## Docs
 
 This section provides an overview of all available classes and their purpose in Avalonia XAML Behaviors. The classes are grouped into logical categories based on their functionality.
