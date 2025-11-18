@@ -258,6 +258,15 @@
       <TabItem Header="RunAnimationTrigger">
         <pages:RunAnimationTriggerView />
       </TabItem>
+      <TabItem Header="Storyboard Behaviors">
+        <pages:StoryboardBehaviorsView />
+      </TabItem>
+      <TabItem Header="Storyboard Timeline">
+        <pages:StoryboardTimelineView />
+      </TabItem>
+      <TabItem Header="Storyboard Orchestration">
+        <pages:StoryboardOrchestrationView />
+      </TabItem>
       <TabItem Header="FluidMoveBehavior">
         <pages:FluidMoveBehaviorView />
       </TabItem>

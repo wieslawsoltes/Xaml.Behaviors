@@ -259,7 +259,13 @@ public abstract class EventTriggerBase : StyledElementTrigger
             return;
         }
 
-        Interaction.ExecuteActions(_resolvedSource, Actions, eventArgs);
+        var sender = AssociatedObject ?? _resolvedSource;
+        if (sender is null)
+        {
+            return;
+        }
+
+        Interaction.ExecuteActions(sender, Actions, eventArgs);
     }
 
     private static bool IsElementLoaded(Control element) => element.Parent is not null;

@@ -6,7 +6,7 @@ using BehaviorsTestApplication.Views;
 
 namespace BehaviorsTestApplication;
 
-public class App : Application
+public partial class App : Application
 {
     public override void Initialize()
     {

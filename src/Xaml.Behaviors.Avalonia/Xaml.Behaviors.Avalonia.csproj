@@ -29,6 +29,7 @@
     <ProjectReference Include="..\Xaml.Behaviors.Interactions.Draggable\Xaml.Behaviors.Interactions.Draggable.csproj" />
     <ProjectReference Include="..\Xaml.Behaviors.Interactions.Events\Xaml.Behaviors.Interactions.Events.csproj" />
     <ProjectReference Include="..\Xaml.Behaviors.Interactions.Responsive\Xaml.Behaviors.Interactions.Responsive.csproj" />
+    <ProjectReference Include="..\Xaml.Behaviors.Storyboards.Avalonia\Xaml.Behaviors.Storyboards.Avalonia.csproj" />
   </ItemGroup>
 
 </Project>
