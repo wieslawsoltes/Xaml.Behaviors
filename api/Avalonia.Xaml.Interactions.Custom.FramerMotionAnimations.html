@@ -1,0 +1,788 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+      <title>Class FramerMotionAnimations | XAML Behaviors for Avalonia </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="Class FramerMotionAnimations | XAML Behaviors for Avalonia ">
+      
+      <meta name="description" content="Provides composition animations inspired by popular Framer Motion presets.">
+      <link rel="icon" href="../favicon.ico">
+      <link rel="stylesheet" href="../public/docfx.min.css">
+      <link rel="stylesheet" href="../public/main.css">
+      <meta name="docfx:navrel" content="../toc.html">
+      <meta name="docfx:tocrel" content="toc.html">
+      
+      
+      
+      
+      <meta name="docfx:docurl" content="https://github.com/wieslawsoltes/Xaml.Behaviors/new/master/apiSpec/new?filename=Avalonia_Xaml_Interactions_Custom_FramerMotionAnimations.md&amp;value=---%0Auid%3A%20Avalonia.Xaml.Interactions.Custom.FramerMotionAnimations%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">
+      <meta name="loc:inThisArticle" content="In this article">
+      <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
+      <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
+      <meta name="loc:tocFilter" content="Filter by title">
+      <meta name="loc:nextArticle" content="Next">
+      <meta name="loc:prevArticle" content="Previous">
+      <meta name="loc:themeLight" content="Light">
+      <meta name="loc:themeDark" content="Dark">
+      <meta name="loc:themeAuto" content="Auto">
+      <meta name="loc:changeTheme" content="Change theme">
+      <meta name="loc:copy" content="Copy">
+      <meta name="loc:downloadPdf" content="Download PDF">
+
+      <script type="module" src="./../public/docfx.min.js"></script>
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
+  </head>
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="ManagedReference">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../index.html">
+            <img id="logo" class="svg" src="../logo.svg" alt="">
+            
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <nav class="toc" id="toc"></nav>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
+            <i class="bi bi-list"></i>
+          </button>
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article data-uid="Avalonia.Xaml.Interactions.Custom.FramerMotionAnimations">
+
+
+
+  <h1 id="Avalonia_Xaml_Interactions_Custom_FramerMotionAnimations" data-uid="Avalonia.Xaml.Interactions.Custom.FramerMotionAnimations" class="text-break">
+Class FramerMotionAnimations  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactions.Custom/Composition/FramerMotionAnimations.cs/#L13"><i class="bi bi-code-slash"></i></a>
+  </h1>
+
+  <div class="facts text-secondary">
+    <dl><dt>Namespace</dt><dd><a class="xref" href="Avalonia.html">Avalonia</a>.<a class="xref" href="Avalonia.Xaml.html">Xaml</a>.<a class="xref" href="Avalonia.Xaml.Interactions.html">Interactions</a>.<a class="xref" href="Avalonia.Xaml.Interactions.Custom.html">Custom</a></dd></dl>
+  <dl><dt>Assembly</dt><dd>Xaml.Behaviors.Interactions.Custom.dll</dd></dl>
+  </div>
+
+  <div class="markdown summary"><p>Provides composition animations inspired by popular Framer Motion presets.</p>
+</div>
+  <div class="markdown conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static class FramerMotionAnimations</code></pre>
+  </div>
+
+
+
+
+  <dl class="typelist inheritance">
+    <dt>Inheritance</dt>
+    <dd>
+      <div><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a></div>
+      <div><span class="xref">FramerMotionAnimations</span></div>
+    </dd>
+  </dl>
+
+
+
+  <dl class="typelist inheritedMembers">
+    <dt>Inherited Members</dt>
+    <dd>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)">object.Equals(object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)">object.Equals(object, object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.gethashcode">object.GetHashCode()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.gettype">object.GetType()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone">object.MemberwiseClone()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.referenceequals">object.ReferenceEquals(object, object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.tostring">object.ToString()</a>
+    </div>
+  </dd></dl>
+
+
+
+
+
+
+  <h2 class="section" id="methods">Methods
+</h2>
+
+
+  <a id="Avalonia_Xaml_Interactions_Custom_FramerMotionAnimations_SetFadeIn_" data-uid="Avalonia.Xaml.Interactions.Custom.FramerMotionAnimations.SetFadeIn*"></a>
+
+  <h3 id="Avalonia_Xaml_Interactions_Custom_FramerMotionAnimations_SetFadeIn_Avalonia_Controls_Control_System_Double_" data-uid="Avalonia.Xaml.Interactions.Custom.FramerMotionAnimations.SetFadeIn(Avalonia.Controls.Control,System.Double)">
+  SetFadeIn(Control, double)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactions.Custom/Composition/FramerMotionAnimations.cs/#L20"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Fades the control in using an opacity animation.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static void SetFadeIn(Control element, double milliseconds)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>element</code> <span class="xref">Control</span></dt>
+    <dd><p>The control to animate.</p>
+</dd>
+    <dt><code>milliseconds</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>Animation duration expressed in milliseconds.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Avalonia_Xaml_Interactions_Custom_FramerMotionAnimations_SetFadeInDown_" data-uid="Avalonia.Xaml.Interactions.Custom.FramerMotionAnimations.SetFadeInDown*"></a>
+
+  <h3 id="Avalonia_Xaml_Interactions_Custom_FramerMotionAnimations_SetFadeInDown_Avalonia_Controls_Control_System_Double_" data-uid="Avalonia.Xaml.Interactions.Custom.FramerMotionAnimations.SetFadeInDown(Avalonia.Controls.Control,System.Double)">
+  SetFadeInDown(Control, double)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactions.Custom/Composition/FramerMotionAnimations.cs/#L36"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Fades the control in while translating it downward.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static void SetFadeInDown(Control element, double milliseconds)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>element</code> <span class="xref">Control</span></dt>
+    <dd><p>The control to animate.</p>
+</dd>
+    <dt><code>milliseconds</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>Animation duration expressed in milliseconds.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Avalonia_Xaml_Interactions_Custom_FramerMotionAnimations_SetFadeInLeft_" data-uid="Avalonia.Xaml.Interactions.Custom.FramerMotionAnimations.SetFadeInLeft*"></a>
+
+  <h3 id="Avalonia_Xaml_Interactions_Custom_FramerMotionAnimations_SetFadeInLeft_Avalonia_Controls_Control_System_Double_" data-uid="Avalonia.Xaml.Interactions.Custom.FramerMotionAnimations.SetFadeInLeft(Avalonia.Controls.Control,System.Double)">
+  SetFadeInLeft(Control, double)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactions.Custom/Composition/FramerMotionAnimations.cs/#L44"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Fades the control in while translating it from the left.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static void SetFadeInLeft(Control element, double milliseconds)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>element</code> <span class="xref">Control</span></dt>
+    <dd><p>The control to animate.</p>
+</dd>
+    <dt><code>milliseconds</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>Animation duration expressed in milliseconds.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Avalonia_Xaml_Interactions_Custom_FramerMotionAnimations_SetFadeInRight_" data-uid="Avalonia.Xaml.Interactions.Custom.FramerMotionAnimations.SetFadeInRight*"></a>
+
+  <h3 id="Avalonia_Xaml_Interactions_Custom_FramerMotionAnimations_SetFadeInRight_Avalonia_Controls_Control_System_Double_" data-uid="Avalonia.Xaml.Interactions.Custom.FramerMotionAnimations.SetFadeInRight(Avalonia.Controls.Control,System.Double)">
+  SetFadeInRight(Control, double)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactions.Custom/Composition/FramerMotionAnimations.cs/#L52"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Fades the control in while translating it from the right.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static void SetFadeInRight(Control element, double milliseconds)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>element</code> <span class="xref">Control</span></dt>
+    <dd><p>The control to animate.</p>
+</dd>
+    <dt><code>milliseconds</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>Animation duration expressed in milliseconds.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Avalonia_Xaml_Interactions_Custom_FramerMotionAnimations_SetFadeInUp_" data-uid="Avalonia.Xaml.Interactions.Custom.FramerMotionAnimations.SetFadeInUp*"></a>
+
+  <h3 id="Avalonia_Xaml_Interactions_Custom_FramerMotionAnimations_SetFadeInUp_Avalonia_Controls_Control_System_Double_" data-uid="Avalonia.Xaml.Interactions.Custom.FramerMotionAnimations.SetFadeInUp(Avalonia.Controls.Control,System.Double)">
+  SetFadeInUp(Control, double)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactions.Custom/Composition/FramerMotionAnimations.cs/#L28"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Fades the control in while translating it upward.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static void SetFadeInUp(Control element, double milliseconds)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>element</code> <span class="xref">Control</span></dt>
+    <dd><p>The control to animate.</p>
+</dd>
+    <dt><code>milliseconds</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>Animation duration expressed in milliseconds.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Avalonia_Xaml_Interactions_Custom_FramerMotionAnimations_SetPopIn_" data-uid="Avalonia.Xaml.Interactions.Custom.FramerMotionAnimations.SetPopIn*"></a>
+
+  <h3 id="Avalonia_Xaml_Interactions_Custom_FramerMotionAnimations_SetPopIn_Avalonia_Controls_Control_System_Double_" data-uid="Avalonia.Xaml.Interactions.Custom.FramerMotionAnimations.SetPopIn(Avalonia.Controls.Control,System.Double)">
+  SetPopIn(Control, double)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactions.Custom/Composition/FramerMotionAnimations.cs/#L92"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Runs a pop-in scale animation centered on the control.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static void SetPopIn(Control element, double milliseconds)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>element</code> <span class="xref">Control</span></dt>
+    <dd><p>The control to animate.</p>
+</dd>
+    <dt><code>milliseconds</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>Animation duration expressed in milliseconds.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Avalonia_Xaml_Interactions_Custom_FramerMotionAnimations_SetPopOut_" data-uid="Avalonia.Xaml.Interactions.Custom.FramerMotionAnimations.SetPopOut*"></a>
+
+  <h3 id="Avalonia_Xaml_Interactions_Custom_FramerMotionAnimations_SetPopOut_Avalonia_Controls_Control_System_Double_" data-uid="Avalonia.Xaml.Interactions.Custom.FramerMotionAnimations.SetPopOut(Avalonia.Controls.Control,System.Double)">
+  SetPopOut(Control, double)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactions.Custom/Composition/FramerMotionAnimations.cs/#L100"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Runs a pop-out scale animation centered on the control.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static void SetPopOut(Control element, double milliseconds)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>element</code> <span class="xref">Control</span></dt>
+    <dd><p>The control to animate.</p>
+</dd>
+    <dt><code>milliseconds</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>Animation duration expressed in milliseconds.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Avalonia_Xaml_Interactions_Custom_FramerMotionAnimations_SetRotateIn_" data-uid="Avalonia.Xaml.Interactions.Custom.FramerMotionAnimations.SetRotateIn*"></a>
+
+  <h3 id="Avalonia_Xaml_Interactions_Custom_FramerMotionAnimations_SetRotateIn_Avalonia_Controls_Control_System_Double_" data-uid="Avalonia.Xaml.Interactions.Custom.FramerMotionAnimations.SetRotateIn(Avalonia.Controls.Control,System.Double)">
+  SetRotateIn(Control, double)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactions.Custom/Composition/FramerMotionAnimations.cs/#L124"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Rotates the control into view.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static void SetRotateIn(Control element, double milliseconds)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>element</code> <span class="xref">Control</span></dt>
+    <dd><p>The control to animate.</p>
+</dd>
+    <dt><code>milliseconds</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>Animation duration expressed in milliseconds.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Avalonia_Xaml_Interactions_Custom_FramerMotionAnimations_SetRotateOut_" data-uid="Avalonia.Xaml.Interactions.Custom.FramerMotionAnimations.SetRotateOut*"></a>
+
+  <h3 id="Avalonia_Xaml_Interactions_Custom_FramerMotionAnimations_SetRotateOut_Avalonia_Controls_Control_System_Double_" data-uid="Avalonia.Xaml.Interactions.Custom.FramerMotionAnimations.SetRotateOut(Avalonia.Controls.Control,System.Double)">
+  SetRotateOut(Control, double)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactions.Custom/Composition/FramerMotionAnimations.cs/#L132"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Rotates the control out of view.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static void SetRotateOut(Control element, double milliseconds)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>element</code> <span class="xref">Control</span></dt>
+    <dd><p>The control to animate.</p>
+</dd>
+    <dt><code>milliseconds</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>Animation duration expressed in milliseconds.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Avalonia_Xaml_Interactions_Custom_FramerMotionAnimations_SetScaleIn_" data-uid="Avalonia.Xaml.Interactions.Custom.FramerMotionAnimations.SetScaleIn*"></a>
+
+  <h3 id="Avalonia_Xaml_Interactions_Custom_FramerMotionAnimations_SetScaleIn_Avalonia_Controls_Control_System_Double_" data-uid="Avalonia.Xaml.Interactions.Custom.FramerMotionAnimations.SetScaleIn(Avalonia.Controls.Control,System.Double)">
+  SetScaleIn(Control, double)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactions.Custom/Composition/FramerMotionAnimations.cs/#L140"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Scales the control up into view.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static void SetScaleIn(Control element, double milliseconds)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>element</code> <span class="xref">Control</span></dt>
+    <dd><p>The control to animate.</p>
+</dd>
+    <dt><code>milliseconds</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>Animation duration expressed in milliseconds.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Avalonia_Xaml_Interactions_Custom_FramerMotionAnimations_SetScaleOut_" data-uid="Avalonia.Xaml.Interactions.Custom.FramerMotionAnimations.SetScaleOut*"></a>
+
+  <h3 id="Avalonia_Xaml_Interactions_Custom_FramerMotionAnimations_SetScaleOut_Avalonia_Controls_Control_System_Double_" data-uid="Avalonia.Xaml.Interactions.Custom.FramerMotionAnimations.SetScaleOut(Avalonia.Controls.Control,System.Double)">
+  SetScaleOut(Control, double)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactions.Custom/Composition/FramerMotionAnimations.cs/#L148"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Scales the control down out of view.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static void SetScaleOut(Control element, double milliseconds)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>element</code> <span class="xref">Control</span></dt>
+    <dd><p>The control to animate.</p>
+</dd>
+    <dt><code>milliseconds</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>Animation duration expressed in milliseconds.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Avalonia_Xaml_Interactions_Custom_FramerMotionAnimations_SetSlideInFromBottom_" data-uid="Avalonia.Xaml.Interactions.Custom.FramerMotionAnimations.SetSlideInFromBottom*"></a>
+
+  <h3 id="Avalonia_Xaml_Interactions_Custom_FramerMotionAnimations_SetSlideInFromBottom_Avalonia_Controls_Control_System_Double_" data-uid="Avalonia.Xaml.Interactions.Custom.FramerMotionAnimations.SetSlideInFromBottom(Avalonia.Controls.Control,System.Double)">
+  SetSlideInFromBottom(Control, double)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactions.Custom/Composition/FramerMotionAnimations.cs/#L84"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Slides the control in from the bottom.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static void SetSlideInFromBottom(Control element, double milliseconds)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>element</code> <span class="xref">Control</span></dt>
+    <dd><p>The control to animate.</p>
+</dd>
+    <dt><code>milliseconds</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>Animation duration expressed in milliseconds.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Avalonia_Xaml_Interactions_Custom_FramerMotionAnimations_SetSlideInFromLeft_" data-uid="Avalonia.Xaml.Interactions.Custom.FramerMotionAnimations.SetSlideInFromLeft*"></a>
+
+  <h3 id="Avalonia_Xaml_Interactions_Custom_FramerMotionAnimations_SetSlideInFromLeft_Avalonia_Controls_Control_System_Double_" data-uid="Avalonia.Xaml.Interactions.Custom.FramerMotionAnimations.SetSlideInFromLeft(Avalonia.Controls.Control,System.Double)">
+  SetSlideInFromLeft(Control, double)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactions.Custom/Composition/FramerMotionAnimations.cs/#L60"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Slides the control in from the left.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static void SetSlideInFromLeft(Control element, double milliseconds)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>element</code> <span class="xref">Control</span></dt>
+    <dd><p>The control to animate.</p>
+</dd>
+    <dt><code>milliseconds</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>Animation duration expressed in milliseconds.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Avalonia_Xaml_Interactions_Custom_FramerMotionAnimations_SetSlideInFromRight_" data-uid="Avalonia.Xaml.Interactions.Custom.FramerMotionAnimations.SetSlideInFromRight*"></a>
+
+  <h3 id="Avalonia_Xaml_Interactions_Custom_FramerMotionAnimations_SetSlideInFromRight_Avalonia_Controls_Control_System_Double_" data-uid="Avalonia.Xaml.Interactions.Custom.FramerMotionAnimations.SetSlideInFromRight(Avalonia.Controls.Control,System.Double)">
+  SetSlideInFromRight(Control, double)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactions.Custom/Composition/FramerMotionAnimations.cs/#L68"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Slides the control in from the right.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static void SetSlideInFromRight(Control element, double milliseconds)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>element</code> <span class="xref">Control</span></dt>
+    <dd><p>The control to animate.</p>
+</dd>
+    <dt><code>milliseconds</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>Animation duration expressed in milliseconds.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Avalonia_Xaml_Interactions_Custom_FramerMotionAnimations_SetSlideInFromTop_" data-uid="Avalonia.Xaml.Interactions.Custom.FramerMotionAnimations.SetSlideInFromTop*"></a>
+
+  <h3 id="Avalonia_Xaml_Interactions_Custom_FramerMotionAnimations_SetSlideInFromTop_Avalonia_Controls_Control_System_Double_" data-uid="Avalonia.Xaml.Interactions.Custom.FramerMotionAnimations.SetSlideInFromTop(Avalonia.Controls.Control,System.Double)">
+  SetSlideInFromTop(Control, double)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactions.Custom/Composition/FramerMotionAnimations.cs/#L76"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Slides the control in from the top.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static void SetSlideInFromTop(Control element, double milliseconds)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>element</code> <span class="xref">Control</span></dt>
+    <dd><p>The control to animate.</p>
+</dd>
+    <dt><code>milliseconds</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>Animation duration expressed in milliseconds.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Avalonia_Xaml_Interactions_Custom_FramerMotionAnimations_SetSpringIn_" data-uid="Avalonia.Xaml.Interactions.Custom.FramerMotionAnimations.SetSpringIn*"></a>
+
+  <h3 id="Avalonia_Xaml_Interactions_Custom_FramerMotionAnimations_SetSpringIn_Avalonia_Controls_Control_System_Double_" data-uid="Avalonia.Xaml.Interactions.Custom.FramerMotionAnimations.SetSpringIn(Avalonia.Controls.Control,System.Double)">
+  SetSpringIn(Control, double)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactions.Custom/Composition/FramerMotionAnimations.cs/#L108"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Runs a vertical spring-in animation similar to Framer Motion's preset.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static void SetSpringIn(Control element, double milliseconds)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>element</code> <span class="xref">Control</span></dt>
+    <dd><p>The control to animate.</p>
+</dd>
+    <dt><code>milliseconds</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>Animation duration expressed in milliseconds.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Avalonia_Xaml_Interactions_Custom_FramerMotionAnimations_SetSpringOut_" data-uid="Avalonia.Xaml.Interactions.Custom.FramerMotionAnimations.SetSpringOut*"></a>
+
+  <h3 id="Avalonia_Xaml_Interactions_Custom_FramerMotionAnimations_SetSpringOut_Avalonia_Controls_Control_System_Double_" data-uid="Avalonia.Xaml.Interactions.Custom.FramerMotionAnimations.SetSpringOut(Avalonia.Controls.Control,System.Double)">
+  SetSpringOut(Control, double)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactions.Custom/Composition/FramerMotionAnimations.cs/#L116"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Runs a vertical spring-out animation similar to Framer Motion's preset.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static void SetSpringOut(Control element, double milliseconds)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>element</code> <span class="xref">Control</span></dt>
+    <dd><p>The control to animate.</p>
+</dd>
+    <dt><code>milliseconds</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>Animation duration expressed in milliseconds.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+        <div class="contribution d-print-none">
+          <a href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactions.Custom/Composition/FramerMotionAnimations.cs/#L13" class="edit-link">Edit this page</a>
+        </div>
+
+
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          <span>Made with <a href="https://dotnet.github.io/docfx">docfx</a></span>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

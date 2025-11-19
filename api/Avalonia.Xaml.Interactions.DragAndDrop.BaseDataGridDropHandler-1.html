@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+      <title>Class BaseDataGridDropHandler&lt;T&gt; | XAML Behaviors for Avalonia </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="Class BaseDataGridDropHandler&lt;T&gt; | XAML Behaviors for Avalonia ">
+      
+      <meta name="description" content="Provides common drag-and-drop logic for  row manipulations.">
+      <link rel="icon" href="../favicon.ico">
+      <link rel="stylesheet" href="../public/docfx.min.css">
+      <link rel="stylesheet" href="../public/main.css">
+      <meta name="docfx:navrel" content="../toc.html">
+      <meta name="docfx:tocrel" content="toc.html">
+      
+      
+      
+      
+      <meta name="docfx:docurl" content="https://github.com/wieslawsoltes/Xaml.Behaviors/new/master/apiSpec/new?filename=Avalonia_Xaml_Interactions_DragAndDrop_BaseDataGridDropHandler_1.md&amp;value=---%0Auid%3A%20Avalonia.Xaml.Interactions.DragAndDrop.BaseDataGridDropHandler%601%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">
+      <meta name="loc:inThisArticle" content="In this article">
+      <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
+      <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
+      <meta name="loc:tocFilter" content="Filter by title">
+      <meta name="loc:nextArticle" content="Next">
+      <meta name="loc:prevArticle" content="Previous">
+      <meta name="loc:themeLight" content="Light">
+      <meta name="loc:themeDark" content="Dark">
+      <meta name="loc:themeAuto" content="Auto">
+      <meta name="loc:changeTheme" content="Change theme">
+      <meta name="loc:copy" content="Copy">
+      <meta name="loc:downloadPdf" content="Download PDF">
+
+      <script type="module" src="./../public/docfx.min.js"></script>
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
+  </head>
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="ManagedReference">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../index.html">
+            <img id="logo" class="svg" src="../logo.svg" alt="">
+            
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <nav class="toc" id="toc"></nav>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
+            <i class="bi bi-list"></i>
+          </button>
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article data-uid="Avalonia.Xaml.Interactions.DragAndDrop.BaseDataGridDropHandler`1">
+
+
+
+  <h1 id="Avalonia_Xaml_Interactions_DragAndDrop_BaseDataGridDropHandler_1" data-uid="Avalonia.Xaml.Interactions.DragAndDrop.BaseDataGridDropHandler`1" class="text-break">
+Class BaseDataGridDropHandler&lt;T&gt;  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactions.DragAndDrop.DataGrid/Behaviors/BaseDataGridDropHandler.cs/#L18"><i class="bi bi-code-slash"></i></a>
+  </h1>
+
+  <div class="facts text-secondary">
+    <dl><dt>Namespace</dt><dd><a class="xref" href="Avalonia.html">Avalonia</a>.<a class="xref" href="Avalonia.Xaml.html">Xaml</a>.<a class="xref" href="Avalonia.Xaml.Interactions.html">Interactions</a>.<a class="xref" href="Avalonia.Xaml.Interactions.DragAndDrop.html">DragAndDrop</a></dd></dl>
+  <dl><dt>Assembly</dt><dd>Xaml.Behaviors.Interactions.DragAndDrop.DataGrid.dll</dd></dl>
+  </div>
+
+  <div class="markdown summary"><p>Provides common drag-and-drop logic for <span class="xref">Avalonia.Controls.DataGrid</span> row manipulations.</p>
+</div>
+  <div class="markdown conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public abstract class BaseDataGridDropHandler&lt;T&gt; : DropHandlerBase, IDropHandler where T : class</code></pre>
+  </div>
+
+
+
+  <h4 class="section">Type Parameters</h4>
+  <dl class="parameters">
+    <dt><code>T</code></dt>
+    <dd><p>The item type contained by the target <span class="xref">Avalonia.Controls.DataGrid</span>.</p>
+</dd>
+  </dl>
+
+  <dl class="typelist inheritance">
+    <dt>Inheritance</dt>
+    <dd>
+      <div><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a></div>
+      <div><a class="xref" href="Avalonia.Xaml.Interactions.DragAndDrop.DropHandlerBase.html">DropHandlerBase</a></div>
+      <div><span class="xref">BaseDataGridDropHandler&lt;T&gt;</span></div>
+    </dd>
+  </dl>
+
+  <dl class="typelist implements">
+    <dt>Implements</dt>
+    <dd>
+      <div><a class="xref" href="Avalonia.Xaml.Interactions.DragAndDrop.IDropHandler.html">IDropHandler</a></div>
+    </dd>
+  </dl>
+
+
+  <dl class="typelist inheritedMembers">
+    <dt>Inherited Members</dt>
+    <dd>
+    <div>
+      <a class="xref" href="Avalonia.Xaml.Interactions.DragAndDrop.DropHandlerBase.html#Avalonia_Xaml_Interactions_DragAndDrop_DropHandlerBase_MoveItem__1_System_Collections_Generic_IList___0__System_Int32_System_Int32_">DropHandlerBase.MoveItem&lt;T&gt;(IList&lt;T&gt;, int, int)</a>
+    </div>
+    <div>
+      <a class="xref" href="Avalonia.Xaml.Interactions.DragAndDrop.DropHandlerBase.html#Avalonia_Xaml_Interactions_DragAndDrop_DropHandlerBase_MoveItem__1_System_Collections_Generic_IList___0__System_Collections_Generic_IList___0__System_Int32_System_Int32_">DropHandlerBase.MoveItem&lt;T&gt;(IList&lt;T&gt;, IList&lt;T&gt;, int, int)</a>
+    </div>
+    <div>
+      <a class="xref" href="Avalonia.Xaml.Interactions.DragAndDrop.DropHandlerBase.html#Avalonia_Xaml_Interactions_DragAndDrop_DropHandlerBase_SwapItem__1_System_Collections_Generic_IList___0__System_Int32_System_Int32_">DropHandlerBase.SwapItem&lt;T&gt;(IList&lt;T&gt;, int, int)</a>
+    </div>
+    <div>
+      <a class="xref" href="Avalonia.Xaml.Interactions.DragAndDrop.DropHandlerBase.html#Avalonia_Xaml_Interactions_DragAndDrop_DropHandlerBase_SwapItem__1_System_Collections_Generic_IList___0__System_Collections_Generic_IList___0__System_Int32_System_Int32_">DropHandlerBase.SwapItem&lt;T&gt;(IList&lt;T&gt;, IList&lt;T&gt;, int, int)</a>
+    </div>
+    <div>
+      <a class="xref" href="Avalonia.Xaml.Interactions.DragAndDrop.DropHandlerBase.html#Avalonia_Xaml_Interactions_DragAndDrop_DropHandlerBase_InsertItem__1_System_Collections_Generic_IList___0____0_System_Int32_">DropHandlerBase.InsertItem&lt;T&gt;(IList&lt;T&gt;, T, int)</a>
+    </div>
+    <div>
+      <a class="xref" href="Avalonia.Xaml.Interactions.DragAndDrop.DropHandlerBase.html#Avalonia_Xaml_Interactions_DragAndDrop_DropHandlerBase_Enter_System_Object_Avalonia_Input_DragEventArgs_System_Object_System_Object_">DropHandlerBase.Enter(object, DragEventArgs, object, object)</a>
+    </div>
+    <div>
+      <a class="xref" href="Avalonia.Xaml.Interactions.DragAndDrop.DropHandlerBase.html#Avalonia_Xaml_Interactions_DragAndDrop_DropHandlerBase_Over_System_Object_Avalonia_Input_DragEventArgs_System_Object_System_Object_">DropHandlerBase.Over(object, DragEventArgs, object, object)</a>
+    </div>
+    <div>
+      <a class="xref" href="Avalonia.Xaml.Interactions.DragAndDrop.DropHandlerBase.html#Avalonia_Xaml_Interactions_DragAndDrop_DropHandlerBase_Drop_System_Object_Avalonia_Input_DragEventArgs_System_Object_System_Object_">DropHandlerBase.Drop(object, DragEventArgs, object, object)</a>
+    </div>
+    <div>
+      <a class="xref" href="Avalonia.Xaml.Interactions.DragAndDrop.DropHandlerBase.html#Avalonia_Xaml_Interactions_DragAndDrop_DropHandlerBase_Leave_System_Object_Avalonia_Interactivity_RoutedEventArgs_">DropHandlerBase.Leave(object, RoutedEventArgs)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)">object.Equals(object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)">object.Equals(object, object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.gethashcode">object.GetHashCode()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.gettype">object.GetType()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone">object.MemberwiseClone()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.referenceequals">object.ReferenceEquals(object, object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.tostring">object.ToString()</a>
+    </div>
+  </dd></dl>
+
+
+
+
+
+
+  <h2 class="section" id="methods">Methods
+</h2>
+
+
+  <a id="Avalonia_Xaml_Interactions_DragAndDrop_BaseDataGridDropHandler_1_Cancel_" data-uid="Avalonia.Xaml.Interactions.DragAndDrop.BaseDataGridDropHandler`1.Cancel*"></a>
+
+  <h3 id="Avalonia_Xaml_Interactions_DragAndDrop_BaseDataGridDropHandler_1_Cancel_System_Object_Avalonia_Interactivity_RoutedEventArgs_" data-uid="Avalonia.Xaml.Interactions.DragAndDrop.BaseDataGridDropHandler`1.Cancel(System.Object,Avalonia.Interactivity.RoutedEventArgs)">
+  Cancel(object?, RoutedEventArgs)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactions.DragAndDrop.DataGrid/Behaviors/BaseDataGridDropHandler.cs/#L75"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Cancels the drag operation.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override void Cancel(object? sender, RoutedEventArgs e)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>sender</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a></dt>
+    <dd></dd>
+    <dt><code>e</code> <span class="xref">RoutedEventArgs</span></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Avalonia_Xaml_Interactions_DragAndDrop_BaseDataGridDropHandler_1_Execute_" data-uid="Avalonia.Xaml.Interactions.DragAndDrop.BaseDataGridDropHandler`1.Execute*"></a>
+
+  <h3 id="Avalonia_Xaml_Interactions_DragAndDrop_BaseDataGridDropHandler_1_Execute_System_Object_Avalonia_Input_DragEventArgs_System_Object_System_Object_System_Object_" data-uid="Avalonia.Xaml.Interactions.DragAndDrop.BaseDataGridDropHandler`1.Execute(System.Object,Avalonia.Input.DragEventArgs,System.Object,System.Object,System.Object)">
+  Execute(object?, DragEventArgs, object?, object?, object?)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactions.DragAndDrop.DataGrid/Behaviors/BaseDataGridDropHandler.cs/#L64"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Executes the drop operation.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override bool Execute(object? sender, DragEventArgs e, object? sourceContext, object? targetContext, object? state)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>sender</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a></dt>
+    <dd></dd>
+    <dt><code>e</code> <span class="xref">DragEventArgs</span></dt>
+    <dd></dd>
+    <dt><code>sourceContext</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a></dt>
+    <dd></dd>
+    <dt><code>targetContext</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a></dt>
+    <dd></dd>
+    <dt><code>state</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Avalonia_Xaml_Interactions_DragAndDrop_BaseDataGridDropHandler_1_MakeCopy_" data-uid="Avalonia.Xaml.Interactions.DragAndDrop.BaseDataGridDropHandler`1.MakeCopy*"></a>
+
+  <h3 id="Avalonia_Xaml_Interactions_DragAndDrop_BaseDataGridDropHandler_1_MakeCopy_System_Collections_ObjectModel_ObservableCollection__0___0_" data-uid="Avalonia.Xaml.Interactions.DragAndDrop.BaseDataGridDropHandler`1.MakeCopy(System.Collections.ObjectModel.ObservableCollection{`0},`0)">
+  MakeCopy(ObservableCollection&lt;T&gt;, T)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactions.DragAndDrop.DataGrid/Behaviors/BaseDataGridDropHandler.cs/#L29"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Creates a copy of the source item for copy operations.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected abstract T MakeCopy(ObservableCollection&lt;T&gt; parentCollection, T item)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>parentCollection</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.objectmodel.observablecollection-1">ObservableCollection</a>&lt;T&gt;</dt>
+    <dd><p>The collection owning the original item.</p>
+</dd>
+    <dt><code>item</code> <span class="xref">T</span></dt>
+    <dd><p>The item to clone.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><span class="xref">T</span></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Avalonia_Xaml_Interactions_DragAndDrop_BaseDataGridDropHandler_1_RunDropAction_" data-uid="Avalonia.Xaml.Interactions.DragAndDrop.BaseDataGridDropHandler`1.RunDropAction*"></a>
+
+  <h3 id="Avalonia_Xaml_Interactions_DragAndDrop_BaseDataGridDropHandler_1_RunDropAction_Avalonia_Controls_DataGrid_Avalonia_Input_DragEventArgs_System_Boolean__0__0_System_Collections_ObjectModel_ObservableCollection__0__" data-uid="Avalonia.Xaml.Interactions.DragAndDrop.BaseDataGridDropHandler`1.RunDropAction(Avalonia.Controls.DataGrid,Avalonia.Input.DragEventArgs,System.Boolean,`0,`0,System.Collections.ObjectModel.ObservableCollection{`0})">
+  RunDropAction(DataGrid, DragEventArgs, bool, T, T, ObservableCollection&lt;T&gt;)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactions.DragAndDrop.DataGrid/Behaviors/BaseDataGridDropHandler.cs/#L92"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Executes a drop action against the provided <code class="paramref">items</code> collection.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected bool RunDropAction(DataGrid dg, DragEventArgs e, bool execute, T sourceItem, T targetItem, ObservableCollection&lt;T&gt; items)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>dg</code> <span class="xref">DataGrid</span></dt>
+    <dd><p>The owning data grid.</p>
+</dd>
+    <dt><code>e</code> <span class="xref">DragEventArgs</span></dt>
+    <dd><p>The drag event arguments.</p>
+</dd>
+    <dt><code>execute</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd><p>True to perform the operation; false to validate only.</p>
+</dd>
+    <dt><code>sourceItem</code> <span class="xref">T</span></dt>
+    <dd><p>The item being dragged.</p>
+</dd>
+    <dt><code>targetItem</code> <span class="xref">T</span></dt>
+    <dd><p>The item currently under the pointer.</p>
+</dd>
+    <dt><code>items</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.objectmodel.observablecollection-1">ObservableCollection</a>&lt;T&gt;</dt>
+    <dd><p>The backing collection.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd><p><code>true</code> when the operation is valid; otherwise <code>false</code>.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Avalonia_Xaml_Interactions_DragAndDrop_BaseDataGridDropHandler_1_Validate_" data-uid="Avalonia.Xaml.Interactions.DragAndDrop.BaseDataGridDropHandler`1.Validate*"></a>
+
+  <h3 id="Avalonia_Xaml_Interactions_DragAndDrop_BaseDataGridDropHandler_1_Validate_Avalonia_Controls_DataGrid_Avalonia_Input_DragEventArgs_System_Object_System_Object_System_Boolean_" data-uid="Avalonia.Xaml.Interactions.DragAndDrop.BaseDataGridDropHandler`1.Validate(Avalonia.Controls.DataGrid,Avalonia.Input.DragEventArgs,System.Object,System.Object,System.Boolean)">
+  Validate(DataGrid, DragEventArgs, object?, object?, bool)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactions.DragAndDrop.DataGrid/Behaviors/BaseDataGridDropHandler.cs/#L39"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Validates a pending drag operation and optionally executes it.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected abstract bool Validate(DataGrid dg, DragEventArgs e, object? sourceContext, object? targetContext, bool execute)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>dg</code> <span class="xref">DataGrid</span></dt>
+    <dd><p>The target data grid.</p>
+</dd>
+    <dt><code>e</code> <span class="xref">DragEventArgs</span></dt>
+    <dd><p>The drag event data.</p>
+</dd>
+    <dt><code>sourceContext</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a></dt>
+    <dd><p>The source context.</p>
+</dd>
+    <dt><code>targetContext</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a></dt>
+    <dd><p>The target context.</p>
+</dd>
+    <dt><code>execute</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd><p>When true, the handler should execute the drop logic.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Avalonia_Xaml_Interactions_DragAndDrop_BaseDataGridDropHandler_1_Validate_" data-uid="Avalonia.Xaml.Interactions.DragAndDrop.BaseDataGridDropHandler`1.Validate*"></a>
+
+  <h3 id="Avalonia_Xaml_Interactions_DragAndDrop_BaseDataGridDropHandler_1_Validate_System_Object_Avalonia_Input_DragEventArgs_System_Object_System_Object_System_Object_" data-uid="Avalonia.Xaml.Interactions.DragAndDrop.BaseDataGridDropHandler`1.Validate(System.Object,Avalonia.Input.DragEventArgs,System.Object,System.Object,System.Object)">
+  Validate(object?, DragEventArgs, object?, object?, object?)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactions.DragAndDrop.DataGrid/Behaviors/BaseDataGridDropHandler.cs/#L42"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Validates whether the drag operation can be performed.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override bool Validate(object? sender, DragEventArgs e, object? sourceContext, object? targetContext, object? state)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>sender</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a></dt>
+    <dd></dd>
+    <dt><code>e</code> <span class="xref">DragEventArgs</span></dt>
+    <dd></dd>
+    <dt><code>sourceContext</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a></dt>
+    <dd></dd>
+    <dt><code>targetContext</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a></dt>
+    <dd></dd>
+    <dt><code>state</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+        <div class="contribution d-print-none">
+          <a href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactions.DragAndDrop.DataGrid/Behaviors/BaseDataGridDropHandler.cs/#L18" class="edit-link">Edit this page</a>
+        </div>
+
+
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          <span>Made with <a href="https://dotnet.github.io/docfx">docfx</a></span>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

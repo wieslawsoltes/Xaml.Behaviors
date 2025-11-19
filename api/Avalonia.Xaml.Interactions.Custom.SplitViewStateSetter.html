@@ -1,0 +1,1049 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+      <title>Class SplitViewStateSetter | XAML Behaviors for Avalonia </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="Class SplitViewStateSetter | XAML Behaviors for Avalonia ">
+      
+      <meta name="description" content="Describes a state for  using size conditions.">
+      <link rel="icon" href="../favicon.ico">
+      <link rel="stylesheet" href="../public/docfx.min.css">
+      <link rel="stylesheet" href="../public/main.css">
+      <meta name="docfx:navrel" content="../toc.html">
+      <meta name="docfx:tocrel" content="toc.html">
+      
+      
+      
+      
+      <meta name="docfx:docurl" content="https://github.com/wieslawsoltes/Xaml.Behaviors/new/master/apiSpec/new?filename=Avalonia_Xaml_Interactions_Custom_SplitViewStateSetter.md&amp;value=---%0Auid%3A%20Avalonia.Xaml.Interactions.Custom.SplitViewStateSetter%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">
+      <meta name="loc:inThisArticle" content="In this article">
+      <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
+      <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
+      <meta name="loc:tocFilter" content="Filter by title">
+      <meta name="loc:nextArticle" content="Next">
+      <meta name="loc:prevArticle" content="Previous">
+      <meta name="loc:themeLight" content="Light">
+      <meta name="loc:themeDark" content="Dark">
+      <meta name="loc:themeAuto" content="Auto">
+      <meta name="loc:changeTheme" content="Change theme">
+      <meta name="loc:copy" content="Copy">
+      <meta name="loc:downloadPdf" content="Download PDF">
+
+      <script type="module" src="./../public/docfx.min.js"></script>
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
+  </head>
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="ManagedReference">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../index.html">
+            <img id="logo" class="svg" src="../logo.svg" alt="">
+            
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <nav class="toc" id="toc"></nav>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
+            <i class="bi bi-list"></i>
+          </button>
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article data-uid="Avalonia.Xaml.Interactions.Custom.SplitViewStateSetter">
+
+
+
+  <h1 id="Avalonia_Xaml_Interactions_Custom_SplitViewStateSetter" data-uid="Avalonia.Xaml.Interactions.Custom.SplitViewStateSetter" class="text-break">
+Class SplitViewStateSetter  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactions.Custom/SplitView/SplitViewStateSetter.cs/#L11"><i class="bi bi-code-slash"></i></a>
+  </h1>
+
+  <div class="facts text-secondary">
+    <dl><dt>Namespace</dt><dd><a class="xref" href="Avalonia.html">Avalonia</a>.<a class="xref" href="Avalonia.Xaml.html">Xaml</a>.<a class="xref" href="Avalonia.Xaml.Interactions.html">Interactions</a>.<a class="xref" href="Avalonia.Xaml.Interactions.Custom.html">Custom</a></dd></dl>
+  <dl><dt>Assembly</dt><dd>Xaml.Behaviors.Interactions.Custom.dll</dd></dl>
+  </div>
+
+  <div class="markdown summary"><p>Describes a state for <a class="xref" href="Avalonia.Xaml.Interactions.Custom.SplitViewStateBehavior.html">SplitViewStateBehavior</a> using size conditions.</p>
+</div>
+  <div class="markdown conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public class SplitViewStateSetter : AvaloniaObject, INotifyPropertyChanged</code></pre>
+  </div>
+
+
+
+
+  <dl class="typelist inheritance">
+    <dt>Inheritance</dt>
+    <dd>
+      <div><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a></div>
+      <div><span class="xref">AvaloniaObject</span></div>
+      <div><span class="xref">SplitViewStateSetter</span></div>
+    </dd>
+  </dl>
+
+  <dl class="typelist implements">
+    <dt>Implements</dt>
+    <dd>
+      <div><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.componentmodel.inotifypropertychanged">INotifyPropertyChanged</a></div>
+    </dd>
+  </dl>
+
+
+  <dl class="typelist inheritedMembers">
+    <dt>Inherited Members</dt>
+    <dd>
+    <div>
+      <span class="xref">AvaloniaObject.CheckAccess()</span>
+    </div>
+    <div>
+      <span class="xref">AvaloniaObject.VerifyAccess()</span>
+    </div>
+    <div>
+      <span class="xref">AvaloniaObject.ClearValue(AvaloniaProperty)</span>
+    </div>
+    <div>
+      <span class="xref">AvaloniaObject.ClearValue&lt;T&gt;(AvaloniaProperty&lt;T&gt;)</span>
+    </div>
+    <div>
+      <span class="xref">AvaloniaObject.ClearValue&lt;T&gt;(StyledProperty&lt;T&gt;)</span>
+    </div>
+    <div>
+      <span class="xref">AvaloniaObject.ClearValue&lt;T&gt;(DirectPropertyBase&lt;T&gt;)</span>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">AvaloniaObject.Equals(object)</a>
+    </div>
+    <div>
+      <span class="xref">AvaloniaObject.GetHashCode()</span>
+    </div>
+    <div>
+      <span class="xref">AvaloniaObject.GetValue(AvaloniaProperty)</span>
+    </div>
+    <div>
+      <span class="xref">AvaloniaObject.GetValue&lt;T&gt;(StyledProperty&lt;T&gt;)</span>
+    </div>
+    <div>
+      <span class="xref">AvaloniaObject.GetValue&lt;T&gt;(DirectPropertyBase&lt;T&gt;)</span>
+    </div>
+    <div>
+      <span class="xref">AvaloniaObject.GetBaseValue&lt;T&gt;(StyledProperty&lt;T&gt;)</span>
+    </div>
+    <div>
+      <span class="xref">AvaloniaObject.IsAnimating(AvaloniaProperty)</span>
+    </div>
+    <div>
+      <span class="xref">AvaloniaObject.IsSet(AvaloniaProperty)</span>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">AvaloniaObject.SetValue(AvaloniaProperty, object, BindingPriority)</a>
+    </div>
+    <div>
+      <span class="xref">AvaloniaObject.SetValue&lt;T&gt;(StyledProperty&lt;T&gt;, T, BindingPriority)</span>
+    </div>
+    <div>
+      <span class="xref">AvaloniaObject.SetValue&lt;T&gt;(DirectPropertyBase&lt;T&gt;, T)</span>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">AvaloniaObject.SetCurrentValue(AvaloniaProperty, object)</a>
+    </div>
+    <div>
+      <span class="xref">AvaloniaObject.SetCurrentValue&lt;T&gt;(StyledProperty&lt;T&gt;, T)</span>
+    </div>
+    <div>
+      <span class="xref">AvaloniaObject.Bind(AvaloniaProperty, IBinding)</span>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.iobservable-1">AvaloniaObject.Bind(AvaloniaProperty, IObservable&lt;object&gt;, BindingPriority)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.iobservable-1">AvaloniaObject.Bind&lt;T&gt;(StyledProperty&lt;T&gt;, IObservable&lt;object&gt;, BindingPriority)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.iobservable-1">AvaloniaObject.Bind&lt;T&gt;(StyledProperty&lt;T&gt;, IObservable&lt;T&gt;, BindingPriority)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.iobservable-1">AvaloniaObject.Bind&lt;T&gt;(StyledProperty&lt;T&gt;, IObservable&lt;BindingValue&lt;T&gt;&gt;, BindingPriority)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.iobservable-1">AvaloniaObject.Bind&lt;T&gt;(DirectPropertyBase&lt;T&gt;, IObservable&lt;object&gt;)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.iobservable-1">AvaloniaObject.Bind&lt;T&gt;(DirectPropertyBase&lt;T&gt;, IObservable&lt;T&gt;)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.iobservable-1">AvaloniaObject.Bind&lt;T&gt;(DirectPropertyBase&lt;T&gt;, IObservable&lt;BindingValue&lt;T&gt;&gt;)</a>
+    </div>
+    <div>
+      <span class="xref">AvaloniaObject.CoerceValue(AvaloniaProperty)</span>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.exception">AvaloniaObject.UpdateDataValidation(AvaloniaProperty, BindingValueType, Exception)</a>
+    </div>
+    <div>
+      <span class="xref">AvaloniaObject.OnPropertyChangedCore(AvaloniaPropertyChangedEventArgs)</span>
+    </div>
+    <div>
+      <span class="xref">AvaloniaObject.OnPropertyChanged(AvaloniaPropertyChangedEventArgs)</span>
+    </div>
+    <div>
+      <span class="xref">AvaloniaObject.RaisePropertyChanged&lt;T&gt;(DirectPropertyBase&lt;T&gt;, T, T)</span>
+    </div>
+    <div>
+      <span class="xref">AvaloniaObject.SetAndRaise&lt;T&gt;(DirectPropertyBase&lt;T&gt;, ref T, T)</span>
+    </div>
+    <div>
+      <span class="xref">AvaloniaObject.InheritanceParent</span>
+    </div>
+    <div>
+      <span class="xref">AvaloniaObject.this[AvaloniaProperty]</span>
+    </div>
+    <div>
+      <span class="xref">AvaloniaObject.this[IndexerDescriptor]</span>
+    </div>
+    <div>
+      <span class="xref">AvaloniaObject.PropertyChanged</span>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)">object.Equals(object, object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.gettype">object.GetType()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone">object.MemberwiseClone()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.referenceequals">object.ReferenceEquals(object, object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.tostring">object.ToString()</a>
+    </div>
+  </dd></dl>
+
+
+
+
+
+
+  <h2 class="section" id="fields">Fields
+</h2>
+
+
+
+  <h3 id="Avalonia_Xaml_Interactions_Custom_SplitViewStateSetter_DisplayModeProperty" data-uid="Avalonia.Xaml.Interactions.Custom.SplitViewStateSetter.DisplayModeProperty">
+  DisplayModeProperty
+  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactions.Custom/SplitView/SplitViewStateSetter.cs/#L64"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Identifies the <a class="xref" href="Avalonia.Xaml.Interactions.Custom.SplitViewStateSetter.html#Avalonia_Xaml_Interactions_Custom_SplitViewStateSetter_DisplayMode">DisplayMode</a> avalonia property.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static readonly StyledProperty&lt;SplitViewDisplayMode&gt; DisplayModeProperty</code></pre>
+  </div>
+
+
+
+
+  <h4 class="section">Field Value</h4>
+  <dl class="parameters">
+    <dt><span class="xref">StyledProperty</span>&lt;<span class="xref">SplitViewDisplayMode</span>&gt;</dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Avalonia_Xaml_Interactions_Custom_SplitViewStateSetter_IsPaneOpenProperty" data-uid="Avalonia.Xaml.Interactions.Custom.SplitViewStateSetter.IsPaneOpenProperty">
+  IsPaneOpenProperty
+  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactions.Custom/SplitView/SplitViewStateSetter.cs/#L76"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Identifies the <a class="xref" href="Avalonia.Xaml.Interactions.Custom.SplitViewStateSetter.html#Avalonia_Xaml_Interactions_Custom_SplitViewStateSetter_IsPaneOpen">IsPaneOpen</a> avalonia property.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static readonly StyledProperty&lt;bool&gt; IsPaneOpenProperty</code></pre>
+  </div>
+
+
+
+
+  <h4 class="section">Field Value</h4>
+  <dl class="parameters">
+    <dt><span class="xref">StyledProperty</span>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a>&gt;</dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Avalonia_Xaml_Interactions_Custom_SplitViewStateSetter_MaxHeightOperatorProperty" data-uid="Avalonia.Xaml.Interactions.Custom.SplitViewStateSetter.MaxHeightOperatorProperty">
+  MaxHeightOperatorProperty
+  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactions.Custom/SplitView/SplitViewStateSetter.cs/#L58"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Identifies the <a class="xref" href="Avalonia.Xaml.Interactions.Custom.SplitViewStateSetter.html#Avalonia_Xaml_Interactions_Custom_SplitViewStateSetter_MaxHeightOperator">MaxHeightOperator</a> avalonia property.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static readonly StyledProperty&lt;ComparisonConditionType&gt; MaxHeightOperatorProperty</code></pre>
+  </div>
+
+
+
+
+  <h4 class="section">Field Value</h4>
+  <dl class="parameters">
+    <dt><span class="xref">StyledProperty</span>&lt;<a class="xref" href="Avalonia.Xaml.Interactivity.ComparisonConditionType.html">ComparisonConditionType</a>&gt;</dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Avalonia_Xaml_Interactions_Custom_SplitViewStateSetter_MaxHeightProperty" data-uid="Avalonia.Xaml.Interactions.Custom.SplitViewStateSetter.MaxHeightProperty">
+  MaxHeightProperty
+  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactions.Custom/SplitView/SplitViewStateSetter.cs/#L52"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Identifies the <a class="xref" href="Avalonia.Xaml.Interactions.Custom.SplitViewStateSetter.html#Avalonia_Xaml_Interactions_Custom_SplitViewStateSetter_MaxHeight">MaxHeight</a> avalonia property.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static readonly StyledProperty&lt;double&gt; MaxHeightProperty</code></pre>
+  </div>
+
+
+
+
+  <h4 class="section">Field Value</h4>
+  <dl class="parameters">
+    <dt><span class="xref">StyledProperty</span>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a>&gt;</dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Avalonia_Xaml_Interactions_Custom_SplitViewStateSetter_MaxWidthOperatorProperty" data-uid="Avalonia.Xaml.Interactions.Custom.SplitViewStateSetter.MaxWidthOperatorProperty">
+  MaxWidthOperatorProperty
+  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactions.Custom/SplitView/SplitViewStateSetter.cs/#L34"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Identifies the <a class="xref" href="Avalonia.Xaml.Interactions.Custom.SplitViewStateSetter.html#Avalonia_Xaml_Interactions_Custom_SplitViewStateSetter_MaxWidthOperator">MaxWidthOperator</a> avalonia property.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static readonly StyledProperty&lt;ComparisonConditionType&gt; MaxWidthOperatorProperty</code></pre>
+  </div>
+
+
+
+
+  <h4 class="section">Field Value</h4>
+  <dl class="parameters">
+    <dt><span class="xref">StyledProperty</span>&lt;<a class="xref" href="Avalonia.Xaml.Interactivity.ComparisonConditionType.html">ComparisonConditionType</a>&gt;</dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Avalonia_Xaml_Interactions_Custom_SplitViewStateSetter_MaxWidthProperty" data-uid="Avalonia.Xaml.Interactions.Custom.SplitViewStateSetter.MaxWidthProperty">
+  MaxWidthProperty
+  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactions.Custom/SplitView/SplitViewStateSetter.cs/#L28"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Identifies the <a class="xref" href="Avalonia.Xaml.Interactions.Custom.SplitViewStateSetter.html#Avalonia_Xaml_Interactions_Custom_SplitViewStateSetter_MaxWidth">MaxWidth</a> avalonia property.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static readonly StyledProperty&lt;double&gt; MaxWidthProperty</code></pre>
+  </div>
+
+
+
+
+  <h4 class="section">Field Value</h4>
+  <dl class="parameters">
+    <dt><span class="xref">StyledProperty</span>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a>&gt;</dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Avalonia_Xaml_Interactions_Custom_SplitViewStateSetter_MinHeightOperatorProperty" data-uid="Avalonia.Xaml.Interactions.Custom.SplitViewStateSetter.MinHeightOperatorProperty">
+  MinHeightOperatorProperty
+  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactions.Custom/SplitView/SplitViewStateSetter.cs/#L46"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Identifies the <a class="xref" href="Avalonia.Xaml.Interactions.Custom.SplitViewStateSetter.html#Avalonia_Xaml_Interactions_Custom_SplitViewStateSetter_MinHeightOperator">MinHeightOperator</a> avalonia property.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static readonly StyledProperty&lt;ComparisonConditionType&gt; MinHeightOperatorProperty</code></pre>
+  </div>
+
+
+
+
+  <h4 class="section">Field Value</h4>
+  <dl class="parameters">
+    <dt><span class="xref">StyledProperty</span>&lt;<a class="xref" href="Avalonia.Xaml.Interactivity.ComparisonConditionType.html">ComparisonConditionType</a>&gt;</dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Avalonia_Xaml_Interactions_Custom_SplitViewStateSetter_MinHeightProperty" data-uid="Avalonia.Xaml.Interactions.Custom.SplitViewStateSetter.MinHeightProperty">
+  MinHeightProperty
+  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactions.Custom/SplitView/SplitViewStateSetter.cs/#L40"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Identifies the <a class="xref" href="Avalonia.Xaml.Interactions.Custom.SplitViewStateSetter.html#Avalonia_Xaml_Interactions_Custom_SplitViewStateSetter_MinHeight">MinHeight</a> avalonia property.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static readonly StyledProperty&lt;double&gt; MinHeightProperty</code></pre>
+  </div>
+
+
+
+
+  <h4 class="section">Field Value</h4>
+  <dl class="parameters">
+    <dt><span class="xref">StyledProperty</span>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a>&gt;</dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Avalonia_Xaml_Interactions_Custom_SplitViewStateSetter_MinWidthOperatorProperty" data-uid="Avalonia.Xaml.Interactions.Custom.SplitViewStateSetter.MinWidthOperatorProperty">
+  MinWidthOperatorProperty
+  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactions.Custom/SplitView/SplitViewStateSetter.cs/#L22"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Identifies the <a class="xref" href="Avalonia.Xaml.Interactions.Custom.SplitViewStateSetter.html#Avalonia_Xaml_Interactions_Custom_SplitViewStateSetter_MinWidthOperator">MinWidthOperator</a> avalonia property.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static readonly StyledProperty&lt;ComparisonConditionType&gt; MinWidthOperatorProperty</code></pre>
+  </div>
+
+
+
+
+  <h4 class="section">Field Value</h4>
+  <dl class="parameters">
+    <dt><span class="xref">StyledProperty</span>&lt;<a class="xref" href="Avalonia.Xaml.Interactivity.ComparisonConditionType.html">ComparisonConditionType</a>&gt;</dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Avalonia_Xaml_Interactions_Custom_SplitViewStateSetter_MinWidthProperty" data-uid="Avalonia.Xaml.Interactions.Custom.SplitViewStateSetter.MinWidthProperty">
+  MinWidthProperty
+  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactions.Custom/SplitView/SplitViewStateSetter.cs/#L16"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Identifies the <a class="xref" href="Avalonia.Xaml.Interactions.Custom.SplitViewStateSetter.html#Avalonia_Xaml_Interactions_Custom_SplitViewStateSetter_MinWidth">MinWidth</a> avalonia property.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static readonly StyledProperty&lt;double&gt; MinWidthProperty</code></pre>
+  </div>
+
+
+
+
+  <h4 class="section">Field Value</h4>
+  <dl class="parameters">
+    <dt><span class="xref">StyledProperty</span>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a>&gt;</dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Avalonia_Xaml_Interactions_Custom_SplitViewStateSetter_PanePlacementProperty" data-uid="Avalonia.Xaml.Interactions.Custom.SplitViewStateSetter.PanePlacementProperty">
+  PanePlacementProperty
+  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactions.Custom/SplitView/SplitViewStateSetter.cs/#L70"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Identifies the <a class="xref" href="Avalonia.Xaml.Interactions.Custom.SplitViewStateSetter.html#Avalonia_Xaml_Interactions_Custom_SplitViewStateSetter_PanePlacement">PanePlacement</a> avalonia property.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static readonly StyledProperty&lt;SplitViewPanePlacement&gt; PanePlacementProperty</code></pre>
+  </div>
+
+
+
+
+  <h4 class="section">Field Value</h4>
+  <dl class="parameters">
+    <dt><span class="xref">StyledProperty</span>&lt;<span class="xref">SplitViewPanePlacement</span>&gt;</dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Avalonia_Xaml_Interactions_Custom_SplitViewStateSetter_TargetSplitViewProperty" data-uid="Avalonia.Xaml.Interactions.Custom.SplitViewStateSetter.TargetSplitViewProperty">
+  TargetSplitViewProperty
+  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactions.Custom/SplitView/SplitViewStateSetter.cs/#L82"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Identifies the <a class="xref" href="Avalonia.Xaml.Interactions.Custom.SplitViewStateSetter.html#Avalonia_Xaml_Interactions_Custom_SplitViewStateSetter_TargetSplitView">TargetSplitView</a> avalonia property.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static readonly StyledProperty&lt;SplitView?&gt; TargetSplitViewProperty</code></pre>
+  </div>
+
+
+
+
+  <h4 class="section">Field Value</h4>
+  <dl class="parameters">
+    <dt><span class="xref">StyledProperty</span>&lt;<span class="xref">SplitView</span>&gt;</dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+  <h2 class="section" id="properties">Properties
+</h2>
+
+
+  <a id="Avalonia_Xaml_Interactions_Custom_SplitViewStateSetter_DisplayMode_" data-uid="Avalonia.Xaml.Interactions.Custom.SplitViewStateSetter.DisplayMode*"></a>
+
+  <h3 id="Avalonia_Xaml_Interactions_Custom_SplitViewStateSetter_DisplayMode" data-uid="Avalonia.Xaml.Interactions.Custom.SplitViewStateSetter.DisplayMode">
+  DisplayMode
+  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactions.Custom/SplitView/SplitViewStateSetter.cs/#L160"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Gets or sets the display mode to apply. This is an avalonia property.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public SplitViewDisplayMode DisplayMode { get; set; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><span class="xref">SplitViewDisplayMode</span></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="Avalonia_Xaml_Interactions_Custom_SplitViewStateSetter_IsPaneOpen_" data-uid="Avalonia.Xaml.Interactions.Custom.SplitViewStateSetter.IsPaneOpen*"></a>
+
+  <h3 id="Avalonia_Xaml_Interactions_Custom_SplitViewStateSetter_IsPaneOpen" data-uid="Avalonia.Xaml.Interactions.Custom.SplitViewStateSetter.IsPaneOpen">
+  IsPaneOpen
+  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactions.Custom/SplitView/SplitViewStateSetter.cs/#L178"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Gets or sets a value indicating whether the pane is open. This is an avalonia property.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool IsPaneOpen { get; set; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="Avalonia_Xaml_Interactions_Custom_SplitViewStateSetter_MaxHeight_" data-uid="Avalonia.Xaml.Interactions.Custom.SplitViewStateSetter.MaxHeight*"></a>
+
+  <h3 id="Avalonia_Xaml_Interactions_Custom_SplitViewStateSetter_MaxHeight" data-uid="Avalonia.Xaml.Interactions.Custom.SplitViewStateSetter.MaxHeight">
+  MaxHeight
+  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactions.Custom/SplitView/SplitViewStateSetter.cs/#L142"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Gets or sets maximum bounds height. This is an avalonia property.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public double MaxHeight { get; set; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="Avalonia_Xaml_Interactions_Custom_SplitViewStateSetter_MaxHeightOperator_" data-uid="Avalonia.Xaml.Interactions.Custom.SplitViewStateSetter.MaxHeightOperator*"></a>
+
+  <h3 id="Avalonia_Xaml_Interactions_Custom_SplitViewStateSetter_MaxHeightOperator" data-uid="Avalonia.Xaml.Interactions.Custom.SplitViewStateSetter.MaxHeightOperator">
+  MaxHeightOperator
+  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactions.Custom/SplitView/SplitViewStateSetter.cs/#L151"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Gets or sets maximum height comparison operator. This is an avalonia property.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public ComparisonConditionType MaxHeightOperator { get; set; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Avalonia.Xaml.Interactivity.ComparisonConditionType.html">ComparisonConditionType</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="Avalonia_Xaml_Interactions_Custom_SplitViewStateSetter_MaxWidth_" data-uid="Avalonia.Xaml.Interactions.Custom.SplitViewStateSetter.MaxWidth*"></a>
+
+  <h3 id="Avalonia_Xaml_Interactions_Custom_SplitViewStateSetter_MaxWidth" data-uid="Avalonia.Xaml.Interactions.Custom.SplitViewStateSetter.MaxWidth">
+  MaxWidth
+  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactions.Custom/SplitView/SplitViewStateSetter.cs/#L106"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Gets or sets maximum bounds width. This is an avalonia property.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public double MaxWidth { get; set; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="Avalonia_Xaml_Interactions_Custom_SplitViewStateSetter_MaxWidthOperator_" data-uid="Avalonia.Xaml.Interactions.Custom.SplitViewStateSetter.MaxWidthOperator*"></a>
+
+  <h3 id="Avalonia_Xaml_Interactions_Custom_SplitViewStateSetter_MaxWidthOperator" data-uid="Avalonia.Xaml.Interactions.Custom.SplitViewStateSetter.MaxWidthOperator">
+  MaxWidthOperator
+  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactions.Custom/SplitView/SplitViewStateSetter.cs/#L115"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Gets or sets maximum width comparison operator. This is an avalonia property.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public ComparisonConditionType MaxWidthOperator { get; set; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Avalonia.Xaml.Interactivity.ComparisonConditionType.html">ComparisonConditionType</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="Avalonia_Xaml_Interactions_Custom_SplitViewStateSetter_MinHeight_" data-uid="Avalonia.Xaml.Interactions.Custom.SplitViewStateSetter.MinHeight*"></a>
+
+  <h3 id="Avalonia_Xaml_Interactions_Custom_SplitViewStateSetter_MinHeight" data-uid="Avalonia.Xaml.Interactions.Custom.SplitViewStateSetter.MinHeight">
+  MinHeight
+  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactions.Custom/SplitView/SplitViewStateSetter.cs/#L124"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Gets or sets minimum bounds height. This is an avalonia property.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public double MinHeight { get; set; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="Avalonia_Xaml_Interactions_Custom_SplitViewStateSetter_MinHeightOperator_" data-uid="Avalonia.Xaml.Interactions.Custom.SplitViewStateSetter.MinHeightOperator*"></a>
+
+  <h3 id="Avalonia_Xaml_Interactions_Custom_SplitViewStateSetter_MinHeightOperator" data-uid="Avalonia.Xaml.Interactions.Custom.SplitViewStateSetter.MinHeightOperator">
+  MinHeightOperator
+  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactions.Custom/SplitView/SplitViewStateSetter.cs/#L133"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Gets or sets minimum height comparison operator. This is an avalonia property.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public ComparisonConditionType MinHeightOperator { get; set; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Avalonia.Xaml.Interactivity.ComparisonConditionType.html">ComparisonConditionType</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="Avalonia_Xaml_Interactions_Custom_SplitViewStateSetter_MinWidth_" data-uid="Avalonia.Xaml.Interactions.Custom.SplitViewStateSetter.MinWidth*"></a>
+
+  <h3 id="Avalonia_Xaml_Interactions_Custom_SplitViewStateSetter_MinWidth" data-uid="Avalonia.Xaml.Interactions.Custom.SplitViewStateSetter.MinWidth">
+  MinWidth
+  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactions.Custom/SplitView/SplitViewStateSetter.cs/#L88"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Gets or sets minimum bounds width. This is an avalonia property.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public double MinWidth { get; set; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="Avalonia_Xaml_Interactions_Custom_SplitViewStateSetter_MinWidthOperator_" data-uid="Avalonia.Xaml.Interactions.Custom.SplitViewStateSetter.MinWidthOperator*"></a>
+
+  <h3 id="Avalonia_Xaml_Interactions_Custom_SplitViewStateSetter_MinWidthOperator" data-uid="Avalonia.Xaml.Interactions.Custom.SplitViewStateSetter.MinWidthOperator">
+  MinWidthOperator
+  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactions.Custom/SplitView/SplitViewStateSetter.cs/#L97"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Gets or sets minimum width comparison operator. This is an avalonia property.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public ComparisonConditionType MinWidthOperator { get; set; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Avalonia.Xaml.Interactivity.ComparisonConditionType.html">ComparisonConditionType</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="Avalonia_Xaml_Interactions_Custom_SplitViewStateSetter_PanePlacement_" data-uid="Avalonia.Xaml.Interactions.Custom.SplitViewStateSetter.PanePlacement*"></a>
+
+  <h3 id="Avalonia_Xaml_Interactions_Custom_SplitViewStateSetter_PanePlacement" data-uid="Avalonia.Xaml.Interactions.Custom.SplitViewStateSetter.PanePlacement">
+  PanePlacement
+  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactions.Custom/SplitView/SplitViewStateSetter.cs/#L169"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Gets or sets the pane placement to apply. This is an avalonia property.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public SplitViewPanePlacement PanePlacement { get; set; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><span class="xref">SplitViewPanePlacement</span></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="Avalonia_Xaml_Interactions_Custom_SplitViewStateSetter_TargetSplitView_" data-uid="Avalonia.Xaml.Interactions.Custom.SplitViewStateSetter.TargetSplitView*"></a>
+
+  <h3 id="Avalonia_Xaml_Interactions_Custom_SplitViewStateSetter_TargetSplitView" data-uid="Avalonia.Xaml.Interactions.Custom.SplitViewStateSetter.TargetSplitView">
+  TargetSplitView
+  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactions.Custom/SplitView/SplitViewStateSetter.cs/#L187"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Gets or sets the target <span class="xref">Avalonia.Controls.SplitView</span> to apply the state to. This is an avalonia property.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[ResolveByName]
+public SplitView? TargetSplitView { get; set; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><span class="xref">SplitView</span></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+</article>
+
+        <div class="contribution d-print-none">
+          <a href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactions.Custom/SplitView/SplitViewStateSetter.cs/#L11" class="edit-link">Edit this page</a>
+        </div>
+
+
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          <span>Made with <a href="https://dotnet.github.io/docfx">docfx</a></span>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>
