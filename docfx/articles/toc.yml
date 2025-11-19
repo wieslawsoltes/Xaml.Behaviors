@@ -10,6 +10,8 @@
   href: interactivity/actions.md
 - name: Templates
   href: interactivity/templates.md
+- name: Conditions
+  href: interactivity/conditions.md
 - name: Disposing Behaviors
   href: interactivity/disposing-behaviors.md
 - name: Event Contracts
