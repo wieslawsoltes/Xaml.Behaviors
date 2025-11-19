@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+      <title>Architecture | XAML Behaviors for Avalonia </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="Architecture | XAML Behaviors for Avalonia ">
+      
+      
+      <link rel="icon" href="../favicon.ico">
+      <link rel="stylesheet" href="../public/docfx.min.css">
+      <link rel="stylesheet" href="../public/main.css">
+      <meta name="docfx:navrel" content="../toc.html">
+      <meta name="docfx:tocrel" content="toc.html">
+      
+      
+      
+      
+      <meta name="docfx:docurl" content="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/docfx/articles/architecture.md/#L1">
+      <meta name="loc:inThisArticle" content="In this article">
+      <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
+      <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
+      <meta name="loc:tocFilter" content="Filter by title">
+      <meta name="loc:nextArticle" content="Next">
+      <meta name="loc:prevArticle" content="Previous">
+      <meta name="loc:themeLight" content="Light">
+      <meta name="loc:themeDark" content="Dark">
+      <meta name="loc:themeAuto" content="Auto">
+      <meta name="loc:changeTheme" content="Change theme">
+      <meta name="loc:copy" content="Copy">
+      <meta name="loc:downloadPdf" content="Download PDF">
+
+      <script type="module" src="./../public/docfx.min.js"></script>
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
+  </head>
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../index.html">
+            <img id="logo" class="svg" src="../logo.svg" alt="">
+            
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <nav class="toc" id="toc"></nav>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
+            <i class="bi bi-list"></i>
+          </button>
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article data-uid="">
+<h1 id="architecture">Architecture</h1>
+
+<p>Understanding the internal architecture of <code>Xaml.Behaviors</code> helps in writing custom behaviors and debugging complex interactions. The library is built upon the concept of <strong>Attached Properties</strong> and a specific lifecycle management system.</p>
+<h2 id="core-components">Core Components</h2>
+<h3 id="1-the-interaction-class">1. The <code>Interaction</code> Class</h3>
+<p>The <code>Interaction</code> class is the entry point for the entire system. It defines the <code>Behaviors</code> attached property, which is the mechanism used to attach a collection of behaviors to an <code>AvaloniaObject</code> (typically a <code>Control</code>).</p>
+<pre><code class="lang-xml">&lt;Button&gt;
+    &lt;Interaction.Behaviors&gt;
+        &lt;!-- Behaviors go here --&gt;
+    &lt;/Interaction.Behaviors&gt;
+&lt;/Button&gt;
+</code></pre>
+<p>When the XAML parser encounters <code>&lt;Interaction.Behaviors&gt;</code>, it calls <code>Interaction.GetBehaviors()</code>, which initializes a <code>BehaviorCollection</code> for that control.</p>
+<h3 id="2-behaviorcollection">2. BehaviorCollection</h3>
+<p>This is a specialized collection that holds <code>IBehavior</code> instances. When a behavior is added to this collection, the collection notifies the <code>Interaction</code> system, which then initiates the attachment process.</p>
+<h3 id="3-the-behavior-class">3. The <code>Behavior</code> Class</h3>
+<p>The <code>Behavior</code> (and <code>Behavior&lt;T&gt;</code>) class is the base class for all interactive components. It maintains a reference to the object it is attached to, known as the <code>AssociatedObject</code>.</p>
+<h2 id="the-attachment-lifecycle">The Attachment Lifecycle</h2>
+<p>One of the most critical aspects of the architecture is how and when behaviors are attached to controls. Unlike simple property setting, behaviors have a lifecycle that often mirrors the visual tree lifecycle of the control.</p>
+<h3 id="attachment-process">Attachment Process</h3>
+<ol>
+<li><strong>Collection Initialization</strong>: The <code>BehaviorCollection</code> is created and assigned to the <code>Interaction.Behaviors</code> attached property of the target control.</li>
+<li><strong>Visual Tree Observation</strong>: The <code>Interaction</code> class observes the <code>AttachedToVisualTree</code> and <code>DetachedFromVisualTree</code> events of the target control.</li>
+<li><strong>Attach</strong>:
+<ul>
+<li>When the behavior is added to the collection <em>and</em> the control is in the visual tree, <code>Behavior.Attach(target)</code> is called.</li>
+<li>This invokes the protected <code>OnAttached()</code> method.</li>
+<li><strong>Developer Responsibility</strong>: In <code>OnAttached()</code>, you should subscribe to events, initialize properties, or start services.</li>
+</ul>
+</li>
+<li><strong>Detach</strong>:
+<ul>
+<li>When the control is removed from the visual tree, or the behavior is removed from the collection, <code>Behavior.Detach()</code> is called.</li>
+<li>This invokes the protected <code>OnDetaching()</code> method.</li>
+<li><strong>Developer Responsibility</strong>: In <code>OnDetaching()</code>, you <strong>must</strong> unsubscribe from events and dispose of resources to prevent memory leaks.</li>
+</ul>
+</li>
+</ol>
+<h3 id="why-visual-tree-events">Why Visual Tree Events?</h3>
+<p>Waiting for the control to be attached to the visual tree ensures that the control is fully initialized and its templates are applied. This is crucial for behaviors that need to traverse the visual tree or access template parts.</p>
+<h2 id="triggers-and-actions">Triggers and Actions</h2>
+<p>The architecture separates the &quot;cause&quot; (Trigger) from the &quot;effect&quot; (Action).</p>
+<ul>
+<li><strong>Triggers</strong> (e.g., <code>EventTriggerBehavior</code>) listen for something to happen. They derive from <code>Behavior</code> and use the same lifecycle.</li>
+<li><strong>Actions</strong> (e.g., <code>InvokeCommandAction</code>) are executed by Triggers. They do not have a persistent lifecycle in the same way; they are simply <code>Execute</code>d.</li>
+</ul>
+<h2 id="custom-behaviors">Custom Behaviors</h2>
+<p>When creating custom behaviors, you inherit from <code>Behavior&lt;T&gt;</code>. The architecture handles the plumbing, leaving you to implement just two methods:</p>
+<pre><code class="lang-csharp">public class MyCustomBehavior : Behavior&lt;Button&gt;
+{
+    protected override void OnAttached()
+    {
+        base.OnAttached();
+        // Access AssociatedObject here
+        AssociatedObject.Click += OnClick;
+    }
+
+    protected override void OnDetaching()
+    {
+        base.OnDetaching();
+        // Clean up
+        AssociatedObject.Click -= OnClick;
+    }
+
+    private void OnClick(object sender, RoutedEventArgs e)
+    {
+        // Handle click
+    }
+}
+</code></pre>
+
+</article>
+
+        <div class="contribution d-print-none">
+          <a href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/docfx/articles/architecture.md/#L1" class="edit-link">Edit this page</a>
+        </div>
+
+        <div class="next-article d-print-none border-top" id="nextArticle"></div>
+
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          <span>Made with <a href="https://dotnet.github.io/docfx">docfx</a></span>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

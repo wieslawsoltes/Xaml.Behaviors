@@ -6873,6 +6873,16 @@
     },
     {
       "type": "Conceptual",
+      "source_relative_path": "articles/architecture.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/architecture.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
       "source_relative_path": "articles/interactions/call-method-action.md",
       "output": {
         ".html": {
@@ -7137,6 +7147,46 @@
       "output": {
         ".html": {
           "relative_path": "articles/intro.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/mvvm-and-behaviors.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/mvvm-and-behaviors.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/reactiveui/interaction-trigger-behavior.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/reactiveui/interaction-trigger-behavior.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/reactiveui/navigation-actions.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/reactiveui/navigation-actions.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/reactiveui/reactiveui-overview.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/reactiveui/reactiveui-overview.html"
         }
       },
       "version": ""
