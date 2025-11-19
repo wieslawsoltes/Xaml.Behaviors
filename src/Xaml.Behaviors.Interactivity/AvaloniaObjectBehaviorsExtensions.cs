@@ -21,6 +21,7 @@ public static class AvaloniaObjectBehaviorsExtensions
     /// <summary>
     /// Publishes static helpers so XAML can bind to <see cref="Interaction.BehaviorsProperty"/> using inherited property syntax.
     /// </summary>
+#if !DOCFX
     extension(AvaloniaObject)
     {
         /// <summary>
@@ -47,4 +48,5 @@ public static class AvaloniaObjectBehaviorsExtensions
         /// </summary>
         public static void SetBehaviors(AvaloniaObject obj, BehaviorCollection? value) => Interaction.SetBehaviors(obj, value);
     }
+#endif
 }

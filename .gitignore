@@ -292,3 +292,8 @@ tools/**
 
 # VerifyTests
 *.received.*
+/_site
+
+# DocFX
+docfx/api/*.yml
+docfx/api/*.manifest

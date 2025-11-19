@@ -1,0 +1,5 @@
+<Project>
+  <PropertyGroup Condition="'$(IsDocFx)' == 'true'">
+    <DefineConstants>$(DefineConstants);DOCFX</DefineConstants>
+  </PropertyGroup>
+</Project>

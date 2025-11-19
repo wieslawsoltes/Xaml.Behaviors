@@ -1,0 +1,72 @@
+{
+  "metadata": [
+    {
+      "src": [
+        {
+          "files": [
+            "src/Xaml.Behaviors.Interactions/Xaml.Behaviors.Interactions.csproj",
+            "src/Xaml.Behaviors.Interactions.Custom/Xaml.Behaviors.Interactions.Custom.csproj",
+            "src/Xaml.Behaviors.Interactions.DragAndDrop/Xaml.Behaviors.Interactions.DragAndDrop.csproj",
+            "src/Xaml.Behaviors.Interactions.DragAndDrop.DataGrid/Xaml.Behaviors.Interactions.DragAndDrop.DataGrid.csproj",
+            "src/Xaml.Behaviors.Interactions.Draggable/Xaml.Behaviors.Interactions.Draggable.csproj",
+            "src/Xaml.Behaviors.Interactions.Events/Xaml.Behaviors.Interactions.Events.csproj",
+            "src/Xaml.Behaviors.Interactions.ReactiveUI/Xaml.Behaviors.Interactions.ReactiveUI.csproj",
+            "src/Xaml.Behaviors.Interactions.Responsive/Xaml.Behaviors.Interactions.Responsive.csproj",
+            "src/Xaml.Behaviors.Interactions.Scripting/Xaml.Behaviors.Interactions.Scripting.csproj",
+            "src/Xaml.Behaviors.Interactivity/Xaml.Behaviors.Interactivity.csproj"
+          ],
+          "src": ".."
+        }
+      ],
+      "dest": "api",
+      "disableGitFeatures": false,
+      "disableDefaultFilter": false
+    }
+  ],
+  "build": {
+    "content": [
+      {
+        "files": [
+          "api/**.yml",
+          "api/index.md"
+        ]
+      },
+      {
+        "files": [
+          "articles/**.md",
+          "articles/**/toc.yml",
+          "toc.yml",
+          "*.md"
+        ]
+      }
+    ],
+    "resource": [
+      {
+        "files": [
+          "images/**"
+        ]
+      }
+    ],
+    "overwrite": [
+      {
+        "files": [
+          "apidoc/**.md",
+          "apidoc/**.overwrite"
+        ]
+      }
+    ],
+    "dest": "../_site",
+    "globalMetadataFiles": [],
+    "fileMetadataFiles": [],
+    "template": [
+      "default",
+      "modern"
+    ],
+    "postProcessors": [],
+    "markdownEngineName": "markdig",
+    "noLangKeyword": false,
+    "keepFileLink": false,
+    "cleanupCacheHistory": false,
+    "disableGitFeatures": false
+  }
+}
