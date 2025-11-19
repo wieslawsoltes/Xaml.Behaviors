@@ -1,2 +1,12 @@
 - name: Introduction
   href: intro.md
+- name: Interactivity Overview
+  href: interactivity-overview.md
+- name: Behaviors
+  href: behaviors.md
+- name: Triggers
+  href: triggers.md
+- name: Actions
+  href: actions.md
+- name: Templates
+  href: templates.md
