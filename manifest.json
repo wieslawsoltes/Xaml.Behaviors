@@ -7013,6 +7013,16 @@
     },
     {
       "type": "Conceptual",
+      "source_relative_path": "articles/interactivity/xmlns-definitions.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactivity/xmlns-definitions.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
       "source_relative_path": "articles/intro.md",
       "output": {
         ".html": {
