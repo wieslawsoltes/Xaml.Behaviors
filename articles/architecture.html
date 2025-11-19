@@ -124,33 +124,40 @@
 <h2 id="triggers-and-actions">Triggers and Actions</h2>
 <p>The architecture separates the &quot;cause&quot; (Trigger) from the &quot;effect&quot; (Action).</p>
 <ul>
-<li><strong>Triggers</strong> (e.g., <code>EventTriggerBehavior</code>) listen for something to happen. They derive from <code>Behavior</code> and use the same lifecycle.</li>
-<li><strong>Actions</strong> (e.g., <code>InvokeCommandAction</code>) are executed by Triggers. They do not have a persistent lifecycle in the same way; they are simply <code>Execute</code>d.</li>
+<li><strong>Triggers</strong> (e.g., <code>EventTriggerBehavior</code>) listen for something to happen. They derive from <code>Trigger</code> (or <code>StyledElementTrigger</code>) and use the same lifecycle.</li>
+<li><strong>Actions</strong> (e.g., <code>InvokeCommandAction</code>) are executed by Triggers. They derive from <code>Action</code> (or <code>StyledElementAction</code>).</li>
 </ul>
 <h2 id="custom-behaviors">Custom Behaviors</h2>
-<p>When creating custom behaviors, you inherit from <code>Behavior&lt;T&gt;</code>. The architecture handles the plumbing, leaving you to implement just two methods:</p>
-<pre><code class="lang-csharp">public class MyCustomBehavior : Behavior&lt;Button&gt;
+<p>When creating custom behaviors, it is recommended to inherit from <code>StyledElementBehavior&lt;T&gt;</code> (or <code>Behavior&lt;T&gt;</code> if you don't need styling support). The architecture handles the plumbing, leaving you to implement just two methods:</p>
+<pre><code class="lang-csharp">public class MyCustomBehavior : StyledElementBehavior&lt;Button&gt;
 {
-    protected override void OnAttached()
+    protected override void OnAttachedToVisualTree()
     {
-        base.OnAttached();
+        base.OnAttachedToVisualTree();
         // Access AssociatedObject here
-        AssociatedObject.Click += OnClick;
+        if (AssociatedObject is not null)
+        {
+            AssociatedObject.Click += OnClick;
+        }
     }
 
-    protected override void OnDetaching()
+    protected override void OnDetachedFromVisualTree()
     {
-        base.OnDetaching();
+        base.OnDetachedFromVisualTree();
         // Clean up
-        AssociatedObject.Click -= OnClick;
+        if (AssociatedObject is not null)
+        {
+            AssociatedObject.Click -= OnClick;
+        }
     }
 
-    private void OnClick(object sender, RoutedEventArgs e)
+    private void OnClick(object? sender, RoutedEventArgs e)
     {
         // Handle click
     }
 }
 </code></pre>
+<p>Using <code>StyledElementBehavior&lt;T&gt;</code> ensures that your behavior can participate in the Avalonia styling system properly. Similarly, for custom triggers and actions, prefer <code>StyledElementTrigger&lt;T&gt;</code> and <code>StyledElementAction</code>.</p>
 
 </article>
 
