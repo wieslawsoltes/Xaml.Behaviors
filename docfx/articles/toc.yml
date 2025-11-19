@@ -10,6 +10,8 @@
   href: interactivity/actions.md
 - name: Templates
   href: interactivity/templates.md
+- name: XML Namespace Definitions
+  href: interactivity/xmlns-definitions.md
 - name: Conditions
   href: interactivity/conditions.md
 - name: Disposing Behaviors
