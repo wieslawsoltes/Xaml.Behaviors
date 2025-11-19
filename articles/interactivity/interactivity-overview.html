@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+      <title>Interactivity Overview | XAML Behaviors for Avalonia </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="Interactivity Overview | XAML Behaviors for Avalonia ">
+      
+      
+      <link rel="icon" href="../../favicon.ico">
+      <link rel="stylesheet" href="../../public/docfx.min.css">
+      <link rel="stylesheet" href="../../public/main.css">
+      <meta name="docfx:navrel" content="../../toc.html">
+      <meta name="docfx:tocrel" content="../toc.html">
+      
+      
+      
+      
+      <meta name="docfx:docurl" content="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/docfx/articles/interactivity/interactivity-overview.md/#L1">
+      <meta name="loc:inThisArticle" content="In this article">
+      <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
+      <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
+      <meta name="loc:tocFilter" content="Filter by title">
+      <meta name="loc:nextArticle" content="Next">
+      <meta name="loc:prevArticle" content="Previous">
+      <meta name="loc:themeLight" content="Light">
+      <meta name="loc:themeDark" content="Dark">
+      <meta name="loc:themeAuto" content="Auto">
+      <meta name="loc:changeTheme" content="Change theme">
+      <meta name="loc:copy" content="Copy">
+      <meta name="loc:downloadPdf" content="Download PDF">
+
+      <script type="module" src="./../../public/docfx.min.js"></script>
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
+  </head>
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../../index.html">
+            <img id="logo" class="svg" src="../../logo.svg" alt="">
+            
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <nav class="toc" id="toc"></nav>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
+            <i class="bi bi-list"></i>
+          </button>
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article data-uid="">
+<h1 id="interactivity-overview">Interactivity Overview</h1>
+
+<p>The <code>Xaml.Behaviors.Interactivity</code> package provides a framework for adding interactivity to Avalonia applications using the Behaviors SDK pattern. This pattern allows you to encapsulate interactive behavior in reusable components that can be attached to controls in XAML.</p>
+<h2 id="core-concepts">Core Concepts</h2>
+<p>The Interactivity SDK is built around three main concepts:</p>
+<ul>
+<li><strong>Behaviors</strong>: Encapsulate state and behavior that can be attached to an object.</li>
+<li><strong>Triggers</strong>: Listen for events or conditions and invoke actions.</li>
+<li><strong>Actions</strong>: Perform an operation when invoked by a trigger.</li>
+</ul>
+<h2 id="the-interaction-class">The Interaction Class</h2>
+<p>The <code>Interaction</code> class is the entry point for using behaviors in XAML. It defines the <code>Behaviors</code> attached property, which allows you to attach a collection of behaviors to any <code>AvaloniaObject</code>.</p>
+<h3 id="attaching-behaviors-in-xaml">Attaching Behaviors in XAML</h3>
+<p>To attach behaviors to a control, you use the <code>Interaction.Behaviors</code> attached property.</p>
+<pre><code class="lang-xml">&lt;UserControl xmlns=&quot;https://github.com/avaloniaui&quot;
+             xmlns:x=&quot;http://schemas.microsoft.com/winfx/2006/xaml&quot;&gt;
+
+    &lt;Button Content=&quot;Click Me&quot;&gt;
+        &lt;Interaction.Behaviors&gt;
+            &lt;EventTriggerBehavior EventName=&quot;Click&quot;&gt;
+                &lt;ChangePropertyAction TargetObject=&quot;{Binding #MyTextBlock}&quot; 
+                                      PropertyName=&quot;Text&quot;
+                                      Value=&quot;Button Clicked!&quot; /&gt;
+            &lt;/EventTriggerBehavior&gt;
+        &lt;/Interaction.Behaviors&gt;
+    &lt;/Button&gt;
+
+    &lt;TextBlock Name=&quot;MyTextBlock&quot; Text=&quot;Waiting...&quot; /&gt;
+&lt;/UserControl&gt;
+</code></pre>
+<h3 id="programmatic-access">Programmatic Access</h3>
+<p>You can also access and modify behaviors programmatically using the <code>Interaction.GetBehaviors</code> and <code>Interaction.SetBehaviors</code> methods.</p>
+<pre><code class="lang-csharp">var behaviors = Interaction.GetBehaviors(myButton);
+behaviors.Add(new MyCustomBehavior());
+</code></pre>
+<h2 id="base-classes">Base Classes</h2>
+<p>The SDK provides several base classes to help you create custom interactive components:</p>
+<ul>
+<li><strong><code>Behavior</code> / <code>Behavior&lt;T&gt;</code></strong>: The base class for behaviors.</li>
+<li><strong><code>Trigger</code> / <code>TriggerBase&lt;T&gt;</code></strong>: The base class for triggers.</li>
+<li><strong><code>Action</code> / <code>TriggerAction&lt;T&gt;</code></strong>: The base class for actions.</li>
+<li><strong><code>StyledElementBehavior</code> / <code>StyledElementTrigger</code> / <code>StyledElementAction</code></strong>: Specialized base classes for behaviors that are attached to <code>StyledElement</code> objects (like Controls). These classes provide additional features like <code>DataContext</code> synchronization and logical tree attachment.</li>
+</ul>
+<h2 id="installation">Installation</h2>
+<p>To use the Interactivity SDK, you need to install the <code>Xaml.Behaviors</code> NuGet package.</p>
+<pre><code class="lang-bash">dotnet add package Xaml.Behaviors
+</code></pre>
+
+</article>
+
+        <div class="contribution d-print-none">
+          <a href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/docfx/articles/interactivity/interactivity-overview.md/#L1" class="edit-link">Edit this page</a>
+        </div>
+
+        <div class="next-article d-print-none border-top" id="nextArticle"></div>
+
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          <span>Made with <a href="https://dotnet.github.io/docfx">docfx</a></span>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

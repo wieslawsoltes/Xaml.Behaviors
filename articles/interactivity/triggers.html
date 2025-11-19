@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+      <title>Triggers | XAML Behaviors for Avalonia </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="Triggers | XAML Behaviors for Avalonia ">
+      
+      
+      <link rel="icon" href="../../favicon.ico">
+      <link rel="stylesheet" href="../../public/docfx.min.css">
+      <link rel="stylesheet" href="../../public/main.css">
+      <meta name="docfx:navrel" content="../../toc.html">
+      <meta name="docfx:tocrel" content="../toc.html">
+      
+      
+      
+      
+      <meta name="docfx:docurl" content="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/docfx/articles/interactivity/triggers.md/#L1">
+      <meta name="loc:inThisArticle" content="In this article">
+      <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
+      <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
+      <meta name="loc:tocFilter" content="Filter by title">
+      <meta name="loc:nextArticle" content="Next">
+      <meta name="loc:prevArticle" content="Previous">
+      <meta name="loc:themeLight" content="Light">
+      <meta name="loc:themeDark" content="Dark">
+      <meta name="loc:themeAuto" content="Auto">
+      <meta name="loc:changeTheme" content="Change theme">
+      <meta name="loc:copy" content="Copy">
+      <meta name="loc:downloadPdf" content="Download PDF">
+
+      <script type="module" src="./../../public/docfx.min.js"></script>
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
+  </head>
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../../index.html">
+            <img id="logo" class="svg" src="../../logo.svg" alt="">
+            
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <nav class="toc" id="toc"></nav>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
+            <i class="bi bi-list"></i>
+          </button>
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article data-uid="">
+<h1 id="triggers">Triggers</h1>
+
+<p>Triggers are behaviors that listen for specific conditions or events and invoke a collection of actions when those conditions are met.</p>
+<h2 id="the-trigger-base-class">The Trigger Base Class</h2>
+<p>The <code>Trigger</code> class is a specialized <code>Behavior</code> that contains an <code>Actions</code> collection. When the trigger is activated, it executes the actions in this collection.</p>
+<pre><code class="lang-csharp">public abstract class Trigger : Behavior, ITrigger
+{
+    public ActionCollection Actions { get; }
+}
+</code></pre>
+<h2 id="eventtriggerbase">EventTriggerBase</h2>
+<p><code>EventTriggerBase</code> is a common base class for triggers that listen for events. It provides the <code>EventName</code> and <code>SourceObject</code> properties.</p>
+<ul>
+<li><strong><code>EventName</code></strong>: The name of the event to listen for.</li>
+<li><strong><code>SourceObject</code></strong>: The object that raises the event. If not set, it defaults to the <code>AssociatedObject</code>.</li>
+</ul>
+<h3 id="creating-a-custom-event-trigger">Creating a Custom Event Trigger</h3>
+<p>To create a custom event trigger, you can inherit from <code>EventTriggerBase</code> or <code>EventTriggerBase&lt;T&gt;</code>.</p>
+<pre><code class="lang-csharp">using Avalonia.Xaml.Interactivity;
+
+public class MyEventTrigger : EventTriggerBase&lt;Button&gt;
+{
+    protected override void OnEvent(object? sender, object? eventArgs)
+    {
+        // Custom logic before invoking actions
+        base.OnEvent(sender, eventArgs);
+    }
+}
+</code></pre>
+<h2 id="invoking-actions">Invoking Actions</h2>
+<p>Triggers are responsible for invoking their actions. The <code>Interaction.ExecuteActions</code> method is used to execute the actions associated with a trigger.</p>
+<p>If you are implementing a custom trigger that is not based on <code>EventTriggerBase</code>, you can invoke actions manually:</p>
+<pre><code class="lang-csharp">protected void InvokeActions(object parameter)
+{
+    Interaction.ExecuteActions(AssociatedObject, Actions, parameter);
+}
+</code></pre>
+<h2 id="styledelementtrigger">StyledElementTrigger</h2>
+<p>Like behaviors, triggers also have a <code>StyledElement</code> version: <code>StyledElementTrigger</code>. This class inherits from <code>StyledElementBehavior</code> and supports <code>DataContext</code> synchronization and logical tree attachment. <code>EventTriggerBase</code> inherits from <code>StyledElementTrigger</code>.</p>
+<p>Use <code>StyledElementTrigger</code> when your trigger needs to bind to properties or access resources in the logical tree.</p>
+<h2 id="conditions">Conditions</h2>
+<p>The SDK also provides a <code>Condition</code> class that can be used to define complex criteria for triggers. While primarily used by <code>DataTriggerBehavior</code> (in the Interactions package), <code>Condition</code> is part of the core Interactivity package.</p>
+<p>A <code>Condition</code> allows you to compare a bound value against a specified value using various comparison operators (Equal, NotEqual, GreaterThan, etc.).</p>
+
+</article>
+
+        <div class="contribution d-print-none">
+          <a href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/docfx/articles/interactivity/triggers.md/#L1" class="edit-link">Edit this page</a>
+        </div>
+
+        <div class="next-article d-print-none border-top" id="nextArticle"></div>
+
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          <span>Made with <a href="https://dotnet.github.io/docfx">docfx</a></span>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

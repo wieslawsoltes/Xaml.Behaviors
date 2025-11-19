@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+      <title>Actions | XAML Behaviors for Avalonia </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="Actions | XAML Behaviors for Avalonia ">
+      
+      
+      <link rel="icon" href="../../favicon.ico">
+      <link rel="stylesheet" href="../../public/docfx.min.css">
+      <link rel="stylesheet" href="../../public/main.css">
+      <meta name="docfx:navrel" content="../../toc.html">
+      <meta name="docfx:tocrel" content="../toc.html">
+      
+      
+      
+      
+      <meta name="docfx:docurl" content="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/docfx/articles/interactivity/actions.md/#L1">
+      <meta name="loc:inThisArticle" content="In this article">
+      <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
+      <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
+      <meta name="loc:tocFilter" content="Filter by title">
+      <meta name="loc:nextArticle" content="Next">
+      <meta name="loc:prevArticle" content="Previous">
+      <meta name="loc:themeLight" content="Light">
+      <meta name="loc:themeDark" content="Dark">
+      <meta name="loc:themeAuto" content="Auto">
+      <meta name="loc:changeTheme" content="Change theme">
+      <meta name="loc:copy" content="Copy">
+      <meta name="loc:downloadPdf" content="Download PDF">
+
+      <script type="module" src="./../../public/docfx.min.js"></script>
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
+  </head>
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../../index.html">
+            <img id="logo" class="svg" src="../../logo.svg" alt="">
+            
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <nav class="toc" id="toc"></nav>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
+            <i class="bi bi-list"></i>
+          </button>
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article data-uid="">
+<h1 id="actions">Actions</h1>
+
+<p>Actions are objects that perform a specific operation when invoked. They are typically used within a <code>Trigger</code> to respond to events or conditions.</p>
+<h2 id="the-action-base-class">The Action Base Class</h2>
+<p>The <code>Action</code> class is the base class for all actions. It defines an abstract <code>Execute</code> method that must be implemented by derived classes.</p>
+<pre><code class="lang-csharp">public abstract class Action : AvaloniaObject, IAction
+{
+    public abstract object? Execute(object? sender, object? parameter);
+}
+</code></pre>
+<ul>
+<li><strong><code>sender</code></strong>: The object that triggered the action (usually the <code>AssociatedObject</code> of the trigger).</li>
+<li><strong><code>parameter</code></strong>: Optional parameter passed by the trigger (e.g., event arguments).</li>
+</ul>
+<h2 id="creating-custom-actions">Creating Custom Actions</h2>
+<p>To create a custom action, inherit from <code>Action</code> or <code>StyledElementAction</code> and implement the <code>Execute</code> method.</p>
+<pre><code class="lang-csharp">using Avalonia;
+using Avalonia.Xaml.Interactivity;
+
+public class MyCustomAction : Action
+{
+    public static readonly StyledProperty&lt;string&gt; MessageProperty =
+        AvaloniaProperty.Register&lt;MyCustomAction, string&gt;(nameof(Message));
+
+    public string Message
+    {
+        get =&gt; GetValue(MessageProperty);
+        set =&gt; SetValue(MessageProperty, value);
+    }
+
+    public override object? Execute(object? sender, object? parameter)
+    {
+        System.Diagnostics.Debug.WriteLine($&quot;Action executed: {Message}&quot;);
+        return null;
+    }
+}
+</code></pre>
+<h2 id="styledelementaction">StyledElementAction</h2>
+<p>If your action needs to support data binding or access the logical tree, use <code>StyledElementAction</code>. This class inherits from <code>StyledElement</code> and ensures that the action participates in the Avalonia styling and binding system.</p>
+<pre><code class="lang-csharp">public class BindableAction : StyledElementAction
+{
+    // ...
+}
+</code></pre>
+<h2 id="invokecommandactionbase">InvokeCommandActionBase</h2>
+<p><code>InvokeCommandActionBase</code> is a useful base class for actions that invoke an <code>ICommand</code>. It provides properties for <code>Command</code>, <code>CommandParameter</code>, and <code>InputConverter</code>.</p>
+<ul>
+<li><strong><code>Command</code></strong>: The command to execute.</li>
+<li><strong><code>CommandParameter</code></strong>: The parameter to pass to the command.</li>
+<li><strong><code>InputConverter</code></strong>: A converter to process the parameter before passing it to the command.</li>
+</ul>
+<p>This class is useful when you want to create an action that bridges UI events to ViewModel commands.</p>
+
+</article>
+
+        <div class="contribution d-print-none">
+          <a href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/docfx/articles/interactivity/actions.md/#L1" class="edit-link">Edit this page</a>
+        </div>
+
+        <div class="next-article d-print-none border-top" id="nextArticle"></div>
+
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          <span>Made with <a href="https://dotnet.github.io/docfx">docfx</a></span>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

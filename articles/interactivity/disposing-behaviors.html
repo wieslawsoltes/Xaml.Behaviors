@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+      <title>Disposing Behaviors and Triggers | XAML Behaviors for Avalonia </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="Disposing Behaviors and Triggers | XAML Behaviors for Avalonia ">
+      
+      
+      <link rel="icon" href="../../favicon.ico">
+      <link rel="stylesheet" href="../../public/docfx.min.css">
+      <link rel="stylesheet" href="../../public/main.css">
+      <meta name="docfx:navrel" content="../../toc.html">
+      <meta name="docfx:tocrel" content="../toc.html">
+      
+      
+      
+      
+      <meta name="docfx:docurl" content="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/docfx/articles/interactivity/disposing-behaviors.md/#L1">
+      <meta name="loc:inThisArticle" content="In this article">
+      <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
+      <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
+      <meta name="loc:tocFilter" content="Filter by title">
+      <meta name="loc:nextArticle" content="Next">
+      <meta name="loc:prevArticle" content="Previous">
+      <meta name="loc:themeLight" content="Light">
+      <meta name="loc:themeDark" content="Dark">
+      <meta name="loc:themeAuto" content="Auto">
+      <meta name="loc:changeTheme" content="Change theme">
+      <meta name="loc:copy" content="Copy">
+      <meta name="loc:downloadPdf" content="Download PDF">
+
+      <script type="module" src="./../../public/docfx.min.js"></script>
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
+  </head>
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../../index.html">
+            <img id="logo" class="svg" src="../../logo.svg" alt="">
+            
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <nav class="toc" id="toc"></nav>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
+            <i class="bi bi-list"></i>
+          </button>
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article data-uid="">
+<h1 id="disposing-behaviors-and-triggers">Disposing Behaviors and Triggers</h1>
+
+<p>Managing the lifecycle of resources, particularly event subscriptions and observables, is a critical aspect of writing robust behaviors and triggers. The <code>Xaml.Behaviors.Interactivity</code> package provides several tools to simplify this process and prevent memory leaks.</p>
+<h2 id="disposableaction">DisposableAction</h2>
+<p><code>DisposableAction</code> is a utility class that implements <code>IDisposable</code> and executes a specified <code>Action</code> when disposed. It is the fundamental building block for the disposing patterns in the SDK.</p>
+<h3 id="usage">Usage</h3>
+<pre><code class="lang-csharp">using Avalonia.Xaml.Interactivity;
+
+var subscription = DisposableAction.Create(() =&gt; 
+{
+    // Cleanup logic here
+    Console.WriteLine(&quot;Disposed!&quot;);
+});
+
+subscription.Dispose(); // Prints &quot;Disposed!&quot;
+</code></pre>
+<h2 id="disposingbehaviort">DisposingBehavior&lt;T&gt;</h2>
+<p><code>DisposingBehavior&lt;T&gt;</code> is a base class for behaviors that need to manage a single disposable resource (like an event subscription or an observable subscription) during their attachment lifecycle.</p>
+<p>Instead of overriding <code>OnAttached</code> and <code>OnDetaching</code> to manually subscribe and unsubscribe, you override <code>OnAttachedOverride</code> which returns an <code>IDisposable</code>. The base class automatically disposes of this resource when the behavior is detached.</p>
+<h3 id="example">Example</h3>
+<pre><code class="lang-csharp">public class MyBehavior : DisposingBehavior&lt;Control&gt;
+{
+    protected override IDisposable OnAttachedOverride()
+    {
+        // Subscribe to an event
+        AssociatedObject.PointerPressed += OnPointerPressed;
+
+        // Return a disposable that unsubscribes
+        return DisposableAction.Create(() =&gt; 
+        {
+            AssociatedObject.PointerPressed -= OnPointerPressed;
+        });
+    }
+
+    private void OnPointerPressed(object? sender, PointerPressedEventArgs e)
+    {
+        // Handle event
+    }
+}
+</code></pre>
+<p>This pattern is even more powerful when combined with Reactive Extensions (Rx), as <code>IObservable.Subscribe</code> returns an <code>IDisposable</code>.</p>
+<pre><code class="lang-csharp">public class MyRxBehavior : DisposingBehavior&lt;Control&gt;
+{
+    protected override IDisposable OnAttachedOverride()
+    {
+        return AssociatedObject.GetObservable(Control.IsVisibleProperty)
+            .Subscribe(isVisible =&gt; 
+            {
+                // React to changes
+            });
+    }
+}
+</code></pre>
+<h2 id="disposingtriggert">DisposingTrigger&lt;T&gt;</h2>
+<p><code>DisposingTrigger&lt;T&gt;</code> follows the same pattern as <code>DisposingBehavior&lt;T&gt;</code> but for triggers. It simplifies the creation of custom triggers that need to listen to events or observables.</p>
+<h3 id="example-1">Example</h3>
+<pre><code class="lang-csharp">public class MyTrigger : DisposingTrigger&lt;Control&gt;
+{
+    protected override IDisposable OnAttachedOverride()
+    {
+        // Subscribe to an event and invoke actions when it fires
+        AssociatedObject.KeyDown += OnKeyDown;
+
+        return DisposableAction.Create(() =&gt; AssociatedObject.KeyDown -= OnKeyDown);
+    }
+
+    private void OnKeyDown(object? sender, KeyEventArgs e)
+    {
+        if (e.Key == Key.Enter)
+        {
+            // Invoke the actions associated with this trigger
+            Interaction.ExecuteActions(AssociatedObject, Actions, e);
+        }
+    }
+}
+</code></pre>
+<h2 id="benefits">Benefits</h2>
+<ul>
+<li><strong>Reduced Boilerplate</strong>: You don't need to store the subscription token or event handler in a private field.</li>
+<li><strong>Safety</strong>: The base class ensures that the resource is disposed of correctly when the behavior is detached, reducing the risk of memory leaks.</li>
+<li><strong>Clarity</strong>: The code clearly separates the setup logic (in <code>OnAttachedOverride</code>) from the cleanup logic (in the returned <code>IDisposable</code>), often keeping them close together.</li>
+</ul>
+
+</article>
+
+        <div class="contribution d-print-none">
+          <a href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/docfx/articles/interactivity/disposing-behaviors.md/#L1" class="edit-link">Edit this page</a>
+        </div>
+
+        <div class="next-article d-print-none border-top" id="nextArticle"></div>
+
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          <span>Made with <a href="https://dotnet.github.io/docfx">docfx</a></span>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

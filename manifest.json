@@ -6873,6 +6873,136 @@
     },
     {
       "type": "Conceptual",
+      "source_relative_path": "articles/interactivity/actions.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactivity/actions.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactivity/behaviors.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactivity/behaviors.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactivity/disposing-behavior.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactivity/disposing-behavior.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactivity/disposing-behaviors.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactivity/disposing-behaviors.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactivity/event-contracts.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactivity/event-contracts.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactivity/event-trigger-base.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactivity/event-trigger-base.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactivity/interactive-behavior-base.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactivity/interactive-behavior-base.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactivity/interactive-trigger-base.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactivity/interactive-trigger-base.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactivity/interactivity-overview.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactivity/interactivity-overview.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactivity/invoke-command-action-base.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactivity/invoke-command-action-base.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactivity/invoke-command-behavior-base.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactivity/invoke-command-behavior-base.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactivity/templates.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactivity/templates.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactivity/triggers.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactivity/triggers.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
       "source_relative_path": "articles/intro.md",
       "output": {
         ".html": {
