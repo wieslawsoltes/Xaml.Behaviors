@@ -84,6 +84,107 @@
 <h1 id="introduction">Introduction</h1>
 
 <p>Introduction to XAML Behaviors for Avalonia.</p>
+<h2 id="getting-started">Getting Started</h2>
+<h3 id="adding-behaviors-in-xaml">Adding Behaviors in XAML</h3>
+<p>The steps below show how a new user can attach their first behavior. These examples assume you have created an Avalonia application and want to enhance it with interactions.</p>
+<ol>
+<li><strong>Install the package</strong> – open your NuGet package manager and add <code>Xaml.Behaviors</code> or any of the interaction packages such as <code>Xaml.Behaviors.Interactions</code>.</li>
+<li><strong>Declare the namespace</strong> – reference the default Avalonia namespace and the XAML Behaviors namespace at the top of your XAML file.</li>
+<li><strong>Attach a behavior</strong> – use the <code>Interaction.Behaviors</code> attached property to add behaviors to your controls.</li>
+</ol>
+<p>Here is a minimal example:</p>
+<pre><code class="lang-xaml">&lt;UserControl xmlns=&quot;https://github.com/avaloniaui&quot;
+             xmlns:x=&quot;http://schemas.microsoft.com/winfx/2006/xaml&quot;&gt;
+    &lt;Button Content=&quot;Click&quot;&gt;
+        &lt;Interaction.Behaviors&gt;
+            &lt;EventTriggerBehavior EventName=&quot;Click&quot;&gt;
+                &lt;InvokeCommandAction Command=&quot;{Binding ClickCommand}&quot; /&gt;
+            &lt;/EventTriggerBehavior&gt;
+        &lt;/Interaction.Behaviors&gt;
+    &lt;/Button&gt;
+&lt;/UserControl&gt;
+</code></pre>
+<h3 id="basic-examples">Basic Examples</h3>
+<p>The examples below walk through typical scenarios where behaviors remove the need for boilerplate code.</p>
+<ol>
+<li><strong>React to data changes</strong> – monitor a bound property and update another control automatically.</li>
+<li><strong>Handle lifecycle events</strong> – execute actions when a control appears or is loaded.</li>
+</ol>
+<p>In XAML this looks like:</p>
+<pre><code class="lang-xaml">&lt;!-- Change text based on slider value --&gt;
+&lt;TextBlock x:Name=&quot;Output&quot;&gt;
+    &lt;Interaction.Behaviors&gt;
+        &lt;DataTriggerBehavior Binding=&quot;{Binding #Slider.Value}&quot; ComparisonCondition=&quot;GreaterThan&quot; Value=&quot;50&quot;&gt;
+            &lt;ChangePropertyAction PropertyName=&quot;Text&quot; Value=&quot;High&quot; /&gt;
+        &lt;/DataTriggerBehavior&gt;
+        &lt;DataTriggerBehavior Binding=&quot;{Binding #Slider.Value}&quot; ComparisonCondition=&quot;LessThanOrEqual&quot; Value=&quot;50&quot;&gt;
+            &lt;ChangePropertyAction PropertyName=&quot;Text&quot; Value=&quot;Low&quot; /&gt;
+        &lt;/DataTriggerBehavior&gt;
+    &lt;/Interaction.Behaviors&gt;
+&lt;/TextBlock&gt;
+
+&lt;!-- Focus a control when it appears --&gt;
+&lt;TextBox&gt;
+    &lt;Interaction.Behaviors&gt;
+        &lt;EventTriggerBehavior EventName=&quot;Loaded&quot;&gt;
+            &lt;FocusControlAction /&gt;
+        &lt;/EventTriggerBehavior&gt;
+    &lt;/Interaction.Behaviors&gt;
+&lt;/TextBox&gt;
+</code></pre>
+<h3 id="how-it-works">How It Works</h3>
+<p>Behind the scenes behaviors rely on Avalonia's attached property and reactive object model. When you set <code>Interaction.Behaviors</code> on any <code>AvaloniaObject</code>, Avalonia's property system fires a property changed notification. The <code>Interaction</code> helper class listens for these changes and attaches each entry of the <code>BehaviorCollection</code> to the target control. Each behavior implements <code>IAttachedObject</code> and inherits from <code>Behavior</code> or <code>Behavior&lt;T&gt;</code> which provide <code>OnAttached</code> and <code>OnDetaching</code> methods. These methods are invoked by the framework so the behavior can subscribe to routed events, bind to properties or manipulate the visual tree. Because behaviors live in a collection you can add or remove them dynamically at runtime just like any other Avalonia property.</p>
+<p>Triggers and actions follow the same pattern. A <code>Trigger</code> holds a collection of <code>IAction</code> objects. When the trigger condition is met—for example an event fires or a bound property changes—the trigger iterates its actions and calls their <code>Execute</code> method. Everything relies on base types such as <code>AvaloniaObject</code>, the binding engine and the routing/event system, so no reflection or markup extension magic is needed. Understanding these building blocks helps when creating custom behaviors or when troubleshooting how they interact with your controls.</p>
+<h3 id="advanced-usage">Advanced Usage</h3>
+<p>Behaviors can also be defined in styles or extended by creating your own implementations. Advanced scenarios typically involve keeping XAML clean or encapsulating reusable interaction logic.</p>
+<ol>
+<li><strong>Attach behaviors from styles</strong> – ideal when the same behavior should apply to multiple controls.</li>
+<li><strong>Create custom behaviors</strong> – extend <code>Behavior&lt;T&gt;</code> to implement unique interactions.</li>
+</ol>
+<p>Below is a walkthrough of both approaches.</p>
+<p><strong>Defining behaviors in a style</strong></p>
+<pre><code class="lang-xaml">&lt;Style Selector=&quot;Button.alert&quot;&gt;
+    &lt;Setter Property=&quot;(Interaction.Behaviors)&quot;&gt;
+        &lt;BehaviorCollectionTemplate&gt;
+            &lt;BehaviorCollection&gt;
+                &lt;EventTriggerBehavior EventName=&quot;PointerEnter&quot;&gt;
+                    &lt;ChangePropertyAction PropertyName=&quot;Background&quot; Value=&quot;Red&quot; /&gt;
+                &lt;/EventTriggerBehavior&gt;
+            &lt;/BehaviorCollection&gt;
+        &lt;/BehaviorCollectionTemplate&gt;
+    &lt;/Setter&gt;
+&lt;/Style&gt;
+</code></pre>
+<p>To use the style, assign the <code>alert</code> class to any <code>Button</code> and it will change its background when the pointer enters the control.</p>
+<p><strong>Creating a custom behavior</strong></p>
+<pre><code class="lang-csharp">using Avalonia.Controls;
+using Avalonia.Input;
+using Avalonia.Xaml.Interactivity;
+
+public class RotateOnClickBehavior : Behavior&lt;Button&gt;
+{
+    protected override void OnAttached()
+    {
+        AssociatedObject.PointerPressed += OnPointerPressed;
+    }
+
+    protected override void OnDetaching()
+    {
+        AssociatedObject.PointerPressed -= OnPointerPressed;
+    }
+
+    private void OnPointerPressed(object? sender, PointerPressedEventArgs e)
+    {
+        AssociatedObject.RenderTransform = new RotateTransform(45);
+    }
+}
+</code></pre>
+<ol>
+<li><strong>Derive from <code>Behavior&lt;T&gt;</code></strong> – specify the control type the behavior will attach to.</li>
+<li><strong>Override <code>OnAttached</code> and <code>OnDetaching</code></strong> – wire up and remove event handlers or other logic.</li>
+<li><strong>Consume the behavior</strong> – add it in XAML like any built‑in behavior or through a style.</li>
+</ol>
+<p>Custom triggers and actions follow the same pattern—derive from <code>Trigger</code> or <code>Action</code> and override the relevant methods. Use these techniques to build a library of reusable interactions tailored to your application.</p>
 
 </article>
 
