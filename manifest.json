@@ -6873,6 +6873,116 @@
     },
     {
       "type": "Conceptual",
+      "source_relative_path": "articles/interactions/call-method-action.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions/call-method-action.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions/change-property-action.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions/change-property-action.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions/clipboard-actions.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions/clipboard-actions.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions/data-trigger-behavior.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions/data-trigger-behavior.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions/event-trigger-behavior.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions/event-trigger-behavior.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions/interactions-overview.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions/interactions-overview.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions/invoke-command-action.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions/invoke-command-action.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions/multi-data-trigger-behavior.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions/multi-data-trigger-behavior.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions/storage-provider-interactions.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions/storage-provider-interactions.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions/task-completed-trigger.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions/task-completed-trigger.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions/timer-trigger.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions/timer-trigger.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
       "source_relative_path": "articles/interactivity/actions.md",
       "output": {
         ".html": {
