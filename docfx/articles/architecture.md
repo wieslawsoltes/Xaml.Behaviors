@@ -51,33 +51,41 @@ Waiting for the control to be attached to the visual tree ensures that the contr
 
 The architecture separates the "cause" (Trigger) from the "effect" (Action).
 
-*   **Triggers** (e.g., `EventTriggerBehavior`) listen for something to happen. They derive from `Behavior` and use the same lifecycle.
-*   **Actions** (e.g., `InvokeCommandAction`) are executed by Triggers. They do not have a persistent lifecycle in the same way; they are simply `Execute`d.
+*   **Triggers** (e.g., `EventTriggerBehavior`) listen for something to happen. They derive from `Trigger` (or `StyledElementTrigger`) and use the same lifecycle.
+*   **Actions** (e.g., `InvokeCommandAction`) are executed by Triggers. They derive from `Action` (or `StyledElementAction`).
 
 ## Custom Behaviors
 
-When creating custom behaviors, you inherit from `Behavior<T>`. The architecture handles the plumbing, leaving you to implement just two methods:
+When creating custom behaviors, it is recommended to inherit from `StyledElementBehavior<T>` (or `Behavior<T>` if you don't need styling support). The architecture handles the plumbing, leaving you to implement just two methods:
 
 ```csharp
-public class MyCustomBehavior : Behavior<Button>
+public class MyCustomBehavior : StyledElementBehavior<Button>
 {
-    protected override void OnAttached()
+    protected override void OnAttachedToVisualTree()
     {
-        base.OnAttached();
+        base.OnAttachedToVisualTree();
         // Access AssociatedObject here
-        AssociatedObject.Click += OnClick;
+        if (AssociatedObject is not null)
+        {
+            AssociatedObject.Click += OnClick;
+        }
     }
 
-    protected override void OnDetaching()
+    protected override void OnDetachedFromVisualTree()
     {
-        base.OnDetaching();
+        base.OnDetachedFromVisualTree();
         // Clean up
-        AssociatedObject.Click -= OnClick;
+        if (AssociatedObject is not null)
+        {
+            AssociatedObject.Click -= OnClick;
+        }
     }
 
-    private void OnClick(object sender, RoutedEventArgs e)
+    private void OnClick(object? sender, RoutedEventArgs e)
     {
         // Handle click
     }
 }
 ```
+
+Using `StyledElementBehavior<T>` ensures that your behavior can participate in the Avalonia styling system properly. Similarly, for custom triggers and actions, prefer `StyledElementTrigger<T>` and `StyledElementAction`.
