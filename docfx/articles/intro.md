@@ -1,3 +1,3 @@
 # Introduction
 
-Introduction to Avalonia.Xaml.Behaviors.
+Introduction to XAML Behaviors for Avalonia.
