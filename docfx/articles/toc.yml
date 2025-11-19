@@ -1,32 +1,58 @@
 - name: Introduction
   href: intro.md
-- name: Interactivity Overview
-  href: interactivity/interactivity-overview.md
-- name: Behaviors
-  href: interactivity/behaviors.md
-- name: Triggers
-  href: interactivity/triggers.md
-- name: Actions
-  href: interactivity/actions.md
-- name: Templates
-  href: interactivity/templates.md
-- name: XML Namespace Definitions
-  href: interactivity/xmlns-definitions.md
-- name: Conditions
-  href: interactivity/conditions.md
-- name: Disposing Behaviors
-  href: interactivity/disposing-behaviors.md
-- name: Event Contracts
-  href: interactivity/event-contracts.md
-- name: InvokeCommandActionBase
-  href: interactivity/invoke-command-action-base.md
-- name: DisposingBehavior
-  href: interactivity/disposing-behavior.md
-- name: InteractiveBehaviorBase
-  href: interactivity/interactive-behavior-base.md
-- name: InvokeCommandBehaviorBase
-  href: interactivity/invoke-command-behavior-base.md
-- name: EventTriggerBase
-  href: interactivity/event-trigger-base.md
-- name: InteractiveTriggerBase
-  href: interactivity/interactive-trigger-base.md
+- name: Interactivity
+  items:
+    - name: Overview
+      href: interactivity/interactivity-overview.md
+    - name: Behaviors
+      href: interactivity/behaviors.md
+    - name: Triggers
+      href: interactivity/triggers.md
+    - name: Actions
+      href: interactivity/actions.md
+    - name: Templates
+      href: interactivity/templates.md
+    - name: XML Namespace Definitions
+      href: interactivity/xmlns-definitions.md
+    - name: Conditions
+      href: interactivity/conditions.md
+    - name: Disposing Behaviors
+      href: interactivity/disposing-behaviors.md
+    - name: Event Contracts
+      href: interactivity/event-contracts.md
+    - name: InvokeCommandActionBase
+      href: interactivity/invoke-command-action-base.md
+    - name: DisposingBehavior
+      href: interactivity/disposing-behavior.md
+    - name: InteractiveBehaviorBase
+      href: interactivity/interactive-behavior-base.md
+    - name: InvokeCommandBehaviorBase
+      href: interactivity/invoke-command-behavior-base.md
+    - name: EventTriggerBase
+      href: interactivity/event-trigger-base.md
+    - name: InteractiveTriggerBase
+      href: interactivity/interactive-trigger-base.md
+- name: Interactions
+  items:
+    - name: Overview
+      href: interactions/interactions-overview.md
+    - name: CallMethodAction
+      href: interactions/call-method-action.md
+    - name: ChangePropertyAction
+      href: interactions/change-property-action.md
+    - name: InvokeCommandAction
+      href: interactions/invoke-command-action.md
+    - name: DataTriggerBehavior
+      href: interactions/data-trigger-behavior.md
+    - name: EventTriggerBehavior
+      href: interactions/event-trigger-behavior.md
+    - name: MultiDataTriggerBehavior
+      href: interactions/multi-data-trigger-behavior.md
+    - name: TaskCompletedTrigger
+      href: interactions/task-completed-trigger.md
+    - name: TimerTrigger
+      href: interactions/timer-trigger.md
+    - name: Clipboard Actions
+      href: interactions/clipboard-actions.md
+    - name: StorageProvider Interactions
+      href: interactions/storage-provider-interactions.md
