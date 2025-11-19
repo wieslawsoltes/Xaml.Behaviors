@@ -7142,6 +7142,36 @@
       "version": ""
     },
     {
+      "type": "Conceptual",
+      "source_relative_path": "articles/responsive/adaptive-behavior.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/responsive/adaptive-behavior.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/responsive/aspect-ratio-behavior.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/responsive/aspect-ratio-behavior.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/responsive/responsive-overview.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/responsive/responsive-overview.html"
+        }
+      },
+      "version": ""
+    },
+    {
       "type": "Toc",
       "source_relative_path": "articles/toc.yml",
       "output": {
