@@ -1,0 +1,62 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="400"
+        x:Class="BehaviorsTestApplication.Views.Windows.WindowDemo"
+        Title="Window Demo" Height="400" Width="600"
+        SystemDecorations="None"
+        WindowStartupLocation="CenterOwner">
+    <Grid RowDefinitions="Auto,*">
+        <!-- Custom Title Bar -->
+        <Border Grid.Row="0" Background="LightGray" Height="30">
+            <Interaction.Behaviors>
+                <WindowDragMoveBehavior />
+            </Interaction.Behaviors>
+            <Grid ColumnDefinitions="*,Auto">
+                <TextBlock Text="Custom Title Bar (Drag Me)" VerticalAlignment="Center" Margin="10,0" />
+                <StackPanel Grid.Column="1" Orientation="Horizontal">
+                    <Button Content="_" Width="30" Padding="0" HorizontalContentAlignment="Center">
+                        <Interaction.Behaviors>
+                            <EventTriggerBehavior EventName="Click">
+                                <WindowAction ActionType="Minimize" />
+                            </EventTriggerBehavior>
+                        </Interaction.Behaviors>
+                    </Button>
+                    <Button Content="[ ]" Width="30" Padding="0" HorizontalContentAlignment="Center">
+                        <Interaction.Behaviors>
+                            <EventTriggerBehavior EventName="Click">
+                                <WindowAction ActionType="Maximize" />
+                            </EventTriggerBehavior>
+                        </Interaction.Behaviors>
+                    </Button>
+                    <Button Content="X" Width="30" Background="Red" Foreground="White" Padding="0" HorizontalContentAlignment="Center">
+                        <Interaction.Behaviors>
+                            <EventTriggerBehavior EventName="Click">
+                                <WindowAction ActionType="Close" />
+                            </EventTriggerBehavior>
+                        </Interaction.Behaviors>
+                    </Button>
+                </StackPanel>
+            </Grid>
+        </Border>
+        
+        <StackPanel Grid.Row="1" Margin="20" Spacing="10">
+            <TextBlock Text="This is a custom window demonstrating WindowDragMoveBehavior and WindowAction." TextWrapping="Wrap" />
+            <Button Content="Toggle Full Screen">
+                 <Interaction.Behaviors>
+                    <EventTriggerBehavior EventName="Click">
+                        <WindowAction ActionType="ToggleFullScreen" />
+                    </EventTriggerBehavior>
+                </Interaction.Behaviors>
+            </Button>
+            <Button Content="Close Window">
+                 <Interaction.Behaviors>
+                    <EventTriggerBehavior EventName="Click">
+                        <WindowAction ActionType="Close" />
+                    </EventTriggerBehavior>
+                </Interaction.Behaviors>
+            </Button>
+        </StackPanel>
+    </Grid>
+</Window>

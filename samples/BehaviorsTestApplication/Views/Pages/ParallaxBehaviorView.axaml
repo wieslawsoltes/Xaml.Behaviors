@@ -1,0 +1,53 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="600"
+             x:Class="BehaviorsTestApplication.Views.Pages.ParallaxBehaviorView">
+    <Grid RowDefinitions="Auto,*">
+        <TextBlock Text="ParallaxBehavior" FontSize="24" FontWeight="Bold" Margin="20" />
+        
+        <ScrollViewer Grid.Row="1" x:Name="ParallaxScroller">
+            <Grid Height="1000">
+                <!-- Background Layer (Slow) -->
+                <Canvas>
+                    <Ellipse Fill="#ecf0f1" Width="100" Height="100" Canvas.Left="50" Canvas.Top="50">
+                        <Interaction.Behaviors>
+                            <ParallaxBehavior SourceScrollViewer="{Binding #ParallaxScroller}" ParallaxRatio="0.8" />
+                        </Interaction.Behaviors>
+                    </Ellipse>
+                    <Ellipse Fill="#bdc3c7" Width="150" Height="150" Canvas.Right="50" Canvas.Top="200">
+                        <Interaction.Behaviors>
+                            <ParallaxBehavior SourceScrollViewer="{Binding #ParallaxScroller}" ParallaxRatio="0.5" />
+                        </Interaction.Behaviors>
+                    </Ellipse>
+                    <Rectangle Fill="#95a5a6" Width="80" Height="80" Canvas.Left="200" Canvas.Top="500">
+                        <Interaction.Behaviors>
+                            <ParallaxBehavior SourceScrollViewer="{Binding #ParallaxScroller}" ParallaxRatio="0.3" />
+                        </Interaction.Behaviors>
+                    </Rectangle>
+                </Canvas>
+                
+                <!-- Foreground Content -->
+                <StackPanel Spacing="50" Margin="50">
+                    <TextBlock Text="Scroll down to see parallax effect..." FontSize="20" />
+                    <Border Height="100" Background="#8e44ad" CornerRadius="5">
+                        <TextBlock Text="Item 1" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                    </Border>
+                    <Border Height="100" Background="#8e44ad" CornerRadius="5">
+                        <TextBlock Text="Item 2" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                    </Border>
+                    <Border Height="100" Background="#8e44ad" CornerRadius="5">
+                        <TextBlock Text="Item 3" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                    </Border>
+                    <Border Height="100" Background="#8e44ad" CornerRadius="5">
+                        <TextBlock Text="Item 4" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                    </Border>
+                    <Border Height="100" Background="#8e44ad" CornerRadius="5">
+                        <TextBlock Text="Item 5" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                    </Border>
+                </StackPanel>
+            </Grid>
+        </ScrollViewer>
+    </Grid>
+</UserControl>

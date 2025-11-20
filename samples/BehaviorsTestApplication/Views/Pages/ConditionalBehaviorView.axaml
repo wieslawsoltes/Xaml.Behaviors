@@ -1,0 +1,24 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="BehaviorsTestApplication.Views.Pages.ConditionalBehaviorView">
+  <StackPanel Spacing="10" Margin="10">
+    <TextBlock Text="ConditionalBehavior" FontWeight="Bold" />
+    <TextBlock Text="Toggle the CheckBox to change the Border background color." />
+    <CheckBox x:Name="ConditionCheckBox" Content="Condition" IsChecked="True" />
+    <Border x:Name="TargetBorder" Background="Gray" Height="100" Width="100">
+      <Interaction.Behaviors>
+        <ConditionalBehavior Condition="{Binding #ConditionCheckBox.IsChecked}">
+          <ConditionalBehavior.Actions>
+            <ChangePropertyAction TargetObject="{Binding #TargetBorder}" PropertyName="Background" Value="Green" />
+          </ConditionalBehavior.Actions>
+          <ConditionalBehavior.ElseActions>
+            <ChangePropertyAction TargetObject="{Binding #TargetBorder}" PropertyName="Background" Value="Red" />
+          </ConditionalBehavior.ElseActions>
+        </ConditionalBehavior>
+      </Interaction.Behaviors>
+    </Border>
+  </StackPanel>
+</UserControl>

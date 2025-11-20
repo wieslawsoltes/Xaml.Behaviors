@@ -18,6 +18,8 @@
   href: hide-popup-action.md
 - name: PopupAction
   href: popup-action.md
+- name: FocusNextElementAction
+  href: focus-next-element-action.md
 - name: RemoveClassAction
   href: remove-class-action.md
 - name: RemoveElementAction

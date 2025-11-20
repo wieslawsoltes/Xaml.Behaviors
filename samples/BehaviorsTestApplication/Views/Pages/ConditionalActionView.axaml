@@ -1,0 +1,34 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="BehaviorsTestApplication.Views.Pages.ConditionalActionView">
+    <ScrollViewer>
+        <StackPanel Spacing="20" Margin="20">
+            <TextBlock Text="ConditionalAction" FontWeight="Bold" FontSize="24" />
+            <TextBlock Text="Executes actions based on a boolean condition." />
+            
+            <CheckBox x:Name="EnableAction" Content="Enable Action" IsChecked="True" />
+            
+            <Button Content="Click Me">
+                <Interaction.Behaviors>
+                    <EventTriggerBehavior EventName="Click">
+                        <ConditionalAction Condition="{Binding #EnableAction.IsChecked}">
+                            <ConditionalAction.Actions>
+                                <ChangePropertyAction TargetObject="{Binding #StatusText}" PropertyName="Text" Value="Action Executed (True)!" />
+                                <ChangePropertyAction TargetObject="{Binding #StatusText}" PropertyName="Foreground" Value="Green" />
+                            </ConditionalAction.Actions>
+                            <ConditionalAction.ElseActions>
+                                <ChangePropertyAction TargetObject="{Binding #StatusText}" PropertyName="Text" Value="Action Executed (False)!" />
+                                <ChangePropertyAction TargetObject="{Binding #StatusText}" PropertyName="Foreground" Value="Red" />
+                            </ConditionalAction.ElseActions>
+                        </ConditionalAction>
+                    </EventTriggerBehavior>
+                </Interaction.Behaviors>
+            </Button>
+            
+            <TextBlock x:Name="StatusText" Text="Waiting..." FontSize="16" FontWeight="Bold" />
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>

@@ -1,0 +1,50 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:sys="using:System"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="BehaviorsTestApplication.Views.Pages.SwitchCaseActionView">
+    <ScrollViewer>
+        <StackPanel Spacing="20" Margin="20">
+            <TextBlock Text="SwitchCaseAction" FontWeight="Bold" FontSize="24" />
+            <TextBlock Text="Executes different actions based on a value match." />
+            
+            <TextBlock Text="Select a color:" />
+            <ComboBox x:Name="ColorSelector" SelectedIndex="0">
+                <sys:String>Red</sys:String>
+                <sys:String>Green</sys:String>
+                <sys:String>Blue</sys:String>
+                <sys:String>Unknown</sys:String>
+            </ComboBox>
+            
+            <Button Content="Apply Color">
+                <Interaction.Behaviors>
+                    <EventTriggerBehavior EventName="Click">
+                        <SwitchCaseAction Value="{Binding #ColorSelector.SelectedItem}">
+                            <Case Value="Red">
+                                <ChangePropertyAction TargetObject="{Binding #ColorBox}" PropertyName="Background" Value="Red" />
+                                <ChangePropertyAction TargetObject="{Binding #StatusText}" PropertyName="Text" Value="Selected Red" />
+                            </Case>
+                            <Case Value="Green">
+                                <ChangePropertyAction TargetObject="{Binding #ColorBox}" PropertyName="Background" Value="Green" />
+                                <ChangePropertyAction TargetObject="{Binding #StatusText}" PropertyName="Text" Value="Selected Green" />
+                            </Case>
+                            <Case Value="Blue">
+                                <ChangePropertyAction TargetObject="{Binding #ColorBox}" PropertyName="Background" Value="Blue" />
+                                <ChangePropertyAction TargetObject="{Binding #StatusText}" PropertyName="Text" Value="Selected Blue" />
+                            </Case>
+                            <SwitchCaseAction.DefaultActions>
+                                <ChangePropertyAction TargetObject="{Binding #ColorBox}" PropertyName="Background" Value="Gray" />
+                                <ChangePropertyAction TargetObject="{Binding #StatusText}" PropertyName="Text" Value="Selected Unknown (Default)" />
+                            </SwitchCaseAction.DefaultActions>
+                        </SwitchCaseAction>
+                    </EventTriggerBehavior>
+                </Interaction.Behaviors>
+            </Button>
+            
+            <Border x:Name="ColorBox" Width="100" Height="100" Background="Gray" CornerRadius="5" />
+            <TextBlock x:Name="StatusText" Text="Waiting..." />
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>

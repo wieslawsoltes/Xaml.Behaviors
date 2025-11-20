@@ -14,10 +14,16 @@
   href: fade-animation.md
 - name: FramerMotionAnimations
   href: framer-motion-animations.md
+- name: OrbitEffectBehavior
+  href: orbit-effect-behavior.md
 - name: RotateAnimation
   href: rotate-animation.md
 - name: ScaleAnimation
   href: scale-animation.md
+- name: TiltEffectBehavior
+  href: tilt-effect-behavior.md
+- name: ParallaxBehavior
+  href: parallax-behavior.md
 - name: SelectingItemsControlBehavior
   href: selecting-items-control-behavior.md
 - name: SlidingAnimation

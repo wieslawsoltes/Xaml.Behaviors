@@ -8,6 +8,8 @@
   href: autocompletebox/toc.yml
 - name: Automation
   href: automation/toc.yml
+- name: Behaviors
+  href: behaviors/toc.yml
 - name: Button
   href: button/toc.yml
 - name: Carousel
@@ -52,6 +54,8 @@
   href: list-box/toc.yml
 - name: ListBoxItem
   href: listbox-item/toc.yml
+- name: Logic
+  href: logic/toc.yml
 - name: Notifications
   href: notifications/toc.yml
 - name: Popup
