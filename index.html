@@ -69,7 +69,93 @@
         <article data-uid="">
 <h1 id="xaml-behaviors-for-avalonia">XAML Behaviors for Avalonia</h1>
 
-<p>Welcome to the XAML Behaviors for Avalonia documentation.</p>
+<p><strong>XAML Behaviors for Avalonia</strong> is an easy-to-use library for adding common and reusable interactivity to your <a href="https://github.com/AvaloniaUI/Avalonia">Avalonia</a> applications with minimal code. It is a port of the <a href="https://github.com/Microsoft/XamlBehaviors">Windows UWP XAML Behaviors</a> library.</p>
+<h2 id="getting-started">Getting Started</h2>
+<h3 id="installation">Installation</h3>
+<p>The library is available as a NuGet package. You can install it using the .NET CLI or the Package Manager Console.</p>
+<p><strong>Package Manager Console:</strong></p>
+<pre><code class="lang-powershell">Install-Package Xaml.Behaviors
+</code></pre>
+<p><strong>.NET CLI:</strong></p>
+<pre><code class="lang-bash">dotnet add package Xaml.Behaviors
+</code></pre>
+<h3 id="usage-example">Usage Example</h3>
+<p>Here is a simple example of how to use <code>EventTriggerBehavior</code> to invoke a command when a button is clicked:</p>
+<pre><code class="lang-xml">&lt;Button Content=&quot;Click Me&quot;&gt;
+    &lt;Interaction.Behaviors&gt;
+        &lt;EventTriggerBehavior EventName=&quot;Click&quot;&gt;
+            &lt;InvokeCommandAction Command=&quot;{Binding MyCommand}&quot; /&gt;
+        &lt;/EventTriggerBehavior&gt;
+    &lt;/Interaction.Behaviors&gt;
+&lt;/Button&gt;
+</code></pre>
+<h2 id="available-packages">Available Packages</h2>
+<p>The library is split into several packages to allow you to include only what you need:</p>
+<table>
+<thead>
+<tr>
+<th>Package</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong><a href="https://www.nuget.org/packages/Xaml.Behaviors">Xaml.Behaviors</a></strong></td>
+<td>Meta-package that includes all the main behavior packages. Recommended for most users.</td>
+</tr>
+<tr>
+<td><strong><a href="https://www.nuget.org/packages/Xaml.Behaviors.Avalonia">Xaml.Behaviors.Avalonia</a></strong></td>
+<td>Meta package that bundles all Avalonia XAML Behaviors for easy installation.</td>
+</tr>
+<tr>
+<td><strong><a href="https://www.nuget.org/packages/Xaml.Behaviors.Interactivity">Xaml.Behaviors.Interactivity</a></strong></td>
+<td>The core foundation library providing base classes for Actions, Triggers, and Behaviors.</td>
+</tr>
+<tr>
+<td><strong><a href="https://www.nuget.org/packages/Xaml.Behaviors.Interactions">Xaml.Behaviors.Interactions</a></strong></td>
+<td>Contains common actions and triggers like <code>CallMethodAction</code>, <code>ChangePropertyAction</code>, <code>EventTriggerBehavior</code>, etc.</td>
+</tr>
+<tr>
+<td><strong><a href="https://www.nuget.org/packages/Xaml.Behaviors.Interactions.Custom">Xaml.Behaviors.Interactions.Custom</a></strong></td>
+<td>A collection of custom behaviors and actions for specific Avalonia controls and scenarios.</td>
+</tr>
+<tr>
+<td><strong><a href="https://www.nuget.org/packages/Xaml.Behaviors.Interactions.DragAndDrop">Xaml.Behaviors.Interactions.DragAndDrop</a></strong></td>
+<td>Behaviors to enable Drag and Drop functionality.</td>
+</tr>
+<tr>
+<td><strong><a href="https://www.nuget.org/packages/Xaml.Behaviors.Interactions.DragAndDrop.DataGrid">Xaml.Behaviors.Interactions.DragAndDrop.DataGrid</a></strong></td>
+<td>DataGrid-specific drag-and-drop helpers built on top of the drag-and-drop framework.</td>
+</tr>
+<tr>
+<td><strong><a href="https://www.nuget.org/packages/Xaml.Behaviors.Interactions.Draggable">Xaml.Behaviors.Interactions.Draggable</a></strong></td>
+<td>Draggable element behaviors for moving controls around.</td>
+</tr>
+<tr>
+<td><strong><a href="https://www.nuget.org/packages/Xaml.Behaviors.Interactions.Events">Xaml.Behaviors.Interactions.Events</a></strong></td>
+<td>Behaviors for handling various input events (Pointer, Keyboard, Gestures).</td>
+</tr>
+<tr>
+<td><strong><a href="https://www.nuget.org/packages/Xaml.Behaviors.Interactions.ReactiveUI">Xaml.Behaviors.Interactions.ReactiveUI</a></strong></td>
+<td>Behaviors integrating ReactiveUI navigation patterns.</td>
+</tr>
+<tr>
+<td><strong><a href="https://www.nuget.org/packages/Xaml.Behaviors.Interactions.Responsive">Xaml.Behaviors.Interactions.Responsive</a></strong></td>
+<td>Behaviors to assist with responsive and adaptive UI layouts.</td>
+</tr>
+<tr>
+<td><strong><a href="https://www.nuget.org/packages/Xaml.Behaviors.Interactions.Scripting">Xaml.Behaviors.Interactions.Scripting</a></strong></td>
+<td>Execute C# scripts at runtime to add dynamic behavior.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="documentation-sections">Documentation Sections</h2>
+<ul>
+<li><strong><a href="articles/intro.html">Articles</a></strong>: In-depth guides and tutorials on how to use the various behaviors, actions, and triggers.</li>
+<li><strong><a href="api/">API Documentation</a></strong>: Detailed technical documentation for all classes and members.</li>
+</ul>
+<h2 id="license">License</h2>
+<p>XAML Behaviors for Avalonia is licensed under the <a href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/LICENSE.TXT">MIT License</a>.</p>
 
 </article>
 
