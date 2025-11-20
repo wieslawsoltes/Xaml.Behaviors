@@ -2,11 +2,11 @@
 <html>
   <head>
     <meta charset="utf-8">
-      <title>Class Behavior&lt;T&gt; | XAML Behaviors for Avalonia </title>
+      <title>Class ParallaxBehavior | XAML Behaviors for Avalonia </title>
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <meta name="title" content="Class Behavior&lt;T&gt; | XAML Behaviors for Avalonia ">
+      <meta name="title" content="Class ParallaxBehavior | XAML Behaviors for Avalonia ">
       
-      <meta name="description" content="A base class for behaviors making them code compatible with older frameworks, and allow for typed associated objects.">
+      <meta name="description" content="A behavior that moves the associated element at a different speed than the scrolling container, creating a parallax effect.">
       <link rel="icon" href="../favicon.ico">
       <link rel="stylesheet" href="../public/docfx.min.css">
       <link rel="stylesheet" href="../public/main.css">
@@ -16,7 +16,7 @@
       
       
       
-      <meta name="docfx:docurl" content="https://github.com/wieslawsoltes/Xaml.Behaviors/new/master/apiSpec/new?filename=Avalonia_Xaml_Interactivity_Behavior_1.md&amp;value=---%0Auid%3A%20Avalonia.Xaml.Interactivity.Behavior%601%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">
+      <meta name="docfx:docurl" content="https://github.com/wieslawsoltes/Xaml.Behaviors/new/master/apiSpec/new?filename=Avalonia_Xaml_Interactions_Custom_ParallaxBehavior.md&amp;value=---%0Auid%3A%20Avalonia.Xaml.Interactions.Custom.ParallaxBehavior%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">
       <meta name="loc:inThisArticle" content="In this article">
       <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
       <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
@@ -80,36 +80,29 @@
           <nav id="breadcrumb"></nav>
         </div>
 
-        <article data-uid="Avalonia.Xaml.Interactivity.Behavior`1">
+        <article data-uid="Avalonia.Xaml.Interactions.Custom.ParallaxBehavior">
 
 
 
-  <h1 id="Avalonia_Xaml_Interactivity_Behavior_1" data-uid="Avalonia.Xaml.Interactivity.Behavior`1" class="text-break">
-Class Behavior&lt;T&gt;  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactivity/AvaloniaObject/BehaviorOfT.cs/#L12"><i class="bi bi-code-slash"></i></a>
+  <h1 id="Avalonia_Xaml_Interactions_Custom_ParallaxBehavior" data-uid="Avalonia.Xaml.Interactions.Custom.ParallaxBehavior" class="text-break">
+Class ParallaxBehavior  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactions.Custom/Composition/ParallaxBehavior.cs/#L14"><i class="bi bi-code-slash"></i></a>
   </h1>
 
   <div class="facts text-secondary">
-    <dl><dt>Namespace</dt><dd><a class="xref" href="Avalonia.html">Avalonia</a>.<a class="xref" href="Avalonia.Xaml.html">Xaml</a>.<a class="xref" href="Avalonia.Xaml.Interactivity.html">Interactivity</a></dd></dl>
-  <dl><dt>Assembly</dt><dd>Xaml.Behaviors.Interactivity.dll</dd></dl>
+    <dl><dt>Namespace</dt><dd><a class="xref" href="Avalonia.html">Avalonia</a>.<a class="xref" href="Avalonia.Xaml.html">Xaml</a>.<a class="xref" href="Avalonia.Xaml.Interactions.html">Interactions</a>.<a class="xref" href="Avalonia.Xaml.Interactions.Custom.html">Custom</a></dd></dl>
+  <dl><dt>Assembly</dt><dd>Xaml.Behaviors.Interactions.Custom.dll</dd></dl>
   </div>
 
-  <div class="markdown summary"><p>A base class for behaviors making them code compatible with older frameworks,
-and allow for typed associated objects.</p>
+  <div class="markdown summary"><p>A behavior that moves the associated element at a different speed than the scrolling container, creating a parallax effect.</p>
 </div>
   <div class="markdown conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public abstract class Behavior&lt;T&gt; : Behavior, INotifyPropertyChanged, IBehavior, IBehaviorEventsHandler where T : AvaloniaObject</code></pre>
+    <pre><code class="lang-csharp hljs">public class ParallaxBehavior : Behavior&lt;Control&gt;, INotifyPropertyChanged, IBehavior, IBehaviorEventsHandler, IObserver&lt;Vector&gt;</code></pre>
   </div>
 
 
 
-  <h4 class="section">Type Parameters</h4>
-  <dl class="parameters">
-    <dt><code>T</code></dt>
-    <dd><p>The object type to attach to</p>
-</dd>
-  </dl>
 
   <dl class="typelist inheritance">
     <dt>Inheritance</dt>
@@ -117,7 +110,8 @@ and allow for typed associated objects.</p>
       <div><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a></div>
       <div><span class="xref">AvaloniaObject</span></div>
       <div><a class="xref" href="Avalonia.Xaml.Interactivity.Behavior.html">Behavior</a></div>
-      <div><span class="xref">Behavior&lt;T&gt;</span></div>
+      <div><a class="xref" href="Avalonia.Xaml.Interactivity.Behavior-1.html">Behavior</a>&lt;<span class="xref">Control</span>&gt;</div>
+      <div><span class="xref">ParallaxBehavior</span></div>
     </dd>
   </dl>
 
@@ -127,25 +121,20 @@ and allow for typed associated objects.</p>
       <div><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.componentmodel.inotifypropertychanged">INotifyPropertyChanged</a></div>
       <div><a class="xref" href="Avalonia.Xaml.Interactivity.IBehavior.html">IBehavior</a></div>
       <div><a class="xref" href="Avalonia.Xaml.Interactivity.IBehaviorEventsHandler.html">IBehaviorEventsHandler</a></div>
+      <div><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.iobserver-1">IObserver</a>&lt;<span class="xref">Vector</span>&gt;</div>
     </dd>
   </dl>
 
-  <dl class="typelist derived">
-    <dt>Derived</dt>
-    <dd>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.Custom.AsyncLoadBehavior.html">AsyncLoadBehavior</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.Custom.FluidMoveBehavior.html">FluidMoveBehavior</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.Custom.FocusTrapBehavior.html">FocusTrapBehavior</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.Custom.ParallaxBehavior.html">ParallaxBehavior</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.Custom.SelectAllOnFocusBehavior.html">SelectAllOnFocusBehavior</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.Custom.TiltEffectBehavior.html">TiltEffectBehavior</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.Custom.WindowDragMoveBehavior.html">WindowDragMoveBehavior</a></div>
-    </dd>
-  </dl>
 
   <dl class="typelist inheritedMembers">
     <dt>Inherited Members</dt>
     <dd>
+    <div>
+      <a class="xref" href="Avalonia.Xaml.Interactivity.Behavior-1.html#Avalonia_Xaml_Interactivity_Behavior_1_AssociatedObject">Behavior&lt;Control&gt;.AssociatedObject</a>
+    </div>
+    <div>
+      <a class="xref" href="Avalonia.Xaml.Interactivity.Behavior-1.html#Avalonia_Xaml_Interactivity_Behavior_1_OnAttached">Behavior&lt;Control&gt;.OnAttached()</a>
+    </div>
     <div>
       <a class="xref" href="Avalonia.Xaml.Interactivity.Behavior.html#Avalonia_Xaml_Interactivity_Behavior_IsEnabledProperty">Behavior.IsEnabledProperty</a>
     </div>
@@ -160,12 +149,6 @@ and allow for typed associated objects.</p>
     </div>
     <div>
       <a class="xref" href="Avalonia.Xaml.Interactivity.Behavior.html#Avalonia_Xaml_Interactivity_Behavior_OnDetaching">Behavior.OnDetaching()</a>
-    </div>
-    <div>
-      <a class="xref" href="Avalonia.Xaml.Interactivity.Behavior.html#Avalonia_Xaml_Interactivity_Behavior_OnAttachedToVisualTree">Behavior.OnAttachedToVisualTree()</a>
-    </div>
-    <div>
-      <a class="xref" href="Avalonia.Xaml.Interactivity.Behavior.html#Avalonia_Xaml_Interactivity_Behavior_OnDetachedFromVisualTree">Behavior.OnDetachedFromVisualTree()</a>
     </div>
     <div>
       <a class="xref" href="Avalonia.Xaml.Interactivity.Behavior.html#Avalonia_Xaml_Interactivity_Behavior_OnAttachedToLogicalTree">Behavior.OnAttachedToLogicalTree()</a>
@@ -324,23 +307,93 @@ and allow for typed associated objects.</p>
 
 
 
-  <h2 class="section" id="properties">Properties
+  <h2 class="section" id="fields">Fields
 </h2>
 
 
-  <a id="Avalonia_Xaml_Interactivity_Behavior_1_AssociatedObject_" data-uid="Avalonia.Xaml.Interactivity.Behavior`1.AssociatedObject*"></a>
 
-  <h3 id="Avalonia_Xaml_Interactivity_Behavior_1_AssociatedObject" data-uid="Avalonia.Xaml.Interactivity.Behavior`1.AssociatedObject">
-  AssociatedObject
-  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactivity/AvaloniaObject/BehaviorOfT.cs/#L17"><i class="bi bi-code-slash"></i></a>
+  <h3 id="Avalonia_Xaml_Interactions_Custom_ParallaxBehavior_ParallaxRatioProperty" data-uid="Avalonia.Xaml.Interactions.Custom.ParallaxBehavior.ParallaxRatioProperty">
+  ParallaxRatioProperty
+  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactions.Custom/Composition/ParallaxBehavior.cs/#L25"><i class="bi bi-code-slash"></i></a>
   </h3>
 
-  <div class="markdown level1 summary"><p>Gets the object to which this behavior is attached.</p>
+  <div class="markdown level1 summary"><p>Identifies the <a class="xref" href="Avalonia.Xaml.Interactions.Custom.ParallaxBehavior.html#Avalonia_Xaml_Interactions_Custom_ParallaxBehavior_ParallaxRatio">ParallaxRatio</a> avalonia property.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public T? AssociatedObject { get; }</code></pre>
+    <pre><code class="lang-csharp hljs">public static readonly StyledProperty&lt;double&gt; ParallaxRatioProperty</code></pre>
+  </div>
+
+
+
+
+  <h4 class="section">Field Value</h4>
+  <dl class="parameters">
+    <dt><span class="xref">StyledProperty</span>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a>&gt;</dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Avalonia_Xaml_Interactions_Custom_ParallaxBehavior_SourceScrollViewerProperty" data-uid="Avalonia.Xaml.Interactions.Custom.ParallaxBehavior.SourceScrollViewerProperty">
+  SourceScrollViewerProperty
+  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactions.Custom/Composition/ParallaxBehavior.cs/#L19"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Identifies the <a class="xref" href="Avalonia.Xaml.Interactions.Custom.ParallaxBehavior.html#Avalonia_Xaml_Interactions_Custom_ParallaxBehavior_SourceScrollViewer">SourceScrollViewer</a> avalonia property.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static readonly StyledProperty&lt;ScrollViewer?&gt; SourceScrollViewerProperty</code></pre>
+  </div>
+
+
+
+
+  <h4 class="section">Field Value</h4>
+  <dl class="parameters">
+    <dt><span class="xref">StyledProperty</span>&lt;<span class="xref">ScrollViewer</span>&gt;</dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+  <h2 class="section" id="properties">Properties
+</h2>
+
+
+  <a id="Avalonia_Xaml_Interactions_Custom_ParallaxBehavior_ParallaxRatio_" data-uid="Avalonia.Xaml.Interactions.Custom.ParallaxBehavior.ParallaxRatio*"></a>
+
+  <h3 id="Avalonia_Xaml_Interactions_Custom_ParallaxBehavior_ParallaxRatio" data-uid="Avalonia.Xaml.Interactions.Custom.ParallaxBehavior.ParallaxRatio">
+  ParallaxRatio
+  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactions.Custom/Composition/ParallaxBehavior.cs/#L45"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Gets or sets the parallax ratio.
+0.0 means no movement (static).
+1.0 means moves with scroll (normal).
+Values between 0 and 1 create a &quot;far away&quot; depth effect.
+Negative values move in reverse.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public double ParallaxRatio { get; set; }</code></pre>
   </div>
 
 
@@ -349,7 +402,40 @@ and allow for typed associated objects.</p>
 
   <h4 class="section">Property Value</h4>
   <dl class="parameters">
-    <dt><span class="xref">T</span></dt>
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="Avalonia_Xaml_Interactions_Custom_ParallaxBehavior_SourceScrollViewer_" data-uid="Avalonia.Xaml.Interactions.Custom.ParallaxBehavior.SourceScrollViewer*"></a>
+
+  <h3 id="Avalonia_Xaml_Interactions_Custom_ParallaxBehavior_SourceScrollViewer" data-uid="Avalonia.Xaml.Interactions.Custom.ParallaxBehavior.SourceScrollViewer">
+  SourceScrollViewer
+  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactions.Custom/Composition/ParallaxBehavior.cs/#L31"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Gets or sets the source ScrollViewer. If not set, the behavior will attempt to find a parent ScrollViewer.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[ResolveByName]
+public ScrollViewer? SourceScrollViewer { get; set; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><span class="xref">ScrollViewer</span></dt>
     <dd></dd>
   </dl>
 
@@ -364,19 +450,19 @@ and allow for typed associated objects.</p>
 </h2>
 
 
-  <a id="Avalonia_Xaml_Interactivity_Behavior_1_OnAttached_" data-uid="Avalonia.Xaml.Interactivity.Behavior`1.OnAttached*"></a>
+  <a id="Avalonia_Xaml_Interactions_Custom_ParallaxBehavior_OnAttachedToVisualTree_" data-uid="Avalonia.Xaml.Interactions.Custom.ParallaxBehavior.OnAttachedToVisualTree*"></a>
 
-  <h3 id="Avalonia_Xaml_Interactivity_Behavior_1_OnAttached" data-uid="Avalonia.Xaml.Interactivity.Behavior`1.OnAttached">
-  OnAttached()
-  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactivity/AvaloniaObject/BehaviorOfT.cs/#L25"><i class="bi bi-code-slash"></i></a>
+  <h3 id="Avalonia_Xaml_Interactions_Custom_ParallaxBehavior_OnAttachedToVisualTree" data-uid="Avalonia.Xaml.Interactions.Custom.ParallaxBehavior.OnAttachedToVisualTree">
+  OnAttachedToVisualTree()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactions.Custom/Composition/ParallaxBehavior.cs/#L55"><i class="bi bi-code-slash"></i></a>
   </h3>
 
-  <div class="markdown level1 summary"><p>Called after the behavior is attached to the <a class="xref" href="Avalonia.Xaml.Interactivity.IBehavior.html#Avalonia_Xaml_Interactivity_IBehavior_AssociatedObject">AssociatedObject</a>.</p>
+  <div class="markdown level1 summary"><p>Called after the <a class="xref" href="Avalonia.Xaml.Interactivity.Behavior.html#Avalonia_Xaml_Interactivity_Behavior_AssociatedObject">AssociatedObject</a> is attached to the visual tree.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">protected override void OnAttached()</code></pre>
+    <pre><code class="lang-csharp hljs">protected override void OnAttachedToVisualTree()</code></pre>
   </div>
 
 
@@ -387,9 +473,127 @@ and allow for typed associated objects.</p>
 
 
 
-  <h4 class="section" id="Avalonia_Xaml_Interactivity_Behavior_1_OnAttached_remarks">Remarks</h4>
-  <div class="markdown level1 remarks"><p>Override this to hook up functionality to the <a class="xref" href="Avalonia.Xaml.Interactivity.IBehavior.html#Avalonia_Xaml_Interactivity_IBehavior_AssociatedObject">AssociatedObject</a></p>
+  <h4 class="section" id="Avalonia_Xaml_Interactions_Custom_ParallaxBehavior_OnAttachedToVisualTree_remarks">Remarks</h4>
+  <div class="markdown level1 remarks"><p>Invoked only when the <a class="xref" href="Avalonia.Xaml.Interactivity.Behavior.html#Avalonia_Xaml_Interactivity_Behavior_AssociatedObject">AssociatedObject</a> is of type <span class="xref">Avalonia.Visual</span>.</p>
 </div>
+
+
+
+
+  <a id="Avalonia_Xaml_Interactions_Custom_ParallaxBehavior_OnCompleted_" data-uid="Avalonia.Xaml.Interactions.Custom.ParallaxBehavior.OnCompleted*"></a>
+
+  <h3 id="Avalonia_Xaml_Interactions_Custom_ParallaxBehavior_OnCompleted" data-uid="Avalonia.Xaml.Interactions.Custom.ParallaxBehavior.OnCompleted">
+  OnCompleted()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactions.Custom/Composition/ParallaxBehavior.cs/#L97"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void OnCompleted()</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Avalonia_Xaml_Interactions_Custom_ParallaxBehavior_OnDetachedFromVisualTree_" data-uid="Avalonia.Xaml.Interactions.Custom.ParallaxBehavior.OnDetachedFromVisualTree*"></a>
+
+  <h3 id="Avalonia_Xaml_Interactions_Custom_ParallaxBehavior_OnDetachedFromVisualTree" data-uid="Avalonia.Xaml.Interactions.Custom.ParallaxBehavior.OnDetachedFromVisualTree">
+  OnDetachedFromVisualTree()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactions.Custom/Composition/ParallaxBehavior.cs/#L83"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Called when the <a class="xref" href="Avalonia.Xaml.Interactivity.Behavior.html#Avalonia_Xaml_Interactivity_Behavior_AssociatedObject">AssociatedObject</a> is being detached from the visual tree.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected override void OnDetachedFromVisualTree()</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+  <h4 class="section" id="Avalonia_Xaml_Interactions_Custom_ParallaxBehavior_OnDetachedFromVisualTree_remarks">Remarks</h4>
+  <div class="markdown level1 remarks"><p>Invoked only when the <a class="xref" href="Avalonia.Xaml.Interactivity.Behavior.html#Avalonia_Xaml_Interactivity_Behavior_AssociatedObject">AssociatedObject</a> is of type <span class="xref">Avalonia.Visual</span>.</p>
+</div>
+
+
+
+
+  <a id="Avalonia_Xaml_Interactions_Custom_ParallaxBehavior_OnError_" data-uid="Avalonia.Xaml.Interactions.Custom.ParallaxBehavior.OnError*"></a>
+
+  <h3 id="Avalonia_Xaml_Interactions_Custom_ParallaxBehavior_OnError_System_Exception_" data-uid="Avalonia.Xaml.Interactions.Custom.ParallaxBehavior.OnError(System.Exception)">
+  OnError(Exception)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactions.Custom/Composition/ParallaxBehavior.cs/#L102"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void OnError(Exception error)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>error</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.exception">Exception</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Avalonia_Xaml_Interactions_Custom_ParallaxBehavior_OnNext_" data-uid="Avalonia.Xaml.Interactions.Custom.ParallaxBehavior.OnNext*"></a>
+
+  <h3 id="Avalonia_Xaml_Interactions_Custom_ParallaxBehavior_OnNext_Avalonia_Vector_" data-uid="Avalonia.Xaml.Interactions.Custom.ParallaxBehavior.OnNext(Avalonia.Vector)">
+  OnNext(Vector)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactions.Custom/Composition/ParallaxBehavior.cs/#L107"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void OnNext(Vector value)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>value</code> <span class="xref">Vector</span></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
 
 
 
@@ -398,7 +602,7 @@ and allow for typed associated objects.</p>
 </article>
 
         <div class="contribution d-print-none">
-          <a href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactivity/AvaloniaObject/BehaviorOfT.cs/#L12" class="edit-link">Edit this page</a>
+          <a href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactions.Custom/Composition/ParallaxBehavior.cs/#L14" class="edit-link">Edit this page</a>
         </div>
 
 

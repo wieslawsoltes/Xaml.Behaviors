@@ -2,11 +2,11 @@
 <html>
   <head>
     <meta charset="utf-8">
-      <title>Class StyledElementTrigger | XAML Behaviors for Avalonia </title>
+      <title>Class ConditionalAction | XAML Behaviors for Avalonia </title>
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <meta name="title" content="Class StyledElementTrigger | XAML Behaviors for Avalonia ">
+      <meta name="title" content="Class ConditionalAction | XAML Behaviors for Avalonia ">
       
-      <meta name="description" content="A base class for behaviors, implementing the basic plumbing of .">
+      <meta name="description" content="An action that executes different collections of actions depending on the specified condition.">
       <link rel="icon" href="../favicon.ico">
       <link rel="stylesheet" href="../public/docfx.min.css">
       <link rel="stylesheet" href="../public/main.css">
@@ -16,7 +16,7 @@
       
       
       
-      <meta name="docfx:docurl" content="https://github.com/wieslawsoltes/Xaml.Behaviors/new/master/apiSpec/new?filename=Avalonia_Xaml_Interactivity_StyledElementTrigger.md&amp;value=---%0Auid%3A%20Avalonia.Xaml.Interactivity.StyledElementTrigger%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">
+      <meta name="docfx:docurl" content="https://github.com/wieslawsoltes/Xaml.Behaviors/new/master/apiSpec/new?filename=Avalonia_Xaml_Interactions_Custom_ConditionalAction.md&amp;value=---%0Auid%3A%20Avalonia.Xaml.Interactions.Custom.ConditionalAction%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">
       <meta name="loc:inThisArticle" content="In this article">
       <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
       <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
@@ -80,25 +80,25 @@
           <nav id="breadcrumb"></nav>
         </div>
 
-        <article data-uid="Avalonia.Xaml.Interactivity.StyledElementTrigger">
+        <article data-uid="Avalonia.Xaml.Interactions.Custom.ConditionalAction">
 
 
 
-  <h1 id="Avalonia_Xaml_Interactivity_StyledElementTrigger" data-uid="Avalonia.Xaml.Interactivity.StyledElementTrigger" class="text-break">
-Class StyledElementTrigger  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactivity/StyledElement/StyledElementTrigger.cs/#L11"><i class="bi bi-code-slash"></i></a>
+  <h1 id="Avalonia_Xaml_Interactions_Custom_ConditionalAction" data-uid="Avalonia.Xaml.Interactions.Custom.ConditionalAction" class="text-break">
+Class ConditionalAction  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactions.Custom/Logic/ConditionalAction.cs/#L12"><i class="bi bi-code-slash"></i></a>
   </h1>
 
   <div class="facts text-secondary">
-    <dl><dt>Namespace</dt><dd><a class="xref" href="Avalonia.html">Avalonia</a>.<a class="xref" href="Avalonia.Xaml.html">Xaml</a>.<a class="xref" href="Avalonia.Xaml.Interactivity.html">Interactivity</a></dd></dl>
-  <dl><dt>Assembly</dt><dd>Xaml.Behaviors.Interactivity.dll</dd></dl>
+    <dl><dt>Namespace</dt><dd><a class="xref" href="Avalonia.html">Avalonia</a>.<a class="xref" href="Avalonia.Xaml.html">Xaml</a>.<a class="xref" href="Avalonia.Xaml.Interactions.html">Interactions</a>.<a class="xref" href="Avalonia.Xaml.Interactions.Custom.html">Custom</a></dd></dl>
+  <dl><dt>Assembly</dt><dd>Xaml.Behaviors.Interactions.Custom.dll</dd></dl>
   </div>
 
-  <div class="markdown summary"><p>A base class for behaviors, implementing the basic plumbing of <a class="xref" href="Avalonia.Xaml.Interactivity.ITrigger.html">ITrigger</a>.</p>
+  <div class="markdown summary"><p>An action that executes different collections of actions depending on the specified condition.</p>
 </div>
   <div class="markdown conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public abstract class StyledElementTrigger : StyledElementBehavior, INotifyPropertyChanged, IDataContextProvider, ILogical, IThemeVariantHost, IResourceHost, IResourceNode, IStyleHost, ISetLogicalParent, ISetInheritanceParent, ISupportInitialize, IStyleable, INamed, IBehaviorEventsHandler, ITrigger, IBehavior</code></pre>
+    <pre><code class="lang-csharp hljs">public class ConditionalAction : StyledElementAction, INotifyPropertyChanged, IDataContextProvider, ILogical, IThemeVariantHost, IResourceHost, IResourceNode, IStyleHost, ISetLogicalParent, ISetInheritanceParent, ISupportInitialize, IStyleable, INamed, IAction</code></pre>
   </div>
 
 
@@ -111,8 +111,8 @@ Class StyledElementTrigger  <a class="header-action link-secondary" title="View 
       <div><span class="xref">AvaloniaObject</span></div>
       <div><span class="xref">Animatable</span></div>
       <div><span class="xref">StyledElement</span></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactivity.StyledElementBehavior.html">StyledElementBehavior</a></div>
-      <div><span class="xref">StyledElementTrigger</span></div>
+      <div><a class="xref" href="Avalonia.Xaml.Interactivity.StyledElementAction.html">StyledElementAction</a></div>
+      <div><span class="xref">ConditionalAction</span></div>
     </dd>
   </dl>
 
@@ -131,91 +131,19 @@ Class StyledElementTrigger  <a class="header-action link-secondary" title="View 
       <div><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.componentmodel.isupportinitialize">ISupportInitialize</a></div>
       <div><span class="xref">IStyleable</span></div>
       <div><span class="xref">INamed</span></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactivity.IBehaviorEventsHandler.html">IBehaviorEventsHandler</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactivity.ITrigger.html">ITrigger</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactivity.IBehavior.html">IBehavior</a></div>
+      <div><a class="xref" href="Avalonia.Xaml.Interactivity.IAction.html">IAction</a></div>
     </dd>
   </dl>
 
-  <dl class="typelist derived">
-    <dt>Derived</dt>
-    <dd>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.Core.DataTriggerBehavior.html">DataTriggerBehavior</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.Core.MultiDataTriggerBehavior.html">MultiDataTriggerBehavior</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.Core.TaskCompletedTrigger.html">TaskCompletedTrigger</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.Custom.BindingTriggerBehavior.html">BindingTriggerBehavior</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.Custom.CollectionChangedTrigger.html">CollectionChangedTrigger</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.Custom.ConditionalBehavior.html">ConditionalBehavior</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.Custom.IfElseTrigger.html">IfElseTrigger</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.Custom.ObservableTriggerBehavior-1.html">ObservableTriggerBehavior&lt;T&gt;</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.Custom.PropertyChangedTrigger.html">PropertyChangedTrigger</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.Custom.RenderTargetBitmapTrigger.html">RenderTargetBitmapTrigger</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.Custom.SwitchCaseBehavior.html">SwitchCaseBehavior</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.Custom.UploadCompletedTrigger.html">UploadCompletedTrigger</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.Custom.ValueChangedTriggerBehavior.html">ValueChangedTriggerBehavior</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.Custom.WriteableBitmapTimerTrigger.html">WriteableBitmapTimerTrigger</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.Custom.WriteableBitmapTrigger.html">WriteableBitmapTrigger</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactivity.EventTriggerBase.html">EventTriggerBase</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactivity.StyledElementTrigger-1.html">StyledElementTrigger&lt;T&gt;</a></div>
-    </dd>
-  </dl>
 
   <dl class="typelist inheritedMembers">
     <dt>Inherited Members</dt>
     <dd>
     <div>
-      <a class="xref" href="Avalonia.Xaml.Interactivity.StyledElementBehavior.html#Avalonia_Xaml_Interactivity_StyledElementBehavior_IsEnabledProperty">StyledElementBehavior.IsEnabledProperty</a>
+      <a class="xref" href="Avalonia.Xaml.Interactivity.StyledElementAction.html#Avalonia_Xaml_Interactivity_StyledElementAction_IsEnabledProperty">StyledElementAction.IsEnabledProperty</a>
     </div>
     <div>
-      <a class="xref" href="Avalonia.Xaml.Interactivity.StyledElementBehavior.html#Avalonia_Xaml_Interactivity_StyledElementBehavior_AssociatedObject">StyledElementBehavior.AssociatedObject</a>
-    </div>
-    <div>
-      <a class="xref" href="Avalonia.Xaml.Interactivity.StyledElementBehavior.html#Avalonia_Xaml_Interactivity_StyledElementBehavior_AssociatedStyledElement">StyledElementBehavior.AssociatedStyledElement</a>
-    </div>
-    <div>
-      <a class="xref" href="Avalonia.Xaml.Interactivity.StyledElementBehavior.html#Avalonia_Xaml_Interactivity_StyledElementBehavior_IsEnabled">StyledElementBehavior.IsEnabled</a>
-    </div>
-    <div>
-      <a class="xref" href="Avalonia.Xaml.Interactivity.StyledElementBehavior.html#Avalonia_Xaml_Interactivity_StyledElementBehavior_Attach_Avalonia_AvaloniaObject_">StyledElementBehavior.Attach(AvaloniaObject)</a>
-    </div>
-    <div>
-      <a class="xref" href="Avalonia.Xaml.Interactivity.StyledElementBehavior.html#Avalonia_Xaml_Interactivity_StyledElementBehavior_Detach">StyledElementBehavior.Detach()</a>
-    </div>
-    <div>
-      <a class="xref" href="Avalonia.Xaml.Interactivity.StyledElementBehavior.html#Avalonia_Xaml_Interactivity_StyledElementBehavior_OnAttached">StyledElementBehavior.OnAttached()</a>
-    </div>
-    <div>
-      <a class="xref" href="Avalonia.Xaml.Interactivity.StyledElementBehavior.html#Avalonia_Xaml_Interactivity_StyledElementBehavior_OnDetaching">StyledElementBehavior.OnDetaching()</a>
-    </div>
-    <div>
-      <a class="xref" href="Avalonia.Xaml.Interactivity.StyledElementBehavior.html#Avalonia_Xaml_Interactivity_StyledElementBehavior_OnAttachedToVisualTree">StyledElementBehavior.OnAttachedToVisualTree()</a>
-    </div>
-    <div>
-      <a class="xref" href="Avalonia.Xaml.Interactivity.StyledElementBehavior.html#Avalonia_Xaml_Interactivity_StyledElementBehavior_OnDetachedFromVisualTree">StyledElementBehavior.OnDetachedFromVisualTree()</a>
-    </div>
-    <div>
-      <a class="xref" href="Avalonia.Xaml.Interactivity.StyledElementBehavior.html#Avalonia_Xaml_Interactivity_StyledElementBehavior_OnAttachedToLogicalTree">StyledElementBehavior.OnAttachedToLogicalTree()</a>
-    </div>
-    <div>
-      <a class="xref" href="Avalonia.Xaml.Interactivity.StyledElementBehavior.html#Avalonia_Xaml_Interactivity_StyledElementBehavior_OnDetachedFromLogicalTree">StyledElementBehavior.OnDetachedFromLogicalTree()</a>
-    </div>
-    <div>
-      <a class="xref" href="Avalonia.Xaml.Interactivity.StyledElementBehavior.html#Avalonia_Xaml_Interactivity_StyledElementBehavior_OnLoaded">StyledElementBehavior.OnLoaded()</a>
-    </div>
-    <div>
-      <a class="xref" href="Avalonia.Xaml.Interactivity.StyledElementBehavior.html#Avalonia_Xaml_Interactivity_StyledElementBehavior_OnUnloaded">StyledElementBehavior.OnUnloaded()</a>
-    </div>
-    <div>
-      <a class="xref" href="Avalonia.Xaml.Interactivity.StyledElementBehavior.html#Avalonia_Xaml_Interactivity_StyledElementBehavior_OnInitializedEvent">StyledElementBehavior.OnInitializedEvent()</a>
-    </div>
-    <div>
-      <a class="xref" href="Avalonia.Xaml.Interactivity.StyledElementBehavior.html#Avalonia_Xaml_Interactivity_StyledElementBehavior_OnDataContextChangedEvent">StyledElementBehavior.OnDataContextChangedEvent()</a>
-    </div>
-    <div>
-      <a class="xref" href="Avalonia.Xaml.Interactivity.StyledElementBehavior.html#Avalonia_Xaml_Interactivity_StyledElementBehavior_OnResourcesChangedEvent">StyledElementBehavior.OnResourcesChangedEvent()</a>
-    </div>
-    <div>
-      <a class="xref" href="Avalonia.Xaml.Interactivity.StyledElementBehavior.html#Avalonia_Xaml_Interactivity_StyledElementBehavior_OnActualThemeVariantChangedEvent">StyledElementBehavior.OnActualThemeVariantChangedEvent()</a>
+      <a class="xref" href="Avalonia.Xaml.Interactivity.StyledElementAction.html#Avalonia_Xaml_Interactivity_StyledElementAction_IsEnabled">StyledElementAction.IsEnabled</a>
     </div>
     <div>
       <span class="xref">StyledElement.DataContextProperty</span>
@@ -249,12 +177,6 @@ Class StyledElementTrigger  <a class="header-action link-secondary" title="View 
     </div>
     <div>
       <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">StyledElement.LogicalChildrenCollectionChanged(object, NotifyCollectionChangedEventArgs)</a>
-    </div>
-    <div>
-      <span class="xref">StyledElement.OnAttachedToLogicalTree(LogicalTreeAttachmentEventArgs)</span>
-    </div>
-    <div>
-      <span class="xref">StyledElement.OnDetachedFromLogicalTree(LogicalTreeAttachmentEventArgs)</span>
     </div>
     <div>
       <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.eventargs">StyledElement.OnDataContextChanged(EventArgs)</a>
@@ -468,19 +390,19 @@ Class StyledElementTrigger  <a class="header-action link-secondary" title="View 
 </h2>
 
 
-  <a id="Avalonia_Xaml_Interactivity_StyledElementTrigger__ctor_" data-uid="Avalonia.Xaml.Interactivity.StyledElementTrigger.#ctor*"></a>
+  <a id="Avalonia_Xaml_Interactions_Custom_ConditionalAction__ctor_" data-uid="Avalonia.Xaml.Interactions.Custom.ConditionalAction.#ctor*"></a>
 
-  <h3 id="Avalonia_Xaml_Interactivity_StyledElementTrigger__ctor" data-uid="Avalonia.Xaml.Interactivity.StyledElementTrigger.#ctor">
-  StyledElementTrigger()
-  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactivity/StyledElement/StyledElementTrigger.cs/#L32"><i class="bi bi-code-slash"></i></a>
+  <h3 id="Avalonia_Xaml_Interactions_Custom_ConditionalAction__ctor" data-uid="Avalonia.Xaml.Interactions.Custom.ConditionalAction.#ctor">
+  ConditionalAction()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactions.Custom/Logic/ConditionalAction.cs/#L63"><i class="bi bi-code-slash"></i></a>
   </h3>
 
-  <div class="markdown level1 summary"><p>Initializes a new instance of the <a class="xref" href="Avalonia.Xaml.Interactivity.StyledElementTrigger.html">StyledElementTrigger</a> class.</p>
+  <div class="markdown level1 summary"><p>Initializes a new instance of the <a class="xref" href="Avalonia.Xaml.Interactions.Custom.ConditionalAction.html">ConditionalAction</a> class.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">protected StyledElementTrigger()</code></pre>
+    <pre><code class="lang-csharp hljs">public ConditionalAction()</code></pre>
   </div>
 
 
@@ -500,12 +422,12 @@ Class StyledElementTrigger  <a class="header-action link-secondary" title="View 
 
 
 
-  <h3 id="Avalonia_Xaml_Interactivity_StyledElementTrigger_ActionsProperty" data-uid="Avalonia.Xaml.Interactivity.StyledElementTrigger.ActionsProperty">
+  <h3 id="Avalonia_Xaml_Interactions_Custom_ConditionalAction_ActionsProperty" data-uid="Avalonia.Xaml.Interactions.Custom.ConditionalAction.ActionsProperty">
   ActionsProperty
-  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactivity/StyledElement/StyledElementTrigger.cs/#L16"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactions.Custom/Logic/ConditionalAction.cs/#L23"><i class="bi bi-code-slash"></i></a>
   </h3>
 
-  <div class="markdown level1 summary"><p>Identifies the <a class="xref" href="Avalonia.Xaml.Interactivity.StyledElementTrigger.html#Avalonia_Xaml_Interactivity_StyledElementTrigger_Actions">Actions</a> avalonia property.</p>
+  <div class="markdown level1 summary"><p>Identifies the <a class="xref" href="Avalonia.Xaml.Interactions.Custom.ConditionalAction.html#Avalonia_Xaml_Interactions_Custom_ConditionalAction_Actions">Actions</a> avalonia property.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
 
@@ -530,18 +452,80 @@ Class StyledElementTrigger  <a class="header-action link-secondary" title="View 
 
 
 
+
+  <h3 id="Avalonia_Xaml_Interactions_Custom_ConditionalAction_ConditionProperty" data-uid="Avalonia.Xaml.Interactions.Custom.ConditionalAction.ConditionProperty">
+  ConditionProperty
+  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactions.Custom/Logic/ConditionalAction.cs/#L17"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Identifies the <a class="xref" href="Avalonia.Xaml.Interactions.Custom.ConditionalAction.html#Avalonia_Xaml_Interactions_Custom_ConditionalAction_Condition">Condition</a> avalonia property.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static readonly StyledProperty&lt;bool&gt; ConditionProperty</code></pre>
+  </div>
+
+
+
+
+  <h4 class="section">Field Value</h4>
+  <dl class="parameters">
+    <dt><span class="xref">StyledProperty</span>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a>&gt;</dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Avalonia_Xaml_Interactions_Custom_ConditionalAction_ElseActionsProperty" data-uid="Avalonia.Xaml.Interactions.Custom.ConditionalAction.ElseActionsProperty">
+  ElseActionsProperty
+  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactions.Custom/Logic/ConditionalAction.cs/#L29"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Identifies the <a class="xref" href="Avalonia.Xaml.Interactions.Custom.ConditionalAction.html#Avalonia_Xaml_Interactions_Custom_ConditionalAction_ElseActions">ElseActions</a> avalonia property.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static readonly StyledProperty&lt;ActionCollection?&gt; ElseActionsProperty</code></pre>
+  </div>
+
+
+
+
+  <h4 class="section">Field Value</h4>
+  <dl class="parameters">
+    <dt><span class="xref">StyledProperty</span>&lt;<a class="xref" href="Avalonia.Xaml.Interactivity.ActionCollection.html">ActionCollection</a>&gt;</dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
   <h2 class="section" id="properties">Properties
 </h2>
 
 
-  <a id="Avalonia_Xaml_Interactivity_StyledElementTrigger_Actions_" data-uid="Avalonia.Xaml.Interactivity.StyledElementTrigger.Actions*"></a>
+  <a id="Avalonia_Xaml_Interactions_Custom_ConditionalAction_Actions_" data-uid="Avalonia.Xaml.Interactions.Custom.ConditionalAction.Actions*"></a>
 
-  <h3 id="Avalonia_Xaml_Interactivity_StyledElementTrigger_Actions" data-uid="Avalonia.Xaml.Interactivity.StyledElementTrigger.Actions">
+  <h3 id="Avalonia_Xaml_Interactions_Custom_ConditionalAction_Actions" data-uid="Avalonia.Xaml.Interactions.Custom.ConditionalAction.Actions">
   Actions
-  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactivity/StyledElement/StyledElementTrigger.cs/#L22"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactions.Custom/Logic/ConditionalAction.cs/#L44"><i class="bi bi-code-slash"></i></a>
   </h3>
 
-  <div class="markdown level1 summary"><p>Gets the collection of actions associated with the behavior. This is an avalonia property.</p>
+  <div class="markdown level1 summary"><p>Gets the actions executed when <a class="xref" href="Avalonia.Xaml.Interactions.Custom.ConditionalAction.html#Avalonia_Xaml_Interactions_Custom_ConditionalAction_Condition">Condition</a> evaluates to <code>true</code>.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
 
@@ -567,15 +551,187 @@ public ActionCollection? Actions { get; set; }</code></pre>
 
 
 
+  <a id="Avalonia_Xaml_Interactions_Custom_ConditionalAction_Condition_" data-uid="Avalonia.Xaml.Interactions.Custom.ConditionalAction.Condition*"></a>
+
+  <h3 id="Avalonia_Xaml_Interactions_Custom_ConditionalAction_Condition" data-uid="Avalonia.Xaml.Interactions.Custom.ConditionalAction.Condition">
+  Condition
+  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactions.Custom/Logic/ConditionalAction.cs/#L35"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Gets or sets the condition that determines which actions are executed.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool Condition { get; set; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="Avalonia_Xaml_Interactions_Custom_ConditionalAction_ElseActions_" data-uid="Avalonia.Xaml.Interactions.Custom.ConditionalAction.ElseActions*"></a>
+
+  <h3 id="Avalonia_Xaml_Interactions_Custom_ConditionalAction_ElseActions" data-uid="Avalonia.Xaml.Interactions.Custom.ConditionalAction.ElseActions">
+  ElseActions
+  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactions.Custom/Logic/ConditionalAction.cs/#L54"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Gets the actions executed when <a class="xref" href="Avalonia.Xaml.Interactions.Custom.ConditionalAction.html#Avalonia_Xaml_Interactions_Custom_ConditionalAction_Condition">Condition</a> evaluates to <code>false</code>.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public ActionCollection? ElseActions { get; set; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Avalonia.Xaml.Interactivity.ActionCollection.html">ActionCollection</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
   <h2 class="section" id="methods">Methods
 </h2>
 
 
-  <a id="Avalonia_Xaml_Interactivity_StyledElementTrigger_OnPropertyChanged_" data-uid="Avalonia.Xaml.Interactivity.StyledElementTrigger.OnPropertyChanged*"></a>
+  <a id="Avalonia_Xaml_Interactions_Custom_ConditionalAction_Execute_" data-uid="Avalonia.Xaml.Interactions.Custom.ConditionalAction.Execute*"></a>
 
-  <h3 id="Avalonia_Xaml_Interactivity_StyledElementTrigger_OnPropertyChanged_Avalonia_AvaloniaPropertyChangedEventArgs_" data-uid="Avalonia.Xaml.Interactivity.StyledElementTrigger.OnPropertyChanged(Avalonia.AvaloniaPropertyChangedEventArgs)">
+  <h3 id="Avalonia_Xaml_Interactions_Custom_ConditionalAction_Execute_System_Object_System_Object_" data-uid="Avalonia.Xaml.Interactions.Custom.ConditionalAction.Execute(System.Object,System.Object)">
+  Execute(object?, object?)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactions.Custom/Logic/ConditionalAction.cs/#L160"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Executes the action.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override object? Execute(object? sender, object? parameter)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>sender</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a></dt>
+    <dd><p>The <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a> that is passed to the action by the behavior. Generally this is <a class="xref" href="Avalonia.Xaml.Interactivity.IBehavior.html#Avalonia_Xaml_Interactivity_IBehavior_AssociatedObject">AssociatedObject</a> or a target object.</p>
+</dd>
+    <dt><code>parameter</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a></dt>
+    <dd><p>The value of this parameter is determined by the caller.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a></dt>
+    <dd><p>Returns null.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Avalonia_Xaml_Interactions_Custom_ConditionalAction_OnAttachedToLogicalTree_" data-uid="Avalonia.Xaml.Interactions.Custom.ConditionalAction.OnAttachedToLogicalTree*"></a>
+
+  <h3 id="Avalonia_Xaml_Interactions_Custom_ConditionalAction_OnAttachedToLogicalTree_Avalonia_LogicalTree_LogicalTreeAttachmentEventArgs_" data-uid="Avalonia.Xaml.Interactions.Custom.ConditionalAction.OnAttachedToLogicalTree(Avalonia.LogicalTree.LogicalTreeAttachmentEventArgs)">
+  OnAttachedToLogicalTree(LogicalTreeAttachmentEventArgs)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactions.Custom/Logic/ConditionalAction.cs/#L107"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Called when the styled element is added to a rooted logical tree.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected override void OnAttachedToLogicalTree(LogicalTreeAttachmentEventArgs e)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>e</code> <span class="xref">LogicalTreeAttachmentEventArgs</span></dt>
+    <dd><p>The event args.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Avalonia_Xaml_Interactions_Custom_ConditionalAction_OnDetachedFromLogicalTree_" data-uid="Avalonia.Xaml.Interactions.Custom.ConditionalAction.OnDetachedFromLogicalTree*"></a>
+
+  <h3 id="Avalonia_Xaml_Interactions_Custom_ConditionalAction_OnDetachedFromLogicalTree_Avalonia_LogicalTree_LogicalTreeAttachmentEventArgs_" data-uid="Avalonia.Xaml.Interactions.Custom.ConditionalAction.OnDetachedFromLogicalTree(Avalonia.LogicalTree.LogicalTreeAttachmentEventArgs)">
+  OnDetachedFromLogicalTree(LogicalTreeAttachmentEventArgs)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactions.Custom/Logic/ConditionalAction.cs/#L115"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Called when the styled element is removed from a rooted logical tree.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected override void OnDetachedFromLogicalTree(LogicalTreeAttachmentEventArgs e)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>e</code> <span class="xref">LogicalTreeAttachmentEventArgs</span></dt>
+    <dd><p>The event args.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Avalonia_Xaml_Interactions_Custom_ConditionalAction_OnPropertyChanged_" data-uid="Avalonia.Xaml.Interactions.Custom.ConditionalAction.OnPropertyChanged*"></a>
+
+  <h3 id="Avalonia_Xaml_Interactions_Custom_ConditionalAction_OnPropertyChanged_Avalonia_AvaloniaPropertyChangedEventArgs_" data-uid="Avalonia.Xaml.Interactions.Custom.ConditionalAction.OnPropertyChanged(Avalonia.AvaloniaPropertyChangedEventArgs)">
   OnPropertyChanged(AvaloniaPropertyChangedEventArgs)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactivity/StyledElement/StyledElementTrigger.cs/#L38"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactions.Custom/Logic/ConditionalAction.cs/#L70"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Called when a avalonia property changes on the object.</p>
@@ -608,7 +764,7 @@ public ActionCollection? Actions { get; set; }</code></pre>
 </article>
 
         <div class="contribution d-print-none">
-          <a href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactivity/StyledElement/StyledElementTrigger.cs/#L11" class="edit-link">Edit this page</a>
+          <a href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactions.Custom/Logic/ConditionalAction.cs/#L12" class="edit-link">Edit this page</a>
         </div>
 
 

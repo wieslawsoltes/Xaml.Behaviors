@@ -2,11 +2,11 @@
 <html>
   <head>
     <meta charset="utf-8">
-      <title>Class StyledElementBehavior&lt;T&gt; | XAML Behaviors for Avalonia </title>
+      <title>Class OrbitEffectBehavior | XAML Behaviors for Avalonia </title>
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <meta name="title" content="Class StyledElementBehavior&lt;T&gt; | XAML Behaviors for Avalonia ">
+      <meta name="title" content="Class OrbitEffectBehavior | XAML Behaviors for Avalonia ">
       
-      <meta name="description" content="A base class for behaviors making them code compatible with older frameworks, and allow for typed associated objects.">
+      <meta name="description" content="A behavior that allows rotating the attached control in 3D space using pointer manipulation.">
       <link rel="icon" href="../favicon.ico">
       <link rel="stylesheet" href="../public/docfx.min.css">
       <link rel="stylesheet" href="../public/main.css">
@@ -16,7 +16,7 @@
       
       
       
-      <meta name="docfx:docurl" content="https://github.com/wieslawsoltes/Xaml.Behaviors/new/master/apiSpec/new?filename=Avalonia_Xaml_Interactivity_StyledElementBehavior_1.md&amp;value=---%0Auid%3A%20Avalonia.Xaml.Interactivity.StyledElementBehavior%601%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">
+      <meta name="docfx:docurl" content="https://github.com/wieslawsoltes/Xaml.Behaviors/new/master/apiSpec/new?filename=Avalonia_Xaml_Interactions_Custom_OrbitEffectBehavior.md&amp;value=---%0Auid%3A%20Avalonia.Xaml.Interactions.Custom.OrbitEffectBehavior%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">
       <meta name="loc:inThisArticle" content="In this article">
       <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
       <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
@@ -80,36 +80,29 @@
           <nav id="breadcrumb"></nav>
         </div>
 
-        <article data-uid="Avalonia.Xaml.Interactivity.StyledElementBehavior`1">
+        <article data-uid="Avalonia.Xaml.Interactions.Custom.OrbitEffectBehavior">
 
 
 
-  <h1 id="Avalonia_Xaml_Interactivity_StyledElementBehavior_1" data-uid="Avalonia.Xaml.Interactivity.StyledElementBehavior`1" class="text-break">
-Class StyledElementBehavior&lt;T&gt;  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactivity/StyledElement/StyledElementBehaviorOfT.cs/#L12"><i class="bi bi-code-slash"></i></a>
+  <h1 id="Avalonia_Xaml_Interactions_Custom_OrbitEffectBehavior" data-uid="Avalonia.Xaml.Interactions.Custom.OrbitEffectBehavior" class="text-break">
+Class OrbitEffectBehavior  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactions.Custom/Composition/OrbitEffectBehavior.cs/#L14"><i class="bi bi-code-slash"></i></a>
   </h1>
 
   <div class="facts text-secondary">
-    <dl><dt>Namespace</dt><dd><a class="xref" href="Avalonia.html">Avalonia</a>.<a class="xref" href="Avalonia.Xaml.html">Xaml</a>.<a class="xref" href="Avalonia.Xaml.Interactivity.html">Interactivity</a></dd></dl>
-  <dl><dt>Assembly</dt><dd>Xaml.Behaviors.Interactivity.dll</dd></dl>
+    <dl><dt>Namespace</dt><dd><a class="xref" href="Avalonia.html">Avalonia</a>.<a class="xref" href="Avalonia.Xaml.html">Xaml</a>.<a class="xref" href="Avalonia.Xaml.Interactions.html">Interactions</a>.<a class="xref" href="Avalonia.Xaml.Interactions.Custom.html">Custom</a></dd></dl>
+  <dl><dt>Assembly</dt><dd>Xaml.Behaviors.Interactions.Custom.dll</dd></dl>
   </div>
 
-  <div class="markdown summary"><p>A base class for behaviors making them code compatible with older frameworks,
-and allow for typed associated objects.</p>
+  <div class="markdown summary"><p>A behavior that allows rotating the attached control in 3D space using pointer manipulation.</p>
 </div>
   <div class="markdown conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public abstract class StyledElementBehavior&lt;T&gt; : StyledElementBehavior, INotifyPropertyChanged, IDataContextProvider, ILogical, IThemeVariantHost, IResourceHost, IResourceNode, IStyleHost, ISetLogicalParent, ISetInheritanceParent, ISupportInitialize, IStyleable, INamed, IBehavior, IBehaviorEventsHandler where T : AvaloniaObject</code></pre>
+    <pre><code class="lang-csharp hljs">public class OrbitEffectBehavior : StyledElementBehavior&lt;Control&gt;, INotifyPropertyChanged, IDataContextProvider, ILogical, IThemeVariantHost, IResourceHost, IResourceNode, IStyleHost, ISetLogicalParent, ISetInheritanceParent, ISupportInitialize, IStyleable, INamed, IBehavior, IBehaviorEventsHandler</code></pre>
   </div>
 
 
 
-  <h4 class="section">Type Parameters</h4>
-  <dl class="parameters">
-    <dt><code>T</code></dt>
-    <dd><p>The object type to attach to</p>
-</dd>
-  </dl>
 
   <dl class="typelist inheritance">
     <dt>Inheritance</dt>
@@ -119,7 +112,8 @@ and allow for typed associated objects.</p>
       <div><span class="xref">Animatable</span></div>
       <div><span class="xref">StyledElement</span></div>
       <div><a class="xref" href="Avalonia.Xaml.Interactivity.StyledElementBehavior.html">StyledElementBehavior</a></div>
-      <div><span class="xref">StyledElementBehavior&lt;T&gt;</span></div>
+      <div><a class="xref" href="Avalonia.Xaml.Interactivity.StyledElementBehavior-1.html">StyledElementBehavior</a>&lt;<span class="xref">Control</span>&gt;</div>
+      <div><span class="xref">OrbitEffectBehavior</span></div>
     </dd>
   </dl>
 
@@ -143,67 +137,16 @@ and allow for typed associated objects.</p>
     </dd>
   </dl>
 
-  <dl class="typelist derived">
-    <dt>Derived</dt>
-    <dd>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.Custom.AutoFocusBehavior.html">AutoFocusBehavior</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.Custom.AutoScrollToBottomBehavior.html">AutoScrollToBottomBehavior</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.Custom.AutoSelectBehavior.html">AutoSelectBehavior</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.Custom.AutomationNameBehavior.html">AutomationNameBehavior</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.Custom.CarouselKeyNavigationBehavior.html">CarouselKeyNavigationBehavior</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.Custom.CenterWindowBehavior.html">CenterWindowBehavior</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.Custom.ClipboardMonitorBehavior.html">ClipboardMonitorBehavior</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.Custom.DragControlBehavior.html">DragControlBehavior</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.Custom.FocusOnAttachedToVisualTreeBehavior.html">FocusOnAttachedToVisualTreeBehavior</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.Custom.FocusOnPointerMovedBehavior.html">FocusOnPointerMovedBehavior</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.Custom.FocusOnPointerPressedBehavior.html">FocusOnPointerPressedBehavior</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.Custom.HideOnKeyPressedBehavior.html">HideOnKeyPressedBehavior</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.Custom.HideOnLostFocusBehavior.html">HideOnLostFocusBehavior</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.Custom.HorizontalScrollViewerBehavior.html">HorizontalScrollViewerBehavior</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.Custom.InlineEditBehavior.html">InlineEditBehavior</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.Custom.ItemNudgeDropBehavior.html">ItemNudgeDropBehavior</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.Custom.LoseFocusOnEnterBehavior.html">LoseFocusOnEnterBehavior</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.Custom.OrbitEffectBehavior.html">OrbitEffectBehavior</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.Custom.PointerOverCursorBehavior.html">PointerOverCursorBehavior</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.Custom.RenderTargetBitmapBehavior.html">RenderTargetBitmapBehavior</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.Custom.SelectListBoxItemOnPointerMovedBehavior.html">SelectListBoxItemOnPointerMovedBehavior</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.Custom.SelectingItemsControlSearchBehavior.html">SelectingItemsControlSearchBehavior</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.Custom.SetCursorBehavior.html">SetCursorBehavior</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.Custom.SetCursorFromProviderBehavior.html">SetCursorFromProviderBehavior</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.Custom.SetViewModelPropertyOnLoadBehavior.html">SetViewModelPropertyOnLoadBehavior</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.Custom.ShowPointerPositionBehavior.html">ShowPointerPositionBehavior</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.Custom.SplitViewStateBehavior.html">SplitViewStateBehavior</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.Custom.StaticRenderTargetBitmapBehavior.html">StaticRenderTargetBitmapBehavior</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.Custom.TabControlKeyNavigationBehavior.html">TabControlKeyNavigationBehavior</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.Custom.TextBoxSelectAllOnGotFocusBehavior.html">TextBoxSelectAllOnGotFocusBehavior</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.Custom.ToggleIsExpandedOnDoubleTappedBehavior.html">ToggleIsExpandedOnDoubleTappedBehavior</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.Custom.TreeViewFilterBehavior.html">TreeViewFilterBehavior</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.Custom.WriteableBitmapBehavior.html">WriteableBitmapBehavior</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.Custom.WriteableBitmapRenderBehavior.html">WriteableBitmapRenderBehavior</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.DragAndDrop.ContextDragBehaviorBase.html">ContextDragBehaviorBase</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.DragAndDrop.ContextDragWithDirectionBehavior.html">ContextDragWithDirectionBehavior</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.DragAndDrop.ContextDropBehaviorBase.html">ContextDropBehaviorBase</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.DragAndDrop.DragAndDropEventsBehavior.html">DragAndDropEventsBehavior</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.DragAndDrop.ManagedContextDragBehavior.html">ManagedContextDragBehavior</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.DragAndDrop.ManagedContextDropBehavior.html">ManagedContextDropBehavior</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.DragAndDrop.TypedDragBehaviorBase.html">TypedDragBehaviorBase</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.Draggable.AutoScrollDuringDragBehavior.html">AutoScrollDuringDragBehavior</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.Draggable.CanvasDragBehavior.html">CanvasDragBehavior</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.Draggable.GridDragBehavior.html">GridDragBehavior</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.Draggable.ItemDragBehavior.html">ItemDragBehavior</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.Draggable.MouseDragElementBehavior.html">MouseDragElementBehavior</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.Draggable.MultiMouseDragElementBehavior.html">MultiMouseDragElementBehavior</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.Responsive.AdaptiveBehavior.html">AdaptiveBehavior</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.Responsive.AspectRatioBehavior.html">AspectRatioBehavior</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactivity.DisposingBehavior-1.html">DisposingBehavior&lt;T&gt;</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactivity.InteractiveBehaviorBase.html">InteractiveBehaviorBase</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactivity.InvokeCommandBehaviorBase.html">InvokeCommandBehaviorBase</a></div>
-    </dd>
-  </dl>
 
   <dl class="typelist inheritedMembers">
     <dt>Inherited Members</dt>
     <dd>
+    <div>
+      <a class="xref" href="Avalonia.Xaml.Interactivity.StyledElementBehavior-1.html#Avalonia_Xaml_Interactivity_StyledElementBehavior_1_AssociatedObject">StyledElementBehavior&lt;Control&gt;.AssociatedObject</a>
+    </div>
+    <div>
+      <a class="xref" href="Avalonia.Xaml.Interactivity.StyledElementBehavior-1.html#Avalonia_Xaml_Interactivity_StyledElementBehavior_1_OnAttached">StyledElementBehavior&lt;Control&gt;.OnAttached()</a>
+    </div>
     <div>
       <a class="xref" href="Avalonia.Xaml.Interactivity.StyledElementBehavior.html#Avalonia_Xaml_Interactivity_StyledElementBehavior_IsEnabledProperty">StyledElementBehavior.IsEnabledProperty</a>
     </div>
@@ -221,12 +164,6 @@ and allow for typed associated objects.</p>
     </div>
     <div>
       <a class="xref" href="Avalonia.Xaml.Interactivity.StyledElementBehavior.html#Avalonia_Xaml_Interactivity_StyledElementBehavior_OnDetaching">StyledElementBehavior.OnDetaching()</a>
-    </div>
-    <div>
-      <a class="xref" href="Avalonia.Xaml.Interactivity.StyledElementBehavior.html#Avalonia_Xaml_Interactivity_StyledElementBehavior_OnAttachedToVisualTree">StyledElementBehavior.OnAttachedToVisualTree()</a>
-    </div>
-    <div>
-      <a class="xref" href="Avalonia.Xaml.Interactivity.StyledElementBehavior.html#Avalonia_Xaml_Interactivity_StyledElementBehavior_OnDetachedFromVisualTree">StyledElementBehavior.OnDetachedFromVisualTree()</a>
     </div>
     <div>
       <a class="xref" href="Avalonia.Xaml.Interactivity.StyledElementBehavior.html#Avalonia_Xaml_Interactivity_StyledElementBehavior_OnAttachedToLogicalTree">StyledElementBehavior.OnAttachedToLogicalTree()</a>
@@ -502,23 +439,58 @@ and allow for typed associated objects.</p>
 
 
 
-  <h2 class="section" id="properties">Properties
+  <h2 class="section" id="fields">Fields
 </h2>
 
 
-  <a id="Avalonia_Xaml_Interactivity_StyledElementBehavior_1_AssociatedObject_" data-uid="Avalonia.Xaml.Interactivity.StyledElementBehavior`1.AssociatedObject*"></a>
 
-  <h3 id="Avalonia_Xaml_Interactivity_StyledElementBehavior_1_AssociatedObject" data-uid="Avalonia.Xaml.Interactivity.StyledElementBehavior`1.AssociatedObject">
-  AssociatedObject
-  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactivity/StyledElement/StyledElementBehaviorOfT.cs/#L17"><i class="bi bi-code-slash"></i></a>
+  <h3 id="Avalonia_Xaml_Interactions_Custom_OrbitEffectBehavior_SensitivityProperty" data-uid="Avalonia.Xaml.Interactions.Custom.OrbitEffectBehavior.SensitivityProperty">
+  SensitivityProperty
+  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactions.Custom/Composition/OrbitEffectBehavior.cs/#L24"><i class="bi bi-code-slash"></i></a>
   </h3>
 
-  <div class="markdown level1 summary"><p>Gets the object to which this behavior is attached.</p>
+  <div class="markdown level1 summary"><p>Identifies the <a class="xref" href="Avalonia.Xaml.Interactions.Custom.OrbitEffectBehavior.html#Avalonia_Xaml_Interactions_Custom_OrbitEffectBehavior_Sensitivity">Sensitivity</a> avalonia property.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public T? AssociatedObject { get; }</code></pre>
+    <pre><code class="lang-csharp hljs">public static readonly StyledProperty&lt;double&gt; SensitivityProperty</code></pre>
+  </div>
+
+
+
+
+  <h4 class="section">Field Value</h4>
+  <dl class="parameters">
+    <dt><span class="xref">StyledProperty</span>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a>&gt;</dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+  <h2 class="section" id="properties">Properties
+</h2>
+
+
+  <a id="Avalonia_Xaml_Interactions_Custom_OrbitEffectBehavior_Sensitivity_" data-uid="Avalonia.Xaml.Interactions.Custom.OrbitEffectBehavior.Sensitivity*"></a>
+
+  <h3 id="Avalonia_Xaml_Interactions_Custom_OrbitEffectBehavior_Sensitivity" data-uid="Avalonia.Xaml.Interactions.Custom.OrbitEffectBehavior.Sensitivity">
+  Sensitivity
+  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactions.Custom/Composition/OrbitEffectBehavior.cs/#L30"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Gets or sets the sensitivity of the rotation.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public double Sensitivity { get; set; }</code></pre>
   </div>
 
 
@@ -527,7 +499,7 @@ and allow for typed associated objects.</p>
 
   <h4 class="section">Property Value</h4>
   <dl class="parameters">
-    <dt><span class="xref">T</span></dt>
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
     <dd></dd>
   </dl>
 
@@ -542,19 +514,19 @@ and allow for typed associated objects.</p>
 </h2>
 
 
-  <a id="Avalonia_Xaml_Interactivity_StyledElementBehavior_1_OnAttached_" data-uid="Avalonia.Xaml.Interactivity.StyledElementBehavior`1.OnAttached*"></a>
+  <a id="Avalonia_Xaml_Interactions_Custom_OrbitEffectBehavior_OnAttachedToVisualTree_" data-uid="Avalonia.Xaml.Interactions.Custom.OrbitEffectBehavior.OnAttachedToVisualTree*"></a>
 
-  <h3 id="Avalonia_Xaml_Interactivity_StyledElementBehavior_1_OnAttached" data-uid="Avalonia.Xaml.Interactivity.StyledElementBehavior`1.OnAttached">
-  OnAttached()
-  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactivity/StyledElement/StyledElementBehaviorOfT.cs/#L25"><i class="bi bi-code-slash"></i></a>
+  <h3 id="Avalonia_Xaml_Interactions_Custom_OrbitEffectBehavior_OnAttachedToVisualTree" data-uid="Avalonia.Xaml.Interactions.Custom.OrbitEffectBehavior.OnAttachedToVisualTree">
+  OnAttachedToVisualTree()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactions.Custom/Composition/OrbitEffectBehavior.cs/#L37"><i class="bi bi-code-slash"></i></a>
   </h3>
 
-  <div class="markdown level1 summary"><p>Called after the behavior is attached to the <a class="xref" href="Avalonia.Xaml.Interactivity.StyledElementBehavior.html#Avalonia_Xaml_Interactivity_StyledElementBehavior_AssociatedObject">AssociatedObject</a>.</p>
+  <div class="markdown level1 summary"><p>Called after the <a class="xref" href="Avalonia.Xaml.Interactivity.StyledElementBehavior.html#Avalonia_Xaml_Interactivity_StyledElementBehavior_AssociatedObject">AssociatedObject</a> is attached to the visual tree.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">protected override void OnAttached()</code></pre>
+    <pre><code class="lang-csharp hljs">protected override void OnAttachedToVisualTree()</code></pre>
   </div>
 
 
@@ -565,8 +537,38 @@ and allow for typed associated objects.</p>
 
 
 
-  <h4 class="section" id="Avalonia_Xaml_Interactivity_StyledElementBehavior_1_OnAttached_remarks">Remarks</h4>
-  <div class="markdown level1 remarks"><p>Override this to hook up functionality to the <a class="xref" href="Avalonia.Xaml.Interactivity.StyledElementBehavior.html#Avalonia_Xaml_Interactivity_StyledElementBehavior_AssociatedObject">AssociatedObject</a></p>
+  <h4 class="section" id="Avalonia_Xaml_Interactions_Custom_OrbitEffectBehavior_OnAttachedToVisualTree_remarks">Remarks</h4>
+  <div class="markdown level1 remarks"><p>Invoked only when the <a class="xref" href="Avalonia.Xaml.Interactivity.StyledElementBehavior.html#Avalonia_Xaml_Interactivity_StyledElementBehavior_AssociatedObject">AssociatedObject</a> is of type <span class="xref">Avalonia.Visual</span>.</p>
+</div>
+
+
+
+
+  <a id="Avalonia_Xaml_Interactions_Custom_OrbitEffectBehavior_OnDetachedFromVisualTree_" data-uid="Avalonia.Xaml.Interactions.Custom.OrbitEffectBehavior.OnDetachedFromVisualTree*"></a>
+
+  <h3 id="Avalonia_Xaml_Interactions_Custom_OrbitEffectBehavior_OnDetachedFromVisualTree" data-uid="Avalonia.Xaml.Interactions.Custom.OrbitEffectBehavior.OnDetachedFromVisualTree">
+  OnDetachedFromVisualTree()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactions.Custom/Composition/OrbitEffectBehavior.cs/#L50"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Called when the <a class="xref" href="Avalonia.Xaml.Interactivity.StyledElementBehavior.html#Avalonia_Xaml_Interactivity_StyledElementBehavior_AssociatedObject">AssociatedObject</a> is being detached from the visual tree.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected override void OnDetachedFromVisualTree()</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+  <h4 class="section" id="Avalonia_Xaml_Interactions_Custom_OrbitEffectBehavior_OnDetachedFromVisualTree_remarks">Remarks</h4>
+  <div class="markdown level1 remarks"><p>Invoked only when the <a class="xref" href="Avalonia.Xaml.Interactivity.StyledElementBehavior.html#Avalonia_Xaml_Interactivity_StyledElementBehavior_AssociatedObject">AssociatedObject</a> is of type <span class="xref">Avalonia.Visual</span>.</p>
 </div>
 
 
@@ -576,7 +578,7 @@ and allow for typed associated objects.</p>
 </article>
 
         <div class="contribution d-print-none">
-          <a href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactivity/StyledElement/StyledElementBehaviorOfT.cs/#L12" class="edit-link">Edit this page</a>
+          <a href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactions.Custom/Composition/OrbitEffectBehavior.cs/#L14" class="edit-link">Edit this page</a>
         </div>
 
 

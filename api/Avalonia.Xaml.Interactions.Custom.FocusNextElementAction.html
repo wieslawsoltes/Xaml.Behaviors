@@ -2,11 +2,11 @@
 <html>
   <head>
     <meta charset="utf-8">
-      <title>Class Behavior&lt;T&gt; | XAML Behaviors for Avalonia </title>
+      <title>Class FocusNextElementAction | XAML Behaviors for Avalonia </title>
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <meta name="title" content="Class Behavior&lt;T&gt; | XAML Behaviors for Avalonia ">
+      <meta name="title" content="Class FocusNextElementAction | XAML Behaviors for Avalonia ">
       
-      <meta name="description" content="A base class for behaviors making them code compatible with older frameworks, and allow for typed associated objects.">
+      <meta name="description" content="An action that moves focus to the next element in the tab order.">
       <link rel="icon" href="../favicon.ico">
       <link rel="stylesheet" href="../public/docfx.min.css">
       <link rel="stylesheet" href="../public/main.css">
@@ -16,7 +16,7 @@
       
       
       
-      <meta name="docfx:docurl" content="https://github.com/wieslawsoltes/Xaml.Behaviors/new/master/apiSpec/new?filename=Avalonia_Xaml_Interactivity_Behavior_1.md&amp;value=---%0Auid%3A%20Avalonia.Xaml.Interactivity.Behavior%601%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">
+      <meta name="docfx:docurl" content="https://github.com/wieslawsoltes/Xaml.Behaviors/new/master/apiSpec/new?filename=Avalonia_Xaml_Interactions_Custom_FocusNextElementAction.md&amp;value=---%0Auid%3A%20Avalonia.Xaml.Interactions.Custom.FocusNextElementAction%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">
       <meta name="loc:inThisArticle" content="In this article">
       <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
       <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
@@ -80,44 +80,39 @@
           <nav id="breadcrumb"></nav>
         </div>
 
-        <article data-uid="Avalonia.Xaml.Interactivity.Behavior`1">
+        <article data-uid="Avalonia.Xaml.Interactions.Custom.FocusNextElementAction">
 
 
 
-  <h1 id="Avalonia_Xaml_Interactivity_Behavior_1" data-uid="Avalonia.Xaml.Interactivity.Behavior`1" class="text-break">
-Class Behavior&lt;T&gt;  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactivity/AvaloniaObject/BehaviorOfT.cs/#L12"><i class="bi bi-code-slash"></i></a>
+  <h1 id="Avalonia_Xaml_Interactions_Custom_FocusNextElementAction" data-uid="Avalonia.Xaml.Interactions.Custom.FocusNextElementAction" class="text-break">
+Class FocusNextElementAction  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactions.Custom/Actions/FocusNextElementAction.cs/#L13"><i class="bi bi-code-slash"></i></a>
   </h1>
 
   <div class="facts text-secondary">
-    <dl><dt>Namespace</dt><dd><a class="xref" href="Avalonia.html">Avalonia</a>.<a class="xref" href="Avalonia.Xaml.html">Xaml</a>.<a class="xref" href="Avalonia.Xaml.Interactivity.html">Interactivity</a></dd></dl>
-  <dl><dt>Assembly</dt><dd>Xaml.Behaviors.Interactivity.dll</dd></dl>
+    <dl><dt>Namespace</dt><dd><a class="xref" href="Avalonia.html">Avalonia</a>.<a class="xref" href="Avalonia.Xaml.html">Xaml</a>.<a class="xref" href="Avalonia.Xaml.Interactions.html">Interactions</a>.<a class="xref" href="Avalonia.Xaml.Interactions.Custom.html">Custom</a></dd></dl>
+  <dl><dt>Assembly</dt><dd>Xaml.Behaviors.Interactions.Custom.dll</dd></dl>
   </div>
 
-  <div class="markdown summary"><p>A base class for behaviors making them code compatible with older frameworks,
-and allow for typed associated objects.</p>
+  <div class="markdown summary"><p>An action that moves focus to the next element in the tab order.</p>
 </div>
   <div class="markdown conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public abstract class Behavior&lt;T&gt; : Behavior, INotifyPropertyChanged, IBehavior, IBehaviorEventsHandler where T : AvaloniaObject</code></pre>
+    <pre><code class="lang-csharp hljs">public class FocusNextElementAction : StyledElementAction, INotifyPropertyChanged, IDataContextProvider, ILogical, IThemeVariantHost, IResourceHost, IResourceNode, IStyleHost, ISetLogicalParent, ISetInheritanceParent, ISupportInitialize, IStyleable, INamed, IAction</code></pre>
   </div>
 
 
 
-  <h4 class="section">Type Parameters</h4>
-  <dl class="parameters">
-    <dt><code>T</code></dt>
-    <dd><p>The object type to attach to</p>
-</dd>
-  </dl>
 
   <dl class="typelist inheritance">
     <dt>Inheritance</dt>
     <dd>
       <div><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a></div>
       <div><span class="xref">AvaloniaObject</span></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactivity.Behavior.html">Behavior</a></div>
-      <div><span class="xref">Behavior&lt;T&gt;</span></div>
+      <div><span class="xref">Animatable</span></div>
+      <div><span class="xref">StyledElement</span></div>
+      <div><a class="xref" href="Avalonia.Xaml.Interactivity.StyledElementAction.html">StyledElementAction</a></div>
+      <div><span class="xref">FocusNextElementAction</span></div>
     </dd>
   </dl>
 
@@ -125,71 +120,153 @@ and allow for typed associated objects.</p>
     <dt>Implements</dt>
     <dd>
       <div><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.componentmodel.inotifypropertychanged">INotifyPropertyChanged</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactivity.IBehavior.html">IBehavior</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactivity.IBehaviorEventsHandler.html">IBehaviorEventsHandler</a></div>
+      <div><span class="xref">IDataContextProvider</span></div>
+      <div><span class="xref">ILogical</span></div>
+      <div><span class="xref">IThemeVariantHost</span></div>
+      <div><span class="xref">IResourceHost</span></div>
+      <div><span class="xref">IResourceNode</span></div>
+      <div><span class="xref">IStyleHost</span></div>
+      <div><span class="xref">ISetLogicalParent</span></div>
+      <div><span class="xref">ISetInheritanceParent</span></div>
+      <div><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.componentmodel.isupportinitialize">ISupportInitialize</a></div>
+      <div><span class="xref">IStyleable</span></div>
+      <div><span class="xref">INamed</span></div>
+      <div><a class="xref" href="Avalonia.Xaml.Interactivity.IAction.html">IAction</a></div>
     </dd>
   </dl>
 
-  <dl class="typelist derived">
-    <dt>Derived</dt>
-    <dd>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.Custom.AsyncLoadBehavior.html">AsyncLoadBehavior</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.Custom.FluidMoveBehavior.html">FluidMoveBehavior</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.Custom.FocusTrapBehavior.html">FocusTrapBehavior</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.Custom.ParallaxBehavior.html">ParallaxBehavior</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.Custom.SelectAllOnFocusBehavior.html">SelectAllOnFocusBehavior</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.Custom.TiltEffectBehavior.html">TiltEffectBehavior</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.Custom.WindowDragMoveBehavior.html">WindowDragMoveBehavior</a></div>
-    </dd>
-  </dl>
 
   <dl class="typelist inheritedMembers">
     <dt>Inherited Members</dt>
     <dd>
     <div>
-      <a class="xref" href="Avalonia.Xaml.Interactivity.Behavior.html#Avalonia_Xaml_Interactivity_Behavior_IsEnabledProperty">Behavior.IsEnabledProperty</a>
+      <a class="xref" href="Avalonia.Xaml.Interactivity.StyledElementAction.html#Avalonia_Xaml_Interactivity_StyledElementAction_IsEnabledProperty">StyledElementAction.IsEnabledProperty</a>
     </div>
     <div>
-      <a class="xref" href="Avalonia.Xaml.Interactivity.Behavior.html#Avalonia_Xaml_Interactivity_Behavior_IsEnabled">Behavior.IsEnabled</a>
+      <a class="xref" href="Avalonia.Xaml.Interactivity.StyledElementAction.html#Avalonia_Xaml_Interactivity_StyledElementAction_IsEnabled">StyledElementAction.IsEnabled</a>
     </div>
     <div>
-      <a class="xref" href="Avalonia.Xaml.Interactivity.Behavior.html#Avalonia_Xaml_Interactivity_Behavior_Attach_Avalonia_AvaloniaObject_">Behavior.Attach(AvaloniaObject)</a>
+      <span class="xref">StyledElement.DataContextProperty</span>
     </div>
     <div>
-      <a class="xref" href="Avalonia.Xaml.Interactivity.Behavior.html#Avalonia_Xaml_Interactivity_Behavior_Detach">Behavior.Detach()</a>
+      <span class="xref">StyledElement.NameProperty</span>
     </div>
     <div>
-      <a class="xref" href="Avalonia.Xaml.Interactivity.Behavior.html#Avalonia_Xaml_Interactivity_Behavior_OnDetaching">Behavior.OnDetaching()</a>
+      <span class="xref">StyledElement.ParentProperty</span>
     </div>
     <div>
-      <a class="xref" href="Avalonia.Xaml.Interactivity.Behavior.html#Avalonia_Xaml_Interactivity_Behavior_OnAttachedToVisualTree">Behavior.OnAttachedToVisualTree()</a>
+      <span class="xref">StyledElement.TemplatedParentProperty</span>
     </div>
     <div>
-      <a class="xref" href="Avalonia.Xaml.Interactivity.Behavior.html#Avalonia_Xaml_Interactivity_Behavior_OnDetachedFromVisualTree">Behavior.OnDetachedFromVisualTree()</a>
+      <span class="xref">StyledElement.ThemeProperty</span>
     </div>
     <div>
-      <a class="xref" href="Avalonia.Xaml.Interactivity.Behavior.html#Avalonia_Xaml_Interactivity_Behavior_OnAttachedToLogicalTree">Behavior.OnAttachedToLogicalTree()</a>
+      <span class="xref">StyledElement.BeginInit()</span>
     </div>
     <div>
-      <a class="xref" href="Avalonia.Xaml.Interactivity.Behavior.html#Avalonia_Xaml_Interactivity_Behavior_OnDetachedFromLogicalTree">Behavior.OnDetachedFromLogicalTree()</a>
+      <span class="xref">StyledElement.EndInit()</span>
     </div>
     <div>
-      <a class="xref" href="Avalonia.Xaml.Interactivity.Behavior.html#Avalonia_Xaml_Interactivity_Behavior_OnLoaded">Behavior.OnLoaded()</a>
+      <span class="xref">StyledElement.ApplyStyling()</span>
     </div>
     <div>
-      <a class="xref" href="Avalonia.Xaml.Interactivity.Behavior.html#Avalonia_Xaml_Interactivity_Behavior_OnUnloaded">Behavior.OnUnloaded()</a>
+      <span class="xref">StyledElement.InitializeIfNeeded()</span>
     </div>
     <div>
-      <a class="xref" href="Avalonia.Xaml.Interactivity.Behavior.html#Avalonia_Xaml_Interactivity_Behavior_OnInitializedEvent">Behavior.OnInitializedEvent()</a>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">StyledElement.TryGetResource(object, ThemeVariant, out object)</a>
     </div>
     <div>
-      <a class="xref" href="Avalonia.Xaml.Interactivity.Behavior.html#Avalonia_Xaml_Interactivity_Behavior_OnDataContextChangedEvent">Behavior.OnDataContextChangedEvent()</a>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">StyledElement.LogicalChildrenCollectionChanged(object, NotifyCollectionChangedEventArgs)</a>
     </div>
     <div>
-      <a class="xref" href="Avalonia.Xaml.Interactivity.Behavior.html#Avalonia_Xaml_Interactivity_Behavior_OnResourcesChangedEvent">Behavior.OnResourcesChangedEvent()</a>
+      <span class="xref">StyledElement.OnAttachedToLogicalTree(LogicalTreeAttachmentEventArgs)</span>
     </div>
     <div>
-      <a class="xref" href="Avalonia.Xaml.Interactivity.Behavior.html#Avalonia_Xaml_Interactivity_Behavior_OnActualThemeVariantChangedEvent">Behavior.OnActualThemeVariantChangedEvent()</a>
+      <span class="xref">StyledElement.OnDetachedFromLogicalTree(LogicalTreeAttachmentEventArgs)</span>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.eventargs">StyledElement.OnDataContextChanged(EventArgs)</a>
+    </div>
+    <div>
+      <span class="xref">StyledElement.OnDataContextBeginUpdate()</span>
+    </div>
+    <div>
+      <span class="xref">StyledElement.OnDataContextEndUpdate()</span>
+    </div>
+    <div>
+      <span class="xref">StyledElement.OnInitialized()</span>
+    </div>
+    <div>
+      <span class="xref">StyledElement.OnPropertyChanged(AvaloniaPropertyChangedEventArgs)</span>
+    </div>
+    <div>
+      <span class="xref">StyledElement.Name</span>
+    </div>
+    <div>
+      <span class="xref">StyledElement.Classes</span>
+    </div>
+    <div>
+      <span class="xref">StyledElement.DataContext</span>
+    </div>
+    <div>
+      <span class="xref">StyledElement.IsInitialized</span>
+    </div>
+    <div>
+      <span class="xref">StyledElement.Styles</span>
+    </div>
+    <div>
+      <span class="xref">StyledElement.StyleKey</span>
+    </div>
+    <div>
+      <span class="xref">StyledElement.Resources</span>
+    </div>
+    <div>
+      <span class="xref">StyledElement.TemplatedParent</span>
+    </div>
+    <div>
+      <span class="xref">StyledElement.Theme</span>
+    </div>
+    <div>
+      <span class="xref">StyledElement.LogicalChildren</span>
+    </div>
+    <div>
+      <span class="xref">StyledElement.PseudoClasses</span>
+    </div>
+    <div>
+      <span class="xref">StyledElement.StyleKeyOverride</span>
+    </div>
+    <div>
+      <span class="xref">StyledElement.Parent</span>
+    </div>
+    <div>
+      <span class="xref">StyledElement.ActualThemeVariant</span>
+    </div>
+    <div>
+      <span class="xref">StyledElement.AttachedToLogicalTree</span>
+    </div>
+    <div>
+      <span class="xref">StyledElement.DetachedFromLogicalTree</span>
+    </div>
+    <div>
+      <span class="xref">StyledElement.DataContextChanged</span>
+    </div>
+    <div>
+      <span class="xref">StyledElement.Initialized</span>
+    </div>
+    <div>
+      <span class="xref">StyledElement.ResourcesChanged</span>
+    </div>
+    <div>
+      <span class="xref">StyledElement.ActualThemeVariantChanged</span>
+    </div>
+    <div>
+      <span class="xref">Animatable.TransitionsProperty</span>
+    </div>
+    <div>
+      <span class="xref">Animatable.OnPropertyChangedCore(AvaloniaPropertyChangedEventArgs)</span>
+    </div>
+    <div>
+      <span class="xref">Animatable.Transitions</span>
     </div>
     <div>
       <span class="xref">AvaloniaObject.CheckAccess()</span>
@@ -279,12 +356,6 @@ and allow for typed associated objects.</p>
       <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.exception">AvaloniaObject.UpdateDataValidation(AvaloniaProperty, BindingValueType, Exception)</a>
     </div>
     <div>
-      <span class="xref">AvaloniaObject.OnPropertyChangedCore(AvaloniaPropertyChangedEventArgs)</span>
-    </div>
-    <div>
-      <span class="xref">AvaloniaObject.OnPropertyChanged(AvaloniaPropertyChangedEventArgs)</span>
-    </div>
-    <div>
       <span class="xref">AvaloniaObject.RaisePropertyChanged&lt;T&gt;(DirectPropertyBase&lt;T&gt;, T, T)</span>
     </div>
     <div>
@@ -324,33 +395,40 @@ and allow for typed associated objects.</p>
 
 
 
-  <h2 class="section" id="properties">Properties
+  <h2 class="section" id="methods">Methods
 </h2>
 
 
-  <a id="Avalonia_Xaml_Interactivity_Behavior_1_AssociatedObject_" data-uid="Avalonia.Xaml.Interactivity.Behavior`1.AssociatedObject*"></a>
+  <a id="Avalonia_Xaml_Interactions_Custom_FocusNextElementAction_Execute_" data-uid="Avalonia.Xaml.Interactions.Custom.FocusNextElementAction.Execute*"></a>
 
-  <h3 id="Avalonia_Xaml_Interactivity_Behavior_1_AssociatedObject" data-uid="Avalonia.Xaml.Interactivity.Behavior`1.AssociatedObject">
-  AssociatedObject
-  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactivity/AvaloniaObject/BehaviorOfT.cs/#L17"><i class="bi bi-code-slash"></i></a>
+  <h3 id="Avalonia_Xaml_Interactions_Custom_FocusNextElementAction_Execute_System_Object_System_Object_" data-uid="Avalonia.Xaml.Interactions.Custom.FocusNextElementAction.Execute(System.Object,System.Object)">
+  Execute(object?, object?)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactions.Custom/Actions/FocusNextElementAction.cs/#L16"><i class="bi bi-code-slash"></i></a>
   </h3>
 
-  <div class="markdown level1 summary"><p>Gets the object to which this behavior is attached.</p>
+  <div class="markdown level1 summary"><p>Executes the action.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public T? AssociatedObject { get; }</code></pre>
+    <pre><code class="lang-csharp hljs">public override object? Execute(object? sender, object? parameter)</code></pre>
   </div>
 
-
-
-
-
-  <h4 class="section">Property Value</h4>
+  <h4 class="section">Parameters</h4>
   <dl class="parameters">
-    <dt><span class="xref">T</span></dt>
-    <dd></dd>
+    <dt><code>sender</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a></dt>
+    <dd><p>The <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a> that is passed to the action by the behavior. Generally this is <a class="xref" href="Avalonia.Xaml.Interactivity.IBehavior.html#Avalonia_Xaml_Interactivity_IBehavior_AssociatedObject">AssociatedObject</a> or a target object.</p>
+</dd>
+    <dt><code>parameter</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a></dt>
+    <dd><p>The value of this parameter is determined by the caller.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a></dt>
+    <dd><p>Returns the result of the action.</p>
+</dd>
   </dl>
 
 
@@ -359,36 +437,8 @@ and allow for typed associated objects.</p>
 
 
 
-
-  <h2 class="section" id="methods">Methods
-</h2>
-
-
-  <a id="Avalonia_Xaml_Interactivity_Behavior_1_OnAttached_" data-uid="Avalonia.Xaml.Interactivity.Behavior`1.OnAttached*"></a>
-
-  <h3 id="Avalonia_Xaml_Interactivity_Behavior_1_OnAttached" data-uid="Avalonia.Xaml.Interactivity.Behavior`1.OnAttached">
-  OnAttached()
-  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactivity/AvaloniaObject/BehaviorOfT.cs/#L25"><i class="bi bi-code-slash"></i></a>
-  </h3>
-
-  <div class="markdown level1 summary"><p>Called after the behavior is attached to the <a class="xref" href="Avalonia.Xaml.Interactivity.IBehavior.html#Avalonia_Xaml_Interactivity_IBehavior_AssociatedObject">AssociatedObject</a>.</p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">protected override void OnAttached()</code></pre>
-  </div>
-
-
-
-
-
-
-
-
-
-  <h4 class="section" id="Avalonia_Xaml_Interactivity_Behavior_1_OnAttached_remarks">Remarks</h4>
-  <div class="markdown level1 remarks"><p>Override this to hook up functionality to the <a class="xref" href="Avalonia.Xaml.Interactivity.IBehavior.html#Avalonia_Xaml_Interactivity_IBehavior_AssociatedObject">AssociatedObject</a></p>
+  <h4 class="section" id="Avalonia_Xaml_Interactions_Custom_FocusNextElementAction_Execute_System_Object_System_Object__remarks">Remarks</h4>
+  <div class="markdown level1 remarks"><p>An example of parameter usage is EventTriggerBehavior, which passes the EventArgs as a parameter to its actions.</p>
 </div>
 
 
@@ -398,7 +448,7 @@ and allow for typed associated objects.</p>
 </article>
 
         <div class="contribution d-print-none">
-          <a href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactivity/AvaloniaObject/BehaviorOfT.cs/#L12" class="edit-link">Edit this page</a>
+          <a href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactions.Custom/Actions/FocusNextElementAction.cs/#L13" class="edit-link">Edit this page</a>
         </div>
 
 

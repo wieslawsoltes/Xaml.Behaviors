@@ -2,11 +2,11 @@
 <html>
   <head>
     <meta charset="utf-8">
-      <title>Class StyledElementBehavior&lt;T&gt; | XAML Behaviors for Avalonia </title>
+      <title>Class SwitchCaseBehavior | XAML Behaviors for Avalonia </title>
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <meta name="title" content="Class StyledElementBehavior&lt;T&gt; | XAML Behaviors for Avalonia ">
+      <meta name="title" content="Class SwitchCaseBehavior | XAML Behaviors for Avalonia ">
       
-      <meta name="description" content="A base class for behaviors making them code compatible with older frameworks, and allow for typed associated objects.">
+      <meta name="description" content="A behavior that executes a specific set of actions based on a value match.">
       <link rel="icon" href="../favicon.ico">
       <link rel="stylesheet" href="../public/docfx.min.css">
       <link rel="stylesheet" href="../public/main.css">
@@ -16,7 +16,7 @@
       
       
       
-      <meta name="docfx:docurl" content="https://github.com/wieslawsoltes/Xaml.Behaviors/new/master/apiSpec/new?filename=Avalonia_Xaml_Interactivity_StyledElementBehavior_1.md&amp;value=---%0Auid%3A%20Avalonia.Xaml.Interactivity.StyledElementBehavior%601%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">
+      <meta name="docfx:docurl" content="https://github.com/wieslawsoltes/Xaml.Behaviors/new/master/apiSpec/new?filename=Avalonia_Xaml_Interactions_Custom_SwitchCaseBehavior.md&amp;value=---%0Auid%3A%20Avalonia.Xaml.Interactions.Custom.SwitchCaseBehavior%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">
       <meta name="loc:inThisArticle" content="In this article">
       <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
       <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
@@ -80,36 +80,29 @@
           <nav id="breadcrumb"></nav>
         </div>
 
-        <article data-uid="Avalonia.Xaml.Interactivity.StyledElementBehavior`1">
+        <article data-uid="Avalonia.Xaml.Interactions.Custom.SwitchCaseBehavior">
 
 
 
-  <h1 id="Avalonia_Xaml_Interactivity_StyledElementBehavior_1" data-uid="Avalonia.Xaml.Interactivity.StyledElementBehavior`1" class="text-break">
-Class StyledElementBehavior&lt;T&gt;  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactivity/StyledElement/StyledElementBehaviorOfT.cs/#L12"><i class="bi bi-code-slash"></i></a>
+  <h1 id="Avalonia_Xaml_Interactions_Custom_SwitchCaseBehavior" data-uid="Avalonia.Xaml.Interactions.Custom.SwitchCaseBehavior" class="text-break">
+Class SwitchCaseBehavior  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactions.Custom/Logic/SwitchCaseBehavior.cs/#L15"><i class="bi bi-code-slash"></i></a>
   </h1>
 
   <div class="facts text-secondary">
-    <dl><dt>Namespace</dt><dd><a class="xref" href="Avalonia.html">Avalonia</a>.<a class="xref" href="Avalonia.Xaml.html">Xaml</a>.<a class="xref" href="Avalonia.Xaml.Interactivity.html">Interactivity</a></dd></dl>
-  <dl><dt>Assembly</dt><dd>Xaml.Behaviors.Interactivity.dll</dd></dl>
+    <dl><dt>Namespace</dt><dd><a class="xref" href="Avalonia.html">Avalonia</a>.<a class="xref" href="Avalonia.Xaml.html">Xaml</a>.<a class="xref" href="Avalonia.Xaml.Interactions.html">Interactions</a>.<a class="xref" href="Avalonia.Xaml.Interactions.Custom.html">Custom</a></dd></dl>
+  <dl><dt>Assembly</dt><dd>Xaml.Behaviors.Interactions.Custom.dll</dd></dl>
   </div>
 
-  <div class="markdown summary"><p>A base class for behaviors making them code compatible with older frameworks,
-and allow for typed associated objects.</p>
+  <div class="markdown summary"><p>A behavior that executes a specific set of actions based on a value match.</p>
 </div>
   <div class="markdown conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public abstract class StyledElementBehavior&lt;T&gt; : StyledElementBehavior, INotifyPropertyChanged, IDataContextProvider, ILogical, IThemeVariantHost, IResourceHost, IResourceNode, IStyleHost, ISetLogicalParent, ISetInheritanceParent, ISupportInitialize, IStyleable, INamed, IBehavior, IBehaviorEventsHandler where T : AvaloniaObject</code></pre>
+    <pre><code class="lang-csharp hljs">public class SwitchCaseBehavior : StyledElementTrigger, INotifyPropertyChanged, IDataContextProvider, ILogical, IThemeVariantHost, IResourceHost, IResourceNode, IStyleHost, ISetLogicalParent, ISetInheritanceParent, ISupportInitialize, IStyleable, INamed, IBehaviorEventsHandler, ITrigger, IBehavior</code></pre>
   </div>
 
 
 
-  <h4 class="section">Type Parameters</h4>
-  <dl class="parameters">
-    <dt><code>T</code></dt>
-    <dd><p>The object type to attach to</p>
-</dd>
-  </dl>
 
   <dl class="typelist inheritance">
     <dt>Inheritance</dt>
@@ -119,7 +112,8 @@ and allow for typed associated objects.</p>
       <div><span class="xref">Animatable</span></div>
       <div><span class="xref">StyledElement</span></div>
       <div><a class="xref" href="Avalonia.Xaml.Interactivity.StyledElementBehavior.html">StyledElementBehavior</a></div>
-      <div><span class="xref">StyledElementBehavior&lt;T&gt;</span></div>
+      <div><a class="xref" href="Avalonia.Xaml.Interactivity.StyledElementTrigger.html">StyledElementTrigger</a></div>
+      <div><span class="xref">SwitchCaseBehavior</span></div>
     </dd>
   </dl>
 
@@ -138,74 +132,27 @@ and allow for typed associated objects.</p>
       <div><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.componentmodel.isupportinitialize">ISupportInitialize</a></div>
       <div><span class="xref">IStyleable</span></div>
       <div><span class="xref">INamed</span></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactivity.IBehavior.html">IBehavior</a></div>
       <div><a class="xref" href="Avalonia.Xaml.Interactivity.IBehaviorEventsHandler.html">IBehaviorEventsHandler</a></div>
+      <div><a class="xref" href="Avalonia.Xaml.Interactivity.ITrigger.html">ITrigger</a></div>
+      <div><a class="xref" href="Avalonia.Xaml.Interactivity.IBehavior.html">IBehavior</a></div>
     </dd>
   </dl>
 
-  <dl class="typelist derived">
-    <dt>Derived</dt>
-    <dd>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.Custom.AutoFocusBehavior.html">AutoFocusBehavior</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.Custom.AutoScrollToBottomBehavior.html">AutoScrollToBottomBehavior</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.Custom.AutoSelectBehavior.html">AutoSelectBehavior</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.Custom.AutomationNameBehavior.html">AutomationNameBehavior</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.Custom.CarouselKeyNavigationBehavior.html">CarouselKeyNavigationBehavior</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.Custom.CenterWindowBehavior.html">CenterWindowBehavior</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.Custom.ClipboardMonitorBehavior.html">ClipboardMonitorBehavior</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.Custom.DragControlBehavior.html">DragControlBehavior</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.Custom.FocusOnAttachedToVisualTreeBehavior.html">FocusOnAttachedToVisualTreeBehavior</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.Custom.FocusOnPointerMovedBehavior.html">FocusOnPointerMovedBehavior</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.Custom.FocusOnPointerPressedBehavior.html">FocusOnPointerPressedBehavior</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.Custom.HideOnKeyPressedBehavior.html">HideOnKeyPressedBehavior</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.Custom.HideOnLostFocusBehavior.html">HideOnLostFocusBehavior</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.Custom.HorizontalScrollViewerBehavior.html">HorizontalScrollViewerBehavior</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.Custom.InlineEditBehavior.html">InlineEditBehavior</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.Custom.ItemNudgeDropBehavior.html">ItemNudgeDropBehavior</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.Custom.LoseFocusOnEnterBehavior.html">LoseFocusOnEnterBehavior</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.Custom.OrbitEffectBehavior.html">OrbitEffectBehavior</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.Custom.PointerOverCursorBehavior.html">PointerOverCursorBehavior</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.Custom.RenderTargetBitmapBehavior.html">RenderTargetBitmapBehavior</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.Custom.SelectListBoxItemOnPointerMovedBehavior.html">SelectListBoxItemOnPointerMovedBehavior</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.Custom.SelectingItemsControlSearchBehavior.html">SelectingItemsControlSearchBehavior</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.Custom.SetCursorBehavior.html">SetCursorBehavior</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.Custom.SetCursorFromProviderBehavior.html">SetCursorFromProviderBehavior</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.Custom.SetViewModelPropertyOnLoadBehavior.html">SetViewModelPropertyOnLoadBehavior</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.Custom.ShowPointerPositionBehavior.html">ShowPointerPositionBehavior</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.Custom.SplitViewStateBehavior.html">SplitViewStateBehavior</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.Custom.StaticRenderTargetBitmapBehavior.html">StaticRenderTargetBitmapBehavior</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.Custom.TabControlKeyNavigationBehavior.html">TabControlKeyNavigationBehavior</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.Custom.TextBoxSelectAllOnGotFocusBehavior.html">TextBoxSelectAllOnGotFocusBehavior</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.Custom.ToggleIsExpandedOnDoubleTappedBehavior.html">ToggleIsExpandedOnDoubleTappedBehavior</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.Custom.TreeViewFilterBehavior.html">TreeViewFilterBehavior</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.Custom.WriteableBitmapBehavior.html">WriteableBitmapBehavior</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.Custom.WriteableBitmapRenderBehavior.html">WriteableBitmapRenderBehavior</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.DragAndDrop.ContextDragBehaviorBase.html">ContextDragBehaviorBase</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.DragAndDrop.ContextDragWithDirectionBehavior.html">ContextDragWithDirectionBehavior</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.DragAndDrop.ContextDropBehaviorBase.html">ContextDropBehaviorBase</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.DragAndDrop.DragAndDropEventsBehavior.html">DragAndDropEventsBehavior</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.DragAndDrop.ManagedContextDragBehavior.html">ManagedContextDragBehavior</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.DragAndDrop.ManagedContextDropBehavior.html">ManagedContextDropBehavior</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.DragAndDrop.TypedDragBehaviorBase.html">TypedDragBehaviorBase</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.Draggable.AutoScrollDuringDragBehavior.html">AutoScrollDuringDragBehavior</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.Draggable.CanvasDragBehavior.html">CanvasDragBehavior</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.Draggable.GridDragBehavior.html">GridDragBehavior</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.Draggable.ItemDragBehavior.html">ItemDragBehavior</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.Draggable.MouseDragElementBehavior.html">MouseDragElementBehavior</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.Draggable.MultiMouseDragElementBehavior.html">MultiMouseDragElementBehavior</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.Responsive.AdaptiveBehavior.html">AdaptiveBehavior</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.Responsive.AspectRatioBehavior.html">AspectRatioBehavior</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactivity.DisposingBehavior-1.html">DisposingBehavior&lt;T&gt;</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactivity.InteractiveBehaviorBase.html">InteractiveBehaviorBase</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactivity.InvokeCommandBehaviorBase.html">InvokeCommandBehaviorBase</a></div>
-    </dd>
-  </dl>
 
   <dl class="typelist inheritedMembers">
     <dt>Inherited Members</dt>
     <dd>
     <div>
+      <a class="xref" href="Avalonia.Xaml.Interactivity.StyledElementTrigger.html#Avalonia_Xaml_Interactivity_StyledElementTrigger_ActionsProperty">StyledElementTrigger.ActionsProperty</a>
+    </div>
+    <div>
+      <a class="xref" href="Avalonia.Xaml.Interactivity.StyledElementTrigger.html#Avalonia_Xaml_Interactivity_StyledElementTrigger_Actions">StyledElementTrigger.Actions</a>
+    </div>
+    <div>
       <a class="xref" href="Avalonia.Xaml.Interactivity.StyledElementBehavior.html#Avalonia_Xaml_Interactivity_StyledElementBehavior_IsEnabledProperty">StyledElementBehavior.IsEnabledProperty</a>
+    </div>
+    <div>
+      <a class="xref" href="Avalonia.Xaml.Interactivity.StyledElementBehavior.html#Avalonia_Xaml_Interactivity_StyledElementBehavior_AssociatedObject">StyledElementBehavior.AssociatedObject</a>
     </div>
     <div>
       <a class="xref" href="Avalonia.Xaml.Interactivity.StyledElementBehavior.html#Avalonia_Xaml_Interactivity_StyledElementBehavior_AssociatedStyledElement">StyledElementBehavior.AssociatedStyledElement</a>
@@ -218,6 +165,9 @@ and allow for typed associated objects.</p>
     </div>
     <div>
       <a class="xref" href="Avalonia.Xaml.Interactivity.StyledElementBehavior.html#Avalonia_Xaml_Interactivity_StyledElementBehavior_Detach">StyledElementBehavior.Detach()</a>
+    </div>
+    <div>
+      <a class="xref" href="Avalonia.Xaml.Interactivity.StyledElementBehavior.html#Avalonia_Xaml_Interactivity_StyledElementBehavior_OnAttached">StyledElementBehavior.OnAttached()</a>
     </div>
     <div>
       <a class="xref" href="Avalonia.Xaml.Interactivity.StyledElementBehavior.html#Avalonia_Xaml_Interactivity_StyledElementBehavior_OnDetaching">StyledElementBehavior.OnDetaching()</a>
@@ -239,9 +189,6 @@ and allow for typed associated objects.</p>
     </div>
     <div>
       <a class="xref" href="Avalonia.Xaml.Interactivity.StyledElementBehavior.html#Avalonia_Xaml_Interactivity_StyledElementBehavior_OnUnloaded">StyledElementBehavior.OnUnloaded()</a>
-    </div>
-    <div>
-      <a class="xref" href="Avalonia.Xaml.Interactivity.StyledElementBehavior.html#Avalonia_Xaml_Interactivity_StyledElementBehavior_OnInitializedEvent">StyledElementBehavior.OnInitializedEvent()</a>
     </div>
     <div>
       <a class="xref" href="Avalonia.Xaml.Interactivity.StyledElementBehavior.html#Avalonia_Xaml_Interactivity_StyledElementBehavior_OnDataContextChangedEvent">StyledElementBehavior.OnDataContextChangedEvent()</a>
@@ -286,12 +233,6 @@ and allow for typed associated objects.</p>
       <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">StyledElement.LogicalChildrenCollectionChanged(object, NotifyCollectionChangedEventArgs)</a>
     </div>
     <div>
-      <span class="xref">StyledElement.OnAttachedToLogicalTree(LogicalTreeAttachmentEventArgs)</span>
-    </div>
-    <div>
-      <span class="xref">StyledElement.OnDetachedFromLogicalTree(LogicalTreeAttachmentEventArgs)</span>
-    </div>
-    <div>
       <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.eventargs">StyledElement.OnDataContextChanged(EventArgs)</a>
     </div>
     <div>
@@ -302,9 +243,6 @@ and allow for typed associated objects.</p>
     </div>
     <div>
       <span class="xref">StyledElement.OnInitialized()</span>
-    </div>
-    <div>
-      <span class="xref">StyledElement.OnPropertyChanged(AvaloniaPropertyChangedEventArgs)</span>
     </div>
     <div>
       <span class="xref">StyledElement.Name</span>
@@ -502,23 +440,152 @@ and allow for typed associated objects.</p>
 
 
 
-  <h2 class="section" id="properties">Properties
+  <h2 class="section" id="constructors">Constructors
 </h2>
 
 
-  <a id="Avalonia_Xaml_Interactivity_StyledElementBehavior_1_AssociatedObject_" data-uid="Avalonia.Xaml.Interactivity.StyledElementBehavior`1.AssociatedObject*"></a>
+  <a id="Avalonia_Xaml_Interactions_Custom_SwitchCaseBehavior__ctor_" data-uid="Avalonia.Xaml.Interactions.Custom.SwitchCaseBehavior.#ctor*"></a>
 
-  <h3 id="Avalonia_Xaml_Interactivity_StyledElementBehavior_1_AssociatedObject" data-uid="Avalonia.Xaml.Interactivity.StyledElementBehavior`1.AssociatedObject">
-  AssociatedObject
-  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactivity/StyledElement/StyledElementBehaviorOfT.cs/#L17"><i class="bi bi-code-slash"></i></a>
+  <h3 id="Avalonia_Xaml_Interactions_Custom_SwitchCaseBehavior__ctor" data-uid="Avalonia.Xaml.Interactions.Custom.SwitchCaseBehavior.#ctor">
+  SwitchCaseBehavior()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactions.Custom/Logic/SwitchCaseBehavior.cs/#L66"><i class="bi bi-code-slash"></i></a>
   </h3>
 
-  <div class="markdown level1 summary"><p>Gets the object to which this behavior is attached.</p>
+  <div class="markdown level1 summary"><p>Initializes a new instance of the <a class="xref" href="Avalonia.Xaml.Interactions.Custom.SwitchCaseBehavior.html">SwitchCaseBehavior</a> class.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public T? AssociatedObject { get; }</code></pre>
+    <pre><code class="lang-csharp hljs">public SwitchCaseBehavior()</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h2 class="section" id="fields">Fields
+</h2>
+
+
+
+  <h3 id="Avalonia_Xaml_Interactions_Custom_SwitchCaseBehavior_CasesProperty" data-uid="Avalonia.Xaml.Interactions.Custom.SwitchCaseBehavior.CasesProperty">
+  CasesProperty
+  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactions.Custom/Logic/SwitchCaseBehavior.cs/#L26"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Identifies the <a class="xref" href="Avalonia.Xaml.Interactions.Custom.SwitchCaseBehavior.html#Avalonia_Xaml_Interactions_Custom_SwitchCaseBehavior_Cases">Cases</a> avalonia property.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static readonly StyledProperty&lt;AvaloniaList&lt;Case&gt;?&gt; CasesProperty</code></pre>
+  </div>
+
+
+
+
+  <h4 class="section">Field Value</h4>
+  <dl class="parameters">
+    <dt><span class="xref">StyledProperty</span>&lt;<span class="xref">AvaloniaList</span>&lt;<a class="xref" href="Avalonia.Xaml.Interactions.Custom.Case.html">Case</a>&gt;&gt;</dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Avalonia_Xaml_Interactions_Custom_SwitchCaseBehavior_DefaultActionsProperty" data-uid="Avalonia.Xaml.Interactions.Custom.SwitchCaseBehavior.DefaultActionsProperty">
+  DefaultActionsProperty
+  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactions.Custom/Logic/SwitchCaseBehavior.cs/#L32"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Identifies the <a class="xref" href="Avalonia.Xaml.Interactions.Custom.SwitchCaseBehavior.html#Avalonia_Xaml_Interactions_Custom_SwitchCaseBehavior_DefaultActions">DefaultActions</a> avalonia property.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static readonly StyledProperty&lt;ActionCollection?&gt; DefaultActionsProperty</code></pre>
+  </div>
+
+
+
+
+  <h4 class="section">Field Value</h4>
+  <dl class="parameters">
+    <dt><span class="xref">StyledProperty</span>&lt;<a class="xref" href="Avalonia.Xaml.Interactivity.ActionCollection.html">ActionCollection</a>&gt;</dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Avalonia_Xaml_Interactions_Custom_SwitchCaseBehavior_ValueProperty" data-uid="Avalonia.Xaml.Interactions.Custom.SwitchCaseBehavior.ValueProperty">
+  ValueProperty
+  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactions.Custom/Logic/SwitchCaseBehavior.cs/#L20"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Identifies the <a class="xref" href="Avalonia.Xaml.Interactions.Custom.SwitchCaseBehavior.html#Avalonia_Xaml_Interactions_Custom_SwitchCaseBehavior_Value">Value</a> avalonia property.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static readonly StyledProperty&lt;object?&gt; ValueProperty</code></pre>
+  </div>
+
+
+
+
+  <h4 class="section">Field Value</h4>
+  <dl class="parameters">
+    <dt><span class="xref">StyledProperty</span>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a>&gt;</dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+  <h2 class="section" id="properties">Properties
+</h2>
+
+
+  <a id="Avalonia_Xaml_Interactions_Custom_SwitchCaseBehavior_Cases_" data-uid="Avalonia.Xaml.Interactions.Custom.SwitchCaseBehavior.Cases*"></a>
+
+  <h3 id="Avalonia_Xaml_Interactions_Custom_SwitchCaseBehavior_Cases" data-uid="Avalonia.Xaml.Interactions.Custom.SwitchCaseBehavior.Cases">
+  Cases
+  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactions.Custom/Logic/SwitchCaseBehavior.cs/#L47"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Gets the collection of cases.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[Content]
+public AvaloniaList&lt;Case&gt;? Cases { get; set; }</code></pre>
   </div>
 
 
@@ -527,7 +594,71 @@ and allow for typed associated objects.</p>
 
   <h4 class="section">Property Value</h4>
   <dl class="parameters">
-    <dt><span class="xref">T</span></dt>
+    <dt><span class="xref">AvaloniaList</span>&lt;<a class="xref" href="Avalonia.Xaml.Interactions.Custom.Case.html">Case</a>&gt;</dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="Avalonia_Xaml_Interactions_Custom_SwitchCaseBehavior_DefaultActions_" data-uid="Avalonia.Xaml.Interactions.Custom.SwitchCaseBehavior.DefaultActions*"></a>
+
+  <h3 id="Avalonia_Xaml_Interactions_Custom_SwitchCaseBehavior_DefaultActions" data-uid="Avalonia.Xaml.Interactions.Custom.SwitchCaseBehavior.DefaultActions">
+  DefaultActions
+  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactions.Custom/Logic/SwitchCaseBehavior.cs/#L57"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Gets the actions to execute if no case matches.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public ActionCollection? DefaultActions { get; set; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Avalonia.Xaml.Interactivity.ActionCollection.html">ActionCollection</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="Avalonia_Xaml_Interactions_Custom_SwitchCaseBehavior_Value_" data-uid="Avalonia.Xaml.Interactions.Custom.SwitchCaseBehavior.Value*"></a>
+
+  <h3 id="Avalonia_Xaml_Interactions_Custom_SwitchCaseBehavior_Value" data-uid="Avalonia.Xaml.Interactions.Custom.SwitchCaseBehavior.Value">
+  Value
+  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactions.Custom/Logic/SwitchCaseBehavior.cs/#L38"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Gets or sets the value to switch on.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public object? Value { get; set; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a></dt>
     <dd></dd>
   </dl>
 
@@ -542,19 +673,85 @@ and allow for typed associated objects.</p>
 </h2>
 
 
-  <a id="Avalonia_Xaml_Interactivity_StyledElementBehavior_1_OnAttached_" data-uid="Avalonia.Xaml.Interactivity.StyledElementBehavior`1.OnAttached*"></a>
+  <a id="Avalonia_Xaml_Interactions_Custom_SwitchCaseBehavior_OnAttachedToLogicalTree_" data-uid="Avalonia.Xaml.Interactions.Custom.SwitchCaseBehavior.OnAttachedToLogicalTree*"></a>
 
-  <h3 id="Avalonia_Xaml_Interactivity_StyledElementBehavior_1_OnAttached" data-uid="Avalonia.Xaml.Interactivity.StyledElementBehavior`1.OnAttached">
-  OnAttached()
-  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactivity/StyledElement/StyledElementBehaviorOfT.cs/#L25"><i class="bi bi-code-slash"></i></a>
+  <h3 id="Avalonia_Xaml_Interactions_Custom_SwitchCaseBehavior_OnAttachedToLogicalTree_Avalonia_LogicalTree_LogicalTreeAttachmentEventArgs_" data-uid="Avalonia.Xaml.Interactions.Custom.SwitchCaseBehavior.OnAttachedToLogicalTree(Avalonia.LogicalTree.LogicalTreeAttachmentEventArgs)">
+  OnAttachedToLogicalTree(LogicalTreeAttachmentEventArgs)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactions.Custom/Logic/SwitchCaseBehavior.cs/#L163"><i class="bi bi-code-slash"></i></a>
   </h3>
 
-  <div class="markdown level1 summary"><p>Called after the behavior is attached to the <a class="xref" href="Avalonia.Xaml.Interactivity.StyledElementBehavior.html#Avalonia_Xaml_Interactivity_StyledElementBehavior_AssociatedObject">AssociatedObject</a>.</p>
+  <div class="markdown level1 summary"><p>Called when the styled element is added to a rooted logical tree.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">protected override void OnAttached()</code></pre>
+    <pre><code class="lang-csharp hljs">protected override void OnAttachedToLogicalTree(LogicalTreeAttachmentEventArgs e)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>e</code> <span class="xref">LogicalTreeAttachmentEventArgs</span></dt>
+    <dd><p>The event args.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Avalonia_Xaml_Interactions_Custom_SwitchCaseBehavior_OnDetachedFromLogicalTree_" data-uid="Avalonia.Xaml.Interactions.Custom.SwitchCaseBehavior.OnDetachedFromLogicalTree*"></a>
+
+  <h3 id="Avalonia_Xaml_Interactions_Custom_SwitchCaseBehavior_OnDetachedFromLogicalTree_Avalonia_LogicalTree_LogicalTreeAttachmentEventArgs_" data-uid="Avalonia.Xaml.Interactions.Custom.SwitchCaseBehavior.OnDetachedFromLogicalTree(Avalonia.LogicalTree.LogicalTreeAttachmentEventArgs)">
+  OnDetachedFromLogicalTree(LogicalTreeAttachmentEventArgs)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactions.Custom/Logic/SwitchCaseBehavior.cs/#L171"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Called when the styled element is removed from a rooted logical tree.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected override void OnDetachedFromLogicalTree(LogicalTreeAttachmentEventArgs e)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>e</code> <span class="xref">LogicalTreeAttachmentEventArgs</span></dt>
+    <dd><p>The event args.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Avalonia_Xaml_Interactions_Custom_SwitchCaseBehavior_OnInitializedEvent_" data-uid="Avalonia.Xaml.Interactions.Custom.SwitchCaseBehavior.OnInitializedEvent*"></a>
+
+  <h3 id="Avalonia_Xaml_Interactions_Custom_SwitchCaseBehavior_OnInitializedEvent" data-uid="Avalonia.Xaml.Interactions.Custom.SwitchCaseBehavior.OnInitializedEvent">
+  OnInitializedEvent()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactions.Custom/Logic/SwitchCaseBehavior.cs/#L243"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Called when the <a class="xref" href="Avalonia.Xaml.Interactivity.StyledElementBehavior.html#Avalonia_Xaml_Interactivity_StyledElementBehavior_AssociatedObject">AssociatedObject</a> is initialized.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected override void OnInitializedEvent()</code></pre>
   </div>
 
 
@@ -565,9 +762,42 @@ and allow for typed associated objects.</p>
 
 
 
-  <h4 class="section" id="Avalonia_Xaml_Interactivity_StyledElementBehavior_1_OnAttached_remarks">Remarks</h4>
-  <div class="markdown level1 remarks"><p>Override this to hook up functionality to the <a class="xref" href="Avalonia.Xaml.Interactivity.StyledElementBehavior.html#Avalonia_Xaml_Interactivity_StyledElementBehavior_AssociatedObject">AssociatedObject</a></p>
+  <h4 class="section" id="Avalonia_Xaml_Interactions_Custom_SwitchCaseBehavior_OnInitializedEvent_remarks">Remarks</h4>
+  <div class="markdown level1 remarks"><p>Invoked only when the <a class="xref" href="Avalonia.Xaml.Interactivity.StyledElementBehavior.html#Avalonia_Xaml_Interactivity_StyledElementBehavior_AssociatedObject">AssociatedObject</a> is of type <span class="xref">Avalonia.StyledElement</span>.</p>
 </div>
+
+
+
+
+  <a id="Avalonia_Xaml_Interactions_Custom_SwitchCaseBehavior_OnPropertyChanged_" data-uid="Avalonia.Xaml.Interactions.Custom.SwitchCaseBehavior.OnPropertyChanged*"></a>
+
+  <h3 id="Avalonia_Xaml_Interactions_Custom_SwitchCaseBehavior_OnPropertyChanged_Avalonia_AvaloniaPropertyChangedEventArgs_" data-uid="Avalonia.Xaml.Interactions.Custom.SwitchCaseBehavior.OnPropertyChanged(Avalonia.AvaloniaPropertyChangedEventArgs)">
+  OnPropertyChanged(AvaloniaPropertyChangedEventArgs)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactions.Custom/Logic/SwitchCaseBehavior.cs/#L73"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Called when a avalonia property changes on the object.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected override void OnPropertyChanged(AvaloniaPropertyChangedEventArgs change)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>change</code> <span class="xref">AvaloniaPropertyChangedEventArgs</span></dt>
+    <dd><p>The property change details.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
 
 
 
@@ -576,7 +806,7 @@ and allow for typed associated objects.</p>
 </article>
 
         <div class="contribution d-print-none">
-          <a href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactivity/StyledElement/StyledElementBehaviorOfT.cs/#L12" class="edit-link">Edit this page</a>
+          <a href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactions.Custom/Logic/SwitchCaseBehavior.cs/#L15" class="edit-link">Edit this page</a>
         </div>
 
 

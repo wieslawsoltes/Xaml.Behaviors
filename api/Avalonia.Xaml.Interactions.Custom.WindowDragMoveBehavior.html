@@ -2,11 +2,11 @@
 <html>
   <head>
     <meta charset="utf-8">
-      <title>Class Behavior&lt;T&gt; | XAML Behaviors for Avalonia </title>
+      <title>Class WindowDragMoveBehavior | XAML Behaviors for Avalonia </title>
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <meta name="title" content="Class Behavior&lt;T&gt; | XAML Behaviors for Avalonia ">
+      <meta name="title" content="Class WindowDragMoveBehavior | XAML Behaviors for Avalonia ">
       
-      <meta name="description" content="A base class for behaviors making them code compatible with older frameworks, and allow for typed associated objects.">
+      <meta name="description" content="A behavior that allows the user to drag the window by clicking and holding the associated control.">
       <link rel="icon" href="../favicon.ico">
       <link rel="stylesheet" href="../public/docfx.min.css">
       <link rel="stylesheet" href="../public/main.css">
@@ -16,7 +16,7 @@
       
       
       
-      <meta name="docfx:docurl" content="https://github.com/wieslawsoltes/Xaml.Behaviors/new/master/apiSpec/new?filename=Avalonia_Xaml_Interactivity_Behavior_1.md&amp;value=---%0Auid%3A%20Avalonia.Xaml.Interactivity.Behavior%601%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">
+      <meta name="docfx:docurl" content="https://github.com/wieslawsoltes/Xaml.Behaviors/new/master/apiSpec/new?filename=Avalonia_Xaml_Interactions_Custom_WindowDragMoveBehavior.md&amp;value=---%0Auid%3A%20Avalonia.Xaml.Interactions.Custom.WindowDragMoveBehavior%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">
       <meta name="loc:inThisArticle" content="In this article">
       <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
       <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
@@ -80,36 +80,29 @@
           <nav id="breadcrumb"></nav>
         </div>
 
-        <article data-uid="Avalonia.Xaml.Interactivity.Behavior`1">
+        <article data-uid="Avalonia.Xaml.Interactions.Custom.WindowDragMoveBehavior">
 
 
 
-  <h1 id="Avalonia_Xaml_Interactivity_Behavior_1" data-uid="Avalonia.Xaml.Interactivity.Behavior`1" class="text-break">
-Class Behavior&lt;T&gt;  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactivity/AvaloniaObject/BehaviorOfT.cs/#L12"><i class="bi bi-code-slash"></i></a>
+  <h1 id="Avalonia_Xaml_Interactions_Custom_WindowDragMoveBehavior" data-uid="Avalonia.Xaml.Interactions.Custom.WindowDragMoveBehavior" class="text-break">
+Class WindowDragMoveBehavior  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactions.Custom/Window/WindowDragMoveBehavior.cs/#L12"><i class="bi bi-code-slash"></i></a>
   </h1>
 
   <div class="facts text-secondary">
-    <dl><dt>Namespace</dt><dd><a class="xref" href="Avalonia.html">Avalonia</a>.<a class="xref" href="Avalonia.Xaml.html">Xaml</a>.<a class="xref" href="Avalonia.Xaml.Interactivity.html">Interactivity</a></dd></dl>
-  <dl><dt>Assembly</dt><dd>Xaml.Behaviors.Interactivity.dll</dd></dl>
+    <dl><dt>Namespace</dt><dd><a class="xref" href="Avalonia.html">Avalonia</a>.<a class="xref" href="Avalonia.Xaml.html">Xaml</a>.<a class="xref" href="Avalonia.Xaml.Interactions.html">Interactions</a>.<a class="xref" href="Avalonia.Xaml.Interactions.Custom.html">Custom</a></dd></dl>
+  <dl><dt>Assembly</dt><dd>Xaml.Behaviors.Interactions.Custom.dll</dd></dl>
   </div>
 
-  <div class="markdown summary"><p>A base class for behaviors making them code compatible with older frameworks,
-and allow for typed associated objects.</p>
+  <div class="markdown summary"><p>A behavior that allows the user to drag the window by clicking and holding the associated control.</p>
 </div>
   <div class="markdown conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public abstract class Behavior&lt;T&gt; : Behavior, INotifyPropertyChanged, IBehavior, IBehaviorEventsHandler where T : AvaloniaObject</code></pre>
+    <pre><code class="lang-csharp hljs">public class WindowDragMoveBehavior : Behavior&lt;Control&gt;, INotifyPropertyChanged, IBehavior, IBehaviorEventsHandler</code></pre>
   </div>
 
 
 
-  <h4 class="section">Type Parameters</h4>
-  <dl class="parameters">
-    <dt><code>T</code></dt>
-    <dd><p>The object type to attach to</p>
-</dd>
-  </dl>
 
   <dl class="typelist inheritance">
     <dt>Inheritance</dt>
@@ -117,7 +110,8 @@ and allow for typed associated objects.</p>
       <div><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a></div>
       <div><span class="xref">AvaloniaObject</span></div>
       <div><a class="xref" href="Avalonia.Xaml.Interactivity.Behavior.html">Behavior</a></div>
-      <div><span class="xref">Behavior&lt;T&gt;</span></div>
+      <div><a class="xref" href="Avalonia.Xaml.Interactivity.Behavior-1.html">Behavior</a>&lt;<span class="xref">Control</span>&gt;</div>
+      <div><span class="xref">WindowDragMoveBehavior</span></div>
     </dd>
   </dl>
 
@@ -130,22 +124,16 @@ and allow for typed associated objects.</p>
     </dd>
   </dl>
 
-  <dl class="typelist derived">
-    <dt>Derived</dt>
-    <dd>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.Custom.AsyncLoadBehavior.html">AsyncLoadBehavior</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.Custom.FluidMoveBehavior.html">FluidMoveBehavior</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.Custom.FocusTrapBehavior.html">FocusTrapBehavior</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.Custom.ParallaxBehavior.html">ParallaxBehavior</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.Custom.SelectAllOnFocusBehavior.html">SelectAllOnFocusBehavior</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.Custom.TiltEffectBehavior.html">TiltEffectBehavior</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.Custom.WindowDragMoveBehavior.html">WindowDragMoveBehavior</a></div>
-    </dd>
-  </dl>
 
   <dl class="typelist inheritedMembers">
     <dt>Inherited Members</dt>
     <dd>
+    <div>
+      <a class="xref" href="Avalonia.Xaml.Interactivity.Behavior-1.html#Avalonia_Xaml_Interactivity_Behavior_1_AssociatedObject">Behavior&lt;Control&gt;.AssociatedObject</a>
+    </div>
+    <div>
+      <a class="xref" href="Avalonia.Xaml.Interactivity.Behavior-1.html#Avalonia_Xaml_Interactivity_Behavior_1_OnAttached">Behavior&lt;Control&gt;.OnAttached()</a>
+    </div>
     <div>
       <a class="xref" href="Avalonia.Xaml.Interactivity.Behavior.html#Avalonia_Xaml_Interactivity_Behavior_IsEnabledProperty">Behavior.IsEnabledProperty</a>
     </div>
@@ -160,12 +148,6 @@ and allow for typed associated objects.</p>
     </div>
     <div>
       <a class="xref" href="Avalonia.Xaml.Interactivity.Behavior.html#Avalonia_Xaml_Interactivity_Behavior_OnDetaching">Behavior.OnDetaching()</a>
-    </div>
-    <div>
-      <a class="xref" href="Avalonia.Xaml.Interactivity.Behavior.html#Avalonia_Xaml_Interactivity_Behavior_OnAttachedToVisualTree">Behavior.OnAttachedToVisualTree()</a>
-    </div>
-    <div>
-      <a class="xref" href="Avalonia.Xaml.Interactivity.Behavior.html#Avalonia_Xaml_Interactivity_Behavior_OnDetachedFromVisualTree">Behavior.OnDetachedFromVisualTree()</a>
     </div>
     <div>
       <a class="xref" href="Avalonia.Xaml.Interactivity.Behavior.html#Avalonia_Xaml_Interactivity_Behavior_OnAttachedToLogicalTree">Behavior.OnAttachedToLogicalTree()</a>
@@ -324,59 +306,23 @@ and allow for typed associated objects.</p>
 
 
 
-  <h2 class="section" id="properties">Properties
-</h2>
-
-
-  <a id="Avalonia_Xaml_Interactivity_Behavior_1_AssociatedObject_" data-uid="Avalonia.Xaml.Interactivity.Behavior`1.AssociatedObject*"></a>
-
-  <h3 id="Avalonia_Xaml_Interactivity_Behavior_1_AssociatedObject" data-uid="Avalonia.Xaml.Interactivity.Behavior`1.AssociatedObject">
-  AssociatedObject
-  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactivity/AvaloniaObject/BehaviorOfT.cs/#L17"><i class="bi bi-code-slash"></i></a>
-  </h3>
-
-  <div class="markdown level1 summary"><p>Gets the object to which this behavior is attached.</p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public T? AssociatedObject { get; }</code></pre>
-  </div>
-
-
-
-
-
-  <h4 class="section">Property Value</h4>
-  <dl class="parameters">
-    <dt><span class="xref">T</span></dt>
-    <dd></dd>
-  </dl>
-
-
-
-
-
-
-
-
   <h2 class="section" id="methods">Methods
 </h2>
 
 
-  <a id="Avalonia_Xaml_Interactivity_Behavior_1_OnAttached_" data-uid="Avalonia.Xaml.Interactivity.Behavior`1.OnAttached*"></a>
+  <a id="Avalonia_Xaml_Interactions_Custom_WindowDragMoveBehavior_OnAttachedToVisualTree_" data-uid="Avalonia.Xaml.Interactions.Custom.WindowDragMoveBehavior.OnAttachedToVisualTree*"></a>
 
-  <h3 id="Avalonia_Xaml_Interactivity_Behavior_1_OnAttached" data-uid="Avalonia.Xaml.Interactivity.Behavior`1.OnAttached">
-  OnAttached()
-  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactivity/AvaloniaObject/BehaviorOfT.cs/#L25"><i class="bi bi-code-slash"></i></a>
+  <h3 id="Avalonia_Xaml_Interactions_Custom_WindowDragMoveBehavior_OnAttachedToVisualTree" data-uid="Avalonia.Xaml.Interactions.Custom.WindowDragMoveBehavior.OnAttachedToVisualTree">
+  OnAttachedToVisualTree()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactions.Custom/Window/WindowDragMoveBehavior.cs/#L15"><i class="bi bi-code-slash"></i></a>
   </h3>
 
-  <div class="markdown level1 summary"><p>Called after the behavior is attached to the <a class="xref" href="Avalonia.Xaml.Interactivity.IBehavior.html#Avalonia_Xaml_Interactivity_IBehavior_AssociatedObject">AssociatedObject</a>.</p>
+  <div class="markdown level1 summary"><p>Called after the <a class="xref" href="Avalonia.Xaml.Interactivity.Behavior.html#Avalonia_Xaml_Interactivity_Behavior_AssociatedObject">AssociatedObject</a> is attached to the visual tree.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">protected override void OnAttached()</code></pre>
+    <pre><code class="lang-csharp hljs">protected override void OnAttachedToVisualTree()</code></pre>
   </div>
 
 
@@ -387,8 +333,38 @@ and allow for typed associated objects.</p>
 
 
 
-  <h4 class="section" id="Avalonia_Xaml_Interactivity_Behavior_1_OnAttached_remarks">Remarks</h4>
-  <div class="markdown level1 remarks"><p>Override this to hook up functionality to the <a class="xref" href="Avalonia.Xaml.Interactivity.IBehavior.html#Avalonia_Xaml_Interactivity_IBehavior_AssociatedObject">AssociatedObject</a></p>
+  <h4 class="section" id="Avalonia_Xaml_Interactions_Custom_WindowDragMoveBehavior_OnAttachedToVisualTree_remarks">Remarks</h4>
+  <div class="markdown level1 remarks"><p>Invoked only when the <a class="xref" href="Avalonia.Xaml.Interactivity.Behavior.html#Avalonia_Xaml_Interactivity_Behavior_AssociatedObject">AssociatedObject</a> is of type <span class="xref">Avalonia.Visual</span>.</p>
+</div>
+
+
+
+
+  <a id="Avalonia_Xaml_Interactions_Custom_WindowDragMoveBehavior_OnDetachedFromVisualTree_" data-uid="Avalonia.Xaml.Interactions.Custom.WindowDragMoveBehavior.OnDetachedFromVisualTree*"></a>
+
+  <h3 id="Avalonia_Xaml_Interactions_Custom_WindowDragMoveBehavior_OnDetachedFromVisualTree" data-uid="Avalonia.Xaml.Interactions.Custom.WindowDragMoveBehavior.OnDetachedFromVisualTree">
+  OnDetachedFromVisualTree()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactions.Custom/Window/WindowDragMoveBehavior.cs/#L25"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Called when the <a class="xref" href="Avalonia.Xaml.Interactivity.Behavior.html#Avalonia_Xaml_Interactivity_Behavior_AssociatedObject">AssociatedObject</a> is being detached from the visual tree.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected override void OnDetachedFromVisualTree()</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+  <h4 class="section" id="Avalonia_Xaml_Interactions_Custom_WindowDragMoveBehavior_OnDetachedFromVisualTree_remarks">Remarks</h4>
+  <div class="markdown level1 remarks"><p>Invoked only when the <a class="xref" href="Avalonia.Xaml.Interactivity.Behavior.html#Avalonia_Xaml_Interactivity_Behavior_AssociatedObject">AssociatedObject</a> is of type <span class="xref">Avalonia.Visual</span>.</p>
 </div>
 
 
@@ -398,7 +374,7 @@ and allow for typed associated objects.</p>
 </article>
 
         <div class="contribution d-print-none">
-          <a href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactivity/AvaloniaObject/BehaviorOfT.cs/#L12" class="edit-link">Edit this page</a>
+          <a href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactions.Custom/Window/WindowDragMoveBehavior.cs/#L12" class="edit-link">Edit this page</a>
         </div>
 
 

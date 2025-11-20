@@ -914,6 +914,20 @@
     },
     {
       "type": "ManagedReference",
+      "source_relative_path": "api/Avalonia.Xaml.Interactions.Custom.AutoScrollToBottomBehavior.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Avalonia.Xaml.Interactions.Custom.AutoScrollToBottomBehavior.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Avalonia.Xaml.Interactions.Custom.AutoScrollToBottomBehavior",
+      "Summary": "<p sourcefile=\"api/Avalonia.Xaml.Interactions.Custom.AutoScrollToBottomBehavior.yml\" sourcestartlinenumber=\"1\">A behavior that automatically scrolls to the bottom of a ScrollViewer or ItemsControl when new items are added.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
       "source_relative_path": "api/Avalonia.Xaml.Interactions.Custom.AutoSelectBehavior.yml",
       "output": {
         ".html": {
@@ -1208,6 +1222,20 @@
     },
     {
       "type": "ManagedReference",
+      "source_relative_path": "api/Avalonia.Xaml.Interactions.Custom.Case.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Avalonia.Xaml.Interactions.Custom.Case.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Avalonia.Xaml.Interactions.Custom.Case",
+      "Summary": "<p sourcefile=\"api/Avalonia.Xaml.Interactions.Custom.Case.yml\" sourcestartlinenumber=\"1\">Represents a case in a <xref href=\"Avalonia.Xaml.Interactions.Custom.SwitchCaseAction\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
       "source_relative_path": "api/Avalonia.Xaml.Interactions.Custom.CenterWindowBehavior.yml",
       "output": {
         ".html": {
@@ -1373,6 +1401,34 @@
       "IsMRef": true,
       "Title": "Avalonia.Xaml.Interactions.Custom.ComboBoxValidationBehavior",
       "Summary": "<p sourcefile=\"api/Avalonia.Xaml.Interactions.Custom.ComboBoxValidationBehavior.yml\" sourcestartlinenumber=\"1\">Validation behavior for <xref href=\"Avalonia.Controls.ComboBox\" data-throw-if-not-resolved=\"false\"></xref> selected item.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Avalonia.Xaml.Interactions.Custom.ConditionalAction.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Avalonia.Xaml.Interactions.Custom.ConditionalAction.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Avalonia.Xaml.Interactions.Custom.ConditionalAction",
+      "Summary": "<p sourcefile=\"api/Avalonia.Xaml.Interactions.Custom.ConditionalAction.yml\" sourcestartlinenumber=\"1\">An action that executes different collections of actions depending on the specified condition.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Avalonia.Xaml.Interactions.Custom.ConditionalBehavior.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Avalonia.Xaml.Interactions.Custom.ConditionalBehavior.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Avalonia.Xaml.Interactions.Custom.ConditionalBehavior",
+      "Summary": "<p sourcefile=\"api/Avalonia.Xaml.Interactions.Custom.ConditionalBehavior.yml\" sourcestartlinenumber=\"1\">A behavior that executes different collections of actions depending on the specified condition.</p>\n"
     },
     {
       "type": "ManagedReference",
@@ -2216,6 +2272,20 @@
     },
     {
       "type": "ManagedReference",
+      "source_relative_path": "api/Avalonia.Xaml.Interactions.Custom.FocusNextElementAction.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Avalonia.Xaml.Interactions.Custom.FocusNextElementAction.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Avalonia.Xaml.Interactions.Custom.FocusNextElementAction",
+      "Summary": "<p sourcefile=\"api/Avalonia.Xaml.Interactions.Custom.FocusNextElementAction.yml\" sourcestartlinenumber=\"1\">An action that moves focus to the next element in the tab order.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
       "source_relative_path": "api/Avalonia.Xaml.Interactions.Custom.FocusOnAttachedBehavior.yml",
       "output": {
         ".html": {
@@ -2986,6 +3056,20 @@
     },
     {
       "type": "ManagedReference",
+      "source_relative_path": "api/Avalonia.Xaml.Interactions.Custom.LoseFocusOnEnterBehavior.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Avalonia.Xaml.Interactions.Custom.LoseFocusOnEnterBehavior.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Avalonia.Xaml.Interactions.Custom.LoseFocusOnEnterBehavior",
+      "Summary": "<p sourcefile=\"api/Avalonia.Xaml.Interactions.Custom.LoseFocusOnEnterBehavior.yml\" sourcestartlinenumber=\"1\">A behavior that loses focus when the Enter key is pressed.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
       "source_relative_path": "api/Avalonia.Xaml.Interactions.Custom.LostFocusTrigger.yml",
       "output": {
         ".html": {
@@ -3151,6 +3235,34 @@
       "IsMRef": true,
       "Title": "Avalonia.Xaml.Interactions.Custom.ObservableTriggerBehavior<T>",
       "Summary": "<p sourcefile=\"api/Avalonia.Xaml.Interactions.Custom.ObservableTriggerBehavior-1.yml\" sourcestartlinenumber=\"1\">A trigger that subscribes to an <xref href=\"System.IObservable%601\" data-throw-if-not-resolved=\"false\"></xref> and executes its actions whenever a new value is produced.\nThe emitted value is exposed through the <xref href=\"Avalonia.Xaml.Interactions.Custom.ObservableTriggerBehavior%601.Value\" data-throw-if-not-resolved=\"false\"></xref> property and passed to the actions as a parameter.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Avalonia.Xaml.Interactions.Custom.OrbitEffectBehavior.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Avalonia.Xaml.Interactions.Custom.OrbitEffectBehavior.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Avalonia.Xaml.Interactions.Custom.OrbitEffectBehavior",
+      "Summary": "<p sourcefile=\"api/Avalonia.Xaml.Interactions.Custom.OrbitEffectBehavior.yml\" sourcestartlinenumber=\"1\">A behavior that allows rotating the attached control in 3D space using pointer manipulation.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Avalonia.Xaml.Interactions.Custom.ParallaxBehavior.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Avalonia.Xaml.Interactions.Custom.ParallaxBehavior.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Avalonia.Xaml.Interactions.Custom.ParallaxBehavior",
+      "Summary": "<p sourcefile=\"api/Avalonia.Xaml.Interactions.Custom.ParallaxBehavior.yml\" sourcestartlinenumber=\"1\">A behavior that moves the associated element at a different speed than the scrolling container, creating a parallax effect.</p>\n"
     },
     {
       "type": "ManagedReference",
@@ -3994,6 +4106,20 @@
     },
     {
       "type": "ManagedReference",
+      "source_relative_path": "api/Avalonia.Xaml.Interactions.Custom.SelectAllOnFocusBehavior.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Avalonia.Xaml.Interactions.Custom.SelectAllOnFocusBehavior.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Avalonia.Xaml.Interactions.Custom.SelectAllOnFocusBehavior",
+      "Summary": "<p sourcefile=\"api/Avalonia.Xaml.Interactions.Custom.SelectAllOnFocusBehavior.yml\" sourcestartlinenumber=\"1\">A behavior that automatically selects all text in a TextBox when it receives focus.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
       "source_relative_path": "api/Avalonia.Xaml.Interactions.Custom.SelectListBoxItemOnPointerMovedBehavior.yml",
       "output": {
         ".html": {
@@ -4666,6 +4792,34 @@
     },
     {
       "type": "ManagedReference",
+      "source_relative_path": "api/Avalonia.Xaml.Interactions.Custom.SwitchCaseAction.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Avalonia.Xaml.Interactions.Custom.SwitchCaseAction.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Avalonia.Xaml.Interactions.Custom.SwitchCaseAction",
+      "Summary": "<p sourcefile=\"api/Avalonia.Xaml.Interactions.Custom.SwitchCaseAction.yml\" sourcestartlinenumber=\"1\">An action that executes a specific set of actions based on a value match.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Avalonia.Xaml.Interactions.Custom.SwitchCaseBehavior.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Avalonia.Xaml.Interactions.Custom.SwitchCaseBehavior.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Avalonia.Xaml.Interactions.Custom.SwitchCaseBehavior",
+      "Summary": "<p sourcefile=\"api/Avalonia.Xaml.Interactions.Custom.SwitchCaseBehavior.yml\" sourcestartlinenumber=\"1\">A behavior that executes a specific set of actions based on a value match.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
       "source_relative_path": "api/Avalonia.Xaml.Interactions.Custom.TabControlKeyNavigationBehavior.yml",
       "output": {
         ".html": {
@@ -4845,6 +4999,20 @@
       "IsMRef": true,
       "Title": "Avalonia.Xaml.Interactions.Custom.ThemeVariantTrigger",
       "Summary": "<p sourcefile=\"api/Avalonia.Xaml.Interactions.Custom.ThemeVariantTrigger.yml\" sourcestartlinenumber=\"1\">Executes actions when the associated control's <xref href=\"Avalonia.StyledElement.ActualThemeVariant\" data-throw-if-not-resolved=\"false\"></xref>\nmatches the specified <xref href=\"Avalonia.Xaml.Interactions.Custom.ThemeVariantTrigger.ThemeVariant\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Avalonia.Xaml.Interactions.Custom.TiltEffectBehavior.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Avalonia.Xaml.Interactions.Custom.TiltEffectBehavior.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Avalonia.Xaml.Interactions.Custom.TiltEffectBehavior",
+      "Summary": "<p sourcefile=\"api/Avalonia.Xaml.Interactions.Custom.TiltEffectBehavior.yml\" sourcestartlinenumber=\"1\">A behavior that applies a 3D tilt rotation to the element based on the pointer position.</p>\n"
     },
     {
       "type": "ManagedReference",
@@ -5069,6 +5237,48 @@
       "IsMRef": true,
       "Title": "Avalonia.Xaml.Interactions.Custom.VisualDebugBehavior",
       "Summary": "<p sourcefile=\"api/Avalonia.Xaml.Interactions.Custom.VisualDebugBehavior.yml\" sourcestartlinenumber=\"1\">A behavior that visualizes events on the attached control for debugging purposes.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Avalonia.Xaml.Interactions.Custom.WindowAction.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Avalonia.Xaml.Interactions.Custom.WindowAction.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Avalonia.Xaml.Interactions.Custom.WindowAction",
+      "Summary": "<p sourcefile=\"api/Avalonia.Xaml.Interactions.Custom.WindowAction.yml\" sourcestartlinenumber=\"1\">An action that performs common window operations.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Avalonia.Xaml.Interactions.Custom.WindowActionType.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Avalonia.Xaml.Interactions.Custom.WindowActionType.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Avalonia.Xaml.Interactions.Custom.WindowActionType",
+      "Summary": "<p sourcefile=\"api/Avalonia.Xaml.Interactions.Custom.WindowActionType.yml\" sourcestartlinenumber=\"1\">Defines the window action types.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Avalonia.Xaml.Interactions.Custom.WindowDragMoveBehavior.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Avalonia.Xaml.Interactions.Custom.WindowDragMoveBehavior.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Avalonia.Xaml.Interactions.Custom.WindowDragMoveBehavior",
+      "Summary": "<p sourcefile=\"api/Avalonia.Xaml.Interactions.Custom.WindowDragMoveBehavior.yml\" sourcestartlinenumber=\"1\">A behavior that allows the user to drag the window by clicking and holding the associated control.</p>\n"
     },
     {
       "type": "ManagedReference",
@@ -7940,6 +8150,16 @@
     },
     {
       "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/actions/focus-next-element-action.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/actions/focus-next-element-action.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
       "source_relative_path": "articles/interactions-custom/actions/hide-control-action.md",
       "output": {
         ".html": {
@@ -8322,6 +8542,29 @@
     },
     {
       "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/behaviors/auto-scroll-to-bottom-behavior.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/behaviors/auto-scroll-to-bottom-behavior.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "articles/interactions-custom/behaviors/toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/behaviors/toc.html"
+        },
+        ".json": {
+          "relative_path": "articles/interactions-custom/behaviors/toc.json"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
       "source_relative_path": "articles/interactions-custom/button/button-click-event-trigger-behavior.md",
       "output": {
         ".html": {
@@ -8611,10 +8854,30 @@
     },
     {
       "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/composition/orbit-effect-behavior.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/composition/orbit-effect-behavior.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
       "source_relative_path": "articles/interactions-custom/composition/overview.md",
       "output": {
         ".html": {
           "relative_path": "articles/interactions-custom/composition/overview.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/composition/parallax-behavior.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/composition/parallax-behavior.html"
         }
       },
       "version": ""
@@ -8665,6 +8928,16 @@
       "output": {
         ".html": {
           "relative_path": "articles/interactions-custom/composition/special-animations.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/composition/tilt-effect-behavior.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/composition/tilt-effect-behavior.html"
         }
       },
       "version": ""
@@ -10412,6 +10685,26 @@
       "version": ""
     },
     {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/input/lose-focus-on-enter-behavior.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/input/lose-focus-on-enter-behavior.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/input/select-all-on-focus-behavior.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/input/select-all-on-focus-behavior.html"
+        }
+      },
+      "version": ""
+    },
+    {
       "type": "Toc",
       "source_relative_path": "articles/interactions-custom/input/toc.yml",
       "output": {
@@ -10712,6 +11005,59 @@
         },
         ".json": {
           "relative_path": "articles/interactions-custom/listbox-item/toc.json"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/logic/conditional-action.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/logic/conditional-action.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/logic/conditional-behavior.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/logic/conditional-behavior.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/logic/switch-case-action.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/logic/switch-case-action.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/logic/switch-case-behavior.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/logic/switch-case-behavior.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "articles/interactions-custom/logic/toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/logic/toc.html"
+        },
+        ".json": {
+          "relative_path": "articles/interactions-custom/logic/toc.json"
         }
       },
       "version": ""
@@ -12032,6 +12378,26 @@
         },
         ".json": {
           "relative_path": "articles/interactions-custom/window/toc.json"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/window/window-action.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/window/window-action.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/window/window-drag-move-behavior.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/window/window-drag-move-behavior.html"
         }
       },
       "version": ""
