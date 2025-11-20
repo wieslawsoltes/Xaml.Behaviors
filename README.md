@@ -87,6 +87,12 @@ and install the package like this:
 
 [XAML Behaviors for Avalonia documentation.](https://wieslawsoltes.github.io/Xaml.Behaviors/)
 
+## Logo
+
+The logo features a stylized hexagon (representing a behavior/component) with a gradient in Avalonia-like colors (purple/violet) and a white lightning bolt (representing interactivity/triggers) in the center.
+
+![Logo](logo.svg)
+
 ## Resources
 
 * [GitHub source code repository.](https://github.com/wieslawsoltes/Xaml.Behaviors)
