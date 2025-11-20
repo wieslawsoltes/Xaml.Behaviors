@@ -7,8 +7,12 @@
     <Copyright>Copyright © Wiesław Šoltés 2025</Copyright>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageProjectUrl>https://github.com/wieslawsoltes/Xaml.Behaviors</PackageProjectUrl>
+    <PackageIcon>logo.png</PackageIcon>
     <AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
   </PropertyGroup>
+  <ItemGroup>
+    <None Include="$(MSBuildThisFileDirectory)logo.png" Pack="true" PackagePath=""/>
+  </ItemGroup>
   <PropertyGroup>
     <AnalysisLevel>latest</AnalysisLevel>
     <LangVersion>14</LangVersion>
