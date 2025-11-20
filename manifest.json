@@ -6883,6 +6883,4935 @@
     },
     {
       "type": "Conceptual",
+      "source_relative_path": "articles/drag-and-drop-datagrid/datagrid-drag-and-drop-overview.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/drag-and-drop-datagrid/datagrid-drag-and-drop-overview.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "articles/drag-and-drop-datagrid/toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "articles/drag-and-drop-datagrid/toc.html"
+        },
+        ".json": {
+          "relative_path": "articles/drag-and-drop-datagrid/toc.json"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/drag-and-drop/content-control-files-drop-behavior.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/drag-and-drop/content-control-files-drop-behavior.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/drag-and-drop/context-drag-drop.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/drag-and-drop/context-drag-drop.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/drag-and-drop/context-drag-with-direction-behavior.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/drag-and-drop/context-drag-with-direction-behavior.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/drag-and-drop/drag-and-drop-events-behavior.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/drag-and-drop/drag-and-drop-events-behavior.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/drag-and-drop/drag-and-drop-overview.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/drag-and-drop/drag-and-drop-overview.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/drag-and-drop/drag-drop-commands-behavior.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/drag-and-drop/drag-drop-commands-behavior.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/drag-and-drop/files-drag-drop.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/drag-and-drop/files-drag-drop.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/drag-and-drop/managed-context-drag-behavior.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/drag-and-drop/managed-context-drag-behavior.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/drag-and-drop/managed-context-drop-behavior.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/drag-and-drop/managed-context-drop-behavior.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/drag-and-drop/panel-drag-behavior.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/drag-and-drop/panel-drag-behavior.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/drag-and-drop/panel-drop-behavior.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/drag-and-drop/panel-drop-behavior.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/drag-and-drop/text-drop-behavior.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/drag-and-drop/text-drop-behavior.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "articles/drag-and-drop/toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "articles/drag-and-drop/toc.html"
+        },
+        ".json": {
+          "relative_path": "articles/drag-and-drop/toc.json"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/drag-and-drop/typed-drag-drop.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/drag-and-drop/typed-drag-drop.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/draggable/auto-scroll-during-drag-behavior.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/draggable/auto-scroll-during-drag-behavior.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/draggable/canvas-drag-behavior.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/draggable/canvas-drag-behavior.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/draggable/draggable-overview.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/draggable/draggable-overview.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/draggable/grid-drag-behavior.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/draggable/grid-drag-behavior.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/draggable/list-reorder-drag-behavior.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/draggable/list-reorder-drag-behavior.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/draggable/mouse-drag-element-behavior.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/draggable/mouse-drag-element-behavior.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "articles/draggable/toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "articles/draggable/toc.html"
+        },
+        ".json": {
+          "relative_path": "articles/draggable/toc.json"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/events/drag-and-drop/drag-enter-event-trigger.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/events/drag-and-drop/drag-enter-event-trigger.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/events/drag-and-drop/drag-leave-event-trigger.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/events/drag-and-drop/drag-leave-event-trigger.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/events/drag-and-drop/drag-over-event-trigger.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/events/drag-and-drop/drag-over-event-trigger.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/events/drag-and-drop/drop-event-trigger.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/events/drag-and-drop/drop-event-trigger.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/events/drag-and-drop/overview.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/events/drag-and-drop/overview.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "articles/events/drag-and-drop/toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "articles/events/drag-and-drop/toc.html"
+        },
+        ".json": {
+          "relative_path": "articles/events/drag-and-drop/toc.json"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/events/events-overview.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/events/events-overview.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/events/focus/got-focus-event-behavior.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/events/focus/got-focus-event-behavior.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/events/focus/got-focus-event-trigger.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/events/focus/got-focus-event-trigger.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/events/focus/lost-focus-event-behavior.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/events/focus/lost-focus-event-behavior.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/events/focus/lost-focus-event-trigger.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/events/focus/lost-focus-event-trigger.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/events/focus/overview.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/events/focus/overview.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "articles/events/focus/toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "articles/events/focus/toc.html"
+        },
+        ".json": {
+          "relative_path": "articles/events/focus/toc.json"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/events/gestures/double-tapped-event-behavior.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/events/gestures/double-tapped-event-behavior.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/events/gestures/double-tapped-event-trigger.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/events/gestures/double-tapped-event-trigger.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/events/gestures/overview.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/events/gestures/overview.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/events/gestures/right-tapped-event-behavior.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/events/gestures/right-tapped-event-behavior.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/events/gestures/right-tapped-event-trigger.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/events/gestures/right-tapped-event-trigger.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/events/gestures/scroll-gesture-ended-event-behavior.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/events/gestures/scroll-gesture-ended-event-behavior.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/events/gestures/scroll-gesture-ended-event-trigger.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/events/gestures/scroll-gesture-ended-event-trigger.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/events/gestures/scroll-gesture-event-behavior.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/events/gestures/scroll-gesture-event-behavior.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/events/gestures/scroll-gesture-event-trigger.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/events/gestures/scroll-gesture-event-trigger.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/events/gestures/tapped-event-behavior.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/events/gestures/tapped-event-behavior.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/events/gestures/tapped-event-trigger.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/events/gestures/tapped-event-trigger.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "articles/events/gestures/toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "articles/events/gestures/toc.html"
+        },
+        ".json": {
+          "relative_path": "articles/events/gestures/toc.json"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/events/keyboard/key-down-event-behavior.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/events/keyboard/key-down-event-behavior.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/events/keyboard/key-down-event-trigger.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/events/keyboard/key-down-event-trigger.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/events/keyboard/key-up-event-behavior.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/events/keyboard/key-up-event-behavior.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/events/keyboard/key-up-event-trigger.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/events/keyboard/key-up-event-trigger.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/events/keyboard/overview.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/events/keyboard/overview.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/events/keyboard/text-input-event-behavior.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/events/keyboard/text-input-event-behavior.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/events/keyboard/text-input-event-trigger.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/events/keyboard/text-input-event-trigger.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/events/keyboard/text-input-method-client-requested-event-behavior.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/events/keyboard/text-input-method-client-requested-event-behavior.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/events/keyboard/text-input-method-client-requested-event-trigger.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/events/keyboard/text-input-method-client-requested-event-trigger.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "articles/events/keyboard/toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "articles/events/keyboard/toc.html"
+        },
+        ".json": {
+          "relative_path": "articles/events/keyboard/toc.json"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/events/pointer/overview.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/events/pointer/overview.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/events/pointer/pointer-capture-lost-event-behavior.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/events/pointer/pointer-capture-lost-event-behavior.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/events/pointer/pointer-capture-lost-event-trigger.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/events/pointer/pointer-capture-lost-event-trigger.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/events/pointer/pointer-entered-event-behavior.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/events/pointer/pointer-entered-event-behavior.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/events/pointer/pointer-entered-event-trigger.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/events/pointer/pointer-entered-event-trigger.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/events/pointer/pointer-events-behavior.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/events/pointer/pointer-events-behavior.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/events/pointer/pointer-events-trigger.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/events/pointer/pointer-events-trigger.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/events/pointer/pointer-exited-event-behavior.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/events/pointer/pointer-exited-event-behavior.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/events/pointer/pointer-exited-event-trigger.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/events/pointer/pointer-exited-event-trigger.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/events/pointer/pointer-moved-event-behavior.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/events/pointer/pointer-moved-event-behavior.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/events/pointer/pointer-moved-event-trigger.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/events/pointer/pointer-moved-event-trigger.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/events/pointer/pointer-pressed-event-behavior.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/events/pointer/pointer-pressed-event-behavior.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/events/pointer/pointer-pressed-event-trigger.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/events/pointer/pointer-pressed-event-trigger.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/events/pointer/pointer-released-event-behavior.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/events/pointer/pointer-released-event-behavior.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/events/pointer/pointer-released-event-trigger.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/events/pointer/pointer-released-event-trigger.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/events/pointer/pointer-wheel-changed-event-behavior.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/events/pointer/pointer-wheel-changed-event-behavior.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/events/pointer/pointer-wheel-changed-event-trigger.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/events/pointer/pointer-wheel-changed-event-trigger.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "articles/events/pointer/toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "articles/events/pointer/toc.html"
+        },
+        ".json": {
+          "relative_path": "articles/events/pointer/toc.json"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "articles/events/toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "articles/events/toc.html"
+        },
+        ".json": {
+          "relative_path": "articles/events/toc.json"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/actions/add-class-action.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/actions/add-class-action.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/actions/call-method-async-action.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/actions/call-method-async-action.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/actions/change-avalonia-property-action.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/actions/change-avalonia-property-action.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/actions/delayed-show-control-action.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/actions/delayed-show-control-action.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/actions/focus-control-action.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/actions/focus-control-action.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/actions/hide-control-action.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/actions/hide-control-action.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/actions/hide-flyout-action.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/actions/hide-flyout-action.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/actions/hide-popup-action.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/actions/hide-popup-action.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/actions/overview.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/actions/overview.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/actions/popup-action.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/actions/popup-action.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/actions/remove-class-action.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/actions/remove-class-action.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/actions/remove-element-action.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/actions/remove-element-action.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/actions/set-enabled-action.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/actions/set-enabled-action.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/actions/set-theme-variant-action.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/actions/set-theme-variant-action.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/actions/show-context-menu-action.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/actions/show-context-menu-action.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/actions/show-control-action.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/actions/show-control-action.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/actions/show-flyout-action.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/actions/show-flyout-action.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/actions/show-popup-action.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/actions/show-popup-action.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "articles/interactions-custom/actions/toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/actions/toc.html"
+        },
+        ".json": {
+          "relative_path": "articles/interactions-custom/actions/toc.json"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/animations/animate-on-attached-behavior.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/animations/animate-on-attached-behavior.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/animations/animation-completed-trigger.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/animations/animation-completed-trigger.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/animations/begin-animation-action.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/animations/begin-animation-action.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/animations/fade-in-behavior.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/animations/fade-in-behavior.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/animations/i-animation-builder.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/animations/i-animation-builder.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/animations/overview.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/animations/overview.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/animations/play-animation-behavior.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/animations/play-animation-behavior.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/animations/run-animation-trigger.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/animations/run-animation-trigger.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/animations/start-animation-action.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/animations/start-animation-action.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/animations/start-built-animation-action.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/animations/start-built-animation-action.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "articles/interactions-custom/animations/toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/animations/toc.html"
+        },
+        ".json": {
+          "relative_path": "articles/interactions-custom/animations/toc.json"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/autocompletebox/auto-complete-box-open-drop-down-on-focus-behavior.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/autocompletebox/auto-complete-box-open-drop-down-on-focus-behavior.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/autocompletebox/auto-complete-box-selection-changed-trigger.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/autocompletebox/auto-complete-box-selection-changed-trigger.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/autocompletebox/clear-auto-complete-box-selection-action.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/autocompletebox/clear-auto-complete-box-selection-action.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/autocompletebox/focus-auto-complete-box-text-box-behavior.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/autocompletebox/focus-auto-complete-box-text-box-behavior.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/autocompletebox/overview.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/autocompletebox/overview.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "articles/interactions-custom/autocompletebox/toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/autocompletebox/toc.html"
+        },
+        ".json": {
+          "relative_path": "articles/interactions-custom/autocompletebox/toc.json"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/automation/automation-name-behavior.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/automation/automation-name-behavior.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/automation/automation-name-changed-trigger.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/automation/automation-name-changed-trigger.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/automation/overview.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/automation/overview.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/automation/set-automation-id-action.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/automation/set-automation-id-action.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "articles/interactions-custom/automation/toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/automation/toc.html"
+        },
+        ".json": {
+          "relative_path": "articles/interactions-custom/automation/toc.json"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/button/button-click-event-trigger-behavior.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/button/button-click-event-trigger-behavior.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/button/button-execute-command-on-key-down-behavior.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/button/button-execute-command-on-key-down-behavior.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/button/button-hide-flyout-behavior.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/button/button-hide-flyout-behavior.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/button/button-hide-flyout-on-click-behavior.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/button/button-hide-flyout-on-click-behavior.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/button/button-hide-popup-on-click-behavior.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/button/button-hide-popup-on-click-behavior.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/button/invoke-button-click-action.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/button/invoke-button-click-action.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/button/overview.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/button/overview.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "articles/interactions-custom/button/toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/button/toc.html"
+        },
+        ".json": {
+          "relative_path": "articles/interactions-custom/button/toc.json"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/carousel/carousel-key-navigation-behavior.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/carousel/carousel-key-navigation-behavior.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/carousel/carousel-next-action.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/carousel/carousel-next-action.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/carousel/carousel-previous-action.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/carousel/carousel-previous-action.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/carousel/carousel-selection-changed-trigger.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/carousel/carousel-selection-changed-trigger.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/carousel/overview.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/carousel/overview.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "articles/interactions-custom/carousel/toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/carousel/toc.html"
+        },
+        ".json": {
+          "relative_path": "articles/interactions-custom/carousel/toc.json"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/collections/add-range-action.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/collections/add-range-action.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/collections/clear-collection-action.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/collections/clear-collection-action.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/collections/collection-changed-behavior.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/collections/collection-changed-behavior.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/collections/collection-changed-trigger.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/collections/collection-changed-trigger.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/collections/overview.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/collections/overview.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/collections/remove-range-action.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/collections/remove-range-action.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "articles/interactions-custom/collections/toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/collections/toc.html"
+        },
+        ".json": {
+          "relative_path": "articles/interactions-custom/collections/toc.json"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/composition/attention-animations.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/composition/attention-animations.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/composition/composition-animation-definition.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/composition/composition-animation-definition.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/composition/composition-animation-helpers.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/composition/composition-animation-helpers.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/composition/entrance-animations.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/composition/entrance-animations.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/composition/exit-animations.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/composition/exit-animations.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/composition/fade-animation.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/composition/fade-animation.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/composition/framer-motion-animations.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/composition/framer-motion-animations.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/composition/overview.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/composition/overview.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/composition/rotate-animation.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/composition/rotate-animation.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/composition/scale-animation.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/composition/scale-animation.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/composition/selecting-items-control-behavior.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/composition/selecting-items-control-behavior.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/composition/sliding-animation.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/composition/sliding-animation.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/composition/special-animations.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/composition/special-animations.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "articles/interactions-custom/composition/toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/composition/toc.html"
+        },
+        ".json": {
+          "relative_path": "articles/interactions-custom/composition/toc.json"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/context-dialogs/context-dialog-behavior.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/context-dialogs/context-dialog-behavior.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/context-dialogs/context-dialog-closed-trigger.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/context-dialogs/context-dialog-closed-trigger.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/context-dialogs/context-dialog-opened-trigger.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/context-dialogs/context-dialog-opened-trigger.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/context-dialogs/hide-context-dialog-action.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/context-dialogs/hide-context-dialog-action.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/context-dialogs/overview.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/context-dialogs/overview.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/context-dialogs/show-context-dialog-action.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/context-dialogs/show-context-dialog-action.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "articles/interactions-custom/context-dialogs/toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/context-dialogs/toc.html"
+        },
+        ".json": {
+          "relative_path": "articles/interactions-custom/context-dialogs/toc.json"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/control/bind-pointer-over-behavior.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/control/bind-pointer-over-behavior.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/control/bind-tag-to-visual-root-data-context-behavior.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/control/bind-tag-to-visual-root-data-context-behavior.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/control/bounds-observer-behavior.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/control/bounds-observer-behavior.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/control/delayed-load-behavior.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/control/delayed-load-behavior.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/control/drag-control-behavior.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/control/drag-control-behavior.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/control/hide-attached-flyout-behavior.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/control/hide-attached-flyout-behavior.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/control/hide-on-key-pressed-behavior.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/control/hide-on-key-pressed-behavior.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/control/hide-on-lost-focus-behavior.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/control/hide-on-lost-focus-behavior.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/control/inline-edit-behavior.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/control/inline-edit-behavior.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/control/overview.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/control/overview.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/control/show-pointer-position-behavior.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/control/show-pointer-position-behavior.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "articles/interactions-custom/control/toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/control/toc.html"
+        },
+        ".json": {
+          "relative_path": "articles/interactions-custom/control/toc.json"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/converters/overview.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/converters/overview.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/converters/pointer-event-args-converter.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/converters/pointer-event-args-converter.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "articles/interactions-custom/converters/toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/converters/toc.html"
+        },
+        ".json": {
+          "relative_path": "articles/interactions-custom/converters/toc.json"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/core/actual-theme-variant-changed-behavior.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/core/actual-theme-variant-changed-behavior.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/core/actual-theme-variant-changed-trigger.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/core/actual-theme-variant-changed-trigger.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/core/async-load-behavior.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/core/async-load-behavior.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/core/attached-to-logical-tree-behavior.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/core/attached-to-logical-tree-behavior.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/core/attached-to-logical-tree-trigger-base.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/core/attached-to-logical-tree-trigger-base.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/core/attached-to-logical-tree-trigger.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/core/attached-to-logical-tree-trigger.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/core/attached-to-visual-tree-behavior.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/core/attached-to-visual-tree-behavior.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/core/attached-to-visual-tree-trigger-base.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/core/attached-to-visual-tree-trigger-base.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/core/attached-to-visual-tree-trigger.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/core/attached-to-visual-tree-trigger.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/core/binding-behavior.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/core/binding-behavior.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/core/binding-trigger-behavior.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/core/binding-trigger-behavior.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/core/data-context-changed-behavior.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/core/data-context-changed-behavior.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/core/data-context-changed-trigger.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/core/data-context-changed-trigger.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/core/delayed-load-trigger.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/core/delayed-load-trigger.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/core/detached-from-logical-tree-trigger.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/core/detached-from-logical-tree-trigger.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/core/detached-from-visual-tree-trigger.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/core/detached-from-visual-tree-trigger.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/core/if-else-trigger.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/core/if-else-trigger.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/core/initialized-behavior.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/core/initialized-behavior.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/core/initialized-trigger.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/core/initialized-trigger.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/core/launch-uri-or-file-action.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/core/launch-uri-or-file-action.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/core/loaded-behavior.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/core/loaded-behavior.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/core/loaded-trigger.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/core/loaded-trigger.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/core/observable-trigger-behavior.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/core/observable-trigger-behavior.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/core/overview.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/core/overview.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/core/property-changed-trigger.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/core/property-changed-trigger.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/core/resources-changed-behavior.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/core/resources-changed-behavior.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/core/resources-changed-trigger.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/core/resources-changed-trigger.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/core/routed-event-trigger-base-of-t.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/core/routed-event-trigger-base-of-t.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/core/routed-event-trigger-base.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/core/routed-event-trigger-base.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/core/routed-event-trigger-behavior.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/core/routed-event-trigger-behavior.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/core/routed-event-trigger.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/core/routed-event-trigger.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/core/size-changed-trigger.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/core/size-changed-trigger.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "articles/interactions-custom/core/toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/core/toc.html"
+        },
+        ".json": {
+          "relative_path": "articles/interactions-custom/core/toc.json"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/core/unloaded-trigger.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/core/unloaded-trigger.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/core/value-changed-trigger-behavior.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/core/value-changed-trigger-behavior.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/cursor/i-cursor-provider.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/cursor/i-cursor-provider.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/cursor/overview.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/cursor/overview.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/cursor/pointer-over-cursor-behavior.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/cursor/pointer-over-cursor-behavior.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/cursor/set-cursor-action.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/cursor/set-cursor-action.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/cursor/set-cursor-behavior.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/cursor/set-cursor-behavior.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/cursor/set-cursor-from-provider-action.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/cursor/set-cursor-from-provider-action.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/cursor/set-cursor-from-provider-behavior.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/cursor/set-cursor-from-provider-behavior.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "articles/interactions-custom/cursor/toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/cursor/toc.html"
+        },
+        ".json": {
+          "relative_path": "articles/interactions-custom/cursor/toc.json"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/dialog/dialog-closed-trigger.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/dialog/dialog-closed-trigger.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/dialog/dialog-opened-trigger.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/dialog/dialog-opened-trigger.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/dialog/overview.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/dialog/overview.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/dialog/show-dialog-action.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/dialog/show-dialog-action.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "articles/interactions-custom/dialog/toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/dialog/toc.html"
+        },
+        ".json": {
+          "relative_path": "articles/interactions-custom/dialog/toc.json"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/execute-command/execute-command-behavior-base.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/execute-command/execute-command-behavior-base.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/execute-command/execute-command-on-activated-behavior.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/execute-command/execute-command-on-activated-behavior.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/execute-command/execute-command-on-double-tapped-behavior.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/execute-command/execute-command-on-double-tapped-behavior.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/execute-command/execute-command-on-got-focus-behavior.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/execute-command/execute-command-on-got-focus-behavior.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/execute-command/execute-command-on-holding-behavior.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/execute-command/execute-command-on-holding-behavior.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/execute-command/execute-command-on-key-behavior-base.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/execute-command/execute-command-on-key-behavior-base.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/execute-command/execute-command-on-key-down-behavior.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/execute-command/execute-command-on-key-down-behavior.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/execute-command/execute-command-on-key-up-behavior.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/execute-command/execute-command-on-key-up-behavior.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/execute-command/execute-command-on-lost-focus-behavior.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/execute-command/execute-command-on-lost-focus-behavior.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/execute-command/execute-command-on-pinch-behavior.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/execute-command/execute-command-on-pinch-behavior.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/execute-command/execute-command-on-pinch-ended-behavior.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/execute-command/execute-command-on-pinch-ended-behavior.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/execute-command/execute-command-on-pointer-capture-lost-behavior.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/execute-command/execute-command-on-pointer-capture-lost-behavior.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/execute-command/execute-command-on-pointer-entered-behavior.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/execute-command/execute-command-on-pointer-entered-behavior.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/execute-command/execute-command-on-pointer-exited-behavior.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/execute-command/execute-command-on-pointer-exited-behavior.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/execute-command/execute-command-on-pointer-moved-behavior.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/execute-command/execute-command-on-pointer-moved-behavior.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/execute-command/execute-command-on-pointer-pressed-behavior.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/execute-command/execute-command-on-pointer-pressed-behavior.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/execute-command/execute-command-on-pointer-released-behavior.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/execute-command/execute-command-on-pointer-released-behavior.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/execute-command/execute-command-on-pointer-touch-pad-gesture-magnify-behavior.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/execute-command/execute-command-on-pointer-touch-pad-gesture-magnify-behavior.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/execute-command/execute-command-on-pointer-touch-pad-gesture-rotate-behavior.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/execute-command/execute-command-on-pointer-touch-pad-gesture-rotate-behavior.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/execute-command/execute-command-on-pointer-touch-pad-gesture-swipe-behavior.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/execute-command/execute-command-on-pointer-touch-pad-gesture-swipe-behavior.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/execute-command/execute-command-on-pointer-wheel-changed-behavior.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/execute-command/execute-command-on-pointer-wheel-changed-behavior.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/execute-command/execute-command-on-pull-gesture-behavior.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/execute-command/execute-command-on-pull-gesture-behavior.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/execute-command/execute-command-on-pull-gesture-ended-behavior.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/execute-command/execute-command-on-pull-gesture-ended-behavior.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/execute-command/execute-command-on-right-tapped-behavior.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/execute-command/execute-command-on-right-tapped-behavior.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/execute-command/execute-command-on-scroll-gesture-behavior.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/execute-command/execute-command-on-scroll-gesture-behavior.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/execute-command/execute-command-on-scroll-gesture-ended-behavior.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/execute-command/execute-command-on-scroll-gesture-ended-behavior.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/execute-command/execute-command-on-scroll-gesture-inertia-starting-behavior.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/execute-command/execute-command-on-scroll-gesture-inertia-starting-behavior.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/execute-command/execute-command-on-tapped-behavior.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/execute-command/execute-command-on-tapped-behavior.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/execute-command/execute-command-on-text-input-behavior.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/execute-command/execute-command-on-text-input-behavior.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/execute-command/execute-command-on-text-input-method-client-requested-behavior.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/execute-command/execute-command-on-text-input-method-client-requested-behavior.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/execute-command/execute-command-routed-event-behavior-base.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/execute-command/execute-command-routed-event-behavior-base.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/execute-command/overview.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/execute-command/overview.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "articles/interactions-custom/execute-command/toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/execute-command/toc.html"
+        },
+        ".json": {
+          "relative_path": "articles/interactions-custom/execute-command/toc.json"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/file-upload/button-upload-file-behavior.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/file-upload/button-upload-file-behavior.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/file-upload/overview.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/file-upload/overview.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "articles/interactions-custom/file-upload/toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/file-upload/toc.html"
+        },
+        ".json": {
+          "relative_path": "articles/interactions-custom/file-upload/toc.json"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/file-upload/upload-completed-trigger.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/file-upload/upload-completed-trigger.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/file-upload/upload-file-action.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/file-upload/upload-file-action.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/file-upload/upload-file-behavior-base.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/file-upload/upload-file-behavior-base.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/focus/auto-focus-behavior.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/focus/auto-focus-behavior.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/focus/focus-behavior-base.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/focus/focus-behavior-base.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/focus/focus-behavior.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/focus/focus-behavior.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/focus/focus-control-behavior.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/focus/focus-control-behavior.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/focus/focus-on-attached-behavior.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/focus/focus-on-attached-behavior.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/focus/focus-on-attached-to-visual-tree-behavior.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/focus/focus-on-attached-to-visual-tree-behavior.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/focus/focus-on-pointer-moved-behavior.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/focus/focus-on-pointer-moved-behavior.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/focus/focus-on-pointer-pressed-behavior.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/focus/focus-on-pointer-pressed-behavior.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/focus/focus-on-visible-behavior.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/focus/focus-on-visible-behavior.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/focus/focus-selected-item-behavior.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/focus/focus-selected-item-behavior.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/focus/overview.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/focus/overview.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "articles/interactions-custom/focus/toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/focus/toc.html"
+        },
+        ".json": {
+          "relative_path": "articles/interactions-custom/focus/toc.json"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/gestures/double-tapped-gesture-trigger.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/gestures/double-tapped-gesture-trigger.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/gestures/holding-gesture-trigger.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/gestures/holding-gesture-trigger.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/gestures/overview.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/gestures/overview.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/gestures/pinch-ended-gesture-trigger.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/gestures/pinch-ended-gesture-trigger.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/gestures/pinch-gesture-trigger.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/gestures/pinch-gesture-trigger.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/gestures/pointer-touch-pad-gesture-magnify-gesture-trigger.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/gestures/pointer-touch-pad-gesture-magnify-gesture-trigger.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/gestures/pointer-touch-pad-gesture-rotate-gesture-trigger.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/gestures/pointer-touch-pad-gesture-rotate-gesture-trigger.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/gestures/pointer-touch-pad-gesture-swipe-gesture-trigger.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/gestures/pointer-touch-pad-gesture-swipe-gesture-trigger.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/gestures/pull-gesture-ended-gesture-trigger.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/gestures/pull-gesture-ended-gesture-trigger.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/gestures/pull-gesture-gesture-trigger.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/gestures/pull-gesture-gesture-trigger.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/gestures/right-tapped-gesture-trigger.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/gestures/right-tapped-gesture-trigger.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/gestures/scroll-gesture-ended-gesture-trigger.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/gestures/scroll-gesture-ended-gesture-trigger.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/gestures/scroll-gesture-gesture-trigger.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/gestures/scroll-gesture-gesture-trigger.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/gestures/scroll-gesture-inertia-starting-gesture-trigger.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/gestures/scroll-gesture-inertia-starting-gesture-trigger.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/gestures/tapped-gesture-trigger.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/gestures/tapped-gesture-trigger.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "articles/interactions-custom/gestures/toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/gestures/toc.html"
+        },
+        ".json": {
+          "relative_path": "articles/interactions-custom/gestures/toc.json"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/icon/overview.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/icon/overview.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/icon/path-icon-data-behavior.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/icon/path-icon-data-behavior.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/icon/path-icon-data-changed-trigger.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/icon/path-icon-data-changed-trigger.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/icon/set-path-icon-data-action.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/icon/set-path-icon-data-action.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "articles/interactions-custom/icon/toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/icon/toc.html"
+        },
+        ".json": {
+          "relative_path": "articles/interactions-custom/icon/toc.json"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/input-element/capture-pointer-action.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/input-element/capture-pointer-action.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/input-element/double-tapped-trigger.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/input-element/double-tapped-trigger.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/input-element/got-focus-trigger.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/input-element/got-focus-trigger.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/input-element/holding-trigger.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/input-element/holding-trigger.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/input-element/key-down-trigger.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/input-element/key-down-trigger.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/input-element/key-gesture-trigger.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/input-element/key-gesture-trigger.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/input-element/key-trigger.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/input-element/key-trigger.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/input-element/key-up-trigger.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/input-element/key-up-trigger.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/input-element/lost-focus-trigger.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/input-element/lost-focus-trigger.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/input-element/overview.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/input-element/overview.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/input-element/pointer-capture-lost-trigger.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/input-element/pointer-capture-lost-trigger.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/input-element/pointer-entered-trigger.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/input-element/pointer-entered-trigger.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/input-element/pointer-exited-trigger.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/input-element/pointer-exited-trigger.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/input-element/pointer-moved-trigger.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/input-element/pointer-moved-trigger.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/input-element/pointer-pressed-trigger.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/input-element/pointer-pressed-trigger.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/input-element/pointer-released-trigger.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/input-element/pointer-released-trigger.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/input-element/pointer-wheel-changed-trigger.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/input-element/pointer-wheel-changed-trigger.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/input-element/release-pointer-capture-action.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/input-element/release-pointer-capture-action.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/input-element/tapped-trigger.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/input-element/tapped-trigger.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/input-element/text-input-method-client-requested-trigger.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/input-element/text-input-method-client-requested-trigger.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/input-element/text-input-trigger.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/input-element/text-input-trigger.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "articles/interactions-custom/input-element/toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/input-element/toc.html"
+        },
+        ".json": {
+          "relative_path": "articles/interactions-custom/input-element/toc.json"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/items-control/add-item-to-items-control-action.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/items-control/add-item-to-items-control-action.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/items-control/clear-items-control-action.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/items-control/clear-items-control-action.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/items-control/insert-item-to-items-control-action.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/items-control/insert-item-to-items-control-action.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/items-control/item-nudge-drop-behavior.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/items-control/item-nudge-drop-behavior.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/items-control/items-control-container-clearing-trigger.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/items-control/items-control-container-clearing-trigger.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/items-control/items-control-container-events-behavior.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/items-control/items-control-container-events-behavior.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/items-control/items-control-container-index-changed-trigger.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/items-control/items-control-container-index-changed-trigger.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/items-control/items-control-container-prepared-trigger.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/items-control/items-control-container-prepared-trigger.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/items-control/items-control-preparing-container-trigger.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/items-control/items-control-preparing-container-trigger.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/items-control/move-item-in-items-control-action.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/items-control/move-item-in-items-control-action.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/items-control/overview.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/items-control/overview.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/items-control/remove-item-at-action.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/items-control/remove-item-at-action.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/items-control/remove-item-in-items-control-action.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/items-control/remove-item-in-items-control-action.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/items-control/scroll-to-item-behavior.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/items-control/scroll-to-item-behavior.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/items-control/scroll-to-item-index-behavior.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/items-control/scroll-to-item-index-behavior.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "articles/interactions-custom/items-control/toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/items-control/toc.html"
+        },
+        ".json": {
+          "relative_path": "articles/interactions-custom/items-control/toc.json"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/layout/fluid-move-behavior.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/layout/fluid-move-behavior.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/layout/move-element-to-panel-action.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/layout/move-element-to-panel-action.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/layout/overview.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/layout/overview.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "articles/interactions-custom/layout/toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/layout/toc.html"
+        },
+        ".json": {
+          "relative_path": "articles/interactions-custom/layout/toc.json"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/list-box/list-box-select-all-behavior.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/list-box/list-box-select-all-behavior.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/list-box/list-box-unselect-all-behavior.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/list-box/list-box-unselect-all-behavior.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/list-box/overview.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/list-box/overview.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/list-box/remove-item-in-list-box-action.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/list-box/remove-item-in-list-box-action.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "articles/interactions-custom/list-box/toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/list-box/toc.html"
+        },
+        ".json": {
+          "relative_path": "articles/interactions-custom/list-box/toc.json"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/listbox-item/overview.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/listbox-item/overview.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/listbox-item/select-list-box-item-on-pointer-moved-behavior.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/listbox-item/select-list-box-item-on-pointer-moved-behavior.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "articles/interactions-custom/listbox-item/toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/listbox-item/toc.html"
+        },
+        ".json": {
+          "relative_path": "articles/interactions-custom/listbox-item/toc.json"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/notifications/close-notification-action.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/notifications/close-notification-action.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/notifications/notification-manager-behavior.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/notifications/notification-manager-behavior.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/notifications/overview.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/notifications/overview.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/notifications/show-error-notification-action.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/notifications/show-error-notification-action.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/notifications/show-information-notification-action.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/notifications/show-information-notification-action.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/notifications/show-notification-action.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/notifications/show-notification-action.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/notifications/show-success-notification-action.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/notifications/show-success-notification-action.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/notifications/show-warning-notification-action.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/notifications/show-warning-notification-action.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "articles/interactions-custom/notifications/toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/notifications/toc.html"
+        },
+        ".json": {
+          "relative_path": "articles/interactions-custom/notifications/toc.json"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/overview.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/overview.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/popup/overview.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/popup/overview.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/popup/popup-closed-trigger.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/popup/popup-closed-trigger.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/popup/popup-opened-trigger.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/popup/popup-opened-trigger.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "articles/interactions-custom/popup/toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/popup/toc.html"
+        },
+        ".json": {
+          "relative_path": "articles/interactions-custom/popup/toc.json"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/render-target/i-render-target-bitmap-render-host.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/render-target/i-render-target-bitmap-render-host.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/render-target/i-render-target-bitmap-renderer.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/render-target/i-render-target-bitmap-renderer.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/render-target/i-render-target-bitmap-simple-renderer.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/render-target/i-render-target-bitmap-simple-renderer.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/render-target/overview.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/render-target/overview.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/render-target/render-render-target-bitmap-action.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/render-target/render-render-target-bitmap-action.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/render-target/render-target-bitmap-behavior.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/render-target/render-target-bitmap-behavior.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/render-target/render-target-bitmap-trigger.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/render-target/render-target-bitmap-trigger.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/render-target/static-render-target-bitmap-behavior.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/render-target/static-render-target-bitmap-behavior.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "articles/interactions-custom/render-target/toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/render-target/toc.html"
+        },
+        ".json": {
+          "relative_path": "articles/interactions-custom/render-target/toc.json"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/screen/active-screen-behavior.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/screen/active-screen-behavior.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/screen/overview.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/screen/overview.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/screen/request-screen-details-action.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/screen/request-screen-details-action.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/screen/screens-changed-trigger.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/screen/screens-changed-trigger.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "articles/interactions-custom/screen/toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/screen/toc.html"
+        },
+        ".json": {
+          "relative_path": "articles/interactions-custom/screen/toc.json"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/scroll-viewer/horizontal-scroll-viewer-behavior.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/scroll-viewer/horizontal-scroll-viewer-behavior.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/scroll-viewer/overview.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/scroll-viewer/overview.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/scroll-viewer/scroll-changed-trigger.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/scroll-viewer/scroll-changed-trigger.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/scroll-viewer/scroll-to-offset-action.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/scroll-viewer/scroll-to-offset-action.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/scroll-viewer/scroll-viewer-offset-behavior.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/scroll-viewer/scroll-viewer-offset-behavior.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "articles/interactions-custom/scroll-viewer/toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/scroll-viewer/toc.html"
+        },
+        ".json": {
+          "relative_path": "articles/interactions-custom/scroll-viewer/toc.json"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/scroll-viewer/viewport-behavior.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/scroll-viewer/viewport-behavior.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/selecting-items-control/overview.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/selecting-items-control/overview.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/selecting-items-control/selecting-items-control-events-behavior.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/selecting-items-control/selecting-items-control-events-behavior.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/selecting-items-control/selecting-items-control-search-behavior.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/selecting-items-control/selecting-items-control-search-behavior.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "articles/interactions-custom/selecting-items-control/toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/selecting-items-control/toc.html"
+        },
+        ".json": {
+          "relative_path": "articles/interactions-custom/selecting-items-control/toc.json"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/show/overview.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/show/overview.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/show/show-behavior-base.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/show/show-behavior-base.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/show/show-on-double-tapped-behavior.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/show/show-on-double-tapped-behavior.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/show/show-on-key-down-behavior.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/show/show-on-key-down-behavior.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/show/show-on-tapped-behavior.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/show/show-on-tapped-behavior.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "articles/interactions-custom/show/toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/show/toc.html"
+        },
+        ".json": {
+          "relative_path": "articles/interactions-custom/show/toc.json"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/split-view/overview.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/split-view/overview.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/split-view/split-view-pane-closed-trigger.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/split-view/split-view-pane-closed-trigger.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/split-view/split-view-pane-closing-trigger.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/split-view/split-view-pane-closing-trigger.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/split-view/split-view-pane-opened-trigger.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/split-view/split-view-pane-opened-trigger.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/split-view/split-view-pane-opening-trigger.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/split-view/split-view-pane-opening-trigger.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/split-view/split-view-state-behavior.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/split-view/split-view-state-behavior.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/split-view/split-view-state-setter.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/split-view/split-view-state-setter.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/split-view/split-view-toggle-pane-action.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/split-view/split-view-toggle-pane-action.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "articles/interactions-custom/split-view/toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/split-view/toc.html"
+        },
+        ".json": {
+          "relative_path": "articles/interactions-custom/split-view/toc.json"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/tab-control/overview.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/tab-control/overview.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/tab-control/tab-control-key-navigation-behavior.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/tab-control/tab-control-key-navigation-behavior.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/tab-control/tab-control-next-action.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/tab-control/tab-control-next-action.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/tab-control/tab-control-previous-action.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/tab-control/tab-control-previous-action.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/tab-control/tab-control-selection-changed-trigger.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/tab-control/tab-control-selection-changed-trigger.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "articles/interactions-custom/tab-control/toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/tab-control/toc.html"
+        },
+        ".json": {
+          "relative_path": "articles/interactions-custom/tab-control/toc.json"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/text-box/auto-select-behavior.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/text-box/auto-select-behavior.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/text-box/overview.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/text-box/overview.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/text-box/text-box-select-all-on-got-focus-behavior.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/text-box/text-box-select-all-on-got-focus-behavior.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/text-box/text-box-select-all-text-behavior.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/text-box/text-box-select-all-text-behavior.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "articles/interactions-custom/text-box/toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/text-box/toc.html"
+        },
+        ".json": {
+          "relative_path": "articles/interactions-custom/text-box/toc.json"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/theme-variant/overview.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/theme-variant/overview.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/theme-variant/theme-variant-behavior.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/theme-variant/theme-variant-behavior.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/theme-variant/theme-variant-trigger.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/theme-variant/theme-variant-trigger.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "articles/interactions-custom/theme-variant/toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/theme-variant/toc.html"
+        },
+        ".json": {
+          "relative_path": "articles/interactions-custom/theme-variant/toc.json"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "articles/interactions-custom/toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/toc.html"
+        },
+        ".json": {
+          "relative_path": "articles/interactions-custom/toc.json"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/tool-tips/hide-tool-tip-action.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/tool-tips/hide-tool-tip-action.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/tool-tips/overview.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/tool-tips/overview.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/tool-tips/set-tool-tip-tip-action.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/tool-tips/set-tool-tip-tip-action.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/tool-tips/show-tool-tip-action.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/tool-tips/show-tool-tip-action.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "articles/interactions-custom/tool-tips/toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/tool-tips/toc.html"
+        },
+        ".json": {
+          "relative_path": "articles/interactions-custom/tool-tips/toc.json"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/tool-tips/tool-tip-closing-trigger.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/tool-tips/tool-tip-closing-trigger.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/tool-tips/tool-tip-opening-trigger.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/tool-tips/tool-tip-opening-trigger.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/transitions/add-transition-action.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/transitions/add-transition-action.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/transitions/clear-transitions-action.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/transitions/clear-transitions-action.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/transitions/overview.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/transitions/overview.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/transitions/remove-transition-action.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/transitions/remove-transition-action.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "articles/interactions-custom/transitions/toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/transitions/toc.html"
+        },
+        ".json": {
+          "relative_path": "articles/interactions-custom/transitions/toc.json"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/transitions/transitions-behavior.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/transitions/transitions-behavior.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/transitions/transitions-changed-trigger.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/transitions/transitions-changed-trigger.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/tree-view/apply-tree-view-filter-action.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/tree-view/apply-tree-view-filter-action.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/tree-view/overview.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/tree-view/overview.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "articles/interactions-custom/tree-view/toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/tree-view/toc.html"
+        },
+        ".json": {
+          "relative_path": "articles/interactions-custom/tree-view/toc.json"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/tree-view/tree-view-filter-behavior.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/tree-view/tree-view-filter-behavior.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/tree-view/tree-view-filter-helper.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/tree-view/tree-view-filter-helper.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/tree-view/tree-view-filter-text-changed-trigger.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/tree-view/tree-view-filter-text-changed-trigger.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/treeview-item/overview.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/treeview-item/overview.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "articles/interactions-custom/treeview-item/toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/treeview-item/toc.html"
+        },
+        ".json": {
+          "relative_path": "articles/interactions-custom/treeview-item/toc.json"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/treeview-item/toggle-is-expanded-on-double-tapped-behavior.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/treeview-item/toggle-is-expanded-on-double-tapped-behavior.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/validation/combo-box-validation-behavior.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/validation/combo-box-validation-behavior.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/validation/date-picker-validation-behavior.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/validation/date-picker-validation-behavior.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/validation/i-validation-rule.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/validation/i-validation-rule.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/validation/max-value-validation-rule.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/validation/max-value-validation-rule.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/validation/min-length-validation-rule.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/validation/min-length-validation-rule.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/validation/min-value-validation-rule.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/validation/min-value-validation-rule.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/validation/not-null-validation-rule.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/validation/not-null-validation-rule.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/validation/numeric-up-down-validation-behavior.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/validation/numeric-up-down-validation-behavior.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/validation/overview.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/validation/overview.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/validation/property-validation-behavior.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/validation/property-validation-behavior.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/validation/range-validation-rule.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/validation/range-validation-rule.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/validation/regex-validation-rule.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/validation/regex-validation-rule.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/validation/required-date-validation-rule.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/validation/required-date-validation-rule.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/validation/required-decimal-validation-rule.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/validation/required-decimal-validation-rule.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/validation/required-text-validation-rule.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/validation/required-text-validation-rule.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/validation/slider-validation-behavior.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/validation/slider-validation-behavior.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/validation/text-box-validation-behavior.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/validation/text-box-validation-behavior.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "articles/interactions-custom/validation/toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/validation/toc.html"
+        },
+        ".json": {
+          "relative_path": "articles/interactions-custom/validation/toc.json"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/view-model/increment-view-model-property-action.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/view-model/increment-view-model-property-action.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/view-model/overview.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/view-model/overview.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/view-model/set-view-model-property-action.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/view-model/set-view-model-property-action.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/view-model/set-view-model-property-on-load-behavior.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/view-model/set-view-model-property-on-load-behavior.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "articles/interactions-custom/view-model/toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/view-model/toc.html"
+        },
+        ".json": {
+          "relative_path": "articles/interactions-custom/view-model/toc.json"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/view-model/toggle-view-model-boolean-action.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/view-model/toggle-view-model-boolean-action.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/view-model/view-model-property-changed-trigger.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/view-model/view-model-property-changed-trigger.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/window/center-window-behavior.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/window/center-window-behavior.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/window/close-window-action.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/window/close-window-action.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/window/overview.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/window/overview.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/window/show-window-action.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/window/show-window-action.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "articles/interactions-custom/window/toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/window/toc.html"
+        },
+        ".json": {
+          "relative_path": "articles/interactions-custom/window/toc.json"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/window/window-state-trigger.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/window/window-state-trigger.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/writeable-bitmap/i-writeable-bitmap-renderer.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/writeable-bitmap/i-writeable-bitmap-renderer.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/writeable-bitmap/overview.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/writeable-bitmap/overview.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "articles/interactions-custom/writeable-bitmap/toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/writeable-bitmap/toc.html"
+        },
+        ".json": {
+          "relative_path": "articles/interactions-custom/writeable-bitmap/toc.json"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/writeable-bitmap/writeable-bitmap-behavior.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/writeable-bitmap/writeable-bitmap-behavior.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/writeable-bitmap/writeable-bitmap-render-action.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/writeable-bitmap/writeable-bitmap-render-action.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/writeable-bitmap/writeable-bitmap-render-behavior.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/writeable-bitmap/writeable-bitmap-render-behavior.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/writeable-bitmap/writeable-bitmap-timer-trigger.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/writeable-bitmap/writeable-bitmap-timer-trigger.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/writeable-bitmap/writeable-bitmap-trigger.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/writeable-bitmap/writeable-bitmap-trigger.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
       "source_relative_path": "articles/interactions/call-method-action.md",
       "output": {
         ".html": {
@@ -6987,6 +11916,19 @@
       "output": {
         ".html": {
           "relative_path": "articles/interactions/timer-trigger.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "articles/interactions/toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions/toc.html"
+        },
+        ".json": {
+          "relative_path": "articles/interactions/toc.json"
         }
       },
       "version": ""
@@ -7122,6 +12064,19 @@
       "version": ""
     },
     {
+      "type": "Toc",
+      "source_relative_path": "articles/interactivity/toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactivity/toc.html"
+        },
+        ".json": {
+          "relative_path": "articles/interactivity/toc.json"
+        }
+      },
+      "version": ""
+    },
+    {
       "type": "Conceptual",
       "source_relative_path": "articles/interactivity/triggers.md",
       "output": {
@@ -7173,6 +12128,26 @@
     },
     {
       "type": "Conceptual",
+      "source_relative_path": "articles/reactiveui/navigate-action.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/reactiveui/navigate-action.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/reactiveui/navigate-to-and-reset-action.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/reactiveui/navigate-to-and-reset-action.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
       "source_relative_path": "articles/reactiveui/navigation-actions.md",
       "output": {
         ".html": {
@@ -7187,6 +12162,19 @@
       "output": {
         ".html": {
           "relative_path": "articles/reactiveui/reactiveui-overview.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "articles/reactiveui/toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "articles/reactiveui/toc.html"
+        },
+        ".json": {
+          "relative_path": "articles/reactiveui/toc.json"
         }
       },
       "version": ""
@@ -7217,6 +12205,52 @@
       "output": {
         ".html": {
           "relative_path": "articles/responsive/responsive-overview.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "articles/responsive/toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "articles/responsive/toc.html"
+        },
+        ".json": {
+          "relative_path": "articles/responsive/toc.json"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/scripting/execute-script-action.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/scripting/execute-script-action.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/scripting/scripting-overview.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/scripting/scripting-overview.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "articles/scripting/toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "articles/scripting/toc.html"
+        },
+        ".json": {
+          "relative_path": "articles/scripting/toc.json"
         }
       },
       "version": ""

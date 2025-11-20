@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+      <title>Drag &amp; Drop Overview | XAML Behaviors for Avalonia </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="Drag &amp; Drop Overview | XAML Behaviors for Avalonia ">
+      
+      
+      <link rel="icon" href="../../favicon.ico">
+      <link rel="stylesheet" href="../../public/docfx.min.css">
+      <link rel="stylesheet" href="../../public/main.css">
+      <meta name="docfx:navrel" content="../../toc.html">
+      <meta name="docfx:tocrel" content="../toc.html">
+      
+      
+      
+      
+      <meta name="docfx:docurl" content="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/docfx/articles/drag-and-drop/drag-and-drop-overview.md/#L1">
+      <meta name="loc:inThisArticle" content="In this article">
+      <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
+      <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
+      <meta name="loc:tocFilter" content="Filter by title">
+      <meta name="loc:nextArticle" content="Next">
+      <meta name="loc:prevArticle" content="Previous">
+      <meta name="loc:themeLight" content="Light">
+      <meta name="loc:themeDark" content="Dark">
+      <meta name="loc:themeAuto" content="Auto">
+      <meta name="loc:changeTheme" content="Change theme">
+      <meta name="loc:copy" content="Copy">
+      <meta name="loc:downloadPdf" content="Download PDF">
+
+      <script type="module" src="./../../public/docfx.min.js"></script>
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
+  </head>
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../../index.html">
+            <img id="logo" class="svg" src="../../logo.svg" alt="">
+            
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <nav class="toc" id="toc"></nav>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
+            <i class="bi bi-list"></i>
+          </button>
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article data-uid="">
+<h1 id="drag--drop-overview">Drag &amp; Drop Overview</h1>
+
+<p>The <code>Xaml.Behaviors.Interactions.DragAndDrop</code> package provides a powerful and flexible set of behaviors to handle Drag and Drop operations in Avalonia applications. It abstracts away much of the boilerplate code required for standard drag-and-drop scenarios, allowing you to focus on the business logic.</p>
+<h2 id="namespaces">Namespaces</h2>
+<p>The package contains the following namespace:</p>
+<ul>
+<li><strong><code>Avalonia.Xaml.Interactions.DragAndDrop</code></strong>: Contains all the behaviors, actions, and interfaces.</li>
+</ul>
+<h2 id="installation">Installation</h2>
+<pre><code class="lang-bash">dotnet add package Xaml.Behaviors.Interactions.DragAndDrop
+</code></pre>
+<h2 id="key-concepts">Key Concepts</h2>
+<h3 id="context-awareness">Context-Awareness</h3>
+<p>Most behaviors in this package are &quot;context-aware&quot;. This means they operate on the <code>DataContext</code> of the control they are attached to. When you drag an item, the behavior automatically captures its <code>DataContext</code> as the payload. When you drop an item, the handler receives both the source payload and the target's <code>DataContext</code>.</p>
+<h3 id="handlers">Handlers</h3>
+<p>The logic for what happens during a drag or drop operation is encapsulated in <strong>Handlers</strong>:</p>
+<ul>
+<li><strong><code>IDragHandler</code></strong>: Controls the start of a drag operation (e.g., setting the visual effect, validating the drag).</li>
+<li><strong><code>IDropHandler</code></strong>: Controls the drop operation (e.g., validating the drop target, executing the data transfer).</li>
+</ul>
+<p>By separating the behavior (XAML) from the logic (C# Handler), you keep your ViewModels clean and your XAML declarative.</p>
+<h2 id="available-behaviors">Available Behaviors</h2>
+<ul>
+<li><strong><code>ContextDragBehavior</code></strong> / <strong><code>ContextDropBehavior</code></strong>: The core behaviors for moving data between controls.</li>
+<li><strong><code>FilesDropBehavior</code></strong>: Specialized behavior for handling file drops from the operating system.</li>
+<li><strong><code>TypedDragBehavior</code></strong>: Initiates drag operations only for specific data types.</li>
+<li><strong><code>DragAndDropEventsBehavior</code></strong>: Exposes standard Drag and Drop events as commands or actions.</li>
+</ul>
+
+</article>
+
+        <div class="contribution d-print-none">
+          <a href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/docfx/articles/drag-and-drop/drag-and-drop-overview.md/#L1" class="edit-link">Edit this page</a>
+        </div>
+
+        <div class="next-article d-print-none border-top" id="nextArticle"></div>
+
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          <span>Made with <a href="https://dotnet.github.io/docfx">docfx</a></span>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

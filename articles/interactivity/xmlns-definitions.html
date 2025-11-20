@@ -85,14 +85,14 @@
 
 <p>The <code>Xaml.Behaviors.Interactivity</code> package (and related packages) uses the <code>[XmlnsDefinition]</code> attribute to map its CLR namespaces to the standard Avalonia XML namespace (<code>https://github.com/avaloniaui</code>).</p>
 <h2 id="what-does-this-mean">What does this mean?</h2>
-<p>This means that you do not need to declare separate XML namespaces (like <code>xmlns:i=&quot;clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity&quot;</code>) to use behaviors, triggers, and actions in your XAML.</p>
+<p>This means that you do not need to declare separate XML namespaces (like <code>xmlns:i=&quot;clr-namespace:Avalonia.Xaml.Interactivity;assembly=Xaml.Behaviors.Interactivity&quot;</code>) to use behaviors, triggers, and actions in your XAML.</p>
 <p>Instead, you can use them directly under the default Avalonia namespace, or any prefix mapped to it.</p>
 <h2 id="example">Example</h2>
 <p><strong>Without XmlnsDefinition (Old Way):</strong></p>
 <pre><code class="lang-xml">&lt;UserControl xmlns=&quot;https://github.com/avaloniaui&quot;
              xmlns:x=&quot;http://schemas.microsoft.com/winfx/2006/xaml&quot;
-             xmlns:i=&quot;clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity&quot;
-             xmlns:ia=&quot;clr-namespace:Avalonia.Xaml.Interactions.Core;assembly=Avalonia.Xaml.Interactions&quot;&gt;
+             xmlns:i=&quot;clr-namespace:Avalonia.Xaml.Interactivity;assembly=Xaml.Behaviors.Interactivity&quot;
+             xmlns:ia=&quot;clr-namespace:Avalonia.Xaml.Interactions.Core;assembly=Xaml.Behaviors.Interactions&quot;&gt;
     &lt;Button&gt;
         &lt;i:Interaction.Behaviors&gt;
             &lt;ia:EventTriggerBehavior EventName=&quot;Click&quot;&gt;

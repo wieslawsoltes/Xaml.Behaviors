@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+      <title>DataGrid Drag &amp; Drop Overview | XAML Behaviors for Avalonia </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="DataGrid Drag &amp; Drop Overview | XAML Behaviors for Avalonia ">
+      
+      
+      <link rel="icon" href="../../favicon.ico">
+      <link rel="stylesheet" href="../../public/docfx.min.css">
+      <link rel="stylesheet" href="../../public/main.css">
+      <meta name="docfx:navrel" content="../../toc.html">
+      <meta name="docfx:tocrel" content="../toc.html">
+      
+      
+      
+      
+      <meta name="docfx:docurl" content="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/docfx/articles/drag-and-drop-datagrid/datagrid-drag-and-drop-overview.md/#L1">
+      <meta name="loc:inThisArticle" content="In this article">
+      <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
+      <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
+      <meta name="loc:tocFilter" content="Filter by title">
+      <meta name="loc:nextArticle" content="Next">
+      <meta name="loc:prevArticle" content="Previous">
+      <meta name="loc:themeLight" content="Light">
+      <meta name="loc:themeDark" content="Dark">
+      <meta name="loc:themeAuto" content="Auto">
+      <meta name="loc:changeTheme" content="Change theme">
+      <meta name="loc:copy" content="Copy">
+      <meta name="loc:downloadPdf" content="Download PDF">
+
+      <script type="module" src="./../../public/docfx.min.js"></script>
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
+  </head>
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../../index.html">
+            <img id="logo" class="svg" src="../../logo.svg" alt="">
+            
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <nav class="toc" id="toc"></nav>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
+            <i class="bi bi-list"></i>
+          </button>
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article data-uid="">
+<h1 id="datagrid-drag--drop-overview">DataGrid Drag &amp; Drop Overview</h1>
+
+<p>The <code>Xaml.Behaviors.Interactions.DragAndDrop.DataGrid</code> package provides specialized support for Drag and Drop operations within an Avalonia <code>DataGrid</code>. It simplifies the implementation of row reordering and moving items between DataGrids.</p>
+<h2 id="namespaces">Namespaces</h2>
+<p>The package contains the following namespace:</p>
+<ul>
+<li><strong><code>Avalonia.Xaml.Interactions.DragAndDrop</code></strong>: Contains <code>BaseDataGridDropHandler&lt;T&gt;</code>.</li>
+</ul>
+<h2 id="installation">Installation</h2>
+<pre><code class="lang-bash">dotnet add package Xaml.Behaviors.Interactions.DragAndDrop.DataGrid
+</code></pre>
+<h2 id="key-components">Key Components</h2>
+<h3 id="basedatagriddrophandlert">BaseDataGridDropHandler&lt;T&gt;</h3>
+<p>This abstract class handles the complexity of:</p>
+<ul>
+<li>Determining the drop target row.</li>
+<li>Calculating the drop position (above or below the row).</li>
+<li>Applying visual feedback (Adorners) to indicate the insertion point.</li>
+</ul>
+<p>To use it, you must create a class that inherits from <code>BaseDataGridDropHandler&lt;T&gt;</code> and implement the <code>Validate</code> and <code>MakeCopy</code> methods.</p>
+<h3 id="styles">Styles</h3>
+<p>The package includes default styles for the visual feedback (lines indicating where the row will be dropped). You must include these styles in your application (e.g., in <code>App.axaml</code> or your View).</p>
+<pre><code class="lang-xml">&lt;Application.Styles&gt;
+    &lt;StyleInclude Source=&quot;avares://Xaml.Behaviors.Interactions.DragAndDrop.DataGrid/Styles.axaml&quot; /&gt;
+&lt;/Application.Styles&gt;
+</code></pre>
+<h2 id="usage-example">Usage Example</h2>
+<p>Here is how to implement a simple row reordering handler for a <code>DataGrid</code> displaying <code>ItemViewModel</code> objects.</p>
+<h3 id="1-implement-the-handler">1. Implement the Handler</h3>
+<pre><code class="lang-csharp">public class DataGridDropHandler : BaseDataGridDropHandler&lt;ItemViewModel&gt;
+{
+    protected override bool Validate(DataGrid dg, DragEventArgs e, object? sourceContext, object? targetContext, bool execute)
+    {
+        // Validate that we are dragging an ItemViewModel and dropping onto an ObservableCollection
+        if (sourceContext is ItemViewModel sourceItem &amp;&amp; 
+            dg.ItemsSource is ObservableCollection&lt;ItemViewModel&gt; items)
+        {
+            // If we are just validating (execute=false), return true to indicate drop is allowed
+            if (!execute) return true;
+
+            // If executing, perform the move
+            // targetContext is the item we are dropping onto (or null if empty/not on a row)
+            var targetItem = targetContext as ItemViewModel;
+            
+            // Helper method from BaseDataGridDropHandler to handle Move/Copy logic
+            // It calculates indices and moves the item in the collection
+            return RunDropAction(dg, e, execute, sourceItem, targetItem, items);
+        }
+        return false;
+    }
+
+    protected override ItemViewModel MakeCopy(ObservableCollection&lt;ItemViewModel&gt; parentCollection, ItemViewModel item)
+    {
+        // Return a clone of the item if you support Copy operations
+        return new ItemViewModel { Name = item.Name + &quot; (Copy)&quot; };
+    }
+}
+</code></pre>
+<h3 id="2-setup-xaml">2. Setup XAML</h3>
+<p>Apply the <code>ContextDragBehavior</code> to the rows (via <code>RowTheme</code>) and <code>ContextDropBehavior</code> to the <code>DataGrid</code>.</p>
+<pre><code class="lang-xml">&lt;UserControl&gt;
+    
+    &lt;UserControl.Resources&gt;
+        &lt;local:DataGridDropHandler x:Key=&quot;DataGridDropHandler&quot; /&gt;
+    &lt;/UserControl.Resources&gt;
+
+    &lt;DataGrid ItemsSource=&quot;{Binding Items}&quot;
+              Classes=&quot;DragAndDrop&quot;&gt; &lt;!-- Important: Add this class for the styles to work --&gt;
+        
+        &lt;DataGrid.Styles&gt;
+            &lt;Style Selector=&quot;DataGridRow&quot;&gt;
+                &lt;Setter Property=&quot;(Interaction.Behaviors)&quot;&gt;
+                    &lt;BehaviorCollection&gt;
+                        &lt;!-- Make rows draggable --&gt;
+                        &lt;ContextDragBehavior /&gt;
+                    &lt;/BehaviorCollection&gt;
+                &lt;/Setter&gt;
+            &lt;/Style&gt;
+        &lt;/DataGrid.Styles&gt;
+
+        &lt;Interaction.Behaviors&gt;
+            &lt;!-- Make DataGrid a drop target --&gt;
+            &lt;ContextDropBehavior Handler=&quot;{StaticResource DataGridDropHandler}&quot; /&gt;
+        &lt;/Interaction.Behaviors&gt;
+
+        &lt;DataGrid.Columns&gt;
+            &lt;DataGridTextColumn Header=&quot;Name&quot; Binding=&quot;{Binding Name}&quot; /&gt;
+        &lt;/DataGrid.Columns&gt;
+    &lt;/DataGrid&gt;
+&lt;/UserControl&gt;
+</code></pre>
+<p><strong>Note</strong>: The <code>Classes=&quot;DragAndDrop&quot;</code> on the <code>DataGrid</code> is required for the default styles in <code>Styles.axaml</code> to apply the adorner feedback (the horizontal lines).</p>
+
+</article>
+
+        <div class="contribution d-print-none">
+          <a href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/docfx/articles/drag-and-drop-datagrid/datagrid-drag-and-drop-overview.md/#L1" class="edit-link">Edit this page</a>
+        </div>
+
+        <div class="next-article d-print-none border-top" id="nextArticle"></div>
+
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          <span>Made with <a href="https://dotnet.github.io/docfx">docfx</a></span>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>
