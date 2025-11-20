@@ -8,3 +8,7 @@
   href: show-window-action.md
 - name: WindowStateTrigger
   href: window-state-trigger.md
+- name: WindowDragMoveBehavior
+  href: window-drag-move-behavior.md
+- name: WindowAction
+  href: window-action.md

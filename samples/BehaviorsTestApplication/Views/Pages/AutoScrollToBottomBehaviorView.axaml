@@ -1,0 +1,18 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="BehaviorsTestApplication.Views.Pages.AutoScrollToBottomBehaviorView">
+  <Grid RowDefinitions="Auto,*,Auto" Margin="10">
+    <TextBlock Grid.Row="0" Text="AutoScrollToBottomBehavior" FontWeight="Bold" Margin="0,0,0,10"/>
+    
+    <ListBox Grid.Row="1" x:Name="ItemsListBox" Background="LightGray">
+      <Interaction.Behaviors>
+        <AutoScrollToBottomBehavior />
+      </Interaction.Behaviors>
+    </ListBox>
+    
+    <Button Grid.Row="2" x:Name="AddItemButton" Content="Add Item" Margin="0,10,0,0" Click="AddItemButton_Click"/>
+  </Grid>
+</UserControl>

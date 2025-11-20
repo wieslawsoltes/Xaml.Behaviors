@@ -33,6 +33,42 @@
                                              EnableSorting="True"
                                              SortOrder="Ascending" />
       </Interaction.Behaviors>
+      <TabItem Header="SelectAllOnFocusBehavior">
+        <pages:SelectAllOnFocusBehaviorView />
+      </TabItem>
+      <TabItem Header="FocusNextElementAction">
+        <pages:FocusNextElementActionView />
+      </TabItem>
+      <TabItem Header="WindowDragMoveBehavior">
+        <pages:WindowDragMoveBehaviorView />
+      </TabItem>
+      <TabItem Header="TiltEffectBehavior">
+        <pages:TiltEffectBehaviorView />
+      </TabItem>
+      <TabItem Header="OrbitEffectBehavior">
+        <pages:OrbitEffectBehaviorView />
+      </TabItem>
+      <TabItem Header="ParallaxBehavior">
+        <pages:ParallaxBehaviorView />
+      </TabItem>
+      <TabItem Header="ConditionalAction">
+        <pages:ConditionalActionView />
+      </TabItem>
+      <TabItem Header="SwitchCaseAction">
+        <pages:SwitchCaseActionView />
+      </TabItem>
+      <TabItem Header="SwitchCaseBehavior">
+        <pages:SwitchCaseBehaviorView />
+      </TabItem>
+      <TabItem Header="ConditionalBehavior">
+        <pages:ConditionalBehaviorView />
+      </TabItem>
+      <TabItem Header="LoseFocusOnEnterBehavior">
+        <pages:LoseFocusOnEnterBehaviorView />
+      </TabItem>
+      <TabItem Header="AutoScrollToBottomBehavior">
+        <pages:AutoScrollToBottomBehaviorView />
+      </TabItem>
       <TabItem Header="CallMethodAction">
         <pages:CallMethodActionView />
       </TabItem>
