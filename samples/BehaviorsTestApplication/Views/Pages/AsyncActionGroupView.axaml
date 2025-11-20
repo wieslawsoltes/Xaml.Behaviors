@@ -1,0 +1,39 @@
+<UserControl x:Class="BehaviorsTestApplication.Views.Pages.AsyncActionGroupView"
+             xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450">
+  <StackPanel Spacing="20" Margin="20">
+    <TextBlock Text="AsyncActionGroup &amp; DelayAction" FontSize="20" FontWeight="Bold" />
+
+    <Border BorderBrush="Gray" BorderThickness="1" Padding="10" CornerRadius="5">
+      <StackPanel Spacing="10">
+        <TextBlock Text="Sequence Mode" FontWeight="SemiBold" />
+        <TextBlock Text="Click the button to start a sequence: Step 1 -> Wait 1s -> Step 2 -> Wait 1s -> Finished" />
+        <Button Name="SequenceButton" Content="Start Sequence" />
+        <TextBlock Name="SequenceStatusText" Text="Ready" Foreground="Blue" FontSize="16" />
+        
+        <Interaction.Behaviors>
+          <EventTriggerBehavior EventName="Click" SourceObject="{Binding #SequenceButton}">
+            <AsyncActionGroup Mode="Sequence">
+               <ChangePropertyAction TargetObject="{Binding #SequenceStatusText}" PropertyName="Text" Value="Step 1" />
+               <DelayAction Duration="0:0:1" />
+               <ChangePropertyAction TargetObject="{Binding #SequenceStatusText}" PropertyName="Text" Value="Step 2" />
+               <DelayAction Duration="0:0:1" />
+               <ChangePropertyAction TargetObject="{Binding #SequenceStatusText}" PropertyName="Text" Value="Finished" />
+            </AsyncActionGroup>
+          </EventTriggerBehavior>
+        </Interaction.Behaviors>
+      </StackPanel>
+    </Border>
+
+    <Border BorderBrush="Gray" BorderThickness="1" Padding="10" CornerRadius="5">
+      <StackPanel Spacing="10">
+        <TextBlock Text="Parallel Mode" FontWeight="SemiBold" />
+        <TextBlock Text="Click to start parallel delays. (Not easily visualized here without more complex setup, but useful for firing multiple async tasks at once)" />
+        <!-- Parallel execution is harder to demo visually with simple property changes unless we had multiple independent indicators -->
+      </StackPanel>
+    </Border>
+  </StackPanel>
+</UserControl>

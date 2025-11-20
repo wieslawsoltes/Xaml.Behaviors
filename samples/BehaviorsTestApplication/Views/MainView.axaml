@@ -36,6 +36,36 @@
       <TabItem Header="CallMethodAction">
         <pages:CallMethodActionView />
       </TabItem>
+      <TabItem Header="Debounce &amp; Throttle">
+        <pages:DebounceThrottleActionView />
+      </TabItem>
+      <TabItem Header="ObservableStreamBehavior">
+        <pages:ObservableStreamBehaviorView />
+      </TabItem>
+      <TabItem Header="AsyncActionGroup">
+        <pages:AsyncActionGroupView />
+      </TabItem>
+      <TabItem Header="FocusTrapBehavior">
+        <pages:FocusTrapBehaviorView />
+      </TabItem>
+      <TabItem Header="ScreenReaderAnnounceAction">
+        <pages:ScreenReaderAnnounceActionView />
+      </TabItem>
+      <TabItem Header="GlobalHotkeyBehavior">
+        <pages:GlobalHotkeyBehaviorView />
+      </TabItem>
+      <TabItem Header="VisualDebugBehavior">
+        <pages:VisualDebugBehaviorView />
+      </TabItem>
+      <TabItem Header="LogAction">
+        <pages:LogActionView />
+      </TabItem>
+      <TabItem Header="NetworkStatusTrigger">
+        <pages:NetworkStatusTriggerView />
+      </TabItem>
+      <TabItem Header="ClipboardMonitorBehavior">
+        <pages:ClipboardMonitorBehaviorView />
+      </TabItem>
       <TabItem Header="ChangePropertyAction">
         <pages:ChangePropertyActionView />
       </TabItem>

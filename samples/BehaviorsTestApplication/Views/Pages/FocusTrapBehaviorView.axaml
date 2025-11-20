@@ -1,0 +1,31 @@
+<UserControl x:Class="BehaviorsTestApplication.Views.Pages.FocusTrapBehaviorView"
+             xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450">
+  <StackPanel Spacing="20" Margin="20">
+    <TextBlock Text="FocusTrapBehavior" FontSize="20" FontWeight="Bold" />
+    <TextBlock Text="Use Tab/Shift+Tab to navigate. Focus should be trapped inside the bordered area when active." />
+
+    <CheckBox Name="TrapActiveCheckBox" IsChecked="True" Content="Trap Active" />
+
+    <Border BorderBrush="Red" BorderThickness="2" Padding="20" CornerRadius="5">
+      <StackPanel Spacing="10">
+        <TextBlock Text="Trapped Area" FontWeight="Bold" Foreground="Red" />
+        <TextBox Text="Focusable 1" />
+        <Button Content="Focusable 2" />
+        <TextBox Text="Focusable 3" />
+        <Button Content="Focusable 4" />
+        
+        <Interaction.Behaviors>
+          <FocusTrapBehavior IsActive="{Binding #TrapActiveCheckBox.IsChecked}" />
+        </Interaction.Behaviors>
+      </StackPanel>
+    </Border>
+
+    <TextBlock Text="Outside Controls (Should be unreachable via Tab when trap is active)" Margin="0,20,0,0" />
+    <TextBox Text="Outside 1" />
+    <Button Content="Outside 2" />
+  </StackPanel>
+</UserControl>

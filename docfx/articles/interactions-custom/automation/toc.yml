@@ -6,3 +6,5 @@
   href: automation-name-changed-trigger.md
 - name: SetAutomationIdAction
   href: set-automation-id-action.md
+- name: ScreenReaderAnnounceAction
+  href: screen-reader-announce-action.md

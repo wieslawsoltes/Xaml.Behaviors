@@ -1,0 +1,32 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="BehaviorsTestApplication.Views.Pages.VisualDebugBehaviorView">
+  <StackPanel Spacing="20" Margin="20">
+    <TextBlock Text="VisualDebugBehavior" FontWeight="Bold" FontSize="18" />
+    <TextBlock Text="Interact with the controls below to see visual feedback on events." />
+    
+    <StackPanel Orientation="Horizontal" Spacing="20">
+        <Button Content="Click Me (Red Flash)" Padding="20">
+            <Interaction.Behaviors>
+                <VisualDebugBehavior EventName="Click" HighlightColor="Red" Duration="0:0:0.5" />
+            </Interaction.Behaviors>
+        </Button>
+
+        <Button Content="Hover Me (Blue Flash)" Padding="20">
+            <Interaction.Behaviors>
+                <VisualDebugBehavior EventName="PointerEntered" HighlightColor="Blue" Duration="0:0:0.5" />
+            </Interaction.Behaviors>
+        </Button>
+    </StackPanel>
+
+    <Border Background="LightGray" Padding="20" Width="300" Height="100">
+        <TextBlock Text="Resize Window to see Green Flash on SizeChanged" HorizontalAlignment="Center" VerticalAlignment="Center" TextWrapping="Wrap" />
+        <Interaction.Behaviors>
+            <VisualDebugBehavior EventName="SizeChanged" HighlightColor="Green" Duration="0:0:1" />
+        </Interaction.Behaviors>
+    </Border>
+  </StackPanel>
+</UserControl>

@@ -1,0 +1,44 @@
+<UserControl x:Class="BehaviorsTestApplication.Views.Pages.ObservableStreamBehaviorView"
+             xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:BehaviorsTestApplication.ViewModels"
+             x:DataType="vm:MainWindowViewModel"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450">
+  <StackPanel Spacing="20" Margin="20">
+    <TextBlock Text="ObservableStreamBehavior" FontSize="20" FontWeight="Bold" />
+
+    <Border BorderBrush="Gray" BorderThickness="1" Padding="10" CornerRadius="5">
+      <StackPanel Spacing="10">
+        <TextBlock Text="Stream Control" FontWeight="SemiBold" />
+        <StackPanel Orientation="Horizontal" Spacing="10">
+          <Button Content="Emit Next Value" Command="{Binding EmitNextCommand}" />
+          <Button Content="Emit Error" Command="{Binding EmitErrorCommand}" />
+          <Button Content="Complete Stream" Command="{Binding CompleteStreamCommand}" />
+          <Button Content="Reset Stream" Command="{Binding ResetStreamCommand}" />
+        </StackPanel>
+        
+        <TextBlock Text="Stream Output:" FontWeight="SemiBold" Margin="0,10,0,0" />
+        <TextBlock Name="StreamOutputText" Text="Waiting..." Foreground="Gray" />
+        
+        <Interaction.Behaviors>
+          <ObservableStreamBehavior Source="{Binding StreamSource}">
+            <ObservableStreamBehavior.Actions>
+               <ChangePropertyAction TargetObject="{Binding #StreamOutputText}" PropertyName="Text" Value="{Binding StringFormat='Received: {0}'}" />
+               <ChangePropertyAction TargetObject="{Binding #StreamOutputText}" PropertyName="Foreground" Value="Green" />
+            </ObservableStreamBehavior.Actions>
+            <ObservableStreamBehavior.ErrorActions>
+               <ChangePropertyAction TargetObject="{Binding #StreamOutputText}" PropertyName="Text" Value="{Binding StringFormat='Error: {0}'}" />
+               <ChangePropertyAction TargetObject="{Binding #StreamOutputText}" PropertyName="Foreground" Value="Red" />
+            </ObservableStreamBehavior.ErrorActions>
+            <ObservableStreamBehavior.CompletedActions>
+               <ChangePropertyAction TargetObject="{Binding #StreamOutputText}" PropertyName="Text" Value="Stream Completed" />
+               <ChangePropertyAction TargetObject="{Binding #StreamOutputText}" PropertyName="Foreground" Value="Blue" />
+            </ObservableStreamBehavior.CompletedActions>
+          </ObservableStreamBehavior>
+        </Interaction.Behaviors>
+      </StackPanel>
+    </Border>
+  </StackPanel>
+</UserControl>

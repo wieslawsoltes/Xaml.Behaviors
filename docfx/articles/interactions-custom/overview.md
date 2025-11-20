@@ -27,12 +27,14 @@ The interactions are organized into the following categories:
 *   **Converters**: Value converters used in interactions.
 *   **Core**: Core infrastructure and base classes.
 *   **Cursor**: Behaviors for managing cursor state.
+*   **Debugging**: Behaviors for debugging and visualization.
 *   **Dialog**: Interactions for showing dialogs.
 *   **ExecuteCommand**: A rich set of behaviors for executing commands in response to various events and gestures.
 *   **FileUpload**: Interactions for file upload scenarios.
 *   **Focus**: Behaviors for managing focus.
 *   **Gestures**: Triggers for touch and pointer gestures.
 *   **Icon**: Interactions for managing icons.
+*   **Input**: Advanced input behaviors.
 *   **InputElement**: Triggers and actions for InputElements.
 *   **ItemsControl**: Interactions for ItemsControls.
 *   **Layout**: Behaviors affecting layout.
@@ -45,6 +47,7 @@ The interactions are organized into the following categories:
 *   **SelectingItemsControl**: Interactions for SelectingItemsControl.
 *   **Show**: Behaviors for showing/hiding elements.
 *   **SplitView**: Interactions for SplitView.
+*   **System**: System and environment interactions.
 *   **TabControl**: Interactions for TabControl.
 *   **TextBox**: Interactions for TextBox.
 *   **ThemeVariant**: Behaviors for managing theme variants.
