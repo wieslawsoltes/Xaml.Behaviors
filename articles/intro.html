@@ -44,7 +44,7 @@
       <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
         <div class="container-xxl flex-nowrap">
           <a class="navbar-brand" href="../index.html">
-            <img id="logo" class="svg" src="../logo.svg" alt="">
+            <img id="logo" class="svg" src="../images/logo.svg" alt="">
             
           </a>
           <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
@@ -93,7 +93,7 @@
 <li><strong>Attach a behavior</strong> – use the <code>Interaction.Behaviors</code> attached property to add behaviors to your controls.</li>
 </ol>
 <p>Here is a minimal example:</p>
-<pre><code class="lang-xaml">&lt;UserControl xmlns=&quot;https://github.com/avaloniaui&quot;
+<pre><code class="lang-xml">&lt;UserControl xmlns=&quot;https://github.com/avaloniaui&quot;
              xmlns:x=&quot;http://schemas.microsoft.com/winfx/2006/xaml&quot;&gt;
     &lt;Button Content=&quot;Click&quot;&gt;
         &lt;Interaction.Behaviors&gt;
@@ -111,7 +111,7 @@
 <li><strong>Handle lifecycle events</strong> – execute actions when a control appears or is loaded.</li>
 </ol>
 <p>In XAML this looks like:</p>
-<pre><code class="lang-xaml">&lt;!-- Change text based on slider value --&gt;
+<pre><code class="lang-xml">&lt;!-- Change text based on slider value --&gt;
 &lt;TextBlock x:Name=&quot;Output&quot;&gt;
     &lt;Interaction.Behaviors&gt;
         &lt;DataTriggerBehavior Binding=&quot;{Binding #Slider.Value}&quot; ComparisonCondition=&quot;GreaterThan&quot; Value=&quot;50&quot;&gt;
@@ -143,7 +143,7 @@
 </ol>
 <p>Below is a walkthrough of both approaches.</p>
 <p><strong>Defining behaviors in a style</strong></p>
-<pre><code class="lang-xaml">&lt;Style Selector=&quot;Button.alert&quot;&gt;
+<pre><code class="lang-xml">&lt;Style Selector=&quot;Button.alert&quot;&gt;
     &lt;Setter Property=&quot;(Interaction.Behaviors)&quot;&gt;
         &lt;BehaviorCollectionTemplate&gt;
             &lt;BehaviorCollection&gt;
