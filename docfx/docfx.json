@@ -57,7 +57,8 @@
     ],
     "dest": "../_site",
     "globalMetadata": {
-      "_appTitle": "XAML Behaviors for Avalonia"
+      "_appTitle": "XAML Behaviors for Avalonia",
+      "_appLogoPath": "images/logo.svg"
     },
     "globalMetadataFiles": [],
     "fileMetadataFiles": [],
