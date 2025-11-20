@@ -4,6 +4,34 @@
   "files": [
     {
       "type": "ManagedReference",
+      "source_relative_path": "api/Avalonia.Xaml.Interactions.Core.AsyncActionGroup.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Avalonia.Xaml.Interactions.Core.AsyncActionGroup.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Avalonia.Xaml.Interactions.Core.AsyncActionGroup",
+      "Summary": "<p sourcefile=\"api/Avalonia.Xaml.Interactions.Core.AsyncActionGroup.yml\" sourcestartlinenumber=\"1\">An action that executes its child actions asynchronously, either in sequence or in parallel.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Avalonia.Xaml.Interactions.Core.AsyncActionMode.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Avalonia.Xaml.Interactions.Core.AsyncActionMode.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Avalonia.Xaml.Interactions.Core.AsyncActionMode",
+      "Summary": "<p sourcefile=\"api/Avalonia.Xaml.Interactions.Core.AsyncActionMode.yml\" sourcestartlinenumber=\"1\">Defines the mode of execution for <xref href=\"Avalonia.Xaml.Interactions.Core.AsyncActionGroup\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
       "source_relative_path": "api/Avalonia.Xaml.Interactions.Core.ButtonOpenFilePickerBehavior.yml",
       "output": {
         ".html": {
@@ -113,6 +141,34 @@
       "IsMRef": true,
       "Title": "Avalonia.Xaml.Interactions.Core.DataTriggerBehavior",
       "Summary": "<p sourcefile=\"api/Avalonia.Xaml.Interactions.Core.DataTriggerBehavior.yml\" sourcestartlinenumber=\"1\">A behavior that performs actions when the bound data meets a specified condition.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Avalonia.Xaml.Interactions.Core.DebounceAction.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Avalonia.Xaml.Interactions.Core.DebounceAction.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Avalonia.Xaml.Interactions.Core.DebounceAction",
+      "Summary": "<p sourcefile=\"api/Avalonia.Xaml.Interactions.Core.DebounceAction.yml\" sourcestartlinenumber=\"1\">An action that will execute its child actions after a specified delay.\nIf invoked again before the delay elapses, the timer is reset.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Avalonia.Xaml.Interactions.Core.DelayAction.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Avalonia.Xaml.Interactions.Core.DelayAction.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Avalonia.Xaml.Interactions.Core.DelayAction",
+      "Summary": "<p sourcefile=\"api/Avalonia.Xaml.Interactions.Core.DelayAction.yml\" sourcestartlinenumber=\"1\">An action that waits for a specified duration.</p>\n"
     },
     {
       "type": "ManagedReference",
@@ -295,6 +351,20 @@
       "IsMRef": true,
       "Title": "Avalonia.Xaml.Interactions.Core.MultiDataTriggerBehavior",
       "Summary": "<p sourcefile=\"api/Avalonia.Xaml.Interactions.Core.MultiDataTriggerBehavior.yml\" sourcestartlinenumber=\"1\">A behavior that performs actions when all bound data conditions are satisfied.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Avalonia.Xaml.Interactions.Core.ObservableStreamBehavior.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Avalonia.Xaml.Interactions.Core.ObservableStreamBehavior.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Avalonia.Xaml.Interactions.Core.ObservableStreamBehavior",
+      "Summary": "<p sourcefile=\"api/Avalonia.Xaml.Interactions.Core.ObservableStreamBehavior.yml\" sourcestartlinenumber=\"1\">A behavior that subscribes to an <xref href=\"System.IObservable%601\" data-throw-if-not-resolved=\"false\"></xref> and executes actions on OnNext, OnError, and OnCompleted.</p>\n"
     },
     {
       "type": "ManagedReference",
@@ -505,6 +575,20 @@
       "IsMRef": true,
       "Title": "Avalonia.Xaml.Interactions.Core.TaskCompletedTrigger",
       "Summary": "<p sourcefile=\"api/Avalonia.Xaml.Interactions.Core.TaskCompletedTrigger.yml\" sourcestartlinenumber=\"1\">A trigger that invokes its actions when the supplied task completes.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Avalonia.Xaml.Interactions.Core.ThrottleAction.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Avalonia.Xaml.Interactions.Core.ThrottleAction.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Avalonia.Xaml.Interactions.Core.ThrottleAction",
+      "Summary": "<p sourcefile=\"api/Avalonia.Xaml.Interactions.Core.ThrottleAction.yml\" sourcestartlinenumber=\"1\">An action that will execute its child actions immediately, but ignores subsequent invocations\nuntil a specified interval has passed.</p>\n"
     },
     {
       "type": "ManagedReference",
@@ -1205,6 +1289,20 @@
       "IsMRef": true,
       "Title": "Avalonia.Xaml.Interactions.Custom.ClearTransitionsAction",
       "Summary": "<p sourcefile=\"api/Avalonia.Xaml.Interactions.Custom.ClearTransitionsAction.yml\" sourcestartlinenumber=\"1\">Clears the <xref href=\"Avalonia.Animation.Transitions\" data-throw-if-not-resolved=\"false\"></xref> collection.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Avalonia.Xaml.Interactions.Custom.ClipboardMonitorBehavior.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Avalonia.Xaml.Interactions.Custom.ClipboardMonitorBehavior.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Avalonia.Xaml.Interactions.Custom.ClipboardMonitorBehavior",
+      "Summary": "<p sourcefile=\"api/Avalonia.Xaml.Interactions.Custom.ClipboardMonitorBehavior.yml\" sourcestartlinenumber=\"1\">A behavior that monitors the system clipboard for specific data formats.</p>\n"
     },
     {
       "type": "ManagedReference",
@@ -2202,6 +2300,20 @@
     },
     {
       "type": "ManagedReference",
+      "source_relative_path": "api/Avalonia.Xaml.Interactions.Custom.FocusTrapBehavior.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Avalonia.Xaml.Interactions.Custom.FocusTrapBehavior.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Avalonia.Xaml.Interactions.Custom.FocusTrapBehavior",
+      "Summary": "<p sourcefile=\"api/Avalonia.Xaml.Interactions.Custom.FocusTrapBehavior.yml\" sourcestartlinenumber=\"1\">A behavior that traps focus within the attached element.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
       "source_relative_path": "api/Avalonia.Xaml.Interactions.Custom.FramerMotionAnimations.yml",
       "output": {
         ".html": {
@@ -2213,6 +2325,20 @@
       "IsMRef": true,
       "Title": "Avalonia.Xaml.Interactions.Custom.FramerMotionAnimations",
       "Summary": "<p sourcefile=\"api/Avalonia.Xaml.Interactions.Custom.FramerMotionAnimations.yml\" sourcestartlinenumber=\"1\">Provides composition animations inspired by popular Framer Motion presets.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Avalonia.Xaml.Interactions.Custom.GlobalHotkeyBehavior.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Avalonia.Xaml.Interactions.Custom.GlobalHotkeyBehavior.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Avalonia.Xaml.Interactions.Custom.GlobalHotkeyBehavior",
+      "Summary": "<p sourcefile=\"api/Avalonia.Xaml.Interactions.Custom.GlobalHotkeyBehavior.yml\" sourcestartlinenumber=\"1\">A behavior that registers a global hotkey (window-wide) to execute actions.</p>\n"
     },
     {
       "type": "ManagedReference",
@@ -2832,6 +2958,34 @@
     },
     {
       "type": "ManagedReference",
+      "source_relative_path": "api/Avalonia.Xaml.Interactions.Custom.LogAction.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Avalonia.Xaml.Interactions.Custom.LogAction.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Avalonia.Xaml.Interactions.Custom.LogAction",
+      "Summary": "<p sourcefile=\"api/Avalonia.Xaml.Interactions.Custom.LogAction.yml\" sourcestartlinenumber=\"1\">An action that logs a message to the debug output.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Avalonia.Xaml.Interactions.Custom.LogActionLevel.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Avalonia.Xaml.Interactions.Custom.LogActionLevel.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Avalonia.Xaml.Interactions.Custom.LogActionLevel",
+      "Summary": "<p sourcefile=\"api/Avalonia.Xaml.Interactions.Custom.LogActionLevel.yml\" sourcestartlinenumber=\"1\">Specifies the severity level of the log message.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
       "source_relative_path": "api/Avalonia.Xaml.Interactions.Custom.LostFocusTrigger.yml",
       "output": {
         ".html": {
@@ -2913,6 +3067,34 @@
       "IsMRef": true,
       "Title": "Avalonia.Xaml.Interactions.Custom.MoveItemInItemsControlAction",
       "Summary": "<p sourcefile=\"api/Avalonia.Xaml.Interactions.Custom.MoveItemInItemsControlAction.yml\" sourcestartlinenumber=\"1\">Moves an item within an <xref href=\"Avalonia.Xaml.Interactions.Custom.MoveItemInItemsControlAction.ItemsControl\" data-throw-if-not-resolved=\"false\"></xref> from <xref href=\"Avalonia.Xaml.Interactions.Custom.MoveItemInItemsControlAction.FromIndex\" data-throw-if-not-resolved=\"false\"></xref> to <xref href=\"Avalonia.Xaml.Interactions.Custom.MoveItemInItemsControlAction.ToIndex\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Avalonia.Xaml.Interactions.Custom.NetworkStatus.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Avalonia.Xaml.Interactions.Custom.NetworkStatus.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Avalonia.Xaml.Interactions.Custom.NetworkStatus",
+      "Summary": "<p sourcefile=\"api/Avalonia.Xaml.Interactions.Custom.NetworkStatus.yml\" sourcestartlinenumber=\"1\">Defines the network status to listen for.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Avalonia.Xaml.Interactions.Custom.NetworkStatusTrigger.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Avalonia.Xaml.Interactions.Custom.NetworkStatusTrigger.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Avalonia.Xaml.Interactions.Custom.NetworkStatusTrigger",
+      "Summary": "<p sourcefile=\"api/Avalonia.Xaml.Interactions.Custom.NetworkStatusTrigger.yml\" sourcestartlinenumber=\"1\">A trigger that fires when the network status changes.</p>\n"
     },
     {
       "type": "ManagedReference",
@@ -3669,6 +3851,20 @@
       "IsMRef": true,
       "Title": "Avalonia.Xaml.Interactions.Custom.ScaleAnimation",
       "Summary": "<p sourcefile=\"api/Avalonia.Xaml.Interactions.Custom.ScaleAnimation.yml\" sourcestartlinenumber=\"1\">Provides scale animation helpers using composition animations.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Avalonia.Xaml.Interactions.Custom.ScreenReaderAnnounceAction.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Avalonia.Xaml.Interactions.Custom.ScreenReaderAnnounceAction.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Avalonia.Xaml.Interactions.Custom.ScreenReaderAnnounceAction",
+      "Summary": "<p sourcefile=\"api/Avalonia.Xaml.Interactions.Custom.ScreenReaderAnnounceAction.yml\" sourcestartlinenumber=\"1\">An action that requests a screen reader announcement.</p>\n"
     },
     {
       "type": "ManagedReference",
@@ -4859,6 +5055,20 @@
       "IsMRef": true,
       "Title": "Avalonia.Xaml.Interactions.Custom.ViewportBehavior",
       "Summary": "<p sourcefile=\"api/Avalonia.Xaml.Interactions.Custom.ViewportBehavior.yml\" sourcestartlinenumber=\"1\">Listens for the associated element entering or exiting the parent <xref href=\"Avalonia.Controls.ScrollViewer\" data-throw-if-not-resolved=\"false\"></xref> viewport.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Avalonia.Xaml.Interactions.Custom.VisualDebugBehavior.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Avalonia.Xaml.Interactions.Custom.VisualDebugBehavior.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Avalonia.Xaml.Interactions.Custom.VisualDebugBehavior",
+      "Summary": "<p sourcefile=\"api/Avalonia.Xaml.Interactions.Custom.VisualDebugBehavior.yml\" sourcestartlinenumber=\"1\">A behavior that visualizes events on the attached control for debugging purposes.</p>\n"
     },
     {
       "type": "ManagedReference",
@@ -8079,6 +8289,16 @@
     },
     {
       "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/automation/screen-reader-announce-action.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/automation/screen-reader-announce-action.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
       "source_relative_path": "articles/interactions-custom/automation/set-automation-id-action.md",
       "output": {
         ".html": {
@@ -9129,6 +9349,39 @@
     },
     {
       "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/debugging/log-action.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/debugging/log-action.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "articles/interactions-custom/debugging/toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/debugging/toc.html"
+        },
+        ".json": {
+          "relative_path": "articles/interactions-custom/debugging/toc.json"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/debugging/visual-debug-behavior.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/debugging/visual-debug-behavior.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
       "source_relative_path": "articles/interactions-custom/dialog/dialog-closed-trigger.md",
       "output": {
         ".html": {
@@ -9572,6 +9825,16 @@
       "output": {
         ".html": {
           "relative_path": "articles/interactions-custom/file-upload/upload-file-behavior-base.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/focus-trap-behavior.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/focus-trap-behavior.html"
         }
       },
       "version": ""
@@ -10134,6 +10397,29 @@
         },
         ".json": {
           "relative_path": "articles/interactions-custom/input-element/toc.json"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/input/global-hotkey-behavior.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/input/global-hotkey-behavior.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "articles/interactions-custom/input/toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/input/toc.html"
+        },
+        ".json": {
+          "relative_path": "articles/interactions-custom/input/toc.json"
         }
       },
       "version": ""
@@ -10996,6 +11282,39 @@
     },
     {
       "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/system/clipboard-monitor-behavior.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/system/clipboard-monitor-behavior.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/system/network-status-trigger.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/system/network-status-trigger.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "articles/interactions-custom/system/toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/system/toc.html"
+        },
+        ".json": {
+          "relative_path": "articles/interactions-custom/system/toc.json"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
       "source_relative_path": "articles/interactions-custom/tab-control/overview.md",
       "output": {
         ".html": {
@@ -11812,6 +12131,16 @@
     },
     {
       "type": "Conceptual",
+      "source_relative_path": "articles/interactions/async-action-group.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions/async-action-group.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
       "source_relative_path": "articles/interactions/call-method-action.md",
       "output": {
         ".html": {
@@ -11852,6 +12181,26 @@
     },
     {
       "type": "Conceptual",
+      "source_relative_path": "articles/interactions/debounce-throttle.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions/debounce-throttle.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions/delay-action.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions/delay-action.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
       "source_relative_path": "articles/interactions/event-trigger-behavior.md",
       "output": {
         ".html": {
@@ -11886,6 +12235,16 @@
       "output": {
         ".html": {
           "relative_path": "articles/interactions/multi-data-trigger-behavior.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions/observable-stream-behavior.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions/observable-stream-behavior.html"
         }
       },
       "version": ""

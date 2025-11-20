@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+      <title>AsyncActionGroup | XAML Behaviors for Avalonia </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="AsyncActionGroup | XAML Behaviors for Avalonia ">
+      
+      
+      <link rel="icon" href="../../favicon.ico">
+      <link rel="stylesheet" href="../../public/docfx.min.css">
+      <link rel="stylesheet" href="../../public/main.css">
+      <meta name="docfx:navrel" content="../../toc.html">
+      <meta name="docfx:tocrel" content="../toc.html">
+      
+      
+      
+      
+      <meta name="docfx:docurl" content="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/docfx/articles/interactions/async-action-group.md/#L1">
+      <meta name="loc:inThisArticle" content="In this article">
+      <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
+      <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
+      <meta name="loc:tocFilter" content="Filter by title">
+      <meta name="loc:nextArticle" content="Next">
+      <meta name="loc:prevArticle" content="Previous">
+      <meta name="loc:themeLight" content="Light">
+      <meta name="loc:themeDark" content="Dark">
+      <meta name="loc:themeAuto" content="Auto">
+      <meta name="loc:changeTheme" content="Change theme">
+      <meta name="loc:copy" content="Copy">
+      <meta name="loc:downloadPdf" content="Download PDF">
+
+      <script type="module" src="./../../public/docfx.min.js"></script>
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
+  </head>
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../../index.html">
+            <img id="logo" class="svg" src="../../images/logo.svg" alt="">
+            
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <nav class="toc" id="toc"></nav>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
+            <i class="bi bi-list"></i>
+          </button>
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article data-uid="">
+<h1 id="asyncactiongroup">AsyncActionGroup</h1>
+
+<p>The <code>AsyncActionGroup</code> is a container action that manages the asynchronous execution flow of its child actions. It allows you to execute actions either sequentially (awaiting each one) or in parallel.</p>
+<p>This is particularly useful when combined with <code>DelayAction</code> or other actions that return a <code>Task</code>, enabling complex workflows directly in XAML (e.g., Animation -&gt; Wait -&gt; Data Load -&gt; Animation).</p>
+<h2 id="properties">Properties</h2>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Mode</code></td>
+<td><code>AsyncActionMode</code></td>
+<td>The execution mode: <code>Sequence</code> or <code>Parallel</code>.</td>
+</tr>
+<tr>
+<td><code>Actions</code></td>
+<td><code>ActionCollection</code></td>
+<td>The collection of actions to execute.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="asyncactionmode">AsyncActionMode</h3>
+<ul>
+<li><strong>Sequence</strong>: Actions are executed one by one. If an action returns a <code>Task</code>, the group awaits it before starting the next action.</li>
+<li><strong>Parallel</strong>: All actions are started immediately. The group awaits all of them to complete (if awaited itself).</li>
+</ul>
+<h2 id="delayaction">DelayAction</h2>
+<p>A helper action that simply waits for a specified duration. It returns a <code>Task</code> that completes after the delay.</p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Duration</code></td>
+<td><code>TimeSpan</code></td>
+<td>The time to wait.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="example">Example</h2>
+<h3 id="sequential-flow">Sequential Flow</h3>
+<p>This example updates a text block, waits for 1 second, updates it again, waits another second, and then finishes.</p>
+<pre><code class="lang-xml">&lt;Button Content=&quot;Start Sequence&quot;&gt;
+    &lt;Interaction.Behaviors&gt;
+        &lt;EventTriggerBehavior EventName=&quot;Click&quot;&gt;
+            &lt;AsyncActionGroup Mode=&quot;Sequence&quot;&gt;
+                &lt;ChangePropertyAction TargetObject=&quot;{Binding #StatusText}&quot; PropertyName=&quot;Text&quot; Value=&quot;Step 1&quot; /&gt;
+                &lt;DelayAction Duration=&quot;0:0:1&quot; /&gt;
+                &lt;ChangePropertyAction TargetObject=&quot;{Binding #StatusText}&quot; PropertyName=&quot;Text&quot; Value=&quot;Step 2&quot; /&gt;
+                &lt;DelayAction Duration=&quot;0:0:1&quot; /&gt;
+                &lt;ChangePropertyAction TargetObject=&quot;{Binding #StatusText}&quot; PropertyName=&quot;Text&quot; Value=&quot;Finished&quot; /&gt;
+            &lt;/AsyncActionGroup&gt;
+        &lt;/EventTriggerBehavior&gt;
+    &lt;/Interaction.Behaviors&gt;
+&lt;/Button&gt;
+&lt;TextBlock Name=&quot;StatusText&quot; Text=&quot;Ready&quot; /&gt;
+</code></pre>
+
+</article>
+
+        <div class="contribution d-print-none">
+          <a href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/docfx/articles/interactions/async-action-group.md/#L1" class="edit-link">Edit this page</a>
+        </div>
+
+        <div class="next-article d-print-none border-top" id="nextArticle"></div>
+
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          <span>Made with <a href="https://dotnet.github.io/docfx">docfx</a></span>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>
