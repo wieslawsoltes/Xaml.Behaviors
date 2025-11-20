@@ -2,11 +2,11 @@
 <html>
   <head>
     <meta charset="utf-8">
-      <title>Class StyledElementAction | XAML Behaviors for Avalonia </title>
+      <title>Class DeleteDirectoryAction | XAML Behaviors for Avalonia </title>
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <meta name="title" content="Class StyledElementAction | XAML Behaviors for Avalonia ">
+      <meta name="title" content="Class DeleteDirectoryAction | XAML Behaviors for Avalonia ">
       
-      <meta name="description" content="A base class for action that calls a method on a specified object when invoked.">
+      <meta name="description" content="An action that deletes a directory at the specified path.">
       <link rel="icon" href="../favicon.ico">
       <link rel="stylesheet" href="../public/docfx.min.css">
       <link rel="stylesheet" href="../public/main.css">
@@ -16,7 +16,7 @@
       
       
       
-      <meta name="docfx:docurl" content="https://github.com/wieslawsoltes/Xaml.Behaviors/new/master/apiSpec/new?filename=Avalonia_Xaml_Interactivity_StyledElementAction.md&amp;value=---%0Auid%3A%20Avalonia.Xaml.Interactivity.StyledElementAction%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">
+      <meta name="docfx:docurl" content="https://github.com/wieslawsoltes/Xaml.Behaviors/new/master/apiSpec/new?filename=Avalonia_Xaml_Interactions_FileSystem_DeleteDirectoryAction.md&amp;value=---%0Auid%3A%20Avalonia.Xaml.Interactions.FileSystem.DeleteDirectoryAction%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">
       <meta name="loc:inThisArticle" content="In this article">
       <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
       <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
@@ -80,25 +80,25 @@
           <nav id="breadcrumb"></nav>
         </div>
 
-        <article data-uid="Avalonia.Xaml.Interactivity.StyledElementAction">
+        <article data-uid="Avalonia.Xaml.Interactions.FileSystem.DeleteDirectoryAction">
 
 
 
-  <h1 id="Avalonia_Xaml_Interactivity_StyledElementAction" data-uid="Avalonia.Xaml.Interactivity.StyledElementAction" class="text-break">
-Class StyledElementAction  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactivity/StyledElement/StyledElementAction.cs/#L11"><i class="bi bi-code-slash"></i></a>
+  <h1 id="Avalonia_Xaml_Interactions_FileSystem_DeleteDirectoryAction" data-uid="Avalonia.Xaml.Interactions.FileSystem.DeleteDirectoryAction" class="text-break">
+Class DeleteDirectoryAction  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactions/FileSystem/DeleteDirectoryAction.cs/#L10"><i class="bi bi-code-slash"></i></a>
   </h1>
 
   <div class="facts text-secondary">
-    <dl><dt>Namespace</dt><dd><a class="xref" href="Avalonia.html">Avalonia</a>.<a class="xref" href="Avalonia.Xaml.html">Xaml</a>.<a class="xref" href="Avalonia.Xaml.Interactivity.html">Interactivity</a></dd></dl>
-  <dl><dt>Assembly</dt><dd>Xaml.Behaviors.Interactivity.dll</dd></dl>
+    <dl><dt>Namespace</dt><dd><a class="xref" href="Avalonia.html">Avalonia</a>.<a class="xref" href="Avalonia.Xaml.html">Xaml</a>.<a class="xref" href="Avalonia.Xaml.Interactions.html">Interactions</a>.<a class="xref" href="Avalonia.Xaml.Interactions.FileSystem.html">FileSystem</a></dd></dl>
+  <dl><dt>Assembly</dt><dd>Xaml.Behaviors.Interactions.dll</dd></dl>
   </div>
 
-  <div class="markdown summary"><p>A base class for action that calls a method on a specified object when invoked.</p>
+  <div class="markdown summary"><p>An action that deletes a directory at the specified path.</p>
 </div>
   <div class="markdown conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public abstract class StyledElementAction : StyledElement, INotifyPropertyChanged, IDataContextProvider, ILogical, IThemeVariantHost, IResourceHost, IResourceNode, IStyleHost, ISetLogicalParent, ISetInheritanceParent, ISupportInitialize, IStyleable, INamed, IAction</code></pre>
+    <pre><code class="lang-csharp hljs">public class DeleteDirectoryAction : StyledElementAction, INotifyPropertyChanged, IDataContextProvider, ILogical, IThemeVariantHost, IResourceHost, IResourceNode, IStyleHost, ISetLogicalParent, ISetInheritanceParent, ISupportInitialize, IStyleable, INamed, IAction</code></pre>
   </div>
 
 
@@ -111,7 +111,8 @@ Class StyledElementAction  <a class="header-action link-secondary" title="View s
       <div><span class="xref">AvaloniaObject</span></div>
       <div><span class="xref">Animatable</span></div>
       <div><span class="xref">StyledElement</span></div>
-      <div><span class="xref">StyledElementAction</span></div>
+      <div><a class="xref" href="Avalonia.Xaml.Interactivity.StyledElementAction.html">StyledElementAction</a></div>
+      <div><span class="xref">DeleteDirectoryAction</span></div>
     </dd>
   </dl>
 
@@ -134,108 +135,16 @@ Class StyledElementAction  <a class="header-action link-secondary" title="View s
     </dd>
   </dl>
 
-  <dl class="typelist derived">
-    <dt>Derived</dt>
-    <dd>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.Core.AsyncActionGroup.html">AsyncActionGroup</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.Core.CallMethodAction.html">CallMethodAction</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.Core.ChangePropertyAction.html">ChangePropertyAction</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.Core.ClearClipboardAction.html">ClearClipboardAction</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.Core.DebounceAction.html">DebounceAction</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.Core.DelayAction.html">DelayAction</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.Core.SetClipboardDataObjectAction.html">SetClipboardDataObjectAction</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.Core.SetClipboardTextAction.html">SetClipboardTextAction</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.Core.ThrottleAction.html">ThrottleAction</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.Custom.AddClassAction.html">AddClassAction</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.Custom.AddItemToItemsControlAction.html">AddItemToItemsControlAction</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.Custom.AddTransitionAction.html">AddTransitionAction</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.Custom.ApplyTreeViewFilterAction.html">ApplyTreeViewFilterAction</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.Custom.BeginAnimationAction.html">BeginAnimationAction</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.Custom.CallMethodAsyncAction.html">CallMethodAsyncAction</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.Custom.CapturePointerAction.html">CapturePointerAction</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.Custom.CarouselNextAction.html">CarouselNextAction</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.Custom.CarouselPreviousAction.html">CarouselPreviousAction</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.Custom.ChangeAvaloniaPropertyAction.html">ChangeAvaloniaPropertyAction</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.Custom.ClearAutoCompleteBoxSelectionAction.html">ClearAutoCompleteBoxSelectionAction</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.Custom.ClearItemsControlAction.html">ClearItemsControlAction</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.Custom.ClearTransitionsAction.html">ClearTransitionsAction</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.Custom.CloseNotificationAction.html">CloseNotificationAction</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.Custom.CloseWindowAction.html">CloseWindowAction</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.Custom.ConditionalAction.html">ConditionalAction</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.Custom.DelayedShowControlAction.html">DelayedShowControlAction</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.Custom.FocusControlAction.html">FocusControlAction</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.Custom.FocusNextElementAction.html">FocusNextElementAction</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.Custom.HideContextDialogAction.html">HideContextDialogAction</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.Custom.HideControlAction.html">HideControlAction</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.Custom.HideFlyoutAction.html">HideFlyoutAction</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.Custom.HidePopupAction.html">HidePopupAction</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.Custom.HideToolTipAction.html">HideToolTipAction</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.Custom.IncrementViewModelPropertyAction.html">IncrementViewModelPropertyAction</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.Custom.InsertItemToItemsControlAction.html">InsertItemToItemsControlAction</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.Custom.InvokeButtonClickAction.html">InvokeButtonClickAction</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.Custom.LaunchUriOrFileAction.html">LaunchUriOrFileAction</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.Custom.LogAction.html">LogAction</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.Custom.MoveElementToPanelAction.html">MoveElementToPanelAction</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.Custom.MoveItemInItemsControlAction.html">MoveItemInItemsControlAction</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.Custom.PopupAction.html">PopupAction</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.Custom.ReleasePointerCaptureAction.html">ReleasePointerCaptureAction</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.Custom.RemoveClassAction.html">RemoveClassAction</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.Custom.RemoveElementAction.html">RemoveElementAction</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.Custom.RemoveItemInItemsControlAction.html">RemoveItemInItemsControlAction</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.Custom.RemoveItemInListBoxAction.html">RemoveItemInListBoxAction</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.Custom.RemoveTransitionAction.html">RemoveTransitionAction</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.Custom.RenderRenderTargetBitmapAction.html">RenderRenderTargetBitmapAction</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.Custom.RequestScreenDetailsAction.html">RequestScreenDetailsAction</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.Custom.ScreenReaderAnnounceAction.html">ScreenReaderAnnounceAction</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.Custom.ScrollToOffsetAction.html">ScrollToOffsetAction</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.Custom.SetAutomationIdAction.html">SetAutomationIdAction</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.Custom.SetCursorAction.html">SetCursorAction</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.Custom.SetCursorFromProviderAction.html">SetCursorFromProviderAction</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.Custom.SetEnabledAction.html">SetEnabledAction</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.Custom.SetPathIconDataAction.html">SetPathIconDataAction</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.Custom.SetThemeVariantAction.html">SetThemeVariantAction</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.Custom.SetToolTipTipAction.html">SetToolTipTipAction</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.Custom.SetViewModelPropertyAction.html">SetViewModelPropertyAction</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.Custom.ShowContextDialogAction.html">ShowContextDialogAction</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.Custom.ShowContextMenuAction.html">ShowContextMenuAction</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.Custom.ShowControlAction.html">ShowControlAction</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.Custom.ShowDialogAction.html">ShowDialogAction</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.Custom.ShowErrorNotificationAction.html">ShowErrorNotificationAction</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.Custom.ShowFlyoutAction.html">ShowFlyoutAction</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.Custom.ShowInformationNotificationAction.html">ShowInformationNotificationAction</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.Custom.ShowNotificationAction.html">ShowNotificationAction</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.Custom.ShowPopupAction.html">ShowPopupAction</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.Custom.ShowSuccessNotificationAction.html">ShowSuccessNotificationAction</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.Custom.ShowToolTipAction.html">ShowToolTipAction</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.Custom.ShowWarningNotificationAction.html">ShowWarningNotificationAction</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.Custom.ShowWindowAction.html">ShowWindowAction</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.Custom.SplitViewTogglePaneAction.html">SplitViewTogglePaneAction</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.Custom.SwitchCaseAction.html">SwitchCaseAction</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.Custom.TabControlNextAction.html">TabControlNextAction</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.Custom.TabControlPreviousAction.html">TabControlPreviousAction</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.Custom.ToggleViewModelBooleanAction.html">ToggleViewModelBooleanAction</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.Custom.WindowAction.html">WindowAction</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.Custom.WriteableBitmapRenderAction.html">WriteableBitmapRenderAction</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.DragAndDrop.AddPreviewFilesAction.html">AddPreviewFilesAction</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.FileSystem.CreateDirectoryAction.html">CreateDirectoryAction</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.FileSystem.DeleteDirectoryAction.html">DeleteDirectoryAction</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.FileSystem.DeleteFileAction.html">DeleteFileAction</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.FileSystem.WriteTextToFileAction.html">WriteTextToFileAction</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.Network.HttpRequestAction.html">HttpRequestAction</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.ReactiveUI.ClearNavigationStackAction.html">ClearNavigationStackAction</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.ReactiveUI.NavigateAction.html">NavigateAction</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.ReactiveUI.NavigateAndReset.html">NavigateAndReset</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.ReactiveUI.NavigateBackAction.html">NavigateBackAction</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.ReactiveUI.NavigateToAction-1.html">NavigateToAction&lt;TViewModel&gt;</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.ReactiveUI.NavigateToAndResetAction-1.html">NavigateToAndResetAction&lt;TViewModel&gt;</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.Scripting.ExecuteScriptAction.html">ExecuteScriptAction</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactivity.InvokeCommandActionBase.html">InvokeCommandActionBase</a></div>
-    </dd>
-  </dl>
 
   <dl class="typelist inheritedMembers">
     <dt>Inherited Members</dt>
     <dd>
+    <div>
+      <a class="xref" href="Avalonia.Xaml.Interactivity.StyledElementAction.html#Avalonia_Xaml_Interactivity_StyledElementAction_IsEnabledProperty">StyledElementAction.IsEnabledProperty</a>
+    </div>
+    <div>
+      <a class="xref" href="Avalonia.Xaml.Interactivity.StyledElementAction.html#Avalonia_Xaml_Interactivity_StyledElementAction_IsEnabled">StyledElementAction.IsEnabled</a>
+    </div>
     <div>
       <span class="xref">StyledElement.DataContextProperty</span>
     </div>
@@ -491,17 +400,48 @@ Class StyledElementAction  <a class="header-action link-secondary" title="View s
 
 
 
-  <h3 id="Avalonia_Xaml_Interactivity_StyledElementAction_IsEnabledProperty" data-uid="Avalonia.Xaml.Interactivity.StyledElementAction.IsEnabledProperty">
-  IsEnabledProperty
-  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactivity/StyledElement/StyledElementAction.cs/#L16"><i class="bi bi-code-slash"></i></a>
+  <h3 id="Avalonia_Xaml_Interactions_FileSystem_DeleteDirectoryAction_PathProperty" data-uid="Avalonia.Xaml.Interactions.FileSystem.DeleteDirectoryAction.PathProperty">
+  PathProperty
+  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactions/FileSystem/DeleteDirectoryAction.cs/#L15"><i class="bi bi-code-slash"></i></a>
   </h3>
 
-  <div class="markdown level1 summary"><p>Identifies the <a class="xref" href="Avalonia.Xaml.Interactivity.StyledElementAction.html#Avalonia_Xaml_Interactivity_StyledElementAction_IsEnabled">IsEnabled</a> avalonia property.</p>
+  <div class="markdown level1 summary"><p>Identifies the <a class="xref" href="Avalonia.Xaml.Interactions.FileSystem.DeleteDirectoryAction.html#Avalonia_Xaml_Interactions_FileSystem_DeleteDirectoryAction_Path">Path</a> avalonia property.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static readonly StyledProperty&lt;bool&gt; IsEnabledProperty</code></pre>
+    <pre><code class="lang-csharp hljs">public static readonly StyledProperty&lt;string?&gt; PathProperty</code></pre>
+  </div>
+
+
+
+
+  <h4 class="section">Field Value</h4>
+  <dl class="parameters">
+    <dt><span class="xref">StyledProperty</span>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a>&gt;</dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Avalonia_Xaml_Interactions_FileSystem_DeleteDirectoryAction_RecursiveProperty" data-uid="Avalonia.Xaml.Interactions.FileSystem.DeleteDirectoryAction.RecursiveProperty">
+  RecursiveProperty
+  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactions/FileSystem/DeleteDirectoryAction.cs/#L21"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Identifies the <a class="xref" href="Avalonia.Xaml.Interactions.FileSystem.DeleteDirectoryAction.html#Avalonia_Xaml_Interactions_FileSystem_DeleteDirectoryAction_Recursive">Recursive</a> avalonia property.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static readonly StyledProperty&lt;bool&gt; RecursiveProperty</code></pre>
   </div>
 
 
@@ -525,19 +465,51 @@ Class StyledElementAction  <a class="header-action link-secondary" title="View s
 </h2>
 
 
-  <a id="Avalonia_Xaml_Interactivity_StyledElementAction_IsEnabled_" data-uid="Avalonia.Xaml.Interactivity.StyledElementAction.IsEnabled*"></a>
+  <a id="Avalonia_Xaml_Interactions_FileSystem_DeleteDirectoryAction_Path_" data-uid="Avalonia.Xaml.Interactions.FileSystem.DeleteDirectoryAction.Path*"></a>
 
-  <h3 id="Avalonia_Xaml_Interactivity_StyledElementAction_IsEnabled" data-uid="Avalonia.Xaml.Interactivity.StyledElementAction.IsEnabled">
-  IsEnabled
-  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactivity/StyledElement/StyledElementAction.cs/#L24"><i class="bi bi-code-slash"></i></a>
+  <h3 id="Avalonia_Xaml_Interactions_FileSystem_DeleteDirectoryAction_Path" data-uid="Avalonia.Xaml.Interactions.FileSystem.DeleteDirectoryAction.Path">
+  Path
+  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactions/FileSystem/DeleteDirectoryAction.cs/#L27"><i class="bi bi-code-slash"></i></a>
   </h3>
 
-  <div class="markdown level1 summary"><p>Gets or sets a value indicating whether this instance is enabled.</p>
+  <div class="markdown level1 summary"><p>Gets or sets the path of the directory to delete.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public bool IsEnabled { get; set; }</code></pre>
+    <pre><code class="lang-csharp hljs">public string? Path { get; set; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="Avalonia_Xaml_Interactions_FileSystem_DeleteDirectoryAction_Recursive_" data-uid="Avalonia.Xaml.Interactions.FileSystem.DeleteDirectoryAction.Recursive*"></a>
+
+  <h3 id="Avalonia_Xaml_Interactions_FileSystem_DeleteDirectoryAction_Recursive" data-uid="Avalonia.Xaml.Interactions.FileSystem.DeleteDirectoryAction.Recursive">
+  Recursive
+  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactions/FileSystem/DeleteDirectoryAction.cs/#L36"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Gets or sets a value indicating whether to delete subdirectories and files.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool Recursive { get; set; }</code></pre>
   </div>
 
 
@@ -547,8 +519,7 @@ Class StyledElementAction  <a class="header-action link-secondary" title="View s
   <h4 class="section">Property Value</h4>
   <dl class="parameters">
     <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
-    <dd><p><code>true</code> if this instance is enabled; otherwise, <code>false</code>.</p>
-</dd>
+    <dd></dd>
   </dl>
 
 
@@ -562,11 +533,11 @@ Class StyledElementAction  <a class="header-action link-secondary" title="View s
 </h2>
 
 
-  <a id="Avalonia_Xaml_Interactivity_StyledElementAction_Execute_" data-uid="Avalonia.Xaml.Interactivity.StyledElementAction.Execute*"></a>
+  <a id="Avalonia_Xaml_Interactions_FileSystem_DeleteDirectoryAction_Execute_" data-uid="Avalonia.Xaml.Interactions.FileSystem.DeleteDirectoryAction.Execute*"></a>
 
-  <h3 id="Avalonia_Xaml_Interactivity_StyledElementAction_Execute_System_Object_System_Object_" data-uid="Avalonia.Xaml.Interactivity.StyledElementAction.Execute(System.Object,System.Object)">
+  <h3 id="Avalonia_Xaml_Interactions_FileSystem_DeleteDirectoryAction_Execute_System_Object_System_Object_" data-uid="Avalonia.Xaml.Interactions.FileSystem.DeleteDirectoryAction.Execute(System.Object,System.Object)">
   Execute(object?, object?)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactivity/StyledElement/StyledElementAction.cs/#L37"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactions/FileSystem/DeleteDirectoryAction.cs/#L43"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Executes the action.</p>
@@ -574,7 +545,7 @@ Class StyledElementAction  <a class="header-action link-secondary" title="View s
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public abstract object? Execute(object? sender, object? parameter)</code></pre>
+    <pre><code class="lang-csharp hljs">public override object? Execute(object? sender, object? parameter)</code></pre>
   </div>
 
   <h4 class="section">Parameters</h4>
@@ -600,7 +571,7 @@ Class StyledElementAction  <a class="header-action link-secondary" title="View s
 
 
 
-  <h4 class="section" id="Avalonia_Xaml_Interactivity_StyledElementAction_Execute_System_Object_System_Object__remarks">Remarks</h4>
+  <h4 class="section" id="Avalonia_Xaml_Interactions_FileSystem_DeleteDirectoryAction_Execute_System_Object_System_Object__remarks">Remarks</h4>
   <div class="markdown level1 remarks"><p>An example of parameter usage is EventTriggerBehavior, which passes the EventArgs as a parameter to its actions.</p>
 </div>
 
@@ -611,7 +582,7 @@ Class StyledElementAction  <a class="header-action link-secondary" title="View s
 </article>
 
         <div class="contribution d-print-none">
-          <a href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactivity/StyledElement/StyledElementAction.cs/#L11" class="edit-link">Edit this page</a>
+          <a href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactions/FileSystem/DeleteDirectoryAction.cs/#L10" class="edit-link">Edit this page</a>
         </div>
 
 

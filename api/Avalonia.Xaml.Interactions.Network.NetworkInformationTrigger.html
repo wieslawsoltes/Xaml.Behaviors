@@ -2,11 +2,11 @@
 <html>
   <head>
     <meta charset="utf-8">
-      <title>Class Trigger | XAML Behaviors for Avalonia </title>
+      <title>Class NetworkInformationTrigger | XAML Behaviors for Avalonia </title>
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <meta name="title" content="Class Trigger | XAML Behaviors for Avalonia ">
+      <meta name="title" content="Class NetworkInformationTrigger | XAML Behaviors for Avalonia ">
       
-      <meta name="description" content="A base class for behaviors, implementing the basic plumbing of .">
+      <meta name="description" content="A trigger that listens to network availability changes.">
       <link rel="icon" href="../favicon.ico">
       <link rel="stylesheet" href="../public/docfx.min.css">
       <link rel="stylesheet" href="../public/main.css">
@@ -16,7 +16,7 @@
       
       
       
-      <meta name="docfx:docurl" content="https://github.com/wieslawsoltes/Xaml.Behaviors/new/master/apiSpec/new?filename=Avalonia_Xaml_Interactivity_Trigger.md&amp;value=---%0Auid%3A%20Avalonia.Xaml.Interactivity.Trigger%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">
+      <meta name="docfx:docurl" content="https://github.com/wieslawsoltes/Xaml.Behaviors/new/master/apiSpec/new?filename=Avalonia_Xaml_Interactions_Network_NetworkInformationTrigger.md&amp;value=---%0Auid%3A%20Avalonia.Xaml.Interactions.Network.NetworkInformationTrigger%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">
       <meta name="loc:inThisArticle" content="In this article">
       <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
       <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
@@ -80,25 +80,25 @@
           <nav id="breadcrumb"></nav>
         </div>
 
-        <article data-uid="Avalonia.Xaml.Interactivity.Trigger">
+        <article data-uid="Avalonia.Xaml.Interactions.Network.NetworkInformationTrigger">
 
 
 
-  <h1 id="Avalonia_Xaml_Interactivity_Trigger" data-uid="Avalonia.Xaml.Interactivity.Trigger" class="text-break">
-Class Trigger  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactivity/AvaloniaObject/Trigger.cs/#L10"><i class="bi bi-code-slash"></i></a>
+  <h1 id="Avalonia_Xaml_Interactions_Network_NetworkInformationTrigger" data-uid="Avalonia.Xaml.Interactions.Network.NetworkInformationTrigger" class="text-break">
+Class NetworkInformationTrigger  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactions/Network/NetworkInformationTrigger.cs/#L11"><i class="bi bi-code-slash"></i></a>
   </h1>
 
   <div class="facts text-secondary">
-    <dl><dt>Namespace</dt><dd><a class="xref" href="Avalonia.html">Avalonia</a>.<a class="xref" href="Avalonia.Xaml.html">Xaml</a>.<a class="xref" href="Avalonia.Xaml.Interactivity.html">Interactivity</a></dd></dl>
-  <dl><dt>Assembly</dt><dd>Xaml.Behaviors.Interactivity.dll</dd></dl>
+    <dl><dt>Namespace</dt><dd><a class="xref" href="Avalonia.html">Avalonia</a>.<a class="xref" href="Avalonia.Xaml.html">Xaml</a>.<a class="xref" href="Avalonia.Xaml.Interactions.html">Interactions</a>.<a class="xref" href="Avalonia.Xaml.Interactions.Network.html">Network</a></dd></dl>
+  <dl><dt>Assembly</dt><dd>Xaml.Behaviors.Interactions.dll</dd></dl>
   </div>
 
-  <div class="markdown summary"><p>A base class for behaviors, implementing the basic plumbing of <a class="xref" href="Avalonia.Xaml.Interactivity.ITrigger.html">ITrigger</a>.</p>
+  <div class="markdown summary"><p>A trigger that listens to network availability changes.</p>
 </div>
   <div class="markdown conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public abstract class Trigger : Behavior, INotifyPropertyChanged, IBehaviorEventsHandler, ITrigger, IBehavior</code></pre>
+    <pre><code class="lang-csharp hljs">public class NetworkInformationTrigger : Trigger, INotifyPropertyChanged, IBehaviorEventsHandler, ITrigger, IBehavior</code></pre>
   </div>
 
 
@@ -110,7 +110,8 @@ Class Trigger  <a class="header-action link-secondary" title="View source" href=
       <div><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a></div>
       <div><span class="xref">AvaloniaObject</span></div>
       <div><a class="xref" href="Avalonia.Xaml.Interactivity.Behavior.html">Behavior</a></div>
-      <div><span class="xref">Trigger</span></div>
+      <div><a class="xref" href="Avalonia.Xaml.Interactivity.Trigger.html">Trigger</a></div>
+      <div><span class="xref">NetworkInformationTrigger</span></div>
     </dd>
   </dl>
 
@@ -124,18 +125,16 @@ Class Trigger  <a class="header-action link-secondary" title="View source" href=
     </dd>
   </dl>
 
-  <dl class="typelist derived">
-    <dt>Derived</dt>
-    <dd>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.FileSystem.FileSystemWatcherTrigger.html">FileSystemWatcherTrigger</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.Network.NetworkInformationTrigger.html">NetworkInformationTrigger</a></div>
-      <div><a class="xref" href="Avalonia.Xaml.Interactivity.Trigger-1.html">Trigger&lt;T&gt;</a></div>
-    </dd>
-  </dl>
 
   <dl class="typelist inheritedMembers">
     <dt>Inherited Members</dt>
     <dd>
+    <div>
+      <a class="xref" href="Avalonia.Xaml.Interactivity.Trigger.html#Avalonia_Xaml_Interactivity_Trigger_ActionsProperty">Trigger.ActionsProperty</a>
+    </div>
+    <div>
+      <a class="xref" href="Avalonia.Xaml.Interactivity.Trigger.html#Avalonia_Xaml_Interactivity_Trigger_Actions">Trigger.Actions</a>
+    </div>
     <div>
       <a class="xref" href="Avalonia.Xaml.Interactivity.Behavior.html#Avalonia_Xaml_Interactivity_Behavior_IsEnabledProperty">Behavior.IsEnabledProperty</a>
     </div>
@@ -150,12 +149,6 @@ Class Trigger  <a class="header-action link-secondary" title="View source" href=
     </div>
     <div>
       <a class="xref" href="Avalonia.Xaml.Interactivity.Behavior.html#Avalonia_Xaml_Interactivity_Behavior_Detach">Behavior.Detach()</a>
-    </div>
-    <div>
-      <a class="xref" href="Avalonia.Xaml.Interactivity.Behavior.html#Avalonia_Xaml_Interactivity_Behavior_OnAttached">Behavior.OnAttached()</a>
-    </div>
-    <div>
-      <a class="xref" href="Avalonia.Xaml.Interactivity.Behavior.html#Avalonia_Xaml_Interactivity_Behavior_OnDetaching">Behavior.OnDetaching()</a>
     </div>
     <div>
       <a class="xref" href="Avalonia.Xaml.Interactivity.Behavior.html#Avalonia_Xaml_Interactivity_Behavior_OnAttachedToVisualTree">Behavior.OnAttachedToVisualTree()</a>
@@ -320,74 +313,66 @@ Class Trigger  <a class="header-action link-secondary" title="View source" href=
 
 
 
-  <h2 class="section" id="fields">Fields
+  <h2 class="section" id="methods">Methods
 </h2>
 
 
+  <a id="Avalonia_Xaml_Interactions_Network_NetworkInformationTrigger_OnAttached_" data-uid="Avalonia.Xaml.Interactions.Network.NetworkInformationTrigger.OnAttached*"></a>
 
-  <h3 id="Avalonia_Xaml_Interactivity_Trigger_ActionsProperty" data-uid="Avalonia.Xaml.Interactivity.Trigger.ActionsProperty">
-  ActionsProperty
-  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactivity/AvaloniaObject/Trigger.cs/#L15"><i class="bi bi-code-slash"></i></a>
+  <h3 id="Avalonia_Xaml_Interactions_Network_NetworkInformationTrigger_OnAttached" data-uid="Avalonia.Xaml.Interactions.Network.NetworkInformationTrigger.OnAttached">
+  OnAttached()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactions/Network/NetworkInformationTrigger.cs/#L14"><i class="bi bi-code-slash"></i></a>
   </h3>
 
-  <div class="markdown level1 summary"><p>Identifies the <a class="xref" href="Avalonia.Xaml.Interactivity.Trigger.html#Avalonia_Xaml_Interactivity_Trigger_Actions">Actions</a> avalonia property.</p>
+  <div class="markdown level1 summary"><p>Called after the behavior is attached to the <a class="xref" href="Avalonia.Xaml.Interactivity.Behavior.html#Avalonia_Xaml_Interactivity_Behavior_AssociatedObject">AssociatedObject</a>.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static readonly DirectProperty&lt;Trigger, ActionCollection&gt; ActionsProperty</code></pre>
-  </div>
-
-
-
-
-  <h4 class="section">Field Value</h4>
-  <dl class="parameters">
-    <dt><span class="xref">DirectProperty</span>&lt;<a class="xref" href="Avalonia.Xaml.Interactivity.Trigger.html">Trigger</a>, <a class="xref" href="Avalonia.Xaml.Interactivity.ActionCollection.html">ActionCollection</a>&gt;</dt>
-    <dd></dd>
-  </dl>
-
-
-
-
-
-
-
-
-
-  <h2 class="section" id="properties">Properties
-</h2>
-
-
-  <a id="Avalonia_Xaml_Interactivity_Trigger_Actions_" data-uid="Avalonia.Xaml.Interactivity.Trigger.Actions*"></a>
-
-  <h3 id="Avalonia_Xaml_Interactivity_Trigger_Actions" data-uid="Avalonia.Xaml.Interactivity.Trigger.Actions">
-  Actions
-  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactivity/AvaloniaObject/Trigger.cs/#L23"><i class="bi bi-code-slash"></i></a>
-  </h3>
-
-  <div class="markdown level1 summary"><p>Gets the collection of actions associated with the behavior. This is an avalonia property.</p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">[Content]
-public ActionCollection Actions { get; }</code></pre>
+    <pre><code class="lang-csharp hljs">protected override void OnAttached()</code></pre>
   </div>
 
 
 
 
 
-  <h4 class="section">Property Value</h4>
-  <dl class="parameters">
-    <dt><a class="xref" href="Avalonia.Xaml.Interactivity.ActionCollection.html">ActionCollection</a></dt>
-    <dd></dd>
-  </dl>
 
 
 
 
+  <h4 class="section" id="Avalonia_Xaml_Interactions_Network_NetworkInformationTrigger_OnAttached_remarks">Remarks</h4>
+  <div class="markdown level1 remarks"><p>Override this to hook up functionality to the <a class="xref" href="Avalonia.Xaml.Interactivity.Behavior.html#Avalonia_Xaml_Interactivity_Behavior_AssociatedObject">AssociatedObject</a></p>
+</div>
+
+
+
+
+  <a id="Avalonia_Xaml_Interactions_Network_NetworkInformationTrigger_OnDetaching_" data-uid="Avalonia.Xaml.Interactions.Network.NetworkInformationTrigger.OnDetaching*"></a>
+
+  <h3 id="Avalonia_Xaml_Interactions_Network_NetworkInformationTrigger_OnDetaching" data-uid="Avalonia.Xaml.Interactions.Network.NetworkInformationTrigger.OnDetaching">
+  OnDetaching()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactions/Network/NetworkInformationTrigger.cs/#L21"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Called when the behavior is being detached from its <a class="xref" href="Avalonia.Xaml.Interactivity.Behavior.html#Avalonia_Xaml_Interactivity_Behavior_AssociatedObject">AssociatedObject</a>.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected override void OnDetaching()</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+  <h4 class="section" id="Avalonia_Xaml_Interactions_Network_NetworkInformationTrigger_OnDetaching_remarks">Remarks</h4>
+  <div class="markdown level1 remarks"><p>Override this to unhook functionality from the <a class="xref" href="Avalonia.Xaml.Interactivity.Behavior.html#Avalonia_Xaml_Interactivity_Behavior_AssociatedObject">AssociatedObject</a></p>
+</div>
 
 
 
@@ -396,7 +381,7 @@ public ActionCollection Actions { get; }</code></pre>
 </article>
 
         <div class="contribution d-print-none">
-          <a href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactivity/AvaloniaObject/Trigger.cs/#L10" class="edit-link">Edit this page</a>
+          <a href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactions/Network/NetworkInformationTrigger.cs/#L11" class="edit-link">Edit this page</a>
         </div>
 
 

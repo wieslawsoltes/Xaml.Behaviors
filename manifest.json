@@ -6528,6 +6528,132 @@
     },
     {
       "type": "ManagedReference",
+      "source_relative_path": "api/Avalonia.Xaml.Interactions.FileSystem.CreateDirectoryAction.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Avalonia.Xaml.Interactions.FileSystem.CreateDirectoryAction.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Avalonia.Xaml.Interactions.FileSystem.CreateDirectoryAction",
+      "Summary": "<p sourcefile=\"api/Avalonia.Xaml.Interactions.FileSystem.CreateDirectoryAction.yml\" sourcestartlinenumber=\"1\">An action that creates a directory at the specified path.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Avalonia.Xaml.Interactions.FileSystem.DeleteDirectoryAction.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Avalonia.Xaml.Interactions.FileSystem.DeleteDirectoryAction.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Avalonia.Xaml.Interactions.FileSystem.DeleteDirectoryAction",
+      "Summary": "<p sourcefile=\"api/Avalonia.Xaml.Interactions.FileSystem.DeleteDirectoryAction.yml\" sourcestartlinenumber=\"1\">An action that deletes a directory at the specified path.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Avalonia.Xaml.Interactions.FileSystem.DeleteFileAction.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Avalonia.Xaml.Interactions.FileSystem.DeleteFileAction.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Avalonia.Xaml.Interactions.FileSystem.DeleteFileAction",
+      "Summary": "<p sourcefile=\"api/Avalonia.Xaml.Interactions.FileSystem.DeleteFileAction.yml\" sourcestartlinenumber=\"1\">An action that deletes a file at the specified path.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Avalonia.Xaml.Interactions.FileSystem.FileSystemWatcherTrigger.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Avalonia.Xaml.Interactions.FileSystem.FileSystemWatcherTrigger.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Avalonia.Xaml.Interactions.FileSystem.FileSystemWatcherTrigger",
+      "Summary": "<p sourcefile=\"api/Avalonia.Xaml.Interactions.FileSystem.FileSystemWatcherTrigger.yml\" sourcestartlinenumber=\"1\">A trigger that listens to file system events.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Avalonia.Xaml.Interactions.FileSystem.WriteTextToFileAction.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Avalonia.Xaml.Interactions.FileSystem.WriteTextToFileAction.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Avalonia.Xaml.Interactions.FileSystem.WriteTextToFileAction",
+      "Summary": "<p sourcefile=\"api/Avalonia.Xaml.Interactions.FileSystem.WriteTextToFileAction.yml\" sourcestartlinenumber=\"1\">An action that writes text to a file.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Avalonia.Xaml.Interactions.FileSystem.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Avalonia.Xaml.Interactions.FileSystem.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Avalonia.Xaml.Interactions.FileSystem",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Avalonia.Xaml.Interactions.Network.HttpRequestAction.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Avalonia.Xaml.Interactions.Network.HttpRequestAction.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Avalonia.Xaml.Interactions.Network.HttpRequestAction",
+      "Summary": "<p sourcefile=\"api/Avalonia.Xaml.Interactions.Network.HttpRequestAction.yml\" sourcestartlinenumber=\"1\">An action that performs an HTTP request.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Avalonia.Xaml.Interactions.Network.NetworkInformationTrigger.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Avalonia.Xaml.Interactions.Network.NetworkInformationTrigger.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Avalonia.Xaml.Interactions.Network.NetworkInformationTrigger",
+      "Summary": "<p sourcefile=\"api/Avalonia.Xaml.Interactions.Network.NetworkInformationTrigger.yml\" sourcestartlinenumber=\"1\">A trigger that listens to network availability changes.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Avalonia.Xaml.Interactions.Network.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Avalonia.Xaml.Interactions.Network.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Avalonia.Xaml.Interactions.Network",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
       "source_relative_path": "api/Avalonia.Xaml.Interactions.ReactiveUI.ClearNavigationStackAction.yml",
       "output": {
         ".html": {
@@ -8094,6 +8220,79 @@
         },
         ".json": {
           "relative_path": "articles/events/toc.json"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/filesystem/create-directory-action.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/filesystem/create-directory-action.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/filesystem/delete-directory-action.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/filesystem/delete-directory-action.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/filesystem/delete-file-action.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/filesystem/delete-file-action.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/filesystem/filesystem-watcher-trigger.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/filesystem/filesystem-watcher-trigger.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/filesystem/index.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/filesystem/index.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "articles/filesystem/toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "articles/filesystem/toc.html"
+        },
+        ".json": {
+          "relative_path": "articles/filesystem/toc.json"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/filesystem/write-text-to-file-action.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/filesystem/write-text-to-file-action.html"
         }
       },
       "version": ""
@@ -12837,6 +13036,16 @@
       "output": {
         ".html": {
           "relative_path": "articles/mvvm-and-behaviors.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/network.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/network.html"
         }
       },
       "version": ""
