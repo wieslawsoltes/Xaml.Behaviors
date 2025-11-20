@@ -14,7 +14,7 @@ The steps below show how a new user can attach their first behavior. These examp
 
 Here is a minimal example:
 
-```xaml
+```xml
 <UserControl xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <Button Content="Click">
@@ -36,7 +36,7 @@ The examples below walk through typical scenarios where behaviors remove the nee
 
 In XAML this looks like:
 
-```xaml
+```xml
 <!-- Change text based on slider value -->
 <TextBlock x:Name="Output">
     <Interaction.Behaviors>
@@ -76,7 +76,7 @@ Below is a walkthrough of both approaches.
 
 **Defining behaviors in a style**
 
-```xaml
+```xml
 <Style Selector="Button.alert">
     <Setter Property="(Interaction.Behaviors)">
         <BehaviorCollectionTemplate>
