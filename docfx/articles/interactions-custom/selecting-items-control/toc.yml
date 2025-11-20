@@ -1,0 +1,6 @@
+- name: Overview
+  href: overview.md
+- name: SelectingItemsControlEventsBehavior
+  href: selecting-items-control-events-behavior.md
+- name: SelectingItemsControlSearchBehavior
+  href: selecting-items-control-search-behavior.md

@@ -4,7 +4,7 @@ The `Xaml.Behaviors.Interactivity` package (and related packages) uses the `[Xml
 
 ## What does this mean?
 
-This means that you do not need to declare separate XML namespaces (like `xmlns:i="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity"`) to use behaviors, triggers, and actions in your XAML.
+This means that you do not need to declare separate XML namespaces (like `xmlns:i="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Xaml.Behaviors.Interactivity"`) to use behaviors, triggers, and actions in your XAML.
 
 Instead, you can use them directly under the default Avalonia namespace, or any prefix mapped to it.
 
@@ -15,8 +15,8 @@ Instead, you can use them directly under the default Avalonia namespace, or any 
 ```xml
 <UserControl xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:i="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity"
-             xmlns:ia="clr-namespace:Avalonia.Xaml.Interactions.Core;assembly=Avalonia.Xaml.Interactions">
+             xmlns:i="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Xaml.Behaviors.Interactivity"
+             xmlns:ia="clr-namespace:Avalonia.Xaml.Interactions.Core;assembly=Xaml.Behaviors.Interactions">
     <Button>
         <i:Interaction.Behaviors>
             <ia:EventTriggerBehavior EventName="Click">

@@ -1,0 +1,10 @@
+- name: Overview
+  href: overview.md
+- name: TabControlKeyNavigationBehavior
+  href: tab-control-key-navigation-behavior.md
+- name: TabControlNextAction
+  href: tab-control-next-action.md
+- name: TabControlPreviousAction
+  href: tab-control-previous-action.md
+- name: TabControlSelectionChangedTrigger
+  href: tab-control-selection-changed-trigger.md

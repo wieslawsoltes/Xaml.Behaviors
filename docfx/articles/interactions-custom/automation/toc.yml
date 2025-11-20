@@ -1,0 +1,8 @@
+- name: Overview
+  href: overview.md
+- name: AutomationNameBehavior
+  href: automation-name-behavior.md
+- name: AutomationNameChangedTrigger
+  href: automation-name-changed-trigger.md
+- name: SetAutomationIdAction
+  href: set-automation-id-action.md

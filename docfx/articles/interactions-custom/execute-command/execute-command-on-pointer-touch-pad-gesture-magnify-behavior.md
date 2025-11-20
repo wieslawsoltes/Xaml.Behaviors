@@ -1,0 +1,3 @@
+# ExecuteCommandOnPointerTouchPadGestureMagnifyBehavior
+
+*(Documentation for ExecuteCommandOnPointerTouchPadGestureMagnifyBehavior is coming soon)*

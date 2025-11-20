@@ -1,0 +1,26 @@
+- name: Overview
+  href: drag-and-drop-overview.md
+- name: Context Drag & Drop
+  href: context-drag-drop.md
+- name: Typed Drag & Drop
+  href: typed-drag-drop.md
+- name: File Drag & Drop
+  href: files-drag-drop.md
+- name: Drag & Drop Events
+  href: drag-and-drop-events-behavior.md
+- name: Drag & Drop Commands
+  href: drag-drop-commands-behavior.md
+- name: Context Drag With Direction
+  href: context-drag-with-direction-behavior.md
+- name: Content Control Files Drop
+  href: content-control-files-drop-behavior.md
+- name: Managed Context Drag
+  href: managed-context-drag-behavior.md
+- name: Managed Context Drop
+  href: managed-context-drop-behavior.md
+- name: Panel Drag
+  href: panel-drag-behavior.md
+- name: Panel Drop
+  href: panel-drop-behavior.md
+- name: Text Drop
+  href: text-drop-behavior.md

@@ -1,0 +1,16 @@
+- name: Overview
+  href: overview.md
+- name: SplitViewPaneClosedTrigger
+  href: split-view-pane-closed-trigger.md
+- name: SplitViewPaneClosingTrigger
+  href: split-view-pane-closing-trigger.md
+- name: SplitViewPaneOpenedTrigger
+  href: split-view-pane-opened-trigger.md
+- name: SplitViewPaneOpeningTrigger
+  href: split-view-pane-opening-trigger.md
+- name: SplitViewStateBehavior
+  href: split-view-state-behavior.md
+- name: SplitViewStateSetter
+  href: split-view-state-setter.md
+- name: SplitViewTogglePaneAction
+  href: split-view-toggle-pane-action.md
