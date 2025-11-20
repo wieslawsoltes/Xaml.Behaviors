@@ -83,7 +83,68 @@
         <article data-uid="">
 <h1 id="specialanimations">SpecialAnimations</h1>
 
-<p><em>(Documentation for SpecialAnimations is coming soon)</em></p>
+<p><code>SpecialAnimations</code> provides miscellaneous animations inspired by animate.css.</p>
+<h3 id="methods">Methods</h3>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>SetFlip(Control element, double milliseconds)</code></td>
+<td>Applies a flip animation.</td>
+</tr>
+<tr>
+<td><code>SetFlipInX(Control element, double milliseconds)</code></td>
+<td>Flips in around the X axis.</td>
+</tr>
+<tr>
+<td><code>SetFlipInY(Control element, double milliseconds)</code></td>
+<td>Flips in around the Y axis.</td>
+</tr>
+<tr>
+<td><code>SetFlipOutX(Control element, double milliseconds)</code></td>
+<td>Flips out around the X axis.</td>
+</tr>
+<tr>
+<td><code>SetFlipOutY(Control element, double milliseconds)</code></td>
+<td>Flips out around the Y axis.</td>
+</tr>
+<tr>
+<td><code>SetHinge(Control element, double milliseconds)</code></td>
+<td>Applies a hinge animation (swinging and falling).</td>
+</tr>
+<tr>
+<td><code>SetJackInTheBox(Control element, double milliseconds)</code></td>
+<td>Applies a &quot;Jack in the Box&quot; animation.</td>
+</tr>
+<tr>
+<td><code>SetRollIn(Control element, double milliseconds)</code></td>
+<td>Rolls in the element.</td>
+</tr>
+<tr>
+<td><code>SetRollOut(Control element, double milliseconds)</code></td>
+<td>Rolls out the element.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="example">Example</h3>
+<p><strong>C#</strong></p>
+<pre><code class="lang-csharp">using Avalonia.Xaml.Interactions.Custom;
+
+SpecialAnimations.SetJackInTheBox(mySurprise, 1000);
+</code></pre>
+<p><strong>XAML</strong></p>
+<p>You can use the methods as attached properties in XAML. The value is the duration in milliseconds.</p>
+<pre><code class="lang-xml">&lt;UserControl xmlns=&quot;https://github.com/avaloniaui&quot;
+             xmlns:x=&quot;http://schemas.microsoft.com/winfx/2006/xaml&quot;&gt;
+    &lt;Image Source=&quot;gift.png&quot;
+           SpecialAnimations.JackInTheBox=&quot;1000&quot; /&gt;
+&lt;/UserControl&gt;
+</code></pre>
 
 </article>
 

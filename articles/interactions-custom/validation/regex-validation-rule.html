@@ -83,7 +83,32 @@
         <article data-uid="">
 <h1 id="regexvalidationrule">RegexValidationRule</h1>
 
-<p><em>(Documentation for RegexValidationRule is coming soon)</em></p>
+<p>Validation rule that checks value against a regular expression pattern.</p>
+<h2 id="properties">Properties</h2>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Pattern</td>
+<td><code>string</code></td>
+<td>Gets or sets the regex pattern.</td>
+</tr>
+<tr>
+<td>ErrorMessage</td>
+<td><code>string</code></td>
+<td>Gets or sets the error message for failed validation.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="usage">Usage</h2>
+<pre><code class="lang-xml">&lt;RegexValidationRule Pattern=&quot;^\d+$&quot; ErrorMessage=&quot;Value must be a number.&quot; /&gt;
+</code></pre>
 
 </article>
 

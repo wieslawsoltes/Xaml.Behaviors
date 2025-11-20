@@ -83,7 +83,51 @@
         <article data-uid="">
 <h1 id="comboboxvalidationbehavior">ComboBoxValidationBehavior</h1>
 
-<p><em>(Documentation for ComboBoxValidationBehavior is coming soon)</em></p>
+<p>Validation behavior for <code>ComboBox</code> selected item.</p>
+<h2 id="properties">Properties</h2>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Property</td>
+<td><code>AvaloniaProperty</code></td>
+<td>Gets or sets the property to validate. This is an avalonia property.</td>
+</tr>
+<tr>
+<td>IsValid</td>
+<td><code>bool</code></td>
+<td>Gets or sets value indicating whether the property value is valid. This is an avalonia property.</td>
+</tr>
+<tr>
+<td>Error</td>
+<td><code>string</code></td>
+<td>Gets or sets the validation error message. This is an avalonia property.</td>
+</tr>
+<tr>
+<td>Rules</td>
+<td><code>AvaloniaList&lt;IValidationRule&lt;object&gt;&gt;</code></td>
+<td>Gets validation rules collection. This is an avalonia property.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="usage">Usage</h2>
+<pre><code class="lang-xml">&lt;ComboBox x:Name=&quot;ComboBox&quot; SelectedIndex=&quot;0&quot;&gt;
+    &lt;ComboBoxItem&gt;Item 1&lt;/ComboBoxItem&gt;
+    &lt;ComboBoxItem&gt;Item 2&lt;/ComboBoxItem&gt;
+    &lt;ComboBoxItem&gt;Item 3&lt;/ComboBoxItem&gt;
+    &lt;Interaction.Behaviors&gt;
+        &lt;ComboBoxValidationBehavior&gt;
+            &lt;NotNullValidationRule ErrorMessage=&quot;Selection is required.&quot; /&gt;
+        &lt;/ComboBoxValidationBehavior&gt;
+    &lt;/Interaction.Behaviors&gt;
+&lt;/ComboBox&gt;
+</code></pre>
 
 </article>
 

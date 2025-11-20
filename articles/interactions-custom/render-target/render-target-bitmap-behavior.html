@@ -83,7 +83,50 @@
         <article data-uid="">
 <h1 id="rendertargetbitmapbehavior">RenderTargetBitmapBehavior</h1>
 
-<p><em>(Documentation for RenderTargetBitmapBehavior is coming soon)</em></p>
+<p><code>RenderTargetBitmapBehavior</code> is a behavior that draws continuously into a <code>RenderTargetBitmap</code> and assigns it to the associated <code>Image</code>. It uses a timer to trigger rendering.</p>
+<h2 id="properties">Properties</h2>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PixelWidth</td>
+<td><code>int</code></td>
+<td>Gets or sets the pixel width of the bitmap. Default is 200.</td>
+</tr>
+<tr>
+<td>PixelHeight</td>
+<td><code>int</code></td>
+<td>Gets or sets the pixel height of the bitmap. Default is 200.</td>
+</tr>
+<tr>
+<td>Dpi</td>
+<td><code>Vector</code></td>
+<td>Gets or sets the DPI vector of the bitmap. Default is (96, 96).</td>
+</tr>
+<tr>
+<td>Renderer</td>
+<td><code>IRenderTargetBitmapRenderer</code></td>
+<td>Gets or sets the renderer used to draw the bitmap.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="usage">Usage</h2>
+<pre><code class="lang-xml">&lt;Image&gt;
+    &lt;Interaction.Behaviors&gt;
+        &lt;RenderTargetBitmapBehavior PixelWidth=&quot;300&quot; PixelHeight=&quot;300&quot;&gt;
+            &lt;RenderTargetBitmapBehavior.Renderer&gt;
+                &lt;local:MyRenderer /&gt;
+            &lt;/RenderTargetBitmapBehavior.Renderer&gt;
+        &lt;/RenderTargetBitmapBehavior&gt;
+    &lt;/Interaction.Behaviors&gt;
+&lt;/Image&gt;
+</code></pre>
 
 </article>
 

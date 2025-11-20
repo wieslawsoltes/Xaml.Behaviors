@@ -83,7 +83,37 @@
         <article data-uid="">
 <h1 id="scrollvieweroffsetbehavior">ScrollViewerOffsetBehavior</h1>
 
-<p><em>(Documentation for ScrollViewerOffsetBehavior is coming soon)</em></p>
+<p>Sets the <code>ScrollViewer.Offset</code> of the associated <code>ScrollViewer</code>.</p>
+<h2 id="properties">Properties</h2>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>HorizontalOffset</td>
+<td><code>double?</code></td>
+<td>Gets or sets the horizontal offset value.</td>
+</tr>
+<tr>
+<td>VerticalOffset</td>
+<td><code>double?</code></td>
+<td>Gets or sets the vertical offset value.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="usage">Usage</h2>
+<pre><code class="lang-xml">&lt;ScrollViewer&gt;
+    &lt;Interaction.Behaviors&gt;
+        &lt;ScrollViewerOffsetBehavior VerticalOffset=&quot;{Binding CurrentOffset}&quot; /&gt;
+    &lt;/Interaction.Behaviors&gt;
+    &lt;!-- Content --&gt;
+&lt;/ScrollViewer&gt;
+</code></pre>
 
 </article>
 

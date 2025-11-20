@@ -83,7 +83,29 @@
         <article data-uid="">
 <h1 id="routedeventtriggerbase">RoutedEventTriggerBase</h1>
 
-<p><em>(Documentation for RoutedEventTriggerBase is coming soon)</em></p>
+<p><code>RoutedEventTriggerBase</code> is an abstract base class for triggers that listen for a specific <code>RoutedEvent</code> on a source object. It provides properties for configuring the event routing strategy and whether to mark the event as handled.</p>
+<h3 id="properties">Properties</h3>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>EventRoutingStrategy</code></td>
+<td><code>RoutingStrategies</code></td>
+<td>Gets or sets the routing strategy for the event (e.g., Bubble, Tunnel, Direct). Default is <code>Direct</code>.</td>
+</tr>
+<tr>
+<td><code>MarkAsHandled</code></td>
+<td><code>bool</code></td>
+<td>Gets or sets a value indicating whether to mark the routed event as handled after the trigger executes.</td>
+</tr>
+</tbody>
+</table>
 
 </article>
 

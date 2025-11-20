@@ -83,7 +83,33 @@
         <article data-uid="">
 <h1 id="activescreenbehavior">ActiveScreenBehavior</h1>
 
-<p><em>(Documentation for ActiveScreenBehavior is coming soon)</em></p>
+<p><code>ActiveScreenBehavior</code> is a behavior that exposes the screen containing the associated <code>TopLevel</code> (e.g., Window). It updates the <code>ActiveScreen</code> property whenever the window moves or the screen configuration changes.</p>
+<h2 id="properties">Properties</h2>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ActiveScreen</td>
+<td><code>Screen</code></td>
+<td>Gets the active screen of the associated <code>TopLevel</code>. This is a read-only property.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="usage">Usage</h2>
+<pre><code class="lang-xml">&lt;Window&gt;
+    &lt;Interaction.Behaviors&gt;
+        &lt;ActiveScreenBehavior x:Name=&quot;ActiveScreenBehavior&quot; /&gt;
+    &lt;/Interaction.Behaviors&gt;
+
+    &lt;TextBlock Text=&quot;{Binding ActiveScreen.Scaling, ElementName=ActiveScreenBehavior, StringFormat='Scaling: {0}'}&quot; /&gt;
+&lt;/Window&gt;
+</code></pre>
 
 </article>
 

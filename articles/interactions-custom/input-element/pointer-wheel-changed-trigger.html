@@ -83,7 +83,17 @@
         <article data-uid="">
 <h1 id="pointerwheelchangedtrigger">PointerWheelChangedTrigger</h1>
 
-<p><em>(Documentation for PointerWheelChangedTrigger is coming soon)</em></p>
+<p>A trigger that executes when the mouse wheel is scrolled on the associated <code>InputElement</code>.</p>
+<h2 id="usage">Usage</h2>
+<pre><code class="lang-xml">&lt;Border Background=&quot;LightGray&quot; Height=&quot;100&quot; Width=&quot;100&quot;&gt;
+    &lt;Interaction.Behaviors&gt;
+        &lt;PointerWheelChangedTrigger&gt;
+            &lt;InvokeCommandAction Command=&quot;{Binding WheelChangedCommand}&quot; /&gt;
+        &lt;/PointerWheelChangedTrigger&gt;
+    &lt;/Interaction.Behaviors&gt;
+    &lt;TextBlock Text=&quot;Scroll Me&quot; HorizontalAlignment=&quot;Center&quot; VerticalAlignment=&quot;Center&quot; /&gt;
+&lt;/Border&gt;
+</code></pre>
 
 </article>
 

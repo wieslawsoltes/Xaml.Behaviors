@@ -83,7 +83,38 @@
         <article data-uid="">
 <h1 id="incrementviewmodelpropertyaction">IncrementViewModelPropertyAction</h1>
 
-<p><em>(Documentation for IncrementViewModelPropertyAction is coming soon)</em></p>
+<p>Increments a numeric view model property when invoked.</p>
+<h2 id="properties">Properties</h2>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PropertyName</td>
+<td><code>string</code></td>
+<td>Gets or sets the name of the property to change.</td>
+</tr>
+<tr>
+<td>Delta</td>
+<td><code>double</code></td>
+<td>Gets or sets the value to add. Default is 1.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="usage">Usage</h2>
+<pre><code class="lang-xml">&lt;Button Content=&quot;Increment&quot;&gt;
+    &lt;Interaction.Actions&gt;
+        &lt;EventTriggerBehavior EventName=&quot;Click&quot;&gt;
+            &lt;IncrementViewModelPropertyAction PropertyName=&quot;Count&quot; Delta=&quot;1&quot; /&gt;
+        &lt;/EventTriggerBehavior&gt;
+    &lt;/Interaction.Actions&gt;
+&lt;/Button&gt;
+</code></pre>
 
 </article>
 

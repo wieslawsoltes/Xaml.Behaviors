@@ -83,7 +83,43 @@
         <article data-uid="">
 <h1 id="routedeventtriggerbehavior">RoutedEventTriggerBehavior</h1>
 
-<p><em>(Documentation for RoutedEventTriggerBehavior is coming soon)</em></p>
+<p>The <code>RoutedEventTriggerBehavior</code> listens for a specified <code>RoutedEvent</code> on a source object (or the associated object if no source is specified) and executes its actions when that event is raised.</p>
+<h3 id="properties">Properties</h3>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>RoutedEvent</code></td>
+<td><code>RoutedEvent</code></td>
+<td>The routed event to listen for.</td>
+</tr>
+<tr>
+<td><code>RoutingStrategies</code></td>
+<td><code>RoutingStrategies</code></td>
+<td>The routing strategies to listen for (e.g., Bubble, Tunnel, Direct). Default is <code>Direct | Bubble</code>.</td>
+</tr>
+<tr>
+<td><code>SourceInteractive</code></td>
+<td><code>Interactive</code></td>
+<td>The source object to listen to. If not set, the associated object is used.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="example">Example</h3>
+<pre><code class="lang-xml">&lt;Button Content=&quot;Click Me&quot;&gt;
+    &lt;Interaction.Behaviors&gt;
+        &lt;RoutedEventTriggerBehavior RoutedEvent=&quot;{x:Static Button.ClickEvent}&quot;&gt;
+            &lt;InvokeCommandAction Command=&quot;{Binding OnClickCommand}&quot; /&gt;
+        &lt;/RoutedEventTriggerBehavior&gt;
+    &lt;/Interaction.Behaviors&gt;
+&lt;/Button&gt;
+</code></pre>
 
 </article>
 

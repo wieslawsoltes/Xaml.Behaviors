@@ -83,7 +83,106 @@
         <article data-uid="">
 <h1 id="entranceanimations">EntranceAnimations</h1>
 
-<p><em>(Documentation for EntranceAnimations is coming soon)</em></p>
+<p><code>EntranceAnimations</code> is a static helper class that provides entrance animations (appearing on screen) inspired by libraries like animate.css.</p>
+<h3 id="methods">Methods</h3>
+<p>All methods take a <code>Control</code> to animate and a duration in milliseconds.</p>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>SetBackInDown</code></td>
+<td>Enters from top with a back effect.</td>
+</tr>
+<tr>
+<td><code>SetBackInLeft</code></td>
+<td>Enters from left with a back effect.</td>
+</tr>
+<tr>
+<td><code>SetBackInRight</code></td>
+<td>Enters from right with a back effect.</td>
+</tr>
+<tr>
+<td><code>SetBackInUp</code></td>
+<td>Enters from bottom with a back effect.</td>
+</tr>
+<tr>
+<td><code>SetBounceIn</code></td>
+<td>Enters with a bounce effect.</td>
+</tr>
+<tr>
+<td><code>SetBounceInDown</code></td>
+<td>Enters from top with a bounce effect.</td>
+</tr>
+<tr>
+<td><code>SetBounceInLeft</code></td>
+<td>Enters from left with a bounce effect.</td>
+</tr>
+<tr>
+<td><code>SetBounceInRight</code></td>
+<td>Enters from right with a bounce effect.</td>
+</tr>
+<tr>
+<td><code>SetBounceInUp</code></td>
+<td>Enters from bottom with a bounce effect.</td>
+</tr>
+<tr>
+<td><code>SetFadeIn</code></td>
+<td>Simple fade in.</td>
+</tr>
+<tr>
+<td><code>SetFadeInDown</code></td>
+<td>Fades in moving down.</td>
+</tr>
+<tr>
+<td><code>SetFadeInDownBig</code></td>
+<td>Fades in moving down (larger distance).</td>
+</tr>
+<tr>
+<td><code>SetFadeInLeft</code></td>
+<td>Fades in moving right (from left).</td>
+</tr>
+<tr>
+<td><code>SetFadeInLeftBig</code></td>
+<td>Fades in moving right (from left, larger distance).</td>
+</tr>
+<tr>
+<td><code>SetFadeInRight</code></td>
+<td>Fades in moving left (from right).</td>
+</tr>
+<tr>
+<td><code>SetFadeInRightBig</code></td>
+<td>Fades in moving left (from right, larger distance).</td>
+</tr>
+<tr>
+<td><code>SetFadeInUp</code></td>
+<td>Fades in moving up.</td>
+</tr>
+<tr>
+<td><code>SetFadeInUpBig</code></td>
+<td>Fades in moving up (larger distance).</td>
+</tr>
+</tbody>
+</table>
+<h3 id="example">Example</h3>
+<p><strong>C#</strong></p>
+<pre><code class="lang-csharp">using Avalonia.Xaml.Interactions.Custom;
+
+// In your code-behind or behavior
+EntranceAnimations.SetFadeInUp(myControl, 800);
+</code></pre>
+<p><strong>XAML</strong></p>
+<p>You can use the methods as attached properties in XAML. The value is the duration in milliseconds.</p>
+<pre><code class="lang-xml">&lt;UserControl xmlns=&quot;https://github.com/avaloniaui&quot;
+             xmlns:x=&quot;http://schemas.microsoft.com/winfx/2006/xaml&quot;&gt;
+    &lt;Border Background=&quot;Red&quot;
+            EntranceAnimations.FadeInUp=&quot;800&quot; /&gt;
+&lt;/UserControl&gt;
+</code></pre>
 
 </article>
 

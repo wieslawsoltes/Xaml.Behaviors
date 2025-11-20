@@ -83,7 +83,16 @@
         <article data-uid="">
 <h1 id="textinputmethodclientrequestedtrigger">TextInputMethodClientRequestedTrigger</h1>
 
-<p><em>(Documentation for TextInputMethodClientRequestedTrigger is coming soon)</em></p>
+<p>A trigger that executes when the input method client is requested on the associated <code>InputElement</code>.</p>
+<h2 id="usage">Usage</h2>
+<pre><code class="lang-xml">&lt;TextBox Width=&quot;200&quot;&gt;
+    &lt;Interaction.Behaviors&gt;
+        &lt;TextInputMethodClientRequestedTrigger&gt;
+            &lt;InvokeCommandAction Command=&quot;{Binding ClientRequestedCommand}&quot; /&gt;
+        &lt;/TextInputMethodClientRequestedTrigger&gt;
+    &lt;/Interaction.Behaviors&gt;
+&lt;/TextBox&gt;
+</code></pre>
 
 </article>
 

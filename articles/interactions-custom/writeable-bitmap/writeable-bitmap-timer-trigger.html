@@ -83,7 +83,38 @@
         <article data-uid="">
 <h1 id="writeablebitmaptimertrigger">WriteableBitmapTimerTrigger</h1>
 
-<p><em>(Documentation for WriteableBitmapTimerTrigger is coming soon)</em></p>
+<p>A trigger that fires its actions on a timer and passes a <code>WriteableBitmap</code> as parameter.</p>
+<h2 id="properties">Properties</h2>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Bitmap</td>
+<td><code>WriteableBitmap</code></td>
+<td>Gets or sets the bitmap passed to actions.</td>
+</tr>
+<tr>
+<td>MillisecondsPerTick</td>
+<td><code>int</code></td>
+<td>Gets or sets the timer interval in milliseconds. Default is 16.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="usage">Usage</h2>
+<pre><code class="lang-xml">&lt;UserControl&gt;
+    &lt;Interaction.Behaviors&gt;
+        &lt;WriteableBitmapTimerTrigger Bitmap=&quot;{Binding MyBitmap}&quot; MillisecondsPerTick=&quot;33&quot;&gt;
+            &lt;CallMethodAction TargetObject=&quot;{Binding}&quot; MethodName=&quot;UpdateBitmap&quot; /&gt;
+        &lt;/WriteableBitmapTimerTrigger&gt;
+    &lt;/Interaction.Behaviors&gt;
+&lt;/UserControl&gt;
+</code></pre>
 
 </article>
 

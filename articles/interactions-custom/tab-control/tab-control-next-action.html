@@ -83,7 +83,37 @@
         <article data-uid="">
 <h1 id="tabcontrolnextaction">TabControlNextAction</h1>
 
-<p><em>(Documentation for TabControlNextAction is coming soon)</em></p>
+<p>Advances the target <code>TabControl</code> to the next tab.</p>
+<h2 id="properties">Properties</h2>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>TabControl</td>
+<td><code>TabControl</code></td>
+<td>Gets or sets the tab control instance this action will operate on. If not set, the sender is used.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="usage">Usage</h2>
+<pre><code class="lang-xml">&lt;Button Content=&quot;Next Tab&quot;&gt;
+    &lt;Interaction.Behaviors&gt;
+        &lt;EventTriggerBehavior EventName=&quot;Click&quot;&gt;
+            &lt;TabControlNextAction TabControl=&quot;{Binding #MyTabControl}&quot; /&gt;
+        &lt;/EventTriggerBehavior&gt;
+    &lt;/Interaction.Behaviors&gt;
+&lt;/Button&gt;
+
+&lt;TabControl x:Name=&quot;MyTabControl&quot;&gt;
+    &lt;!-- Tabs --&gt;
+&lt;/TabControl&gt;
+</code></pre>
 
 </article>
 

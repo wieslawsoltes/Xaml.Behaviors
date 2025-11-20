@@ -83,7 +83,38 @@
         <article data-uid="">
 <h1 id="windowstatetrigger">WindowStateTrigger</h1>
 
-<p><em>(Documentation for WindowStateTrigger is coming soon)</em></p>
+<p>Executes actions when the window state matches the specified value.</p>
+<h2 id="properties">Properties</h2>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Window</td>
+<td><code>Window</code></td>
+<td>Gets or sets the window. If not set, the visual root window is used.</td>
+</tr>
+<tr>
+<td>State</td>
+<td><code>WindowState</code></td>
+<td>Gets or sets the window state to trigger on.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="usage">Usage</h2>
+<pre><code class="lang-xml">&lt;Window&gt;
+    &lt;Interaction.Behaviors&gt;
+        &lt;WindowStateTrigger State=&quot;Minimized&quot;&gt;
+            &lt;CallMethodAction TargetObject=&quot;{Binding}&quot; MethodName=&quot;OnMinimized&quot; /&gt;
+        &lt;/WindowStateTrigger&gt;
+    &lt;/Interaction.Behaviors&gt;
+&lt;/Window&gt;
+</code></pre>
 
 </article>
 

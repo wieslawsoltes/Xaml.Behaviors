@@ -83,7 +83,15 @@
         <article data-uid="">
 <h1 id="executecommandontextinputbehavior">ExecuteCommandOnTextInputBehavior</h1>
 
-<p><em>(Documentation for ExecuteCommandOnTextInputBehavior is coming soon)</em></p>
+<p>A behavior that executes a command when text input occurs.</p>
+<h2 id="usage">Usage</h2>
+<pre><code class="lang-xml">&lt;TextBox xmlns=&quot;https://github.com/avaloniaui&quot;
+         xmlns:x=&quot;http://schemas.microsoft.com/winfx/2006/xaml&quot;&gt;
+    &lt;Interaction.Behaviors&gt;
+        &lt;ExecuteCommandOnTextInputBehavior Command=&quot;{Binding TextInputCommand}&quot; /&gt;
+    &lt;/Interaction.Behaviors&gt;
+&lt;/TextBox&gt;
+</code></pre>
 
 </article>
 

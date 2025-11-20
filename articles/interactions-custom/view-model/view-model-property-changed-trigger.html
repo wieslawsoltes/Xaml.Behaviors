@@ -83,7 +83,33 @@
         <article data-uid="">
 <h1 id="viewmodelpropertychangedtrigger">ViewModelPropertyChangedTrigger</h1>
 
-<p><em>(Documentation for ViewModelPropertyChangedTrigger is coming soon)</em></p>
+<p>Triggers when the specified view model property changes.</p>
+<h2 id="properties">Properties</h2>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PropertyName</td>
+<td><code>string</code></td>
+<td>Gets or sets the name of the property to monitor.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="usage">Usage</h2>
+<pre><code class="lang-xml">&lt;UserControl&gt;
+    &lt;Interaction.Behaviors&gt;
+        &lt;ViewModelPropertyChangedTrigger PropertyName=&quot;Status&quot;&gt;
+            &lt;CallMethodAction TargetObject=&quot;{Binding}&quot; MethodName=&quot;OnStatusChanged&quot; /&gt;
+        &lt;/ViewModelPropertyChangedTrigger&gt;
+    &lt;/Interaction.Behaviors&gt;
+&lt;/UserControl&gt;
+</code></pre>
 
 </article>
 

@@ -84,6 +84,38 @@
 <h1 id="griddragbehavior">GridDragBehavior</h1>
 
 <p><code>GridDragBehavior</code> allows dragging child controls within a <code>Grid</code>. When a control is dragged over another cell, it can swap positions (Row/Column) with the control in that cell.</p>
+<h2 id="properties">Properties</h2>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CopyColumn</td>
+<td><code>bool</code></td>
+<td>Gets or sets whether to copy the dragged element's column. Default is true.</td>
+</tr>
+<tr>
+<td>CopyRow</td>
+<td><code>bool</code></td>
+<td>Gets or sets whether to copy the dragged element's row. Default is true.</td>
+</tr>
+<tr>
+<td>CopyColumnSpan</td>
+<td><code>bool</code></td>
+<td>Gets or sets whether to copy the dragged element's column span.</td>
+</tr>
+<tr>
+<td>CopyRowSpan</td>
+<td><code>bool</code></td>
+<td>Gets or sets whether to copy the dragged element's row span.</td>
+</tr>
+</tbody>
+</table>
 <h2 id="usage">Usage</h2>
 <pre><code class="lang-xml">&lt;Grid ColumnDefinitions=&quot;*,*&quot; RowDefinitions=&quot;*,*&quot;&gt;
     &lt;Interaction.Behaviors&gt;

@@ -85,11 +85,54 @@
 
 <p><code>ManagedContextDropBehavior</code> is a drop target behavior that integrates with <code>ManagedDragDropService</code>. It mirrors the semantics of <code>ContextDropBehavior</code> but works entirely in-process, handling drops initiated by <code>ManagedContextDragBehavior</code>.</p>
 <h2 id="properties">Properties</h2>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>AcceptDataFormat</td>
+<td><code>string</code></td>
+<td>Gets or sets the accepted managed data format. Default is &quot;Context&quot;.</td>
+</tr>
+<tr>
+<td>AllowDrop</td>
+<td><code>bool</code></td>
+<td>Gets or sets a value indicating whether drop is allowed. Default is true.</td>
+</tr>
+<tr>
+<td>OverClass</td>
+<td><code>string</code></td>
+<td>Gets or sets the pseudo-class to apply when a valid drag is over the control.</td>
+</tr>
+<tr>
+<td>Context</td>
+<td><code>object</code></td>
+<td>Gets or sets the target context.</td>
+</tr>
+<tr>
+<td>Handler</td>
+<td><code>IDropHandler</code></td>
+<td>Gets or sets the drop handler.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="usage">Usage</h2>
+<pre><code class="lang-xml">&lt;Border Background=&quot;LightGray&quot; Width=&quot;200&quot; Height=&quot;200&quot;&gt;
+    &lt;Interaction.Behaviors&gt;
+        &lt;ManagedContextDropBehavior Handler=&quot;{Binding DropHandler}&quot; /&gt;
+    &lt;/Interaction.Behaviors&gt;
+&lt;/Border&gt;
+</code></pre>
 <ul>
 <li><strong><code>Context</code></strong>: The context required for the drop to be valid.</li>
 <li><strong><code>Handler</code></strong>: The <code>IDropHandler</code> that validates and executes the drop operation.</li>
 </ul>
-<h2 id="usage">Usage</h2>
+<h2 id="usage-1">Usage</h2>
 <pre><code class="lang-xml">&lt;Border Background=&quot;Green&quot; Width=&quot;100&quot; Height=&quot;100&quot;&gt;
     &lt;Interaction.Behaviors&gt;
         &lt;ManagedContextDropBehavior Context=&quot;{Binding}&quot; Handler=&quot;{StaticResource MyDropHandler}&quot; /&gt;

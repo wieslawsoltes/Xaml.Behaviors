@@ -83,7 +83,37 @@
         <article data-uid="">
 <h1 id="tabcontrolkeynavigationbehavior">TabControlKeyNavigationBehavior</h1>
 
-<p><em>(Documentation for TabControlKeyNavigationBehavior is coming soon)</em></p>
+<p>Enables keyboard navigation for a <code>TabControl</code> using arrow keys.</p>
+<h2 id="properties">Properties</h2>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Orientation</td>
+<td><code>Orientation</code></td>
+<td>Gets or sets the orientation used for navigation.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="usage">Usage</h2>
+<pre><code class="lang-xml">&lt;TabControl&gt;
+    &lt;Interaction.Behaviors&gt;
+        &lt;TabControlKeyNavigationBehavior Orientation=&quot;Horizontal&quot; /&gt;
+    &lt;/Interaction.Behaviors&gt;
+    &lt;TabItem Header=&quot;Tab 1&quot;&gt;
+        &lt;TextBlock Text=&quot;Content 1&quot; /&gt;
+    &lt;/TabItem&gt;
+    &lt;TabItem Header=&quot;Tab 2&quot;&gt;
+        &lt;TextBlock Text=&quot;Content 2&quot; /&gt;
+    &lt;/TabItem&gt;
+&lt;/TabControl&gt;
+</code></pre>
 
 </article>
 

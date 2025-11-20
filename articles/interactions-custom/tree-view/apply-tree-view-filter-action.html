@@ -83,7 +83,43 @@
         <article data-uid="">
 <h1 id="applytreeviewfilteraction">ApplyTreeViewFilterAction</h1>
 
-<p><em>(Documentation for ApplyTreeViewFilterAction is coming soon)</em></p>
+<p>Filters a <code>TreeView</code> using the provided query string.</p>
+<h2 id="properties">Properties</h2>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>TreeView</td>
+<td><code>TreeView</code></td>
+<td>Gets or sets the tree view to filter. If not set, the sender is used.</td>
+</tr>
+<tr>
+<td>Query</td>
+<td><code>string</code></td>
+<td>Gets or sets the filter query string.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="usage">Usage</h2>
+<pre><code class="lang-xml">&lt;TextBox x:Name=&quot;SearchBox&quot; Watermark=&quot;Search...&quot; /&gt;
+&lt;Button Content=&quot;Apply Filter&quot;&gt;
+    &lt;Interaction.Behaviors&gt;
+        &lt;EventTriggerBehavior EventName=&quot;Click&quot;&gt;
+            &lt;ApplyTreeViewFilterAction TreeView=&quot;{Binding #MyTreeView}&quot; Query=&quot;{Binding #SearchBox.Text}&quot; /&gt;
+        &lt;/EventTriggerBehavior&gt;
+    &lt;/Interaction.Behaviors&gt;
+&lt;/Button&gt;
+
+&lt;TreeView x:Name=&quot;MyTreeView&quot;&gt;
+    &lt;!-- Items --&gt;
+&lt;/TreeView&gt;
+</code></pre>
 
 </article>
 

@@ -83,7 +83,17 @@
         <article data-uid="">
 <h1 id="scrollchangedtrigger">ScrollChangedTrigger</h1>
 
-<p><em>(Documentation for ScrollChangedTrigger is coming soon)</em></p>
+<p>Executes actions when the <code>ScrollViewer.ScrollChanged</code> event occurs.</p>
+<h2 id="usage">Usage</h2>
+<pre><code class="lang-xml">&lt;ScrollViewer&gt;
+    &lt;Interaction.Behaviors&gt;
+        &lt;ScrollChangedTrigger&gt;
+            &lt;InvokeCommandAction Command=&quot;{Binding ScrollChangedCommand}&quot; /&gt;
+        &lt;/ScrollChangedTrigger&gt;
+    &lt;/Interaction.Behaviors&gt;
+    &lt;!-- Content --&gt;
+&lt;/ScrollViewer&gt;
+</code></pre>
 
 </article>
 

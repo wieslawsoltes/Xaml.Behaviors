@@ -83,7 +83,35 @@
         <article data-uid="">
 <h1 id="treeviewfiltertextchangedtrigger">TreeViewFilterTextChangedTrigger</h1>
 
-<p><em>(Documentation for TreeViewFilterTextChangedTrigger is coming soon)</em></p>
+<p>Executes actions when the search box text changes.</p>
+<h2 id="properties">Properties</h2>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>SearchBox</td>
+<td><code>TextBox</code></td>
+<td>Gets or sets the search box control.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="usage">Usage</h2>
+<pre><code class="lang-xml">&lt;TextBox x:Name=&quot;SearchBox&quot; Watermark=&quot;Search...&quot; /&gt;
+&lt;TreeView x:Name=&quot;MyTreeView&quot;&gt;
+    &lt;Interaction.Behaviors&gt;
+        &lt;TreeViewFilterTextChangedTrigger SearchBox=&quot;{Binding #SearchBox}&quot;&gt;
+            &lt;ApplyTreeViewFilterAction TreeView=&quot;{Binding #MyTreeView}&quot; Query=&quot;{Binding #SearchBox.Text}&quot; /&gt;
+        &lt;/TreeViewFilterTextChangedTrigger&gt;
+    &lt;/Interaction.Behaviors&gt;
+    &lt;!-- Items --&gt;
+&lt;/TreeView&gt;
+</code></pre>
 
 </article>
 

@@ -83,7 +83,47 @@
         <article data-uid="">
 <h1 id="scrolltooffsetaction">ScrollToOffsetAction</h1>
 
-<p><em>(Documentation for ScrollToOffsetAction is coming soon)</em></p>
+<p>Scrolls a <code>ScrollViewer</code> to the specified offsets when executed.</p>
+<h2 id="properties">Properties</h2>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ScrollViewer</td>
+<td><code>ScrollViewer</code></td>
+<td>Gets or sets the <code>ScrollViewer</code> instance to scroll. If not set, it attempts to use the sender.</td>
+</tr>
+<tr>
+<td>HorizontalOffset</td>
+<td><code>double?</code></td>
+<td>Gets or sets the horizontal offset to scroll to.</td>
+</tr>
+<tr>
+<td>VerticalOffset</td>
+<td><code>double?</code></td>
+<td>Gets or sets the vertical offset to scroll to.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="usage">Usage</h2>
+<pre><code class="lang-xml">&lt;Button Content=&quot;Scroll To Top&quot;&gt;
+    &lt;Interaction.Behaviors&gt;
+        &lt;EventTriggerBehavior EventName=&quot;Click&quot;&gt;
+            &lt;ScrollToOffsetAction ScrollViewer=&quot;{Binding #MyScrollViewer}&quot; VerticalOffset=&quot;0&quot; /&gt;
+        &lt;/EventTriggerBehavior&gt;
+    &lt;/Interaction.Behaviors&gt;
+&lt;/Button&gt;
+
+&lt;ScrollViewer x:Name=&quot;MyScrollViewer&quot;&gt;
+    &lt;!-- Content --&gt;
+&lt;/ScrollViewer&gt;
+</code></pre>
 
 </article>
 

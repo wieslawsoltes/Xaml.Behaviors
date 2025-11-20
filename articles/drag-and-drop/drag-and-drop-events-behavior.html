@@ -84,7 +84,34 @@
 <h1 id="draganddropeventsbehavior">DragAndDropEventsBehavior</h1>
 
 <p><code>DragAndDropEventsBehavior</code> allows you to subscribe to standard Drag and Drop events (<code>Enter</code>, <code>Leave</code>, <code>Over</code>, <code>Drop</code>) and execute <code>IAction</code>s in response.</p>
+<h2 id="properties">Properties</h2>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>TargetControl</td>
+<td><code>Control</code></td>
+<td>Gets or sets the control that is used as source for drag and drop events.</td>
+</tr>
+</tbody>
+</table>
 <h2 id="usage">Usage</h2>
+<pre><code class="lang-xml">&lt;Border Background=&quot;LightGray&quot; Height=&quot;100&quot; Width=&quot;100&quot;&gt;
+    &lt;Interaction.Behaviors&gt;
+        &lt;DragAndDropEventsBehavior&gt;
+            &lt;EventTriggerBehavior EventName=&quot;Drop&quot;&gt;
+                &lt;InvokeCommandAction Command=&quot;{Binding DropCommand}&quot; /&gt;
+            &lt;/EventTriggerBehavior&gt;
+        &lt;/DragAndDropEventsBehavior&gt;
+    &lt;/Interaction.Behaviors&gt;
+&lt;/Border&gt;
+</code></pre>
 <pre><code class="lang-xml">&lt;Border Background=&quot;LightBlue&quot;&gt;
     &lt;Interaction.Behaviors&gt;
         &lt;DragAndDropEventsBehavior&gt;

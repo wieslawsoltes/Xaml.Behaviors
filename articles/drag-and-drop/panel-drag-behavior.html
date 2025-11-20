@@ -85,6 +85,14 @@
 
 <p><code>PanelDragBehavior</code> starts a drag operation for a control so it can be moved between panels. The control itself is used as the drag context.</p>
 <h2 id="usage">Usage</h2>
+<pre><code class="lang-xml">&lt;Canvas&gt;
+    &lt;Rectangle Fill=&quot;Red&quot; Width=&quot;50&quot; Height=&quot;50&quot; Canvas.Left=&quot;10&quot; Canvas.Top=&quot;10&quot;&gt;
+        &lt;Interaction.Behaviors&gt;
+            &lt;PanelDragBehavior /&gt;
+        &lt;/Interaction.Behaviors&gt;
+    &lt;/Rectangle&gt;
+&lt;/Canvas&gt;
+</code></pre>
 <pre><code class="lang-xml">&lt;Rectangle Fill=&quot;Blue&quot; Width=&quot;50&quot; Height=&quot;50&quot;&gt;
     &lt;Interaction.Behaviors&gt;
         &lt;PanelDragBehavior /&gt;

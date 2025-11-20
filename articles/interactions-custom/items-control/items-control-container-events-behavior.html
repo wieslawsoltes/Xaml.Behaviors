@@ -83,7 +83,27 @@
         <article data-uid="">
 <h1 id="itemscontrolcontainereventsbehavior">ItemsControlContainerEventsBehavior</h1>
 
-<p><em>(Documentation for ItemsControlContainerEventsBehavior is coming soon)</em></p>
+<p><code>ItemsControlContainerEventsBehavior</code> is an abstract base class that exposes container-related events from an <code>ItemsControl</code>. It simplifies the process of creating behaviors that need to respond to container lifecycle events.</p>
+<h2 id="events-handled">Events Handled</h2>
+<p>The behavior subscribes to the following events on the associated <code>ItemsControl</code>:</p>
+<ul>
+<li><code>PreparingContainer</code></li>
+<li><code>ContainerPrepared</code></li>
+<li><code>ContainerIndexChanged</code></li>
+<li><code>ContainerClearing</code></li>
+</ul>
+<h2 id="usage">Usage</h2>
+<p>This is a base class and cannot be used directly in XAML. Instead, create a class that inherits from <code>ItemsControlContainerEventsBehavior</code> and override the virtual methods to implement your custom logic.</p>
+<pre><code class="lang-csharp">public class MyCustomContainerBehavior : ItemsControlContainerEventsBehavior
+{
+    protected override void OnContainerPrepared(object? sender, ContainerPreparedEventArgs e)
+    {
+        // Custom logic when a container is prepared
+        var container = e.Container;
+        // ...
+    }
+}
+</code></pre>
 
 </article>
 

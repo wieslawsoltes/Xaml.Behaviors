@@ -83,7 +83,33 @@
         <article data-uid="">
 <h1 id="textinputtrigger">TextInputTrigger</h1>
 
-<p><em>(Documentation for TextInputTrigger is coming soon)</em></p>
+<p>A trigger that executes when text input is received on the associated <code>InputElement</code>.</p>
+<h2 id="properties">Properties</h2>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Text</td>
+<td><code>string</code></td>
+<td>Gets or sets the text that triggers the action.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="usage">Usage</h2>
+<pre><code class="lang-xml">&lt;TextBox Width=&quot;200&quot;&gt;
+    &lt;Interaction.Behaviors&gt;
+        &lt;TextInputTrigger Text=&quot;Hello&quot;&gt;
+            &lt;InvokeCommandAction Command=&quot;{Binding HelloTypedCommand}&quot; /&gt;
+        &lt;/TextInputTrigger&gt;
+    &lt;/Interaction.Behaviors&gt;
+&lt;/TextBox&gt;
+</code></pre>
 
 </article>
 

@@ -83,7 +83,33 @@
         <article data-uid="">
 <h1 id="screenschangedtrigger">ScreensChangedTrigger</h1>
 
-<p><em>(Documentation for ScreensChangedTrigger is coming soon)</em></p>
+<p><code>ScreensChangedTrigger</code> is a trigger that executes its actions when the screen configuration changes (e.g., a monitor is added or removed, or resolution changes).</p>
+<h2 id="properties">Properties</h2>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Screens</td>
+<td><code>Screens</code></td>
+<td>Gets or sets the <code>Screens</code> instance that is observed. If not set, the screens of the associated <code>TopLevel</code> will be used.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="usage">Usage</h2>
+<pre><code class="lang-xml">&lt;Window&gt;
+    &lt;Interaction.Behaviors&gt;
+        &lt;ScreensChangedTrigger&gt;
+            &lt;InvokeCommandAction Command=&quot;{Binding UpdateLayoutCommand}&quot; /&gt;
+        &lt;/ScreensChangedTrigger&gt;
+    &lt;/Interaction.Behaviors&gt;
+&lt;/Window&gt;
+</code></pre>
 
 </article>
 

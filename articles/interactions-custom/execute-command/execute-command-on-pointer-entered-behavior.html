@@ -83,7 +83,16 @@
         <article data-uid="">
 <h1 id="executecommandonpointerenteredbehavior">ExecuteCommandOnPointerEnteredBehavior</h1>
 
-<p><em>(Documentation for ExecuteCommandOnPointerEnteredBehavior is coming soon)</em></p>
+<p>A behavior that executes a command when the pointer enters the control.</p>
+<h2 id="usage">Usage</h2>
+<pre><code class="lang-xml">&lt;Button xmlns=&quot;https://github.com/avaloniaui&quot;
+        xmlns:x=&quot;http://schemas.microsoft.com/winfx/2006/xaml&quot;
+        Content=&quot;Pointer Entered&quot;&gt;
+    &lt;Interaction.Behaviors&gt;
+        &lt;ExecuteCommandOnPointerEnteredBehavior Command=&quot;{Binding PointerEnteredCommand}&quot; /&gt;
+    &lt;/Interaction.Behaviors&gt;
+&lt;/Button&gt;
+</code></pre>
 
 </article>
 

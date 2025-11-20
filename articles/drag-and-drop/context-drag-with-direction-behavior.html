@@ -83,7 +83,46 @@
         <article data-uid="">
 <h1 id="contextdragwithdirectionbehavior">ContextDragWithDirectionBehavior</h1>
 
-<p>This behavior is similar to <code>ContextDragBehavior</code> but it also tracks the direction of the drag. This can be useful for custom visual feedback or logic that depends on the drag direction.</p>
+<p>Behavior that starts drag and drop with information about drag direction.</p>
+<h2 id="properties">Properties</h2>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Context</td>
+<td><code>object</code></td>
+<td>Gets or sets the context used for drag operations.</td>
+</tr>
+<tr>
+<td>Handler</td>
+<td><code>IDragHandler</code></td>
+<td>Gets or sets the drag handler to notify.</td>
+</tr>
+<tr>
+<td>HorizontalDragThreshold</td>
+<td><code>double</code></td>
+<td>Gets or sets the horizontal drag threshold. Default is 3.</td>
+</tr>
+<tr>
+<td>VerticalDragThreshold</td>
+<td><code>double</code></td>
+<td>Gets or sets the vertical drag threshold. Default is 3.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="usage">Usage</h2>
+<pre><code class="lang-xml">&lt;Border Background=&quot;Red&quot; Width=&quot;100&quot; Height=&quot;100&quot;&gt;
+    &lt;Interaction.Behaviors&gt;
+        &lt;ContextDragWithDirectionBehavior HorizontalDragThreshold=&quot;10&quot; VerticalDragThreshold=&quot;10&quot; /&gt;
+    &lt;/Interaction.Behaviors&gt;
+&lt;/Border&gt;
+</code></pre>
 
 </article>
 

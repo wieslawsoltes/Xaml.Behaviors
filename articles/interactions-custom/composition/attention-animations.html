@@ -83,7 +83,82 @@
         <article data-uid="">
 <h1 id="attentionanimations">AttentionAnimations</h1>
 
-<p><em>(Documentation for AttentionAnimations is coming soon)</em></p>
+<p><code>AttentionAnimations</code> is a static helper class that provides attention-seeking animations inspired by libraries like animate.css. These animations are typically applied to a control when it is loaded or in response to an event.</p>
+<h3 id="methods">Methods</h3>
+<p>All methods take a <code>Control</code> to animate and a duration in milliseconds.</p>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>SetBounce</code></td>
+<td>Applies a bounce animation.</td>
+</tr>
+<tr>
+<td><code>SetFlash</code></td>
+<td>Applies a flash animation (opacity toggling).</td>
+</tr>
+<tr>
+<td><code>SetPulse</code></td>
+<td>Applies a pulse animation (scaling).</td>
+</tr>
+<tr>
+<td><code>SetRubberBand</code></td>
+<td>Applies a rubber band animation (scaling).</td>
+</tr>
+<tr>
+<td><code>SetShakeX</code></td>
+<td>Applies a horizontal shake animation.</td>
+</tr>
+<tr>
+<td><code>SetShakeY</code></td>
+<td>Applies a vertical shake animation.</td>
+</tr>
+<tr>
+<td><code>SetHeadShake</code></td>
+<td>Applies a head shake animation (rotation and translation).</td>
+</tr>
+<tr>
+<td><code>SetSwing</code></td>
+<td>Applies a swing animation (rotation).</td>
+</tr>
+<tr>
+<td><code>SetTada</code></td>
+<td>Applies a &quot;tada&quot; animation (scaling and rotation).</td>
+</tr>
+<tr>
+<td><code>SetWobble</code></td>
+<td>Applies a wobble animation (translation and rotation).</td>
+</tr>
+<tr>
+<td><code>SetJello</code></td>
+<td>Applies a jello animation (skewing/transform).</td>
+</tr>
+<tr>
+<td><code>SetHeartBeat</code></td>
+<td>Applies a heartbeat animation (scaling).</td>
+</tr>
+</tbody>
+</table>
+<h3 id="example">Example</h3>
+<p><strong>C#</strong></p>
+<pre><code class="lang-csharp">using Avalonia.Xaml.Interactions.Custom;
+
+// In your code-behind or behavior
+AttentionAnimations.SetBounce(myButton, 1000);
+</code></pre>
+<p><strong>XAML</strong></p>
+<p>You can use the methods as attached properties in XAML. The value is the duration in milliseconds.</p>
+<pre><code class="lang-xml">&lt;UserControl xmlns=&quot;https://github.com/avaloniaui&quot;
+             xmlns:x=&quot;http://schemas.microsoft.com/winfx/2006/xaml&quot;&gt;
+    &lt;Button Content=&quot;Bounce Me&quot;
+            AttentionAnimations.Bounce=&quot;1000&quot; /&gt;
+&lt;/UserControl&gt;
+</code></pre>
 
 </article>
 

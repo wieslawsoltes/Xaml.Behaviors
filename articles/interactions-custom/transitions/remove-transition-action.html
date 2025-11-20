@@ -83,7 +83,40 @@
         <article data-uid="">
 <h1 id="removetransitionaction">RemoveTransitionAction</h1>
 
-<p><em>(Documentation for RemoveTransitionAction is coming soon)</em></p>
+<p>Removes a <code>TransitionBase</code> from the <code>Avalonia.Animation.Transitions</code> collection on the target element.</p>
+<h2 id="properties">Properties</h2>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Transition</td>
+<td><code>TransitionBase</code></td>
+<td>Gets or sets the transition to remove.</td>
+</tr>
+<tr>
+<td>StyledElement</td>
+<td><code>StyledElement</code></td>
+<td>Gets or sets the target styled element. If not set, the sender is used.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="usage">Usage</h2>
+<pre><code class="lang-xml">&lt;Button Content=&quot;Remove Transition&quot;&gt;
+    &lt;Interaction.Behaviors&gt;
+        &lt;EventTriggerBehavior EventName=&quot;Click&quot;&gt;
+            &lt;RemoveTransitionAction StyledElement=&quot;{Binding #MyBorder}&quot; Transition=&quot;{Binding MyTransition}&quot; /&gt;
+        &lt;/EventTriggerBehavior&gt;
+    &lt;/Interaction.Behaviors&gt;
+&lt;/Button&gt;
+
+&lt;Border x:Name=&quot;MyBorder&quot; Background=&quot;Red&quot; Width=&quot;100&quot; Height=&quot;100&quot; /&gt;
+</code></pre>
 
 </article>
 

@@ -83,7 +83,20 @@
         <article data-uid="">
 <h1 id="showondoubletappedbehavior">ShowOnDoubleTappedBehavior</h1>
 
-<p><em>(Documentation for ShowOnDoubleTappedBehavior is coming soon)</em></p>
+<p>A behavior that allows to show a control on double tapped event.</p>
+<h2 id="properties">Properties</h2>
+<p>Inherits properties from <a href="show-behavior-base.html">ShowBehaviorBase</a>.</p>
+<h2 id="usage">Usage</h2>
+<pre><code class="lang-xml">&lt;Button Content=&quot;Double Tap Me&quot;&gt;
+    &lt;Interaction.Behaviors&gt;
+        &lt;ShowOnDoubleTappedBehavior TargetControl=&quot;{Binding #MyPopup}&quot; /&gt;
+    &lt;/Interaction.Behaviors&gt;
+&lt;/Button&gt;
+
+&lt;Border x:Name=&quot;MyPopup&quot; IsVisible=&quot;False&quot; Background=&quot;Red&quot; Width=&quot;100&quot; Height=&quot;100&quot;&gt;
+    &lt;TextBlock Text=&quot;Hello!&quot; /&gt;
+&lt;/Border&gt;
+</code></pre>
 
 </article>
 

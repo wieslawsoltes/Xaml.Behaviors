@@ -83,7 +83,18 @@
         <article data-uid="">
 <h1 id="attachedtologicaltreebehavior">AttachedToLogicalTreeBehavior</h1>
 
-<p><em>(Documentation for AttachedToLogicalTreeBehavior is coming soon)</em></p>
+<p><code>AttachedToLogicalTreeBehavior&lt;T&gt;</code> is an abstract base class for behaviors that need to perform actions when the associated object is attached to the logical tree.</p>
+<h3 id="usage">Usage</h3>
+<p>Inherit from this class and implement the <code>OnAttachedToLogicalTreeOverride</code> method.</p>
+<pre><code class="lang-csharp">public class MyLogicalTreeBehavior : AttachedToLogicalTreeBehavior&lt;Control&gt;
+{
+    protected override IDisposable OnAttachedToLogicalTreeOverride()
+    {
+        // Handle attachment to logical tree
+        return Disposable.Empty;
+    }
+}
+</code></pre>
 
 </article>
 

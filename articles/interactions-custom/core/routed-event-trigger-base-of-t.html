@@ -83,7 +83,14 @@
         <article data-uid="">
 <h1 id="routedeventtriggerbaseoft">RoutedEventTriggerBaseOfT</h1>
 
-<p><em>(Documentation for RoutedEventTriggerBaseOfT is coming soon)</em></p>
+<p><code>RoutedEventTriggerBase&lt;T&gt;</code> is an abstract base class for triggers that listen for a specific typed <code>RoutedEvent&lt;T&gt;</code> on the associated object.</p>
+<h3 id="usage">Usage</h3>
+<p>Inherit from this class and implement the <code>RoutedEvent</code> property.</p>
+<pre><code class="lang-csharp">public class MyTypedEventTrigger : RoutedEventTriggerBase&lt;KeyEventArgs&gt;
+{
+    protected override RoutedEvent&lt;KeyEventArgs&gt; RoutedEvent =&gt; InputElement.KeyDownEvent;
+}
+</code></pre>
 
 </article>
 

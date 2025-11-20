@@ -83,7 +83,46 @@
         <article data-uid="">
 <h1 id="writeablebitmaprenderbehavior">WriteableBitmapRenderBehavior</h1>
 
-<p><em>(Documentation for WriteableBitmapRenderBehavior is coming soon)</em></p>
+<p>Creates a <code>WriteableBitmap</code> and updates it using a renderer on a timer.</p>
+<h2 id="properties">Properties</h2>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PixelWidth</td>
+<td><code>int</code></td>
+<td>Gets or sets the width of the bitmap in pixels. Default is 256.</td>
+</tr>
+<tr>
+<td>PixelHeight</td>
+<td><code>int</code></td>
+<td>Gets or sets the height of the bitmap in pixels. Default is 256.</td>
+</tr>
+<tr>
+<td>Renderer</td>
+<td><code>IWriteableBitmapRenderer</code></td>
+<td>Gets or sets the renderer used to update the bitmap.</td>
+</tr>
+<tr>
+<td>Bitmap</td>
+<td><code>WriteableBitmap</code></td>
+<td>Gets the created bitmap.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="usage">Usage</h2>
+<pre><code class="lang-xml">&lt;Image&gt;
+    &lt;Interaction.Behaviors&gt;
+        &lt;WriteableBitmapRenderBehavior PixelWidth=&quot;512&quot; PixelHeight=&quot;512&quot; Renderer=&quot;{Binding MyRenderer}&quot; /&gt;
+    &lt;/Interaction.Behaviors&gt;
+&lt;/Image&gt;
+</code></pre>
 
 </article>
 

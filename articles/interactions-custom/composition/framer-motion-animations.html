@@ -83,7 +83,80 @@
         <article data-uid="">
 <h1 id="framermotionanimations">FramerMotionAnimations</h1>
 
-<p><em>(Documentation for FramerMotionAnimations is coming soon)</em></p>
+<p><code>FramerMotionAnimations</code> provides animations inspired by the Framer Motion library for React.</p>
+<h3 id="methods">Methods</h3>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>SetFadeIn(Control element, double milliseconds)</code></td>
+<td>Fades in.</td>
+</tr>
+<tr>
+<td><code>SetFadeInUp(Control element, double milliseconds)</code></td>
+<td>Fades in moving up.</td>
+</tr>
+<tr>
+<td><code>SetFadeInDown(Control element, double milliseconds)</code></td>
+<td>Fades in moving down.</td>
+</tr>
+<tr>
+<td><code>SetFadeInLeft(Control element, double milliseconds)</code></td>
+<td>Fades in moving right.</td>
+</tr>
+<tr>
+<td><code>SetFadeInRight(Control element, double milliseconds)</code></td>
+<td>Fades in moving left.</td>
+</tr>
+<tr>
+<td><code>SetFadeOut(Control element, double milliseconds)</code></td>
+<td>Fades out.</td>
+</tr>
+<tr>
+<td><code>SetFadeOutUp(Control element, double milliseconds)</code></td>
+<td>Fades out moving up.</td>
+</tr>
+<tr>
+<td><code>SetFadeOutDown(Control element, double milliseconds)</code></td>
+<td>Fades out moving down.</td>
+</tr>
+<tr>
+<td><code>SetFadeOutLeft(Control element, double milliseconds)</code></td>
+<td>Fades out moving left.</td>
+</tr>
+<tr>
+<td><code>SetFadeOutRight(Control element, double milliseconds)</code></td>
+<td>Fades out moving right.</td>
+</tr>
+<tr>
+<td><code>SetScaleIn(Control element, double milliseconds)</code></td>
+<td>Scales in.</td>
+</tr>
+<tr>
+<td><code>SetScaleOut(Control element, double milliseconds)</code></td>
+<td>Scales out.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="example">Example</h3>
+<p><strong>C#</strong></p>
+<pre><code class="lang-csharp">using Avalonia.Xaml.Interactions.Custom;
+
+FramerMotionAnimations.SetFadeInUp(myCard, 600);
+</code></pre>
+<p><strong>XAML</strong></p>
+<p>You can use the methods as attached properties in XAML. The value is the duration in milliseconds.</p>
+<pre><code class="lang-xml">&lt;UserControl xmlns=&quot;https://github.com/avaloniaui&quot;
+             xmlns:x=&quot;http://schemas.microsoft.com/winfx/2006/xaml&quot;&gt;
+    &lt;Border Background=&quot;White&quot;
+            FramerMotionAnimations.FadeInUp=&quot;600&quot; /&gt;
+&lt;/UserControl&gt;
+</code></pre>
 
 </article>
 

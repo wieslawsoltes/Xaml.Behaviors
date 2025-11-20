@@ -83,7 +83,106 @@
         <article data-uid="">
 <h1 id="exitanimations">ExitAnimations</h1>
 
-<p><em>(Documentation for ExitAnimations is coming soon)</em></p>
+<p><code>ExitAnimations</code> is a static helper class that provides exit animations (disappearing from screen) inspired by libraries like animate.css.</p>
+<h3 id="methods">Methods</h3>
+<p>All methods take a <code>Control</code> to animate and a duration in milliseconds.</p>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>SetBackOutDown</code></td>
+<td>Exits to bottom with a back effect.</td>
+</tr>
+<tr>
+<td><code>SetBackOutLeft</code></td>
+<td>Exits to left with a back effect.</td>
+</tr>
+<tr>
+<td><code>SetBackOutRight</code></td>
+<td>Exits to right with a back effect.</td>
+</tr>
+<tr>
+<td><code>SetBackOutUp</code></td>
+<td>Exits to top with a back effect.</td>
+</tr>
+<tr>
+<td><code>SetBounceOut</code></td>
+<td>Exits with a bounce effect.</td>
+</tr>
+<tr>
+<td><code>SetBounceOutDown</code></td>
+<td>Exits to bottom with a bounce effect.</td>
+</tr>
+<tr>
+<td><code>SetBounceOutLeft</code></td>
+<td>Exits to left with a bounce effect.</td>
+</tr>
+<tr>
+<td><code>SetBounceOutRight</code></td>
+<td>Exits to right with a bounce effect.</td>
+</tr>
+<tr>
+<td><code>SetBounceOutUp</code></td>
+<td>Exits to top with a bounce effect.</td>
+</tr>
+<tr>
+<td><code>SetFadeOut</code></td>
+<td>Simple fade out.</td>
+</tr>
+<tr>
+<td><code>SetFadeOutDown</code></td>
+<td>Fades out moving down.</td>
+</tr>
+<tr>
+<td><code>SetFadeOutDownBig</code></td>
+<td>Fades out moving down (larger distance).</td>
+</tr>
+<tr>
+<td><code>SetFadeOutLeft</code></td>
+<td>Fades out moving left.</td>
+</tr>
+<tr>
+<td><code>SetFadeOutLeftBig</code></td>
+<td>Fades out moving left (larger distance).</td>
+</tr>
+<tr>
+<td><code>SetFadeOutRight</code></td>
+<td>Fades out moving right.</td>
+</tr>
+<tr>
+<td><code>SetFadeOutRightBig</code></td>
+<td>Fades out moving right (larger distance).</td>
+</tr>
+<tr>
+<td><code>SetFadeOutUp</code></td>
+<td>Fades out moving up.</td>
+</tr>
+<tr>
+<td><code>SetFadeOutUpBig</code></td>
+<td>Fades out moving up (larger distance).</td>
+</tr>
+</tbody>
+</table>
+<h3 id="example">Example</h3>
+<p><strong>C#</strong></p>
+<pre><code class="lang-csharp">using Avalonia.Xaml.Interactions.Custom;
+
+// In your code-behind or behavior
+ExitAnimations.SetFadeOutDown(myControl, 800);
+</code></pre>
+<p><strong>XAML</strong></p>
+<p>You can use the methods as attached properties in XAML. The value is the duration in milliseconds.</p>
+<pre><code class="lang-xml">&lt;UserControl xmlns=&quot;https://github.com/avaloniaui&quot;
+             xmlns:x=&quot;http://schemas.microsoft.com/winfx/2006/xaml&quot;&gt;
+    &lt;Border Background=&quot;Red&quot;
+            ExitAnimations.FadeOutDown=&quot;800&quot; /&gt;
+&lt;/UserControl&gt;
+</code></pre>
 
 </article>
 

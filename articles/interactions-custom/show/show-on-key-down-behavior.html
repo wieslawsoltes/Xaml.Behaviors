@@ -83,7 +83,41 @@
         <article data-uid="">
 <h1 id="showonkeydownbehavior">ShowOnKeyDownBehavior</h1>
 
-<p><em>(Documentation for ShowOnKeyDownBehavior is coming soon)</em></p>
+<p>A behavior that allows to show a control on key down event.</p>
+<h2 id="properties">Properties</h2>
+<p>Inherits properties from <a href="show-behavior-base.html">ShowBehaviorBase</a>.</p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Key</td>
+<td><code>Key?</code></td>
+<td>Gets or sets the key used to trigger the behavior.</td>
+</tr>
+<tr>
+<td>Gesture</td>
+<td><code>KeyGesture?</code></td>
+<td>Gets or sets the key gesture used to trigger the behavior.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="usage">Usage</h2>
+<pre><code class="lang-xml">&lt;TextBox&gt;
+    &lt;Interaction.Behaviors&gt;
+        &lt;ShowOnKeyDownBehavior Key=&quot;Enter&quot; TargetControl=&quot;{Binding #MyPopup}&quot; /&gt;
+    &lt;/Interaction.Behaviors&gt;
+&lt;/TextBox&gt;
+
+&lt;Border x:Name=&quot;MyPopup&quot; IsVisible=&quot;False&quot; Background=&quot;Red&quot; Width=&quot;100&quot; Height=&quot;100&quot;&gt;
+    &lt;TextBlock Text=&quot;Hello!&quot; /&gt;
+&lt;/Border&gt;
+</code></pre>
 
 </article>
 

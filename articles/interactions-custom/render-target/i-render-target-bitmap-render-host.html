@@ -83,7 +83,24 @@
         <article data-uid="">
 <h1 id="irendertargetbitmaprenderhost">IRenderTargetBitmapRenderHost</h1>
 
-<p><em>(Documentation for IRenderTargetBitmapRenderHost is coming soon)</em></p>
+<p><code>IRenderTargetBitmapRenderHost</code> defines a render host that can update an underlying <code>RenderTargetBitmap</code>.</p>
+<h2 id="methods">Methods</h2>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>void Render()</code></td>
+<td>Requests that the render host renders its content to the bitmap.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="usage">Usage</h2>
+<p>This interface is implemented by behaviors like <code>RenderTargetBitmapBehavior</code> and <code>StaticRenderTargetBitmapBehavior</code> to allow external controls or actions to trigger a render update.</p>
 
 </article>
 

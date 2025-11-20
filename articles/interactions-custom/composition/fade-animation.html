@@ -83,7 +83,47 @@
         <article data-uid="">
 <h1 id="fadeanimation">FadeAnimation</h1>
 
-<p><em>(Documentation for FadeAnimation is coming soon)</em></p>
+<p><code>FadeAnimation</code> provides helper methods for simple opacity animations using composition.</p>
+<h3 id="methods">Methods</h3>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>SetFadeIn(Control element, double milliseconds)</code></td>
+<td>Animates opacity from 0 to 1.</td>
+</tr>
+<tr>
+<td><code>SetFadeOut(Control element, double milliseconds)</code></td>
+<td>Animates opacity from 1 to 0.</td>
+</tr>
+<tr>
+<td><code>SetCustomFade(Control element, double fromOpacity, double toOpacity, double milliseconds)</code></td>
+<td>Animates opacity between specified values.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="example">Example</h3>
+<p><strong>C#</strong></p>
+<pre><code class="lang-csharp">using Avalonia.Xaml.Interactions.Custom;
+
+FadeAnimation.SetFadeIn(myImage, 500);
+</code></pre>
+<p><strong>XAML</strong></p>
+<p>You can use the single-parameter methods as attached properties in XAML. The value is the duration in milliseconds.</p>
+<pre><code class="lang-xml">&lt;UserControl xmlns=&quot;https://github.com/avaloniaui&quot;
+             xmlns:x=&quot;http://schemas.microsoft.com/winfx/2006/xaml&quot;&gt;
+    &lt;Image Source=&quot;logo.png&quot;
+           FadeAnimation.FadeIn=&quot;500&quot; /&gt;
+&lt;/UserControl&gt;
+</code></pre>
+<blockquote>
+<p><strong>Note:</strong> <code>SetCustomFade</code> cannot be used directly as an attached property in XAML because it requires multiple parameters.</p>
+</blockquote>
 
 </article>
 

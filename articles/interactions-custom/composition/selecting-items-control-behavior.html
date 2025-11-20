@@ -83,7 +83,55 @@
         <article data-uid="">
 <h1 id="selectingitemscontrolbehavior">SelectingItemsControlBehavior</h1>
 
-<p><em>(Documentation for SelectingItemsControlBehavior is coming soon)</em></p>
+<p>The <code>SelectingItemsControlBehavior</code> provides a smooth selection animation for <code>SelectingItemsControl</code> (e.g., <code>ListBox</code>, <code>TabControl</code>) using composition animations. It animates a visual element (usually a border or indicator) to move from the previously selected item to the newly selected item.</p>
+<h3 id="usage">Usage</h3>
+<p>To use this behavior, you need to:</p>
+<ol>
+<li>Attach the <code>EnableSelectionAnimation</code> property to your <code>SelectingItemsControl</code>.</li>
+<li>Ensure your item container template contains a visual element named <code>PART_SelectedPipe</code>. This element will be animated.</li>
+</ol>
+<h3 id="properties">Properties</h3>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>EnableSelectionAnimation</code></td>
+<td><code>bool</code></td>
+<td>Attached property. When set to <code>True</code>, enables the selection animation on the <code>SelectingItemsControl</code>.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="example">Example</h3>
+<pre><code class="lang-xml">&lt;ListBox Background=&quot;Transparent&quot;
+         SelectingItemsControlBehavior.EnableSelectionAnimation=&quot;True&quot;&gt;
+    &lt;ListBox.Styles&gt;
+        &lt;Style Selector=&quot;ListBoxItem&quot;&gt;
+            &lt;Setter Property=&quot;Template&quot;&gt;
+                &lt;ControlTemplate&gt;
+                    &lt;Grid Background=&quot;Transparent&quot;&gt;
+                        &lt;Border Name=&quot;PART_SelectedPipe&quot;
+                                Background=&quot;Blue&quot;
+                                Height=&quot;2&quot;
+                                VerticalAlignment=&quot;Bottom&quot;
+                                IsVisible=&quot;{TemplateBinding IsSelected}&quot; /&gt;
+                        &lt;ContentPresenter Content=&quot;{TemplateBinding Content}&quot;
+                                          Margin=&quot;10&quot; /&gt;
+                    &lt;/Grid&gt;
+                &lt;/ControlTemplate&gt;
+            &lt;/Setter&gt;
+        &lt;/Style&gt;
+    &lt;/ListBox.Styles&gt;
+    &lt;ListBoxItem&gt;Item 1&lt;/ListBoxItem&gt;
+    &lt;ListBoxItem&gt;Item 2&lt;/ListBoxItem&gt;
+    &lt;ListBoxItem&gt;Item 3&lt;/ListBoxItem&gt;
+&lt;/ListBox&gt;
+</code></pre>
 
 </article>
 

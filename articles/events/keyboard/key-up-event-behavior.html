@@ -83,7 +83,31 @@
         <article data-uid="">
 <h1 id="keyupeventbehavior">KeyUpEventBehavior</h1>
 
-<p><em>(Documentation for KeyUpEventBehavior is coming soon)</em></p>
+<p>Behavior that handles the <code>InputElement.KeyUpEvent</code>.</p>
+<h2 id="properties">Properties</h2>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>RoutingStrategies</td>
+<td><code>RoutingStrategies</code></td>
+<td>Gets or sets the routing strategies used when subscribing to events. Default is <code>Tunnel | Bubble</code>.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="usage">Usage</h2>
+<pre><code class="lang-xml">&lt;TextBox&gt;
+    &lt;Interaction.Behaviors&gt;
+        &lt;KeyUpEventBehavior /&gt;
+    &lt;/Interaction.Behaviors&gt;
+&lt;/TextBox&gt;
+</code></pre>
 
 </article>
 

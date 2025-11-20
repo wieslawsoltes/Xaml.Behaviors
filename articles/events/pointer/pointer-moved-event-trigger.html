@@ -83,7 +83,33 @@
         <article data-uid="">
 <h1 id="pointermovedeventtrigger">PointerMovedEventTrigger</h1>
 
-<p><em>(Documentation for PointerMovedEventTrigger is coming soon)</em></p>
+<p>Trigger that listens for the <code>InputElement.PointerMovedEvent</code>.</p>
+<h2 id="properties">Properties</h2>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>RoutingStrategies</td>
+<td><code>RoutingStrategies</code></td>
+<td>Gets or sets the routing strategies used when subscribing to events. Default is <code>Tunnel | Bubble</code>.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="usage">Usage</h2>
+<pre><code class="lang-xml">&lt;Border Background=&quot;LightGray&quot;&gt;
+    &lt;Interaction.Behaviors&gt;
+        &lt;PointerMovedEventTrigger&gt;
+            &lt;InvokeCommandAction Command=&quot;{Binding PointerMovedCommand}&quot; /&gt;
+        &lt;/PointerMovedEventTrigger&gt;
+    &lt;/Interaction.Behaviors&gt;
+&lt;/Border&gt;
+</code></pre>
 
 </article>
 

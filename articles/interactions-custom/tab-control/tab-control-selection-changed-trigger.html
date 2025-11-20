@@ -83,7 +83,17 @@
         <article data-uid="">
 <h1 id="tabcontrolselectionchangedtrigger">TabControlSelectionChangedTrigger</h1>
 
-<p><em>(Documentation for TabControlSelectionChangedTrigger is coming soon)</em></p>
+<p>Executes actions when the associated <code>TabControl</code> changes selection.</p>
+<h2 id="usage">Usage</h2>
+<pre><code class="lang-xml">&lt;TabControl&gt;
+    &lt;Interaction.Behaviors&gt;
+        &lt;TabControlSelectionChangedTrigger&gt;
+            &lt;InvokeCommandAction Command=&quot;{Binding TabChangedCommand}&quot; /&gt;
+        &lt;/TabControlSelectionChangedTrigger&gt;
+    &lt;/Interaction.Behaviors&gt;
+    &lt;!-- Tabs --&gt;
+&lt;/TabControl&gt;
+</code></pre>
 
 </article>
 

@@ -83,7 +83,17 @@
         <article data-uid="">
 <h1 id="pointercapturelosttrigger">PointerCaptureLostTrigger</h1>
 
-<p><em>(Documentation for PointerCaptureLostTrigger is coming soon)</em></p>
+<p>A trigger that executes when the associated <code>InputElement</code> loses pointer capture.</p>
+<h2 id="usage">Usage</h2>
+<pre><code class="lang-xml">&lt;Border Background=&quot;LightGray&quot; Height=&quot;100&quot; Width=&quot;100&quot;&gt;
+    &lt;Interaction.Behaviors&gt;
+        &lt;PointerCaptureLostTrigger&gt;
+            &lt;InvokeCommandAction Command=&quot;{Binding PointerCaptureLostCommand}&quot; /&gt;
+        &lt;/PointerCaptureLostTrigger&gt;
+    &lt;/Interaction.Behaviors&gt;
+    &lt;TextBlock Text=&quot;Capture Me&quot; HorizontalAlignment=&quot;Center&quot; VerticalAlignment=&quot;Center&quot; /&gt;
+&lt;/Border&gt;
+</code></pre>
 
 </article>
 

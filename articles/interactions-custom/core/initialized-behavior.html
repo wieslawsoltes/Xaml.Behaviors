@@ -83,7 +83,18 @@
         <article data-uid="">
 <h1 id="initializedbehavior">InitializedBehavior</h1>
 
-<p><em>(Documentation for InitializedBehavior is coming soon)</em></p>
+<p><code>InitializedBehavior&lt;T&gt;</code> is an abstract base class for behaviors that need to react when the <code>Initialized</code> event is raised on the associated <code>StyledElement</code>.</p>
+<h3 id="usage">Usage</h3>
+<p>Inherit from this class and implement the <code>OnInitializedEventOverride</code> method.</p>
+<pre><code class="lang-csharp">public class MyInitializedBehavior : InitializedBehavior&lt;Control&gt;
+{
+    protected override IDisposable OnInitializedEventOverride()
+    {
+        // Handle initialized event
+        return Disposable.Empty;
+    }
+}
+</code></pre>
 
 </article>
 

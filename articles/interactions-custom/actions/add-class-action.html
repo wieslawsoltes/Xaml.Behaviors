@@ -83,7 +83,43 @@
         <article data-uid="">
 <h1 id="addclassaction">AddClassAction</h1>
 
-<p><em>(Documentation for AddClassAction is coming soon)</em></p>
+<p>Adds a specified class name to the <code>Classes</code> collection of a <code>StyledElement</code>. This is useful for triggering styles or animations defined in your XAML.</p>
+<h3 id="properties">Properties</h3>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>ClassName</code></td>
+<td><code>string</code></td>
+<td>The name of the class to add.</td>
+</tr>
+<tr>
+<td><code>StyledElement</code></td>
+<td><code>StyledElement</code></td>
+<td>The target element to add the class to. If not set, the associated object is used.</td>
+</tr>
+<tr>
+<td><code>RemoveIfExists</code></td>
+<td><code>bool</code></td>
+<td>If set to <code>True</code>, the class will be removed if it already exists before being added again. This is useful for restarting animations.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="example">Example</h3>
+<pre><code class="lang-xml">&lt;Button Content=&quot;Add Class&quot;&gt;
+    &lt;Interaction.Behaviors&gt;
+        &lt;EventTriggerBehavior EventName=&quot;Click&quot;&gt;
+            &lt;AddClassAction ClassName=&quot;my-class&quot; RemoveIfExists=&quot;True&quot; /&gt;
+        &lt;/EventTriggerBehavior&gt;
+    &lt;/Interaction.Behaviors&gt;
+&lt;/Button&gt;
+</code></pre>
 
 </article>
 

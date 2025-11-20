@@ -83,7 +83,36 @@
         <article data-uid="">
 <h1 id="attachedtologicaltreetriggerbase">AttachedToLogicalTreeTriggerBase</h1>
 
-<p><em>(Documentation for AttachedToLogicalTreeTriggerBase is coming soon)</em></p>
+<p><code>AttachedToLogicalTreeTriggerBase&lt;T&gt;</code> is an abstract base class for triggers that need to perform actions or subscriptions when the associated object is attached to the logical tree.</p>
+<h2 id="methods">Methods</h2>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>IDisposable OnAttachedToLogicalTreeOverride()</code></td>
+<td>Called after the associated object is attached to the logical tree. Returns a disposable that will be disposed when the trigger is detached.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="usage">Usage</h2>
+<p>Inherit from this class to create a custom trigger that activates when attached to the logical tree.</p>
+<pre><code class="lang-csharp">public class MyLogicalTreeTrigger : AttachedToLogicalTreeTriggerBase&lt;Button&gt;
+{
+    protected override IDisposable OnAttachedToLogicalTreeOverride()
+    {
+        // Perform setup or subscription
+        return Disposable.Create(() =&gt; 
+        {
+            // Perform cleanup
+        });
+    }
+}
+</code></pre>
 
 </article>
 

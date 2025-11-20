@@ -83,7 +83,33 @@
         <article data-uid="">
 <h1 id="closenotificationaction">CloseNotificationAction</h1>
 
-<p><em>(Documentation for CloseNotificationAction is coming soon)</em></p>
+<p>Action that closes the specified <code>NotificationCard</code>.</p>
+<h2 id="properties">Properties</h2>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>NotificationCard</td>
+<td><code>NotificationCard</code></td>
+<td>Gets or sets the notification card to close.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="usage">Usage</h2>
+<pre><code class="lang-xml">&lt;Button Content=&quot;Close Notification&quot;&gt;
+    &lt;Interaction.Behaviors&gt;
+        &lt;EventTriggerBehavior EventName=&quot;Click&quot;&gt;
+            &lt;CloseNotificationAction NotificationCard=&quot;{Binding NotificationCard}&quot; /&gt;
+        &lt;/EventTriggerBehavior&gt;
+    &lt;/Interaction.Behaviors&gt;
+&lt;/Button&gt;
+</code></pre>
 
 </article>
 

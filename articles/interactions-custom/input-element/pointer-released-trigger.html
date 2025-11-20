@@ -83,7 +83,17 @@
         <article data-uid="">
 <h1 id="pointerreleasedtrigger">PointerReleasedTrigger</h1>
 
-<p><em>(Documentation for PointerReleasedTrigger is coming soon)</em></p>
+<p>A trigger that executes when a pointer button is released on the associated <code>InputElement</code>.</p>
+<h2 id="usage">Usage</h2>
+<pre><code class="lang-xml">&lt;Border Background=&quot;LightGray&quot; Height=&quot;100&quot; Width=&quot;100&quot;&gt;
+    &lt;Interaction.Behaviors&gt;
+        &lt;PointerReleasedTrigger&gt;
+            &lt;InvokeCommandAction Command=&quot;{Binding PointerReleasedCommand}&quot; /&gt;
+        &lt;/PointerReleasedTrigger&gt;
+    &lt;/Interaction.Behaviors&gt;
+    &lt;TextBlock Text=&quot;Release Me&quot; HorizontalAlignment=&quot;Center&quot; VerticalAlignment=&quot;Center&quot; /&gt;
+&lt;/Border&gt;
+</code></pre>
 
 </article>
 

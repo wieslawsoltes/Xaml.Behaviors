@@ -83,7 +83,16 @@
         <article data-uid="">
 <h1 id="tooltipopeningtrigger">ToolTipOpeningTrigger</h1>
 
-<p><em>(Documentation for ToolTipOpeningTrigger is coming soon)</em></p>
+<p>Trigger that listens for the <code>ToolTip.ToolTipOpeningEvent</code>.</p>
+<h2 id="usage">Usage</h2>
+<pre><code class="lang-xml">&lt;Button Content=&quot;Hover Me&quot; ToolTip.Tip=&quot;I am a tooltip!&quot;&gt;
+    &lt;Interaction.Behaviors&gt;
+        &lt;ToolTipOpeningTrigger&gt;
+            &lt;InvokeCommandAction Command=&quot;{Binding ToolTipOpeningCommand}&quot; /&gt;
+        &lt;/ToolTipOpeningTrigger&gt;
+    &lt;/Interaction.Behaviors&gt;
+&lt;/Button&gt;
+</code></pre>
 
 </article>
 

@@ -83,7 +83,16 @@
         <article data-uid="">
 <h1 id="transitionschangedtrigger">TransitionsChangedTrigger</h1>
 
-<p><em>(Documentation for TransitionsChangedTrigger is coming soon)</em></p>
+<p>Executes actions whenever the <code>Avalonia.Animation.Transitions</code> collection changes.</p>
+<h2 id="usage">Usage</h2>
+<pre><code class="lang-xml">&lt;Border Background=&quot;Red&quot; Width=&quot;100&quot; Height=&quot;100&quot;&gt;
+    &lt;Interaction.Behaviors&gt;
+        &lt;TransitionsChangedTrigger&gt;
+            &lt;InvokeCommandAction Command=&quot;{Binding TransitionsChangedCommand}&quot; /&gt;
+        &lt;/TransitionsChangedTrigger&gt;
+    &lt;/Interaction.Behaviors&gt;
+&lt;/Border&gt;
+</code></pre>
 
 </article>
 

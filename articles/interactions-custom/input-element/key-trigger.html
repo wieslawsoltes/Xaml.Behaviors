@@ -83,7 +83,43 @@
         <article data-uid="">
 <h1 id="keytrigger">KeyTrigger</h1>
 
-<p><em>(Documentation for KeyTrigger is coming soon)</em></p>
+<p>A trigger that listens for key events and executes its actions when the specified key or gesture is detected.</p>
+<h2 id="properties">Properties</h2>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Key</td>
+<td><code>Key?</code></td>
+<td>Gets or sets the key that triggers the action.</td>
+</tr>
+<tr>
+<td>Gesture</td>
+<td><code>KeyGesture?</code></td>
+<td>Gets or sets the key gesture that triggers the action.</td>
+</tr>
+<tr>
+<td>Event</td>
+<td><code>FiredOn</code></td>
+<td>Specifies which keyboard event will fire the trigger (<code>KeyDown</code> or <code>KeyUp</code>). Default is <code>KeyDown</code>.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="usage">Usage</h2>
+<pre><code class="lang-xml">&lt;TextBox Width=&quot;200&quot;&gt;
+    &lt;Interaction.Behaviors&gt;
+        &lt;KeyTrigger Key=&quot;Escape&quot; Event=&quot;KeyUp&quot;&gt;
+            &lt;InvokeCommandAction Command=&quot;{Binding CancelCommand}&quot; /&gt;
+        &lt;/KeyTrigger&gt;
+    &lt;/Interaction.Behaviors&gt;
+&lt;/TextBox&gt;
+</code></pre>
 
 </article>
 

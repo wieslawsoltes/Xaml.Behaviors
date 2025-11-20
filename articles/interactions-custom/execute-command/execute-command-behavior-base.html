@@ -83,7 +83,49 @@
         <article data-uid="">
 <h1 id="executecommandbehaviorbase">ExecuteCommandBehaviorBase</h1>
 
-<p><em>(Documentation for ExecuteCommandBehaviorBase is coming soon)</em></p>
+<p>Base class for behaviors that execute a command.</p>
+<h2 id="properties">Properties</h2>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>TopLevel</td>
+<td>TopLevel</td>
+<td>The TopLevel to focus when FocusTopLevel is true.</td>
+</tr>
+<tr>
+<td>Command</td>
+<td>ICommand</td>
+<td>The command to execute.</td>
+</tr>
+<tr>
+<td>CommandParameter</td>
+<td>object</td>
+<td>The command parameter.</td>
+</tr>
+<tr>
+<td>FocusTopLevel</td>
+<td>bool</td>
+<td>If true, the TopLevel will be focused after the command is executed.</td>
+</tr>
+<tr>
+<td>FocusControl</td>
+<td>Control</td>
+<td>The control to focus after the command is executed.</td>
+</tr>
+<tr>
+<td>SourceControl</td>
+<td>Control</td>
+<td>The control to use as the source for the behavior. If not set, the AssociatedObject is used.</td>
+</tr>
+</tbody>
+</table>
 
 </article>
 

@@ -83,7 +83,39 @@
         <article data-uid="">
 <h1 id="renderrendertargetbitmapaction">RenderRenderTargetBitmapAction</h1>
 
-<p><em>(Documentation for RenderRenderTargetBitmapAction is coming soon)</em></p>
+<p><code>RenderRenderTargetBitmapAction</code> is an action that invokes <code>IRenderTargetBitmapRenderHost.Render</code> on the specified target.</p>
+<h2 id="properties">Properties</h2>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Target</td>
+<td><code>IRenderTargetBitmapRenderHost</code></td>
+<td>Gets or sets the render host.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="usage">Usage</h2>
+<pre><code class="lang-xml">&lt;Button Content=&quot;Render&quot;&gt;
+    &lt;Interaction.Behaviors&gt;
+        &lt;EventTriggerBehavior EventName=&quot;Click&quot;&gt;
+            &lt;RenderRenderTargetBitmapAction Target=&quot;{Binding ElementName=MyBehavior}&quot; /&gt;
+        &lt;/EventTriggerBehavior&gt;
+    &lt;/Interaction.Behaviors&gt;
+&lt;/Button&gt;
+
+&lt;Image Width=&quot;200&quot; Height=&quot;200&quot;&gt;
+    &lt;Interaction.Behaviors&gt;
+        &lt;StaticRenderTargetBitmapBehavior x:Name=&quot;MyBehavior&quot; ... /&gt;
+    &lt;/Interaction.Behaviors&gt;
+&lt;/Image&gt;
+</code></pre>
 
 </article>
 

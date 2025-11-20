@@ -83,7 +83,17 @@
         <article data-uid="">
 <h1 id="holdinggesturetrigger">HoldingGestureTrigger</h1>
 
-<p><em>(Documentation for HoldingGestureTrigger is coming soon)</em></p>
+<p>A trigger that executes when a holding gesture is recognized on the associated object.</p>
+<h2 id="usage">Usage</h2>
+<pre><code class="lang-xml">&lt;Border Background=&quot;LightGray&quot; Height=&quot;100&quot; Width=&quot;100&quot;&gt;
+    &lt;Interaction.Behaviors&gt;
+        &lt;HoldingGestureTrigger&gt;
+            &lt;InvokeCommandAction Command=&quot;{Binding HoldCommand}&quot; /&gt;
+        &lt;/HoldingGestureTrigger&gt;
+    &lt;/Interaction.Behaviors&gt;
+    &lt;TextBlock Text=&quot;Hold Me&quot; HorizontalAlignment=&quot;Center&quot; VerticalAlignment=&quot;Center&quot; /&gt;
+&lt;/Border&gt;
+</code></pre>
 
 </article>
 

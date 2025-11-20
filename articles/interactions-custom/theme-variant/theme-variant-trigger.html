@@ -83,7 +83,37 @@
         <article data-uid="">
 <h1 id="themevarianttrigger">ThemeVariantTrigger</h1>
 
-<p><em>(Documentation for ThemeVariantTrigger is coming soon)</em></p>
+<p>Executes actions when the associated control's <code>StyledElement.ActualThemeVariant</code> matches the specified <code>ThemeVariant</code>.</p>
+<h2 id="properties">Properties</h2>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ThemeVariant</td>
+<td><code>ThemeVariant</code></td>
+<td>Gets or sets the theme variant to watch for.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="usage">Usage</h2>
+<pre><code class="lang-xml">&lt;StackPanel&gt;
+    &lt;Interaction.Behaviors&gt;
+        &lt;ThemeVariantTrigger ThemeVariant=&quot;Dark&quot;&gt;
+            &lt;ChangePropertyAction TargetObject=&quot;{Binding #MyText}&quot; PropertyName=&quot;Text&quot; Value=&quot;Dark Mode Active&quot; /&gt;
+        &lt;/ThemeVariantTrigger&gt;
+        &lt;ThemeVariantTrigger ThemeVariant=&quot;Light&quot;&gt;
+            &lt;ChangePropertyAction TargetObject=&quot;{Binding #MyText}&quot; PropertyName=&quot;Text&quot; Value=&quot;Light Mode Active&quot; /&gt;
+        &lt;/ThemeVariantTrigger&gt;
+    &lt;/Interaction.Behaviors&gt;
+    &lt;TextBlock x:Name=&quot;MyText&quot; /&gt;
+&lt;/StackPanel&gt;
+</code></pre>
 
 </article>
 

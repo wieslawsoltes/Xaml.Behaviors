@@ -83,7 +83,15 @@
         <article data-uid="">
 <h1 id="executecommandonkeyupbehavior">ExecuteCommandOnKeyUpBehavior</h1>
 
-<p><em>(Documentation for ExecuteCommandOnKeyUpBehavior is coming soon)</em></p>
+<p>A behavior that executes a command when a key is released.</p>
+<h2 id="usage">Usage</h2>
+<pre><code class="lang-xml">&lt;TextBox xmlns=&quot;https://github.com/avaloniaui&quot;
+         xmlns:x=&quot;http://schemas.microsoft.com/winfx/2006/xaml&quot;&gt;
+    &lt;Interaction.Behaviors&gt;
+        &lt;ExecuteCommandOnKeyUpBehavior Key=&quot;Enter&quot; Command=&quot;{Binding EnterCommand}&quot; /&gt;
+    &lt;/Interaction.Behaviors&gt;
+&lt;/TextBox&gt;
+</code></pre>
 
 </article>
 

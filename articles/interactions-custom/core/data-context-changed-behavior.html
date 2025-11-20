@@ -83,7 +83,18 @@
         <article data-uid="">
 <h1 id="datacontextchangedbehavior">DataContextChangedBehavior</h1>
 
-<p><em>(Documentation for DataContextChangedBehavior is coming soon)</em></p>
+<p><code>DataContextChangedBehavior&lt;T&gt;</code> is an abstract base class for behaviors that need to react when the <code>DataContextChanged</code> event is raised on the associated <code>StyledElement</code>.</p>
+<h3 id="usage">Usage</h3>
+<p>Inherit from this class and implement the <code>OnDataContextChangedEventOverride</code> method.</p>
+<pre><code class="lang-csharp">public class MyDataContextBehavior : DataContextChangedBehavior&lt;Control&gt;
+{
+    protected override IDisposable OnDataContextChangedEventOverride()
+    {
+        // Handle DataContext changed
+        return Disposable.Empty;
+    }
+}
+</code></pre>
 
 </article>
 

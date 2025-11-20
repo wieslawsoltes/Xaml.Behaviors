@@ -83,7 +83,16 @@
         <article data-uid="">
 <h1 id="lostfocustrigger">LostFocusTrigger</h1>
 
-<p><em>(Documentation for LostFocusTrigger is coming soon)</em></p>
+<p>A trigger that executes when the associated <code>InputElement</code> loses focus.</p>
+<h2 id="usage">Usage</h2>
+<pre><code class="lang-xml">&lt;TextBox Width=&quot;200&quot;&gt;
+    &lt;Interaction.Behaviors&gt;
+        &lt;LostFocusTrigger&gt;
+            &lt;InvokeCommandAction Command=&quot;{Binding LostFocusCommand}&quot; /&gt;
+        &lt;/LostFocusTrigger&gt;
+    &lt;/Interaction.Behaviors&gt;
+&lt;/TextBox&gt;
+</code></pre>
 
 </article>
 

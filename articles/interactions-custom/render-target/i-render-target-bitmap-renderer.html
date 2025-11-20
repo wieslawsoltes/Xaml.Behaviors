@@ -83,7 +83,33 @@
         <article data-uid="">
 <h1 id="irendertargetbitmaprenderer">IRenderTargetBitmapRenderer</h1>
 
-<p><em>(Documentation for IRenderTargetBitmapRenderer is coming soon)</em></p>
+<p><code>IRenderTargetBitmapRenderer</code> provides a method used by <code>RenderTargetBitmapBehavior</code> to draw onto a render target.</p>
+<h2 id="methods">Methods</h2>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>void Render(DrawingContext context, TimeSpan elapsed)</code></td>
+<td>Draws into the provided <code>DrawingContext</code>. <code>elapsed</code> is the time since the behavior was attached.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="usage">Usage</h2>
+<p>Implement this interface to provide custom drawing logic for <code>RenderTargetBitmapBehavior</code>.</p>
+<pre><code class="lang-csharp">public class MyRenderer : IRenderTargetBitmapRenderer
+{
+    public void Render(DrawingContext context, TimeSpan elapsed)
+    {
+        // Drawing logic here
+        context.DrawRectangle(Brushes.Red, null, new Rect(0, 0, 100, 100));
+    }
+}
+</code></pre>
 
 </article>
 

@@ -83,7 +83,16 @@
         <article data-uid="">
 <h1 id="pinchendedgesturetrigger">PinchEndedGestureTrigger</h1>
 
-<p><em>(Documentation for PinchEndedGestureTrigger is coming soon)</em></p>
+<p>A trigger that executes when a pinch gesture ends on the associated object.</p>
+<h2 id="usage">Usage</h2>
+<pre><code class="lang-xml">&lt;Image Source=&quot;image.png&quot; Width=&quot;200&quot; Height=&quot;200&quot;&gt;
+    &lt;Interaction.Behaviors&gt;
+        &lt;PinchEndedGestureTrigger&gt;
+            &lt;InvokeCommandAction Command=&quot;{Binding PinchEndedCommand}&quot; /&gt;
+        &lt;/PinchEndedGestureTrigger&gt;
+    &lt;/Interaction.Behaviors&gt;
+&lt;/Image&gt;
+</code></pre>
 
 </article>
 

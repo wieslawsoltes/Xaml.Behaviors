@@ -83,7 +83,29 @@
         <article data-uid="">
 <h1 id="executecommandroutedeventbehaviorbase">ExecuteCommandRoutedEventBehaviorBase</h1>
 
-<p><em>(Documentation for ExecuteCommandRoutedEventBehaviorBase is coming soon)</em></p>
+<p>Base class for behaviors that execute a command when a routed event is raised.</p>
+<h2 id="properties">Properties</h2>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>EventRoutingStrategy</td>
+<td>RoutingStrategies</td>
+<td>The routing strategy to use for the event. Default is Bubble.</td>
+</tr>
+<tr>
+<td>MarkAsHandled</td>
+<td>bool</td>
+<td>If true, the event will be marked as handled after the command is executed. Default is true.</td>
+</tr>
+</tbody>
+</table>
 
 </article>
 

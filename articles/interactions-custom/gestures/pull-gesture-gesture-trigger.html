@@ -83,7 +83,17 @@
         <article data-uid="">
 <h1 id="pullgesturegesturetrigger">PullGestureGestureTrigger</h1>
 
-<p><em>(Documentation for PullGestureGestureTrigger is coming soon)</em></p>
+<p>A trigger that executes when a pull gesture is detected on the associated object.</p>
+<h2 id="usage">Usage</h2>
+<pre><code class="lang-xml">&lt;Border Background=&quot;LightGray&quot; Height=&quot;100&quot; Width=&quot;100&quot;&gt;
+    &lt;Interaction.Behaviors&gt;
+        &lt;PullGestureGestureTrigger&gt;
+            &lt;InvokeCommandAction Command=&quot;{Binding PullCommand}&quot; /&gt;
+        &lt;/PullGestureGestureTrigger&gt;
+    &lt;/Interaction.Behaviors&gt;
+    &lt;TextBlock Text=&quot;Pull Me&quot; HorizontalAlignment=&quot;Center&quot; VerticalAlignment=&quot;Center&quot; /&gt;
+&lt;/Border&gt;
+</code></pre>
 
 </article>
 

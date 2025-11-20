@@ -83,7 +83,33 @@
         <article data-uid="">
 <h1 id="righttappedeventtrigger">RightTappedEventTrigger</h1>
 
-<p><em>(Documentation for RightTappedEventTrigger is coming soon)</em></p>
+<p>Trigger that listens for the <code>Gestures.RightTappedEvent</code>.</p>
+<h2 id="properties">Properties</h2>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>RoutingStrategies</td>
+<td><code>RoutingStrategies</code></td>
+<td>Gets or sets the routing strategies used when subscribing to events. Default is <code>Bubble</code>.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="usage">Usage</h2>
+<pre><code class="lang-xml">&lt;Border Background=&quot;LightGray&quot;&gt;
+    &lt;Interaction.Behaviors&gt;
+        &lt;RightTappedEventTrigger&gt;
+            &lt;InvokeCommandAction Command=&quot;{Binding RightTappedCommand}&quot; /&gt;
+        &lt;/RightTappedEventTrigger&gt;
+    &lt;/Interaction.Behaviors&gt;
+&lt;/Border&gt;
+</code></pre>
 
 </article>
 

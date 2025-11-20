@@ -85,12 +85,70 @@
 
 <p><code>ManagedContextDragBehavior</code> initiates an in-process managed drag operation with an optional preview window. This behavior avoids the operating system's drag-and-drop mechanism and integrates with <code>ManagedDragDropService</code>.</p>
 <h2 id="properties">Properties</h2>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Context</td>
+<td><code>object</code></td>
+<td>Gets or sets the context value used as a drag payload when the drag starts.</td>
+</tr>
+<tr>
+<td>PreviewTemplate</td>
+<td><code>IDataTemplate</code></td>
+<td>Gets or sets the template used to render the drag preview.</td>
+</tr>
+<tr>
+<td>HorizontalDragThreshold</td>
+<td><code>double</code></td>
+<td>Gets or sets the minimal horizontal distance required to start dragging. Default is 3.</td>
+</tr>
+<tr>
+<td>VerticalDragThreshold</td>
+<td><code>double</code></td>
+<td>Gets or sets the minimal vertical distance required to start dragging. Default is 3.</td>
+</tr>
+<tr>
+<td>PreviewOffset</td>
+<td><code>Point</code></td>
+<td>Gets or sets the fixed logical offset applied to the preview position.</td>
+</tr>
+<tr>
+<td>DataFormat</td>
+<td><code>string</code></td>
+<td>Gets or sets the data format name used to identify the payload. Default is &quot;Context&quot;.</td>
+</tr>
+<tr>
+<td>UsePointerRelativePreviewOffset</td>
+<td><code>bool</code></td>
+<td>Gets or sets whether to compute a pointer-relative preview offset automatically. Default is true.</td>
+</tr>
+<tr>
+<td>PreviewOpacity</td>
+<td><code>double</code></td>
+<td>Gets or sets the preview window opacity. Default is 0.65.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="usage">Usage</h2>
+<pre><code class="lang-xml">&lt;Border Background=&quot;Red&quot; Width=&quot;50&quot; Height=&quot;50&quot;&gt;
+    &lt;Interaction.Behaviors&gt;
+        &lt;ManagedContextDragBehavior Context=&quot;{Binding}&quot; /&gt;
+    &lt;/Interaction.Behaviors&gt;
+&lt;/Border&gt;
+</code></pre>
 <ul>
 <li><strong><code>Context</code></strong>: The context value used as the drag payload when the drag starts.</li>
 <li><strong><code>PreviewTemplate</code></strong>: The <code>IDataTemplate</code> used to render the drag preview window content.</li>
 <li><strong><code>HorizontalDragThreshold</code></strong>: The minimal horizontal distance required to start dragging (default is 3).</li>
 </ul>
-<h2 id="usage">Usage</h2>
+<h2 id="usage-1">Usage</h2>
 <pre><code class="lang-xml">&lt;Border Background=&quot;Red&quot; Width=&quot;50&quot; Height=&quot;50&quot;&gt;
     &lt;Interaction.Behaviors&gt;
         &lt;ManagedContextDragBehavior Context=&quot;{Binding}&quot; /&gt;

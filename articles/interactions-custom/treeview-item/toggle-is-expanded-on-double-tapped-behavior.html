@@ -83,7 +83,20 @@
         <article data-uid="">
 <h1 id="toggleisexpandedondoubletappedbehavior">ToggleIsExpandedOnDoubleTappedBehavior</h1>
 
-<p><em>(Documentation for ToggleIsExpandedOnDoubleTappedBehavior is coming soon)</em></p>
+<p>Toggles <code>TreeViewItem.IsExpanded</code> property of the associated <code>TreeViewItem</code> control on <code>DoubleTapped</code> event.</p>
+<h2 id="usage">Usage</h2>
+<pre><code class="lang-xml">&lt;TreeView&gt;
+    &lt;TreeView.ItemTemplate&gt;
+        &lt;TreeDataTemplate&gt;
+            &lt;TextBlock Text=&quot;{Binding Name}&quot;&gt;
+                &lt;Interaction.Behaviors&gt;
+                    &lt;ToggleIsExpandedOnDoubleTappedBehavior /&gt;
+                &lt;/Interaction.Behaviors&gt;
+            &lt;/TextBlock&gt;
+        &lt;/TreeDataTemplate&gt;
+    &lt;/TreeView.ItemTemplate&gt;
+&lt;/TreeView&gt;
+</code></pre>
 
 </article>
 

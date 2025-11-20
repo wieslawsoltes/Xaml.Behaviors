@@ -85,12 +85,31 @@
 
 <p><code>MouseDragElementBehavior</code> allows you to make any control draggable by the mouse. It works by manipulating the <code>RenderTransform</code> of the associated object.</p>
 <h2 id="properties">Properties</h2>
-<ul>
-<li><strong><code>ConstrainToParentBounds</code></strong>: If set to <code>True</code>, the control cannot be dragged outside the bounds of its parent container.</li>
-</ul>
-<h2 id="usage">Usage</h2>
-<p>Attach the behavior directly to the control you want to make draggable.</p>
-<pre><code class="lang-xml">&lt;Border Background=&quot;LightGreen&quot; Width=&quot;100&quot; Height=&quot;100&quot;&gt;
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ConstrainToParentBounds</td>
+<td><code>bool</code></td>
+<td>Gets or sets whether dragging should be constrained to the bounds of the parent control.</td>
+</tr>
+</tbody>
+</table>
+<pre><code>
+*   **`ConstrainToParentBounds`**: If set to `True`, the control cannot be dragged outside the bounds of its parent container.
+
+## Usage
+
+Attach the behavior directly to the control you want to make draggable.
+
+```xml
+&lt;Border Background=&quot;LightGreen&quot; Width=&quot;100&quot; Height=&quot;100&quot;&gt;
     &lt;Interaction.Behaviors&gt;
         &lt;MouseDragElementBehavior ConstrainToParentBounds=&quot;True&quot; /&gt;
     &lt;/Interaction.Behaviors&gt;

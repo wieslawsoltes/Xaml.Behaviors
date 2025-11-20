@@ -83,7 +83,35 @@
         <article data-uid="">
 <h1 id="hidetooltipaction">HideToolTipAction</h1>
 
-<p><em>(Documentation for HideToolTipAction is coming soon)</em></p>
+<p>Hides the <code>ToolTip</code> of the associated or target control when executed.</p>
+<h2 id="properties">Properties</h2>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>TargetControl</td>
+<td><code>Control</code></td>
+<td>Gets or sets the control whose tooltip will be hidden. If not set, the sender is used.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="usage">Usage</h2>
+<pre><code class="lang-xml">&lt;Button Content=&quot;Hide ToolTip&quot;&gt;
+    &lt;Interaction.Behaviors&gt;
+        &lt;EventTriggerBehavior EventName=&quot;Click&quot;&gt;
+            &lt;HideToolTipAction TargetControl=&quot;{Binding #MyButton}&quot; /&gt;
+        &lt;/EventTriggerBehavior&gt;
+    &lt;/Interaction.Behaviors&gt;
+&lt;/Button&gt;
+
+&lt;Button x:Name=&quot;MyButton&quot; Content=&quot;Hover Me&quot; ToolTip.Tip=&quot;I am a tooltip!&quot; /&gt;
+</code></pre>
 
 </article>
 

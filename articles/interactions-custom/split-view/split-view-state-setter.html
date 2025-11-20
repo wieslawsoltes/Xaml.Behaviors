@@ -83,7 +83,79 @@
         <article data-uid="">
 <h1 id="splitviewstatesetter">SplitViewStateSetter</h1>
 
-<p><em>(Documentation for SplitViewStateSetter is coming soon)</em></p>
+<p>Describes a state for <code>SplitViewStateBehavior</code> using size conditions.</p>
+<h2 id="properties">Properties</h2>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>MinWidth</td>
+<td><code>double</code></td>
+<td>Gets or sets minimum bounds width.</td>
+</tr>
+<tr>
+<td>MinWidthOperator</td>
+<td><code>ComparisonConditionType</code></td>
+<td>Gets or sets minimum width comparison operator. Default is <code>GreaterThanOrEqual</code>.</td>
+</tr>
+<tr>
+<td>MaxWidth</td>
+<td><code>double</code></td>
+<td>Gets or sets maximum bounds width. Default is <code>PositiveInfinity</code>.</td>
+</tr>
+<tr>
+<td>MaxWidthOperator</td>
+<td><code>ComparisonConditionType</code></td>
+<td>Gets or sets maximum width comparison operator. Default is <code>LessThan</code>.</td>
+</tr>
+<tr>
+<td>MinHeight</td>
+<td><code>double</code></td>
+<td>Gets or sets minimum bounds height.</td>
+</tr>
+<tr>
+<td>MinHeightOperator</td>
+<td><code>ComparisonConditionType</code></td>
+<td>Gets or sets minimum height comparison operator. Default is <code>GreaterThanOrEqual</code>.</td>
+</tr>
+<tr>
+<td>MaxHeight</td>
+<td><code>double</code></td>
+<td>Gets or sets maximum bounds height. Default is <code>PositiveInfinity</code>.</td>
+</tr>
+<tr>
+<td>MaxHeightOperator</td>
+<td><code>ComparisonConditionType</code></td>
+<td>Gets or sets maximum height comparison operator. Default is <code>LessThan</code>.</td>
+</tr>
+<tr>
+<td>DisplayMode</td>
+<td><code>SplitViewDisplayMode</code></td>
+<td>Gets or sets the <code>SplitView.DisplayMode</code> to apply.</td>
+</tr>
+<tr>
+<td>PanePlacement</td>
+<td><code>SplitViewPanePlacement</code></td>
+<td>Gets or sets the <code>SplitView.PanePlacement</code> to apply.</td>
+</tr>
+<tr>
+<td>IsPaneOpen</td>
+<td><code>bool</code></td>
+<td>Gets or sets the <code>SplitView.IsPaneOpen</code> to apply.</td>
+</tr>
+<tr>
+<td>TargetSplitView</td>
+<td><code>SplitView</code></td>
+<td>Gets or sets the target <code>SplitView</code>. If not set, the behavior's associated object is used.</td>
+</tr>
+</tbody>
+</table>
 
 </article>
 

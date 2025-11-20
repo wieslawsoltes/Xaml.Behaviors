@@ -83,7 +83,35 @@
         <article data-uid="">
 <h1 id="showwindowaction">ShowWindowAction</h1>
 
-<p><em>(Documentation for ShowWindowAction is coming soon)</em></p>
+<p>Shows the specified window when executed.</p>
+<h2 id="properties">Properties</h2>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Window</td>
+<td><code>Window</code></td>
+<td>Gets or sets the window instance to show.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="usage">Usage</h2>
+<pre><code class="lang-xml">&lt;Button Content=&quot;Show Window&quot;&gt;
+    &lt;Interaction.Actions&gt;
+        &lt;EventTriggerBehavior EventName=&quot;Click&quot;&gt;
+            &lt;ShowWindowAction&gt;
+                &lt;Window Title=&quot;New Window&quot; Width=&quot;400&quot; Height=&quot;300&quot; /&gt;
+            &lt;/ShowWindowAction&gt;
+        &lt;/EventTriggerBehavior&gt;
+    &lt;/Interaction.Actions&gt;
+&lt;/Button&gt;
+</code></pre>
 
 </article>
 

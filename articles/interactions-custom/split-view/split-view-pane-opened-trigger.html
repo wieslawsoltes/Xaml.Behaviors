@@ -83,7 +83,17 @@
         <article data-uid="">
 <h1 id="splitviewpaneopenedtrigger">SplitViewPaneOpenedTrigger</h1>
 
-<p><em>(Documentation for SplitViewPaneOpenedTrigger is coming soon)</em></p>
+<p>Executes actions when the <code>SplitView.PaneOpened</code> event is raised.</p>
+<h2 id="usage">Usage</h2>
+<pre><code class="lang-xml">&lt;SplitView&gt;
+    &lt;Interaction.Behaviors&gt;
+        &lt;SplitViewPaneOpenedTrigger&gt;
+            &lt;InvokeCommandAction Command=&quot;{Binding PaneOpenedCommand}&quot; /&gt;
+        &lt;/SplitViewPaneOpenedTrigger&gt;
+    &lt;/Interaction.Behaviors&gt;
+    &lt;!-- Content --&gt;
+&lt;/SplitView&gt;
+</code></pre>
 
 </article>
 

@@ -83,7 +83,16 @@
         <article data-uid="">
 <h1 id="gotfocustrigger">GotFocusTrigger</h1>
 
-<p><em>(Documentation for GotFocusTrigger is coming soon)</em></p>
+<p>A trigger that executes when the associated <code>InputElement</code> receives focus.</p>
+<h2 id="usage">Usage</h2>
+<pre><code class="lang-xml">&lt;TextBox Width=&quot;200&quot;&gt;
+    &lt;Interaction.Behaviors&gt;
+        &lt;GotFocusTrigger&gt;
+            &lt;InvokeCommandAction Command=&quot;{Binding GotFocusCommand}&quot; /&gt;
+        &lt;/GotFocusTrigger&gt;
+    &lt;/Interaction.Behaviors&gt;
+&lt;/TextBox&gt;
+</code></pre>
 
 </article>
 

@@ -83,7 +83,18 @@
         <article data-uid="">
 <h1 id="loadedbehavior">LoadedBehavior</h1>
 
-<p><em>(Documentation for LoadedBehavior is coming soon)</em></p>
+<p><code>LoadedBehavior&lt;T&gt;</code> is an abstract base class for behaviors that need to react when the <code>Loaded</code> event is raised on the associated <code>Control</code>.</p>
+<h3 id="usage">Usage</h3>
+<p>Inherit from this class and implement the <code>OnLoadedOverride</code> method.</p>
+<pre><code class="lang-csharp">public class MyLoadedBehavior : LoadedBehavior&lt;Control&gt;
+{
+    protected override IDisposable OnLoadedOverride()
+    {
+        // Handle loaded event
+        return Disposable.Empty;
+    }
+}
+</code></pre>
 
 </article>
 

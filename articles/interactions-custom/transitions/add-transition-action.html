@@ -83,7 +83,57 @@
         <article data-uid="">
 <h1 id="addtransitionaction">AddTransitionAction</h1>
 
-<p><em>(Documentation for AddTransitionAction is coming soon)</em></p>
+<p>Adds a <code>TransitionBase</code> to the <code>Avalonia.Animation.Transitions</code> collection on the target element.</p>
+<h2 id="properties">Properties</h2>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Transition</td>
+<td><code>TransitionBase</code></td>
+<td>Gets or sets the transition to add.</td>
+</tr>
+<tr>
+<td>StyledElement</td>
+<td><code>StyledElement</code></td>
+<td>Gets or sets the target styled element. If not set, the sender is used.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="usage">Usage</h2>
+<pre><code class="lang-xml">&lt;Button Content=&quot;Add Transition&quot;&gt;
+    &lt;Interaction.Behaviors&gt;
+        &lt;EventTriggerBehavior EventName=&quot;Click&quot;&gt;
+            &lt;AddTransitionAction StyledElement=&quot;{Binding #MyBorder}&quot;&gt;
+                &lt;AddTransitionAction.Transition&gt;
+                    &lt;DoubleTransition Property=&quot;Opacity&quot; Duration=&quot;0:0:1&quot; /&gt;
+                &lt;/AddTransitionAction.Transition&gt;
+            &lt;/AddTransitionAction&gt;
+        &lt;/EventTriggerBehavior&gt;
+    &lt;/Interaction.Behaviors&gt;
+&lt;/Button&gt;
+
+&lt;Border x:Name=&quot;MyBorder&quot; Background=&quot;Red&quot; Width=&quot;100&quot; Height=&quot;100&quot; /&gt;
+</code></pre>
+<h2 id="usage-1">Usage</h2>
+<pre><code class="lang-xml">&lt;Button Content=&quot;Add Transition&quot;&gt;
+    &lt;Interaction.Behaviors&gt;
+        &lt;EventTriggerBehavior EventName=&quot;Click&quot;&gt;
+            &lt;AddTransitionAction&gt;
+                &lt;AddTransitionAction.Transition&gt;
+                    &lt;DoubleTransition Property=&quot;Opacity&quot; Duration=&quot;0:0:0.5&quot; /&gt;
+                &lt;/AddTransitionAction.Transition&gt;
+            &lt;/AddTransitionAction&gt;
+        &lt;/EventTriggerBehavior&gt;
+    &lt;/Interaction.Behaviors&gt;
+&lt;/Button&gt;
+</code></pre>
 
 </article>
 

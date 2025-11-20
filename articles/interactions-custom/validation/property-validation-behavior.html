@@ -83,7 +83,73 @@
         <article data-uid="">
 <h1 id="propertyvalidationbehavior">PropertyValidationBehavior</h1>
 
-<p><em>(Documentation for PropertyValidationBehavior is coming soon)</em></p>
+<p>Base behavior that validates a property value using a set of rules.</p>
+<h2 id="properties">Properties</h2>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Property</td>
+<td><code>AvaloniaProperty</code></td>
+<td>Gets or sets the property to validate.</td>
+</tr>
+<tr>
+<td>Rules</td>
+<td><code>AvaloniaList&lt;IValidationRule&lt;TValue&gt;&gt;</code></td>
+<td>Gets validation rules collection.</td>
+</tr>
+<tr>
+<td>IsValid</td>
+<td><code>bool</code></td>
+<td>Gets or sets value indicating whether the property value is valid.</td>
+</tr>
+<tr>
+<td>Error</td>
+<td><code>string</code></td>
+<td>Gets or sets the validation error message.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="remarks">Remarks</h2>
+<p>This behavior is intended to be subclassed for specific controls and properties.</p>
+<h2 id="properties-1">Properties</h2>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Property</td>
+<td><code>AvaloniaProperty</code></td>
+<td>Gets or sets the property to validate. This is an avalonia property.</td>
+</tr>
+<tr>
+<td>IsValid</td>
+<td><code>bool</code></td>
+<td>Gets or sets value indicating whether the property value is valid. This is an avalonia property.</td>
+</tr>
+<tr>
+<td>Error</td>
+<td><code>string</code></td>
+<td>Gets or sets the validation error message. This is an avalonia property.</td>
+</tr>
+<tr>
+<td>Rules</td>
+<td><code>AvaloniaList&lt;IValidationRule&lt;TValue&gt;&gt;</code></td>
+<td>Gets validation rules collection. This is an avalonia property.</td>
+</tr>
+</tbody>
+</table>
 
 </article>
 

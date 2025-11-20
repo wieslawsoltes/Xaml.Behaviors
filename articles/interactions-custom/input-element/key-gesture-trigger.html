@@ -83,7 +83,38 @@
         <article data-uid="">
 <h1 id="keygesturetrigger">KeyGestureTrigger</h1>
 
-<p><em>(Documentation for KeyGestureTrigger is coming soon)</em></p>
+<p>A trigger that executes when a specific key gesture is detected.</p>
+<h2 id="properties">Properties</h2>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Gesture</td>
+<td><code>KeyGesture?</code></td>
+<td>Gets or sets the gesture that will fire the trigger.</td>
+</tr>
+<tr>
+<td>FiredOn</td>
+<td><code>KeyGestureTriggerFiredOn</code></td>
+<td>Gets or sets whether the trigger reacts on key down or key up. Default is <code>KeyDown</code>.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="usage">Usage</h2>
+<pre><code class="lang-xml">&lt;Window&gt;
+    &lt;Interaction.Behaviors&gt;
+        &lt;KeyGestureTrigger Gesture=&quot;Ctrl+S&quot;&gt;
+            &lt;InvokeCommandAction Command=&quot;{Binding SaveCommand}&quot; /&gt;
+        &lt;/KeyGestureTrigger&gt;
+    &lt;/Interaction.Behaviors&gt;
+&lt;/Window&gt;
+</code></pre>
 
 </article>
 

@@ -83,7 +83,34 @@
         <article data-uid="">
 <h1 id="themevariantbehavior">ThemeVariantBehavior</h1>
 
-<p><em>(Documentation for ThemeVariantBehavior is coming soon)</em></p>
+<p>Sets the <code>ThemeVariantScope.RequestedThemeVariant</code> on the associated control.</p>
+<h2 id="properties">Properties</h2>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ThemeVariant</td>
+<td><code>ThemeVariant</code></td>
+<td>Gets or sets the theme variant to assign.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="usage">Usage</h2>
+<pre><code class="lang-xml">&lt;ThemeVariantScope&gt;
+    &lt;Interaction.Behaviors&gt;
+        &lt;ThemeVariantBehavior ThemeVariant=&quot;Dark&quot; /&gt;
+    &lt;/Interaction.Behaviors&gt;
+    &lt;StackPanel&gt;
+        &lt;TextBlock Text=&quot;This is Dark Theme&quot; /&gt;
+    &lt;/StackPanel&gt;
+&lt;/ThemeVariantScope&gt;
+</code></pre>
 
 </article>
 

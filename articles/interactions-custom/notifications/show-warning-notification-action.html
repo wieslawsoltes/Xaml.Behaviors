@@ -83,7 +83,45 @@
         <article data-uid="">
 <h1 id="showwarningnotificationaction">ShowWarningNotificationAction</h1>
 
-<p><em>(Documentation for ShowWarningNotificationAction is coming soon)</em></p>
+<p>Shows a warning notification using an <code>INotificationManager</code>.</p>
+<h2 id="properties">Properties</h2>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>NotificationManager</td>
+<td><code>INotificationManager</code></td>
+<td>Gets or sets the <code>INotificationManager</code> used to display the notification.</td>
+</tr>
+<tr>
+<td>Title</td>
+<td><code>string</code></td>
+<td>Gets or sets the notification title.</td>
+</tr>
+<tr>
+<td>Message</td>
+<td><code>string</code></td>
+<td>Gets or sets the notification message.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="usage">Usage</h2>
+<pre><code class="lang-xml">&lt;Button Content=&quot;Show Warning&quot;&gt;
+    &lt;Interaction.Behaviors&gt;
+        &lt;EventTriggerBehavior EventName=&quot;Click&quot;&gt;
+            &lt;ShowWarningNotificationAction NotificationManager=&quot;{Binding #Window.NotificationManager}&quot;
+                                           Title=&quot;Warning&quot;
+                                           Message=&quot;Be careful!&quot; /&gt;
+        &lt;/EventTriggerBehavior&gt;
+    &lt;/Interaction.Behaviors&gt;
+&lt;/Button&gt;
+</code></pre>
 
 </article>
 

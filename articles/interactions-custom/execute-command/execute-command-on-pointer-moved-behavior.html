@@ -83,7 +83,16 @@
         <article data-uid="">
 <h1 id="executecommandonpointermovedbehavior">ExecuteCommandOnPointerMovedBehavior</h1>
 
-<p><em>(Documentation for ExecuteCommandOnPointerMovedBehavior is coming soon)</em></p>
+<p>A behavior that executes a command when the pointer moves over the control.</p>
+<h2 id="usage">Usage</h2>
+<pre><code class="lang-xml">&lt;Button xmlns=&quot;https://github.com/avaloniaui&quot;
+        xmlns:x=&quot;http://schemas.microsoft.com/winfx/2006/xaml&quot;
+        Content=&quot;Pointer Moved&quot;&gt;
+    &lt;Interaction.Behaviors&gt;
+        &lt;ExecuteCommandOnPointerMovedBehavior Command=&quot;{Binding PointerMovedCommand}&quot; /&gt;
+    &lt;/Interaction.Behaviors&gt;
+&lt;/Button&gt;
+</code></pre>
 
 </article>
 

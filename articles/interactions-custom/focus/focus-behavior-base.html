@@ -83,7 +83,41 @@
         <article data-uid="">
 <h1 id="focusbehaviorbase">FocusBehaviorBase</h1>
 
-<p><em>(Documentation for FocusBehaviorBase is coming soon)</em></p>
+<p><code>FocusBehaviorBase</code> is an abstract base class for behaviors that manage focus on a control. It provides properties for configuring how the focus operation is performed.</p>
+<h2 id="properties">Properties</h2>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>NavigationMethod</td>
+<td><code>NavigationMethod</code></td>
+<td>Gets or sets the navigation method used when focusing.</td>
+</tr>
+<tr>
+<td>KeyModifiers</td>
+<td><code>KeyModifiers</code></td>
+<td>Gets or sets keyboard modifiers used when focusing.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="usage">Usage</h2>
+<p>This is a base class. To use it, create a derived class that calls the <code>Focus()</code> method.</p>
+<pre><code class="lang-csharp">public class MyFocusBehavior : FocusBehaviorBase
+{
+    protected override void OnAttachedToVisualTreeOverride()
+    {
+        base.OnAttachedToVisualTreeOverride();
+        // Example: Focus when attached
+        Focus();
+    }
+}
+</code></pre>
 
 </article>
 

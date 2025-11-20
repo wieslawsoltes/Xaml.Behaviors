@@ -83,7 +83,50 @@
         <article data-uid="">
 <h1 id="staticrendertargetbitmapbehavior">StaticRenderTargetBitmapBehavior</h1>
 
-<p><em>(Documentation for StaticRenderTargetBitmapBehavior is coming soon)</em></p>
+<p><code>StaticRenderTargetBitmapBehavior</code> is a behavior that draws once into a <code>RenderTargetBitmap</code> and assigns it to the associated <code>Image</code>. Rendering can be manually triggered by calling <code>Render()</code>.</p>
+<h2 id="properties">Properties</h2>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PixelWidth</td>
+<td><code>int</code></td>
+<td>Gets or sets the pixel width of the bitmap. Default is 200.</td>
+</tr>
+<tr>
+<td>PixelHeight</td>
+<td><code>int</code></td>
+<td>Gets or sets the pixel height of the bitmap. Default is 200.</td>
+</tr>
+<tr>
+<td>Dpi</td>
+<td><code>Vector</code></td>
+<td>Gets or sets the DPI vector of the bitmap. Default is (96, 96).</td>
+</tr>
+<tr>
+<td>Renderer</td>
+<td><code>IRenderTargetBitmapSimpleRenderer</code></td>
+<td>Gets or sets the renderer used to draw the bitmap.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="usage">Usage</h2>
+<pre><code class="lang-xml">&lt;Image&gt;
+    &lt;Interaction.Behaviors&gt;
+        &lt;StaticRenderTargetBitmapBehavior PixelWidth=&quot;300&quot; PixelHeight=&quot;300&quot;&gt;
+            &lt;StaticRenderTargetBitmapBehavior.Renderer&gt;
+                &lt;local:MySimpleRenderer /&gt;
+            &lt;/StaticRenderTargetBitmapBehavior.Renderer&gt;
+        &lt;/StaticRenderTargetBitmapBehavior&gt;
+    &lt;/Interaction.Behaviors&gt;
+&lt;/Image&gt;
+</code></pre>
 
 </article>
 

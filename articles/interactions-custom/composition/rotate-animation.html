@@ -83,7 +83,44 @@
         <article data-uid="">
 <h1 id="rotateanimation">RotateAnimation</h1>
 
-<p><em>(Documentation for RotateAnimation is coming soon)</em></p>
+<p><code>RotateAnimation</code> provides helper methods for rotation animations using composition.</p>
+<h3 id="methods">Methods</h3>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>SetRotateClockwise(Control element, double milliseconds)</code></td>
+<td>Rotates 360 degrees clockwise (0 to 360).</td>
+</tr>
+<tr>
+<td><code>SetRotateCounterClockwise(Control element, double milliseconds)</code></td>
+<td>Rotates 360 degrees counter-clockwise (0 to -360).</td>
+</tr>
+<tr>
+<td><code>SetRotateIn(Control element, double milliseconds)</code></td>
+<td>Rotates in from -180 to 0 degrees.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="example">Example</h3>
+<p><strong>C#</strong></p>
+<pre><code class="lang-csharp">using Avalonia.Xaml.Interactions.Custom;
+
+RotateAnimation.SetRotateClockwise(mySpinner, 2000);
+</code></pre>
+<p><strong>XAML</strong></p>
+<p>You can use the methods as attached properties in XAML. The value is the duration in milliseconds.</p>
+<pre><code class="lang-xml">&lt;UserControl xmlns=&quot;https://github.com/avaloniaui&quot;
+             xmlns:x=&quot;http://schemas.microsoft.com/winfx/2006/xaml&quot;&gt;
+    &lt;PathIcon Data=&quot;{StaticResource icons_settings}&quot;
+              RotateAnimation.RotateClockwise=&quot;2000&quot; /&gt;
+&lt;/UserControl&gt;
+</code></pre>
 
 </article>
 

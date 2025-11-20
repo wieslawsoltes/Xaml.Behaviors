@@ -83,7 +83,50 @@
         <article data-uid="">
 <h1 id="transitionsbehavior">TransitionsBehavior</h1>
 
-<p><em>(Documentation for TransitionsBehavior is coming soon)</em></p>
+<p>Sets the <code>Avalonia.Animation.Transitions</code> collection on the associated control when attached.</p>
+<h2 id="properties">Properties</h2>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>TransitionsSource</td>
+<td><code>Transitions</code></td>
+<td>Gets or sets the transitions collection to apply.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="usage">Usage</h2>
+<pre><code class="lang-xml">&lt;Border Background=&quot;Red&quot; Width=&quot;100&quot; Height=&quot;100&quot;&gt;
+    &lt;Interaction.Behaviors&gt;
+        &lt;TransitionsBehavior&gt;
+            &lt;TransitionsBehavior.TransitionsSource&gt;
+                &lt;Transitions&gt;
+                    &lt;DoubleTransition Property=&quot;Opacity&quot; Duration=&quot;0:0:1&quot; /&gt;
+                &lt;/Transitions&gt;
+            &lt;/TransitionsBehavior.TransitionsSource&gt;
+        &lt;/TransitionsBehavior&gt;
+    &lt;/Interaction.Behaviors&gt;
+&lt;/Border&gt;
+</code></pre>
+<h2 id="usage-1">Usage</h2>
+<pre><code class="lang-xml">&lt;Border Background=&quot;Red&quot; Width=&quot;100&quot; Height=&quot;100&quot;&gt;
+    &lt;Interaction.Behaviors&gt;
+        &lt;TransitionsBehavior&gt;
+            &lt;TransitionsBehavior.TransitionsSource&gt;
+                &lt;Transitions&gt;
+                    &lt;DoubleTransition Property=&quot;Opacity&quot; Duration=&quot;0:0:1&quot; /&gt;
+                &lt;/Transitions&gt;
+            &lt;/TransitionsBehavior.TransitionsSource&gt;
+        &lt;/TransitionsBehavior&gt;
+    &lt;/Interaction.Behaviors&gt;
+&lt;/Border&gt;
+</code></pre>
 
 </article>
 

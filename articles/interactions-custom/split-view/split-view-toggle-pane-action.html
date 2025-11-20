@@ -83,7 +83,37 @@
         <article data-uid="">
 <h1 id="splitviewtogglepaneaction">SplitViewTogglePaneAction</h1>
 
-<p><em>(Documentation for SplitViewTogglePaneAction is coming soon)</em></p>
+<p>Toggles the <code>SplitView.IsPaneOpen</code> state of a <code>SplitView</code> when executed.</p>
+<h2 id="properties">Properties</h2>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>TargetSplitView</td>
+<td><code>SplitView</code></td>
+<td>Gets or sets the target <code>SplitView</code>. If not set, the sender is used.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="usage">Usage</h2>
+<pre><code class="lang-xml">&lt;Button Content=&quot;Toggle Pane&quot;&gt;
+    &lt;Interaction.Behaviors&gt;
+        &lt;EventTriggerBehavior EventName=&quot;Click&quot;&gt;
+            &lt;SplitViewTogglePaneAction TargetSplitView=&quot;{Binding #MySplitView}&quot; /&gt;
+        &lt;/EventTriggerBehavior&gt;
+    &lt;/Interaction.Behaviors&gt;
+&lt;/Button&gt;
+
+&lt;SplitView x:Name=&quot;MySplitView&quot;&gt;
+    &lt;!-- Content --&gt;
+&lt;/SplitView&gt;
+</code></pre>
 
 </article>
 

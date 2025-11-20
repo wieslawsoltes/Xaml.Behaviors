@@ -83,7 +83,53 @@
         <article data-uid="">
 <h1 id="viewportbehavior">ViewportBehavior</h1>
 
-<p><em>(Documentation for ViewportBehavior is coming soon)</em></p>
+<p>Listens for the associated element entering or exiting the parent <code>ScrollViewer</code> viewport.</p>
+<h2 id="properties">Properties</h2>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>IsAlwaysOn</td>
+<td><code>bool</code></td>
+<td>Gets or sets a value indicating whether this behavior will remain attached after the associated element enters the viewport.</td>
+</tr>
+<tr>
+<td>IsFullyInViewport</td>
+<td><code>bool</code></td>
+<td>Gets a value indicating whether the associated element is fully in the <code>ScrollViewer</code> viewport. (Read-only)</td>
+</tr>
+<tr>
+<td>IsInViewport</td>
+<td><code>bool</code></td>
+<td>Gets a value indicating whether the associated element is in the <code>ScrollViewer</code> viewport. (Read-only)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="events">Events</h2>
+<ul>
+<li><code>EnteredViewport</code>: Occurs when the associated element has fully entered the viewport.</li>
+<li><code>ExitedViewport</code>: Occurs when the associated element has fully exited the viewport.</li>
+<li><code>EnteringViewport</code>: Occurs when the associated element starts entering the viewport.</li>
+<li><code>ExitingViewport</code>: Occurs when the associated element starts exiting the viewport.</li>
+</ul>
+<h2 id="usage">Usage</h2>
+<pre><code class="lang-xml">&lt;ScrollViewer&gt;
+    &lt;StackPanel&gt;
+        &lt;Border Height=&quot;100&quot; Background=&quot;Red&quot;&gt;
+            &lt;Interaction.Behaviors&gt;
+                &lt;ViewportBehavior IsInViewport=&quot;{Binding IsVisibleInViewport, Mode=OneWayToSource}&quot; /&gt;
+            &lt;/Interaction.Behaviors&gt;
+        &lt;/Border&gt;
+        &lt;!-- More items --&gt;
+    &lt;/StackPanel&gt;
+&lt;/ScrollViewer&gt;
+</code></pre>
 
 </article>
 

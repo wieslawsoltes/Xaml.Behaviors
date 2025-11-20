@@ -83,7 +83,39 @@
         <article data-uid="">
 <h1 id="horizontalscrollviewerbehavior">HorizontalScrollViewerBehavior</h1>
 
-<p><em>(Documentation for HorizontalScrollViewerBehavior is coming soon)</em></p>
+<p>Enables horizontal scrolling of a <code>ScrollViewer</code> using the mouse wheel.</p>
+<h2 id="properties">Properties</h2>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>RequireShiftKey</td>
+<td><code>bool</code></td>
+<td>Gets or sets a value indicating whether the Shift key must be held while scrolling.</td>
+</tr>
+<tr>
+<td>ScrollChangeSize</td>
+<td><code>ChangeSize</code></td>
+<td>Gets or sets the scroll amount used for each wheel delta. Options are <code>Line</code> or <code>Page</code>.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="usage">Usage</h2>
+<pre><code class="lang-xml">&lt;ScrollViewer HorizontalScrollBarVisibility=&quot;Auto&quot; VerticalScrollBarVisibility=&quot;Disabled&quot;&gt;
+    &lt;Interaction.Behaviors&gt;
+        &lt;HorizontalScrollViewerBehavior RequireShiftKey=&quot;False&quot; ScrollChangeSize=&quot;Line&quot; /&gt;
+    &lt;/Interaction.Behaviors&gt;
+    &lt;StackPanel Orientation=&quot;Horizontal&quot;&gt;
+        &lt;!-- Items --&gt;
+    &lt;/StackPanel&gt;
+&lt;/ScrollViewer&gt;
+</code></pre>
 
 </article>
 

@@ -83,17 +83,33 @@
         <article data-uid="">
 <h1 id="notificationmanagerbehavior">NotificationManagerBehavior</h1>
 
-<p>This behavior attaches to a <code>Control</code> (typically a <code>TopLevel</code> like <code>Window</code> or <code>UserControl</code> inside a window) and initializes a <code>WindowNotificationManager</code>. It exposes the manager via the <code>NotificationManager</code> property, which can be bound to a ViewModel.</p>
-<h3 id="properties">Properties</h3>
-<ul>
-<li><code>NotificationManager</code>: The initialized <code>INotificationManager</code> instance. (Read-only binding source).</li>
-</ul>
-<h3 id="usage-example">Usage Example</h3>
+<p>Provides a <code>INotificationManager</code> for the associated <code>Control</code>.</p>
+<h2 id="properties">Properties</h2>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>NotificationManager</td>
+<td><code>INotificationManager</code></td>
+<td>Gets the <code>INotificationManager</code> instance.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="usage">Usage</h2>
 <pre><code class="lang-xml">&lt;Window xmlns=&quot;https://github.com/avaloniaui&quot;
-        xmlns:x=&quot;http://schemas.microsoft.com/winfx/2006/xaml&quot;&gt;
+        xmlns:x=&quot;http://schemas.microsoft.com/winfx/2006/xaml&quot;
+        x:Class=&quot;BehaviorsTestApplication.Views.MainWindow&quot;
+        x:Name=&quot;Window&quot;&gt;
     &lt;Interaction.Behaviors&gt;
-        &lt;NotificationManagerBehavior NotificationManager=&quot;{Binding NotificationManager, Mode=OneWayToSource}&quot; /&gt;
+        &lt;NotificationManagerBehavior NotificationManager=&quot;{Binding #Window.NotificationManager, Mode=OneWayToSource}&quot; /&gt;
     &lt;/Interaction.Behaviors&gt;
+    &lt;!-- ... --&gt;
 &lt;/Window&gt;
 </code></pre>
 

@@ -83,7 +83,38 @@
         <article data-uid="">
 <h1 id="removeclassaction">RemoveClassAction</h1>
 
-<p><em>(Documentation for RemoveClassAction is coming soon)</em></p>
+<p>Removes a specified class name from the <code>Classes</code> collection of a <code>StyledElement</code>.</p>
+<h3 id="properties">Properties</h3>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>ClassName</code></td>
+<td><code>string</code></td>
+<td>The name of the class to remove.</td>
+</tr>
+<tr>
+<td><code>StyledElement</code></td>
+<td><code>StyledElement</code></td>
+<td>The target element to remove the class from. If not set, the associated object is used.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="example">Example</h3>
+<pre><code class="lang-xml">&lt;Button Content=&quot;Remove Class&quot;&gt;
+    &lt;Interaction.Behaviors&gt;
+        &lt;EventTriggerBehavior EventName=&quot;Click&quot;&gt;
+            &lt;RemoveClassAction ClassName=&quot;my-class&quot; /&gt;
+        &lt;/EventTriggerBehavior&gt;
+    &lt;/Interaction.Behaviors&gt;
+&lt;/Button&gt;
+</code></pre>
 
 </article>
 

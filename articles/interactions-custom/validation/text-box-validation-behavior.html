@@ -83,7 +83,49 @@
         <article data-uid="">
 <h1 id="textboxvalidationbehavior">TextBoxValidationBehavior</h1>
 
-<p><em>(Documentation for TextBoxValidationBehavior is coming soon)</em></p>
+<p>Validation behavior for <code>TextBox</code> text.</p>
+<h2 id="properties">Properties</h2>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Property</td>
+<td><code>AvaloniaProperty</code></td>
+<td>Gets or sets the property to validate. This is an avalonia property.</td>
+</tr>
+<tr>
+<td>IsValid</td>
+<td><code>bool</code></td>
+<td>Gets or sets value indicating whether the property value is valid. This is an avalonia property.</td>
+</tr>
+<tr>
+<td>Error</td>
+<td><code>string</code></td>
+<td>Gets or sets the validation error message. This is an avalonia property.</td>
+</tr>
+<tr>
+<td>Rules</td>
+<td><code>AvaloniaList&lt;IValidationRule&lt;string&gt;&gt;</code></td>
+<td>Gets validation rules collection. This is an avalonia property.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="usage">Usage</h2>
+<pre><code class="lang-xml">&lt;TextBox x:Name=&quot;TextBox&quot; Text=&quot;&quot;&gt;
+    &lt;Interaction.Behaviors&gt;
+        &lt;TextBoxValidationBehavior&gt;
+            &lt;RequiredTextValidationRule ErrorMessage=&quot;Text is required.&quot; /&gt;
+            &lt;MinLengthValidationRule Length=&quot;5&quot; ErrorMessage=&quot;Text must be at least 5 characters long.&quot; /&gt;
+        &lt;/TextBoxValidationBehavior&gt;
+    &lt;/Interaction.Behaviors&gt;
+&lt;/TextBox&gt;
+</code></pre>
 
 </article>
 

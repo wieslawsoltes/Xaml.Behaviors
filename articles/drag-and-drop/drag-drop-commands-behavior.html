@@ -85,13 +85,56 @@
 
 <p><code>DragDropCommandsBehavior</code> maps Drag and Drop events directly to <code>ICommand</code>s. This is useful if you want to handle the entire drag lifecycle in your ViewModel.</p>
 <h2 id="properties">Properties</h2>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>DragEnterCommand</td>
+<td><code>ICommand</code></td>
+<td>Gets or sets the command invoked on drag enter.</td>
+</tr>
+<tr>
+<td>DragOverCommand</td>
+<td><code>ICommand</code></td>
+<td>Gets or sets the command invoked on drag over.</td>
+</tr>
+<tr>
+<td>DragLeaveCommand</td>
+<td><code>ICommand</code></td>
+<td>Gets or sets the command invoked on drag leave.</td>
+</tr>
+<tr>
+<td>DropCommand</td>
+<td><code>ICommand</code></td>
+<td>Gets or sets the command invoked on drop.</td>
+</tr>
+<tr>
+<td>PassEventArgsToCommand</td>
+<td><code>bool</code></td>
+<td>Specifies whether the event args should be passed to the command. Default is true.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="usage">Usage</h2>
+<pre><code class="lang-xml">&lt;Border Background=&quot;LightGray&quot; Height=&quot;100&quot; Width=&quot;100&quot;&gt;
+    &lt;Interaction.Behaviors&gt;
+        &lt;DragDropCommandsBehavior DropCommand=&quot;{Binding DropCommand}&quot; /&gt;
+    &lt;/Interaction.Behaviors&gt;
+&lt;/Border&gt;
+</code></pre>
 <ul>
 <li><strong><code>EnterCommand</code></strong></li>
 <li><strong><code>LeaveCommand</code></strong></li>
 <li><strong><code>OverCommand</code></strong></li>
 <li><strong><code>DropCommand</code></strong></li>
 </ul>
-<h2 id="usage">Usage</h2>
+<h2 id="usage-1">Usage</h2>
 <pre><code class="lang-xml">&lt;Border&gt;
     &lt;Interaction.Behaviors&gt;
         &lt;DragDropCommandsBehavior EnterCommand=&quot;{Binding EnterCommand}&quot;

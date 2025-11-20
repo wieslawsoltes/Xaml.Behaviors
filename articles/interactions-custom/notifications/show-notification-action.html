@@ -83,14 +83,42 @@
         <article data-uid="">
 <h1 id="shownotificationaction">ShowNotificationAction</h1>
 
-<p>Shows a notification with customizable title, message, and type.</p>
-<h3 id="properties">Properties</h3>
-<ul>
-<li><code>Title</code>: The title of the notification.</li>
-<li><code>Message</code>: The content of the notification.</li>
-<li><code>NotificationType</code>: The type of notification (<code>Information</code>, <code>Success</code>, <code>Warning</code>, <code>Error</code>).</li>
-<li><code>NotificationManager</code>: The <code>INotificationManager</code> to use. If not set, it attempts to resolve one from the visual tree.</li>
-</ul>
+<p>Shows a notification using an <code>INotificationManager</code>.</p>
+<h2 id="properties">Properties</h2>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>NotificationManager</td>
+<td><code>INotificationManager</code></td>
+<td>Gets or sets the <code>INotificationManager</code> used to display the notification.</td>
+</tr>
+<tr>
+<td>Notification</td>
+<td><code>INotification</code></td>
+<td>Gets or sets the <code>INotification</code> instance to show.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="usage">Usage</h2>
+<pre><code class="lang-xml">&lt;Button Content=&quot;Show Notification&quot;&gt;
+    &lt;Interaction.Behaviors&gt;
+        &lt;EventTriggerBehavior EventName=&quot;Click&quot;&gt;
+            &lt;ShowNotificationAction NotificationManager=&quot;{Binding #Window.NotificationManager}&quot;&gt;
+                &lt;ShowNotificationAction.Notification&gt;
+                    &lt;Notification Title=&quot;Hello&quot; Message=&quot;World!&quot; Type=&quot;Information&quot; /&gt;
+                &lt;/ShowNotificationAction.Notification&gt;
+            &lt;/ShowNotificationAction&gt;
+        &lt;/EventTriggerBehavior&gt;
+    &lt;/Interaction.Behaviors&gt;
+&lt;/Button&gt;
+</code></pre>
 
 </article>
 

@@ -83,7 +83,38 @@
         <article data-uid="">
 <h1 id="writeablebitmaprenderaction">WriteableBitmapRenderAction</h1>
 
-<p><em>(Documentation for WriteableBitmapRenderAction is coming soon)</em></p>
+<p>Invokes an <code>IWriteableBitmapRenderer</code> to render into a bitmap.</p>
+<h2 id="properties">Properties</h2>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Renderer</td>
+<td><code>IWriteableBitmapRenderer</code></td>
+<td>Gets or sets the renderer used when executing the action.</td>
+</tr>
+<tr>
+<td>Bitmap</td>
+<td><code>WriteableBitmap</code></td>
+<td>Gets or sets the target bitmap.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="usage">Usage</h2>
+<pre><code class="lang-xml">&lt;Button Content=&quot;Render&quot;&gt;
+    &lt;Interaction.Actions&gt;
+        &lt;EventTriggerBehavior EventName=&quot;Click&quot;&gt;
+            &lt;WriteableBitmapRenderAction Renderer=&quot;{Binding MyRenderer}&quot; Bitmap=&quot;{Binding MyBitmap}&quot; /&gt;
+        &lt;/EventTriggerBehavior&gt;
+    &lt;/Interaction.Actions&gt;
+&lt;/Button&gt;
+</code></pre>
 
 </article>
 

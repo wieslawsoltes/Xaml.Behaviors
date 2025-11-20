@@ -84,6 +84,28 @@
 <h1 id="autoscrollduringdragbehavior">AutoScrollDuringDragBehavior</h1>
 
 <p><code>AutoScrollDuringDragBehavior</code> automatically scrolls a <code>ScrollViewer</code> when a drag operation (initiated by other behaviors in this package) reaches the edge of the viewport.</p>
+<h2 id="properties">Properties</h2>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>EdgeDistance</td>
+<td><code>double</code></td>
+<td>Gets or sets the distance from the edge that triggers scrolling. Default is 20.</td>
+</tr>
+<tr>
+<td>ScrollDelta</td>
+<td><code>double</code></td>
+<td>Gets or sets the amount scrolled when triggered. Default is 10.</td>
+</tr>
+</tbody>
+</table>
 <h2 id="usage">Usage</h2>
 <p>Attach this behavior to the <code>ScrollViewer</code> or the control containing the scrollable area.</p>
 <pre><code class="lang-xml">&lt;ScrollViewer&gt;

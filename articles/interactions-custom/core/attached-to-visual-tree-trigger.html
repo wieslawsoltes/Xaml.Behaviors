@@ -83,7 +83,17 @@
         <article data-uid="">
 <h1 id="attachedtovisualtreetrigger">AttachedToVisualTreeTrigger</h1>
 
-<p><em>(Documentation for AttachedToVisualTreeTrigger is coming soon)</em></p>
+<p>The <code>AttachedToVisualTreeTrigger</code> executes its actions when the associated object is attached to the visual tree.</p>
+<h3 id="example">Example</h3>
+<pre><code class="lang-xml">&lt;UserControl xmlns=&quot;https://github.com/avaloniaui&quot;
+             xmlns:x=&quot;http://schemas.microsoft.com/winfx/2006/xaml&quot;&gt;
+    &lt;Interaction.Behaviors&gt;
+        &lt;AttachedToVisualTreeTrigger&gt;
+            &lt;InvokeCommandAction Command=&quot;{Binding OnVisualAttachedCommand}&quot; /&gt;
+        &lt;/AttachedToVisualTreeTrigger&gt;
+    &lt;/Interaction.Behaviors&gt;
+&lt;/UserControl&gt;
+</code></pre>
 
 </article>
 

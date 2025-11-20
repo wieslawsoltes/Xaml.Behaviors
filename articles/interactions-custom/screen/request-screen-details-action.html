@@ -83,7 +83,33 @@
         <article data-uid="">
 <h1 id="requestscreendetailsaction">RequestScreenDetailsAction</h1>
 
-<p><em>(Documentation for RequestScreenDetailsAction is coming soon)</em></p>
+<p><code>RequestScreenDetailsAction</code> is an action that requests extended screen information from <code>Screens</code>. This is typically used on platforms (like Web) where screen details might need explicit permission or an async request.</p>
+<h2 id="properties">Properties</h2>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Screens</td>
+<td><code>Screens</code></td>
+<td>Gets or sets the <code>Screens</code> instance used to request screen details. If not set, the screens of the associated <code>TopLevel</code> will be used.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="usage">Usage</h2>
+<pre><code class="lang-xml">&lt;Button Content=&quot;Request Screen Details&quot;&gt;
+    &lt;Interaction.Behaviors&gt;
+        &lt;EventTriggerBehavior EventName=&quot;Click&quot;&gt;
+            &lt;RequestScreenDetailsAction /&gt;
+        &lt;/EventTriggerBehavior&gt;
+    &lt;/Interaction.Behaviors&gt;
+&lt;/Button&gt;
+</code></pre>
 
 </article>
 

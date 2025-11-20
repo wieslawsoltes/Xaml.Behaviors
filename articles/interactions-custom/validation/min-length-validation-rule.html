@@ -83,7 +83,32 @@
         <article data-uid="">
 <h1 id="minlengthvalidationrule">MinLengthValidationRule</h1>
 
-<p><em>(Documentation for MinLengthValidationRule is coming soon)</em></p>
+<p>Validation rule that requires a string with a minimal length.</p>
+<h2 id="properties">Properties</h2>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Length</td>
+<td><code>int</code></td>
+<td>Gets or sets the minimal allowed length.</td>
+</tr>
+<tr>
+<td>ErrorMessage</td>
+<td><code>string</code></td>
+<td>Gets or sets the error message for failed validation.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="usage">Usage</h2>
+<pre><code class="lang-xml">&lt;MinLengthValidationRule Length=&quot;5&quot; ErrorMessage=&quot;Text must be at least 5 characters long.&quot; /&gt;
+</code></pre>
 
 </article>
 

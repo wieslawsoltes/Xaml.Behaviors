@@ -83,7 +83,44 @@
         <article data-uid="">
 <h1 id="scaleanimation">ScaleAnimation</h1>
 
-<p><em>(Documentation for ScaleAnimation is coming soon)</em></p>
+<p><code>ScaleAnimation</code> provides helper methods for scaling animations using composition.</p>
+<h3 id="methods">Methods</h3>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>SetScaleIn(Control element, double milliseconds)</code></td>
+<td>Scales from 0 to 1.</td>
+</tr>
+<tr>
+<td><code>SetScaleOut(Control element, double milliseconds)</code></td>
+<td>Scales from 1 to 0.</td>
+</tr>
+<tr>
+<td><code>SetZoomIn(Control element, double milliseconds)</code></td>
+<td>Zooms in from 1.5 to 1.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="example">Example</h3>
+<p><strong>C#</strong></p>
+<pre><code class="lang-csharp">using Avalonia.Xaml.Interactions.Custom;
+
+ScaleAnimation.SetScaleIn(myPopup, 300);
+</code></pre>
+<p><strong>XAML</strong></p>
+<p>You can use the methods as attached properties in XAML. The value is the duration in milliseconds.</p>
+<pre><code class="lang-xml">&lt;UserControl xmlns=&quot;https://github.com/avaloniaui&quot;
+             xmlns:x=&quot;http://schemas.microsoft.com/winfx/2006/xaml&quot;&gt;
+    &lt;Border Background=&quot;White&quot;
+            ScaleAnimation.ScaleIn=&quot;300&quot; /&gt;
+&lt;/UserControl&gt;
+</code></pre>
 
 </article>
 

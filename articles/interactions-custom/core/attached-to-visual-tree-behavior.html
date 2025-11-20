@@ -83,7 +83,18 @@
         <article data-uid="">
 <h1 id="attachedtovisualtreebehavior">AttachedToVisualTreeBehavior</h1>
 
-<p><em>(Documentation for AttachedToVisualTreeBehavior is coming soon)</em></p>
+<p><code>AttachedToVisualTreeBehavior&lt;T&gt;</code> is an abstract base class for behaviors that need to perform actions when the associated object is attached to the visual tree.</p>
+<h3 id="usage">Usage</h3>
+<p>Inherit from this class and implement the <code>OnAttachedToVisualTreeOverride</code> method.</p>
+<pre><code class="lang-csharp">public class MyVisualTreeBehavior : AttachedToVisualTreeBehavior&lt;Control&gt;
+{
+    protected override IDisposable OnAttachedToVisualTreeOverride()
+    {
+        // Handle attachment to visual tree
+        return Disposable.Empty;
+    }
+}
+</code></pre>
 
 </article>
 

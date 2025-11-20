@@ -83,7 +83,36 @@
         <article data-uid="">
 <h1 id="setviewmodelpropertyonloadbehavior">SetViewModelPropertyOnLoadBehavior</h1>
 
-<p><em>(Documentation for SetViewModelPropertyOnLoadBehavior is coming soon)</em></p>
+<p>Sets a view model property when the associated control is loaded.</p>
+<h2 id="properties">Properties</h2>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PropertyName</td>
+<td><code>string</code></td>
+<td>Gets or sets the property name to change.</td>
+</tr>
+<tr>
+<td>Value</td>
+<td><code>object</code></td>
+<td>Gets or sets the value to assign.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="usage">Usage</h2>
+<pre><code class="lang-xml">&lt;UserControl&gt;
+    &lt;Interaction.Behaviors&gt;
+        &lt;SetViewModelPropertyOnLoadBehavior PropertyName=&quot;IsInitialized&quot; Value=&quot;True&quot; /&gt;
+    &lt;/Interaction.Behaviors&gt;
+&lt;/UserControl&gt;
+</code></pre>
 
 </article>
 

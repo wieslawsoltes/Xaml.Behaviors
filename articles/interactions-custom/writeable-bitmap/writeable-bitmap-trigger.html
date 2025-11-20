@@ -83,7 +83,48 @@
         <article data-uid="">
 <h1 id="writeablebitmaptrigger">WriteableBitmapTrigger</h1>
 
-<p><em>(Documentation for WriteableBitmapTrigger is coming soon)</em></p>
+<p>A trigger that executes its actions when <code>Trigger</code> is called, passing a <code>WriteableBitmap</code> as parameter.</p>
+<h2 id="properties">Properties</h2>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Bitmap</td>
+<td><code>WriteableBitmap</code></td>
+<td>Gets or sets the bitmap passed to actions.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="methods">Methods</h2>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Trigger()</td>
+<td>Manually invokes the trigger.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="usage">Usage</h2>
+<pre><code class="lang-xml">&lt;UserControl&gt;
+    &lt;Interaction.Behaviors&gt;
+        &lt;WriteableBitmapTrigger x:Name=&quot;MyTrigger&quot; Bitmap=&quot;{Binding MyBitmap}&quot;&gt;
+            &lt;CallMethodAction TargetObject=&quot;{Binding}&quot; MethodName=&quot;UpdateBitmap&quot; /&gt;
+        &lt;/WriteableBitmapTrigger&gt;
+    &lt;/Interaction.Behaviors&gt;
+&lt;/UserControl&gt;
+</code></pre>
 
 </article>
 

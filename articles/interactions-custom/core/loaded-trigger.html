@@ -83,7 +83,17 @@
         <article data-uid="">
 <h1 id="loadedtrigger">LoadedTrigger</h1>
 
-<p><em>(Documentation for LoadedTrigger is coming soon)</em></p>
+<p>The <code>LoadedTrigger</code> executes its actions when the <code>Loaded</code> event is raised on the associated <code>Control</code>.</p>
+<h3 id="example">Example</h3>
+<pre><code class="lang-xml">&lt;UserControl xmlns=&quot;https://github.com/avaloniaui&quot;
+             xmlns:x=&quot;http://schemas.microsoft.com/winfx/2006/xaml&quot;&gt;
+    &lt;Interaction.Behaviors&gt;
+        &lt;LoadedTrigger&gt;
+            &lt;InvokeCommandAction Command=&quot;{Binding OnLoadedCommand}&quot; /&gt;
+        &lt;/LoadedTrigger&gt;
+    &lt;/Interaction.Behaviors&gt;
+&lt;/UserControl&gt;
+</code></pre>
 
 </article>
 

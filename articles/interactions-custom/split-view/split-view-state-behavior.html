@@ -83,7 +83,40 @@
         <article data-uid="">
 <h1 id="splitviewstatebehavior">SplitViewStateBehavior</h1>
 
-<p><em>(Documentation for SplitViewStateBehavior is coming soon)</em></p>
+<p>Updates <code>SplitView</code> properties based on size conditions.</p>
+<h2 id="properties">Properties</h2>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>SourceControl</td>
+<td><code>Control</code></td>
+<td>Gets or sets the control whose bounds are observed. If not set, the associated object is used.</td>
+</tr>
+<tr>
+<td>Setters</td>
+<td><code>AvaloniaList&lt;SplitViewStateSetter&gt;</code></td>
+<td>Gets split view state setters collection.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="usage">Usage</h2>
+<pre><code class="lang-xml">&lt;SplitView DisplayMode=&quot;Inline&quot; IsPaneOpen=&quot;True&quot;&gt;
+    &lt;Interaction.Behaviors&gt;
+        &lt;SplitViewStateBehavior&gt;
+            &lt;SplitViewStateSetter MinWidth=&quot;0&quot; MaxWidth=&quot;500&quot; DisplayMode=&quot;Overlay&quot; IsPaneOpen=&quot;False&quot; /&gt;
+            &lt;SplitViewStateSetter MinWidth=&quot;500&quot; DisplayMode=&quot;Inline&quot; IsPaneOpen=&quot;True&quot; /&gt;
+        &lt;/SplitViewStateBehavior&gt;
+    &lt;/Interaction.Behaviors&gt;
+    &lt;!-- Content --&gt;
+&lt;/SplitView&gt;
+</code></pre>
 
 </article>
 

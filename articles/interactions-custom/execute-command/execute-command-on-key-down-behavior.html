@@ -83,7 +83,15 @@
         <article data-uid="">
 <h1 id="executecommandonkeydownbehavior">ExecuteCommandOnKeyDownBehavior</h1>
 
-<p><em>(Documentation for ExecuteCommandOnKeyDownBehavior is coming soon)</em></p>
+<p>A behavior that executes a command when a key is pressed down.</p>
+<h2 id="usage">Usage</h2>
+<pre><code class="lang-xml">&lt;TextBox xmlns=&quot;https://github.com/avaloniaui&quot;
+         xmlns:x=&quot;http://schemas.microsoft.com/winfx/2006/xaml&quot;&gt;
+    &lt;Interaction.Behaviors&gt;
+        &lt;ExecuteCommandOnKeyDownBehavior Key=&quot;Enter&quot; Command=&quot;{Binding EnterCommand}&quot; /&gt;
+    &lt;/Interaction.Behaviors&gt;
+&lt;/TextBox&gt;
+</code></pre>
 
 </article>
 

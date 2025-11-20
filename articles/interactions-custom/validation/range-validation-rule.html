@@ -83,7 +83,37 @@
         <article data-uid="">
 <h1 id="rangevalidationrule">RangeValidationRule</h1>
 
-<p><em>(Documentation for RangeValidationRule is coming soon)</em></p>
+<p>Validation rule that checks whether a value is within a specified range.</p>
+<h2 id="properties">Properties</h2>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Minimum</td>
+<td><code>T</code></td>
+<td>Gets or sets the minimum allowed value.</td>
+</tr>
+<tr>
+<td>Maximum</td>
+<td><code>T</code></td>
+<td>Gets or sets the maximum allowed value.</td>
+</tr>
+<tr>
+<td>ErrorMessage</td>
+<td><code>string</code></td>
+<td>Gets or sets the error message for failed validation.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="usage">Usage</h2>
+<pre><code class="lang-xml">&lt;RangeValidationRule Minimum=&quot;0&quot; Maximum=&quot;100&quot; ErrorMessage=&quot;Value must be between 0 and 100.&quot; /&gt;
+</code></pre>
 
 </article>
 

@@ -83,7 +83,33 @@
         <article data-uid="">
 <h1 id="irendertargetbitmapsimplerenderer">IRenderTargetBitmapSimpleRenderer</h1>
 
-<p><em>(Documentation for IRenderTargetBitmapSimpleRenderer is coming soon)</em></p>
+<p><code>IRenderTargetBitmapSimpleRenderer</code> provides a method used by <code>StaticRenderTargetBitmapBehavior</code> to draw onto a render target.</p>
+<h2 id="methods">Methods</h2>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>void Render(DrawingContext context)</code></td>
+<td>Draws into the provided <code>DrawingContext</code>.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="usage">Usage</h2>
+<p>Implement this interface to provide custom drawing logic for <code>StaticRenderTargetBitmapBehavior</code>.</p>
+<pre><code class="lang-csharp">public class MySimpleRenderer : IRenderTargetBitmapSimpleRenderer
+{
+    public void Render(DrawingContext context)
+    {
+        // Drawing logic here
+        context.DrawEllipse(Brushes.Blue, null, new Point(50, 50), 25, 25);
+    }
+}
+</code></pre>
 
 </article>
 

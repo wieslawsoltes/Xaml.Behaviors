@@ -83,7 +83,38 @@
         <article data-uid="">
 <h1 id="keydowntrigger">KeyDownTrigger</h1>
 
-<p><em>(Documentation for KeyDownTrigger is coming soon)</em></p>
+<p>A trigger that executes when a key is pressed while the associated <code>InputElement</code> has focus.</p>
+<h2 id="properties">Properties</h2>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Key</td>
+<td><code>Key?</code></td>
+<td>Gets or sets the key that triggers the action.</td>
+</tr>
+<tr>
+<td>Gesture</td>
+<td><code>KeyGesture?</code></td>
+<td>Gets or sets the key gesture that triggers the action.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="usage">Usage</h2>
+<pre><code class="lang-xml">&lt;TextBox Width=&quot;200&quot;&gt;
+    &lt;Interaction.Behaviors&gt;
+        &lt;KeyDownTrigger Key=&quot;Enter&quot;&gt;
+            &lt;InvokeCommandAction Command=&quot;{Binding EnterPressedCommand}&quot; /&gt;
+        &lt;/KeyDownTrigger&gt;
+    &lt;/Interaction.Behaviors&gt;
+&lt;/TextBox&gt;
+</code></pre>
 
 </article>
 

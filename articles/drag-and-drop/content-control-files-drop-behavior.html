@@ -85,12 +85,41 @@
 
 <p><code>ContentControlFilesDropBehavior</code> is a behavior that handles file drop operations specifically for <code>ContentControl</code>. It allows you to define visual feedback during the drag operation by changing the content or background of the control.</p>
 <h2 id="properties">Properties</h2>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ContentDuringDrag</td>
+<td><code>object</code></td>
+<td>Gets or sets the content to display during drag over.</td>
+</tr>
+<tr>
+<td>BackgroundDuringDrag</td>
+<td><code>IBrush</code></td>
+<td>Gets or sets the background to display during drag over.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="usage">Usage</h2>
+<pre><code class="lang-xml">&lt;ContentControl&gt;
+    &lt;Interaction.Behaviors&gt;
+        &lt;ContentControlFilesDropBehavior ContentDuringDrag=&quot;Drop Here!&quot; BackgroundDuringDrag=&quot;LightGreen&quot; /&gt;
+    &lt;/Interaction.Behaviors&gt;
+    &lt;TextBlock Text=&quot;Drag files here&quot; /&gt;
+&lt;/ContentControl&gt;
+</code></pre>
 <ul>
 <li><strong><code>ContentDuringDrag</code></strong>: The content to display in the <code>ContentControl</code> when files are being dragged over it.</li>
 <li><strong><code>BackgroundDuringDrag</code></strong>: The background brush to apply to the <code>ContentControl</code> when files are being dragged over it.</li>
 <li><strong><code>Command</code></strong>: The <code>ICommand</code> to execute when files are dropped. The command parameter will be an array of file path strings (<code>string[]</code>) or <code>IEnumerable&lt;IStorageItem&gt;</code> depending on the platform.</li>
 </ul>
-<h2 id="usage">Usage</h2>
+<h2 id="usage-1">Usage</h2>
 <pre><code class="lang-xml">&lt;ContentControl&gt;
     &lt;Interaction.Behaviors&gt;
         &lt;ContentControlFilesDropBehavior 
