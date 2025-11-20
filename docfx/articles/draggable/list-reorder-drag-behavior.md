@@ -4,6 +4,10 @@
 
 ## Properties
 
+| Property | Type | Description |
+| --- | --- | --- |
+| PlaceholderTemplate | `ITemplate` | Gets or sets template used to build placeholder shown while reordering. |
+
 *   **`PlaceholderTemplate`**: An optional `DataTemplate` to display a visual placeholder at the insertion point while dragging.
 
 ## Usage

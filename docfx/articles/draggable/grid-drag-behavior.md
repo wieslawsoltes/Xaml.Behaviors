@@ -2,6 +2,15 @@
 
 `GridDragBehavior` allows dragging child controls within a `Grid`. When a control is dragged over another cell, it can swap positions (Row/Column) with the control in that cell.
 
+## Properties
+
+| Property | Type | Description |
+| --- | --- | --- |
+| CopyColumn | `bool` | Gets or sets whether to copy the dragged element's column. Default is true. |
+| CopyRow | `bool` | Gets or sets whether to copy the dragged element's row. Default is true. |
+| CopyColumnSpan | `bool` | Gets or sets whether to copy the dragged element's column span. |
+| CopyRowSpan | `bool` | Gets or sets whether to copy the dragged element's row span. |
+
 ## Usage
 
 ```xml

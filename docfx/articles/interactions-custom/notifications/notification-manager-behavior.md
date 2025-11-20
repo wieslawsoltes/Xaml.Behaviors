@@ -1,18 +1,23 @@
 # NotificationManagerBehavior
 
-This behavior attaches to a `Control` (typically a `TopLevel` like `Window` or `UserControl` inside a window) and initializes a `WindowNotificationManager`. It exposes the manager via the `NotificationManager` property, which can be bound to a ViewModel.
+Provides a `INotificationManager` for the associated `Control`.
 
-### Properties
+## Properties
 
-- `NotificationManager`: The initialized `INotificationManager` instance. (Read-only binding source).
+| Property | Type | Description |
+| --- | --- | --- |
+| NotificationManager | `INotificationManager` | Gets the `INotificationManager` instance. |
 
-### Usage Example
+## Usage
 
 ```xml
 <Window xmlns="https://github.com/avaloniaui"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        x:Class="BehaviorsTestApplication.Views.MainWindow"
+        x:Name="Window">
     <Interaction.Behaviors>
-        <NotificationManagerBehavior NotificationManager="{Binding NotificationManager, Mode=OneWayToSource}" />
+        <NotificationManagerBehavior NotificationManager="{Binding #Window.NotificationManager, Mode=OneWayToSource}" />
     </Interaction.Behaviors>
+    <!-- ... -->
 </Window>
 ```

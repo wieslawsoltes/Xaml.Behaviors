@@ -4,6 +4,12 @@
 
 ## Properties
 
+| Property | Type | Description |
+| --- | --- | --- |
+| ConstrainToParentBounds | `bool` | Gets or sets whether dragging should be constrained to the bounds of the parent control. |
+
+```
+
 *   **`ConstrainToParentBounds`**: If set to `True`, the control cannot be dragged outside the bounds of its parent container.
 
 ## Usage

@@ -1,10 +1,26 @@
 # ShowNotificationAction
 
-Shows a notification with customizable title, message, and type.
+Shows a notification using an `INotificationManager`.
 
-### Properties
+## Properties
 
-- `Title`: The title of the notification.
-- `Message`: The content of the notification.
-- `NotificationType`: The type of notification (`Information`, `Success`, `Warning`, `Error`).
-- `NotificationManager`: The `INotificationManager` to use. If not set, it attempts to resolve one from the visual tree.
+| Property | Type | Description |
+| --- | --- | --- |
+| NotificationManager | `INotificationManager` | Gets or sets the `INotificationManager` used to display the notification. |
+| Notification | `INotification` | Gets or sets the `INotification` instance to show. |
+
+## Usage
+
+```xml
+<Button Content="Show Notification">
+    <Interaction.Behaviors>
+        <EventTriggerBehavior EventName="Click">
+            <ShowNotificationAction NotificationManager="{Binding #Window.NotificationManager}">
+                <ShowNotificationAction.Notification>
+                    <Notification Title="Hello" Message="World!" Type="Information" />
+                </ShowNotificationAction.Notification>
+            </ShowNotificationAction>
+        </EventTriggerBehavior>
+    </Interaction.Behaviors>
+</Button>
+```
