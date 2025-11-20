@@ -5,3 +5,5 @@ using Avalonia.Metadata;
 
 [assembly: XmlnsDefinition("https://github.com/avaloniaui", "Avalonia.Xaml.Interactions")]
 [assembly: XmlnsDefinition("https://github.com/avaloniaui", "Avalonia.Xaml.Interactions.Core")]
+[assembly: XmlnsDefinition("https://github.com/avaloniaui", "Avalonia.Xaml.Interactions.FileSystem")]
+[assembly: XmlnsDefinition("https://github.com/avaloniaui", "Avalonia.Xaml.Interactions.Network")]

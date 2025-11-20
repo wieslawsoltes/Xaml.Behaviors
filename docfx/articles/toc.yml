@@ -24,4 +24,8 @@
   href: events/toc.yml
 - name: Custom Interactions
   href: interactions-custom/toc.yml
+- name: File System
+  href: filesystem/toc.yml
+- name: Network
+  href: network.md
 

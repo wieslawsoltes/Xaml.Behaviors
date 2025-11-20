@@ -702,6 +702,12 @@
       <TabItem Header="UnloadedTrigger">
         <pages:UnloadedTriggerView />
       </TabItem>
+      <TabItem Header="FileSystem">
+        <pages:FileSystemView />
+      </TabItem>
+      <TabItem Header="Network">
+        <pages:NetworkView />
+      </TabItem>
     </SingleSelectionTabControl>
   </DockPanel>
 </UserControl>

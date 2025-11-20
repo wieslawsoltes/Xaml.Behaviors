@@ -1,0 +1,76 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:BehaviorsTestApplication.ViewModels"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="BehaviorsTestApplication.Views.Pages.FileSystemView"
+             x:DataType="vm:FileSystemViewModel">
+    <UserControl.DataContext>
+        <vm:FileSystemViewModel />
+    </UserControl.DataContext>
+
+    <Interaction.Behaviors>
+        <FileSystemWatcherTrigger Path="{Binding TargetPath}" IncludeSubdirectories="True">
+            <InvokeCommandAction Command="{Binding LogEventCommand}" PassEventArgsToCommand="True" />
+        </FileSystemWatcherTrigger>
+    </Interaction.Behaviors>
+
+    <ScrollViewer>
+        <StackPanel Spacing="20" Margin="20">
+            <TextBlock Text="FileSystem Interactions" FontSize="24" FontWeight="Bold" />
+            
+            <StackPanel Spacing="10">
+                <TextBlock Text="Target Path (Directory):" />
+                <TextBox Text="{Binding TargetPath}" />
+                
+                <TextBlock Text="File Content:" />
+                <TextBox Text="{Binding FileContent}" />
+            </StackPanel>
+
+            <WrapPanel Orientation="Horizontal">
+                <WrapPanel.Styles>
+                    <Style Selector="Button">
+                        <Setter Property="Margin" Value="0,0,10,10" />
+                    </Style>
+                </WrapPanel.Styles>
+
+                <Button Content="Create Directory">
+                    <Interaction.Behaviors>
+                        <EventTriggerBehavior EventName="Click">
+                            <CreateDirectoryAction Path="{Binding TargetPath}" />
+                        </EventTriggerBehavior>
+                    </Interaction.Behaviors>
+                </Button>
+
+                <Button Content="Delete Directory">
+                    <Interaction.Behaviors>
+                        <EventTriggerBehavior EventName="Click">
+                            <DeleteDirectoryAction Path="{Binding TargetPath}" Recursive="True" />
+                        </EventTriggerBehavior>
+                    </Interaction.Behaviors>
+                </Button>
+
+                <Button Content="Write 'test.txt'">
+                    <Interaction.Behaviors>
+                        <EventTriggerBehavior EventName="Click">
+                            <WriteTextToFileAction Path="{Binding TargetPath, StringFormat='{}{0}/test.txt'}" 
+                                                   Text="{Binding FileContent}" />
+                        </EventTriggerBehavior>
+                    </Interaction.Behaviors>
+                </Button>
+
+                <Button Content="Delete 'test.txt'">
+                    <Interaction.Behaviors>
+                        <EventTriggerBehavior EventName="Click">
+                            <DeleteFileAction Path="{Binding TargetPath, StringFormat='{}{0}/test.txt'}" />
+                        </EventTriggerBehavior>
+                    </Interaction.Behaviors>
+                </Button>
+            </WrapPanel>
+
+            <TextBlock Text="Watcher Logs:" FontWeight="Bold" />
+            <ListBox ItemsSource="{Binding Logs}" Height="200" />
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>

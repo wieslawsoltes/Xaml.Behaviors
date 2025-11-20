@@ -1,0 +1,53 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:BehaviorsTestApplication.ViewModels"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="BehaviorsTestApplication.Views.Pages.NetworkView"
+             x:DataType="vm:NetworkViewModel">
+    <UserControl.DataContext>
+        <vm:NetworkViewModel />
+    </UserControl.DataContext>
+
+    <Interaction.Behaviors>
+        <NetworkInformationTrigger>
+            <InvokeCommandAction Command="{Binding UpdateNetworkStatusCommand}" PassEventArgsToCommand="True" />
+        </NetworkInformationTrigger>
+    </Interaction.Behaviors>
+
+    <ScrollViewer>
+        <StackPanel Spacing="20" Margin="20">
+            <TextBlock Text="Network Interactions" FontSize="24" FontWeight="Bold" />
+            
+            <StackPanel Orientation="Horizontal" Spacing="10">
+                <TextBlock Text="Network Available:" FontWeight="Bold" />
+                <TextBlock Text="{Binding IsNetworkAvailable}" />
+            </StackPanel>
+
+            <StackPanel Spacing="10">
+                <TextBlock Text="URL:" />
+                <TextBox Text="{Binding Url}" />
+                
+                <Button Content="Make GET Request">
+                    <Interaction.Behaviors>
+                        <EventTriggerBehavior EventName="Click">
+                            <HttpRequestAction Url="{Binding Url}" 
+                                               Method="GET" 
+                                               ResponseContent="{Binding ResponseContent, Mode=OneWayToSource}"
+                                               ResponseStatusCode="{Binding ResponseStatusCode, Mode=OneWayToSource}" />
+                        </EventTriggerBehavior>
+                    </Interaction.Behaviors>
+                </Button>
+            </StackPanel>
+
+            <StackPanel Spacing="10">
+                <TextBlock Text="Status Code:" FontWeight="Bold" />
+                <TextBlock Text="{Binding ResponseStatusCode}" />
+                
+                <TextBlock Text="Response:" FontWeight="Bold" />
+                <TextBox Text="{Binding ResponseContent}" AcceptsReturn="True" TextWrapping="Wrap" Height="200" IsReadOnly="True" />
+            </StackPanel>
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>
