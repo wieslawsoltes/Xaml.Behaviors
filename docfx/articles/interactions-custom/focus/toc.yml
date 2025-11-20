@@ -18,5 +18,7 @@
   href: focus-on-pointer-pressed-behavior.md
 - name: FocusOnVisibleBehavior
   href: focus-on-visible-behavior.md
+- name: FocusTrapBehavior
+  href: ../focus-trap-behavior.md
 - name: FocusSelectedItemBehavior
   href: focus-selected-item-behavior.md

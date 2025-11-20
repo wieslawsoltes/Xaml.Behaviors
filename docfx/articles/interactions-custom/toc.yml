@@ -26,6 +26,8 @@
   href: core/toc.yml
 - name: Cursor
   href: cursor/toc.yml
+- name: Debugging
+  href: debugging/toc.yml
 - name: Dialog
   href: dialog/toc.yml
 - name: ExecuteCommand
@@ -38,6 +40,8 @@
   href: gestures/toc.yml
 - name: Icon
   href: icon/toc.yml
+- name: Input
+  href: input/toc.yml
 - name: InputElement
   href: input-element/toc.yml
 - name: ItemsControl
@@ -64,6 +68,8 @@
   href: show/toc.yml
 - name: SplitView
   href: split-view/toc.yml
+- name: System
+  href: system/toc.yml
 - name: TabControl
   href: tab-control/toc.yml
 - name: TextBox

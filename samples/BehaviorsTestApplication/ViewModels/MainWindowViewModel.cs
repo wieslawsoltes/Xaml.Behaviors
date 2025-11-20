@@ -27,6 +27,14 @@ public partial class MainWindowViewModel : ViewModelBase
     private readonly Subject<object> _scrollToItemSubject;
     private readonly Subject<int> _scrollToIndexSubject;
 
+    private Subject<object> _streamSource = new Subject<object>();
+    public IObservable<object> StreamSource => _streamSource;
+
+    public ICommand EmitNextCommand { get; }
+    public ICommand EmitErrorCommand { get; }
+    public ICommand CompleteStreamCommand { get; }
+    public ICommand ResetStreamCommand { get; }
+
     public MainWindowViewModel()
     {
         _taskStatusMessage = string.Empty;
@@ -98,6 +106,11 @@ public partial class MainWindowViewModel : ViewModelBase
         ];
 
         FileItems = new ObservableCollection<Uri>();
+
+        EmitNextCommand = ReactiveCommand.Create(EmitNext);
+        EmitErrorCommand = ReactiveCommand.Create(EmitError);
+        CompleteStreamCommand = ReactiveCommand.Create(CompleteStream);
+        ResetStreamCommand = ReactiveCommand.Create(ResetStream);
         DocumentsFolderPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
         NewDirectoryPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "BehaviorsTestDirectory");
 
@@ -243,6 +256,11 @@ public partial class MainWindowViewModel : ViewModelBase
         {
             WriteableBitmapTimerMessage = $"Timer tick at {DateTime.Now:T}";
         });
+
+        EmitNextCommand = ReactiveCommand.Create(EmitNext);
+        EmitErrorCommand = ReactiveCommand.Create(EmitError);
+        CompleteStreamCommand = ReactiveCommand.Create(CompleteStream);
+        ResetStreamCommand = ReactiveCommand.Create(ResetStream);
     }
 
     [Reactive]
@@ -736,5 +754,26 @@ public partial class MainWindowViewModel : ViewModelBase
         }
 
         IsLoading = false;
+    }
+
+    private void EmitNext()
+    {
+        _streamSource.OnNext($"Value emitted at {DateTime.Now.ToLongTimeString()}");
+    }
+
+    private void EmitError()
+    {
+        _streamSource.OnError(new Exception("Simulated Error"));
+    }
+
+    private void CompleteStream()
+    {
+        _streamSource.OnCompleted();
+    }
+
+    private void ResetStream()
+    {
+        _streamSource = new Subject<object>();
+        this.RaisePropertyChanged(nameof(StreamSource));
     }
 }

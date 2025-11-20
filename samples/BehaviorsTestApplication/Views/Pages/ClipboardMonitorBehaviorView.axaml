@@ -1,0 +1,24 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="BehaviorsTestApplication.Views.Pages.ClipboardMonitorBehaviorView">
+  <StackPanel Spacing="20" Margin="20">
+    <TextBlock Text="ClipboardMonitorBehavior" FontWeight="Bold" FontSize="18" />
+    <TextBlock
+      Text="Copy text to the clipboard to enable the button. The behavior monitors the clipboard every second." />
+
+    <StackPanel Orientation="Horizontal" Spacing="10">
+      <Button Name="PasteButton" Content="Paste Text"
+              IsEnabled="{Binding #ClipboardMonitor.HasData}"
+              Click="PasteButton_Click" />
+      <TextBlock Text="{Binding #ClipboardMonitor.HasData, StringFormat='HasData: {0}'}" VerticalAlignment="Center" />
+    </StackPanel>
+
+    <TextBox Name="OutputBox" Watermark="Pasted text will appear here..." Height="100" AcceptsReturn="True" />
+    <Interaction.Behaviors>
+      <ClipboardMonitorBehavior x:Name="ClipboardMonitor" Formats="Text" />
+    </Interaction.Behaviors>
+  </StackPanel>
+</UserControl>

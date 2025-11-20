@@ -16,6 +16,14 @@
   href: task-completed-trigger.md
 - name: TimerTrigger
   href: timer-trigger.md
+- name: Debounce & Throttle
+  href: debounce-throttle.md
+- name: ObservableStreamBehavior
+  href: observable-stream-behavior.md
+- name: AsyncActionGroup
+  href: async-action-group.md
+- name: DelayAction
+  href: delay-action.md
 - name: Clipboard Actions
   href: clipboard-actions.md
 - name: StorageProvider Interactions

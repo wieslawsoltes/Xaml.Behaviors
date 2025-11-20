@@ -1,0 +1,45 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:sys="using:System"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="BehaviorsTestApplication.Views.Pages.LogActionView">
+  <StackPanel Spacing="20" Margin="20">
+    <TextBlock Text="LogAction" FontWeight="Bold" FontSize="18" />
+    <TextBlock Text="Check the Debug Output window or Console to see the logs." />
+
+    <Button Content="Log Info">
+      <Interaction.Behaviors>
+        <EventTriggerBehavior EventName="Click">
+          <LogAction Message="Info button clicked at {0}" Argument="{x:Static sys:DateTime.Now}" Level="Info" />
+        </EventTriggerBehavior>
+      </Interaction.Behaviors>
+    </Button>
+
+    <Button Content="Log Warning">
+      <Interaction.Behaviors>
+        <EventTriggerBehavior EventName="Click">
+          <LogAction Message="Warning: Something might be wrong!" Level="Warning" />
+        </EventTriggerBehavior>
+      </Interaction.Behaviors>
+    </Button>
+
+    <Button Content="Log Error">
+      <Interaction.Behaviors>
+        <EventTriggerBehavior EventName="Click">
+          <LogAction Message="Error: Critical failure simulated." Level="Error" />
+        </EventTriggerBehavior>
+      </Interaction.Behaviors>
+    </Button>
+
+    <TextBox Name="InputBox" Text="Type something..." />
+    <Button Content="Log Input">
+      <Interaction.Behaviors>
+        <EventTriggerBehavior EventName="Click">
+          <LogAction Message="User typed: {0}" Argument="{Binding #InputBox.Text}" Level="Debug" />
+        </EventTriggerBehavior>
+      </Interaction.Behaviors>
+    </Button>
+  </StackPanel>
+</UserControl>

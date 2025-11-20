@@ -1,0 +1,45 @@
+<UserControl x:Class="BehaviorsTestApplication.Views.Pages.DebounceThrottleActionView"
+             xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450">
+  <StackPanel Spacing="20" Margin="20">
+    <TextBlock Text="Debounce &amp; Throttle Actions" FontSize="20" FontWeight="Bold" />
+
+    <!-- Debounce Example -->
+    <Border BorderBrush="Gray" BorderThickness="1" Padding="10" CornerRadius="5">
+      <StackPanel Spacing="10">
+        <TextBlock Text="Debounce Example (Type in the box, updates after 500ms delay)" FontWeight="SemiBold" />
+        <TextBox Name="SearchBox" Watermark="Type something..." />
+        <TextBlock Text="{Binding #SearchBox.Text, StringFormat='Current Text: {0}'}" />
+        <TextBlock Name="DebouncedText" Text="Debounced Output: " Foreground="Green" />
+        
+        <Interaction.Behaviors>
+          <EventTriggerBehavior EventName="TextChanged" SourceObject="{Binding #SearchBox}">
+            <DebounceAction Delay="0:0:0.5">
+               <ChangePropertyAction TargetObject="{Binding #DebouncedText}" PropertyName="Text" Value="{Binding #SearchBox.Text, StringFormat='Debounced Output: {0}'}" />
+            </DebounceAction>
+          </EventTriggerBehavior>
+        </Interaction.Behaviors>
+      </StackPanel>
+    </Border>
+
+    <!-- Throttle Example -->
+    <Border BorderBrush="Gray" BorderThickness="1" Padding="10" CornerRadius="5">
+      <StackPanel Spacing="10">
+        <TextBlock Text="Throttle Example (Click rapidly, updates only every 1 second)" FontWeight="SemiBold" />
+        <Button Name="ThrottleButton" Content="Click Me Rapidly!" />
+        <TextBlock Name="ThrottleCountText" Text="Clicks Processed: 0" Foreground="Blue" />
+        
+        <Interaction.Behaviors>
+          <EventTriggerBehavior EventName="Click" SourceObject="{Binding #ThrottleButton}">
+            <ThrottleAction Interval="0:0:1">
+               <CallMethodAction TargetObject="{Binding $parent[UserControl]}" MethodName="IncrementThrottleCount" />
+            </ThrottleAction>
+          </EventTriggerBehavior>
+        </Interaction.Behaviors>
+      </StackPanel>
+    </Border>
+  </StackPanel>
+</UserControl>

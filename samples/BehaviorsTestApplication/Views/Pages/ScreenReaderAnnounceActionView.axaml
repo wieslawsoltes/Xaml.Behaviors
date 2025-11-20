@@ -1,0 +1,32 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="BehaviorsTestApplication.Views.Pages.ScreenReaderAnnounceActionView">
+  <StackPanel Spacing="10" Margin="10">
+    <TextBlock Text="ScreenReaderAnnounceAction" FontWeight="Bold" FontSize="18" />
+    <TextBlock Text="Click the button to announce a message to the screen reader." />
+
+    <Button Content="Announce 'Hello World'">
+      <Interaction.Behaviors>
+        <BehaviorCollection>
+          <EventTriggerBehavior EventName="Click">
+            <ScreenReaderAnnounceAction Message="Hello World" />
+          </EventTriggerBehavior>
+        </BehaviorCollection>
+      </Interaction.Behaviors>
+    </Button>
+
+    <TextBox Name="MessageInput" Text="Custom Message" />
+    <Button Content="Announce Custom Message">
+      <Interaction.Behaviors>
+        <BehaviorCollection>
+          <EventTriggerBehavior EventName="Click">
+            <ScreenReaderAnnounceAction Message="{Binding #MessageInput.Text}" />
+          </EventTriggerBehavior>
+        </BehaviorCollection>
+      </Interaction.Behaviors>
+    </Button>
+  </StackPanel>
+</UserControl>
