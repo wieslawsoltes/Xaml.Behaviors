@@ -708,6 +708,27 @@
       <TabItem Header="Network">
         <pages:NetworkView />
       </TabItem>
+      <TabItem Header="ToggleClassAction">
+        <pages:ToggleClassActionView />
+      </TabItem>
+      <TabItem Header="LaunchUriAction">
+        <pages:LaunchUriActionView />
+      </TabItem>
+      <TabItem Header="ScreenshotAction">
+        <pages:ScreenshotActionView />
+      </TabItem>
+      <TabItem Header="ScrollToControlAction">
+        <pages:ScrollToControlActionView />
+      </TabItem>
+      <TabItem Header="ConsoleBeepAction">
+        <pages:ConsoleBeepActionView />
+      </TabItem>
+      <TabItem Header="BreakAction">
+        <pages:BreakActionView />
+      </TabItem>
+      <TabItem Header="InactivityTrigger">
+        <pages:InactivityTriggerView />
+      </TabItem>
     </SingleSelectionTabControl>
   </DockPanel>
 </UserControl>

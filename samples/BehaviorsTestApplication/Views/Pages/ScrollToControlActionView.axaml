@@ -1,0 +1,23 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="BehaviorsTestApplication.Views.Pages.ScrollToControlActionView">
+    <ScrollViewer Height="200">
+        <StackPanel Spacing="10">
+            <TextBlock Text="ScrollToControlAction" FontWeight="Bold" />
+            <Button Content="Scroll to Bottom">
+                <Interaction.Behaviors>
+                    <EventTriggerBehavior EventName="Click">
+                        <ScrollToControlAction TargetControl="{Binding ElementName=BottomText}" />
+                    </EventTriggerBehavior>
+                </Interaction.Behaviors>
+            </Button>
+            <Border Height="500" Background="LightGray">
+                <TextBlock Text="Spacer" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+            </Border>
+            <TextBlock Name="BottomText" Text="Bottom of the page" />
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>

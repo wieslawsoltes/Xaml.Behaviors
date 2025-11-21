@@ -36,3 +36,11 @@
   href: show-flyout-action.md
 - name: ShowPopupAction
   href: show-popup-action.md
+- name: LaunchUriAction
+  href: launch-uri-action.md
+- name: ScreenshotAction
+  href: screenshot-action.md
+- name: ScrollToControlAction
+  href: scroll-to-control-action.md
+- name: ToggleClassAction
+  href: toggle-class-action.md

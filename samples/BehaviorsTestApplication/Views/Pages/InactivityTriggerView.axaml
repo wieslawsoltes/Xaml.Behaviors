@@ -1,0 +1,17 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="BehaviorsTestApplication.Views.Pages.InactivityTriggerView">
+    <StackPanel Spacing="10">
+        <TextBlock Text="InactivityTrigger (Wait 5s)" FontWeight="Bold" />
+        <TextBlock Text="Status: Active" Name="StatusText" />
+        <Interaction.Behaviors>
+            <InactivityTrigger Timeout="00:00:05">
+                <ChangePropertyAction TargetObject="{Binding ElementName=StatusText}" PropertyName="Text" Value="Status: Inactive!" />
+                <LogAction Message="User is inactive." />
+            </InactivityTrigger>
+        </Interaction.Behaviors>
+    </StackPanel>
+</UserControl>
