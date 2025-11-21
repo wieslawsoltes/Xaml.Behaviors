@@ -20,6 +20,7 @@
     <PackageReference Include="Avalonia.Desktop" />
     <PackageReference Include="Avalonia.Themes.Fluent" />
     <PackageReference Include="Avalonia.Headless.XUnit" />
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" />
   </ItemGroup>
 
   <Import Project="..\..\build\XUnit.props" />
@@ -27,7 +28,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\Xaml.Behaviors.Interactivity\Xaml.Behaviors.Interactivity.csproj" />
-    <ProjectReference Include="..\..\src\Xaml.Behaviors.SourceGenerators\Xaml.Behaviors.SourceGenerators.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
+    <ProjectReference Include="..\..\src\Xaml.Behaviors.SourceGenerators\Xaml.Behaviors.SourceGenerators.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="true" />
   </ItemGroup>
 
 </Project>
