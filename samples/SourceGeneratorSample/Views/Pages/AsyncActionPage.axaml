@@ -1,6 +1,7 @@
 <UserControl xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:vm="using:SourceGeneratorSample.ViewModels"
+             xmlns:ac="using:Avalonia.Controls"
              x:Class="SourceGeneratorSample.Views.Pages.AsyncActionPage"
              x:DataType="vm:MainViewModel">
   <StackPanel Spacing="10">
@@ -8,9 +9,9 @@
     <StackPanel Orientation="Horizontal" Spacing="5">
       <Button Content="Submit Async" IsEnabled="{Binding !IsBusy}">
         <Interaction.Behaviors>
-          <EventTriggerBehavior EventName="Click">
+          <ac:ClickTrigger>
             <vm:SubmitAsyncAction TargetObject="{Binding}" IsExecuting="{Binding IsBusy, Mode=OneWayToSource}" />
-          </EventTriggerBehavior>
+          </ac:ClickTrigger>
         </Interaction.Behaviors>
       </Button>
       <TextBlock Text="{Binding IsBusy, StringFormat='Busy: {0}'}" VerticalAlignment="Center" />
@@ -18,9 +19,9 @@
 
     <Button Content="Reset Async" IsEnabled="{Binding !IsBusy}">
       <Interaction.Behaviors>
-        <EventTriggerBehavior EventName="Click">
+        <ac:ClickTrigger>
           <vm:ResetAsyncAction TargetObject="{Binding}" IsExecuting="{Binding IsBusy, Mode=OneWayToSource}" />
-        </EventTriggerBehavior>
+        </ac:ClickTrigger>
       </Interaction.Behaviors>
     </Button>
   </StackPanel>

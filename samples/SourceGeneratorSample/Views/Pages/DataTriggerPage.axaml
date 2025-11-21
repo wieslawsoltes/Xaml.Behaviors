@@ -7,7 +7,7 @@
              x:DataType="vm:MainViewModel">
   <StackPanel Spacing="10">
     <TextBlock Text="DataTrigger" FontWeight="Bold" />
-    <Slider Minimum="0" Maximum="10" Value="{Binding Value}" />
+    <Slider Minimum="0" Maximum="10" IsSnapToTickEnabled="True" TickFrequency="1" Value="{Binding Value}" />
     <TextBlock Text="Value is 5!">
       <Interaction.Behaviors>
         <gen:DoubleDataTrigger Binding="{Binding Value}" Value="5" ComparisonCondition="Equal">

@@ -8,7 +8,7 @@
 
   <Interaction.Behaviors>
     <vm:ProcessingFinishedTrigger SourceObject="{Binding}">
-      <vm:SetTitleAction TargetObject="{Binding}" Value="Processing Finished!" />
+      <vm:SetProcessingMessageAction TargetObject="{Binding}" Value="Processing Finished!" />
     </vm:ProcessingFinishedTrigger>
   </Interaction.Behaviors>
 
@@ -17,6 +17,7 @@
       <TextBlock Text="Source Generator Sample" FontSize="20" FontWeight="Bold" />
       <TextBlock Text="{Binding StatusText}" />
       <TextBlock Text="{Binding Value, StringFormat='Value: {0}'}" />
+      <TextBlock Text="{Binding ProcessingMessage}" />
     </StackPanel>
 
     <TabControl TabStripPlacement="Left">

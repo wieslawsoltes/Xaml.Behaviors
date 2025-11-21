@@ -8,6 +8,7 @@ using SourceGeneratorSample.Models;
 [assembly: GenerateTypedChangePropertyAction(typeof(ExternalLibraryClass), nameof(ExternalLibraryClass.ExternalProperty))]
 [assembly: GenerateTypedChangePropertyAction(typeof(Avalonia.Controls.TextBlock), "Foreground")]
 [assembly: GenerateTypedChangePropertyAction(typeof(Avalonia.Controls.TextBlock), "Text")]
+[assembly: GenerateTypedTrigger(typeof(Avalonia.Controls.Button), "Click")]
 [assembly: GenerateTypedTrigger(typeof(SourceGeneratorSample.ViewModels.MainViewModel), "ProcessingFinished")]
 [assembly: GenerateTypedDataTrigger(typeof(double))]
 [assembly: GenerateTypedDataTrigger(typeof(string))]
@@ -50,6 +51,7 @@ namespace SourceGeneratorSample.ViewModels
         public void Submit()
         {
             StatusText = "Submitted!";
+            InternalSubmitMessage = "Submitted successfully!";
             Console.WriteLine("Submit called");
             ProcessingFinished?.Invoke(this, EventArgs.Empty);
         }
@@ -58,6 +60,7 @@ namespace SourceGeneratorSample.ViewModels
         public void Reset(object? sender, object? parameter)
         {
              StatusText = "Reset";
+             InternalSubmitMessage = "Reset";
              Value = 0;
         }
 
@@ -70,8 +73,36 @@ namespace SourceGeneratorSample.ViewModels
         [GenerateTypedTrigger]
         public event EventHandler? ProcessingFinished;
 
+        private string _title = "Sample App";
         [GenerateTypedChangePropertyAction]
-        public string Title { get; set; } = "Sample App";
+        public string Title
+        {
+            get => _title;
+            set => this.RaiseAndSetIfChanged(ref _title, value);
+        }
+
+        private string _externalEventMessage = "Waiting for event...";
+        [GenerateTypedChangePropertyAction]
+        public string ExternalEventMessage
+        {
+            get => _externalEventMessage;
+            set => this.RaiseAndSetIfChanged(ref _externalEventMessage, value);
+        }
+
+        private string _processingMessage = "Waiting for process...";
+        [GenerateTypedChangePropertyAction]
+        public string ProcessingMessage
+        {
+            get => _processingMessage;
+            set => this.RaiseAndSetIfChanged(ref _processingMessage, value);
+        }
+
+        private string _internalSubmitMessage = "Waiting for submit...";
+        public string InternalSubmitMessage
+        {
+            get => _internalSubmitMessage;
+            set => this.RaiseAndSetIfChanged(ref _internalSubmitMessage, value);
+        }
         
         public void TriggerExternal()
         {
