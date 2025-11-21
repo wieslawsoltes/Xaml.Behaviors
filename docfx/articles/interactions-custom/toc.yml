@@ -56,6 +56,8 @@
   href: listbox-item/toc.yml
 - name: Logic
   href: logic/toc.yml
+- name: Multimedia
+  href: multimedia/toc.yml
 - name: Notifications
   href: notifications/toc.yml
 - name: Popup

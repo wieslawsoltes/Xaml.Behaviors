@@ -4,3 +4,5 @@
   href: lose-focus-on-enter-behavior.md
 - name: SelectAllOnFocusBehavior
   href: select-all-on-focus-behavior.md
+- name: InactivityTrigger
+  href: inactivity-trigger.md
