@@ -1,0 +1,24 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:SourceGeneratorSample.ViewModels"
+             x:Class="SourceGeneratorSample.Views.Pages.InternalSamplesPage"
+             x:DataType="vm:MainViewModel">
+  <StackPanel Spacing="10">
+    <TextBlock Text="Internal Action &amp; Trigger" FontWeight="Bold" />
+    <Button Content="Submit (Internal Action)">
+      <Interaction.Behaviors>
+        <EventTriggerBehavior EventName="Click">
+          <vm:SubmitAction TargetObject="{Binding}" />
+        </EventTriggerBehavior>
+      </Interaction.Behaviors>
+    </Button>
+
+    <Button Content="Reset (Internal Action)">
+      <Interaction.Behaviors>
+        <EventTriggerBehavior EventName="Click">
+          <vm:ResetAction TargetObject="{Binding}" />
+        </EventTriggerBehavior>
+      </Interaction.Behaviors>
+    </Button>
+  </StackPanel>
+</UserControl>

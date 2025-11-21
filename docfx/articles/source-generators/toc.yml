@@ -1,0 +1,16 @@
+- name: Introduction
+  href: index.md
+- name: Typed Actions
+  href: typed-action.md
+- name: Typed Triggers
+  href: typed-trigger.md
+- name: Typed ChangePropertyAction
+  href: typed-change-property.md
+- name: Typed DataTrigger
+  href: typed-data-trigger.md
+- name: Typed MultiDataTrigger
+  href: typed-multi-data-trigger.md
+- name: Typed InvokeCommandAction
+  href: typed-invoke-command-action.md
+- name: Third-Party Integration
+  href: third-party.md

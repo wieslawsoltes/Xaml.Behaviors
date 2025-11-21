@@ -1,0 +1,46 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:SourceGeneratorSample.ViewModels"
+        xmlns:pages="using:SourceGeneratorSample.Views.Pages"
+        x:Class="SourceGeneratorSample.Views.MainWindow"
+        x:DataType="vm:MainViewModel"
+        Title="{Binding Title}">
+
+  <Interaction.Behaviors>
+    <vm:ProcessingFinishedTrigger SourceObject="{Binding}">
+      <vm:SetTitleAction TargetObject="{Binding}" Value="Processing Finished!" />
+    </vm:ProcessingFinishedTrigger>
+  </Interaction.Behaviors>
+
+  <DockPanel Margin="20">
+    <StackPanel DockPanel.Dock="Top" Spacing="10" Margin="0,0,0,20">
+      <TextBlock Text="Source Generator Sample" FontSize="20" FontWeight="Bold" />
+      <TextBlock Text="{Binding StatusText}" />
+      <TextBlock Text="{Binding Value, StringFormat='Value: {0}'}" />
+    </StackPanel>
+
+    <TabControl TabStripPlacement="Left">
+      <TabItem Header="Internal">
+        <pages:InternalSamplesPage />
+      </TabItem>
+      <TabItem Header="External">
+        <pages:ExternalSamplesPage />
+      </TabItem>
+      <TabItem Header="Params">
+        <pages:ParameterBindingPage />
+      </TabItem>
+      <TabItem Header="DataTrigger">
+        <pages:DataTriggerPage />
+      </TabItem>
+      <TabItem Header="Async">
+        <pages:AsyncActionPage />
+      </TabItem>
+      <TabItem Header="MultiData">
+        <pages:MultiDataTriggerPage />
+      </TabItem>
+      <TabItem Header="Command">
+        <pages:InvokeCommandActionPage />
+      </TabItem>
+    </TabControl>
+  </DockPanel>
+</Window>

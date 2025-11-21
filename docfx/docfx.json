@@ -13,7 +13,8 @@
             "src/Xaml.Behaviors.Interactions.ReactiveUI/Xaml.Behaviors.Interactions.ReactiveUI.csproj",
             "src/Xaml.Behaviors.Interactions.Responsive/Xaml.Behaviors.Interactions.Responsive.csproj",
             "src/Xaml.Behaviors.Interactions.Scripting/Xaml.Behaviors.Interactions.Scripting.csproj",
-            "src/Xaml.Behaviors.Interactivity/Xaml.Behaviors.Interactivity.csproj"
+            "src/Xaml.Behaviors.Interactivity/Xaml.Behaviors.Interactivity.csproj",
+            "src/Xaml.Behaviors.SourceGenerators/Xaml.Behaviors.SourceGenerators.csproj"
           ],
           "src": ".."
         }

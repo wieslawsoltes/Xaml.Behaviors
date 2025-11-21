@@ -1,0 +1,21 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:SourceGeneratorSample.ViewModels"
+             xmlns:ac="using:Avalonia.Controls"
+             x:Class="SourceGeneratorSample.Views.Pages.MultiDataTriggerPage"
+             x:DataType="vm:MainViewModel">
+  <StackPanel Spacing="10">
+    <TextBlock Text="MultiDataTrigger" FontWeight="Bold" />
+    <StackPanel Orientation="Horizontal" Spacing="5">
+      <CheckBox IsChecked="{Binding IsBusy}" Content="Is Valid (Busy)" />
+      <NumericUpDown Value="{Binding Count}" Minimum="0" Maximum="10" />
+      <TextBlock Text="Valid &amp; Count &lt; 3">
+        <Interaction.Behaviors>
+          <vm:ValidationTrigger IsValid="{Binding IsBusy}" RetryCount="{Binding Count}">
+            <ac:SetForegroundAction Value="Red" />
+          </vm:ValidationTrigger>
+        </Interaction.Behaviors>
+      </TextBlock>
+    </StackPanel>
+  </StackPanel>
+</UserControl>

@@ -28,4 +28,6 @@
   href: filesystem/toc.yml
 - name: Network
   href: network.md
+- name: Source Generators
+  href: source-generators/toc.yml
 

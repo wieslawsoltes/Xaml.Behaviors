@@ -1,0 +1,22 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:SourceGeneratorSample.ViewModels"
+             xmlns:ac="using:Avalonia.Controls"
+             xmlns:gen="using:Xaml.Behaviors.Generated"
+             x:Class="SourceGeneratorSample.Views.Pages.DataTriggerPage"
+             x:DataType="vm:MainViewModel">
+  <StackPanel Spacing="10">
+    <TextBlock Text="DataTrigger" FontWeight="Bold" />
+    <Slider Minimum="0" Maximum="10" Value="{Binding Value}" />
+    <TextBlock Text="Value is 5!">
+      <Interaction.Behaviors>
+        <gen:DoubleDataTrigger Binding="{Binding Value}" Value="5" ComparisonCondition="Equal">
+          <ac:SetForegroundAction Value="Green" />
+        </gen:DoubleDataTrigger>
+        <gen:DoubleDataTrigger Binding="{Binding Value}" Value="5" ComparisonCondition="NotEqual">
+          <ac:SetForegroundAction Value="Black" />
+        </gen:DoubleDataTrigger>
+      </Interaction.Behaviors>
+    </TextBlock>
+  </StackPanel>
+</UserControl>

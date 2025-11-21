@@ -1,0 +1,16 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:SourceGeneratorSample.ViewModels"
+             x:Class="SourceGeneratorSample.Views.Pages.InvokeCommandActionPage"
+             x:DataType="vm:MainViewModel">
+  <StackPanel Spacing="10">
+    <TextBlock Text="InvokeCommandAction" FontWeight="Bold" />
+    <Button Content="Typed Command Action">
+      <Interaction.Behaviors>
+        <EventTriggerBehavior EventName="Click">
+          <vm:TypedCommandAction Command="{Binding TriggerExternal}" CommandParameter="Test" />
+        </EventTriggerBehavior>
+      </Interaction.Behaviors>
+    </Button>
+  </StackPanel>
+</UserControl>
