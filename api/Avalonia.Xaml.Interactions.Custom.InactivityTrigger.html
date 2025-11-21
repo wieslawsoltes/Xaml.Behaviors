@@ -2,11 +2,11 @@
 <html>
   <head>
     <meta charset="utf-8">
-      <title>Class Trigger&lt;T&gt; | XAML Behaviors for Avalonia </title>
+      <title>Class InactivityTrigger | XAML Behaviors for Avalonia </title>
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <meta name="title" content="Class Trigger&lt;T&gt; | XAML Behaviors for Avalonia ">
+      <meta name="title" content="Class InactivityTrigger | XAML Behaviors for Avalonia ">
       
-      <meta name="description" content="A base class for behaviors, implementing the basic plumbing of .">
+      <meta name="description" content="A trigger that fires when the user has been inactive (no mouse/keyboard input) for a specified duration.">
       <link rel="icon" href="../favicon.ico">
       <link rel="stylesheet" href="../public/docfx.min.css">
       <link rel="stylesheet" href="../public/main.css">
@@ -16,7 +16,7 @@
       
       
       
-      <meta name="docfx:docurl" content="https://github.com/wieslawsoltes/Xaml.Behaviors/new/master/apiSpec/new?filename=Avalonia_Xaml_Interactivity_Trigger_1.md&amp;value=---%0Auid%3A%20Avalonia.Xaml.Interactivity.Trigger%601%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">
+      <meta name="docfx:docurl" content="https://github.com/wieslawsoltes/Xaml.Behaviors/new/master/apiSpec/new?filename=Avalonia_Xaml_Interactions_Custom_InactivityTrigger.md&amp;value=---%0Auid%3A%20Avalonia.Xaml.Interactions.Custom.InactivityTrigger%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">
       <meta name="loc:inThisArticle" content="In this article">
       <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
       <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
@@ -80,35 +80,29 @@
           <nav id="breadcrumb"></nav>
         </div>
 
-        <article data-uid="Avalonia.Xaml.Interactivity.Trigger`1">
+        <article data-uid="Avalonia.Xaml.Interactions.Custom.InactivityTrigger">
 
 
 
-  <h1 id="Avalonia_Xaml_Interactivity_Trigger_1" data-uid="Avalonia.Xaml.Interactivity.Trigger`1" class="text-break">
-Class Trigger&lt;T&gt;  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactivity/AvaloniaObject/TriggerOfT.cs/#L11"><i class="bi bi-code-slash"></i></a>
+  <h1 id="Avalonia_Xaml_Interactions_Custom_InactivityTrigger" data-uid="Avalonia.Xaml.Interactions.Custom.InactivityTrigger" class="text-break">
+Class InactivityTrigger  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactions.Custom/Input/InactivityTrigger.cs/#L15"><i class="bi bi-code-slash"></i></a>
   </h1>
 
   <div class="facts text-secondary">
-    <dl><dt>Namespace</dt><dd><a class="xref" href="Avalonia.html">Avalonia</a>.<a class="xref" href="Avalonia.Xaml.html">Xaml</a>.<a class="xref" href="Avalonia.Xaml.Interactivity.html">Interactivity</a></dd></dl>
-  <dl><dt>Assembly</dt><dd>Xaml.Behaviors.Interactivity.dll</dd></dl>
+    <dl><dt>Namespace</dt><dd><a class="xref" href="Avalonia.html">Avalonia</a>.<a class="xref" href="Avalonia.Xaml.html">Xaml</a>.<a class="xref" href="Avalonia.Xaml.Interactions.html">Interactions</a>.<a class="xref" href="Avalonia.Xaml.Interactions.Custom.html">Custom</a></dd></dl>
+  <dl><dt>Assembly</dt><dd>Xaml.Behaviors.Interactions.Custom.dll</dd></dl>
   </div>
 
-  <div class="markdown summary"><p>A base class for behaviors, implementing the basic plumbing of <a class="xref" href="Avalonia.Xaml.Interactivity.ITrigger.html">ITrigger</a>.</p>
+  <div class="markdown summary"><p>A trigger that fires when the user has been inactive (no mouse/keyboard input) for a specified duration.</p>
 </div>
   <div class="markdown conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public abstract class Trigger&lt;T&gt; : Trigger, INotifyPropertyChanged, IBehaviorEventsHandler, ITrigger, IBehavior where T : AvaloniaObject</code></pre>
+    <pre><code class="lang-csharp hljs">public class InactivityTrigger : Trigger&lt;Control&gt;, INotifyPropertyChanged, IBehaviorEventsHandler, ITrigger, IBehavior</code></pre>
   </div>
 
 
 
-  <h4 class="section">Type Parameters</h4>
-  <dl class="parameters">
-    <dt><code>T</code></dt>
-    <dd><p>The object type to attach to</p>
-</dd>
-  </dl>
 
   <dl class="typelist inheritance">
     <dt>Inheritance</dt>
@@ -117,7 +111,8 @@ Class Trigger&lt;T&gt;  <a class="header-action link-secondary" title="View sour
       <div><span class="xref">AvaloniaObject</span></div>
       <div><a class="xref" href="Avalonia.Xaml.Interactivity.Behavior.html">Behavior</a></div>
       <div><a class="xref" href="Avalonia.Xaml.Interactivity.Trigger.html">Trigger</a></div>
-      <div><span class="xref">Trigger&lt;T&gt;</span></div>
+      <div><a class="xref" href="Avalonia.Xaml.Interactivity.Trigger-1.html">Trigger</a>&lt;<span class="xref">Control</span>&gt;</div>
+      <div><span class="xref">InactivityTrigger</span></div>
     </dd>
   </dl>
 
@@ -131,16 +126,16 @@ Class Trigger&lt;T&gt;  <a class="header-action link-secondary" title="View sour
     </dd>
   </dl>
 
-  <dl class="typelist derived">
-    <dt>Derived</dt>
-    <dd>
-      <div><a class="xref" href="Avalonia.Xaml.Interactions.Custom.InactivityTrigger.html">InactivityTrigger</a></div>
-    </dd>
-  </dl>
 
   <dl class="typelist inheritedMembers">
     <dt>Inherited Members</dt>
     <dd>
+    <div>
+      <a class="xref" href="Avalonia.Xaml.Interactivity.Trigger-1.html#Avalonia_Xaml_Interactivity_Trigger_1_AssociatedObject">Trigger&lt;Control&gt;.AssociatedObject</a>
+    </div>
+    <div>
+      <a class="xref" href="Avalonia.Xaml.Interactivity.Trigger-1.html#Avalonia_Xaml_Interactivity_Trigger_1_OnAttached">Trigger&lt;Control&gt;.OnAttached()</a>
+    </div>
     <div>
       <a class="xref" href="Avalonia.Xaml.Interactivity.Trigger.html#Avalonia_Xaml_Interactivity_Trigger_ActionsProperty">Trigger.ActionsProperty</a>
     </div>
@@ -161,12 +156,6 @@ Class Trigger&lt;T&gt;  <a class="header-action link-secondary" title="View sour
     </div>
     <div>
       <a class="xref" href="Avalonia.Xaml.Interactivity.Behavior.html#Avalonia_Xaml_Interactivity_Behavior_OnDetaching">Behavior.OnDetaching()</a>
-    </div>
-    <div>
-      <a class="xref" href="Avalonia.Xaml.Interactivity.Behavior.html#Avalonia_Xaml_Interactivity_Behavior_OnAttachedToVisualTree">Behavior.OnAttachedToVisualTree()</a>
-    </div>
-    <div>
-      <a class="xref" href="Avalonia.Xaml.Interactivity.Behavior.html#Avalonia_Xaml_Interactivity_Behavior_OnDetachedFromVisualTree">Behavior.OnDetachedFromVisualTree()</a>
     </div>
     <div>
       <a class="xref" href="Avalonia.Xaml.Interactivity.Behavior.html#Avalonia_Xaml_Interactivity_Behavior_OnAttachedToLogicalTree">Behavior.OnAttachedToLogicalTree()</a>
@@ -325,23 +314,58 @@ Class Trigger&lt;T&gt;  <a class="header-action link-secondary" title="View sour
 
 
 
-  <h2 class="section" id="properties">Properties
+  <h2 class="section" id="fields">Fields
 </h2>
 
 
-  <a id="Avalonia_Xaml_Interactivity_Trigger_1_AssociatedObject_" data-uid="Avalonia.Xaml.Interactivity.Trigger`1.AssociatedObject*"></a>
 
-  <h3 id="Avalonia_Xaml_Interactivity_Trigger_1_AssociatedObject" data-uid="Avalonia.Xaml.Interactivity.Trigger`1.AssociatedObject">
-  AssociatedObject
-  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactivity/AvaloniaObject/TriggerOfT.cs/#L16"><i class="bi bi-code-slash"></i></a>
+  <h3 id="Avalonia_Xaml_Interactions_Custom_InactivityTrigger_TimeoutProperty" data-uid="Avalonia.Xaml.Interactions.Custom.InactivityTrigger.TimeoutProperty">
+  TimeoutProperty
+  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactions.Custom/Input/InactivityTrigger.cs/#L25"><i class="bi bi-code-slash"></i></a>
   </h3>
 
-  <div class="markdown level1 summary"><p>Gets the object to which this behavior is attached.</p>
+  <div class="markdown level1 summary"><p>Identifies the <a class="xref" href="Avalonia.Xaml.Interactions.Custom.InactivityTrigger.html#Avalonia_Xaml_Interactions_Custom_InactivityTrigger_Timeout">Timeout</a> avalonia property.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public T? AssociatedObject { get; }</code></pre>
+    <pre><code class="lang-csharp hljs">public static readonly StyledProperty&lt;TimeSpan&gt; TimeoutProperty</code></pre>
+  </div>
+
+
+
+
+  <h4 class="section">Field Value</h4>
+  <dl class="parameters">
+    <dt><span class="xref">StyledProperty</span>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.timespan">TimeSpan</a>&gt;</dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+  <h2 class="section" id="properties">Properties
+</h2>
+
+
+  <a id="Avalonia_Xaml_Interactions_Custom_InactivityTrigger_Timeout_" data-uid="Avalonia.Xaml.Interactions.Custom.InactivityTrigger.Timeout*"></a>
+
+  <h3 id="Avalonia_Xaml_Interactions_Custom_InactivityTrigger_Timeout" data-uid="Avalonia.Xaml.Interactions.Custom.InactivityTrigger.Timeout">
+  Timeout
+  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactions.Custom/Input/InactivityTrigger.cs/#L31"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Gets or sets the inactivity timeout duration.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public TimeSpan Timeout { get; set; }</code></pre>
   </div>
 
 
@@ -350,7 +374,7 @@ Class Trigger&lt;T&gt;  <a class="header-action link-secondary" title="View sour
 
   <h4 class="section">Property Value</h4>
   <dl class="parameters">
-    <dt><span class="xref">T</span></dt>
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.timespan">TimeSpan</a></dt>
     <dd></dd>
   </dl>
 
@@ -365,19 +389,19 @@ Class Trigger&lt;T&gt;  <a class="header-action link-secondary" title="View sour
 </h2>
 
 
-  <a id="Avalonia_Xaml_Interactivity_Trigger_1_OnAttached_" data-uid="Avalonia.Xaml.Interactivity.Trigger`1.OnAttached*"></a>
+  <a id="Avalonia_Xaml_Interactions_Custom_InactivityTrigger_OnAttachedToVisualTree_" data-uid="Avalonia.Xaml.Interactions.Custom.InactivityTrigger.OnAttachedToVisualTree*"></a>
 
-  <h3 id="Avalonia_Xaml_Interactivity_Trigger_1_OnAttached" data-uid="Avalonia.Xaml.Interactivity.Trigger`1.OnAttached">
-  OnAttached()
-  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactivity/AvaloniaObject/TriggerOfT.cs/#L24"><i class="bi bi-code-slash"></i></a>
+  <h3 id="Avalonia_Xaml_Interactions_Custom_InactivityTrigger_OnAttachedToVisualTree" data-uid="Avalonia.Xaml.Interactions.Custom.InactivityTrigger.OnAttachedToVisualTree">
+  OnAttachedToVisualTree()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactions.Custom/Input/InactivityTrigger.cs/#L38"><i class="bi bi-code-slash"></i></a>
   </h3>
 
-  <div class="markdown level1 summary"><p>Called after the behavior is attached to the <a class="xref" href="Avalonia.Xaml.Interactivity.IBehavior.html#Avalonia_Xaml_Interactivity_IBehavior_AssociatedObject">AssociatedObject</a>.</p>
+  <div class="markdown level1 summary"><p>Called after the <a class="xref" href="Avalonia.Xaml.Interactivity.Behavior.html#Avalonia_Xaml_Interactivity_Behavior_AssociatedObject">AssociatedObject</a> is attached to the visual tree.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">protected override void OnAttached()</code></pre>
+    <pre><code class="lang-csharp hljs">protected override void OnAttachedToVisualTree()</code></pre>
   </div>
 
 
@@ -388,8 +412,38 @@ Class Trigger&lt;T&gt;  <a class="header-action link-secondary" title="View sour
 
 
 
-  <h4 class="section" id="Avalonia_Xaml_Interactivity_Trigger_1_OnAttached_remarks">Remarks</h4>
-  <div class="markdown level1 remarks"><p>Override this to hook up functionality to the <a class="xref" href="Avalonia.Xaml.Interactivity.IBehavior.html#Avalonia_Xaml_Interactivity_IBehavior_AssociatedObject">AssociatedObject</a></p>
+  <h4 class="section" id="Avalonia_Xaml_Interactions_Custom_InactivityTrigger_OnAttachedToVisualTree_remarks">Remarks</h4>
+  <div class="markdown level1 remarks"><p>Invoked only when the <a class="xref" href="Avalonia.Xaml.Interactivity.Behavior.html#Avalonia_Xaml_Interactivity_Behavior_AssociatedObject">AssociatedObject</a> is of type <span class="xref">Avalonia.Visual</span>.</p>
+</div>
+
+
+
+
+  <a id="Avalonia_Xaml_Interactions_Custom_InactivityTrigger_OnDetachedFromVisualTree_" data-uid="Avalonia.Xaml.Interactions.Custom.InactivityTrigger.OnDetachedFromVisualTree*"></a>
+
+  <h3 id="Avalonia_Xaml_Interactions_Custom_InactivityTrigger_OnDetachedFromVisualTree" data-uid="Avalonia.Xaml.Interactions.Custom.InactivityTrigger.OnDetachedFromVisualTree">
+  OnDetachedFromVisualTree()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactions.Custom/Input/InactivityTrigger.cs/#L59"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Called when the <a class="xref" href="Avalonia.Xaml.Interactivity.Behavior.html#Avalonia_Xaml_Interactivity_Behavior_AssociatedObject">AssociatedObject</a> is being detached from the visual tree.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected override void OnDetachedFromVisualTree()</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+  <h4 class="section" id="Avalonia_Xaml_Interactions_Custom_InactivityTrigger_OnDetachedFromVisualTree_remarks">Remarks</h4>
+  <div class="markdown level1 remarks"><p>Invoked only when the <a class="xref" href="Avalonia.Xaml.Interactivity.Behavior.html#Avalonia_Xaml_Interactivity_Behavior_AssociatedObject">AssociatedObject</a> is of type <span class="xref">Avalonia.Visual</span>.</p>
 </div>
 
 
@@ -399,7 +453,7 @@ Class Trigger&lt;T&gt;  <a class="header-action link-secondary" title="View sour
 </article>
 
         <div class="contribution d-print-none">
-          <a href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactivity/AvaloniaObject/TriggerOfT.cs/#L11" class="edit-link">Edit this page</a>
+          <a href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactions.Custom/Input/InactivityTrigger.cs/#L15" class="edit-link">Edit this page</a>
         </div>
 
 

@@ -1054,6 +1054,20 @@
     },
     {
       "type": "ManagedReference",
+      "source_relative_path": "api/Avalonia.Xaml.Interactions.Custom.BreakAction.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Avalonia.Xaml.Interactions.Custom.BreakAction.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Avalonia.Xaml.Interactions.Custom.BreakAction",
+      "Summary": "<p sourcefile=\"api/Avalonia.Xaml.Interactions.Custom.BreakAction.yml\" sourcestartlinenumber=\"1\">An action that triggers a debugger break.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
       "source_relative_path": "api/Avalonia.Xaml.Interactions.Custom.ButtonClickEventTriggerBehavior.yml",
       "output": {
         ".html": {
@@ -1429,6 +1443,20 @@
       "IsMRef": true,
       "Title": "Avalonia.Xaml.Interactions.Custom.ConditionalBehavior",
       "Summary": "<p sourcefile=\"api/Avalonia.Xaml.Interactions.Custom.ConditionalBehavior.yml\" sourcestartlinenumber=\"1\">A behavior that executes different collections of actions depending on the specified condition.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Avalonia.Xaml.Interactions.Custom.ConsoleBeepAction.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Avalonia.Xaml.Interactions.Custom.ConsoleBeepAction.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Avalonia.Xaml.Interactions.Custom.ConsoleBeepAction",
+      "Summary": "<p sourcefile=\"api/Avalonia.Xaml.Interactions.Custom.ConsoleBeepAction.yml\" sourcestartlinenumber=\"1\">An action that plays a system beep.</p>\n"
     },
     {
       "type": "ManagedReference",
@@ -2706,6 +2734,20 @@
     },
     {
       "type": "ManagedReference",
+      "source_relative_path": "api/Avalonia.Xaml.Interactions.Custom.InactivityTrigger.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Avalonia.Xaml.Interactions.Custom.InactivityTrigger.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Avalonia.Xaml.Interactions.Custom.InactivityTrigger",
+      "Summary": "<p sourcefile=\"api/Avalonia.Xaml.Interactions.Custom.InactivityTrigger.yml\" sourcestartlinenumber=\"1\">A trigger that fires when the user has been inactive (no mouse/keyboard input) for a specified duration.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
       "source_relative_path": "api/Avalonia.Xaml.Interactions.Custom.IncrementViewModelPropertyAction.yml",
       "output": {
         ".html": {
@@ -2955,6 +2997,20 @@
       "IsMRef": true,
       "Title": "Avalonia.Xaml.Interactions.Custom.KeyUpTrigger",
       "Summary": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Avalonia.Xaml.Interactions.Custom.LaunchUriAction.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Avalonia.Xaml.Interactions.Custom.LaunchUriAction.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Avalonia.Xaml.Interactions.Custom.LaunchUriAction",
+      "Summary": "<p sourcefile=\"api/Avalonia.Xaml.Interactions.Custom.LaunchUriAction.yml\" sourcestartlinenumber=\"1\">An action that launches a URI using the system's default handler.</p>\n"
     },
     {
       "type": "ManagedReference",
@@ -3994,6 +4050,20 @@
     },
     {
       "type": "ManagedReference",
+      "source_relative_path": "api/Avalonia.Xaml.Interactions.Custom.ScreenshotAction.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Avalonia.Xaml.Interactions.Custom.ScreenshotAction.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Avalonia.Xaml.Interactions.Custom.ScreenshotAction",
+      "Summary": "<p sourcefile=\"api/Avalonia.Xaml.Interactions.Custom.ScreenshotAction.yml\" sourcestartlinenumber=\"1\">An action that captures a screenshot of a control and saves it to a file.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
       "source_relative_path": "api/Avalonia.Xaml.Interactions.Custom.ScrollChangedTrigger.yml",
       "output": {
         ".html": {
@@ -4047,6 +4117,20 @@
       "IsMRef": true,
       "Title": "Avalonia.Xaml.Interactions.Custom.ScrollGestureInertiaStartingGestureTrigger",
       "Summary": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Avalonia.Xaml.Interactions.Custom.ScrollToControlAction.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Avalonia.Xaml.Interactions.Custom.ScrollToControlAction.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Avalonia.Xaml.Interactions.Custom.ScrollToControlAction",
+      "Summary": "<p sourcefile=\"api/Avalonia.Xaml.Interactions.Custom.ScrollToControlAction.yml\" sourcestartlinenumber=\"1\">An action that brings a target control into view (scrolls to it).</p>\n"
     },
     {
       "type": "ManagedReference",
@@ -5013,6 +5097,20 @@
       "IsMRef": true,
       "Title": "Avalonia.Xaml.Interactions.Custom.TiltEffectBehavior",
       "Summary": "<p sourcefile=\"api/Avalonia.Xaml.Interactions.Custom.TiltEffectBehavior.yml\" sourcestartlinenumber=\"1\">A behavior that applies a 3D tilt rotation to the element based on the pointer position.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Avalonia.Xaml.Interactions.Custom.ToggleClassAction.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Avalonia.Xaml.Interactions.Custom.ToggleClassAction.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Avalonia.Xaml.Interactions.Custom.ToggleClassAction",
+      "Summary": "<p sourcefile=\"api/Avalonia.Xaml.Interactions.Custom.ToggleClassAction.yml\" sourcestartlinenumber=\"1\">Toggles a specified <xref href=\"Avalonia.Xaml.Interactions.Custom.ToggleClassAction.ClassName\" data-throw-if-not-resolved=\"false\"></xref> in the <xref href=\"Avalonia.StyledElement.Classes\" data-throw-if-not-resolved=\"false\"></xref> collection when invoked.</p>\n"
     },
     {
       "type": "ManagedReference",
@@ -8389,6 +8487,16 @@
     },
     {
       "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/actions/launch-uri-action.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/actions/launch-uri-action.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
       "source_relative_path": "articles/interactions-custom/actions/overview.md",
       "output": {
         ".html": {
@@ -8423,6 +8531,26 @@
       "output": {
         ".html": {
           "relative_path": "articles/interactions-custom/actions/remove-element-action.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/actions/screenshot-action.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/actions/screenshot-action.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/actions/scroll-to-control-action.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/actions/scroll-to-control-action.html"
         }
       },
       "version": ""
@@ -8496,6 +8624,16 @@
         },
         ".json": {
           "relative_path": "articles/interactions-custom/actions/toc.json"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/actions/toggle-class-action.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/actions/toggle-class-action.html"
         }
       },
       "version": ""
@@ -9821,6 +9959,16 @@
     },
     {
       "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/debugging/break-action.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/debugging/break-action.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
       "source_relative_path": "articles/interactions-custom/debugging/log-action.md",
       "output": {
         ".html": {
@@ -10885,6 +11033,16 @@
     },
     {
       "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/input/inactivity-trigger.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/input/inactivity-trigger.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
       "source_relative_path": "articles/interactions-custom/input/lose-focus-on-enter-behavior.md",
       "output": {
         ".html": {
@@ -11257,6 +11415,39 @@
         },
         ".json": {
           "relative_path": "articles/interactions-custom/logic/toc.json"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/multimedia/console-beep-action.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/multimedia/console-beep-action.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/multimedia/index.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/multimedia/index.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "articles/interactions-custom/multimedia/toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/multimedia/toc.html"
+        },
+        ".json": {
+          "relative_path": "articles/interactions-custom/multimedia/toc.json"
         }
       },
       "version": ""
