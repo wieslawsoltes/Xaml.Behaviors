@@ -55,13 +55,13 @@ public class ToggleClassAction : StyledElementAction
             return false;
         }
 
-        if (target.Classes.Contains(ClassName))
+        if (target.Classes.Contains(ClassName!))
         {
-            target.Classes.Remove(ClassName);
+            target.Classes.Remove(ClassName!);
         }
         else
         {
-            target.Classes.Add(ClassName);
+            target.Classes.Add(ClassName!);
         }
 
         return true;

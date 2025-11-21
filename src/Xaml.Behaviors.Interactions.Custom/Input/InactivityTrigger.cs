@@ -16,8 +16,6 @@ public class InactivityTrigger : Trigger<Control>
 {
     private DispatcherTimer? _timer;
     private TopLevel? _topLevel;
-    private IDisposable? _pointerMovedDisposable;
-    private IDisposable? _keyDownDisposable;
 
     /// <summary>
     /// Identifies the <seealso cref="Timeout"/> avalonia property.

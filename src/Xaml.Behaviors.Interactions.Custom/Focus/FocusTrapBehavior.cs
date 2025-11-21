@@ -14,8 +14,6 @@ namespace Avalonia.Xaml.Interactions.Custom;
 /// </summary>
 public class FocusTrapBehavior : Behavior<Control>
 {
-    private IDisposable? _keyDownDisposable;
-
     /// <summary>
     /// Identifies the <seealso cref="IsActive"/> avalonia property.
     /// </summary>

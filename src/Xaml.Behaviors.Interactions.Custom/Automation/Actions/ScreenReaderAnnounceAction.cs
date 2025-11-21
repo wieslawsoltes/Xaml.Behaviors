@@ -37,7 +37,7 @@ public class ScreenReaderAnnounceAction : StyledElementAction
                 var method = typeof(TopLevel).GetMethod("RequestScreenReaderAnnouncement");
                 if (method != null)
                 {
-                    method.Invoke(topLevel, new object[] { Message });
+                    method.Invoke(topLevel, new object?[] { Message });
                     return true;
                 }
             }
