@@ -1,0 +1,101 @@
+# Typed Actions
+
+The `[GenerateTypedAction]` attribute generates a strongly-typed `Action` class that invokes a specific method on a target object. This is the AOT-safe alternative to `CallMethodAction`.
+
+## Usage
+
+Annotate a method in your ViewModel (or any class) with `[GenerateTypedAction]`.
+
+```csharp
+public partial class MyViewModel
+{
+    [GenerateTypedAction]
+    public void Submit()
+    {
+        // ...
+    }
+}
+```
+
+The generator will create a class named `SubmitAction` in the same namespace.
+
+### XAML Usage
+
+```xml
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="using:MyApp.ViewModels">
+    <Button Content="Submit">
+        <Interaction.Behaviors>
+            <EventTriggerBehavior EventName="Click">
+                <local:SubmitAction TargetObject="{Binding}" />
+            </EventTriggerBehavior>
+        </Interaction.Behaviors>
+    </Button>
+</UserControl>
+```
+
+## Parameter Binding
+
+The generator supports methods with parameters. For each parameter in the method, a corresponding `StyledProperty` is generated on the Action class, allowing you to bind values from XAML.
+
+### Example
+
+```csharp
+[GenerateTypedAction]
+public void UpdateMessage(string message, int count)
+{
+    // ...
+}
+```
+
+### XAML Usage
+
+```xml
+<local:UpdateMessageAction TargetObject="{Binding}" 
+                           Message="Hello World" 
+                           Count="{Binding Count}" />
+```
+
+> Ensure `xmlns:local` is defined in your XAML root pointing to the namespace of `UpdateMessageAction`.
+
+## Async Support
+
+If the target method returns `Task` or `ValueTask`, the generated action handles the async execution. It also exposes an `IsExecuting` property that you can bind to (e.g., to show a loading spinner).
+
+### Example
+
+```csharp
+[GenerateTypedAction]
+public async Task SubmitAsync()
+{
+    await Task.Delay(1000);
+}
+```
+
+### XAML Usage
+
+```xml
+<Button Content="Submit" IsEnabled="{Binding !IsBusy}">
+    <Interaction.Behaviors>
+        <EventTriggerBehavior EventName="Click">
+            <local:SubmitAsyncAction TargetObject="{Binding}" 
+                                     IsExecuting="{Binding IsBusy, Mode=OneWayToSource}" />
+        </EventTriggerBehavior>
+    </Interaction.Behaviors>
+</Button>
+```
+
+> Ensure `xmlns:local` is defined in your XAML root pointing to the namespace of `SubmitAsyncAction`.
+
+## Event Handler Signature
+
+If the method matches the standard event handler signature `(object sender, object parameter)` (or `EventArgs`), the generated `Execute` method will pass the sender and parameter directly to the method, similar to how `CallMethodAction` works for event handlers.
+
+```csharp
+[GenerateTypedAction]
+public void OnClick(object sender, object parameter)
+{
+    // ...
+}
+```
