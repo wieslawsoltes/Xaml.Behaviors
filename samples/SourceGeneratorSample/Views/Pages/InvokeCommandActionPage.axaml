@@ -9,9 +9,10 @@
     <Button Content="Typed Command Action">
       <Interaction.Behaviors>
         <ac:ClickTrigger>
-          <vm:TypedCommandAction Command="{Binding TriggerExternal}" CommandParameter="Test" />
+          <vm:TypedCommandAction Command="{Binding TriggerExternalCommand}" CommandParameter="Test" />
         </ac:ClickTrigger>
       </Interaction.Behaviors>
     </Button>
+    <TextBlock Text="{Binding ExternalTriggerStatus}" />
   </StackPanel>
 </UserControl>

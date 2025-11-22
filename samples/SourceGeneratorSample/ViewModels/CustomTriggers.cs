@@ -21,6 +21,22 @@ namespace SourceGeneratorSample.ViewModels
         }
     }
 
+    [GenerateTypedMultiDataTrigger]
+    public partial class ValidationResetTrigger : StyledElementTrigger
+    {
+        [TriggerProperty]
+        private bool _isValid;
+
+        [TriggerProperty]
+        private int _retryCount;
+
+        private bool Evaluate()
+        {
+            // Trigger when the previous condition is no longer met
+            return !(IsValid && RetryCount < 3);
+        }
+    }
+
     [GenerateTypedInvokeCommandAction]
     public partial class TypedCommandAction : StyledElementAction
     {

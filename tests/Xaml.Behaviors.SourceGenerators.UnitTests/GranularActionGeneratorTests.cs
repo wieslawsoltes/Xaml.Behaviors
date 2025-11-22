@@ -234,4 +234,124 @@ namespace TestNamespace
 
         Assert.Contains(diagnostics, d => d.Id == "XBG007");
     }
+
+    [Fact]
+    public void Should_Report_Error_For_Generic_Action()
+    {
+        var source = @"
+using Xaml.Behaviors.SourceGenerators;
+
+namespace TestNamespace
+{
+    public partial class TestClass<T>
+    {
+        [GenerateTypedAction]
+        public void TestMethod(T value) { }
+    }
+}";
+        var (diagnostics, _) = GeneratorTestHelper.RunGenerator(source);
+
+        Assert.Contains(diagnostics, d => d.Id == "XBG008");
+    }
+
+    [Fact]
+    public void Should_Report_Error_For_Static_Action()
+    {
+        var source = @"
+using Xaml.Behaviors.SourceGenerators;
+
+namespace TestNamespace
+{
+    public partial class TestClass
+    {
+        [GenerateTypedAction]
+        public static void TestMethod() { }
+    }
+}";
+        var (diagnostics, _) = GeneratorTestHelper.RunGenerator(source);
+
+        Assert.Contains(diagnostics, d => d.Id == "XBG010");
+    }
+
+    [Fact]
+    public void Should_Report_Error_For_Ref_Parameter()
+    {
+        var source = @"
+using Xaml.Behaviors.SourceGenerators;
+
+namespace TestNamespace
+{
+    public partial class TestClass
+    {
+        [GenerateTypedAction]
+        public void TestMethod(ref int value) { }
+    }
+}";
+        var (diagnostics, _) = GeneratorTestHelper.RunGenerator(source);
+
+        Assert.Contains(diagnostics, d => d.Id == "XBG009");
+    }
+
+    [Fact]
+    public void Should_Report_Error_For_Inaccessible_Method()
+    {
+        var source = @"
+using Xaml.Behaviors.SourceGenerators;
+
+namespace TestNamespace
+{
+    public partial class TestClass
+    {
+        [GenerateTypedAction]
+        private void Hidden() { }
+    }
+}";
+        var (diagnostics, _) = GeneratorTestHelper.RunGenerator(source);
+
+        Assert.Contains(diagnostics, d => d.Id == "XBG014");
+    }
+
+    [Fact]
+    public void Should_Report_Error_When_Containing_Type_Not_Accessible()
+    {
+        var source = @"
+using Xaml.Behaviors.SourceGenerators;
+
+namespace TestNamespace
+{
+    internal class Container
+    {
+        private class Hidden
+        {
+            [GenerateTypedAction]
+            public void TestMethod() { }
+        }
+    }
+}";
+        var (diagnostics, _) = GeneratorTestHelper.RunGenerator(source);
+
+        Assert.Contains(diagnostics, d => d.Id == "XBG014");
+    }
+
+    [Fact]
+    public void Should_Report_Error_For_Nested_Target()
+    {
+        var source = @"
+using Xaml.Behaviors.SourceGenerators;
+
+namespace TestNamespace
+{
+    public partial class Outer
+    {
+        public partial class Inner
+        {
+            [GenerateTypedAction]
+            public void TestMethod() { }
+        }
+    }
+}";
+        var (diagnostics, _) = GeneratorTestHelper.RunGenerator(source);
+
+        Assert.Empty(diagnostics);
+    }
 }

@@ -9,7 +9,7 @@ public class InvokeCommandActionGeneratorTests
     public void TypedInvokeCommandAction_Should_Execute_Command()
     {
         var control = new TestControl();
-        dynamic action = GeneratedTypeHelper.CreateInstance("TypedInvokeCommandAction");
+        dynamic action = GeneratedTypeHelper.CreateInstance("TypedInvokeCommandAction", "Avalonia.Xaml.Behaviors.SourceGenerators.UnitTests");
         var command = new TestCommand();
         
         action.Command = command;

@@ -70,6 +70,94 @@ namespace Xaml.Behaviors.SourceGenerators
             DiagnosticSeverity.Error,
             isEnabledByDefault: true);
 
+        private static readonly DiagnosticDescriptor GenericMemberNotSupportedDiagnostic = new(
+            id: "XBG008",
+            title: "Generic members not supported",
+            messageFormat: "Member '{0}' uses generic type parameters which are not supported for typed generation",
+            category: "Usage",
+            DiagnosticSeverity.Error,
+            isEnabledByDefault: true);
+
+        private static readonly DiagnosticDescriptor ActionParameterModifierNotSupportedDiagnostic = new(
+            id: "XBG009",
+            title: "Unsupported parameter modifier",
+            messageFormat: "Parameter '{1}' on method '{0}' uses modifier '{2}' which is not supported for action generation",
+            category: "Usage",
+            DiagnosticSeverity.Error,
+            isEnabledByDefault: true);
+
+        private static readonly DiagnosticDescriptor StaticMemberNotSupportedDiagnostic = new(
+            id: "XBG010",
+            title: "Static member not supported",
+            messageFormat: "Member '{0}' is static and cannot be used for typed generation",
+            category: "Usage",
+            DiagnosticSeverity.Error,
+            isEnabledByDefault: true);
+
+        private static readonly DiagnosticDescriptor InvalidMultiDataTriggerTargetDiagnostic = new(
+            id: "XBG011",
+            title: "Invalid multi data trigger target",
+            messageFormat: "Type '{0}' must derive from Avalonia.Xaml.Interactivity.StyledElementTrigger to use GenerateTypedMultiDataTrigger",
+            category: "Usage",
+            DiagnosticSeverity.Error,
+            isEnabledByDefault: true);
+
+        private static readonly DiagnosticDescriptor InvalidInvokeCommandTargetDiagnostic = new(
+            id: "XBG012",
+            title: "Invalid invoke command action target",
+            messageFormat: "Type '{0}' must derive from Avalonia.Xaml.Interactivity.StyledElementAction to use GenerateTypedInvokeCommandAction",
+            category: "Usage",
+            DiagnosticSeverity.Error,
+            isEnabledByDefault: true);
+
+        private static readonly DiagnosticDescriptor MultiDataTriggerEvaluateMissingDiagnostic = new(
+            id: "XBG013",
+            title: "Evaluate method required",
+            messageFormat: "Type '{0}' must declare a non-static bool Evaluate() method for multi data trigger generation",
+            category: "Usage",
+            DiagnosticSeverity.Error,
+            isEnabledByDefault: true);
+
+        private static readonly DiagnosticDescriptor MemberNotAccessibleDiagnostic = new(
+            id: "XBG014",
+            title: "Member not accessible",
+            messageFormat: "Member '{0}' on type '{1}' must be accessible for typed generation",
+            category: "Usage",
+            DiagnosticSeverity.Error,
+            isEnabledByDefault: true);
+
+        private static readonly DiagnosticDescriptor PropertySetterNotAccessibleDiagnostic = new(
+            id: "XBG015",
+            title: "Property setter not accessible",
+            messageFormat: "Property '{0}' on type '{1}' must have an accessible setter for change property generation",
+            category: "Usage",
+            DiagnosticSeverity.Error,
+            isEnabledByDefault: true);
+
+        private static readonly DiagnosticDescriptor PartialTypeRequiredDiagnostic = new(
+            id: "XBG016",
+            title: "Type must be partial",
+            messageFormat: "Type '{0}' must be declared partial to use '{1}'",
+            category: "Usage",
+            DiagnosticSeverity.Error,
+            isEnabledByDefault: true);
+
+        private static readonly DiagnosticDescriptor InitOnlySetterNotSupportedDiagnostic = new(
+            id: "XBG017",
+            title: "Init-only setter not supported",
+            messageFormat: "Property '{0}' on type '{1}' has an init-only setter which is not supported for change property generation",
+            category: "Usage",
+            DiagnosticSeverity.Error,
+            isEnabledByDefault: true);
+
+        private static readonly DiagnosticDescriptor NestedTypeNotSupportedDiagnostic = new(
+            id: "XBG018",
+            title: "Nested types not supported",
+            messageFormat: "Type '{0}' must be a top-level type for typed generation",
+            category: "Usage",
+            DiagnosticSeverity.Error,
+            isEnabledByDefault: true);
+
         private static readonly SymbolDisplayFormat FullyQualifiedNullableFormat =
             SymbolDisplayFormat.FullyQualifiedFormat.WithMiscellaneousOptions(
                 SymbolDisplayFormat.FullyQualifiedFormat.MiscellaneousOptions | SymbolDisplayMiscellaneousOptions.IncludeNullableReferenceTypeModifier);
@@ -321,22 +409,7 @@ namespace Xaml.Behaviors.SourceGenerators
             if (symbol is IMethodSymbol methodSymbol)
             {
                 // Attribute on Method
-                var targetType = methodSymbol.ContainingType;
-                if (targetType != null)
-                {
-                    var namespaceName = targetType.ContainingNamespace.ToDisplayString();
-                    var className = $"{methodSymbol.Name}Action";
-                    var targetTypeName = ToDisplayStringWithNullable(targetType);
-                    var methodName = methodSymbol.Name;
-                    
-                    var parameters = methodSymbol.Parameters.Select(p => new ActionParameter(p.Name, ToDisplayStringWithNullable(p.Type))).ToImmutableArray();
-
-                    var returnType = methodSymbol.ReturnType;
-                    bool isAwaitable = IsAwaitableType(returnType);
-                    bool isValueTask = IsValueTaskType(returnType);
-
-                    results.Add(new ActionInfo(namespaceName, className, targetTypeName, methodName, parameters, isAwaitable, isValueTask));
-                }
+                results.Add(CreateActionInfo(methodSymbol, context.TargetNode?.GetLocation() ?? Location.None));
             }
 
             return results.ToImmutable();
@@ -579,7 +652,7 @@ namespace Xaml.Behaviors.SourceGenerators
                 sb.AppendLine("}");
             }
 
-            spc.AddSource($"{info.ClassName}.g.cs", SourceText.From(sb.ToString(), Encoding.UTF8));
+            spc.AddSource(CreateHintName(info.Namespace, info.ClassName), SourceText.From(sb.ToString(), Encoding.UTF8));
         }
 
         // ----------------------------------------------------------------------------------------
@@ -619,17 +692,25 @@ namespace Xaml.Behaviors.SourceGenerators
                         var targetTypeName = ToDisplayStringWithNullable(targetType);
                         var eventName = eventSymbol.Name;
                         var eventHandlerType = ToDisplayStringWithNullable(eventSymbol.Type);
+                        var diagnosticLocation = context.TargetNode?.GetLocation() ?? Location.None;
+
+                        var validationDiagnostic = ValidateEventSymbol(eventSymbol, diagnosticLocation);
+                        if (validationDiagnostic != null)
+                        {
+                            results.Add(new TriggerInfo(namespaceName, className, targetTypeName, eventName, eventHandlerType, ImmutableArray<TriggerParameter>.Empty, validationDiagnostic));
+                            return results.ToImmutable();
+                        }
 
                     var invokeMethod = (eventSymbol.Type as INamedTypeSymbol)?.DelegateInvokeMethod;
                     if (invokeMethod == null)
                     {
-                        results.Add(new TriggerInfo(namespaceName, className, targetTypeName, eventName, eventHandlerType, ImmutableArray<TriggerParameter>.Empty, Diagnostic.Create(TriggerUnsupportedDelegateDiagnostic, context.TargetNode?.GetLocation() ?? Location.None, eventName, eventHandlerType)));
+                        results.Add(new TriggerInfo(namespaceName, className, targetTypeName, eventName, eventHandlerType, ImmutableArray<TriggerParameter>.Empty, Diagnostic.Create(TriggerUnsupportedDelegateDiagnostic, diagnosticLocation, eventName, eventHandlerType)));
                         return results.ToImmutable();
                     }
 
                     if (!invokeMethod.ReturnsVoid)
                     {
-                        results.Add(new TriggerInfo(namespaceName, className, targetTypeName, eventName, eventHandlerType, ImmutableArray<TriggerParameter>.Empty, Diagnostic.Create(TriggerUnsupportedDelegateReturnTypeDiagnostic, context.TargetNode?.GetLocation() ?? Location.None, eventName, eventHandlerType)));
+                        results.Add(new TriggerInfo(namespaceName, className, targetTypeName, eventName, eventHandlerType, ImmutableArray<TriggerParameter>.Empty, Diagnostic.Create(TriggerUnsupportedDelegateReturnTypeDiagnostic, diagnosticLocation, eventName, eventHandlerType)));
                         return results.ToImmutable();
                     }
 
@@ -683,17 +764,25 @@ namespace Xaml.Behaviors.SourceGenerators
                 var className = $"{eventName}Trigger";
                 var targetTypeName = ToDisplayStringWithNullable(targetType);
                 var eventHandlerType = ToDisplayStringWithNullable(evt.Type);
+                var diagnosticLocation = Location.None;
+
+                var validationDiagnostic = ValidateEventSymbol(evt, diagnosticLocation);
+                if (validationDiagnostic != null)
+                {
+                    results.Add(new TriggerInfo(namespaceName, className, targetTypeName, eventName!, eventHandlerType, ImmutableArray<TriggerParameter>.Empty, validationDiagnostic));
+                    continue;
+                }
 
                 var invokeMethod = (evt.Type as INamedTypeSymbol)?.DelegateInvokeMethod;
                 if (invokeMethod == null)
                 {
-                    results.Add(new TriggerInfo(namespaceName, className, targetTypeName, eventName!, eventHandlerType, ImmutableArray<TriggerParameter>.Empty, Diagnostic.Create(TriggerUnsupportedDelegateDiagnostic, Location.None, eventName!, eventHandlerType)));
+                    results.Add(new TriggerInfo(namespaceName, className, targetTypeName, eventName!, eventHandlerType, ImmutableArray<TriggerParameter>.Empty, Diagnostic.Create(TriggerUnsupportedDelegateDiagnostic, diagnosticLocation, eventName!, eventHandlerType)));
                     continue;
                 }
 
                 if (!invokeMethod.ReturnsVoid)
                 {
-                    results.Add(new TriggerInfo(namespaceName, className, targetTypeName, eventName!, eventHandlerType, ImmutableArray<TriggerParameter>.Empty, Diagnostic.Create(TriggerUnsupportedDelegateReturnTypeDiagnostic, Location.None, eventName!, eventHandlerType)));
+                    results.Add(new TriggerInfo(namespaceName, className, targetTypeName, eventName!, eventHandlerType, ImmutableArray<TriggerParameter>.Empty, Diagnostic.Create(TriggerUnsupportedDelegateReturnTypeDiagnostic, diagnosticLocation, eventName!, eventHandlerType)));
                     continue;
                 }
 
@@ -706,7 +795,7 @@ namespace Xaml.Behaviors.SourceGenerators
 
                 if (parameters.Any(p => p.RefKind == RefKind.Out))
                 {
-                    results.Add(new TriggerInfo(namespaceName, className, targetTypeName, eventName!, eventHandlerType, parameters, Diagnostic.Create(TriggerUnsupportedDelegateOutParameterDiagnostic, Location.None, eventName!, eventHandlerType)));
+                    results.Add(new TriggerInfo(namespaceName, className, targetTypeName, eventName!, eventHandlerType, parameters, Diagnostic.Create(TriggerUnsupportedDelegateOutParameterDiagnostic, diagnosticLocation, eventName!, eventHandlerType)));
                     continue;
                 }
 
@@ -857,7 +946,7 @@ namespace Xaml.Behaviors.SourceGenerators
                 sb.AppendLine("}");
             }
 
-            spc.AddSource($"{info.ClassName}.g.cs", SourceText.From(sb.ToString(), Encoding.UTF8));
+            spc.AddSource(CreateHintName(info.Namespace, info.ClassName), SourceText.From(sb.ToString(), Encoding.UTF8));
         }
 
         // ----------------------------------------------------------------------------------------
@@ -880,6 +969,14 @@ namespace Xaml.Behaviors.SourceGenerators
                     var targetType = propertySymbol.ContainingType;
                     if (targetType != null)
                     {
+                        var diagnosticLocation = context.TargetNode?.GetLocation() ?? Location.None;
+                        var validationDiagnostic = ValidatePropertySymbol(propertySymbol, diagnosticLocation);
+                        if (validationDiagnostic != null)
+                        {
+                            results.Add(new ChangePropertyInfo("", "", "", propertySymbol.Name, "", validationDiagnostic));
+                            return results.ToImmutable();
+                        }
+
                         var ns = targetType.ContainingNamespace.ToDisplayString();
                         var namespaceName = (targetType.ContainingNamespace.IsGlobalNamespace || ns == "<global namespace>") ? null : ns;
                         var className = $"Set{propertySymbol.Name}Action";
@@ -946,14 +1043,14 @@ namespace Xaml.Behaviors.SourceGenerators
             sb.AppendLine("    }");
             sb.AppendLine("}");
 
-            spc.AddSource($"{info.ClassName}.g.cs", SourceText.From(sb.ToString(), Encoding.UTF8));
+            spc.AddSource(CreateHintName(info.Namespace, info.ClassName), SourceText.From(sb.ToString(), Encoding.UTF8));
         }
 
         // ----------------------------------------------------------------------------------------
         // GenerateTypedDataTrigger
         // ----------------------------------------------------------------------------------------
 
-        private record DataTriggerInfo(string Namespace, string ClassName, string TypeName);
+        private record DataTriggerInfo(string Namespace, string ClassName, string TypeName, Diagnostic? Diagnostic = null);
 
         private static DataTriggerInfo? GetDataTriggerFromAttributeSyntax(GeneratorSyntaxContext context)
         {
@@ -966,14 +1063,16 @@ namespace Xaml.Behaviors.SourceGenerators
             if (attributeSyntax.ArgumentList.Arguments[0].Expression is not TypeOfExpressionSyntax typeOfExpression)
                 return null;
 
-            var typeInfo = context.SemanticModel.GetTypeInfo(typeOfExpression.Type).Type as INamedTypeSymbol;
+            var typeInfo = context.SemanticModel.GetTypeInfo(typeOfExpression.Type).Type;
             const string namespaceName = "Xaml.Behaviors.Generated";
+            var diagnosticLocation = context.Node.GetLocation();
 
             if (typeInfo != null)
             {
-                var className = $"{typeInfo.Name}DataTrigger";
+                var validationDiagnostic = ValidateDataTriggerType(typeInfo, diagnosticLocation);
+                var className = CreateDataTriggerClassName(typeInfo);
                 var typeName = ToDisplayStringWithNullable(typeInfo);
-                return new DataTriggerInfo(namespaceName, className, typeName);
+                return new DataTriggerInfo(namespaceName, className, typeName, validationDiagnostic);
             }
 
             var simpleName = typeOfExpression.Type switch
@@ -983,11 +1082,18 @@ namespace Xaml.Behaviors.SourceGenerators
                 _ => typeOfExpression.Type.ToString()
             };
 
-            return new DataTriggerInfo(namespaceName, $"{simpleName}DataTrigger", typeOfExpression.Type.ToString());
+            var fallbackName = CreateSafeIdentifier(simpleName);
+            return new DataTriggerInfo(namespaceName, $"{fallbackName}DataTrigger", typeOfExpression.Type.ToString());
         }
 
         private void ExecuteGenerateDataTrigger(SourceProductionContext spc, DataTriggerInfo info)
         {
+            if (info.Diagnostic != null)
+            {
+                spc.ReportDiagnostic(info.Diagnostic);
+                return;
+            }
+
             var sb = new StringBuilder();
             sb.AppendLine("// <auto-generated />");
             sb.AppendLine("#nullable enable");
@@ -1047,14 +1153,9 @@ namespace Xaml.Behaviors.SourceGenerators
             sb.AppendLine("                 case ComparisonConditionType.Equal: result = System.Collections.Generic.EqualityComparer<" + info.TypeName + ">.Default.Equals(left, right); break;");
             sb.AppendLine("                 case ComparisonConditionType.NotEqual: result = !System.Collections.Generic.EqualityComparer<" + info.TypeName + ">.Default.Equals(left, right); break;");
             
-            // For LessThan/GreaterThan, we need IComparable or operators.
-            // Since we are generating for specific types, we can check if it implements IComparable.
-            // But for simplicity in this generic generator, we might assume IComparable for now or just generate code that might fail if type doesn't support it.
-            // A safer bet for "TypedDataTrigger" is usually for primitives (double, int, string).
-            // Let's assume IComparable<T> or IComparable.
-            
             sb.AppendLine("                 default:");
-            sb.AppendLine("                     if (left is IComparable cmp)");
+            sb.AppendLine("                     var leftObj = (object?)left;");
+            sb.AppendLine("                     if (leftObj is IComparable cmp)");
             sb.AppendLine("                     {");
             sb.AppendLine("                         var diff = cmp.CompareTo(right);");
             sb.AppendLine("                         switch (ComparisonCondition)");
@@ -1076,7 +1177,7 @@ namespace Xaml.Behaviors.SourceGenerators
             sb.AppendLine("    }");
             sb.AppendLine("}");
 
-            spc.AddSource($"{info.ClassName}.g.cs", SourceText.From(sb.ToString(), Encoding.UTF8));
+            spc.AddSource(CreateHintName(info.Namespace, info.ClassName), SourceText.From(sb.ToString(), Encoding.UTF8));
         }
 
         // ----------------------------------------------------------------------------------------
@@ -1084,13 +1185,48 @@ namespace Xaml.Behaviors.SourceGenerators
         // ----------------------------------------------------------------------------------------
 
         private record TriggerPropertyInfo(string Name, string Type, string FieldName);
-        private record MultiDataTriggerInfo(string? Namespace, string ClassName, ImmutableArray<TriggerPropertyInfo> Properties);
+        private record MultiDataTriggerInfo(string? Namespace, string ClassName, string Accessibility, ImmutableArray<TriggerPropertyInfo> Properties, Diagnostic? Diagnostic = null);
 
         private ImmutableArray<MultiDataTriggerInfo> GetMultiDataTriggerToGenerate(GeneratorAttributeSyntaxContext context)
         {
             var results = ImmutableArray.CreateBuilder<MultiDataTriggerInfo>();
             var symbol = context.TargetSymbol as INamedTypeSymbol;
             if (symbol == null) return results.ToImmutable();
+
+            var partialDiagnostic = EnsurePartial(symbol, context.TargetNode?.GetLocation() ?? Location.None, "GenerateTypedMultiDataTrigger");
+            if (partialDiagnostic != null)
+            {
+                results.Add(new MultiDataTriggerInfo(null, symbol.Name, "public", ImmutableArray<TriggerPropertyInfo>.Empty, partialDiagnostic));
+                return results.ToImmutable();
+            }
+
+            var nestedDiagnostic = EnsureNotNested(symbol, context.TargetNode?.GetLocation() ?? Location.None);
+            if (nestedDiagnostic != null)
+            {
+                results.Add(new MultiDataTriggerInfo(null, symbol.Name, "public", ImmutableArray<TriggerPropertyInfo>.Empty, nestedDiagnostic));
+                return results.ToImmutable();
+            }
+
+            var accessibilityDiagnostic = ValidateTypeAccessibility(symbol, context.TargetNode?.GetLocation() ?? Location.None);
+            if (accessibilityDiagnostic != null)
+            {
+                results.Add(new MultiDataTriggerInfo(null, symbol.Name, "public", ImmutableArray<TriggerPropertyInfo>.Empty, accessibilityDiagnostic));
+                return results.ToImmutable();
+            }
+
+            var validationDiagnostic = ValidateStyledElementTriggerType(symbol, context.TargetNode?.GetLocation() ?? Location.None);
+            if (validationDiagnostic != null)
+            {
+                results.Add(new MultiDataTriggerInfo(null, symbol.Name, "public", ImmutableArray<TriggerPropertyInfo>.Empty, validationDiagnostic));
+                return results.ToImmutable();
+            }
+
+            var evaluateDiagnostic = ValidateEvaluateMethod(symbol, context.TargetNode?.GetLocation() ?? Location.None);
+            if (evaluateDiagnostic != null)
+            {
+                results.Add(new MultiDataTriggerInfo(null, symbol.Name, "public", ImmutableArray<TriggerPropertyInfo>.Empty, evaluateDiagnostic));
+                return results.ToImmutable();
+            }
 
             var properties = ImmutableArray.CreateBuilder<TriggerPropertyInfo>();
 
@@ -1114,7 +1250,8 @@ namespace Xaml.Behaviors.SourceGenerators
                 var ns = symbol.ContainingNamespace.ToDisplayString();
                 var namespaceName = (symbol.ContainingNamespace.IsGlobalNamespace || ns == "<global namespace>") ? null : ns;
                 var className = symbol.Name;
-                results.Add(new MultiDataTriggerInfo(namespaceName, className, properties.ToImmutable()));
+                var accessibility = GetAccessibilityKeyword(symbol);
+                results.Add(new MultiDataTriggerInfo(namespaceName, className, accessibility, properties.ToImmutable()));
             }
 
             return results.ToImmutable();
@@ -1122,6 +1259,12 @@ namespace Xaml.Behaviors.SourceGenerators
 
         private void ExecuteGenerateMultiDataTrigger(SourceProductionContext spc, MultiDataTriggerInfo info)
         {
+            if (info.Diagnostic != null)
+            {
+                spc.ReportDiagnostic(info.Diagnostic);
+                return;
+            }
+
             var sb = new StringBuilder();
             sb.AppendLine("// <auto-generated />");
             sb.AppendLine("#nullable enable");
@@ -1134,7 +1277,7 @@ namespace Xaml.Behaviors.SourceGenerators
                 sb.AppendLine($"namespace {info.Namespace}");
                 sb.AppendLine("{");
             }
-            sb.AppendLine($"    public partial class {info.ClassName}");
+            sb.AppendLine($"    {info.Accessibility} partial class {info.ClassName}");
             sb.AppendLine("    {");
 
             foreach (var prop in info.Properties)
@@ -1175,20 +1318,48 @@ namespace Xaml.Behaviors.SourceGenerators
             sb.AppendLine("    }");
             sb.AppendLine("}");
 
-            spc.AddSource($"{info.ClassName}.g.cs", SourceText.From(sb.ToString(), Encoding.UTF8));
+            spc.AddSource(CreateHintName(info.Namespace, info.ClassName), SourceText.From(sb.ToString(), Encoding.UTF8));
         }
 
         // ----------------------------------------------------------------------------------------
         // GenerateTypedInvokeCommandAction
         // ----------------------------------------------------------------------------------------
 
-        private record InvokeCommandActionInfo(string? Namespace, string ClassName, TriggerPropertyInfo? Command, TriggerPropertyInfo? Parameter);
+        private record InvokeCommandActionInfo(string? Namespace, string ClassName, string Accessibility, TriggerPropertyInfo? Command, TriggerPropertyInfo? Parameter, Diagnostic? Diagnostic = null);
 
         private ImmutableArray<InvokeCommandActionInfo> GetInvokeCommandActionToGenerate(GeneratorAttributeSyntaxContext context)
         {
             var results = ImmutableArray.CreateBuilder<InvokeCommandActionInfo>();
             var symbol = context.TargetSymbol as INamedTypeSymbol;
             if (symbol == null) return results.ToImmutable();
+
+            var partialDiagnostic = EnsurePartial(symbol, context.TargetNode?.GetLocation() ?? Location.None, "GenerateTypedInvokeCommandAction");
+            if (partialDiagnostic != null)
+            {
+                results.Add(new InvokeCommandActionInfo(null, symbol.Name, "public", null, null, partialDiagnostic));
+                return results.ToImmutable();
+            }
+
+            var nestedDiagnostic = EnsureNotNested(symbol, context.TargetNode?.GetLocation() ?? Location.None);
+            if (nestedDiagnostic != null)
+            {
+                results.Add(new InvokeCommandActionInfo(null, symbol.Name, "public", null, null, nestedDiagnostic));
+                return results.ToImmutable();
+            }
+
+            var accessibilityDiagnostic = ValidateTypeAccessibility(symbol, context.TargetNode?.GetLocation() ?? Location.None);
+            if (accessibilityDiagnostic != null)
+            {
+                results.Add(new InvokeCommandActionInfo(null, symbol.Name, "public", null, null, accessibilityDiagnostic));
+                return results.ToImmutable();
+            }
+
+            var validationDiagnostic = ValidateStyledElementActionType(symbol, context.TargetNode?.GetLocation() ?? Location.None);
+            if (validationDiagnostic != null)
+            {
+                results.Add(new InvokeCommandActionInfo(null, symbol.Name, "public", null, null, validationDiagnostic));
+                return results.ToImmutable();
+            }
 
             TriggerPropertyInfo? commandProp = null;
             TriggerPropertyInfo? parameterProp = null;
@@ -1218,7 +1389,8 @@ namespace Xaml.Behaviors.SourceGenerators
                 var ns = symbol.ContainingNamespace.ToDisplayString();
                 var namespaceName = (symbol.ContainingNamespace.IsGlobalNamespace || ns == "<global namespace>") ? null : ns;
                 var className = symbol.Name;
-                results.Add(new InvokeCommandActionInfo(namespaceName, className, commandProp, parameterProp));
+                var accessibility = GetAccessibilityKeyword(symbol);
+                results.Add(new InvokeCommandActionInfo(namespaceName, className, accessibility, commandProp, parameterProp));
             }
 
             return results.ToImmutable();
@@ -1226,6 +1398,12 @@ namespace Xaml.Behaviors.SourceGenerators
 
         private void ExecuteGenerateInvokeCommandAction(SourceProductionContext spc, InvokeCommandActionInfo info)
         {
+            if (info.Diagnostic != null)
+            {
+                spc.ReportDiagnostic(info.Diagnostic);
+                return;
+            }
+
             var sb = new StringBuilder();
             sb.AppendLine("// <auto-generated />");
             sb.AppendLine("#nullable enable");
@@ -1239,7 +1417,7 @@ namespace Xaml.Behaviors.SourceGenerators
                 sb.AppendLine($"namespace {info.Namespace}");
                 sb.AppendLine("{");
             }
-            sb.AppendLine($"    public partial class {info.ClassName}");
+            sb.AppendLine($"    {info.Accessibility} partial class {info.ClassName}");
             sb.AppendLine("    {");
 
             if (info.Command != null)
@@ -1289,7 +1467,7 @@ namespace Xaml.Behaviors.SourceGenerators
             sb.AppendLine("    }");
             sb.AppendLine("}");
 
-            spc.AddSource($"{info.ClassName}.g.cs", SourceText.From(sb.ToString(), Encoding.UTF8));
+            spc.AddSource(CreateHintName(info.Namespace, info.ClassName), SourceText.From(sb.ToString(), Encoding.UTF8));
         }
 
         private (IMethodSymbol? Method, Diagnostic? Diagnostic) ResolveMethod(INamedTypeSymbol targetType, string name)
@@ -1317,6 +1495,126 @@ namespace Xaml.Behaviors.SourceGenerators
             }
 
             return (null, Diagnostic.Create(ActionMethodNotFoundDiagnostic, Location.None, name, targetType.Name));
+        }
+
+        private static Diagnostic? ValidateActionMethod(IMethodSymbol methodSymbol, Location? diagnosticLocation)
+        {
+            var location = diagnosticLocation ?? Location.None;
+
+            if (methodSymbol.IsStatic)
+            {
+                return Diagnostic.Create(StaticMemberNotSupportedDiagnostic, location, methodSymbol.Name);
+            }
+
+            var containingTypeDiagnostic = ValidateTypeAccessibility(methodSymbol.ContainingType, location);
+            if (containingTypeDiagnostic != null)
+            {
+                return containingTypeDiagnostic;
+            }
+
+            if (!IsAccessibleToGenerator(methodSymbol))
+            {
+                return Diagnostic.Create(MemberNotAccessibleDiagnostic, location, methodSymbol.Name, methodSymbol.ContainingType.ToDisplayString());
+            }
+
+            if (methodSymbol.IsGenericMethod ||
+                ContainsTypeParameter(methodSymbol.ContainingType) ||
+                ContainsTypeParameter(methodSymbol.ReturnType) ||
+                methodSymbol.Parameters.Any(p => ContainsTypeParameter(p.Type)))
+            {
+                return Diagnostic.Create(GenericMemberNotSupportedDiagnostic, location, methodSymbol.Name);
+            }
+
+            var unsupportedParameter = methodSymbol.Parameters.FirstOrDefault(p => p.RefKind != RefKind.None);
+            if (unsupportedParameter != null)
+            {
+                return Diagnostic.Create(ActionParameterModifierNotSupportedDiagnostic, location, methodSymbol.Name, unsupportedParameter.Name, FormatRefKindKeyword(unsupportedParameter.RefKind));
+            }
+
+            return null;
+        }
+
+        private static Diagnostic? ValidateEventSymbol(IEventSymbol eventSymbol, Location? diagnosticLocation)
+        {
+            var location = diagnosticLocation ?? Location.None;
+
+            if (eventSymbol.IsStatic)
+            {
+                return Diagnostic.Create(StaticMemberNotSupportedDiagnostic, location, eventSymbol.Name);
+            }
+
+            var containingTypeDiagnostic = ValidateTypeAccessibility(eventSymbol.ContainingType, location);
+            if (containingTypeDiagnostic != null)
+            {
+                return containingTypeDiagnostic;
+            }
+
+            var accessSymbol = (ISymbol?)eventSymbol.AddMethod ?? eventSymbol;
+            if (!IsAccessibleToGenerator(accessSymbol))
+            {
+                return Diagnostic.Create(MemberNotAccessibleDiagnostic, location, eventSymbol.Name, eventSymbol.ContainingType.ToDisplayString());
+            }
+
+            if (ContainsTypeParameter(eventSymbol.ContainingType) || ContainsTypeParameter(eventSymbol.Type))
+            {
+                return Diagnostic.Create(GenericMemberNotSupportedDiagnostic, location, eventSymbol.Name);
+            }
+
+            return null;
+        }
+
+        private static Diagnostic? ValidatePropertySymbol(IPropertySymbol propertySymbol, Location? diagnosticLocation)
+        {
+            var location = diagnosticLocation ?? Location.None;
+
+            if (propertySymbol.IsStatic)
+            {
+                return Diagnostic.Create(StaticMemberNotSupportedDiagnostic, location, propertySymbol.Name);
+            }
+
+            var containingTypeDiagnostic = ValidateTypeAccessibility(propertySymbol.ContainingType, location);
+            if (containingTypeDiagnostic != null)
+            {
+                return containingTypeDiagnostic;
+            }
+
+            if (!HasAccessibleSetter(propertySymbol))
+            {
+                return Diagnostic.Create(PropertySetterNotAccessibleDiagnostic, location, propertySymbol.Name, propertySymbol.ContainingType.ToDisplayString());
+            }
+
+            if (propertySymbol.SetMethod?.IsInitOnly == true)
+            {
+                return Diagnostic.Create(InitOnlySetterNotSupportedDiagnostic, location, propertySymbol.Name, propertySymbol.ContainingType.ToDisplayString());
+            }
+
+            if (ContainsTypeParameter(propertySymbol.ContainingType) || ContainsTypeParameter(propertySymbol.Type))
+            {
+                return Diagnostic.Create(GenericMemberNotSupportedDiagnostic, location, propertySymbol.Name);
+            }
+
+            return null;
+        }
+
+        private static Diagnostic? ValidateDataTriggerType(ITypeSymbol typeSymbol, Location? diagnosticLocation)
+        {
+            var location = diagnosticLocation ?? Location.None;
+
+            if (typeSymbol is INamedTypeSymbol namedType)
+            {
+                var accessibility = ValidateTypeAccessibility(namedType, location);
+                if (accessibility != null)
+                {
+                    return accessibility;
+                }
+            }
+
+            if (ContainsTypeParameter(typeSymbol))
+            {
+                return Diagnostic.Create(GenericMemberNotSupportedDiagnostic, location, typeSymbol.ToDisplayString());
+            }
+
+            return null;
         }
 
         private static IEventSymbol? FindEvent(INamedTypeSymbol? type, string name)
@@ -1390,22 +1688,7 @@ namespace Xaml.Behaviors.SourceGenerators
                     continue;
                 }
 
-                var propertyTypeSymbol = FindPropertyType(targetType, propertyName!);
-                if (propertyTypeSymbol == null)
-                {
-                    var diagnostic = Diagnostic.Create(ChangePropertyNotFoundDiagnostic, Location.None, propertyName!, targetType.Name);
-                    results.Add(new ChangePropertyInfo("", "", "", propertyName!, "", diagnostic));
-                    continue;
-                }
-
-                var propertyType = ToDisplayStringWithNullable(propertyTypeSymbol);
-
-                var ns = targetType.ContainingNamespace.ToDisplayString();
-                var namespaceName = (targetType.ContainingNamespace.IsGlobalNamespace || ns == "<global namespace>") ? null : ns;
-                var className = $"Set{propertyName}Action";
-                var targetTypeName = ToDisplayStringWithNullable(targetType);
-
-                results.Add(new ChangePropertyInfo(namespaceName, className, targetTypeName, propertyName!, propertyType));
+                results.Add(CreateChangePropertyInfo(targetType, propertyName!, Location.None));
             }
 
             return results.ToImmutable();
@@ -1454,6 +1737,17 @@ namespace Xaml.Behaviors.SourceGenerators
                 RefKind.Ref => "ref ",
                 RefKind.Out => "out ",
                 RefKind.In => "in ",
+                _ => string.Empty
+            };
+        }
+
+        private static string FormatRefKindKeyword(RefKind refKind)
+        {
+            return refKind switch
+            {
+                RefKind.Ref => "ref",
+                RefKind.Out => "out",
+                RefKind.In => "in",
                 _ => string.Empty
             };
         }
@@ -1539,33 +1833,56 @@ namespace Xaml.Behaviors.SourceGenerators
             if (targetType == null || string.IsNullOrEmpty(methodName))
                 return null;
 
-            var info = CreateActionInfo(targetType, methodName);
+            var info = CreateActionInfo(targetType, methodName, context.Node.GetLocation());
             return info;
         }
 
-        private ActionInfo CreateActionInfo(INamedTypeSymbol targetType, string methodName)
+        private ActionInfo CreateActionInfo(IMethodSymbol methodSymbol, Location? diagnosticLocation)
         {
+            var targetType = methodSymbol.ContainingType;
+            if (targetType == null)
+            {
+                var className = $"{methodSymbol.Name}Action";
+                return new ActionInfo(null, className, "", methodSymbol.Name, ImmutableArray<ActionParameter>.Empty, false, false, Diagnostic.Create(ActionMethodNotFoundDiagnostic, diagnosticLocation ?? Location.None, methodSymbol.Name, "<unknown>"));
+            }
+
+            return CreateActionInfo(targetType, methodSymbol, diagnosticLocation);
+        }
+
+        private ActionInfo CreateActionInfo(INamedTypeSymbol targetType, string methodName, Location? diagnosticLocation = null)
+        {
+            var ns = targetType.ContainingNamespace.ToDisplayString();
+            var namespaceName = (targetType.ContainingNamespace.IsGlobalNamespace || ns == "<global namespace>") ? null : ns;
+            var className = $"{methodName}Action";
+            var targetTypeName = ToDisplayStringWithNullable(targetType);
+
             var (method, diagnostic) = ResolveMethod(targetType, methodName);
             if (diagnostic != null)
             {
-                return new ActionInfo("", "", "", methodName, ImmutableArray<ActionParameter>.Empty, false, false, diagnostic);
+                return new ActionInfo(namespaceName, className, targetTypeName, methodName, ImmutableArray<ActionParameter>.Empty, false, false, diagnostic);
             }
 
-            return CreateActionInfo(targetType, method!);
+            return CreateActionInfo(targetType, method!, diagnosticLocation);
         }
 
-        private ActionInfo CreateActionInfo(INamedTypeSymbol targetType, IMethodSymbol methodSymbol)
+        private ActionInfo CreateActionInfo(INamedTypeSymbol targetType, IMethodSymbol methodSymbol, Location? diagnosticLocation = null)
         {
+            var ns = targetType.ContainingNamespace.ToDisplayString();
+            var namespaceName = (targetType.ContainingNamespace.IsGlobalNamespace || ns == "<global namespace>") ? null : ns;
+            var className = $"{methodSymbol.Name}Action";
+            var targetTypeName = ToDisplayStringWithNullable(targetType);
+
+            var validationDiagnostic = ValidateActionMethod(methodSymbol, diagnosticLocation);
+            if (validationDiagnostic != null)
+            {
+                return new ActionInfo(namespaceName, className, targetTypeName, methodSymbol.Name, ImmutableArray<ActionParameter>.Empty, false, false, validationDiagnostic);
+            }
+
             var parameters = methodSymbol.Parameters.Select(p => new ActionParameter(p.Name, ToDisplayStringWithNullable(p.Type))).ToImmutableArray();
 
             var returnType = methodSymbol.ReturnType;
             bool isAwaitable = IsAwaitableType(returnType);
             bool isValueTask = IsValueTaskType(returnType);
-
-            var ns = targetType.ContainingNamespace.ToDisplayString();
-            var namespaceName = (targetType.ContainingNamespace.IsGlobalNamespace || ns == "<global namespace>") ? null : ns;
-            var className = $"{methodSymbol.Name}Action";
-            var targetTypeName = ToDisplayStringWithNullable(targetType);
 
             return new ActionInfo(namespaceName, className, targetTypeName, methodSymbol.Name, parameters, isAwaitable, isValueTask);
         }
@@ -1589,16 +1906,16 @@ namespace Xaml.Behaviors.SourceGenerators
             if (targetType == null || string.IsNullOrEmpty(eventName))
                 return null;
 
-            var info = CreateTriggerInfo(targetType, eventName);
+            var info = CreateTriggerInfo(targetType, eventName, context.Node.GetLocation());
             return info;
         }
 
-        private TriggerInfo CreateTriggerInfo(INamedTypeSymbol targetType, string eventName)
+        private TriggerInfo CreateTriggerInfo(INamedTypeSymbol targetType, string eventName, Location? diagnosticLocation = null)
         {
             var evt = FindEvent(targetType, eventName);
             if (evt == null)
             {
-                return new TriggerInfo("", "", "", eventName, "", ImmutableArray<TriggerParameter>.Empty, Diagnostic.Create(TriggerEventNotFoundDiagnostic, Location.None, eventName, targetType.Name));
+                return new TriggerInfo("", "", "", eventName, "", ImmutableArray<TriggerParameter>.Empty, Diagnostic.Create(TriggerEventNotFoundDiagnostic, diagnosticLocation, eventName, targetType.Name));
             }
 
             var ns = targetType.ContainingNamespace.ToDisplayString();
@@ -1606,16 +1923,21 @@ namespace Xaml.Behaviors.SourceGenerators
             var className = $"{eventName}Trigger";
             var targetTypeName = ToDisplayStringWithNullable(targetType);
             var eventHandlerType = ToDisplayStringWithNullable(evt.Type);
+            var validationDiagnostic = ValidateEventSymbol(evt, diagnosticLocation);
+            if (validationDiagnostic != null)
+            {
+                return new TriggerInfo(namespaceName, className, targetTypeName, eventName, eventHandlerType, ImmutableArray<TriggerParameter>.Empty, validationDiagnostic);
+            }
 
             var invokeMethod = (evt.Type as INamedTypeSymbol)?.DelegateInvokeMethod;
             if (invokeMethod == null)
             {
-                return new TriggerInfo(namespaceName, className, targetTypeName, eventName, eventHandlerType, ImmutableArray<TriggerParameter>.Empty, Diagnostic.Create(TriggerUnsupportedDelegateDiagnostic, Location.None, eventName, eventHandlerType));
+                return new TriggerInfo(namespaceName, className, targetTypeName, eventName, eventHandlerType, ImmutableArray<TriggerParameter>.Empty, Diagnostic.Create(TriggerUnsupportedDelegateDiagnostic, diagnosticLocation, eventName, eventHandlerType));
             }
 
             if (!invokeMethod.ReturnsVoid)
             {
-                return new TriggerInfo(namespaceName, className, targetTypeName, eventName, eventHandlerType, ImmutableArray<TriggerParameter>.Empty, Diagnostic.Create(TriggerUnsupportedDelegateReturnTypeDiagnostic, Location.None, eventName, eventHandlerType));
+                return new TriggerInfo(namespaceName, className, targetTypeName, eventName, eventHandlerType, ImmutableArray<TriggerParameter>.Empty, Diagnostic.Create(TriggerUnsupportedDelegateReturnTypeDiagnostic, diagnosticLocation, eventName, eventHandlerType));
             }
 
             var parameters = invokeMethod.Parameters.Select(p =>
@@ -1627,7 +1949,7 @@ namespace Xaml.Behaviors.SourceGenerators
 
             if (parameters.Any(p => p.RefKind == RefKind.Out))
             {
-                return new TriggerInfo(namespaceName, className, targetTypeName, eventName, eventHandlerType, parameters, Diagnostic.Create(TriggerUnsupportedDelegateOutParameterDiagnostic, Location.None, eventName, eventHandlerType));
+                return new TriggerInfo(namespaceName, className, targetTypeName, eventName, eventHandlerType, parameters, Diagnostic.Create(TriggerUnsupportedDelegateOutParameterDiagnostic, diagnosticLocation, eventName, eventHandlerType));
             }
 
             return new TriggerInfo(namespaceName, className, targetTypeName, eventName, eventHandlerType, parameters);
@@ -1655,13 +1977,23 @@ namespace Xaml.Behaviors.SourceGenerators
                 return new ChangePropertyInfo("", "", "", propertyName ?? "<unknown>", "", diagnostic);
             }
 
-            var info = CreateChangePropertyInfo(targetType, propertyName);
+            var info = CreateChangePropertyInfo(targetType, propertyName, context.Node.GetLocation());
             return info;
         }
 
-        private ChangePropertyInfo CreateChangePropertyInfo(INamedTypeSymbol targetType, string propertyName)
+        private ChangePropertyInfo CreateChangePropertyInfo(INamedTypeSymbol targetType, string propertyName, Location? diagnosticLocation = null)
         {
-            var propertyTypeSymbol = FindPropertyType(targetType, propertyName);
+            var propertySymbol = FindProperty(targetType, propertyName);
+            if (propertySymbol != null)
+            {
+                var validationDiagnostic = ValidatePropertySymbol(propertySymbol, diagnosticLocation);
+                if (validationDiagnostic != null)
+                {
+                    return new ChangePropertyInfo("", "", "", propertyName, "", validationDiagnostic);
+                }
+            }
+
+            var propertyTypeSymbol = propertySymbol?.Type ?? FindPropertyType(targetType, propertyName);
             if (propertyTypeSymbol == null)
             {
                 var diagnostic = Diagnostic.Create(ChangePropertyNotFoundDiagnostic, Location.None, propertyName, targetType.Name);
@@ -1680,7 +2012,7 @@ namespace Xaml.Behaviors.SourceGenerators
 
         private static IEnumerable<ActionInfo> EnsureUniqueActions(IEnumerable<ActionInfo> infos)
         {
-            foreach (var group in infos.GroupBy(info => info.ClassName))
+            foreach (var group in infos.GroupBy(info => (info.Namespace, info.ClassName)))
             {
                 var distinct = group
                     .GroupBy(info => (info.TargetTypeName, info.MethodName))
@@ -1702,7 +2034,7 @@ namespace Xaml.Behaviors.SourceGenerators
 
         private static IEnumerable<TriggerInfo> EnsureUniqueTriggers(IEnumerable<TriggerInfo> infos)
         {
-            foreach (var group in infos.GroupBy(info => info.ClassName))
+            foreach (var group in infos.GroupBy(info => (info.Namespace, info.ClassName)))
             {
                 var distinct = group
                     .GroupBy(info => (info.TargetTypeName, info.EventName))
@@ -1724,7 +2056,7 @@ namespace Xaml.Behaviors.SourceGenerators
 
         private static IEnumerable<ChangePropertyInfo> EnsureUniqueChangePropertyActions(IEnumerable<ChangePropertyInfo> infos)
         {
-            foreach (var group in infos.GroupBy(info => info.ClassName))
+            foreach (var group in infos.GroupBy(info => (info.Namespace, info.ClassName)))
             {
                 var distinct = group
                     .GroupBy(info => (info.TargetTypeName, info.PropertyName))
@@ -1795,6 +2127,218 @@ namespace Xaml.Behaviors.SourceGenerators
 
             var name = attributeSyntax.Name.ToString();
             return name.Contains("GenerateTypedDataTrigger", StringComparison.Ordinal);
+        }
+
+        private static bool ContainsTypeParameter(ITypeSymbol? typeSymbol)
+        {
+            if (typeSymbol == null)
+            {
+                return false;
+            }
+
+            if (typeSymbol.TypeKind == TypeKind.TypeParameter)
+            {
+                return true;
+            }
+
+            return typeSymbol switch
+            {
+                IArrayTypeSymbol array => ContainsTypeParameter(array.ElementType),
+                IPointerTypeSymbol pointer => ContainsTypeParameter(pointer.PointedAtType),
+                INamedTypeSymbol named => named.IsUnboundGenericType || named.TypeArguments.Any(ContainsTypeParameter),
+                _ => false
+            };
+        }
+
+        private static string CreateSafeIdentifier(string value)
+        {
+            var sb = new StringBuilder(value.Length);
+            foreach (var c in value)
+            {
+                if (char.IsLetterOrDigit(c) || c == '_')
+                {
+                    sb.Append(c);
+                }
+                else
+                {
+                    sb.Append('_');
+                }
+            }
+
+            var result = sb.ToString().TrimStart('_');
+            if (string.IsNullOrEmpty(result) || char.IsDigit(result[0]))
+            {
+                result = "_" + result;
+            }
+
+            return result;
+        }
+
+        private static string CreateDataTriggerClassName(ITypeSymbol typeSymbol)
+        {
+            string baseName = typeSymbol switch
+            {
+                IArrayTypeSymbol array => CreateSafeIdentifier($"{array.ElementType.Name}Array{array.Rank}"),
+                INamedTypeSymbol named => CreateSafeIdentifier(named.Name),
+                _ => CreateSafeIdentifier(typeSymbol.Name ?? string.Empty)
+            };
+
+            if (string.IsNullOrEmpty(baseName))
+            {
+                var displayName = typeSymbol.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat);
+                var trimmed = displayName.StartsWith("global::", StringComparison.Ordinal) ? displayName.Substring("global::".Length) : displayName;
+                baseName = CreateSafeIdentifier(trimmed);
+            }
+
+            if (string.IsNullOrEmpty(baseName))
+            {
+                baseName = "DataTrigger";
+            }
+            else if (char.IsLetter(baseName[0]))
+            {
+                baseName = char.ToUpperInvariant(baseName[0]) + baseName.Substring(1);
+            }
+            else
+            {
+                baseName = "_" + baseName;
+            }
+
+            return $"{baseName}DataTrigger";
+        }
+
+        private static Diagnostic? ValidateStyledElementTriggerType(INamedTypeSymbol symbol, Location? location)
+        {
+            if (!InheritsFrom(symbol, "Avalonia.Xaml.Interactivity.StyledElementTrigger"))
+            {
+                return Diagnostic.Create(InvalidMultiDataTriggerTargetDiagnostic, location ?? Location.None, symbol.ToDisplayString());
+            }
+
+            return null;
+        }
+
+        private static Diagnostic? ValidateStyledElementActionType(INamedTypeSymbol symbol, Location? location)
+        {
+            if (!InheritsFrom(symbol, "Avalonia.Xaml.Interactivity.StyledElementAction"))
+            {
+                return Diagnostic.Create(InvalidInvokeCommandTargetDiagnostic, location ?? Location.None, symbol.ToDisplayString());
+            }
+
+            return null;
+        }
+
+        private static Diagnostic? ValidateEvaluateMethod(INamedTypeSymbol symbol, Location? location)
+        {
+            var candidates = symbol.GetMembers("Evaluate").OfType<IMethodSymbol>().ToList();
+            var match = candidates.FirstOrDefault(m =>
+                !m.IsStatic &&
+                m.Parameters.Length == 0 &&
+                m.ReturnType.SpecialType == SpecialType.System_Boolean);
+
+            if (match == null)
+            {
+                return Diagnostic.Create(MultiDataTriggerEvaluateMissingDiagnostic, location ?? Location.None, symbol.ToDisplayString());
+            }
+
+            return null;
+        }
+
+        private static bool InheritsFrom(INamedTypeSymbol symbol, string fullName)
+        {
+            var current = symbol;
+            while (current != null)
+            {
+                if (string.Equals(current.ToDisplayString(), fullName, StringComparison.Ordinal))
+                {
+                    return true;
+                }
+                current = current.BaseType;
+            }
+            return false;
+        }
+
+        private static bool IsPartial(INamedTypeSymbol symbol)
+        {
+            foreach (var syntaxRef in symbol.DeclaringSyntaxReferences)
+            {
+                if (syntaxRef.GetSyntax() is TypeDeclarationSyntax typeDecl &&
+                    typeDecl.Modifiers.Any(SyntaxKind.PartialKeyword))
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        private static Diagnostic? EnsurePartial(INamedTypeSymbol symbol, Location location, string attributeName)
+        {
+            if (!IsPartial(symbol))
+            {
+                return Diagnostic.Create(PartialTypeRequiredDiagnostic, location, symbol.ToDisplayString(), attributeName);
+            }
+
+            return null;
+        }
+
+        private static bool IsAccessibleToGenerator(ISymbol symbol)
+        {
+            return symbol.DeclaredAccessibility is Accessibility.Public
+                or Accessibility.Internal
+                or Accessibility.ProtectedOrInternal;
+        }
+
+        private static bool HasAccessibleSetter(IPropertySymbol propertySymbol)
+        {
+            if (propertySymbol.SetMethod is null)
+            {
+                return false;
+            }
+
+            return IsAccessibleToGenerator(propertySymbol.SetMethod);
+        }
+
+        private static string CreateHintName(string? @namespace, string className)
+        {
+            var nsPart = string.IsNullOrEmpty(@namespace) ? "global" : @namespace!.Replace('.', '_');
+            return $"{nsPart}.{className}.g.cs";
+        }
+
+        private static string GetAccessibilityKeyword(INamedTypeSymbol symbol)
+        {
+            return symbol.DeclaredAccessibility switch
+            {
+                Accessibility.Public => "public",
+                Accessibility.Internal => "internal",
+                Accessibility.ProtectedOrInternal => "protected internal",
+                Accessibility.ProtectedAndInternal => "private protected",
+                _ => "public"
+            };
+        }
+
+        private static Diagnostic? ValidateTypeAccessibility(INamedTypeSymbol symbol, Location? location)
+        {
+            var current = symbol;
+            while (current != null)
+            {
+                if (current.DeclaredAccessibility is not (Accessibility.Public or Accessibility.Internal or Accessibility.ProtectedOrInternal))
+                {
+                    return Diagnostic.Create(MemberNotAccessibleDiagnostic, location ?? Location.None, current.Name, current.ToDisplayString());
+                }
+
+                current = current.ContainingType;
+            }
+
+            return null;
+        }
+
+        private static Diagnostic? EnsureNotNested(INamedTypeSymbol symbol, Location? location)
+        {
+            if (symbol.ContainingType != null)
+            {
+                return Diagnostic.Create(NestedTypeNotSupportedDiagnostic, location ?? Location.None, symbol.ToDisplayString());
+            }
+
+            return null;
         }
 
         private static string ComputeHash(string input)

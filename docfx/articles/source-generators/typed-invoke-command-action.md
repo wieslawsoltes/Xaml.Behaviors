@@ -25,6 +25,8 @@ public partial class SubmitAction : StyledElementAction
 }
 ```
 
+> Note: The target type must be a top-level `partial` class derived from `StyledElementAction`; nested types are not supported for this generator.
+
 ## Generated Code
 
 The source generator creates:

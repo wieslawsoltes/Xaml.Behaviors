@@ -29,14 +29,10 @@ namespace TestNamespace
         var (diagnostics, sources) = GeneratorTestHelper.RunGenerator(source);
 
         Assert.Empty(diagnostics);
-        var classNames = sources
-            .Where(s => s.Contains("class DuplicateAction"))
-            .Select(ExtractClassName)
-            .Where(n => n is not null)
-            .ToList();
-
-        Assert.Equal(2, classNames.Count);
-        Assert.NotEqual(classNames[0], classNames[1]);
+        Assert.True(sources.Any(), "Sources: " + string.Join("\n----\n", sources));
+        var generated = sources.Where(s => s.Contains("class DuplicateAction") && s.Contains("namespace TestNamespace")).ToList();
+        Assert.Equal(2, generated.Count);
+        Assert.NotEqual(ExtractClassName(generated[0]), ExtractClassName(generated[1]));
     }
 
     [Fact]
@@ -78,14 +74,9 @@ namespace TestNamespace
 
         Assert.Empty(diagnostics);
         Assert.True(sources.Length > 6, "Sources: " + string.Join("\n----\n", sources));
-        var classNames = sources
-            .Where(s => s.Contains("class DuplicateTrigger"))
-            .Select(ExtractClassName)
-            .Where(n => n is not null)
-            .ToList();
-
-        Assert.Equal(2, classNames.Count);
-        Assert.NotEqual(classNames[0], classNames[1]);
+        var generated = sources.Where(s => s.Contains("class DuplicateTrigger") && s.Contains("namespace TestNamespace")).ToList();
+        Assert.Equal(2, generated.Count);
+        Assert.NotEqual(ExtractClassName(generated[0]), ExtractClassName(generated[1]));
     }
 
     [Fact]
@@ -112,13 +103,8 @@ namespace TestNamespace
         var (diagnostics, sources) = GeneratorTestHelper.RunGenerator(source);
 
         Assert.Empty(diagnostics);
-        var classNames = sources
-            .Where(s => s.Contains("class ProcessingFinishedTrigger"))
-            .Select(ExtractClassName)
-            .Where(n => n is not null)
-            .ToList();
-
-        Assert.Single(classNames);
+        var generated = sources.Where(s => s.Contains("class ProcessingFinishedTrigger") && s.Contains("namespace TestNamespace")).ToList();
+        Assert.Single(generated);
     }
 
     [Fact]
@@ -137,14 +123,40 @@ namespace B { public class Collision { } }
 
         Assert.Empty(diagnostics);
         Assert.True(sources.Length > 6, "Sources: " + string.Join("\n----\n", sources));
-        var classNames = sources
-            .Where(s => s.Contains("class CollisionDataTrigger"))
-            .Select(ExtractClassName)
-            .Where(n => n is not null)
-            .ToList();
+        var generated = sources.Where(s => s.Contains("class CollisionDataTrigger")).ToList();
+        Assert.Equal(2, generated.Count);
+        Assert.NotEqual(ExtractClassName(generated[0]), ExtractClassName(generated[1]));
+    }
 
-        Assert.Equal(2, classNames.Count);
-        Assert.NotEqual(classNames[0], classNames[1]);
+    [Fact]
+    public void Actions_With_Same_Name_Different_Namespace_Should_Not_Collide()
+    {
+        var source = @"
+using Xaml.Behaviors.SourceGenerators;
+
+namespace FirstNamespace
+{
+    public partial class First
+    {
+        [GenerateTypedAction]
+        public void Duplicate() { }
+    }
+}
+
+namespace SecondNamespace
+{
+    public partial class Second
+    {
+        [GenerateTypedAction]
+        public void Duplicate() { }
+    }
+}";
+        var (diagnostics, sources) = GeneratorTestHelper.RunGenerator(source);
+
+        Assert.Empty(diagnostics);
+        var generated = sources.Where(s => s.Contains("class DuplicateAction")).ToList();
+        Assert.Equal(2, generated.Count);
+        Assert.Single(generated.Select(ExtractClassName).Distinct());
     }
 
     private static string? ExtractClassName(string source)

@@ -1,5 +1,7 @@
 using System;
 using ReactiveUI;
+using System.Windows.Input;
+using System.Reactive;
 using Xaml.Behaviors.SourceGenerators;
 using SourceGeneratorSample.Models;
 
@@ -14,11 +16,23 @@ namespace SourceGeneratorSample.ViewModels
 {
     public partial class MainViewModel : ReactiveObject
     {
+        public MainViewModel()
+        {
+            TriggerExternalCommand = ReactiveCommand.Create<string?>(_ => TriggerExternal());
+        }
+
         private string _statusText = "Ready";
         public string StatusText
         {
             get => _statusText;
             set => this.RaiseAndSetIfChanged(ref _statusText, value);
+        }
+
+        private string _externalTriggerStatus = "Waiting...";
+        public string ExternalTriggerStatus
+        {
+            get => _externalTriggerStatus;
+            set => this.RaiseAndSetIfChanged(ref _externalTriggerStatus, value);
         }
 
         private double _value = 0.0;
@@ -43,6 +57,7 @@ namespace SourceGeneratorSample.ViewModels
         }
 
         public ExternalLibraryClass ExternalObject { get; } = new ExternalLibraryClass();
+        public ICommand TriggerExternalCommand { get; }
 
         [GenerateTypedAction]
         public void Submit()
@@ -104,6 +119,7 @@ namespace SourceGeneratorSample.ViewModels
         public void TriggerExternal()
         {
             ExternalObject.RaiseExternalEvent();
+            ExternalTriggerStatus = $"External triggered at {DateTime.Now:T}";
         }
 
         [GenerateTypedAction]

@@ -64,11 +64,12 @@ namespace Xaml.Behaviors.SourceGenerators
 }
 ";
 
-        var syntaxTrees = new[]
-        {
-            CSharpSyntaxTree.ParseText(attributeSource),
-            CSharpSyntaxTree.ParseText(source)
-        };
+        var sourceDefinesAttributes = source.Contains("class GenerateTyped", StringComparison.Ordinal);
+        var attributeTree = sourceDefinesAttributes ? null : CSharpSyntaxTree.ParseText(attributeSource);
+        var sourceTree = CSharpSyntaxTree.ParseText(source);
+        var syntaxTrees = attributeTree is null
+            ? new[] { sourceTree }
+            : new[] { attributeTree, sourceTree };
         
         var references = new List<MetadataReference>
         {
@@ -99,9 +100,22 @@ namespace Xaml.Behaviors.SourceGenerators
         var generator = new XamlBehaviorsGenerator();
         GeneratorDriver driver = CSharpGeneratorDriver.Create(generator);
 
-        driver = driver.RunGeneratorsAndUpdateCompilation(compilation, out _, out _);
+        driver = driver.RunGeneratorsAndUpdateCompilation(compilation, out var outputCompilation, out var generatorDiagnostics);
 
         var result = driver.GetRunResult();
+        var generatedAttributeTrees = outputCompilation.SyntaxTrees
+            .Where(t => t.FilePath?.Contains("Attribute.g.cs", StringComparison.Ordinal) == true)
+            .ToArray();
+        outputCompilation = outputCompilation.RemoveSyntaxTrees(generatedAttributeTrees);
+        var compilationDiagnostics = outputCompilation
+            .GetDiagnostics()
+            .Where(d => d.Severity == DiagnosticSeverity.Error && !IsGeneratorAttributeDuplicate(d))
+            .ToImmutableArray();
+        var generatorErrors = generatorDiagnostics
+            .Where(d => d.Severity == DiagnosticSeverity.Error)
+            .Where(d => !IsGeneratorAttributeDuplicate(d))
+            .ToImmutableArray();
+        var diagnostics = generatorErrors.AddRange(compilationDiagnostics);
         
         var generatedSources = result.Results[0].GeneratedSources
             .Select(s => s.SourceText.ToString())
@@ -157,7 +171,23 @@ namespace Xaml.Behaviors.SourceGenerators
             }
         }
 
-        return (result.Diagnostics, generatedSources);
+        return (diagnostics, generatedSources);
+    }
+
+    private static bool IsGeneratorAttributeDuplicate(Diagnostic diagnostic)
+    {
+        if (diagnostic.Id != "CS0101" || diagnostic.Location == Location.None || diagnostic.Location.IsInMetadata)
+        {
+            return false;
+        }
+
+        var path = diagnostic.Location.SourceTree?.FilePath;
+        if (string.IsNullOrEmpty(path))
+        {
+            return false;
+        }
+
+        return path.Contains("GenerateTyped", StringComparison.Ordinal) && path.Contains("Attribute.g.cs", StringComparison.Ordinal);
     }
 
     private static string NormalizeAssemblyAttributes(string source)

@@ -10,8 +10,8 @@ public class DataTriggerGeneratorTests
     public void StringDataTrigger_Should_Execute_Actions_When_Condition_Met()
     {
         var control = new TestControl();
-        dynamic trigger = GeneratedTypeHelper.CreateInstance("StringDataTrigger");
-        dynamic action = GeneratedTypeHelper.CreateInstance("TestMethodAction");
+        dynamic trigger = GeneratedTypeHelper.CreateInstance("StringDataTrigger", "Xaml.Behaviors.Generated");
+        dynamic action = GeneratedTypeHelper.CreateInstance("TestMethodAction", "Avalonia.Xaml.Behaviors.SourceGenerators.UnitTests");
         
         trigger.Actions!.Add(action);
         trigger.Binding = "Match";

@@ -14,6 +14,9 @@
           <vm:ValidationTrigger IsValid="{Binding IsBusy}" RetryCount="{Binding Count}">
             <ac:SetForegroundAction Value="Red" />
           </vm:ValidationTrigger>
+          <vm:ValidationResetTrigger IsValid="{Binding IsBusy}" RetryCount="{Binding Count}">
+            <ac:SetForegroundAction Value="Black" />
+          </vm:ValidationResetTrigger>
         </Interaction.Behaviors>
       </TextBlock>
     </StackPanel>

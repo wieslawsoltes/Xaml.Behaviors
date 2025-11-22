@@ -30,6 +30,8 @@ public partial class ValidationTrigger : StyledElementTrigger
 }
 ```
 
+> Note: The target type must be a top-level `partial` class (nested types are not supported for this generator).
+
 ## Generated Code
 
 The source generator creates:

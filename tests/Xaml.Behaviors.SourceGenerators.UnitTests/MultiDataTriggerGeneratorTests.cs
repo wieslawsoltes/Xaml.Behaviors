@@ -10,7 +10,7 @@ public class MultiDataTriggerGeneratorTests
     {
         var control = new TestControl();
         var trigger = new TypedMultiDataTrigger();
-        dynamic action = GeneratedTypeHelper.CreateInstance("TestMethodAction");
+        dynamic action = GeneratedTypeHelper.CreateInstance("TestMethodAction", "Avalonia.Xaml.Behaviors.SourceGenerators.UnitTests");
         
         trigger.Actions!.Add(action);
         trigger.Attach(control);
