@@ -1,5 +1,4 @@
 using Avalonia.Headless.XUnit;
-using Xaml.Behaviors.Generated;
 using Xunit;
 
 namespace Avalonia.Xaml.Behaviors.SourceGenerators.UnitTests;
@@ -10,7 +9,7 @@ public class ChangePropertyActionGeneratorTests
     public void SetTagAction_Should_Set_Property()
     {
         var control = new TestControl();
-        var action = new SetTagAction();
+        dynamic action = GeneratedTypeHelper.CreateInstance("SetTagAction");
         action.Value = "TagValue";
         
         action.Execute(control, null);

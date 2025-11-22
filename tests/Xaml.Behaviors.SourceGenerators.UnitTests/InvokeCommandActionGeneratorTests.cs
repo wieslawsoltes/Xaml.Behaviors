@@ -1,5 +1,4 @@
 using Avalonia.Headless.XUnit;
-using Xaml.Behaviors.Generated;
 using Xunit;
 
 namespace Avalonia.Xaml.Behaviors.SourceGenerators.UnitTests;
@@ -10,7 +9,7 @@ public class InvokeCommandActionGeneratorTests
     public void TypedInvokeCommandAction_Should_Execute_Command()
     {
         var control = new TestControl();
-        var action = new TypedInvokeCommandAction();
+        dynamic action = GeneratedTypeHelper.CreateInstance("TypedInvokeCommandAction");
         var command = new TestCommand();
         
         action.Command = command;

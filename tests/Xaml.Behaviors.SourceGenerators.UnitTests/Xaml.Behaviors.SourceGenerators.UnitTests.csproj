@@ -7,8 +7,8 @@
     <GenerateRuntimeConfigurationFiles>True</GenerateRuntimeConfigurationFiles>
     <IsPackable>False</IsPackable>
     <Nullable>enable</Nullable>
-    <EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
-    <CompilerGeneratedFilesOutputPath>Generated</CompilerGeneratedFilesOutputPath>
+    <!-- Keep compiler generated files in obj to avoid polluting the repo -->
+    <EmitCompilerGeneratedFiles>false</EmitCompilerGeneratedFiles>
   </PropertyGroup>
 
   <ItemGroup>
@@ -26,9 +26,18 @@
   <Import Project="..\..\build\XUnit.props" />
   <Import Project="..\..\build\SignAssembly.props" />
 
+  <Target Name="ClearCoreCompileCache" BeforeTargets="CoreCompile">
+    <Delete Files="$(IntermediateOutputPath)$(MSBuildProjectFile).CoreCompileInputs.cache" ContinueOnError="true" />
+    <Delete Files="$(IntermediateOutputPath)$(MSBuildProjectName).CoreCompileInputs.cache" ContinueOnError="true" />
+  </Target>
+
   <ItemGroup>
     <ProjectReference Include="..\..\src\Xaml.Behaviors.Interactivity\Xaml.Behaviors.Interactivity.csproj" />
-    <ProjectReference Include="..\..\src\Xaml.Behaviors.SourceGenerators\Xaml.Behaviors.SourceGenerators.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="true" />
+    <!-- Consume the generator for both compilation (to access the type) and analyzer execution, without flowing transitively -->
+    <ProjectReference Include="..\..\src\Xaml.Behaviors.SourceGenerators\Xaml.Behaviors.SourceGenerators.csproj"
+                      OutputItemType="Analyzer"
+                      ReferenceOutputAssembly="true"
+                      PrivateAssets="all" />
   </ItemGroup>
 
 </Project>

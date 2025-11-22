@@ -3,9 +3,6 @@ using ReactiveUI;
 using Xaml.Behaviors.SourceGenerators;
 using SourceGeneratorSample.Models;
 
-[assembly: GenerateTypedAction(typeof(ExternalLibraryClass), nameof(ExternalLibraryClass.ExternalMethod))]
-[assembly: GenerateTypedTrigger(typeof(ExternalLibraryClass), nameof(ExternalLibraryClass.ExternalEvent))]
-[assembly: GenerateTypedChangePropertyAction(typeof(ExternalLibraryClass), nameof(ExternalLibraryClass.ExternalProperty))]
 [assembly: GenerateTypedChangePropertyAction(typeof(Avalonia.Controls.TextBlock), "Foreground")]
 [assembly: GenerateTypedChangePropertyAction(typeof(Avalonia.Controls.TextBlock), "Text")]
 [assembly: GenerateTypedTrigger(typeof(Avalonia.Controls.Button), "Click")]

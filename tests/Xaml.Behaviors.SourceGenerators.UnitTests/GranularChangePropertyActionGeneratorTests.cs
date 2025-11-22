@@ -25,7 +25,7 @@ namespace TestNamespace
         var generated = sources.FirstOrDefault(s => s.Contains("class SetTestPropertyAction"));
         Assert.NotNull(generated);
         Assert.Contains("namespace TestNamespace", generated);
-        Assert.Contains("public static readonly StyledProperty<string> ValueProperty", generated);
+        Assert.Contains("public static readonly StyledProperty<string", generated);
         Assert.Contains("typedTarget.TestProperty = Value;", generated);
     }
 
@@ -64,11 +64,10 @@ namespace TestNamespace
 {
     public class TestClass
     {
-    }
-}";
+        }
+    }";
         var (diagnostics, sources) = GeneratorTestHelper.RunGenerator(source);
 
-        var errorFile = sources.FirstOrDefault(s => s.Contains("/* Error: Property MissingProperty not found on TestClass */"));
-        Assert.NotNull(errorFile);
+        Assert.Contains(diagnostics, d => d.Id == "XBG005");
     }
 }

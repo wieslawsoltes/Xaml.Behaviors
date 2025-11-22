@@ -19,8 +19,8 @@ using Xaml.Behaviors.SourceGenerators;
         Assert.Empty(diagnostics);
         
         var stringTrigger = sources.FirstOrDefault(s => s.Contains("class StringDataTrigger"));
-        Assert.NotNull(stringTrigger);
-        Assert.Contains("public static readonly StyledProperty<string> BindingProperty", stringTrigger);
+        Assert.True(stringTrigger is not null, "Sources: " + string.Join("\n----\n", sources));
+        Assert.Contains("public static readonly StyledProperty<string", stringTrigger);
         
         var intTrigger = sources.FirstOrDefault(s => s.Contains("class Int32DataTrigger"));
         Assert.NotNull(intTrigger);

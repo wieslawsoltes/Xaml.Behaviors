@@ -1,5 +1,4 @@
 using Avalonia.Headless.XUnit;
-using Xaml.Behaviors.Generated;
 using Xunit;
 
 namespace Avalonia.Xaml.Behaviors.SourceGenerators.UnitTests;
@@ -10,8 +9,8 @@ public class TriggerGeneratorTests
     public void TestEventTrigger_Should_Execute_Actions_On_Event()
     {
         var control = new TestControl();
-        var trigger = new TestEventTrigger();
-        var action = new TestMethodAction();
+        dynamic trigger = GeneratedTypeHelper.CreateInstance("TestEventTrigger");
+        dynamic action = GeneratedTypeHelper.CreateInstance("TestMethodAction");
         
         trigger.Actions!.Add(action);
         trigger.Attach(control);

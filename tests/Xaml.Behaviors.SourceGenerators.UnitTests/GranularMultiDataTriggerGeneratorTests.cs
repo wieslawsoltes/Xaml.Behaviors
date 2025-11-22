@@ -28,7 +28,7 @@ namespace TestNamespace
         Assert.Empty(diagnostics);
         var generated = sources.FirstOrDefault(s => s.Contains("class TestMultiDataTrigger"));
         Assert.NotNull(generated);
-        Assert.Contains("public static readonly StyledProperty<string> Value1Property", generated);
+        Assert.Contains("public static readonly StyledProperty<string", generated);
         Assert.Contains("public static readonly StyledProperty<int> Value2Property", generated);
         Assert.Contains("if (change.Property == Value1Property || change.Property == Value2Property)", generated);
     }

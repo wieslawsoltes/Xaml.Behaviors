@@ -1,12 +1,14 @@
 using System;
+using Xaml.Behaviors.SourceGenerators;
 
 namespace SourceGeneratorSample.Models
 {
-    // Simulates a class from an external library that we cannot modify.
     public class ExternalLibraryClass
     {
+        [GenerateTypedTrigger]
         public event EventHandler? ExternalEvent;
 
+        [GenerateTypedAction]
         public void ExternalMethod()
         {
             Console.WriteLine("ExternalMethod called!");
@@ -17,6 +19,7 @@ namespace SourceGeneratorSample.Models
             ExternalEvent?.Invoke(this, EventArgs.Empty);
         }
 
+        [GenerateTypedChangePropertyAction]
         public string ExternalProperty { get; set; } = "Initial Value";
     }
 }

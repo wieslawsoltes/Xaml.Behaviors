@@ -13,7 +13,62 @@ public static class GeneratorTestHelper
 {
     public static (ImmutableArray<Diagnostic> Diagnostics, ImmutableArray<string> GeneratedSources) RunGenerator(string source)
     {
-        var syntaxTree = CSharpSyntaxTree.ParseText(source);
+        source = NormalizeAssemblyAttributes(source);
+
+        var attributeSource = @"
+using System;
+
+namespace Xaml.Behaviors.SourceGenerators
+{
+    [AttributeUsage(AttributeTargets.Method | AttributeTargets.Assembly, AllowMultiple = true)]
+    internal class GenerateTypedActionAttribute : Attribute
+    {
+        public GenerateTypedActionAttribute() { }
+        public GenerateTypedActionAttribute(Type targetType, string methodName) { }
+    }
+
+    [AttributeUsage(AttributeTargets.Event | AttributeTargets.Assembly, AllowMultiple = true)]
+    internal class GenerateTypedTriggerAttribute : Attribute
+    {
+        public GenerateTypedTriggerAttribute() { }
+        public GenerateTypedTriggerAttribute(Type targetType, string eventName) { }
+    }
+
+    [AttributeUsage(AttributeTargets.Property | AttributeTargets.Assembly, AllowMultiple = true)]
+    internal class GenerateTypedChangePropertyActionAttribute : Attribute
+    {
+        public GenerateTypedChangePropertyActionAttribute() { }
+        public GenerateTypedChangePropertyActionAttribute(Type targetType, string propertyName) { }
+    }
+
+    [AttributeUsage(AttributeTargets.Assembly, AllowMultiple = true)]
+    internal class GenerateTypedDataTriggerAttribute : Attribute
+    {
+        public GenerateTypedDataTriggerAttribute(Type type) { }
+    }
+
+    [AttributeUsage(AttributeTargets.Class, Inherited = false, AllowMultiple = false)]
+    internal sealed class GenerateTypedMultiDataTriggerAttribute : Attribute { }
+
+    [AttributeUsage(AttributeTargets.Field, Inherited = false, AllowMultiple = false)]
+    internal sealed class TriggerPropertyAttribute : Attribute { }
+
+    [AttributeUsage(AttributeTargets.Class, Inherited = false, AllowMultiple = false)]
+    internal sealed class GenerateTypedInvokeCommandActionAttribute : Attribute { }
+
+    [AttributeUsage(AttributeTargets.Field, Inherited = false, AllowMultiple = false)]
+    internal sealed class ActionCommandAttribute : Attribute { }
+
+    [AttributeUsage(AttributeTargets.Field, Inherited = false, AllowMultiple = false)]
+    internal sealed class ActionParameterAttribute : Attribute { }
+}
+";
+
+        var syntaxTrees = new[]
+        {
+            CSharpSyntaxTree.ParseText(attributeSource),
+            CSharpSyntaxTree.ParseText(source)
+        };
         
         var references = new List<MetadataReference>
         {
@@ -33,14 +88,18 @@ public static class GeneratorTestHelper
 
         var compilation = CSharpCompilation.Create(
             "Tests",
-            new[] { syntaxTree },
+            syntaxTrees,
             references,
             new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary));
+
+        var attributeInfo = compilation.Assembly.GetAttributes()
+            .Select(a => $"{a.AttributeClass?.ToDisplayString()}({string.Join(",", a.ConstructorArguments.Select(c => c.Value?.ToString() ?? "<null>"))})");
+        Console.Error.WriteLine("Assembly attributes: " + string.Join(" | ", attributeInfo));
 
         var generator = new XamlBehaviorsGenerator();
         GeneratorDriver driver = CSharpGeneratorDriver.Create(generator);
 
-        driver = driver.RunGenerators(compilation);
+        driver = driver.RunGeneratorsAndUpdateCompilation(compilation, out _, out _);
 
         var result = driver.GetRunResult();
         
@@ -48,6 +107,98 @@ public static class GeneratorTestHelper
             .Select(s => s.SourceText.ToString())
             .ToImmutableArray();
 
+        if (Environment.GetEnvironmentVariable("GENERATOR_TEST_DEBUG") == "1")
+        {
+            Console.Error.WriteLine("Input source:");
+            Console.Error.WriteLine(source);
+
+            var attributeSyntax = syntaxTrees
+                .SelectMany(t => t.GetRoot().DescendantNodes().OfType<Microsoft.CodeAnalysis.CSharp.Syntax.AttributeSyntax>())
+                .Where(a => a.Name.ToString().Contains("GenerateTypedDataTrigger", StringComparison.Ordinal))
+                .Select(a => a.ToString());
+            Console.Error.WriteLine("DataTrigger attribute syntax: " + string.Join(" | ", attributeSyntax));
+
+            var allAttributes = syntaxTrees
+                .SelectMany(t => t.GetRoot().DescendantNodes().OfType<Microsoft.CodeAnalysis.CSharp.Syntax.AttributeSyntax>())
+                .Select(a => a.ToString());
+            Console.Error.WriteLine("All attributes: " + string.Join(" | ", allAttributes));
+
+            var attributeLists = syntaxTrees
+                .SelectMany(t => t.GetRoot().DescendantNodes().OfType<Microsoft.CodeAnalysis.CSharp.Syntax.AttributeListSyntax>())
+                .Select(a => a.ToString());
+            Console.Error.WriteLine("Attribute lists: " + string.Join(" | ", attributeLists));
+
+            for (var i = 0; i < syntaxTrees.Length; i++)
+            {
+                var tree = syntaxTrees[i];
+                Console.Error.WriteLine($"Syntax tree #{i} diagnostics: {string.Join(", ", tree.GetDiagnostics())}");
+                Console.Error.WriteLine($"Syntax tree #{i} text:");
+                Console.Error.WriteLine(tree.ToString());
+            }
+
+            Console.Error.WriteLine("Diagnostics:");
+            foreach (var d in result.Diagnostics)
+            {
+                Console.Error.WriteLine($"  {d}");
+            }
+            Console.Error.WriteLine($"Generator exception: {result.Results[0].Exception}");
+            Console.Error.WriteLine("Generator diagnostics:");
+            foreach (var d in result.Results[0].Diagnostics)
+            {
+                Console.Error.WriteLine($"  {d}");
+            }
+
+            Console.Error.WriteLine($"Generated sources ({generatedSources.Length}):");
+            for (var i = 0; i < generatedSources.Length; i++)
+            {
+                Console.Error.WriteLine($"-- Source #{i} --");
+                Console.Error.WriteLine(generatedSources[i]);
+                Console.Error.WriteLine("--------------");
+            }
+        }
+
         return (result.Diagnostics, generatedSources);
+    }
+
+    private static string NormalizeAssemblyAttributes(string source)
+    {
+        var lines = source.Split(new[] { "\r\n", "\n" }, StringSplitOptions.None);
+        var assemblyAttributes = new List<string>();
+        var remaining = new List<string>();
+
+        foreach (var line in lines)
+        {
+            var trimmed = line.TrimStart();
+            if (trimmed.StartsWith("[assembly:", StringComparison.Ordinal))
+            {
+                assemblyAttributes.Add(line);
+            }
+            else
+            {
+                remaining.Add(line);
+            }
+        }
+
+        if (assemblyAttributes.Count == 0)
+        {
+            return source;
+        }
+
+        var insertIndex = 0;
+        while (insertIndex < remaining.Count)
+        {
+            var trimmed = remaining[insertIndex].TrimStart();
+            if (string.IsNullOrWhiteSpace(trimmed) ||
+                trimmed.StartsWith("using ", StringComparison.Ordinal) ||
+                trimmed.StartsWith("extern ", StringComparison.Ordinal))
+            {
+                insertIndex++;
+                continue;
+            }
+            break;
+        }
+
+        remaining.InsertRange(insertIndex, assemblyAttributes);
+        return string.Join("\n", remaining);
     }
 }

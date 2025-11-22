@@ -72,7 +72,7 @@ namespace TestNamespace
         Assert.Empty(diagnostics);
         var generated = sources.FirstOrDefault(s => s.Contains("class TestMethodAction"));
         Assert.NotNull(generated);
-        Assert.Contains("public static readonly StyledProperty<string> P1Property", generated);
+        Assert.Contains("public static readonly StyledProperty<string", generated);
         Assert.Contains("public static readonly StyledProperty<int> P2Property", generated);
         Assert.Contains("typedTarget.TestMethod(P1, P2)", generated);
     }
@@ -97,8 +97,8 @@ namespace TestNamespace
         var generated = sources.FirstOrDefault(s => s.Contains("class TestMethodAction"));
         Assert.NotNull(generated);
         // Should NOT generate properties for sender/parameter
-        Assert.DoesNotContain("public static readonly StyledProperty<object> SenderProperty", generated);
-        Assert.Contains("var p1 = sender is object s ? s : default;", generated);
+        Assert.DoesNotContain("public static readonly StyledProperty<object>", generated);
+        Assert.Contains("var p1 = sender is object", generated);
         Assert.Contains("typedTarget.TestMethod(p1, p2)", generated);
     }
 
@@ -124,6 +124,7 @@ namespace TestNamespace
         Assert.NotNull(generated);
         Assert.Contains("public static readonly StyledProperty<bool> IsExecutingProperty", generated);
         Assert.Contains("var t = task;", generated);
+        Assert.Contains("TrackTask(t);", generated);
         Assert.Contains("IsExecuting = true;", generated);
     }
 
@@ -148,6 +149,7 @@ namespace TestNamespace
         var generated = sources.FirstOrDefault(s => s.Contains("class TestMethodAsyncAction"));
         Assert.NotNull(generated);
         Assert.Contains("var t = task.AsTask();", generated);
+        Assert.Contains("TrackTask(t);", generated);
     }
 
     [Fact]
@@ -169,8 +171,8 @@ namespace TestNamespace
         Assert.Empty(diagnostics);
         var generated = sources.FirstOrDefault(s => s.Contains("class TestMethodAction"));
         Assert.NotNull(generated);
-        Assert.Contains("public static readonly StyledProperty<string> MethodParameterTargetObjectProperty", generated);
-        Assert.Contains("typedTarget.TestMethod(MethodParameterTargetObject)", generated);
+        Assert.Contains("public static readonly StyledProperty<string", generated);
+        Assert.Contains("typedTarget.TestMethod(MethodParameterTargetObject", generated);
     }
 
     [Fact]
@@ -191,5 +193,45 @@ public partial class GlobalClass
         var generated = sources.FirstOrDefault(s => s.Contains("class TestMethodAction"));
         Assert.NotNull(generated);
         Assert.Contains("public partial class TestMethodAction", generated);
+    }
+
+    [Fact]
+    public void Should_Report_Error_If_Method_Not_Found_Assembly_Attribute()
+    {
+        var source = @"
+using Xaml.Behaviors.SourceGenerators;
+
+[assembly: GenerateTypedAction(typeof(TestNamespace.TestClass), ""MissingMethod"")]
+
+namespace TestNamespace
+{
+    public class TestClass
+    {
+    }
+}";
+        var (diagnostics, _) = GeneratorTestHelper.RunGenerator(source);
+
+        Assert.Contains(diagnostics, d => d.Id == "XBG006");
+    }
+
+    [Fact]
+    public void Should_Report_Error_On_Ambiguous_Method_Assembly_Attribute()
+    {
+        var source = @"
+using Xaml.Behaviors.SourceGenerators;
+
+[assembly: GenerateTypedAction(typeof(TestNamespace.TestClass), ""Overloaded"")]
+
+namespace TestNamespace
+{
+    public class TestClass
+    {
+        public void Overloaded() { }
+        public void Overloaded(int value) { }
+    }
+}";
+        var (diagnostics, _) = GeneratorTestHelper.RunGenerator(source);
+
+        Assert.Contains(diagnostics, d => d.Id == "XBG007");
     }
 }

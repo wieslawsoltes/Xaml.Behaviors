@@ -16,7 +16,7 @@
     <PackageTags>Avalonia;Behavior;Action;Behaviors;Actions;Managed;C#;Interaction;Interactivity;Interactions;Xaml;SourceGenerator;AOT</PackageTags>
     <IncludeBuildOutput>false</IncludeBuildOutput>
     <DevelopmentDependency>true</DevelopmentDependency>
-    <NoWarn>$(NoWarn);NU5128</NoWarn>
+    <NoWarn>$(NoWarn);NU5128;RS2007</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>
@@ -26,6 +26,11 @@
 
   <ItemGroup>
     <None Include="$(OutputPath)\$(AssemblyName).dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <AdditionalFiles Include="AnalyzerReleases.Shipped.md" />
+    <AdditionalFiles Include="AnalyzerReleases.Unshipped.md" />
   </ItemGroup>
 
   <Import Project="..\..\build\SignAssembly.props" />

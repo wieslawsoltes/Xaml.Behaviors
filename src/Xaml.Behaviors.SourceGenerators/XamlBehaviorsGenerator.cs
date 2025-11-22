@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
@@ -13,6 +14,66 @@ namespace Xaml.Behaviors.SourceGenerators
     [Generator]
     public class XamlBehaviorsGenerator : IIncrementalGenerator
     {
+        private static readonly DiagnosticDescriptor TriggerUnsupportedDelegateDiagnostic = new(
+            id: "XBG001",
+            title: "Unsupported trigger delegate",
+            messageFormat: "Event '{0}' uses delegate '{1}' which is not supported for trigger generation",
+            category: "Usage",
+            DiagnosticSeverity.Error,
+            isEnabledByDefault: true);
+
+        private static readonly DiagnosticDescriptor TriggerUnsupportedDelegateReturnTypeDiagnostic = new(
+            id: "XBG002",
+            title: "Unsupported trigger delegate return type",
+            messageFormat: "Event '{0}' delegate '{1}' must return void for trigger generation",
+            category: "Usage",
+            DiagnosticSeverity.Error,
+            isEnabledByDefault: true);
+
+        private static readonly DiagnosticDescriptor TriggerUnsupportedDelegateOutParameterDiagnostic = new(
+            id: "XBG003",
+            title: "Unsupported trigger delegate parameter",
+            messageFormat: "Event '{0}' delegate '{1}' uses an out parameter which is not supported for trigger generation",
+            category: "Usage",
+            DiagnosticSeverity.Error,
+            isEnabledByDefault: true);
+
+        private static readonly DiagnosticDescriptor TriggerEventNotFoundDiagnostic = new(
+            id: "XBG004",
+            title: "Event not found",
+            messageFormat: "Event '{0}' could not be found on type '{1}' for trigger generation",
+            category: "Usage",
+            DiagnosticSeverity.Error,
+            isEnabledByDefault: true);
+
+        private static readonly DiagnosticDescriptor ChangePropertyNotFoundDiagnostic = new(
+            id: "XBG005",
+            title: "Property not found",
+            messageFormat: "Property '{0}' could not be found on type '{1}' for change property generation",
+            category: "Usage",
+            DiagnosticSeverity.Error,
+            isEnabledByDefault: true);
+
+        private static readonly DiagnosticDescriptor ActionMethodNotFoundDiagnostic = new(
+            id: "XBG006",
+            title: "Action method not found",
+            messageFormat: "Method '{0}' could not be found on type '{1}' for action generation",
+            category: "Usage",
+            DiagnosticSeverity.Error,
+            isEnabledByDefault: true);
+
+        private static readonly DiagnosticDescriptor ActionMethodAmbiguousDiagnostic = new(
+            id: "XBG007",
+            title: "Action method ambiguous",
+            messageFormat: "Method '{0}' on type '{1}' has multiple overloads; action generation requires an unambiguous target",
+            category: "Usage",
+            DiagnosticSeverity.Error,
+            isEnabledByDefault: true);
+
+        private static readonly SymbolDisplayFormat FullyQualifiedNullableFormat =
+            SymbolDisplayFormat.FullyQualifiedFormat.WithMiscellaneousOptions(
+                SymbolDisplayFormat.FullyQualifiedFormat.MiscellaneousOptions | SymbolDisplayMiscellaneousOptions.IncludeNullableReferenceTypeModifier);
+
         private const string GenerateTypedActionAttributeName = "Xaml.Behaviors.SourceGenerators.GenerateTypedActionAttribute";
         private const string GenerateTypedTriggerAttributeName = "Xaml.Behaviors.SourceGenerators.GenerateTypedTriggerAttribute";
         private const string GenerateTypedChangePropertyActionAttributeName = "Xaml.Behaviors.SourceGenerators.GenerateTypedChangePropertyActionAttribute";
@@ -143,41 +204,81 @@ namespace Xaml.Behaviors.SourceGenerators
             var actions = context.SyntaxProvider
                 .ForAttributeWithMetadataName(
                     GenerateTypedActionAttributeName,
-                    predicate: (node, _) => node is MethodDeclarationSyntax || node is CompilationUnitSyntax,
+                    predicate: static (_, _) => true,
                     transform: (ctx, _) => GetActionToGenerate(ctx))
                 .SelectMany((x, _) => x);
 
-            context.RegisterSourceOutput(actions, ExecuteGenerateAction);
+            var assemblyActions = context.SyntaxProvider
+                .CreateSyntaxProvider(
+                    predicate: static (node, _) => IsAssemblyAttribute(node, "GenerateTypedAction"),
+                    transform: (ctx, _) => GetAssemblyActionFromAttributeSyntax(ctx))
+                .Where(info => info is not null)
+                .Select((info, _) => info!);
+
+            var uniqueActions = actions
+                .Collect()
+                .Combine(assemblyActions.Collect())
+                .SelectMany((data, _) => EnsureUniqueActions(data.Left.Concat(data.Right)));
+
+            context.RegisterSourceOutput(uniqueActions, ExecuteGenerateAction);
 
             // GenerateTypedTrigger
             var triggers = context.SyntaxProvider
                 .ForAttributeWithMetadataName(
                     GenerateTypedTriggerAttributeName,
-                    predicate: (node, _) => node is EventFieldDeclarationSyntax || node is EventDeclarationSyntax || node is CompilationUnitSyntax,
+                    predicate: static (_, _) => true,
                     transform: (ctx, _) => GetTriggerToGenerate(ctx))
                 .SelectMany((x, _) => x);
 
-            context.RegisterSourceOutput(triggers, ExecuteGenerateTrigger);
+            var assemblyTriggers = context.SyntaxProvider
+                .CreateSyntaxProvider(
+                    predicate: static (node, _) => IsAssemblyAttribute(node, "GenerateTypedTrigger"),
+                    transform: (ctx, _) => GetAssemblyTriggerFromAttributeSyntax(ctx))
+                .Where(info => info is not null)
+                .Select((info, _) => info!);
+
+            var uniqueTriggers = triggers
+                .Collect()
+                .Combine(assemblyTriggers.Collect())
+                .SelectMany((data, _) => EnsureUniqueTriggers(data.Left.Concat(data.Right)));
+
+            context.RegisterSourceOutput(uniqueTriggers, ExecuteGenerateTrigger);
 
             // GenerateTypedChangePropertyAction
             var propertyActions = context.SyntaxProvider
                 .ForAttributeWithMetadataName(
                     GenerateTypedChangePropertyActionAttributeName,
-                    predicate: (node, _) => node is PropertyDeclarationSyntax || node is CompilationUnitSyntax,
+                    predicate: static (_, _) => true,
                     transform: (ctx, _) => GetChangePropertyActionToGenerate(ctx))
                 .SelectMany((x, _) => x);
 
-            context.RegisterSourceOutput(propertyActions, ExecuteGenerateChangePropertyAction);
+            var assemblyPropertyActions = context.SyntaxProvider
+                .CreateSyntaxProvider(
+                    predicate: static (node, _) => IsAssemblyAttribute(node, "GenerateTypedChangePropertyAction"),
+                    transform: (ctx, _) => GetAssemblyChangePropertyFromAttributeSyntax(ctx))
+                .Where(info => info is not null)
+                .Select((info, _) => info!);
+
+            var uniquePropertyActions = propertyActions
+                .Collect()
+                .Combine(assemblyPropertyActions.Collect())
+                .SelectMany((data, _) => EnsureUniqueChangePropertyActions(data.Left.Concat(data.Right)));
+
+            context.RegisterSourceOutput(uniquePropertyActions, ExecuteGenerateChangePropertyAction);
 
             // GenerateTypedDataTrigger
             var dataTriggers = context.SyntaxProvider
-                .ForAttributeWithMetadataName(
-                    GenerateTypedDataTriggerAttributeName,
-                    predicate: (node, _) => node is CompilationUnitSyntax,
-                    transform: (ctx, _) => GetDataTriggerToGenerate(ctx))
-                .SelectMany((x, _) => x);
+                .CreateSyntaxProvider(
+                    predicate: static (node, _) => IsDataTriggerAttributeSyntax(node),
+                    transform: (ctx, _) => GetDataTriggerFromAttributeSyntax(ctx))
+                .Where(info => info is not null)
+                .Select((info, _) => info!);
 
-            context.RegisterSourceOutput(dataTriggers, ExecuteGenerateDataTrigger);
+            var uniqueDataTriggers = dataTriggers
+                .Collect()
+                .SelectMany((infos, _) => EnsureUniqueDataTriggers(infos));
+
+            context.RegisterSourceOutput(uniqueDataTriggers, ExecuteGenerateDataTrigger);
 
             // GenerateTypedMultiDataTrigger
             var multiDataTriggers = context.SyntaxProvider
@@ -205,12 +306,17 @@ namespace Xaml.Behaviors.SourceGenerators
         // ----------------------------------------------------------------------------------------
 
         private record ActionParameter(string Name, string Type);
-        private record ActionInfo(string? Namespace, string ClassName, string TargetTypeName, string MethodName, ImmutableArray<ActionParameter> Parameters, bool IsAwaitable, bool IsValueTask);
+        private record ActionInfo(string? Namespace, string ClassName, string TargetTypeName, string MethodName, ImmutableArray<ActionParameter> Parameters, bool IsAwaitable, bool IsValueTask, Diagnostic? Diagnostic = null);
 
         private ImmutableArray<ActionInfo> GetActionToGenerate(GeneratorAttributeSyntaxContext context)
         {
             var results = ImmutableArray.CreateBuilder<ActionInfo>();
             var symbol = context.TargetSymbol;
+
+            if (symbol is IAssemblySymbol)
+            {
+                return results.ToImmutable();
+            }
 
             if (symbol is IMethodSymbol methodSymbol)
             {
@@ -220,10 +326,10 @@ namespace Xaml.Behaviors.SourceGenerators
                 {
                     var namespaceName = targetType.ContainingNamespace.ToDisplayString();
                     var className = $"{methodSymbol.Name}Action";
-                    var targetTypeName = targetType.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat);
+                    var targetTypeName = ToDisplayStringWithNullable(targetType);
                     var methodName = methodSymbol.Name;
                     
-                    var parameters = methodSymbol.Parameters.Select(p => new ActionParameter(p.Name, p.Type.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat))).ToImmutableArray();
+                    var parameters = methodSymbol.Parameters.Select(p => new ActionParameter(p.Name, ToDisplayStringWithNullable(p.Type))).ToImmutableArray();
 
                     var returnType = methodSymbol.ReturnType;
                     bool isAwaitable = IsAwaitableType(returnType);
@@ -232,46 +338,13 @@ namespace Xaml.Behaviors.SourceGenerators
                     results.Add(new ActionInfo(namespaceName, className, targetTypeName, methodName, parameters, isAwaitable, isValueTask));
                 }
             }
-            else if (context.TargetSymbol is IAssemblySymbol)
-            {
-                // Attribute on Assembly
-                // [GenerateTypedAction(typeof(Type), "MethodName")]
-                foreach (var attributeData in context.Attributes)
-                {
-                    if (attributeData.AttributeClass?.ToDisplayString() != GenerateTypedActionAttributeName) continue;
-                    if (attributeData.ConstructorArguments.Length != 2) continue;
-
-                    var targetType = attributeData.ConstructorArguments[0].Value as INamedTypeSymbol;
-                    var methodName = attributeData.ConstructorArguments[1].Value as string;
-
-                    if (targetType == null || string.IsNullOrEmpty(methodName)) continue;
-
-                    // Find the method on the type to check parameters
-                    var method = FindMethod(targetType, methodName!);
-                    
-                    var parameters = method != null 
-                        ? method.Parameters.Select(p => new ActionParameter(p.Name, p.Type.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat))).ToImmutableArray()
-                        : ImmutableArray<ActionParameter>.Empty;
-
-                    var returnType = method?.ReturnType;
-                    bool isAwaitable = returnType != null && IsAwaitableType(returnType);
-                    bool isValueTask = returnType != null && IsValueTaskType(returnType);
-
-                    var ns = targetType.ContainingNamespace.ToDisplayString();
-                    var namespaceName = (targetType.ContainingNamespace.IsGlobalNamespace || ns == "<global namespace>") ? null : ns;
-                    var className = $"{methodName}Action";
-                    var targetTypeName = targetType.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat);
-
-                    results.Add(new ActionInfo(namespaceName, className, targetTypeName, methodName!, parameters, isAwaitable, isValueTask));
-                }
-            }
 
             return results.ToImmutable();
         }
 
         private bool IsAwaitableType(ITypeSymbol typeSymbol)
         {
-             var typeName = typeSymbol.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat);
+             var typeName = ToDisplayStringWithNullable(typeSymbol);
              // Check for Task, Task<T>, ValueTask, ValueTask<T>
              return typeName.StartsWith("global::System.Threading.Tasks.Task") || 
                     typeName.StartsWith("global::System.Threading.Tasks.ValueTask");
@@ -279,12 +352,44 @@ namespace Xaml.Behaviors.SourceGenerators
 
         private bool IsValueTaskType(ITypeSymbol typeSymbol)
         {
-             var typeName = typeSymbol.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat);
+             var typeName = ToDisplayStringWithNullable(typeSymbol);
              return typeName.StartsWith("global::System.Threading.Tasks.ValueTask");
+        }
+
+        private ImmutableArray<ActionInfo> GetAssemblyActions(Compilation compilation)
+        {
+            var results = ImmutableArray.CreateBuilder<ActionInfo>();
+            foreach (var attributeData in compilation.Assembly.GetAttributes())
+            {
+                if (!IsAttribute(attributeData, GenerateTypedActionAttributeName)) continue;
+                if (attributeData.ConstructorArguments.Length != 2) continue;
+
+                var targetType = attributeData.ConstructorArguments[0].Value as INamedTypeSymbol;
+                var methodName = attributeData.ConstructorArguments[1].Value as string;
+
+                if (targetType == null || string.IsNullOrEmpty(methodName)) continue;
+
+                var (method, diagnostic) = ResolveMethod(targetType, methodName!);
+                if (diagnostic != null)
+                {
+                    results.Add(new ActionInfo("", "", "", methodName!, ImmutableArray<ActionParameter>.Empty, false, false, diagnostic));
+                    continue;
+                }
+
+                results.Add(CreateActionInfo(targetType, method!));
+            }
+
+            return results.ToImmutable();
         }
 
         private void ExecuteGenerateAction(SourceProductionContext spc, ActionInfo info)
         {
+            if (info.Diagnostic != null)
+            {
+                spc.ReportDiagnostic(info.Diagnostic);
+                return;
+            }
+
             var sb = new StringBuilder();
             sb.AppendLine("// <auto-generated />");
             sb.AppendLine("#nullable enable");
@@ -370,8 +475,8 @@ namespace Xaml.Behaviors.SourceGenerators
             else if (isEventHandlerStyle)
             {
                  // Event Handler Style: Pass sender and parameter from Execute
-                 var p1Type = info.Parameters[0].Type;
-                 var p2Type = info.Parameters[1].Type;
+                 var p1Type = TrimNullableAnnotation(info.Parameters[0].Type);
+                 var p2Type = TrimNullableAnnotation(info.Parameters[1].Type);
 
                  sb.AppendLine($"                var p1 = sender is {p1Type} s ? s : default;");
                  sb.AppendLine($"                var p2 = parameter is {p2Type} p ? p : default;");
@@ -385,7 +490,7 @@ namespace Xaml.Behaviors.SourceGenerators
                  {
                      var propName = char.ToUpper(param.Name[0]) + param.Name.Substring(1);
                      if (propName == "TargetObject") propName = "MethodParameter" + propName;
-                     args.Add(propName);
+                 args.Add(propName);
                  }
                  invocation = $"typedTarget.{info.MethodName}({string.Join(", ", args)})";
             }
@@ -401,28 +506,73 @@ namespace Xaml.Behaviors.SourceGenerators
                 {
                     sb.AppendLine("                var t = task;");
                 }
-                
-                sb.AppendLine("                if (t != null)");
-                sb.AppendLine("                {");
-                sb.AppendLine("                    if (!t.IsCompleted)");
-                sb.AppendLine("                    {");
-                sb.AppendLine("                        IsExecuting = true;");
-                sb.AppendLine("                        t.ContinueWith(temp => ");
-                sb.AppendLine("                        {");
-                sb.AppendLine("                            Avalonia.Threading.Dispatcher.UIThread.Post(() => IsExecuting = false);");
-                sb.AppendLine("                        });");
-                sb.AppendLine("                    }");
-                sb.AppendLine("                }");
+                sb.AppendLine("                return TrackTask(t);");
             }
             else
             {
                 sb.AppendLine($"                {invocation};");
+                sb.AppendLine("                return true;");
             }
 
-            sb.AppendLine("                return true;");
             sb.AppendLine("            }");
             sb.AppendLine("            return false;");
             sb.AppendLine("        }");
+            if (info.IsAwaitable)
+            {
+                sb.AppendLine();
+                sb.AppendLine("        private bool TrackTask(System.Threading.Tasks.Task? task)");
+                sb.AppendLine("        {");
+                sb.AppendLine("            if (task == null)");
+                sb.AppendLine("            {");
+                sb.AppendLine("                return true;");
+                sb.AppendLine("            }");
+                sb.AppendLine();
+                sb.AppendLine("            if (task.IsCompleted)");
+                sb.AppendLine("            {");
+                sb.AppendLine("                ObserveCompletedTask(task);");
+                sb.AppendLine("                return true;");
+                sb.AppendLine("            }");
+                sb.AppendLine();
+                sb.AppendLine("            IsExecuting = true;");
+                sb.AppendLine("            _ = ObserveTaskAsync(task);");
+                sb.AppendLine("            return true;");
+                sb.AppendLine("        }");
+                sb.AppendLine();
+                sb.AppendLine("        private void ObserveCompletedTask(System.Threading.Tasks.Task task)");
+                sb.AppendLine("        {");
+                sb.AppendLine("            if (task.IsFaulted)");
+                sb.AppendLine("            {");
+                sb.AppendLine("                if (task.Exception is not null)");
+                sb.AppendLine("                {");
+                sb.AppendLine("                    throw task.Exception;");
+                sb.AppendLine("                }");
+                sb.AppendLine("                throw new System.InvalidOperationException(\"Action task faulted.\");");
+                sb.AppendLine("            }");
+                sb.AppendLine();
+                sb.AppendLine("            if (task.IsCanceled)");
+                sb.AppendLine("            {");
+                sb.AppendLine("                throw new System.OperationCanceledException(\"Action task was canceled.\");");
+                sb.AppendLine("            }");
+                sb.AppendLine();
+                sb.AppendLine("            IsExecuting = false;");
+                sb.AppendLine("        }");
+                sb.AppendLine();
+                sb.AppendLine("        private async System.Threading.Tasks.Task ObserveTaskAsync(System.Threading.Tasks.Task task)");
+                sb.AppendLine("        {");
+                sb.AppendLine("            try");
+                sb.AppendLine("            {");
+                sb.AppendLine("                await task.ConfigureAwait(false);");
+                sb.AppendLine("            }");
+                sb.AppendLine("            catch (System.Exception ex)");
+                sb.AppendLine("            {");
+                sb.AppendLine("                Avalonia.Threading.Dispatcher.UIThread.Post(() => throw new System.InvalidOperationException(\"Action task faulted.\", ex));");
+                sb.AppendLine("            }");
+                sb.AppendLine("            finally");
+                sb.AppendLine("            {");
+                sb.AppendLine("                Avalonia.Threading.Dispatcher.UIThread.Post(() => IsExecuting = false);");
+                sb.AppendLine("            }");
+                sb.AppendLine("        }");
+            }
             sb.AppendLine("    }");
             if (!string.IsNullOrEmpty(info.Namespace))
             {
@@ -436,12 +586,17 @@ namespace Xaml.Behaviors.SourceGenerators
         // GenerateTypedTrigger
         // ----------------------------------------------------------------------------------------
 
-        private record TriggerInfo(string? Namespace, string ClassName, string TargetTypeName, string EventName, string EventHandlerType, string EventArgsType, string? Error = null);
+        private record TriggerParameter(string Name, string Type, RefKind RefKind);
+        private record TriggerInfo(string? Namespace, string ClassName, string TargetTypeName, string EventName, string EventHandlerType, ImmutableArray<TriggerParameter> Parameters, Diagnostic? Diagnostic = null);
 
         private ImmutableArray<TriggerInfo> GetTriggerToGenerate(GeneratorAttributeSyntaxContext context)
         {
             var results = ImmutableArray.CreateBuilder<TriggerInfo>();
             var symbol = context.TargetSymbol;
+            if (symbol is IAssemblySymbol)
+            {
+                return results.ToImmutable();
+            }
             var eventSymbol = symbol as IEventSymbol;
             
             // Handle field-like events where the attribute might be attached to the field symbol
@@ -455,65 +610,107 @@ namespace Xaml.Behaviors.SourceGenerators
 
             if (eventSymbol != null)
             {
-                var targetType = eventSymbol.ContainingType;
-                if (targetType != null)
-                {
-                    var ns = targetType.ContainingNamespace.ToDisplayString();
-                    var namespaceName = (targetType.ContainingNamespace.IsGlobalNamespace || ns == "<global namespace>") ? null : ns;
-                    var className = $"{eventSymbol.Name}Trigger";
-                    var targetTypeName = targetType.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat);
-                    var eventName = eventSymbol.Name;
-                    var eventHandlerType = eventSymbol.Type.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat);
-                    
-                    // Try to determine EventArgs type from the delegate Invoke method
-                    var invokeMethod = (eventSymbol.Type as INamedTypeSymbol)?.DelegateInvokeMethod;
-                    var eventArgsType = "System.EventArgs";
-                    if (invokeMethod != null && invokeMethod.Parameters.Length == 2)
+                    var targetType = eventSymbol.ContainingType;
+                    if (targetType != null)
                     {
-                        eventArgsType = invokeMethod.Parameters[1].Type.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat);
+                        var ns = targetType.ContainingNamespace.ToDisplayString();
+                        var namespaceName = (targetType.ContainingNamespace.IsGlobalNamespace || ns == "<global namespace>") ? null : ns;
+                        var className = $"{eventSymbol.Name}Trigger";
+                        var targetTypeName = ToDisplayStringWithNullable(targetType);
+                        var eventName = eventSymbol.Name;
+                        var eventHandlerType = ToDisplayStringWithNullable(eventSymbol.Type);
+
+                    var invokeMethod = (eventSymbol.Type as INamedTypeSymbol)?.DelegateInvokeMethod;
+                    if (invokeMethod == null)
+                    {
+                        results.Add(new TriggerInfo(namespaceName, className, targetTypeName, eventName, eventHandlerType, ImmutableArray<TriggerParameter>.Empty, Diagnostic.Create(TriggerUnsupportedDelegateDiagnostic, context.TargetNode?.GetLocation() ?? Location.None, eventName, eventHandlerType)));
+                        return results.ToImmutable();
                     }
 
-                    results.Add(new TriggerInfo(namespaceName, className, targetTypeName, eventName, eventHandlerType, eventArgsType));
+                    if (!invokeMethod.ReturnsVoid)
+                    {
+                        results.Add(new TriggerInfo(namespaceName, className, targetTypeName, eventName, eventHandlerType, ImmutableArray<TriggerParameter>.Empty, Diagnostic.Create(TriggerUnsupportedDelegateReturnTypeDiagnostic, context.TargetNode?.GetLocation() ?? Location.None, eventName, eventHandlerType)));
+                        return results.ToImmutable();
+                    }
+
+                    var parameters = invokeMethod.Parameters.Select(p =>
+                    {
+                        var name = EscapeIdentifier(p.Name);
+                        var typeName = ToDisplayStringWithNullable(p.Type);
+                        return new TriggerParameter(name, typeName, p.RefKind);
+                    }).ToImmutableArray();
+
+                    if (parameters.Any(p => p.RefKind == RefKind.Out))
+                    {
+                        results.Add(new TriggerInfo(namespaceName, className, targetTypeName, eventName, eventHandlerType, parameters, Diagnostic.Create(TriggerUnsupportedDelegateOutParameterDiagnostic, context.TargetNode?.GetLocation() ?? Location.None, eventName, eventHandlerType)));
+                        return results.ToImmutable();
+                    }
+
+                    results.Add(new TriggerInfo(namespaceName, className, targetTypeName, eventName, eventHandlerType, parameters));
                 }
             }
-            else if (context.TargetSymbol is IAssemblySymbol)
+
+            return results.ToImmutable();
+        }
+
+        private ImmutableArray<TriggerInfo> GetAssemblyTriggers(Compilation compilation)
+        {
+            var results = ImmutableArray.CreateBuilder<TriggerInfo>();
+
+            foreach (var attributeData in compilation.Assembly.GetAttributes())
             {
-                foreach (var attributeData in context.Attributes)
+                if (!IsAttribute(attributeData, GenerateTypedTriggerAttributeName)) continue;
+                if (attributeData.ConstructorArguments.Length != 2) continue;
+
+                var targetType = attributeData.ConstructorArguments[0].Value as INamedTypeSymbol;
+                var eventName = attributeData.ConstructorArguments[1].Value as string;
+
+                if (targetType == null || string.IsNullOrEmpty(eventName))
                 {
-                    if (attributeData.AttributeClass?.ToDisplayString() != GenerateTypedTriggerAttributeName) continue;
-                    if (attributeData.ConstructorArguments.Length != 2) continue;
-
-                    var targetType = attributeData.ConstructorArguments[0].Value as INamedTypeSymbol;
-                    var eventName = attributeData.ConstructorArguments[1].Value as string;
-
-                    if (targetType == null || string.IsNullOrEmpty(eventName)) 
-                    {
-                        results.Add(new TriggerInfo("", "", "", "", "", "", "TargetType or EventName null"));
-                        continue;
-                    }
-
-                    var evt = FindEvent(targetType, eventName!);
-                    if (evt == null) 
-                    {
-                        results.Add(new TriggerInfo("", "", "", eventName!, "", "", $"Event {eventName} not found on {targetType.Name}"));
-                        continue;
-                    }
-
-                    var ns = targetType.ContainingNamespace.ToDisplayString();
-                    var namespaceName = (targetType.ContainingNamespace.IsGlobalNamespace || ns == "<global namespace>") ? null : ns;
-                    var className = $"{eventName}Trigger";
-                    var targetTypeName = targetType.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat);
-                    var eventHandlerType = evt.Type.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat);
-                    
-                    var invokeMethod = (evt.Type as INamedTypeSymbol)?.DelegateInvokeMethod;
-                    var eventArgsType = "System.EventArgs";
-                    if (invokeMethod != null && invokeMethod.Parameters.Length == 2)
-                    {
-                        eventArgsType = invokeMethod.Parameters[1].Type.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat);
-                    }
-
-                    results.Add(new TriggerInfo(namespaceName, className, targetTypeName, eventName!, eventHandlerType, eventArgsType));
+                    results.Add(new TriggerInfo("", "", "", "", "", ImmutableArray<TriggerParameter>.Empty, Diagnostic.Create(TriggerEventNotFoundDiagnostic, Location.None, eventName ?? "<unknown>", targetType?.Name ?? "<unknown>")));
+                    continue;
                 }
+
+                var evt = FindEvent(targetType, eventName!);
+                if (evt == null)
+                {
+                    results.Add(new TriggerInfo("", "", "", eventName!, "", ImmutableArray<TriggerParameter>.Empty, Diagnostic.Create(TriggerEventNotFoundDiagnostic, Location.None, eventName!, targetType.Name)));
+                    continue;
+                }
+
+                var ns = targetType.ContainingNamespace.ToDisplayString();
+                var namespaceName = (targetType.ContainingNamespace.IsGlobalNamespace || ns == "<global namespace>") ? null : ns;
+                var className = $"{eventName}Trigger";
+                var targetTypeName = ToDisplayStringWithNullable(targetType);
+                var eventHandlerType = ToDisplayStringWithNullable(evt.Type);
+
+                var invokeMethod = (evt.Type as INamedTypeSymbol)?.DelegateInvokeMethod;
+                if (invokeMethod == null)
+                {
+                    results.Add(new TriggerInfo(namespaceName, className, targetTypeName, eventName!, eventHandlerType, ImmutableArray<TriggerParameter>.Empty, Diagnostic.Create(TriggerUnsupportedDelegateDiagnostic, Location.None, eventName!, eventHandlerType)));
+                    continue;
+                }
+
+                if (!invokeMethod.ReturnsVoid)
+                {
+                    results.Add(new TriggerInfo(namespaceName, className, targetTypeName, eventName!, eventHandlerType, ImmutableArray<TriggerParameter>.Empty, Diagnostic.Create(TriggerUnsupportedDelegateReturnTypeDiagnostic, Location.None, eventName!, eventHandlerType)));
+                    continue;
+                }
+
+                var parameters = invokeMethod.Parameters.Select(p =>
+                {
+                    var name = EscapeIdentifier(p.Name);
+                    var typeName = ToDisplayStringWithNullable(p.Type);
+                    return new TriggerParameter(name, typeName, p.RefKind);
+                }).ToImmutableArray();
+
+                if (parameters.Any(p => p.RefKind == RefKind.Out))
+                {
+                    results.Add(new TriggerInfo(namespaceName, className, targetTypeName, eventName!, eventHandlerType, parameters, Diagnostic.Create(TriggerUnsupportedDelegateOutParameterDiagnostic, Location.None, eventName!, eventHandlerType)));
+                    continue;
+                }
+
+                results.Add(new TriggerInfo(namespaceName, className, targetTypeName, eventName!, eventHandlerType, parameters));
             }
 
             return results.ToImmutable();
@@ -521,9 +718,9 @@ namespace Xaml.Behaviors.SourceGenerators
 
         private void ExecuteGenerateTrigger(SourceProductionContext spc, TriggerInfo info)
         {
-            if (info.Error != null)
+            if (info.Diagnostic != null)
             {
-                spc.AddSource($"Error_{Guid.NewGuid()}.g.cs", SourceText.From($"/* Error: {info.Error} */", Encoding.UTF8));
+                spc.ReportDiagnostic(info.Diagnostic);
                 return;
             }
 
@@ -610,9 +807,12 @@ namespace Xaml.Behaviors.SourceGenerators
             sb.AppendLine("            }");
             sb.AppendLine("        }");
             sb.AppendLine();
-            sb.AppendLine($"        private void OnEvent(object? sender, {info.EventArgsType} e)");
+            var parameters = FormatParameters(info.Parameters);
+            var args = FormatArguments(info.Parameters);
+            var eventArgsArgument = info.Parameters.Length == 0 ? "null" : info.Parameters.Last().Name;
+            sb.AppendLine($"        private void OnEvent({parameters})");
             sb.AppendLine("        {");
-            sb.AppendLine("            Interaction.ExecuteActions(AssociatedObject, this.Actions, e);");
+            sb.AppendLine($"            Interaction.ExecuteActions(AssociatedObject, this.Actions, {eventArgsArgument});");
             sb.AppendLine("        }");
             sb.AppendLine();
             sb.AppendLine("        private class EventProxy");
@@ -624,18 +824,30 @@ namespace Xaml.Behaviors.SourceGenerators
             sb.AppendLine($"                _trigger = new WeakReference<{info.ClassName}>(trigger);");
             sb.AppendLine("            }");
             sb.AppendLine();
-            sb.AppendLine($"            public void OnEvent(object? sender, {info.EventArgsType} e)");
+            sb.AppendLine($"            public void OnEvent({parameters})");
             sb.AppendLine("            {");
             sb.AppendLine("                if (_trigger.TryGetTarget(out var trigger))");
             sb.AppendLine("                {");
-            sb.AppendLine("                    trigger.OnEvent(sender, e);");
+            sb.AppendLine($"                    trigger.OnEvent({args});");
             sb.AppendLine("                }");
             sb.AppendLine("                else");
             sb.AppendLine("                {");
-            sb.AppendLine($"                    if (sender is {info.TargetTypeName} typedSource)");
-            sb.AppendLine("                    {");
-            sb.AppendLine($"                        typedSource.{info.EventName} -= OnEvent;");
-            sb.AppendLine("                    }");
+            if (info.Parameters.Length > 0)
+            {
+                var firstParam = info.Parameters[0];
+                if (IsObjectType(firstParam.Type))
+                {
+                    sb.AppendLine($"                    if ({firstParam.Name} is {info.TargetTypeName} typedSource)");
+                    sb.AppendLine("                    {");
+                    sb.AppendLine($"                        typedSource.{info.EventName} -= OnEvent;");
+                    sb.AppendLine("                    }");
+                }
+                else if (firstParam.Type == info.TargetTypeName)
+                {
+                    sb.AppendLine($"                    {info.TargetTypeName} typedSource = {firstParam.Name};");
+                    sb.AppendLine($"                    typedSource.{info.EventName} -= OnEvent;");
+                }
+            }
             sb.AppendLine("                }");
             sb.AppendLine("            }");
             sb.AppendLine("        }");
@@ -652,67 +864,30 @@ namespace Xaml.Behaviors.SourceGenerators
         // GenerateTypedChangePropertyAction
         // ----------------------------------------------------------------------------------------
 
-        private record ChangePropertyInfo(string? Namespace, string ClassName, string TargetTypeName, string PropertyName, string PropertyType, string? Error = null);
+        private record ChangePropertyInfo(string? Namespace, string ClassName, string TargetTypeName, string PropertyName, string PropertyType, Diagnostic? Diagnostic = null);
 
         private ImmutableArray<ChangePropertyInfo> GetChangePropertyActionToGenerate(GeneratorAttributeSyntaxContext context)
         {
             var results = ImmutableArray.CreateBuilder<ChangePropertyInfo>();
             var symbol = context.TargetSymbol;
+            if (symbol is IAssemblySymbol)
+            {
+                return results.ToImmutable();
+            }
             
             if (symbol is IPropertySymbol propertySymbol)
             {
-                var targetType = propertySymbol.ContainingType;
-                if (targetType != null)
-                {
-                    var ns = targetType.ContainingNamespace.ToDisplayString();
-                    var namespaceName = (targetType.ContainingNamespace.IsGlobalNamespace || ns == "<global namespace>") ? null : ns;
-                    var className = $"Set{propertySymbol.Name}Action";
-                    var targetTypeName = targetType.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat);
-                    var propertyName = propertySymbol.Name;
-                    var propertyType = propertySymbol.Type.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat);
+                    var targetType = propertySymbol.ContainingType;
+                    if (targetType != null)
+                    {
+                        var ns = targetType.ContainingNamespace.ToDisplayString();
+                        var namespaceName = (targetType.ContainingNamespace.IsGlobalNamespace || ns == "<global namespace>") ? null : ns;
+                        var className = $"Set{propertySymbol.Name}Action";
+                        var targetTypeName = ToDisplayStringWithNullable(targetType);
+                        var propertyName = propertySymbol.Name;
+                        var propertyType = ToDisplayStringWithNullable(propertySymbol.Type);
 
                     results.Add(new ChangePropertyInfo(namespaceName, className, targetTypeName, propertyName, propertyType));
-                }
-            }
-            else if (context.TargetSymbol is IAssemblySymbol)
-            {
-                foreach (var attributeData in context.Attributes)
-                {
-                    if (attributeData.AttributeClass?.ToDisplayString() != GenerateTypedChangePropertyActionAttributeName) continue;
-                    if (attributeData.ConstructorArguments.Length != 2) continue;
-
-                    var targetType = attributeData.ConstructorArguments[0].Value as INamedTypeSymbol;
-                    var propertyName = attributeData.ConstructorArguments[1].Value as string;
-
-                    if (targetType == null || string.IsNullOrEmpty(propertyName)) 
-                    {
-                        results.Add(new ChangePropertyInfo("", "", "", "", "", "TargetType or PropertyName null"));
-                        continue;
-                    }
-
-                    // Re-resolve type to ensure we have the best symbol?
-                    var compilation = context.SemanticModel.Compilation;
-                    var typeName = targetType.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat);
-                    if (typeName.StartsWith("global::")) typeName = typeName.Substring(8);
-                    
-                    var resolvedType = compilation.GetTypeByMetadataName(typeName);
-                    if (resolvedType != null) targetType = resolvedType;
-
-                    var propertyTypeSymbol = FindPropertyType(targetType, propertyName!);
-                    if (propertyTypeSymbol == null) 
-                    {
-                        results.Add(new ChangePropertyInfo("", "", "", propertyName!, "", $"Property {propertyName} not found on {targetType.Name}"));
-                        continue;
-                    }
-
-                    var propertyType = propertyTypeSymbol.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat);
-
-                    var ns = targetType.ContainingNamespace.ToDisplayString();
-                    var namespaceName = (targetType.ContainingNamespace.IsGlobalNamespace || ns == "<global namespace>") ? null : ns;
-                    var className = $"Set{propertyName}Action";
-                    var targetTypeName = targetType.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat);
-
-                    results.Add(new ChangePropertyInfo(namespaceName, className, targetTypeName, propertyName!, propertyType));
                 }
             }
             return results.ToImmutable();
@@ -720,9 +895,9 @@ namespace Xaml.Behaviors.SourceGenerators
 
         private void ExecuteGenerateChangePropertyAction(SourceProductionContext spc, ChangePropertyInfo info)
         {
-            if (info.Error != null)
+            if (info.Diagnostic != null)
             {
-                spc.AddSource($"Error_ChangeProperty_{Guid.NewGuid()}.g.cs", SourceText.From($"/* Error: {info.Error} */", Encoding.UTF8));
+                spc.ReportDiagnostic(info.Diagnostic);
                 return;
             }
 
@@ -780,29 +955,35 @@ namespace Xaml.Behaviors.SourceGenerators
 
         private record DataTriggerInfo(string Namespace, string ClassName, string TypeName);
 
-        private ImmutableArray<DataTriggerInfo> GetDataTriggerToGenerate(GeneratorAttributeSyntaxContext context)
+        private static DataTriggerInfo? GetDataTriggerFromAttributeSyntax(GeneratorSyntaxContext context)
         {
-            var results = ImmutableArray.CreateBuilder<DataTriggerInfo>();
-            if (context.TargetSymbol is IAssemblySymbol)
+            if (context.Node is not AttributeSyntax attributeSyntax)
+                return null;
+
+            if (attributeSyntax.ArgumentList?.Arguments.Count != 1)
+                return null;
+
+            if (attributeSyntax.ArgumentList.Arguments[0].Expression is not TypeOfExpressionSyntax typeOfExpression)
+                return null;
+
+            var typeInfo = context.SemanticModel.GetTypeInfo(typeOfExpression.Type).Type as INamedTypeSymbol;
+            const string namespaceName = "Xaml.Behaviors.Generated";
+
+            if (typeInfo != null)
             {
-                foreach (var attributeData in context.Attributes)
-                {
-                    if (attributeData.AttributeClass?.ToDisplayString() != GenerateTypedDataTriggerAttributeName) continue;
-                    if (attributeData.ConstructorArguments.Length != 1) continue;
-
-                    var type = attributeData.ConstructorArguments[0].Value as INamedTypeSymbol;
-                    if (type == null) continue;
-
-                    var typeName = type.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat);
-                    var simpleName = type.Name;
-                    
-                    var namespaceName = "Xaml.Behaviors.Generated";
-                    var className = $"{simpleName}DataTrigger";
-
-                    results.Add(new DataTriggerInfo(namespaceName, className, typeName));
-                }
+                var className = $"{typeInfo.Name}DataTrigger";
+                var typeName = ToDisplayStringWithNullable(typeInfo);
+                return new DataTriggerInfo(namespaceName, className, typeName);
             }
-            return results.ToImmutable();
+
+            var simpleName = typeOfExpression.Type switch
+            {
+                IdentifierNameSyntax id => id.Identifier.Text,
+                QualifiedNameSyntax q => q.Right.Identifier.Text,
+                _ => typeOfExpression.Type.ToString()
+            };
+
+            return new DataTriggerInfo(namespaceName, $"{simpleName}DataTrigger", typeOfExpression.Type.ToString());
         }
 
         private void ExecuteGenerateDataTrigger(SourceProductionContext spc, DataTriggerInfo info)
@@ -923,7 +1104,7 @@ namespace Xaml.Behaviors.SourceGenerators
                     {
                         propertyName = char.ToUpper(propertyName[0]) + propertyName.Substring(1);
                     }
-                    var typeName = member.Type.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat);
+                    var typeName = ToDisplayStringWithNullable(member.Type);
                     properties.Add(new TriggerPropertyInfo(propertyName, typeName, fieldName));
                 }
             }
@@ -1019,7 +1200,7 @@ namespace Xaml.Behaviors.SourceGenerators
                     var fieldName = member.Name;
                     var propertyName = fieldName.TrimStart('_');
                     if (propertyName.Length > 0) propertyName = char.ToUpper(propertyName[0]) + propertyName.Substring(1);
-                    var typeName = member.Type.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat);
+                    var typeName = ToDisplayStringWithNullable(member.Type);
                     commandProp = new TriggerPropertyInfo(propertyName, typeName, fieldName);
                 }
                 if (member.GetAttributes().Any(a => a.AttributeClass?.ToDisplayString() == ActionParameterAttributeName))
@@ -1027,7 +1208,7 @@ namespace Xaml.Behaviors.SourceGenerators
                     var fieldName = member.Name;
                     var propertyName = fieldName.TrimStart('_');
                     if (propertyName.Length > 0) propertyName = char.ToUpper(propertyName[0]) + propertyName.Substring(1);
-                    var typeName = member.Type.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat);
+                    var typeName = ToDisplayStringWithNullable(member.Type);
                     parameterProp = new TriggerPropertyInfo(propertyName, typeName, fieldName);
                 }
             }
@@ -1111,24 +1292,31 @@ namespace Xaml.Behaviors.SourceGenerators
             spc.AddSource($"{info.ClassName}.g.cs", SourceText.From(sb.ToString(), Encoding.UTF8));
         }
 
-        private static IMethodSymbol? FindMethod(INamedTypeSymbol? type, string name)
+        private (IMethodSymbol? Method, Diagnostic? Diagnostic) ResolveMethod(INamedTypeSymbol targetType, string name)
         {
-            while (type != null)
+            var current = targetType;
+            while (current != null)
             {
-                var methods = type.GetMembers(name).OfType<IMethodSymbol>().ToList();
-                if (!methods.Any())
+                var methods = current
+                    .GetMembers()
+                    .OfType<IMethodSymbol>()
+                    .Where(m => m.MethodKind == MethodKind.Ordinary && m.Name == name)
+                    .ToList();
+
+                if (methods.Count == 1)
                 {
-                    methods = type.GetMembers().OfType<IMethodSymbol>().Where(m => m.Name == name).ToList();
+                    return (methods[0], null);
                 }
 
-                var method = methods.FirstOrDefault(m => m.Parameters.Length == 2) 
-                             ?? methods.FirstOrDefault(m => m.Parameters.Length == 0)
-                             ?? methods.FirstOrDefault();
-                
-                if (method != null) return method;
-                type = type.BaseType;
+                if (methods.Count > 1)
+                {
+                    return (null, Diagnostic.Create(ActionMethodAmbiguousDiagnostic, Location.None, name, targetType.Name));
+                }
+
+                current = current.BaseType;
             }
-            return null;
+
+            return (null, Diagnostic.Create(ActionMethodNotFoundDiagnostic, Location.None, name, targetType.Name));
         }
 
         private static IEventSymbol? FindEvent(INamedTypeSymbol? type, string name)
@@ -1181,6 +1369,444 @@ namespace Xaml.Behaviors.SourceGenerators
                 type = type.BaseType;
             }
             return null;
+        }
+
+        private ImmutableArray<ChangePropertyInfo> GetAssemblyChangePropertyActions(Compilation compilation)
+        {
+            var results = ImmutableArray.CreateBuilder<ChangePropertyInfo>();
+
+            foreach (var attributeData in compilation.Assembly.GetAttributes())
+            {
+                if (!IsAttribute(attributeData, GenerateTypedChangePropertyActionAttributeName)) continue;
+                if (attributeData.ConstructorArguments.Length != 2) continue;
+
+                var targetType = attributeData.ConstructorArguments[0].Value as INamedTypeSymbol;
+                var propertyName = attributeData.ConstructorArguments[1].Value as string;
+
+                if (targetType == null || string.IsNullOrEmpty(propertyName))
+                {
+                    var diagnostic = Diagnostic.Create(ChangePropertyNotFoundDiagnostic, Location.None, propertyName ?? "<unknown>", targetType?.Name ?? "<unknown>");
+                    results.Add(new ChangePropertyInfo("", "", "", "", "", diagnostic));
+                    continue;
+                }
+
+                var propertyTypeSymbol = FindPropertyType(targetType, propertyName!);
+                if (propertyTypeSymbol == null)
+                {
+                    var diagnostic = Diagnostic.Create(ChangePropertyNotFoundDiagnostic, Location.None, propertyName!, targetType.Name);
+                    results.Add(new ChangePropertyInfo("", "", "", propertyName!, "", diagnostic));
+                    continue;
+                }
+
+                var propertyType = ToDisplayStringWithNullable(propertyTypeSymbol);
+
+                var ns = targetType.ContainingNamespace.ToDisplayString();
+                var namespaceName = (targetType.ContainingNamespace.IsGlobalNamespace || ns == "<global namespace>") ? null : ns;
+                var className = $"Set{propertyName}Action";
+                var targetTypeName = ToDisplayStringWithNullable(targetType);
+
+                results.Add(new ChangePropertyInfo(namespaceName, className, targetTypeName, propertyName!, propertyType));
+            }
+
+            return results.ToImmutable();
+        }
+
+        private static string ToDisplayStringWithNullable(ITypeSymbol typeSymbol)
+        {
+            return typeSymbol.ToDisplayString(FullyQualifiedNullableFormat);
+        }
+
+        private static string EscapeIdentifier(string name)
+        {
+            if (string.IsNullOrWhiteSpace(name))
+            {
+                return "arg";
+            }
+
+            var kind = SyntaxFacts.GetKeywordKind(name);
+            return kind != SyntaxKind.None ? "@" + name : name;
+        }
+
+        private static string FormatParameters(ImmutableArray<TriggerParameter> parameters)
+        {
+            return string.Join(", ", parameters.Select(FormatParameter));
+        }
+
+        private static string FormatParameter(TriggerParameter parameter)
+        {
+            return $"{FormatRefKind(parameter.RefKind)}{parameter.Type} {parameter.Name}";
+        }
+
+        private static string FormatArguments(ImmutableArray<TriggerParameter> parameters)
+        {
+            return string.Join(", ", parameters.Select(FormatArgument));
+        }
+
+        private static string FormatArgument(TriggerParameter parameter)
+        {
+            return $"{FormatRefKind(parameter.RefKind)}{parameter.Name}";
+        }
+
+        private static string FormatRefKind(RefKind refKind)
+        {
+            return refKind switch
+            {
+                RefKind.Ref => "ref ",
+                RefKind.Out => "out ",
+                RefKind.In => "in ",
+                _ => string.Empty
+            };
+        }
+
+        private static bool IsObjectType(string typeName)
+        {
+            return typeName == "object" || typeName == "System.Object" || typeName == "global::System.Object";
+        }
+
+        private static string TrimNullableAnnotation(string typeName)
+        {
+            if (typeName.EndsWith("?", StringComparison.Ordinal) && typeName.Length > 0)
+            {
+                return typeName.Substring(0, typeName.Length - 1);
+            }
+
+            return typeName;
+        }
+
+        private static string MakeUniqueName(string baseName, INamedTypeSymbol scope)
+        {
+            var fullyQualified = scope.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat);
+            return MakeUniqueName(baseName, fullyQualified);
+        }
+
+        private static string MakeUniqueName(string baseName, string scope)
+        {
+            return $"{baseName}_{ComputeHash(scope)}";
+        }
+
+        private static bool IsDataTriggerAttribute(AttributeData attributeData)
+        {
+            var attributeClass = attributeData.AttributeClass;
+            if (attributeClass == null)
+                return false;
+
+            var displayName = attributeClass.ToDisplayString();
+            if (displayName == GenerateTypedDataTriggerAttributeName)
+                return true;
+
+            var fullyQualified = attributeClass.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat);
+            if (fullyQualified.StartsWith("global::", StringComparison.Ordinal))
+            {
+                fullyQualified = fullyQualified.Substring("global::".Length);
+            }
+
+            if (fullyQualified == GenerateTypedDataTriggerAttributeName)
+                return true;
+
+            return attributeClass.Name == "GenerateTypedDataTriggerAttribute";
+        }
+
+        private static bool IsAssemblyAttribute(SyntaxNode node, string attributeName)
+        {
+            if (node is not AttributeSyntax attributeSyntax)
+                return false;
+
+            if (!attributeSyntax.Name.ToString().Contains(attributeName, StringComparison.Ordinal))
+                return false;
+
+            if (attributeSyntax.Parent is AttributeListSyntax list && list.Target?.Identifier.IsKind(SyntaxKind.AssemblyKeyword) == true)
+                return true;
+
+            return false;
+        }
+
+        private ActionInfo? GetAssemblyActionFromAttributeSyntax(GeneratorSyntaxContext context)
+        {
+            if (context.Node is not AttributeSyntax attributeSyntax)
+                return null;
+
+            if (attributeSyntax.ArgumentList?.Arguments.Count != 2)
+                return null;
+
+            if (attributeSyntax.ArgumentList.Arguments[0].Expression is not TypeOfExpressionSyntax typeOfExpression)
+                return null;
+
+            if (attributeSyntax.ArgumentList.Arguments[1].Expression is not LiteralExpressionSyntax methodLiteral)
+                return null;
+
+            var methodName = methodLiteral.Token.ValueText;
+            var targetType = context.SemanticModel.GetTypeInfo(typeOfExpression.Type).Type as INamedTypeSymbol;
+            if (targetType == null || string.IsNullOrEmpty(methodName))
+                return null;
+
+            var info = CreateActionInfo(targetType, methodName);
+            return info;
+        }
+
+        private ActionInfo CreateActionInfo(INamedTypeSymbol targetType, string methodName)
+        {
+            var (method, diagnostic) = ResolveMethod(targetType, methodName);
+            if (diagnostic != null)
+            {
+                return new ActionInfo("", "", "", methodName, ImmutableArray<ActionParameter>.Empty, false, false, diagnostic);
+            }
+
+            return CreateActionInfo(targetType, method!);
+        }
+
+        private ActionInfo CreateActionInfo(INamedTypeSymbol targetType, IMethodSymbol methodSymbol)
+        {
+            var parameters = methodSymbol.Parameters.Select(p => new ActionParameter(p.Name, ToDisplayStringWithNullable(p.Type))).ToImmutableArray();
+
+            var returnType = methodSymbol.ReturnType;
+            bool isAwaitable = IsAwaitableType(returnType);
+            bool isValueTask = IsValueTaskType(returnType);
+
+            var ns = targetType.ContainingNamespace.ToDisplayString();
+            var namespaceName = (targetType.ContainingNamespace.IsGlobalNamespace || ns == "<global namespace>") ? null : ns;
+            var className = $"{methodSymbol.Name}Action";
+            var targetTypeName = ToDisplayStringWithNullable(targetType);
+
+            return new ActionInfo(namespaceName, className, targetTypeName, methodSymbol.Name, parameters, isAwaitable, isValueTask);
+        }
+
+        private TriggerInfo? GetAssemblyTriggerFromAttributeSyntax(GeneratorSyntaxContext context)
+        {
+            if (context.Node is not AttributeSyntax attributeSyntax)
+                return null;
+
+            if (attributeSyntax.ArgumentList?.Arguments.Count != 2)
+                return null;
+
+            if (attributeSyntax.ArgumentList.Arguments[0].Expression is not TypeOfExpressionSyntax typeOfExpression)
+                return null;
+
+            if (attributeSyntax.ArgumentList.Arguments[1].Expression is not LiteralExpressionSyntax eventLiteral)
+                return null;
+
+            var eventName = eventLiteral.Token.ValueText;
+            var targetType = context.SemanticModel.GetTypeInfo(typeOfExpression.Type).Type as INamedTypeSymbol;
+            if (targetType == null || string.IsNullOrEmpty(eventName))
+                return null;
+
+            var info = CreateTriggerInfo(targetType, eventName);
+            return info;
+        }
+
+        private TriggerInfo CreateTriggerInfo(INamedTypeSymbol targetType, string eventName)
+        {
+            var evt = FindEvent(targetType, eventName);
+            if (evt == null)
+            {
+                return new TriggerInfo("", "", "", eventName, "", ImmutableArray<TriggerParameter>.Empty, Diagnostic.Create(TriggerEventNotFoundDiagnostic, Location.None, eventName, targetType.Name));
+            }
+
+            var ns = targetType.ContainingNamespace.ToDisplayString();
+            var namespaceName = (targetType.ContainingNamespace.IsGlobalNamespace || ns == "<global namespace>") ? null : ns;
+            var className = $"{eventName}Trigger";
+            var targetTypeName = ToDisplayStringWithNullable(targetType);
+            var eventHandlerType = ToDisplayStringWithNullable(evt.Type);
+
+            var invokeMethod = (evt.Type as INamedTypeSymbol)?.DelegateInvokeMethod;
+            if (invokeMethod == null)
+            {
+                return new TriggerInfo(namespaceName, className, targetTypeName, eventName, eventHandlerType, ImmutableArray<TriggerParameter>.Empty, Diagnostic.Create(TriggerUnsupportedDelegateDiagnostic, Location.None, eventName, eventHandlerType));
+            }
+
+            if (!invokeMethod.ReturnsVoid)
+            {
+                return new TriggerInfo(namespaceName, className, targetTypeName, eventName, eventHandlerType, ImmutableArray<TriggerParameter>.Empty, Diagnostic.Create(TriggerUnsupportedDelegateReturnTypeDiagnostic, Location.None, eventName, eventHandlerType));
+            }
+
+            var parameters = invokeMethod.Parameters.Select(p =>
+            {
+                var name = EscapeIdentifier(p.Name);
+                var typeName = ToDisplayStringWithNullable(p.Type);
+                return new TriggerParameter(name, typeName, p.RefKind);
+            }).ToImmutableArray();
+
+            if (parameters.Any(p => p.RefKind == RefKind.Out))
+            {
+                return new TriggerInfo(namespaceName, className, targetTypeName, eventName, eventHandlerType, parameters, Diagnostic.Create(TriggerUnsupportedDelegateOutParameterDiagnostic, Location.None, eventName, eventHandlerType));
+            }
+
+            return new TriggerInfo(namespaceName, className, targetTypeName, eventName, eventHandlerType, parameters);
+        }
+
+        private ChangePropertyInfo? GetAssemblyChangePropertyFromAttributeSyntax(GeneratorSyntaxContext context)
+        {
+            if (context.Node is not AttributeSyntax attributeSyntax)
+                return null;
+
+            if (attributeSyntax.ArgumentList?.Arguments.Count != 2)
+                return null;
+
+            if (attributeSyntax.ArgumentList.Arguments[0].Expression is not TypeOfExpressionSyntax typeOfExpression)
+                return null;
+
+            if (attributeSyntax.ArgumentList.Arguments[1].Expression is not LiteralExpressionSyntax propertyLiteral)
+                return null;
+
+            var propertyName = propertyLiteral.Token.ValueText;
+            var targetType = context.SemanticModel.GetTypeInfo(typeOfExpression.Type).Type as INamedTypeSymbol;
+            if (targetType == null || string.IsNullOrEmpty(propertyName))
+            {
+                var diagnostic = Diagnostic.Create(ChangePropertyNotFoundDiagnostic, Location.None, propertyName ?? "<unknown>", targetType?.Name ?? "<unknown>");
+                return new ChangePropertyInfo("", "", "", propertyName ?? "<unknown>", "", diagnostic);
+            }
+
+            var info = CreateChangePropertyInfo(targetType, propertyName);
+            return info;
+        }
+
+        private ChangePropertyInfo CreateChangePropertyInfo(INamedTypeSymbol targetType, string propertyName)
+        {
+            var propertyTypeSymbol = FindPropertyType(targetType, propertyName);
+            if (propertyTypeSymbol == null)
+            {
+                var diagnostic = Diagnostic.Create(ChangePropertyNotFoundDiagnostic, Location.None, propertyName, targetType.Name);
+                return new ChangePropertyInfo("", "", "", propertyName, "", diagnostic);
+            }
+
+            var propertyType = ToDisplayStringWithNullable(propertyTypeSymbol);
+
+            var ns = targetType.ContainingNamespace.ToDisplayString();
+            var namespaceName = (targetType.ContainingNamespace.IsGlobalNamespace || ns == "<global namespace>") ? null : ns;
+            var className = $"Set{propertyName}Action";
+            var targetTypeName = ToDisplayStringWithNullable(targetType);
+
+            return new ChangePropertyInfo(namespaceName, className, targetTypeName, propertyName, propertyType);
+        }
+
+        private static IEnumerable<ActionInfo> EnsureUniqueActions(IEnumerable<ActionInfo> infos)
+        {
+            foreach (var group in infos.GroupBy(info => info.ClassName))
+            {
+                var distinct = group
+                    .GroupBy(info => (info.TargetTypeName, info.MethodName))
+                    .Select(g => g.FirstOrDefault(info => info.Diagnostic is null) ?? g.First())
+                    .ToList();
+
+                if (distinct.Count == 1)
+                {
+                    yield return distinct[0];
+                    continue;
+                }
+
+                foreach (var info in distinct)
+                {
+                    yield return info with { ClassName = MakeUniqueName(info.ClassName, info.TargetTypeName) };
+                }
+            }
+        }
+
+        private static IEnumerable<TriggerInfo> EnsureUniqueTriggers(IEnumerable<TriggerInfo> infos)
+        {
+            foreach (var group in infos.GroupBy(info => info.ClassName))
+            {
+                var distinct = group
+                    .GroupBy(info => (info.TargetTypeName, info.EventName))
+                    .Select(g => g.FirstOrDefault(info => info.Diagnostic is null) ?? g.First())
+                    .ToList();
+
+                if (distinct.Count == 1)
+                {
+                    yield return distinct[0];
+                    continue;
+                }
+
+                foreach (var info in distinct)
+                {
+                    yield return info with { ClassName = MakeUniqueName(info.ClassName, info.TargetTypeName) };
+                }
+            }
+        }
+
+        private static IEnumerable<ChangePropertyInfo> EnsureUniqueChangePropertyActions(IEnumerable<ChangePropertyInfo> infos)
+        {
+            foreach (var group in infos.GroupBy(info => info.ClassName))
+            {
+                var distinct = group
+                    .GroupBy(info => (info.TargetTypeName, info.PropertyName))
+                    .Select(g => g.FirstOrDefault(info => info.Diagnostic is null) ?? g.First())
+                    .ToList();
+
+                if (distinct.Count == 1)
+                {
+                    yield return distinct[0];
+                    continue;
+                }
+
+                foreach (var info in distinct)
+                {
+                    yield return info with { ClassName = MakeUniqueName(info.ClassName, info.TargetTypeName) };
+                }
+            }
+        }
+
+        private static IEnumerable<DataTriggerInfo> EnsureUniqueDataTriggers(IEnumerable<DataTriggerInfo> infos)
+        {
+            foreach (var group in infos.GroupBy(info => info.ClassName))
+            {
+                var distinct = group
+                    .GroupBy(info => info.TypeName)
+                    .Select(g => g.First())
+                    .ToList();
+
+                if (distinct.Count == 1)
+                {
+                    yield return distinct[0];
+                    continue;
+                }
+
+                foreach (var info in distinct)
+                {
+                    yield return info with { ClassName = MakeUniqueName(info.ClassName, info.TypeName) };
+                }
+            }
+        }
+
+        private static bool IsAttribute(AttributeData attributeData, string metadataName)
+        {
+            var attributeClass = attributeData.AttributeClass;
+            if (attributeClass == null)
+                return false;
+
+            var displayName = attributeClass.ToDisplayString();
+            if (displayName == metadataName)
+                return true;
+
+            var fullyQualified = attributeClass.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat);
+            if (fullyQualified.StartsWith("global::", StringComparison.Ordinal))
+            {
+                fullyQualified = fullyQualified.Substring("global::".Length);
+            }
+
+            if (fullyQualified == metadataName)
+                return true;
+
+            return attributeClass.Name == metadataName.Split('.').Last();
+        }
+
+        private static bool IsDataTriggerAttributeSyntax(SyntaxNode node)
+        {
+            if (node is not AttributeSyntax attributeSyntax)
+                return false;
+
+            var name = attributeSyntax.Name.ToString();
+            return name.Contains("GenerateTypedDataTrigger", StringComparison.Ordinal);
+        }
+
+        private static string ComputeHash(string input)
+        {
+            using var sha = SHA256.Create();
+            var bytes = sha.ComputeHash(Encoding.UTF8.GetBytes(input));
+            var sb = new StringBuilder(8);
+            for (int i = 0; i < 4 && i < bytes.Length; i++)
+            {
+                sb.Append(bytes[i].ToString("x2"));
+            }
+            return sb.ToString();
         }
     }
 }

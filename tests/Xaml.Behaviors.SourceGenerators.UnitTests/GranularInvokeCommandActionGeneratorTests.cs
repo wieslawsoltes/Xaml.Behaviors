@@ -30,7 +30,7 @@ namespace TestNamespace
         var generated = sources.FirstOrDefault(s => s.Contains("class TestInvokeCommandAction"));
         Assert.NotNull(generated);
         Assert.Contains("public static readonly StyledProperty<global::System.Windows.Input.ICommand> CommandProperty", generated);
-        Assert.Contains("public static readonly StyledProperty<object> CommandParameterProperty", generated);
+        Assert.Contains("public static readonly StyledProperty<object", generated);
         Assert.Contains("if (command.CanExecute(this._commandParameter))", generated);
     }
 

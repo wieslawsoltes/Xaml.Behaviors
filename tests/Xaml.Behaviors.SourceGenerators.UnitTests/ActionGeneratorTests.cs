@@ -1,5 +1,4 @@
 using Avalonia.Headless.XUnit;
-using Xaml.Behaviors.Generated;
 using Xunit;
 
 namespace Avalonia.Xaml.Behaviors.SourceGenerators.UnitTests;
@@ -10,7 +9,7 @@ public class ActionGeneratorTests
     public void TestMethodAction_Should_Call_Method()
     {
         var control = new TestControl();
-        var action = new TestMethodAction();
+        dynamic action = GeneratedTypeHelper.CreateInstance("TestMethodAction");
         
         action.Execute(control, null);
         
@@ -21,7 +20,7 @@ public class ActionGeneratorTests
     public void TestMethodWithParameterAction_Should_Call_Method_With_Parameter()
     {
         var control = new TestControl();
-        var action = new TestMethodWithParameterAction();
+        dynamic action = GeneratedTypeHelper.CreateInstance("TestMethodWithParameterAction");
         action.Parameter = "Test";
         
         action.Execute(control, null);

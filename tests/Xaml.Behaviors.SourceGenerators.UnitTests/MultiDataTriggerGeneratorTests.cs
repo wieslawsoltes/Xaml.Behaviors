@@ -1,5 +1,4 @@
 using Avalonia.Headless.XUnit;
-using Xaml.Behaviors.Generated;
 using Xunit;
 
 namespace Avalonia.Xaml.Behaviors.SourceGenerators.UnitTests;
@@ -11,7 +10,7 @@ public class MultiDataTriggerGeneratorTests
     {
         var control = new TestControl();
         var trigger = new TypedMultiDataTrigger();
-        var action = new TestMethodAction();
+        dynamic action = GeneratedTypeHelper.CreateInstance("TestMethodAction");
         
         trigger.Actions!.Add(action);
         trigger.Attach(control);
