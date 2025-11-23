@@ -27,5 +27,4 @@
 - name: File System
   href: filesystem/toc.yml
 - name: Network
-  href: network.md
-
+  href: network/toc.yml
