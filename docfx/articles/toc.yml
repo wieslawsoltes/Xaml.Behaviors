@@ -27,7 +27,6 @@
 - name: File System
   href: filesystem/toc.yml
 - name: Network
-  href: network.md
+  href: network/toc.yml
 - name: Source Generators
   href: source-generators/toc.yml
-
