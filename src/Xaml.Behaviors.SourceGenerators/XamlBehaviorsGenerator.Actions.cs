@@ -352,6 +352,12 @@ namespace Xaml.Behaviors.SourceGenerators
                 return Diagnostic.Create(ActionParameterModifierNotSupportedDiagnostic, location, methodSymbol.Name, unsupportedParameter.Name, FormatRefKindKeyword(unsupportedParameter.RefKind));
             }
 
+            if (!IsAccessibleType(methodSymbol.ReturnType) ||
+                methodSymbol.Parameters.Any(p => !IsAccessibleType(p.Type)))
+            {
+                return Diagnostic.Create(MemberNotAccessibleDiagnostic, location, methodSymbol.Name, methodSymbol.ContainingType.ToDisplayString());
+            }
+
             return null;
         }
 
@@ -391,12 +397,20 @@ namespace Xaml.Behaviors.SourceGenerators
 
         private ImmutableArray<ActionInfo> CreateActionInfos(INamedTypeSymbol targetType, string methodPattern, Location? diagnosticLocation = null, bool includeTypeNamePrefix = false)
         {
+            var allMatches = FindMatchingMethods(targetType, methodPattern, requirePublicAccessibility: false, requireAccessibleTypes: false);
             var matchedMethods = FindMatchingMethods(targetType, methodPattern);
             var typePrefix = includeTypeNamePrefix ? GetTypeNamePrefix(targetType) : string.Empty;
             var classPrefix = string.IsNullOrEmpty(typePrefix) ? string.Empty : typePrefix;
+            var isPattern = methodPattern.Contains("*") ||
+                            methodPattern.IndexOfAny(new[] { '.', '$', '^', '[', ']', '(', ')', '+', '?', '{', '}', '|', '\\' }) >= 0;
+            var hasAnyMatch = allMatches.Length > 0;
             if (matchedMethods.Length == 0)
             {
-                var diagnostic = Diagnostic.Create(ActionMethodNotFoundDiagnostic, diagnosticLocation ?? Location.None, methodPattern, targetType.Name);
+                var diagnostic = Diagnostic.Create(
+                    hasAnyMatch ? MemberNotAccessibleDiagnostic : ActionMethodNotFoundDiagnostic,
+                    diagnosticLocation ?? Location.None,
+                    methodPattern,
+                    targetType.Name);
                 var ns = targetType.ContainingNamespace.ToDisplayString();
                 var namespaceName = (targetType.ContainingNamespace.IsGlobalNamespace || ns == "<global namespace>") ? null : ns;
                 var baseName = $"{CreateSafeIdentifier(methodPattern)}Action";
@@ -408,16 +422,36 @@ namespace Xaml.Behaviors.SourceGenerators
             var nsPart = targetType.ContainingNamespace.ToDisplayString();
             var namespaceNamePart = (targetType.ContainingNamespace.IsGlobalNamespace || nsPart == "<global namespace>") ? null : nsPart;
             var targetTypeNamePart = ToDisplayStringWithNullable(targetType);
+            var accessibleMethods = matchedMethods
+                .Where(UsesPublicTypes)
+                .Where(m => ValidateActionMethod(m, diagnosticLocation) is null)
+                .ToList();
+
+            if (accessibleMethods.Count == 0)
+            {
+                var diag = Diagnostic.Create(
+                    hasAnyMatch ? MemberNotAccessibleDiagnostic : ActionMethodNotFoundDiagnostic,
+                    diagnosticLocation ?? Location.None,
+                    methodPattern,
+                    targetType.ToDisplayString());
+                var fallbackBase = $"{CreateSafeIdentifier(methodPattern)}Action";
+                var fallbackClassName = string.IsNullOrEmpty(classPrefix) ? fallbackBase : classPrefix + fallbackBase;
+                return ImmutableArray.Create(new ActionInfo(namespaceNamePart, fallbackClassName, targetTypeNamePart, methodPattern, ImmutableArray<ActionParameter>.Empty, false, false, diag));
+            }
+
             var builder = ImmutableArray.CreateBuilder<ActionInfo>();
 
-            foreach (var group in matchedMethods.GroupBy(m => m.Name))
+            foreach (var group in accessibleMethods.GroupBy(m => m.Name))
             {
                 if (group.Skip(1).Any())
                 {
-                    var diagnostic = Diagnostic.Create(ActionMethodAmbiguousDiagnostic, diagnosticLocation ?? Location.None, group.Key, targetType.Name);
-                    var baseName = $"{group.Key}Action";
-                    var className = string.IsNullOrEmpty(classPrefix) ? baseName : classPrefix + baseName;
-                    builder.Add(new ActionInfo(namespaceNamePart, className, targetTypeNamePart, group.Key, ImmutableArray<ActionParameter>.Empty, false, false, diagnostic));
+                    if (!isPattern)
+                    {
+                        var diagnostic = Diagnostic.Create(ActionMethodAmbiguousDiagnostic, diagnosticLocation ?? Location.None, group.Key, targetType.Name);
+                        var baseName = $"{group.Key}Action";
+                        var className = string.IsNullOrEmpty(classPrefix) ? baseName : classPrefix + baseName;
+                        builder.Add(new ActionInfo(namespaceNamePart, className, targetTypeNamePart, group.Key, ImmutableArray<ActionParameter>.Empty, false, false, diagnostic));
+                    }
                     continue;
                 }
 
@@ -448,6 +482,12 @@ namespace Xaml.Behaviors.SourceGenerators
                 return new ActionInfo(namespaceName, className, targetTypeName, methodSymbol.Name, ImmutableArray<ActionParameter>.Empty, false, false, validationDiagnostic);
             }
 
+            if (!IsAccessibleType(methodSymbol.ReturnType) || methodSymbol.Parameters.Any(p => !IsAccessibleType(p.Type)))
+            {
+                var diag = Diagnostic.Create(MemberNotAccessibleDiagnostic, diagnosticLocation ?? Location.None, methodSymbol.Name, methodSymbol.ContainingType.ToDisplayString());
+                return new ActionInfo(namespaceName, className, targetTypeName, methodSymbol.Name, ImmutableArray<ActionParameter>.Empty, false, false, diag);
+            }
+
             var parameters = methodSymbol.Parameters.Select(p => new ActionParameter(p.Name, ToDisplayStringWithNullable(p.Type))).ToImmutableArray();
 
             var returnType = methodSymbol.ReturnType;
@@ -455,6 +495,89 @@ namespace Xaml.Behaviors.SourceGenerators
             bool isValueTask = IsValueTaskType(returnType);
 
             return new ActionInfo(namespaceName, className, targetTypeName, methodSymbol.Name, parameters, isAwaitable, isValueTask);
+        }
+
+        private bool UsesPublicTypes(IMethodSymbol methodSymbol)
+        {
+            return IsPublicType(methodSymbol.ReturnType) && methodSymbol.Parameters.All(p => IsPublicType(p.Type));
+        }
+
+        private bool IsPublicType(ITypeSymbol typeSymbol)
+        {
+            if (typeSymbol.DeclaredAccessibility is Accessibility.Internal
+                or Accessibility.Private
+                or Accessibility.Protected
+                or Accessibility.ProtectedOrInternal
+                or Accessibility.ProtectedAndInternal)
+            {
+                return false;
+            }
+
+            return typeSymbol switch
+            {
+                IArrayTypeSymbol array => IsPublicType(array.ElementType),
+                IPointerTypeSymbol pointer => IsPublicType(pointer.PointedAtType),
+                INamedTypeSymbol named => IsPublicNamedType(named),
+                ITypeParameterSymbol => false,
+                _ => true
+            };
+        }
+
+        private bool IsPublicNamedType(INamedTypeSymbol namedType)
+        {
+            if (namedType.DeclaredAccessibility != Accessibility.Public)
+            {
+                return false;
+            }
+
+            foreach (var arg in namedType.TypeArguments)
+            {
+                if (!IsPublicType(arg))
+                {
+                    return false;
+                }
+            }
+
+            var current = namedType.ContainingType;
+            while (current != null)
+            {
+                if (current.DeclaredAccessibility != Accessibility.Public)
+                {
+                    return false;
+                }
+                current = current.ContainingType;
+            }
+
+            return true;
+        }
+
+        private static IMethodSymbol? SelectBestOverload(IEnumerable<IMethodSymbol> methods)
+        {
+            var list = methods.ToList();
+            if (list.Count == 0) return null;
+
+            var ordered = list
+                .OrderByDescending(m => GetInheritanceDepth(m.ContainingType))
+                .ThenBy(m => m.Parameters.Length)
+                .ThenBy(m => m.Parameters.Select(p => p.Type.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat)).Aggregate(0, (a, b) => a + b.Length))
+                .ToList();
+
+            var best = ordered[0];
+            var bestKey = CreateMethodSignatureKey(best) + "|" + GetInheritanceDepth(best.ContainingType);
+            var tie = ordered.Skip(1).Any(m => (CreateMethodSignatureKey(m) + "|" + GetInheritanceDepth(m.ContainingType)) == bestKey);
+            return tie ? null : best;
+        }
+
+        private static int GetInheritanceDepth(INamedTypeSymbol? type)
+        {
+            var depth = 0;
+            var current = type;
+            while (current != null)
+            {
+                depth++;
+                current = current.BaseType;
+            }
+            return depth;
         }
 
         private static IEnumerable<ActionInfo> EnsureUniqueActions(IEnumerable<ActionInfo> infos)

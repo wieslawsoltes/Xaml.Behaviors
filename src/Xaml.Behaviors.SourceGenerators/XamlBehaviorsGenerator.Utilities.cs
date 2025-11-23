@@ -327,6 +327,48 @@ namespace Xaml.Behaviors.SourceGenerators
                 or Accessibility.Internal;
         }
 
+        private static bool IsAccessibleType(ITypeSymbol typeSymbol)
+        {
+            if (typeSymbol is ITypeParameterSymbol)
+                return false;
+
+            if (typeSymbol.SpecialType != SpecialType.None)
+                return true;
+
+            if (typeSymbol is ITypeParameterSymbol)
+                return false;
+
+            if (typeSymbol is IArrayTypeSymbol array)
+                return IsAccessibleType(array.ElementType);
+
+            if (typeSymbol is IPointerTypeSymbol pointer)
+                return IsAccessibleType(pointer.PointedAtType);
+
+            if (typeSymbol is INamedTypeSymbol named)
+            {
+                if (named.DeclaredAccessibility != Accessibility.Public)
+                    return false;
+
+                foreach (var arg in named.TypeArguments)
+                {
+                    if (!IsAccessibleType(arg))
+                        return false;
+                }
+
+                var current = named.ContainingType;
+                while (current != null)
+                {
+                    if (current.DeclaredAccessibility != Accessibility.Public)
+                        return false;
+                    current = current.ContainingType;
+                }
+
+                return true;
+            }
+
+            return false;
+        }
+
         private static bool HasAccessibleSetter(IPropertySymbol propertySymbol)
         {
             if (propertySymbol.SetMethod is null)
@@ -443,7 +485,11 @@ namespace Xaml.Behaviors.SourceGenerators
             return builder.ToImmutable();
         }
 
-        private static ImmutableArray<IMethodSymbol> FindMatchingMethods(INamedTypeSymbol? type, string pattern)
+        private static ImmutableArray<IMethodSymbol> FindMatchingMethods(
+            INamedTypeSymbol? type,
+            string pattern,
+            bool requirePublicAccessibility = true,
+            bool requireAccessibleTypes = true)
         {
             var builder = ImmutableArray.CreateBuilder<IMethodSymbol>();
             var seenSignatures = new HashSet<string>(StringComparer.Ordinal);
@@ -455,7 +501,13 @@ namespace Xaml.Behaviors.SourceGenerators
                     if (method.MethodKind != MethodKind.Ordinary)
                         continue;
 
+                    if (requirePublicAccessibility && method.DeclaredAccessibility != Accessibility.Public)
+                        continue;
+
                     if (!NameMatchesPattern(method.Name, pattern))
+                        continue;
+
+                    if (requireAccessibleTypes && (!IsAccessibleType(method.ReturnType) || method.Parameters.Any(p => !IsAccessibleType(p.Type))))
                         continue;
 
                     var signature = CreateMethodSignatureKey(method);

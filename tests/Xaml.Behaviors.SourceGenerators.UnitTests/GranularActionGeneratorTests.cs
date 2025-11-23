@@ -79,6 +79,98 @@ namespace TestNamespace
     }
 
     [Fact]
+    public void Assembly_Wildcard_Should_Skip_Inaccessible_Methods()
+    {
+        var source = @"
+using Xaml.Behaviors.SourceGenerators;
+
+[assembly: GenerateTypedAction(typeof(TestNamespace.TestClass), ""Do*"")]
+
+namespace TestNamespace
+{
+    public class TestClass
+    {
+        public void DoWork() { }
+        protected void DoSecret() { }
+    }
+}";
+        var (diagnostics, sources) = GeneratorTestHelper.RunGenerator(source);
+
+        Assert.Empty(diagnostics);
+        Assert.Contains(sources, s => s.Contains("class TestClassDoWorkAction"));
+        Assert.DoesNotContain(sources, s => s.Contains("DoSecretAction"));
+    }
+
+    [Fact]
+    public void Assembly_Wildcard_All_Inaccessible_Should_Report_Diagnostic()
+    {
+        var source = @"
+using Xaml.Behaviors.SourceGenerators;
+
+[assembly: GenerateTypedAction(typeof(TestNamespace.TestClass), ""Do*"")]
+
+namespace TestNamespace
+{
+    public class TestClass
+    {
+        protected void DoSecret() { }
+    }
+}";
+        var (diagnostics, sources) = GeneratorTestHelper.RunGenerator(source);
+
+        Assert.Contains(diagnostics, d => d.Id == "XBG014");
+        Assert.DoesNotContain(sources, s => s.Contains("DoSecretAction"));
+    }
+
+    [Fact]
+    public void Assembly_Wildcard_Should_Skip_Methods_With_Inaccessible_Parameter_Types()
+    {
+        var source = @"
+using Xaml.Behaviors.SourceGenerators;
+
+[assembly: GenerateTypedAction(typeof(TestNamespace.TestClass), ""Do*"")]
+
+namespace TestNamespace
+{
+    internal class Hidden { }
+
+    internal class TestClass
+    {
+        public void DoWork() { }
+        public void DoHidden(Hidden value) { }
+    }
+}";
+        var (diagnostics, sources) = GeneratorTestHelper.RunGenerator(source);
+
+        Assert.Empty(diagnostics);
+        Assert.Contains(sources, s => s.Contains("class TestClassDoWorkAction"));
+        Assert.DoesNotContain(sources, s => s.Contains("DoHiddenAction"));
+    }
+
+    [Fact]
+    public void Assembly_Wildcard_All_Inaccessible_Parameter_Types_Should_Report_Diagnostic()
+    {
+        var source = @"
+using Xaml.Behaviors.SourceGenerators;
+
+[assembly: GenerateTypedAction(typeof(TestNamespace.TestClass), ""Do*"")]
+
+namespace TestNamespace
+{
+    internal class Hidden { }
+
+    internal class TestClass
+    {
+        public void DoHidden(Hidden value) { }
+    }
+}";
+        var (diagnostics, sources) = GeneratorTestHelper.RunGenerator(source);
+
+        Assert.Contains(diagnostics, d => d.Id == "XBG014");
+        Assert.DoesNotContain(sources, s => s.Contains("DoHiddenAction"));
+    }
+
+    [Fact]
     public void Should_Generate_Action_With_Parameters()
     {
         var source = @"

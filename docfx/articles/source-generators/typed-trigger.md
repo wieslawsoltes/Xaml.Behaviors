@@ -26,6 +26,17 @@ You can also register triggers at the assembly level and generate multiple class
 
 > Only public or internal events are supported. Wildcard/regex matches skip inaccessible events, and if no accessible matches are found a diagnostic will be emitted.
 
+### Matching rules at a glance
+
+| Aspect | Behavior |
+| --- | --- |
+| Pattern kinds | Literal name, `*` wildcard, or regular expression |
+| Name collisions | Assembly attributes prefix the target type name (e.g. `ButtonClickTrigger`) |
+| Accessibility | Events must be public/internal; the event handler delegate and its parameter types must be public |
+| Ambiguity | Event name conflicts are resolved by the event name; duplicate matches are de-duplicated per name |
+| Inaccessible matches | Wildcard/regex patterns drop matches using non-public members and emit XBG014 if nothing accessible remains |
+| Static/generic | Static or generic events are rejected (diagnostic) |
+
 ### XAML Usage
 
 ```xml

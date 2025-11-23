@@ -26,6 +26,17 @@ Assembly-level attributes are supported as well. The `propertyName` parameter ca
 
 > Only public or internal properties with accessible setters are supported. Wildcard/regex assembly attributes ignore inaccessible matches; if no accessible properties match, a diagnostic is produced and no action class is generated.
 
+### Matching rules at a glance
+
+| Aspect | Behavior |
+| --- | --- |
+| Pattern kinds | Literal name, `*` wildcard, or regular expression |
+| Name collisions | Assembly attributes prefix the target type name (e.g. `TextBlockSetTextAction`) |
+| Accessibility | Property and setter must be public/internal; property type must be public |
+| Ambiguity | Multiple properties with the same name are treated as a single match; inaccessible setters are skipped |
+| Inaccessible matches | Wildcard/regex patterns drop properties with non-public setters/types and emit XBG015/XBG014 if nothing accessible remains |
+| Static/generic | Static properties or generic type parameters are rejected (diagnostic) |
+
 ### XAML Usage
 
 ```xml

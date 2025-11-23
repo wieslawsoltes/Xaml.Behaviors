@@ -28,6 +28,18 @@ You can also add attributes at the assembly level to generate actions for one or
 ```
 
 > Actions require the target method to be public or internal. Wildcard/regex assembly attributes skip inaccessible matches and will emit a diagnostic if nothing accessible matches.
+> Method parameter and return types must also be accessible (public or internal); wildcard/regex matches that rely on inaccessible types are ignored.
+
+### Matching rules at a glance
+
+| Aspect | Behavior |
+| --- | --- |
+| Pattern kinds | Literal name, `*` wildcard, or regular expression |
+| Name collisions | Assembly attributes prefix the target type name (e.g. `ButtonClickAction`) |
+| Accessibility | Methods must be public/internal; parameter and return types must be public |
+| Ambiguity | Literal names with multiple overloads produce XBG007; wildcard/regex skip ambiguous overload groups |
+| Inaccessible matches | Wildcard/regex patterns drop matches that use non-public types and emit XBG014 if nothing accessible remains |
+| Static/generic | Static methods and generic type/parameter usage are rejected (diagnostic) |
 
 ### XAML Usage
 
