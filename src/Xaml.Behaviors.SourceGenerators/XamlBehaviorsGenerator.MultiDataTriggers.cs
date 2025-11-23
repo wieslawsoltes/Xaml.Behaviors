@@ -86,7 +86,8 @@ namespace Xaml.Behaviors.SourceGenerators
                         propertyName = char.ToUpper(propertyName[0]) + propertyName.Substring(1);
                     }
                     var typeName = ToDisplayStringWithNullable(member.Type);
-                    properties.Add(new TriggerPropertyInfo(propertyName, typeName, fieldName));
+                    var requiresInternal = ContainsInternalType(member.Type);
+                    properties.Add(new TriggerPropertyInfo(propertyName, typeName, fieldName, requiresInternal));
                 }
             }
 
@@ -95,7 +96,8 @@ namespace Xaml.Behaviors.SourceGenerators
                 var ns = symbol.ContainingNamespace.ToDisplayString();
                 var namespaceName = (symbol.ContainingNamespace.IsGlobalNamespace || ns == "<global namespace>") ? null : ns;
                 var className = symbol.Name;
-                var accessibility = GetAccessibilityKeyword(symbol);
+                var requiresInternal = properties.Any(p => p.RequiresInternal);
+                var accessibility = requiresInternal ? "internal" : GetAccessibilityKeyword(symbol);
                 results.Add(new MultiDataTriggerInfo(namespaceName, className, accessibility, properties.ToImmutable()));
             }
 

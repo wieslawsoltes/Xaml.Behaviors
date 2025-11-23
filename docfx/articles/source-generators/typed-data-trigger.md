@@ -31,3 +31,4 @@ The generator will create classes named `DoubleDataTrigger` and `StringDataTrigg
 > Note: `DoubleDataTrigger` is generated in the `Xaml.Behaviors.Generated` namespace by default when using the assembly-level attribute. `SetStatusTextAction` is in your ViewModel's namespace.
 
 In the generated trigger, the `Binding` and `Value` properties are strongly typed (e.g., `double`), so no type conversion is needed at runtime.
+If the requested type is internal (and visible to the generator), the generated trigger class will be `internal`; otherwise it is `public`.

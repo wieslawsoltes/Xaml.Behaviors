@@ -213,6 +213,31 @@ namespace TestNamespace
     }
 
     [Fact]
+    public void Action_Delegate_Should_Keep_Weak_Source_Unsubscribe()
+    {
+        var source = @"
+using System;
+using Xaml.Behaviors.SourceGenerators;
+
+namespace TestNamespace
+{
+    public partial class TestClass
+    {
+        [GenerateTypedTrigger]
+        public event Action TestEvent;
+    }
+}";
+        var (diagnostics, sources) = GeneratorTestHelper.RunGenerator(source);
+
+        Assert.Empty(diagnostics);
+        var generated = sources.FirstOrDefault(s => s.Contains("class TestEventTrigger") && s.Contains("namespace TestNamespace"));
+        Assert.True(generated is not null, "Sources: " + string.Join("\n----\n", sources));
+        var generatedText = generated!;
+        Assert.Contains("_source.TryGetTarget", generatedText);
+        Assert.Contains("typedSource.TestEvent -= OnEvent;", generatedText);
+    }
+
+    [Fact]
     public void Should_Report_Error_For_Generic_Trigger()
     {
         var source = @"

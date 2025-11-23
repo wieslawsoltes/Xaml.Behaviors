@@ -14,7 +14,7 @@ namespace Xaml.Behaviors.SourceGenerators
 {
     public partial class XamlBehaviorsGenerator
     {
-        private record DataTriggerInfo(string Namespace, string ClassName, string TypeName, Diagnostic? Diagnostic = null);
+        private record DataTriggerInfo(string Namespace, string ClassName, string Accessibility, string TypeName, Diagnostic? Diagnostic = null);
 
         private void RegisterDataTriggerGeneration(IncrementalGeneratorInitializationContext context)
         {
@@ -69,7 +69,8 @@ namespace Xaml.Behaviors.SourceGenerators
                 var validationDiagnostic = ValidateDataTriggerType(typeInfo, diagnosticLocation, context.SemanticModel.Compilation);
                 var className = CreateDataTriggerClassName(typeInfo);
                 var typeName = ToDisplayStringWithNullable(typeInfo);
-                return new DataTriggerInfo(namespaceName, className, typeName, validationDiagnostic);
+                var accessibility = GetDataTriggerAccessibility(typeInfo);
+                return new DataTriggerInfo(namespaceName, className, accessibility, typeName, validationDiagnostic);
             }
 
             var simpleName = typeOfExpression.Type switch
@@ -80,7 +81,7 @@ namespace Xaml.Behaviors.SourceGenerators
             };
 
             var fallbackName = CreateSafeIdentifier(simpleName);
-            return new DataTriggerInfo(namespaceName, $"{fallbackName}DataTrigger", typeOfExpression.Type.ToString());
+            return new DataTriggerInfo(namespaceName, $"{fallbackName}DataTrigger", "public", typeOfExpression.Type.ToString());
         }
 
         private void ExecuteGenerateDataTrigger(SourceProductionContext spc, DataTriggerInfo info)
@@ -101,7 +102,7 @@ namespace Xaml.Behaviors.SourceGenerators
             sb.AppendLine();
             sb.AppendLine($"namespace {info.Namespace}");
             sb.AppendLine("{");
-            sb.AppendLine($"    public partial class {info.ClassName} : Avalonia.Xaml.Interactivity.StyledElementTrigger");
+            sb.AppendLine($"    {info.Accessibility} partial class {info.ClassName} : Avalonia.Xaml.Interactivity.StyledElementTrigger");
             sb.AppendLine("    {");
             sb.AppendLine($"        public static readonly StyledProperty<{info.TypeName}> BindingProperty =");
             sb.AppendLine($"            AvaloniaProperty.Register<{info.ClassName}, {info.TypeName}>(nameof(Binding));");
@@ -254,6 +255,11 @@ namespace Xaml.Behaviors.SourceGenerators
                     yield return info with { ClassName = MakeUniqueName(info.ClassName, info.TypeName) };
                 }
             }
+        }
+
+        private static string GetDataTriggerAccessibility(ITypeSymbol typeSymbol)
+        {
+            return ContainsInternalType(typeSymbol) ? "internal" : "public";
         }
     }
 }

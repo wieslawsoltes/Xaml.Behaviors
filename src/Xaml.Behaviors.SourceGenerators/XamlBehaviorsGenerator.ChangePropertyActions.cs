@@ -16,6 +16,7 @@ namespace Xaml.Behaviors.SourceGenerators
         private record ChangePropertyInfo(
             string? Namespace,
             string ClassName,
+            string Accessibility,
             string TargetTypeName,
             string PropertyName,
             string PropertyType,
@@ -85,7 +86,7 @@ namespace Xaml.Behaviors.SourceGenerators
                 sb.AppendLine($"namespace {info.Namespace}");
                 sb.AppendLine("{");
             }
-            sb.AppendLine($"    public partial class {info.ClassName} : Avalonia.Xaml.Interactivity.StyledElementAction");
+            sb.AppendLine($"    {info.Accessibility} partial class {info.ClassName} : Avalonia.Xaml.Interactivity.StyledElementAction");
             sb.AppendLine("    {");
             sb.AppendLine($"        public static readonly StyledProperty<object?> TargetObjectProperty =");
             sb.AppendLine($"            AvaloniaProperty.Register<{info.ClassName}, object?>(nameof(TargetObject));");
@@ -151,7 +152,7 @@ namespace Xaml.Behaviors.SourceGenerators
                 return Diagnostic.Create(GenericMemberNotSupportedDiagnostic, location, propertySymbol.Name);
             }
 
-            if (!IsAccessibleType(propertySymbol.Type))
+            if (!IsAccessibleType(propertySymbol.Type, compilation))
             {
                 return Diagnostic.Create(MemberNotAccessibleDiagnostic, location, propertySymbol.Name, propertySymbol.ContainingType.ToDisplayString());
             }
@@ -178,7 +179,7 @@ namespace Xaml.Behaviors.SourceGenerators
             if (targetType == null || string.IsNullOrEmpty(propertyName))
             {
                 var diagnostic = Diagnostic.Create(ChangePropertyNotFoundDiagnostic, Location.None, propertyName ?? "<unknown>", targetType?.Name ?? "<unknown>");
-                return ImmutableArray.Create(new ChangePropertyInfo("", "", "", propertyName ?? "<unknown>", "", diagnostic));
+                return ImmutableArray.Create(new ChangePropertyInfo("", "", "public", "", propertyName ?? "<unknown>", "", diagnostic));
             }
 
             return CreateChangePropertyInfos(targetType, propertyName, context.Node.GetLocation(), includeTypeNamePrefix: true, compilation: context.SemanticModel.Compilation);
@@ -199,7 +200,7 @@ namespace Xaml.Behaviors.SourceGenerators
                 if (targetType == null || string.IsNullOrEmpty(propertyName))
                 {
                     var diagnostic = Diagnostic.Create(ChangePropertyNotFoundDiagnostic, Location.None, propertyName ?? "<unknown>", targetType?.Name ?? "<unknown>");
-                    results.Add(new ChangePropertyInfo("", "", "", "", "", diagnostic));
+                    results.Add(new ChangePropertyInfo("", "", "public", "", "", "", diagnostic));
                     continue;
                 }
 
@@ -221,7 +222,8 @@ namespace Xaml.Behaviors.SourceGenerators
                 var ns = targetType.ContainingNamespace.ToDisplayString();
                 var namespaceName = (targetType.ContainingNamespace.IsGlobalNamespace || ns == "<global namespace>") ? null : ns;
                 var targetTypeName = ToDisplayStringWithNullable(targetType);
-                return ImmutableArray.Create(new ChangePropertyInfo(namespaceName, className, targetTypeName, propertyPattern, "", diagnostic));
+                var accessibility = GetAccessibilityKeyword(targetType);
+                return ImmutableArray.Create(new ChangePropertyInfo(namespaceName, className, accessibility, targetTypeName, propertyPattern, "", diagnostic));
             }
 
             var builder = ImmutableArray.CreateBuilder<ChangePropertyInfo>();
@@ -255,7 +257,8 @@ namespace Xaml.Behaviors.SourceGenerators
             var nsFallback = targetType.ContainingNamespace.ToDisplayString();
             var namespaceNameFallback = (targetType.ContainingNamespace.IsGlobalNamespace || nsFallback == "<global namespace>") ? null : nsFallback;
             var targetTypeNameFallback = ToDisplayStringWithNullable(targetType);
-            return ImmutableArray.Create(new ChangePropertyInfo(namespaceNameFallback, classNameFallback, targetTypeNameFallback, propertyPattern, "", fallback));
+            var accessibilityFallback = GetAccessibilityKeyword(targetType);
+            return ImmutableArray.Create(new ChangePropertyInfo(namespaceNameFallback, classNameFallback, accessibilityFallback, targetTypeNameFallback, propertyPattern, "", fallback));
         }
 
         private ChangePropertyInfo CreateChangePropertyInfo(INamedTypeSymbol targetType, IPropertySymbol propertySymbol, Location? diagnosticLocation = null, bool includeTypeNamePrefix = false, Compilation? compilation = null)
@@ -269,7 +272,8 @@ namespace Xaml.Behaviors.SourceGenerators
                 var prefixIndex = includeTypeNamePrefix ? GetTypeNamePrefix(targetType) : string.Empty;
                 var classNameIndex = string.IsNullOrEmpty(prefixIndex) ? baseNameIndex : prefixIndex + baseNameIndex;
                 var targetTypeNameIndex = ToDisplayStringWithNullable(targetType);
-                return new ChangePropertyInfo(namespaceIndex, classNameIndex, targetTypeNameIndex, propertySymbol.Name, ToDisplayStringWithNullable(propertySymbol.Type), diagnostic);
+                var accessibilityIndex = GetChangePropertyAccessibility(targetType, propertySymbol);
+                return new ChangePropertyInfo(namespaceIndex, classNameIndex, accessibilityIndex, targetTypeNameIndex, propertySymbol.Name, ToDisplayStringWithNullable(propertySymbol.Type), diagnostic);
             }
 
             var validationDiagnostic = ValidatePropertySymbol(propertySymbol, diagnosticLocation, compilation);
@@ -281,19 +285,22 @@ namespace Xaml.Behaviors.SourceGenerators
             var targetTypeName = ToDisplayStringWithNullable(targetType);
             var propertyName = propertySymbol.Name;
             var propertyType = ToDisplayStringWithNullable(propertySymbol.Type);
+            var accessibility = GetChangePropertyAccessibility(targetType, propertySymbol);
 
             if (validationDiagnostic != null)
             {
-                return new ChangePropertyInfo(namespaceName, className, targetTypeName, propertyName, propertyType, validationDiagnostic);
+                return new ChangePropertyInfo(namespaceName, className, accessibility, targetTypeName, propertyName, propertyType, validationDiagnostic);
             }
 
-            return new ChangePropertyInfo(namespaceName, className, targetTypeName, propertyName, propertyType);
+            return new ChangePropertyInfo(namespaceName, className, accessibility, targetTypeName, propertyName, propertyType);
         }
 
         private ChangePropertyInfo CreateChangePropertyInfo(INamedTypeSymbol targetType, string propertyName, Location? diagnosticLocation = null)
         {
             var infos = CreateChangePropertyInfos(targetType, propertyName, diagnosticLocation);
-            return infos.Length > 0 ? infos[0] : new ChangePropertyInfo("", "", "", propertyName, "", Diagnostic.Create(ChangePropertyNotFoundDiagnostic, diagnosticLocation ?? Location.None, propertyName, targetType.Name));
+            var accessibility = GetAccessibilityKeyword(targetType);
+            var targetTypeName = ToDisplayStringWithNullable(targetType);
+            return infos.Length > 0 ? infos[0] : new ChangePropertyInfo("", "", accessibility, targetTypeName, propertyName, "", Diagnostic.Create(ChangePropertyNotFoundDiagnostic, diagnosticLocation ?? Location.None, propertyName, targetType.Name));
         }
 
         private static IEnumerable<ChangePropertyInfo> EnsureUniqueChangePropertyActions(IEnumerable<ChangePropertyInfo> infos)
@@ -316,6 +323,15 @@ namespace Xaml.Behaviors.SourceGenerators
                     yield return info with { ClassName = MakeUniqueName(info.ClassName, info.TargetTypeName) };
                 }
             }
+        }
+
+        private string GetChangePropertyAccessibility(INamedTypeSymbol targetType, IPropertySymbol propertySymbol)
+        {
+            var requiresInternal = targetType.DeclaredAccessibility == Accessibility.Internal ||
+                                   propertySymbol.DeclaredAccessibility == Accessibility.Internal ||
+                                   ContainsInternalType(propertySymbol.Type);
+
+            return requiresInternal ? "internal" : "public";
         }
     }
 }

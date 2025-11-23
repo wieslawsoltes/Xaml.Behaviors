@@ -25,6 +25,7 @@ You can also register triggers at the assembly level and generate multiple class
 ```
 
 > Only public or internal events visible to the generator are supported (internal requires being in the same/friend assembly). Wildcard/regex matches skip inaccessible events, and if no accessible matches are found a diagnostic will be emitted.
+> Generated trigger classes are `public` unless the event or delegate types require `internal`, in which case the class is emitted as `internal`.
 
 ### Matching rules at a glance
 
@@ -56,3 +57,4 @@ You can also register triggers at the assembly level and generate multiple class
 The generated trigger implements a **Weak Event Pattern**. This ensures that the trigger does not cause memory leaks if the Source Object lives longer than the Trigger (e.g., a singleton ViewModel and a transient View).
 
 The trigger uses a proxy object to subscribe to the event. If the trigger is garbage collected, the proxy automatically unsubscribes from the source event the next time it is raised.
+This applies to delegates with or without a sender parameter (e.g., `Action`).

@@ -168,4 +168,29 @@ namespace TestNamespace
 
         Assert.Contains(diagnostics, d => d.Id == "XBG018");
     }
+
+    [Fact]
+    public void Should_Report_Error_When_Evaluate_Is_Generic()
+    {
+        var source = @"
+using Xaml.Behaviors.SourceGenerators;
+
+namespace TestNamespace
+{
+    [GenerateTypedMultiDataTrigger]
+    public partial class InvalidTrigger : Avalonia.Xaml.Interactivity.StyledElementTrigger
+    {
+        [TriggerProperty]
+        private string _value1;
+
+        private bool Evaluate<T>()
+        {
+            return true;
+        }
+    }
+}";
+        var (diagnostics, _) = GeneratorTestHelper.RunGenerator(source);
+
+        Assert.Contains(diagnostics, d => d.Id == "XBG008");
+    }
 }

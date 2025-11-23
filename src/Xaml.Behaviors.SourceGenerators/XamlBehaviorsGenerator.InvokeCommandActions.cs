@@ -77,7 +77,8 @@ namespace Xaml.Behaviors.SourceGenerators
                     var propertyName = fieldName.TrimStart('_');
                     if (propertyName.Length > 0) propertyName = char.ToUpper(propertyName[0]) + propertyName.Substring(1);
                     var typeName = ToDisplayStringWithNullable(member.Type);
-                    commandProp = new TriggerPropertyInfo(propertyName, typeName, fieldName);
+                    var requiresInternal = ContainsInternalType(member.Type);
+                    commandProp = new TriggerPropertyInfo(propertyName, typeName, fieldName, requiresInternal);
                 }
                 if (member.GetAttributes().Any(a => a.AttributeClass?.ToDisplayString() == ActionParameterAttributeName))
                 {
@@ -85,7 +86,8 @@ namespace Xaml.Behaviors.SourceGenerators
                     var propertyName = fieldName.TrimStart('_');
                     if (propertyName.Length > 0) propertyName = char.ToUpper(propertyName[0]) + propertyName.Substring(1);
                     var typeName = ToDisplayStringWithNullable(member.Type);
-                    parameterProp = new TriggerPropertyInfo(propertyName, typeName, fieldName);
+                    var requiresInternal = ContainsInternalType(member.Type);
+                    parameterProp = new TriggerPropertyInfo(propertyName, typeName, fieldName, requiresInternal);
                 }
             }
 
@@ -94,7 +96,7 @@ namespace Xaml.Behaviors.SourceGenerators
                 var ns = symbol.ContainingNamespace.ToDisplayString();
                 var namespaceName = (symbol.ContainingNamespace.IsGlobalNamespace || ns == "<global namespace>") ? null : ns;
                 var className = symbol.Name;
-                var accessibility = GetAccessibilityKeyword(symbol);
+                var accessibility = GetInvokeCommandActionAccessibility(symbol, commandProp, parameterProp);
                 results.Add(new InvokeCommandActionInfo(namespaceName, className, accessibility, commandProp, parameterProp));
             }
 
@@ -171,6 +173,16 @@ namespace Xaml.Behaviors.SourceGenerators
             sb.AppendLine("}");
 
             spc.AddSource(CreateHintName(info.Namespace, info.ClassName), SourceText.From(sb.ToString(), Encoding.UTF8));
+        }
+
+        private static string GetInvokeCommandActionAccessibility(INamedTypeSymbol symbol, TriggerPropertyInfo? command, TriggerPropertyInfo? parameter)
+        {
+            var requiresInternal =
+                symbol.DeclaredAccessibility == Accessibility.Internal ||
+                (command?.RequiresInternal == true) ||
+                (parameter?.RequiresInternal == true);
+
+            return requiresInternal ? "internal" : GetAccessibilityKeyword(symbol);
         }
     }
 }

@@ -93,7 +93,7 @@ namespace Xaml.Behaviors.SourceGenerators
             return typeName;
         }
 
-        private static bool HasInternalAccess(IAssemblySymbol assemblySymbol, Compilation? compilation)
+        private static bool HasInternalAccess(Compilation? compilation, IAssemblySymbol assemblySymbol)
         {
             return AccessibilityHelper.HasInternalAccess(compilation, assemblySymbol);
         }
@@ -285,6 +285,11 @@ namespace Xaml.Behaviors.SourceGenerators
                 return Diagnostic.Create(MultiDataTriggerEvaluateMissingDiagnostic, location ?? Location.None, symbol.ToDisplayString());
             }
 
+            if (match.IsGenericMethod || match.TypeParameters.Length > 0)
+            {
+                return Diagnostic.Create(GenericMemberNotSupportedDiagnostic, location ?? Location.None, match.Name);
+            }
+
             return null;
         }
 
@@ -331,7 +336,7 @@ namespace Xaml.Behaviors.SourceGenerators
             return AccessibilityHelper.IsSymbolAccessible(symbol, compilation);
         }
 
-        private static bool IsAccessibleType(ITypeSymbol typeSymbol)
+        private static bool IsAccessibleType(ITypeSymbol typeSymbol, Compilation? compilation)
         {
             if (typeSymbol is ITypeParameterSymbol)
                 return false;
@@ -339,31 +344,42 @@ namespace Xaml.Behaviors.SourceGenerators
             if (typeSymbol.SpecialType != SpecialType.None)
                 return true;
 
-            if (typeSymbol is ITypeParameterSymbol)
-                return false;
-
             if (typeSymbol is IArrayTypeSymbol array)
-                return IsAccessibleType(array.ElementType);
+                return IsAccessibleType(array.ElementType, compilation);
 
             if (typeSymbol is IPointerTypeSymbol pointer)
-                return IsAccessibleType(pointer.PointedAtType);
+                return IsAccessibleType(pointer.PointedAtType, compilation);
 
             if (typeSymbol is INamedTypeSymbol named)
             {
-                if (named.DeclaredAccessibility != Accessibility.Public)
+                if (named.DeclaredAccessibility is Accessibility.Internal)
+                {
+                    if (!HasInternalAccess(compilation, named.ContainingAssembly))
+                        return false;
+                }
+                else if (named.DeclaredAccessibility != Accessibility.Public)
+                {
                     return false;
+                }
 
                 foreach (var arg in named.TypeArguments)
                 {
-                    if (!IsAccessibleType(arg))
+                    if (!IsAccessibleType(arg, compilation))
                         return false;
                 }
 
                 var current = named.ContainingType;
                 while (current != null)
                 {
-                    if (current.DeclaredAccessibility != Accessibility.Public)
+                    if (current.DeclaredAccessibility is Accessibility.Internal)
+                    {
+                        if (!HasInternalAccess(compilation, current.ContainingAssembly))
+                            return false;
+                    }
+                    else if (current.DeclaredAccessibility != Accessibility.Public)
+                    {
                         return false;
+                    }
                     current = current.ContainingType;
                 }
 
@@ -371,6 +387,19 @@ namespace Xaml.Behaviors.SourceGenerators
             }
 
             return false;
+        }
+
+        private static bool ContainsInternalType(ITypeSymbol typeSymbol)
+        {
+            return typeSymbol switch
+            {
+                IArrayTypeSymbol array => ContainsInternalType(array.ElementType),
+                IPointerTypeSymbol pointer => ContainsInternalType(pointer.PointedAtType),
+                INamedTypeSymbol named => named.DeclaredAccessibility == Accessibility.Internal ||
+                                          (named.ContainingType is not null && ContainsInternalType(named.ContainingType)) ||
+                                          named.TypeArguments.Any(ContainsInternalType),
+                _ => false
+            };
         }
 
         private static bool HasAccessibleSetter(IPropertySymbol propertySymbol, Compilation? compilation)
@@ -493,13 +522,13 @@ namespace Xaml.Behaviors.SourceGenerators
                     if (requirePublicAccessibility && method.DeclaredAccessibility is not (Accessibility.Public or Accessibility.Internal))
                         continue;
 
-                    if (method.DeclaredAccessibility == Accessibility.Internal && !HasInternalAccess(method.ContainingAssembly, compilation))
+                    if (method.DeclaredAccessibility == Accessibility.Internal && !HasInternalAccess(compilation, method.ContainingAssembly))
                         continue;
 
                     if (!NameMatchesPattern(method.Name, pattern))
                         continue;
 
-                    if (requireAccessibleTypes && (!IsAccessibleType(method.ReturnType) || method.Parameters.Any(p => !IsAccessibleType(p.Type))))
+                    if (requireAccessibleTypes && (!IsAccessibleType(method.ReturnType, compilation) || method.Parameters.Any(p => !IsAccessibleType(p.Type, compilation))))
                         continue;
 
                     var signature = CreateMethodSignatureKey(method);

@@ -28,7 +28,8 @@ You can also add attributes at the assembly level to generate actions for one or
 ```
 
 > Actions require the target method to be public or internal in the same/friend assembly. Wildcard/regex assembly attributes skip inaccessible matches and will emit a diagnostic if nothing accessible matches.
-> Method parameter and return types must also be accessible (public or internal and visible to the generator); wildcard/regex matches that rely on inaccessible types are ignored.
+> Method parameter and return types must also be accessible; public is always allowed, and internal types are allowed when the generator has access via `InternalsVisibleTo`. Wildcard/regex matches that rely on inaccessible types are ignored.
+> Generated action classes are `public` unless any target/parameter/return type requires `internal`, in which case the class is emitted as `internal`.
 
 ### Matching rules at a glance
 

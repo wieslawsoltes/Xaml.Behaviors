@@ -144,7 +144,7 @@ namespace TestNamespace
     }
 
     [Fact]
-    public void Assembly_Wildcard_Should_Skip_Methods_With_Inaccessible_Parameter_Types()
+    public void Assembly_Wildcard_Should_Include_Internal_Parameter_Types()
     {
         var source = @"
 using Xaml.Behaviors.SourceGenerators;
@@ -155,21 +155,21 @@ namespace TestNamespace
 {
     internal class Hidden { }
 
-    internal class TestClass
+    public class TestClass
     {
         public void DoWork() { }
-        public void DoHidden(Hidden value) { }
+        internal void DoHidden(Hidden value) { }
     }
 }";
         var (diagnostics, sources) = GeneratorTestHelper.RunGenerator(source);
 
         Assert.Empty(diagnostics);
         Assert.Contains(sources, s => s.Contains("class TestClassDoWorkAction"));
-        Assert.DoesNotContain(sources, s => s.Contains("DoHiddenAction"));
+        Assert.Contains(sources, s => s.Contains("DoHiddenAction"));
     }
 
     [Fact]
-    public void Assembly_Wildcard_All_Inaccessible_Parameter_Types_Should_Report_Diagnostic()
+    public void Assembly_Wildcard_All_Inaccessible_Matches_Should_Report_Diagnostic()
     {
         var source = @"
 using Xaml.Behaviors.SourceGenerators;
@@ -178,11 +178,10 @@ using Xaml.Behaviors.SourceGenerators;
 
 namespace TestNamespace
 {
-    internal class Hidden { }
-
-    internal class TestClass
+    public class TestClass
     {
-        public void DoHidden(Hidden value) { }
+        private class Hidden { }
+        private void DoHidden(Hidden value) { }
     }
 }";
         var (diagnostics, sources) = GeneratorTestHelper.RunGenerator(source);
@@ -491,5 +490,30 @@ namespace TestNamespace
         var (diagnostics, _) = GeneratorTestHelper.RunGenerator(source);
 
         Assert.Empty(diagnostics);
+    }
+
+    [Fact]
+    public void Should_Allow_Internal_Parameter_Type_When_Accessible()
+    {
+        var source = @"
+using Xaml.Behaviors.SourceGenerators;
+
+namespace TestNamespace
+{
+    internal class InternalType { }
+
+    public partial class TestClass
+    {
+        [GenerateTypedAction]
+        internal void UseInternal(InternalType value) { }
+    }
+}";
+        var (diagnostics, sources) = GeneratorTestHelper.RunGenerator(source);
+
+        Assert.Empty(diagnostics);
+        var generated = sources.FirstOrDefault(s => s.Contains("class UseInternalAction"));
+        Assert.NotNull(generated);
+        Assert.Contains("internal partial class UseInternalAction", generated);
+        Assert.Contains("StyledProperty<global::TestNamespace.InternalType>", generated);
     }
 }

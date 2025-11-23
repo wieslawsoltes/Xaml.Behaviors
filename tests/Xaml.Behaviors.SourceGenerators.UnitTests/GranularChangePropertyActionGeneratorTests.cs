@@ -267,10 +267,10 @@ using Xaml.Behaviors.SourceGenerators;
 
 namespace TestNamespace
 {
-    internal class Hidden { }
-
     public partial class TestClass
     {
+        private class Hidden { }
+
         [GenerateTypedChangePropertyAction]
         public Hidden TestProperty { get; set; }
     }
