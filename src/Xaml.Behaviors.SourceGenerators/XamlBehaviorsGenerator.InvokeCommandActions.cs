@@ -12,7 +12,7 @@ namespace Xaml.Behaviors.SourceGenerators
 {
     public partial class XamlBehaviorsGenerator
     {
-        private record InvokeCommandActionInfo(string? Namespace, string ClassName, string Accessibility, TriggerPropertyInfo? Command, TriggerPropertyInfo? Parameter, Diagnostic? Diagnostic = null);
+        private record InvokeCommandActionInfo(string? Namespace, string ClassName, string Accessibility, TriggerPropertyInfo? Command, TriggerPropertyInfo? Parameter, bool UseDispatcher, Diagnostic? Diagnostic = null);
 
         private void RegisterInvokeCommandActionGeneration(IncrementalGeneratorInitializationContext context)
         {
@@ -32,37 +32,43 @@ namespace Xaml.Behaviors.SourceGenerators
             var symbol = context.TargetSymbol as INamedTypeSymbol;
             if (symbol == null) return results.ToImmutable();
 
+            var useDispatcher = false;
+            if (context.Attributes.FirstOrDefault() is { } attribute)
+            {
+                useDispatcher = GetUseDispatcherFlag(attribute, context.SemanticModel);
+            }
+
             var partialDiagnostic = EnsurePartial(symbol, context.TargetNode?.GetLocation() ?? Location.None, "GenerateTypedInvokeCommandAction");
             if (partialDiagnostic != null)
             {
-                results.Add(new InvokeCommandActionInfo(null, symbol.Name, "public", null, null, partialDiagnostic));
+                results.Add(new InvokeCommandActionInfo(null, symbol.Name, "public", null, null, useDispatcher, partialDiagnostic));
                 return results.ToImmutable();
             }
 
             var nestedDiagnostic = EnsureNotNested(symbol, context.TargetNode?.GetLocation() ?? Location.None);
             if (nestedDiagnostic != null)
             {
-                results.Add(new InvokeCommandActionInfo(null, symbol.Name, "public", null, null, nestedDiagnostic));
+                results.Add(new InvokeCommandActionInfo(null, symbol.Name, "public", null, null, useDispatcher, nestedDiagnostic));
                 return results.ToImmutable();
             }
 
             var accessibilityDiagnostic = ValidateTypeAccessibility(symbol, context.TargetNode?.GetLocation() ?? Location.None, context.SemanticModel.Compilation);
             if (accessibilityDiagnostic != null)
             {
-                results.Add(new InvokeCommandActionInfo(null, symbol.Name, "public", null, null, accessibilityDiagnostic));
+                results.Add(new InvokeCommandActionInfo(null, symbol.Name, "public", null, null, useDispatcher, accessibilityDiagnostic));
                 return results.ToImmutable();
             }
 
             if (ContainsTypeParameter(symbol))
             {
-                results.Add(new InvokeCommandActionInfo(null, symbol.Name, "public", null, null, Diagnostic.Create(GenericMemberNotSupportedDiagnostic, context.TargetNode?.GetLocation() ?? Location.None, symbol.Name)));
+                results.Add(new InvokeCommandActionInfo(null, symbol.Name, "public", null, null, useDispatcher, Diagnostic.Create(GenericMemberNotSupportedDiagnostic, context.TargetNode?.GetLocation() ?? Location.None, symbol.Name)));
                 return results.ToImmutable();
             }
 
             var validationDiagnostic = ValidateStyledElementActionType(symbol, context.TargetNode?.GetLocation() ?? Location.None, context.SemanticModel.Compilation);
             if (validationDiagnostic != null)
             {
-                results.Add(new InvokeCommandActionInfo(null, symbol.Name, "public", null, null, validationDiagnostic));
+                results.Add(new InvokeCommandActionInfo(null, symbol.Name, "public", null, null, useDispatcher, validationDiagnostic));
                 return results.ToImmutable();
             }
 
@@ -97,7 +103,7 @@ namespace Xaml.Behaviors.SourceGenerators
                 var namespaceName = (symbol.ContainingNamespace.IsGlobalNamespace || ns == "<global namespace>") ? null : ns;
                 var className = symbol.Name;
                 var accessibility = GetInvokeCommandActionAccessibility(symbol, commandProp, parameterProp);
-                results.Add(new InvokeCommandActionInfo(namespaceName, className, accessibility, commandProp, parameterProp));
+                results.Add(new InvokeCommandActionInfo(namespaceName, className, accessibility, commandProp, parameterProp, useDispatcher));
             }
 
             return results.ToImmutable();
@@ -117,6 +123,7 @@ namespace Xaml.Behaviors.SourceGenerators
             sb.AppendLine("using Avalonia;");
             sb.AppendLine("using Avalonia.Xaml.Interactivity;");
             sb.AppendLine("using Avalonia.Controls;");
+            sb.AppendLine("using Avalonia.Threading;");
             sb.AppendLine("using System.Windows.Input;");
             sb.AppendLine();
             if (!string.IsNullOrEmpty(info.Namespace))
@@ -161,6 +168,17 @@ namespace Xaml.Behaviors.SourceGenerators
             sb.AppendLine($"            if (this.{info.Command!.FieldName} is ICommand command)");
             sb.AppendLine("            {");
             var param = info.Parameter != null ? $"this.{info.Parameter.FieldName}" : "parameter";
+            if (info.UseDispatcher)
+            {
+                sb.AppendLine("                Avalonia.Threading.Dispatcher.UIThread.Post(() =>");
+                sb.AppendLine("                {");
+                sb.AppendLine($"                    if (command.CanExecute({param}))");
+                sb.AppendLine("                    {");
+                sb.AppendLine($"                        command.Execute({param});");
+                sb.AppendLine("                    }");
+                sb.AppendLine("                });");
+                sb.AppendLine("                return true;");
+            }
             sb.AppendLine($"                if (command.CanExecute({param}))");
             sb.AppendLine("                {");
             sb.AppendLine($"                    command.Execute({param});");

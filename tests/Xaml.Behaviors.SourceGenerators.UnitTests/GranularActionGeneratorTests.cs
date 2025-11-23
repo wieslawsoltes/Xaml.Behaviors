@@ -30,6 +30,28 @@ namespace TestNamespace
     }
 
     [Fact]
+    public void Should_Dispatch_Action_When_Requested()
+    {
+        var source = @"
+using Xaml.Behaviors.SourceGenerators;
+
+namespace TestNamespace
+{
+    public partial class TestClass
+    {
+        [GenerateTypedAction(UseDispatcher = true)]
+        public void TestMethod() { }
+    }
+}";
+        var (diagnostics, sources) = GeneratorTestHelper.RunGenerator(source);
+
+        Assert.Empty(diagnostics);
+        var generated = sources.FirstOrDefault(s => s.Contains("class TestMethodAction"));
+        Assert.NotNull(generated);
+        Assert.Contains("Dispatcher.UIThread.Post(() => typedTarget.TestMethod());", generated);
+    }
+
+    [Fact]
     public void Should_Generate_Action_For_Assembly_Attribute()
     {
         var source = @"

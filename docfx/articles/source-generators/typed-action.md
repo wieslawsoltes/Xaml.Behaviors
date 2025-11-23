@@ -58,6 +58,18 @@ You can also add attributes at the assembly level to generate actions for one or
 </UserControl>
 ```
 
+## UI Thread Dispatching
+
+Set `UseDispatcher = true` on the attribute to have the generated action marshal the method invocation to `Dispatcher.UIThread.Post`, mirroring the behavior of `FocusControlAction`. The default is `false`, which executes on the calling thread.
+
+```csharp
+[GenerateTypedAction(UseDispatcher = true)]
+public void Submit()
+{
+    // ...
+}
+```
+
 ## Parameter Binding
 
 The generator supports methods with parameters. For each parameter in the method, a corresponding `StyledProperty` is generated on the Action class, allowing you to bind values from XAML.

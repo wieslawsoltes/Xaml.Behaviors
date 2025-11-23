@@ -595,6 +595,52 @@ namespace Xaml.Behaviors.SourceGenerators
             return null;
         }
 
+        private static bool GetBoolNamedArgument(AttributeData attributeData, string argumentName, bool defaultValue = false)
+        {
+            foreach (var namedArgument in attributeData.NamedArguments)
+            {
+                if (string.Equals(namedArgument.Key, argumentName, StringComparison.Ordinal) && namedArgument.Value.Value is bool b)
+                {
+                    return b;
+                }
+            }
+
+            return defaultValue;
+        }
+
+        private static bool GetBoolNamedArgument(AttributeSyntax attributeSyntax, SemanticModel semanticModel, string argumentName, bool defaultValue = false)
+        {
+            if (attributeSyntax.ArgumentList == null)
+            {
+                return defaultValue;
+            }
+
+            foreach (var argument in attributeSyntax.ArgumentList.Arguments)
+            {
+                if (argument.NameEquals?.Name.Identifier.Text == argumentName)
+                {
+                    var constant = semanticModel.GetConstantValue(argument.Expression);
+                    if (constant.HasValue && constant.Value is bool b)
+                    {
+                        return b;
+                    }
+                }
+            }
+
+            return defaultValue;
+        }
+
+        private static bool GetUseDispatcherFlag(AttributeData attributeData, SemanticModel semanticModel)
+        {
+            var useDispatcher = GetBoolNamedArgument(attributeData, "UseDispatcher");
+            if (!useDispatcher && attributeData.ApplicationSyntaxReference?.GetSyntax() is AttributeSyntax attributeSyntax)
+            {
+                useDispatcher = GetBoolNamedArgument(attributeSyntax, semanticModel, "UseDispatcher");
+            }
+
+            return useDispatcher;
+        }
+
         private static string ComputeHash(string input)
         {
             using var sha = SHA256.Create();

@@ -31,6 +31,8 @@ namespace Xaml.Behaviors.SourceGenerators
                         [AttributeUsage(AttributeTargets.Method | AttributeTargets.Assembly, AllowMultiple = true)]
                         internal class GenerateTypedActionAttribute : Attribute
                         {
+                            public bool UseDispatcher { get; set; }
+
                             public GenerateTypedActionAttribute()
                             {
                             }
@@ -69,6 +71,8 @@ namespace Xaml.Behaviors.SourceGenerators
                         [AttributeUsage(AttributeTargets.Property | AttributeTargets.Assembly, AllowMultiple = true)]
                         internal class GenerateTypedChangePropertyActionAttribute : Attribute
                         {
+                            public bool UseDispatcher { get; set; }
+
                             public GenerateTypedChangePropertyActionAttribute()
                             {
                             }
@@ -120,6 +124,7 @@ namespace Xaml.Behaviors.SourceGenerators
                         [AttributeUsage(AttributeTargets.Class, Inherited = false, AllowMultiple = false)]
                         internal sealed class GenerateTypedInvokeCommandActionAttribute : Attribute
                         {
+                            public bool UseDispatcher { get; set; }
                         }
 
                         [AttributeUsage(AttributeTargets.Field, Inherited = false, AllowMultiple = false)]

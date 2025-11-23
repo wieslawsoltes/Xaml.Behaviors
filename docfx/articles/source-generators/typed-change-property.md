@@ -28,6 +28,15 @@ Assembly-level attributes are supported as well. The `propertyName` parameter ca
 > Property types must be public; using a non-public type will produce an XBG014 diagnostic.
 > Generated action classes are `public` unless the target or property type requires `internal`.
 
+## UI Thread Dispatching
+
+Set `UseDispatcher = true` on the attribute when the property assignment must run on the UI thread. The generated action queues the setter via `Dispatcher.UIThread.Post`; the default `false` keeps the immediate assignment.
+
+```csharp
+[GenerateTypedChangePropertyAction(UseDispatcher = true)]
+public string StatusText { get; set; }
+```
+
 ### Matching rules at a glance
 
 | Aspect | Behavior |

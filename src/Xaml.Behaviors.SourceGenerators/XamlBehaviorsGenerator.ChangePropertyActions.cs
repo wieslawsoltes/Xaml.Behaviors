@@ -20,6 +20,7 @@ namespace Xaml.Behaviors.SourceGenerators
             string TargetTypeName,
             string PropertyName,
             string PropertyType,
+            bool UseDispatcher,
             Diagnostic? Diagnostic = null);
 
         private void RegisterChangePropertyActionGeneration(IncrementalGeneratorInitializationContext context)
@@ -60,7 +61,12 @@ namespace Xaml.Behaviors.SourceGenerators
                 var containingType = propertySymbol.ContainingType;
                 if (containingType != null)
                 {
-                    results.Add(CreateChangePropertyInfo(containingType, propertySymbol, diagnosticLocation, includeTypeNamePrefix: false, compilation: context.SemanticModel.Compilation));
+                    foreach (var attribute in context.Attributes)
+                    {
+                        var useDispatcher = GetUseDispatcherFlag(attribute, context.SemanticModel);
+                        var location = attribute.ApplicationSyntaxReference?.GetSyntax()?.GetLocation() ?? diagnosticLocation;
+                        results.Add(CreateChangePropertyInfo(containingType, propertySymbol, location, includeTypeNamePrefix: false, compilation: context.SemanticModel.Compilation, useDispatcher: useDispatcher));
+                    }
                 }
             }
             return results.ToImmutable();
@@ -80,6 +86,7 @@ namespace Xaml.Behaviors.SourceGenerators
             sb.AppendLine("using Avalonia;");
             sb.AppendLine("using Avalonia.Xaml.Interactivity;");
             sb.AppendLine("using Avalonia.Controls;");
+            sb.AppendLine("using Avalonia.Threading;");
             sb.AppendLine();
             if (!string.IsNullOrEmpty(info.Namespace))
             {
@@ -111,7 +118,14 @@ namespace Xaml.Behaviors.SourceGenerators
             sb.AppendLine("            var target = TargetObject ?? sender;");
             sb.AppendLine($"            if (target is {info.TargetTypeName} typedTarget)");
             sb.AppendLine("            {");
-            sb.AppendLine($"                typedTarget.{info.PropertyName} = Value;");
+            if (info.UseDispatcher)
+            {
+                sb.AppendLine($"                Avalonia.Threading.Dispatcher.UIThread.Post(() => typedTarget.{info.PropertyName} = Value);");
+            }
+            else
+            {
+                sb.AppendLine($"                typedTarget.{info.PropertyName} = Value;");
+            }
             sb.AppendLine("                return true;");
             sb.AppendLine("            }");
             sb.AppendLine("            return false;");
@@ -165,24 +179,33 @@ namespace Xaml.Behaviors.SourceGenerators
             if (context.Node is not AttributeSyntax attributeSyntax)
                 return ImmutableArray<ChangePropertyInfo>.Empty;
 
-            if (attributeSyntax.ArgumentList?.Arguments.Count != 2)
+            if (attributeSyntax.ArgumentList?.Arguments == null)
                 return ImmutableArray<ChangePropertyInfo>.Empty;
 
-            if (attributeSyntax.ArgumentList.Arguments[0].Expression is not TypeOfExpressionSyntax typeOfExpression)
+            var positionalArguments = attributeSyntax.ArgumentList.Arguments
+                .Where(a => a.NameEquals is null && a.NameColon is null)
+                .ToList();
+
+            if (positionalArguments.Count < 2)
                 return ImmutableArray<ChangePropertyInfo>.Empty;
 
-            if (attributeSyntax.ArgumentList.Arguments[1].Expression is not LiteralExpressionSyntax propertyLiteral)
+            if (positionalArguments[0].Expression is not TypeOfExpressionSyntax typeOfExpression)
                 return ImmutableArray<ChangePropertyInfo>.Empty;
+
+            if (positionalArguments[1].Expression is not LiteralExpressionSyntax propertyLiteral)
+                return ImmutableArray<ChangePropertyInfo>.Empty;
+
+            var useDispatcher = GetBoolNamedArgument(attributeSyntax, context.SemanticModel, "UseDispatcher");
 
             var propertyName = propertyLiteral.Token.ValueText;
             var targetType = context.SemanticModel.GetTypeInfo(typeOfExpression.Type).Type as INamedTypeSymbol;
             if (targetType == null || string.IsNullOrEmpty(propertyName))
             {
                 var diagnostic = Diagnostic.Create(ChangePropertyNotFoundDiagnostic, Location.None, propertyName ?? "<unknown>", targetType?.Name ?? "<unknown>");
-                return ImmutableArray.Create(new ChangePropertyInfo("", "", "public", "", propertyName ?? "<unknown>", "", diagnostic));
+                return ImmutableArray.Create(new ChangePropertyInfo("", "", "public", "", propertyName ?? "<unknown>", "", useDispatcher, diagnostic));
             }
 
-            return CreateChangePropertyInfos(targetType, propertyName, context.Node.GetLocation(), includeTypeNamePrefix: true, compilation: context.SemanticModel.Compilation);
+            return CreateChangePropertyInfos(targetType, propertyName, context.Node.GetLocation(), includeTypeNamePrefix: true, compilation: context.SemanticModel.Compilation, useDispatcher: useDispatcher);
         }
 
         private ImmutableArray<ChangePropertyInfo> GetAssemblyChangePropertyActions(Compilation compilation)
@@ -196,21 +219,22 @@ namespace Xaml.Behaviors.SourceGenerators
 
                 var targetType = attributeData.ConstructorArguments[0].Value as INamedTypeSymbol;
                 var propertyName = attributeData.ConstructorArguments[1].Value as string;
+                var useDispatcher = GetBoolNamedArgument(attributeData, "UseDispatcher");
 
                 if (targetType == null || string.IsNullOrEmpty(propertyName))
                 {
                     var diagnostic = Diagnostic.Create(ChangePropertyNotFoundDiagnostic, Location.None, propertyName ?? "<unknown>", targetType?.Name ?? "<unknown>");
-                    results.Add(new ChangePropertyInfo("", "", "public", "", "", "", diagnostic));
+                    results.Add(new ChangePropertyInfo("", "", "public", "", "", "", useDispatcher, diagnostic));
                     continue;
                 }
 
-                results.AddRange(CreateChangePropertyInfos(targetType, propertyName!, Location.None, includeTypeNamePrefix: true, compilation: compilation));
+                results.AddRange(CreateChangePropertyInfos(targetType, propertyName!, Location.None, includeTypeNamePrefix: true, compilation: compilation, useDispatcher: useDispatcher));
             }
 
             return results.ToImmutable();
         }
 
-        private ImmutableArray<ChangePropertyInfo> CreateChangePropertyInfos(INamedTypeSymbol targetType, string propertyPattern, Location? diagnosticLocation = null, bool includeTypeNamePrefix = false, Compilation? compilation = null)
+        private ImmutableArray<ChangePropertyInfo> CreateChangePropertyInfos(INamedTypeSymbol targetType, string propertyPattern, Location? diagnosticLocation = null, bool includeTypeNamePrefix = false, Compilation? compilation = null, bool useDispatcher = false)
         {
             var matchedProperties = FindMatchingProperties(targetType, propertyPattern);
             var typePrefix = includeTypeNamePrefix ? GetTypeNamePrefix(targetType) : string.Empty;
@@ -223,14 +247,14 @@ namespace Xaml.Behaviors.SourceGenerators
                 var namespaceName = (targetType.ContainingNamespace.IsGlobalNamespace || ns == "<global namespace>") ? null : ns;
                 var targetTypeName = ToDisplayStringWithNullable(targetType);
                 var accessibility = GetAccessibilityKeyword(targetType);
-                return ImmutableArray.Create(new ChangePropertyInfo(namespaceName, className, accessibility, targetTypeName, propertyPattern, "", diagnostic));
+                return ImmutableArray.Create(new ChangePropertyInfo(namespaceName, className, accessibility, targetTypeName, propertyPattern, "", useDispatcher, diagnostic));
             }
 
             var builder = ImmutableArray.CreateBuilder<ChangePropertyInfo>();
             var invalidBuilder = ImmutableArray.CreateBuilder<ChangePropertyInfo>();
             foreach (var property in matchedProperties)
             {
-                var info = CreateChangePropertyInfo(targetType, property, diagnosticLocation, includeTypeNamePrefix, compilation);
+                var info = CreateChangePropertyInfo(targetType, property, diagnosticLocation, includeTypeNamePrefix, compilation, useDispatcher);
                 if (info.Diagnostic is null)
                 {
                     builder.Add(info);
@@ -258,10 +282,10 @@ namespace Xaml.Behaviors.SourceGenerators
             var namespaceNameFallback = (targetType.ContainingNamespace.IsGlobalNamespace || nsFallback == "<global namespace>") ? null : nsFallback;
             var targetTypeNameFallback = ToDisplayStringWithNullable(targetType);
             var accessibilityFallback = GetAccessibilityKeyword(targetType);
-            return ImmutableArray.Create(new ChangePropertyInfo(namespaceNameFallback, classNameFallback, accessibilityFallback, targetTypeNameFallback, propertyPattern, "", fallback));
+            return ImmutableArray.Create(new ChangePropertyInfo(namespaceNameFallback, classNameFallback, accessibilityFallback, targetTypeNameFallback, propertyPattern, "", useDispatcher, fallback));
         }
 
-        private ChangePropertyInfo CreateChangePropertyInfo(INamedTypeSymbol targetType, IPropertySymbol propertySymbol, Location? diagnosticLocation = null, bool includeTypeNamePrefix = false, Compilation? compilation = null)
+        private ChangePropertyInfo CreateChangePropertyInfo(INamedTypeSymbol targetType, IPropertySymbol propertySymbol, Location? diagnosticLocation = null, bool includeTypeNamePrefix = false, Compilation? compilation = null, bool useDispatcher = false)
         {
             if (propertySymbol.IsIndexer)
             {
@@ -273,7 +297,7 @@ namespace Xaml.Behaviors.SourceGenerators
                 var classNameIndex = string.IsNullOrEmpty(prefixIndex) ? baseNameIndex : prefixIndex + baseNameIndex;
                 var targetTypeNameIndex = ToDisplayStringWithNullable(targetType);
                 var accessibilityIndex = GetChangePropertyAccessibility(targetType, propertySymbol);
-                return new ChangePropertyInfo(namespaceIndex, classNameIndex, accessibilityIndex, targetTypeNameIndex, propertySymbol.Name, ToDisplayStringWithNullable(propertySymbol.Type), diagnostic);
+                return new ChangePropertyInfo(namespaceIndex, classNameIndex, accessibilityIndex, targetTypeNameIndex, propertySymbol.Name, ToDisplayStringWithNullable(propertySymbol.Type), useDispatcher, diagnostic);
             }
 
             var validationDiagnostic = ValidatePropertySymbol(propertySymbol, diagnosticLocation, compilation);
@@ -289,18 +313,18 @@ namespace Xaml.Behaviors.SourceGenerators
 
             if (validationDiagnostic != null)
             {
-                return new ChangePropertyInfo(namespaceName, className, accessibility, targetTypeName, propertyName, propertyType, validationDiagnostic);
+                return new ChangePropertyInfo(namespaceName, className, accessibility, targetTypeName, propertyName, propertyType, useDispatcher, validationDiagnostic);
             }
 
-            return new ChangePropertyInfo(namespaceName, className, accessibility, targetTypeName, propertyName, propertyType);
+            return new ChangePropertyInfo(namespaceName, className, accessibility, targetTypeName, propertyName, propertyType, useDispatcher);
         }
 
-        private ChangePropertyInfo CreateChangePropertyInfo(INamedTypeSymbol targetType, string propertyName, Location? diagnosticLocation = null)
+        private ChangePropertyInfo CreateChangePropertyInfo(INamedTypeSymbol targetType, string propertyName, Location? diagnosticLocation = null, bool useDispatcher = false)
         {
-            var infos = CreateChangePropertyInfos(targetType, propertyName, diagnosticLocation);
+            var infos = CreateChangePropertyInfos(targetType, propertyName, diagnosticLocation, useDispatcher: useDispatcher);
             var accessibility = GetAccessibilityKeyword(targetType);
             var targetTypeName = ToDisplayStringWithNullable(targetType);
-            return infos.Length > 0 ? infos[0] : new ChangePropertyInfo("", "", accessibility, targetTypeName, propertyName, "", Diagnostic.Create(ChangePropertyNotFoundDiagnostic, diagnosticLocation ?? Location.None, propertyName, targetType.Name));
+            return infos.Length > 0 ? infos[0] : new ChangePropertyInfo("", "", accessibility, targetTypeName, propertyName, "", useDispatcher, Diagnostic.Create(ChangePropertyNotFoundDiagnostic, diagnosticLocation ?? Location.None, propertyName, targetType.Name));
         }
 
         private static IEnumerable<ChangePropertyInfo> EnsureUniqueChangePropertyActions(IEnumerable<ChangePropertyInfo> infos)

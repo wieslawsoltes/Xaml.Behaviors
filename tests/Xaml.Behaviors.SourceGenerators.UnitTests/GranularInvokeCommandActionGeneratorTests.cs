@@ -35,6 +35,34 @@ namespace TestNamespace
     }
 
     [Fact]
+    public void Should_Dispatch_Command_When_Requested()
+    {
+        var source = @"
+using System.Windows.Input;
+using Xaml.Behaviors.SourceGenerators;
+
+namespace TestNamespace
+{
+    [GenerateTypedInvokeCommandAction(UseDispatcher = true)]
+    public partial class TestInvokeCommandAction : Avalonia.Xaml.Interactivity.StyledElementAction
+    {
+        [ActionCommand]
+        private ICommand _command;
+
+        [ActionParameter]
+        private object _commandParameter;
+    }
+}";
+        var (diagnostics, sources) = GeneratorTestHelper.RunGenerator(source);
+
+        Assert.Empty(diagnostics);
+        var generated = sources.FirstOrDefault(s => s.Contains("class TestInvokeCommandAction"));
+        Assert.NotNull(generated);
+        Assert.Contains("Dispatcher.UIThread.Post(() =>", generated);
+        Assert.Contains("command.Execute(this._commandParameter);", generated);
+    }
+
+    [Fact]
     public void Should_Generate_InvokeCommandAction_Without_Parameter()
     {
         var source = @"

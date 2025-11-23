@@ -37,6 +37,10 @@ The source generator creates:
     *   Checks `CanExecute`.
     *   Calls `Execute` on the command with the strongly-typed parameter.
 
+## UI Thread Dispatching
+
+If the command should run on the UI thread, set `UseDispatcher = true` on the attribute. The generated action will invoke `CanExecute` and `Execute` inside `Dispatcher.UIThread.Post`; the default remains synchronous on the calling thread.
+
 ## XAML Usage
 
 ```xml

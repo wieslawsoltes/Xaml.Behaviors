@@ -24,6 +24,7 @@ namespace Xaml.Behaviors.SourceGenerators
             ImmutableArray<ActionParameter> Parameters,
             bool IsAwaitable,
             bool IsValueTask,
+            bool UseDispatcher,
             Diagnostic? Diagnostic = null);
 
         private void RegisterActionGeneration(IncrementalGeneratorInitializationContext context)
@@ -61,7 +62,12 @@ namespace Xaml.Behaviors.SourceGenerators
 
             if (symbol is IMethodSymbol methodSymbol)
             {
-                results.Add(CreateActionInfo(methodSymbol, context.TargetNode?.GetLocation() ?? Location.None, context.SemanticModel.Compilation));
+                foreach (var attribute in context.Attributes)
+                {
+                    var useDispatcher = GetUseDispatcherFlag(attribute, context.SemanticModel);
+                    var location = attribute.ApplicationSyntaxReference?.GetSyntax()?.GetLocation() ?? context.TargetNode?.GetLocation() ?? Location.None;
+                    results.Add(CreateActionInfo(methodSymbol, location, context.SemanticModel.Compilation, useDispatcher: useDispatcher));
+                }
             }
 
             return results.ToImmutable();
@@ -90,10 +96,11 @@ namespace Xaml.Behaviors.SourceGenerators
 
                 var targetType = attributeData.ConstructorArguments[0].Value as INamedTypeSymbol;
                 var methodName = attributeData.ConstructorArguments[1].Value as string;
+                var useDispatcher = GetBoolNamedArgument(attributeData, "UseDispatcher");
 
                 if (targetType == null || string.IsNullOrEmpty(methodName)) continue;
 
-                results.AddRange(CreateActionInfos(targetType, methodName!, Location.None, includeTypeNamePrefix: true, compilation: compilation));
+                results.AddRange(CreateActionInfos(targetType, methodName!, Location.None, includeTypeNamePrefix: true, compilation: compilation, useDispatcher: useDispatcher));
             }
 
             return results.ToImmutable();
@@ -113,6 +120,7 @@ namespace Xaml.Behaviors.SourceGenerators
             sb.AppendLine("using Avalonia;");
             sb.AppendLine("using Avalonia.Xaml.Interactivity;");
             sb.AppendLine("using Avalonia.Controls;");
+            sb.AppendLine("using Avalonia.Threading;");
             sb.AppendLine();
             if (!string.IsNullOrEmpty(info.Namespace))
             {
@@ -207,21 +215,49 @@ namespace Xaml.Behaviors.SourceGenerators
 
             if (info.IsAwaitable)
             {
-                sb.AppendLine($"                var task = {invocation};");
-                if (info.IsValueTask)
+                if (info.UseDispatcher)
                 {
-                    sb.AppendLine("                var t = task.AsTask();");
+                    sb.AppendLine("                Avalonia.Threading.Dispatcher.UIThread.Post(async () =>");
+                    sb.AppendLine("                {");
+                    sb.AppendLine($"                    var task = {invocation};");
+                    if (info.IsValueTask)
+                    {
+                        sb.AppendLine("                    var t = task.AsTask();");
+                    }
+                    else
+                    {
+                        sb.AppendLine("                    var t = task;");
+                    }
+                    sb.AppendLine("                    TrackTask(t);");
+                    sb.AppendLine("                });");
+                    sb.AppendLine("                return true;");
                 }
                 else
                 {
-                    sb.AppendLine("                var t = task;");
+                    sb.AppendLine($"                var task = {invocation};");
+                    if (info.IsValueTask)
+                    {
+                        sb.AppendLine("                var t = task.AsTask();");
+                    }
+                    else
+                    {
+                        sb.AppendLine("                var t = task;");
+                    }
+                    sb.AppendLine("                return TrackTask(t);");
                 }
-                sb.AppendLine("                return TrackTask(t);");
             }
             else
             {
-                sb.AppendLine($"                {invocation};");
-                sb.AppendLine("                return true;");
+                if (info.UseDispatcher)
+                {
+                    sb.AppendLine($"                Avalonia.Threading.Dispatcher.UIThread.Post(() => {invocation});");
+                    sb.AppendLine("                return true;");
+                }
+                else
+                {
+                    sb.AppendLine($"                {invocation};");
+                    sb.AppendLine("                return true;");
+                }
             }
 
             sb.AppendLine("            }");
@@ -367,13 +403,20 @@ namespace Xaml.Behaviors.SourceGenerators
             if (context.Node is not AttributeSyntax attributeSyntax)
                 return ImmutableArray<ActionInfo>.Empty;
 
-            if (attributeSyntax.ArgumentList?.Arguments.Count != 2)
+            if (attributeSyntax.ArgumentList?.Arguments == null)
                 return ImmutableArray<ActionInfo>.Empty;
 
-            if (attributeSyntax.ArgumentList.Arguments[0].Expression is not TypeOfExpressionSyntax typeOfExpression)
+            var positionalArguments = attributeSyntax.ArgumentList.Arguments
+                .Where(a => a.NameEquals is null && a.NameColon is null)
+                .ToList();
+
+            if (positionalArguments.Count < 2)
                 return ImmutableArray<ActionInfo>.Empty;
 
-            if (attributeSyntax.ArgumentList.Arguments[1].Expression is not LiteralExpressionSyntax methodLiteral)
+            if (positionalArguments[0].Expression is not TypeOfExpressionSyntax typeOfExpression)
+                return ImmutableArray<ActionInfo>.Empty;
+
+            if (positionalArguments[1].Expression is not LiteralExpressionSyntax methodLiteral)
                 return ImmutableArray<ActionInfo>.Empty;
 
             var methodName = methodLiteral.Token.ValueText;
@@ -381,22 +424,24 @@ namespace Xaml.Behaviors.SourceGenerators
             if (targetType == null || string.IsNullOrEmpty(methodName))
                 return ImmutableArray<ActionInfo>.Empty;
 
-            return CreateActionInfos(targetType, methodName, context.Node.GetLocation(), includeTypeNamePrefix: true, compilation: context.SemanticModel.Compilation);
+            var useDispatcher = GetBoolNamedArgument(attributeSyntax, context.SemanticModel, "UseDispatcher");
+
+            return CreateActionInfos(targetType, methodName, context.Node.GetLocation(), includeTypeNamePrefix: true, compilation: context.SemanticModel.Compilation, useDispatcher: useDispatcher);
         }
 
-        private ActionInfo CreateActionInfo(IMethodSymbol methodSymbol, Location? diagnosticLocation, Compilation? compilation, bool includeTypeNamePrefix = false)
+        private ActionInfo CreateActionInfo(IMethodSymbol methodSymbol, Location? diagnosticLocation, Compilation? compilation, bool includeTypeNamePrefix = false, bool useDispatcher = false)
         {
             var targetType = methodSymbol.ContainingType;
             if (targetType == null)
             {
                 var className = $"{methodSymbol.Name}Action";
-                return new ActionInfo(null, className, "public", "", methodSymbol.Name, ImmutableArray<ActionParameter>.Empty, false, false, Diagnostic.Create(ActionMethodNotFoundDiagnostic, diagnosticLocation ?? Location.None, methodSymbol.Name, "<unknown>"));
+                return new ActionInfo(null, className, "public", "", methodSymbol.Name, ImmutableArray<ActionParameter>.Empty, false, false, useDispatcher, Diagnostic.Create(ActionMethodNotFoundDiagnostic, diagnosticLocation ?? Location.None, methodSymbol.Name, "<unknown>"));
             }
 
-            return CreateActionInfo(targetType, methodSymbol, diagnosticLocation, includeTypeNamePrefix, compilation);
+            return CreateActionInfo(targetType, methodSymbol, diagnosticLocation, includeTypeNamePrefix, compilation, useDispatcher);
         }
 
-        private ImmutableArray<ActionInfo> CreateActionInfos(INamedTypeSymbol targetType, string methodPattern, Location? diagnosticLocation = null, bool includeTypeNamePrefix = false, Compilation? compilation = null)
+        private ImmutableArray<ActionInfo> CreateActionInfos(INamedTypeSymbol targetType, string methodPattern, Location? diagnosticLocation = null, bool includeTypeNamePrefix = false, Compilation? compilation = null, bool useDispatcher = false)
         {
             var allMatches = FindMatchingMethods(targetType, methodPattern, requirePublicAccessibility: false, requireAccessibleTypes: false, compilation: compilation);
             var matchedMethods = FindMatchingMethods(targetType, methodPattern, compilation: compilation);
@@ -418,7 +463,7 @@ namespace Xaml.Behaviors.SourceGenerators
                 var className = string.IsNullOrEmpty(classPrefix) ? baseName : classPrefix + baseName;
                 var targetTypeName = ToDisplayStringWithNullable(targetType);
                 var accessibility = GetActionAccessibility(targetType);
-                return ImmutableArray.Create(new ActionInfo(namespaceName, className, accessibility, targetTypeName, methodPattern, ImmutableArray<ActionParameter>.Empty, false, false, diagnostic));
+                return ImmutableArray.Create(new ActionInfo(namespaceName, className, accessibility, targetTypeName, methodPattern, ImmutableArray<ActionParameter>.Empty, false, false, useDispatcher, diagnostic));
             }
 
             var nsPart = targetType.ContainingNamespace.ToDisplayString();
@@ -439,7 +484,7 @@ namespace Xaml.Behaviors.SourceGenerators
                 var fallbackBase = $"{CreateSafeIdentifier(methodPattern)}Action";
                 var fallbackClassName = string.IsNullOrEmpty(classPrefix) ? fallbackBase : classPrefix + fallbackBase;
                 var accessibility = GetActionAccessibility(targetType);
-                return ImmutableArray.Create(new ActionInfo(namespaceNamePart, fallbackClassName, accessibility, targetTypeNamePart, methodPattern, ImmutableArray<ActionParameter>.Empty, false, false, diag));
+                return ImmutableArray.Create(new ActionInfo(namespaceNamePart, fallbackClassName, accessibility, targetTypeNamePart, methodPattern, ImmutableArray<ActionParameter>.Empty, false, false, useDispatcher, diag));
             }
 
             var builder = ImmutableArray.CreateBuilder<ActionInfo>();
@@ -454,25 +499,25 @@ namespace Xaml.Behaviors.SourceGenerators
                         var baseName = $"{group.Key}Action";
                         var className = string.IsNullOrEmpty(classPrefix) ? baseName : classPrefix + baseName;
                         var accessibility = GetActionAccessibility(targetType, group.First());
-                        builder.Add(new ActionInfo(namespaceNamePart, className, accessibility, targetTypeNamePart, group.Key, ImmutableArray<ActionParameter>.Empty, false, false, diagnostic));
+                        builder.Add(new ActionInfo(namespaceNamePart, className, accessibility, targetTypeNamePart, group.Key, ImmutableArray<ActionParameter>.Empty, false, false, useDispatcher, diagnostic));
                     }
                     continue;
                 }
 
-                builder.Add(CreateActionInfo(targetType, group.First(), diagnosticLocation, includeTypeNamePrefix, compilation));
+                builder.Add(CreateActionInfo(targetType, group.First(), diagnosticLocation, includeTypeNamePrefix, compilation, useDispatcher));
             }
 
             return builder.ToImmutable();
         }
 
-        private ActionInfo CreateActionInfo(INamedTypeSymbol targetType, string methodName, Location? diagnosticLocation = null, Compilation? compilation = null)
+        private ActionInfo CreateActionInfo(INamedTypeSymbol targetType, string methodName, Location? diagnosticLocation = null, Compilation? compilation = null, bool useDispatcher = false)
         {
-            var infos = CreateActionInfos(targetType, methodName, diagnosticLocation, compilation: compilation);
+            var infos = CreateActionInfos(targetType, methodName, diagnosticLocation, compilation: compilation, useDispatcher: useDispatcher);
             var accessibility = GetActionAccessibility(targetType);
-            return infos.Length > 0 ? infos[0] : new ActionInfo(null, $"{methodName}Action", accessibility, ToDisplayStringWithNullable(targetType), methodName, ImmutableArray<ActionParameter>.Empty, false, false, Diagnostic.Create(ActionMethodNotFoundDiagnostic, diagnosticLocation ?? Location.None, methodName, targetType.Name));
+            return infos.Length > 0 ? infos[0] : new ActionInfo(null, $"{methodName}Action", accessibility, ToDisplayStringWithNullable(targetType), methodName, ImmutableArray<ActionParameter>.Empty, false, false, useDispatcher, Diagnostic.Create(ActionMethodNotFoundDiagnostic, diagnosticLocation ?? Location.None, methodName, targetType.Name));
         }
 
-        private ActionInfo CreateActionInfo(INamedTypeSymbol targetType, IMethodSymbol methodSymbol, Location? diagnosticLocation = null, bool includeTypeNamePrefix = false, Compilation? compilation = null)
+        private ActionInfo CreateActionInfo(INamedTypeSymbol targetType, IMethodSymbol methodSymbol, Location? diagnosticLocation = null, bool includeTypeNamePrefix = false, Compilation? compilation = null, bool useDispatcher = false)
         {
             var ns = targetType.ContainingNamespace.ToDisplayString();
             var namespaceName = (targetType.ContainingNamespace.IsGlobalNamespace || ns == "<global namespace>") ? null : ns;
@@ -485,13 +530,13 @@ namespace Xaml.Behaviors.SourceGenerators
             var validationDiagnostic = ValidateActionMethod(methodSymbol, diagnosticLocation, compilation);
             if (validationDiagnostic != null)
             {
-                return new ActionInfo(namespaceName, className, accessibility, targetTypeName, methodSymbol.Name, ImmutableArray<ActionParameter>.Empty, false, false, validationDiagnostic);
+                return new ActionInfo(namespaceName, className, accessibility, targetTypeName, methodSymbol.Name, ImmutableArray<ActionParameter>.Empty, false, false, useDispatcher, validationDiagnostic);
             }
 
             if (!IsAccessibleType(methodSymbol.ReturnType, compilation) || methodSymbol.Parameters.Any(p => !IsAccessibleType(p.Type, compilation)))
             {
                 var diag = Diagnostic.Create(MemberNotAccessibleDiagnostic, diagnosticLocation ?? Location.None, methodSymbol.Name, methodSymbol.ContainingType.ToDisplayString());
-                return new ActionInfo(namespaceName, className, accessibility, targetTypeName, methodSymbol.Name, ImmutableArray<ActionParameter>.Empty, false, false, diag);
+                return new ActionInfo(namespaceName, className, accessibility, targetTypeName, methodSymbol.Name, ImmutableArray<ActionParameter>.Empty, false, false, useDispatcher, diag);
             }
 
             var parameters = methodSymbol.Parameters.Select(p => new ActionParameter(p.Name, ToDisplayStringWithNullable(p.Type))).ToImmutableArray();
@@ -500,7 +545,7 @@ namespace Xaml.Behaviors.SourceGenerators
             bool isAwaitable = IsAwaitableType(returnType);
             bool isValueTask = IsValueTaskType(returnType);
 
-            return new ActionInfo(namespaceName, className, accessibility, targetTypeName, methodSymbol.Name, parameters, isAwaitable, isValueTask);
+            return new ActionInfo(namespaceName, className, accessibility, targetTypeName, methodSymbol.Name, parameters, isAwaitable, isValueTask, useDispatcher);
         }
 
         private bool UsesAccessibleTypes(IMethodSymbol methodSymbol, Compilation? compilation)
