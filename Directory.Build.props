@@ -9,6 +9,8 @@
     <PackageProjectUrl>https://github.com/wieslawsoltes/Xaml.Behaviors</PackageProjectUrl>
     <PackageIcon>logo.png</PackageIcon>
     <AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
   </PropertyGroup>
   <ItemGroup>
     <None Include="$(MSBuildThisFileDirectory)logo.png" Pack="true" PackagePath=""/>
