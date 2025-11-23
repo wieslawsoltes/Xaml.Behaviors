@@ -9,7 +9,7 @@ public class ChangePropertyActionGeneratorTests
     public void SetTagAction_Should_Set_Property()
     {
         var control = new TestControl();
-        dynamic action = GeneratedTypeHelper.CreateInstance("SetTagAction", "Avalonia.Xaml.Behaviors.SourceGenerators.UnitTests");
+        dynamic action = GeneratedTypeHelper.CreateInstance("TestControlSetTagAction", "Avalonia.Xaml.Behaviors.SourceGenerators.UnitTests");
         action.Value = "TagValue";
         
         action.Execute(control, null);

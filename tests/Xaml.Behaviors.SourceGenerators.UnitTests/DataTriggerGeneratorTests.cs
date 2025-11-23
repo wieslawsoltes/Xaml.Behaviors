@@ -11,7 +11,7 @@ public class DataTriggerGeneratorTests
     {
         var control = new TestControl();
         dynamic trigger = GeneratedTypeHelper.CreateInstance("StringDataTrigger", "Xaml.Behaviors.Generated");
-        dynamic action = GeneratedTypeHelper.CreateInstance("TestMethodAction", "Avalonia.Xaml.Behaviors.SourceGenerators.UnitTests");
+        dynamic action = GeneratedTypeHelper.CreateInstance("TestControlTestMethodAction", "Avalonia.Xaml.Behaviors.SourceGenerators.UnitTests");
         
         trigger.Actions!.Add(action);
         trigger.Binding = "Match";

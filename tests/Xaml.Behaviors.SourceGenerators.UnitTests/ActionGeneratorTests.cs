@@ -9,7 +9,7 @@ public class ActionGeneratorTests
     public void TestMethodAction_Should_Call_Method()
     {
         var control = new TestControl();
-        dynamic action = GeneratedTypeHelper.CreateInstance("TestMethodAction", "Avalonia.Xaml.Behaviors.SourceGenerators.UnitTests");
+        dynamic action = GeneratedTypeHelper.CreateInstance("TestControlTestMethodAction", "Avalonia.Xaml.Behaviors.SourceGenerators.UnitTests");
         
         action.Execute(control, null);
         
@@ -20,7 +20,7 @@ public class ActionGeneratorTests
     public void TestMethodWithParameterAction_Should_Call_Method_With_Parameter()
     {
         var control = new TestControl();
-        dynamic action = GeneratedTypeHelper.CreateInstance("TestMethodWithParameterAction", "Avalonia.Xaml.Behaviors.SourceGenerators.UnitTests");
+        dynamic action = GeneratedTypeHelper.CreateInstance("TestControlTestMethodWithParameterAction", "Avalonia.Xaml.Behaviors.SourceGenerators.UnitTests");
         action.Parameter = "Test";
         
         action.Execute(control, null);

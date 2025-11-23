@@ -9,9 +9,9 @@
     <TextBlock Text="External Action &amp; Trigger" FontWeight="Bold" />
     <Button Content="Call External Method">
       <Interaction.Behaviors>
-        <ac:ClickTrigger>
+        <ac:ButtonClickTrigger>
           <m:ExternalMethodAction TargetObject="{Binding ExternalObject}" />
-        </ac:ClickTrigger>
+        </ac:ButtonClickTrigger>
       </Interaction.Behaviors>
     </Button>
 

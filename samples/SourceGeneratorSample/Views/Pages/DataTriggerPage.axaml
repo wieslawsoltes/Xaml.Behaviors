@@ -11,10 +11,10 @@
     <TextBlock Text="Value is 5!">
       <Interaction.Behaviors>
         <gen:DoubleDataTrigger Binding="{Binding Value}" Value="5" ComparisonCondition="Equal">
-          <ac:SetForegroundAction Value="Green" />
+          <ac:TextBlockSetForegroundAction Value="Green" />
         </gen:DoubleDataTrigger>
         <gen:DoubleDataTrigger Binding="{Binding Value}" Value="5" ComparisonCondition="NotEqual">
-          <ac:SetForegroundAction Value="Black" />
+          <ac:TextBlockSetForegroundAction Value="Black" />
         </gen:DoubleDataTrigger>
       </Interaction.Behaviors>
     </TextBlock>

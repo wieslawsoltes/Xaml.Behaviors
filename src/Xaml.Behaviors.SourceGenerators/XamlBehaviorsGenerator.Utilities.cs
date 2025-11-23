@@ -2,10 +2,12 @@
 // Licensed under the MIT license. See LICENSE file in the project root for details.
 
 using System;
+using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
+using System.Text.RegularExpressions;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -183,6 +185,51 @@ namespace Xaml.Behaviors.SourceGenerators
             return result;
         }
 
+        private static bool NameMatchesPattern(string name, string pattern)
+        {
+            if (string.IsNullOrEmpty(pattern))
+            {
+                return false;
+            }
+
+            if (pattern == "*")
+            {
+                return true;
+            }
+
+            var regexMetaIndex = pattern.IndexOfAny(new[] { '.', '$', '^', '[', ']', '(', ')', '+', '?', '{', '}', '|', '\\' });
+
+            if (pattern.Contains('*') && regexMetaIndex == -1)
+            {
+                var regexPattern = "^" + Regex.Escape(pattern).Replace("\\*", ".*") + "$";
+                return RegexIsMatch(name, regexPattern);
+            }
+
+            if (string.Equals(name, pattern, StringComparison.Ordinal))
+            {
+                return true;
+            }
+
+            if (regexMetaIndex != -1)
+            {
+                return RegexIsMatch(name, pattern);
+            }
+
+            return false;
+        }
+
+        private static bool RegexIsMatch(string input, string pattern)
+        {
+            try
+            {
+                return Regex.IsMatch(input, pattern);
+            }
+            catch (ArgumentException)
+            {
+                return false;
+            }
+        }
+
         private static Diagnostic? ValidateStyledElementTriggerType(INamedTypeSymbol symbol, Location? location)
         {
             if (!InheritsFrom(symbol, "Avalonia.Xaml.Interactivity.StyledElementTrigger"))
@@ -191,6 +238,23 @@ namespace Xaml.Behaviors.SourceGenerators
             }
 
             return null;
+        }
+
+        private static string GetTypeNamePrefix(INamedTypeSymbol typeSymbol)
+        {
+            var name = typeSymbol.Name;
+            var tickIndex = name.IndexOf('`');
+            if (tickIndex >= 0)
+            {
+                name = name.Substring(0, tickIndex);
+            }
+
+            if (typeSymbol.ContainingType != null)
+            {
+                return GetTypeNamePrefix(typeSymbol.ContainingType) + name;
+            }
+
+            return name;
         }
 
         private static Diagnostic? ValidateStyledElementActionType(INamedTypeSymbol symbol, Location? location)
@@ -260,8 +324,7 @@ namespace Xaml.Behaviors.SourceGenerators
         private static bool IsAccessibleToGenerator(ISymbol symbol)
         {
             return symbol.DeclaredAccessibility is Accessibility.Public
-                or Accessibility.Internal
-                or Accessibility.ProtectedOrInternal;
+                or Accessibility.Internal;
         }
 
         private static bool HasAccessibleSetter(IPropertySymbol propertySymbol)
@@ -297,7 +360,7 @@ namespace Xaml.Behaviors.SourceGenerators
             var current = symbol;
             while (current != null)
             {
-                if (current.DeclaredAccessibility is not (Accessibility.Public or Accessibility.Internal or Accessibility.ProtectedOrInternal))
+                if (current.DeclaredAccessibility is not (Accessibility.Public or Accessibility.Internal))
                 {
                     return Diagnostic.Create(MemberNotAccessibleDiagnostic, location ?? Location.None, current.Name, current.ToDisplayString());
                 }
@@ -316,6 +379,96 @@ namespace Xaml.Behaviors.SourceGenerators
             }
 
             return null;
+        }
+
+        private static string CreateMethodSignatureKey(IMethodSymbol method)
+        {
+            var sb = new StringBuilder();
+            sb.Append(method.Name);
+            sb.Append('(');
+            foreach (var parameter in method.Parameters)
+            {
+                sb.Append(parameter.Type.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat));
+                sb.Append(';');
+            }
+            sb.Append(')');
+            return sb.ToString();
+        }
+
+        private static ImmutableArray<IEventSymbol> FindMatchingEvents(INamedTypeSymbol? type, string pattern)
+        {
+            var builder = ImmutableArray.CreateBuilder<IEventSymbol>();
+            var seenNames = new HashSet<string>(StringComparer.Ordinal);
+            var current = type;
+            while (current != null)
+            {
+                foreach (var evt in current.GetMembers().OfType<IEventSymbol>())
+                {
+                    if (!NameMatchesPattern(evt.Name, pattern))
+                        continue;
+
+                    if (seenNames.Add(evt.Name))
+                    {
+                        builder.Add(evt);
+                    }
+                }
+
+                current = current.BaseType;
+            }
+
+            return builder.ToImmutable();
+        }
+
+        private static ImmutableArray<IPropertySymbol> FindMatchingProperties(INamedTypeSymbol? type, string pattern)
+        {
+            var builder = ImmutableArray.CreateBuilder<IPropertySymbol>();
+            var seenNames = new HashSet<string>(StringComparer.Ordinal);
+            var current = type;
+            while (current != null)
+            {
+                foreach (var prop in current.GetMembers().OfType<IPropertySymbol>())
+                {
+                    if (!NameMatchesPattern(prop.Name, pattern))
+                        continue;
+
+                    if (seenNames.Add(prop.Name))
+                    {
+                        builder.Add(prop);
+                    }
+                }
+
+                current = current.BaseType;
+            }
+
+            return builder.ToImmutable();
+        }
+
+        private static ImmutableArray<IMethodSymbol> FindMatchingMethods(INamedTypeSymbol? type, string pattern)
+        {
+            var builder = ImmutableArray.CreateBuilder<IMethodSymbol>();
+            var seenSignatures = new HashSet<string>(StringComparer.Ordinal);
+            var current = type;
+            while (current != null)
+            {
+                foreach (var method in current.GetMembers().OfType<IMethodSymbol>())
+                {
+                    if (method.MethodKind != MethodKind.Ordinary)
+                        continue;
+
+                    if (!NameMatchesPattern(method.Name, pattern))
+                        continue;
+
+                    var signature = CreateMethodSignatureKey(method);
+                    if (seenSignatures.Add(signature))
+                    {
+                        builder.Add(method);
+                    }
+                }
+
+                current = current.BaseType;
+            }
+
+            return builder.ToImmutable();
         }
 
         private static IEventSymbol? FindEvent(INamedTypeSymbol? type, string name)

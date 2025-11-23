@@ -16,6 +16,16 @@ public partial class MyViewModel
 
 The generator will create a class named `ProcessingFinishedTrigger` in the same namespace.
 
+You can also register triggers at the assembly level and generate multiple classes at once. The `eventName` argument accepts either a literal name, a wildcard pattern (e.g. `*Finished`), or a regular expression. When generated from an assembly attribute, the class name is prefixed with the target type to avoid collisions (e.g. `ButtonClickTrigger`).
+
+```csharp
+[assembly: GenerateTypedTrigger(typeof(Avalonia.Controls.Button), "Click")]                  // ButtonClickTrigger
+[assembly: GenerateTypedTrigger(typeof(MyApp.ViewModels.ShellViewModel), "*Finished")]       // ShellViewModelProcessingFinishedTrigger, etc.
+[assembly: GenerateTypedTrigger(typeof(MyApp.ViewModels.ShellViewModel), "^(Loaded|Closed)$")] // ShellViewModelLoadedTrigger, ShellViewModelClosedTrigger
+```
+
+> Only public or internal events are supported. Wildcard/regex matches skip inaccessible events, and if no accessible matches are found a diagnostic will be emitted.
+
 ### XAML Usage
 
 ```xml

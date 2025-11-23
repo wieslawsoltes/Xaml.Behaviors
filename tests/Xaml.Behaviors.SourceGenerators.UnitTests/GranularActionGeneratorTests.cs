@@ -47,10 +47,35 @@ namespace TestNamespace
         var (diagnostics, sources) = GeneratorTestHelper.RunGenerator(source);
 
         Assert.Empty(diagnostics);
-        var generated = sources.FirstOrDefault(s => s.Contains("class TestMethodAction"));
+        var generated = sources.FirstOrDefault(s => s.Contains("class TestClassTestMethodAction"));
         Assert.NotNull(generated);
         Assert.Contains("namespace TestNamespace", generated);
         Assert.Contains("typedTarget.TestMethod()", generated);
+    }
+
+    [Fact]
+    public void Assembly_Attribute_Should_Generate_Actions_For_Wildcard_Pattern()
+    {
+        var source = @"
+using Xaml.Behaviors.SourceGenerators;
+
+[assembly: GenerateTypedAction(typeof(TestNamespace.TestClass), ""Do*"")]
+
+namespace TestNamespace
+{
+    public class TestClass
+    {
+        public void DoWork() { }
+        public void DoMore() { }
+        public void Skip() { }
+    }
+}";
+        var (diagnostics, sources) = GeneratorTestHelper.RunGenerator(source);
+
+        Assert.Empty(diagnostics);
+        Assert.Contains(sources, s => s.Contains("class TestClassDoWorkAction"));
+        Assert.Contains(sources, s => s.Contains("class TestClassDoMoreAction"));
+        Assert.DoesNotContain(sources, s => s.Contains("class TestClassSkipAction"));
     }
 
     [Fact]

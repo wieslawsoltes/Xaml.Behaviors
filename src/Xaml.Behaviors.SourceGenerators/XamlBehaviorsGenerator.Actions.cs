@@ -38,8 +38,7 @@ namespace Xaml.Behaviors.SourceGenerators
                 .CreateSyntaxProvider(
                     predicate: static (node, _) => IsAssemblyAttribute(node, "GenerateTypedAction"),
                     transform: (ctx, _) => GetAssemblyActionFromAttributeSyntax(ctx))
-                .Where(info => info is not null)
-                .Select((info, _) => info!);
+                .SelectMany((info, _) => info);
 
             var uniqueActions = actions
                 .Collect()
@@ -93,14 +92,7 @@ namespace Xaml.Behaviors.SourceGenerators
 
                 if (targetType == null || string.IsNullOrEmpty(methodName)) continue;
 
-                var (method, diagnostic) = ResolveMethod(targetType, methodName!);
-                if (diagnostic != null)
-                {
-                    results.Add(new ActionInfo("", "", "", methodName!, ImmutableArray<ActionParameter>.Empty, false, false, diagnostic));
-                    continue;
-                }
-
-                results.Add(CreateActionInfo(targetType, method!));
+                results.AddRange(CreateActionInfos(targetType, methodName!, Location.None, includeTypeNamePrefix: true));
             }
 
             return results.ToImmutable();
@@ -363,30 +355,29 @@ namespace Xaml.Behaviors.SourceGenerators
             return null;
         }
 
-        private ActionInfo? GetAssemblyActionFromAttributeSyntax(GeneratorSyntaxContext context)
+        private ImmutableArray<ActionInfo> GetAssemblyActionFromAttributeSyntax(GeneratorSyntaxContext context)
         {
             if (context.Node is not AttributeSyntax attributeSyntax)
-                return null;
+                return ImmutableArray<ActionInfo>.Empty;
 
             if (attributeSyntax.ArgumentList?.Arguments.Count != 2)
-                return null;
+                return ImmutableArray<ActionInfo>.Empty;
 
             if (attributeSyntax.ArgumentList.Arguments[0].Expression is not TypeOfExpressionSyntax typeOfExpression)
-                return null;
+                return ImmutableArray<ActionInfo>.Empty;
 
             if (attributeSyntax.ArgumentList.Arguments[1].Expression is not LiteralExpressionSyntax methodLiteral)
-                return null;
+                return ImmutableArray<ActionInfo>.Empty;
 
             var methodName = methodLiteral.Token.ValueText;
             var targetType = context.SemanticModel.GetTypeInfo(typeOfExpression.Type).Type as INamedTypeSymbol;
             if (targetType == null || string.IsNullOrEmpty(methodName))
-                return null;
+                return ImmutableArray<ActionInfo>.Empty;
 
-            var info = CreateActionInfo(targetType, methodName, context.Node.GetLocation());
-            return info;
+            return CreateActionInfos(targetType, methodName, context.Node.GetLocation(), includeTypeNamePrefix: true);
         }
 
-        private ActionInfo CreateActionInfo(IMethodSymbol methodSymbol, Location? diagnosticLocation)
+        private ActionInfo CreateActionInfo(IMethodSymbol methodSymbol, Location? diagnosticLocation, bool includeTypeNamePrefix = false)
         {
             var targetType = methodSymbol.ContainingType;
             if (targetType == null)
@@ -395,30 +386,60 @@ namespace Xaml.Behaviors.SourceGenerators
                 return new ActionInfo(null, className, "", methodSymbol.Name, ImmutableArray<ActionParameter>.Empty, false, false, Diagnostic.Create(ActionMethodNotFoundDiagnostic, diagnosticLocation ?? Location.None, methodSymbol.Name, "<unknown>"));
             }
 
-            return CreateActionInfo(targetType, methodSymbol, diagnosticLocation);
+            return CreateActionInfo(targetType, methodSymbol, diagnosticLocation, includeTypeNamePrefix);
+        }
+
+        private ImmutableArray<ActionInfo> CreateActionInfos(INamedTypeSymbol targetType, string methodPattern, Location? diagnosticLocation = null, bool includeTypeNamePrefix = false)
+        {
+            var matchedMethods = FindMatchingMethods(targetType, methodPattern);
+            var typePrefix = includeTypeNamePrefix ? GetTypeNamePrefix(targetType) : string.Empty;
+            var classPrefix = string.IsNullOrEmpty(typePrefix) ? string.Empty : typePrefix;
+            if (matchedMethods.Length == 0)
+            {
+                var diagnostic = Diagnostic.Create(ActionMethodNotFoundDiagnostic, diagnosticLocation ?? Location.None, methodPattern, targetType.Name);
+                var ns = targetType.ContainingNamespace.ToDisplayString();
+                var namespaceName = (targetType.ContainingNamespace.IsGlobalNamespace || ns == "<global namespace>") ? null : ns;
+                var baseName = $"{CreateSafeIdentifier(methodPattern)}Action";
+                var className = string.IsNullOrEmpty(classPrefix) ? baseName : classPrefix + baseName;
+                var targetTypeName = ToDisplayStringWithNullable(targetType);
+                return ImmutableArray.Create(new ActionInfo(namespaceName, className, targetTypeName, methodPattern, ImmutableArray<ActionParameter>.Empty, false, false, diagnostic));
+            }
+
+            var nsPart = targetType.ContainingNamespace.ToDisplayString();
+            var namespaceNamePart = (targetType.ContainingNamespace.IsGlobalNamespace || nsPart == "<global namespace>") ? null : nsPart;
+            var targetTypeNamePart = ToDisplayStringWithNullable(targetType);
+            var builder = ImmutableArray.CreateBuilder<ActionInfo>();
+
+            foreach (var group in matchedMethods.GroupBy(m => m.Name))
+            {
+                if (group.Skip(1).Any())
+                {
+                    var diagnostic = Diagnostic.Create(ActionMethodAmbiguousDiagnostic, diagnosticLocation ?? Location.None, group.Key, targetType.Name);
+                    var baseName = $"{group.Key}Action";
+                    var className = string.IsNullOrEmpty(classPrefix) ? baseName : classPrefix + baseName;
+                    builder.Add(new ActionInfo(namespaceNamePart, className, targetTypeNamePart, group.Key, ImmutableArray<ActionParameter>.Empty, false, false, diagnostic));
+                    continue;
+                }
+
+                builder.Add(CreateActionInfo(targetType, group.First(), diagnosticLocation, includeTypeNamePrefix));
+            }
+
+            return builder.ToImmutable();
         }
 
         private ActionInfo CreateActionInfo(INamedTypeSymbol targetType, string methodName, Location? diagnosticLocation = null)
         {
-            var ns = targetType.ContainingNamespace.ToDisplayString();
-            var namespaceName = (targetType.ContainingNamespace.IsGlobalNamespace || ns == "<global namespace>") ? null : ns;
-            var className = $"{methodName}Action";
-            var targetTypeName = ToDisplayStringWithNullable(targetType);
-
-            var (method, diagnostic) = ResolveMethod(targetType, methodName);
-            if (diagnostic != null)
-            {
-                return new ActionInfo(namespaceName, className, targetTypeName, methodName, ImmutableArray<ActionParameter>.Empty, false, false, diagnostic);
-            }
-
-            return CreateActionInfo(targetType, method!, diagnosticLocation);
+            var infos = CreateActionInfos(targetType, methodName, diagnosticLocation);
+            return infos.Length > 0 ? infos[0] : new ActionInfo(null, $"{methodName}Action", ToDisplayStringWithNullable(targetType), methodName, ImmutableArray<ActionParameter>.Empty, false, false, Diagnostic.Create(ActionMethodNotFoundDiagnostic, diagnosticLocation ?? Location.None, methodName, targetType.Name));
         }
 
-        private ActionInfo CreateActionInfo(INamedTypeSymbol targetType, IMethodSymbol methodSymbol, Location? diagnosticLocation = null)
+        private ActionInfo CreateActionInfo(INamedTypeSymbol targetType, IMethodSymbol methodSymbol, Location? diagnosticLocation = null, bool includeTypeNamePrefix = false)
         {
             var ns = targetType.ContainingNamespace.ToDisplayString();
             var namespaceName = (targetType.ContainingNamespace.IsGlobalNamespace || ns == "<global namespace>") ? null : ns;
-            var className = $"{methodSymbol.Name}Action";
+            var baseName = $"{methodSymbol.Name}Action";
+            var typePrefix = includeTypeNamePrefix ? GetTypeNamePrefix(targetType) : string.Empty;
+            var className = string.IsNullOrEmpty(typePrefix) ? baseName : typePrefix + baseName;
             var targetTypeName = ToDisplayStringWithNullable(targetType);
 
             var validationDiagnostic = ValidateActionMethod(methodSymbol, diagnosticLocation);

@@ -47,9 +47,101 @@ namespace TestNamespace
         var (diagnostics, sources) = GeneratorTestHelper.RunGenerator(source);
 
         Assert.Empty(diagnostics);
-        var generated = sources.FirstOrDefault(s => s.Contains("class SetTestPropertyAction"));
+        var generated = sources.FirstOrDefault(s => s.Contains("class TestClassSetTestPropertyAction"));
         Assert.NotNull(generated);
         Assert.Contains("namespace TestNamespace", generated);
+    }
+
+    [Fact]
+    public void Assembly_Attribute_Should_Generate_Actions_For_Wildcard_Pattern()
+    {
+        var source = @"
+using Xaml.Behaviors.SourceGenerators;
+
+[assembly: GenerateTypedChangePropertyAction(typeof(TestNamespace.TestClass), ""*Property"")]
+
+namespace TestNamespace
+{
+    public class TestClass
+    {
+        public string FirstProperty { get; set; }
+        public int SecondProperty { get; set; }
+        public bool Flag { get; set; }
+    }
+}";
+        var (diagnostics, sources) = GeneratorTestHelper.RunGenerator(source);
+
+        Assert.Empty(diagnostics);
+        Assert.Contains(sources, s => s.Contains("class TestClassSetFirstPropertyAction"));
+        Assert.Contains(sources, s => s.Contains("class TestClassSetSecondPropertyAction"));
+        Assert.DoesNotContain(sources, s => s.Contains("class TestClassSetFlagAction"));
+    }
+
+    [Fact]
+    public void Assembly_Attribute_Should_Not_Match_Literal_Substrings()
+    {
+        var source = @"
+using Xaml.Behaviors.SourceGenerators;
+
+[assembly: GenerateTypedChangePropertyAction(typeof(TestNamespace.TestClass), ""Text"")]
+
+namespace TestNamespace
+{
+    public class TestClass
+    {
+        public string Text { get; set; }
+        public string TextLayout { get; set; }
+    }
+}";
+        var (diagnostics, sources) = GeneratorTestHelper.RunGenerator(source);
+
+        Assert.Empty(diagnostics);
+        Assert.Contains(sources, s => s.Contains("class TestClassSetTextAction"));
+        Assert.DoesNotContain(sources, s => s.Contains("TextLayout"));
+    }
+
+    [Fact]
+    public void Assembly_Wildcard_Should_Skip_Inaccessible_Properties()
+    {
+        var source = @"
+using Xaml.Behaviors.SourceGenerators;
+
+[assembly: GenerateTypedChangePropertyAction(typeof(TestNamespace.TestClass), ""*Property"")]
+
+namespace TestNamespace
+{
+    public class TestClass
+    {
+        public string PublicProperty { get; set; }
+        public string ReadOnlyProperty { get; }
+    }
+}";
+        var (diagnostics, sources) = GeneratorTestHelper.RunGenerator(source);
+
+        Assert.Empty(diagnostics);
+        Assert.Contains(sources, s => s.Contains("class TestClassSetPublicPropertyAction"));
+        Assert.DoesNotContain(sources, s => s.Contains("ReadOnlyProperty"));
+    }
+
+    [Fact]
+    public void Assembly_Wildcard_All_Inaccessible_Should_Report_Diagnostic()
+    {
+        var source = @"
+using Xaml.Behaviors.SourceGenerators;
+
+[assembly: GenerateTypedChangePropertyAction(typeof(TestNamespace.TestClass), ""*Property"")]
+
+namespace TestNamespace
+{
+    public class TestClass
+    {
+        public string ReadOnlyProperty { get; }
+    }
+}";
+        var (diagnostics, sources) = GeneratorTestHelper.RunGenerator(source);
+
+        Assert.Contains(diagnostics, d => d.Id == "XBG015");
+        Assert.DoesNotContain(sources, s => s.Contains("SetReadOnlyPropertyAction"));
     }
 
     [Fact]

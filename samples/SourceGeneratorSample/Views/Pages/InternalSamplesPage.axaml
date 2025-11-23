@@ -8,18 +8,18 @@
     <TextBlock Text="Internal Action &amp; Trigger" FontWeight="Bold" />
     <Button Content="Submit (Internal Action)">
       <Interaction.Behaviors>
-        <ac:ClickTrigger>
+        <ac:ButtonClickTrigger>
           <vm:SubmitAction TargetObject="{Binding}" />
-        </ac:ClickTrigger>
+        </ac:ButtonClickTrigger>
       </Interaction.Behaviors>
     </Button>
     <TextBlock Text="{Binding InternalSubmitMessage}" />
 
     <Button Content="Reset (Internal Action)">
       <Interaction.Behaviors>
-        <ac:ClickTrigger>
+        <ac:ButtonClickTrigger>
           <vm:ResetAction TargetObject="{Binding}" />
-        </ac:ClickTrigger>
+        </ac:ButtonClickTrigger>
       </Interaction.Behaviors>
     </Button>
   </StackPanel>

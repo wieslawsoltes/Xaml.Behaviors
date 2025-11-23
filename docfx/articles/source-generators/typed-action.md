@@ -19,6 +19,16 @@ public partial class MyViewModel
 
 The generator will create a class named `SubmitAction` in the same namespace.
 
+You can also add attributes at the assembly level to generate actions for one or more methods on a type. The `methodName` can be a literal name, a wildcard (`*`) pattern, or a regular expression. Assembly-level actions are prefixed with the target type name to avoid collisions (e.g. `ButtonSubmitAction`).
+
+```csharp
+[assembly: GenerateTypedAction(typeof(Avalonia.Controls.Button), "Click")]
+[assembly: GenerateTypedAction(typeof(MyApp.ViewModels.ShellViewModel), "Save*")]
+[assembly: GenerateTypedAction(typeof(MyApp.ViewModels.ShellViewModel), "^(Load|Unload)$")]
+```
+
+> Actions require the target method to be public or internal. Wildcard/regex assembly attributes skip inaccessible matches and will emit a diagnostic if nothing accessible matches.
+
 ### XAML Usage
 
 ```xml

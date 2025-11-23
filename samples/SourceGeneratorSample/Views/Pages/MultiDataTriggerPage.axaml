@@ -12,10 +12,10 @@
       <TextBlock Text="Valid &amp; Count &lt; 3">
         <Interaction.Behaviors>
           <vm:ValidationTrigger IsValid="{Binding IsBusy}" RetryCount="{Binding Count}">
-            <ac:SetForegroundAction Value="Red" />
+            <ac:TextBlockSetForegroundAction Value="Red" />
           </vm:ValidationTrigger>
           <vm:ValidationResetTrigger IsValid="{Binding IsBusy}" RetryCount="{Binding Count}">
-            <ac:SetForegroundAction Value="Black" />
+            <ac:TextBlockSetForegroundAction Value="Black" />
           </vm:ValidationResetTrigger>
         </Interaction.Behaviors>
       </TextBlock>

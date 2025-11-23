@@ -53,9 +53,61 @@ namespace TestNamespace
         var (diagnostics, sources) = GeneratorTestHelper.RunGenerator(source);
 
         Assert.Empty(diagnostics);
-        var generated = sources.FirstOrDefault(s => s.Contains("class TestEventTrigger"));
+        var generated = sources.FirstOrDefault(s => s.Contains("class TestClassTestEventTrigger"));
         Assert.NotNull(generated);
         Assert.Contains("namespace TestNamespace", generated);
+    }
+
+    [Fact]
+    public void Assembly_Attribute_Should_Generate_Triggers_For_Wildcard_Pattern()
+    {
+        var source = @"
+using System;
+using Xaml.Behaviors.SourceGenerators;
+
+[assembly: GenerateTypedTrigger(typeof(TestNamespace.TestClass), ""*Event"")]
+
+namespace TestNamespace
+{
+    public class TestClass
+    {
+        public event EventHandler FirstEvent;
+        public event EventHandler SecondEvent;
+        public event EventHandler Other;
+    }
+}";
+        var (diagnostics, sources) = GeneratorTestHelper.RunGenerator(source);
+
+        Assert.Empty(diagnostics);
+        Assert.Contains(sources, s => s.Contains("class TestClassFirstEventTrigger"));
+        Assert.Contains(sources, s => s.Contains("class TestClassSecondEventTrigger"));
+        Assert.DoesNotContain(sources, s => s.Contains("class TestClassOtherTrigger"));
+    }
+
+    [Fact]
+    public void Assembly_Attribute_Should_Generate_Triggers_For_Regex_Pattern()
+    {
+        var source = @"
+using System;
+using Xaml.Behaviors.SourceGenerators;
+
+[assembly: GenerateTypedTrigger(typeof(TestNamespace.TestClass), "".*Finished$"")]
+
+namespace TestNamespace
+{
+    public class TestClass
+    {
+        public event EventHandler ProcessingFinished;
+        public event EventHandler SetupFinished;
+        public event EventHandler Started;
+    }
+}";
+        var (diagnostics, sources) = GeneratorTestHelper.RunGenerator(source);
+
+        Assert.Empty(diagnostics);
+        Assert.Contains(sources, s => s.Contains("class TestClassProcessingFinishedTrigger"));
+        Assert.Contains(sources, s => s.Contains("class TestClassSetupFinishedTrigger"));
+        Assert.DoesNotContain(sources, s => s.Contains("class TestClassStartedTrigger"));
     }
 
     [Fact]

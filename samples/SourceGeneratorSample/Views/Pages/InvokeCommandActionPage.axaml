@@ -8,9 +8,9 @@
     <TextBlock Text="InvokeCommandAction" FontWeight="Bold" />
     <Button Content="Typed Command Action">
       <Interaction.Behaviors>
-        <ac:ClickTrigger>
+        <ac:ButtonClickTrigger>
           <vm:TypedCommandAction Command="{Binding TriggerExternalCommand}" CommandParameter="Test" />
-        </ac:ClickTrigger>
+        </ac:ButtonClickTrigger>
       </Interaction.Behaviors>
     </Button>
     <TextBlock Text="{Binding ExternalTriggerStatus}" />

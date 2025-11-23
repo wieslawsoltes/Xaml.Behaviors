@@ -9,9 +9,9 @@
     <StackPanel Orientation="Horizontal" Spacing="5">
       <Button Content="Submit Async" IsEnabled="{Binding !IsBusy}">
         <Interaction.Behaviors>
-          <ac:ClickTrigger>
+          <ac:ButtonClickTrigger>
             <vm:SubmitAsyncAction TargetObject="{Binding}" IsExecuting="{Binding IsBusy, Mode=OneWayToSource}" />
-          </ac:ClickTrigger>
+          </ac:ButtonClickTrigger>
         </Interaction.Behaviors>
       </Button>
       <TextBlock Text="{Binding IsBusy, StringFormat='Busy: {0}'}" VerticalAlignment="Center" />
@@ -19,9 +19,9 @@
 
     <Button Content="Reset Async" IsEnabled="{Binding !IsBusy}">
       <Interaction.Behaviors>
-        <ac:ClickTrigger>
+        <ac:ButtonClickTrigger>
           <vm:ResetAsyncAction TargetObject="{Binding}" IsExecuting="{Binding IsBusy, Mode=OneWayToSource}" />
-        </ac:ClickTrigger>
+        </ac:ButtonClickTrigger>
       </Interaction.Behaviors>
     </Button>
   </StackPanel>

@@ -11,9 +11,9 @@
       <NumericUpDown Value="{Binding Count}" Minimum="0" Maximum="100" />
       <Button Content="Update Message (Params)">
         <Interaction.Behaviors>
-          <ac:ClickTrigger>
+          <ac:ButtonClickTrigger>
             <vm:UpdateMessageAction TargetObject="{Binding}" Message="Hello from XAML!" Count="{Binding Count}" />
-          </ac:ClickTrigger>
+          </ac:ButtonClickTrigger>
         </Interaction.Behaviors>
       </Button>
     </StackPanel>

@@ -16,6 +16,16 @@ public partial class MyViewModel
 
 The generator will create a class named `SetStatusTextAction` in the same namespace.
 
+Assembly-level attributes are supported as well. The `propertyName` parameter can be a literal name, a wildcard (`*`) pattern, or a regular expression. Classes generated from assembly attributes are prefixed with the target type to reduce collisions (e.g. `TextBlockSetTextAction`).
+
+```csharp
+[assembly: GenerateTypedChangePropertyAction(typeof(Avalonia.Controls.TextBlock), "Text")]
+[assembly: GenerateTypedChangePropertyAction(typeof(MyApp.ViewModels.ShellViewModel), "*Property")]
+[assembly: GenerateTypedChangePropertyAction(typeof(MyApp.ViewModels.ShellViewModel), "^(Status|Title)$")]
+```
+
+> Only public or internal properties with accessible setters are supported. Wildcard/regex assembly attributes ignore inaccessible matches; if no accessible properties match, a diagnostic is produced and no action class is generated.
+
 ### XAML Usage
 
 ```xml

@@ -37,8 +37,7 @@ namespace Xaml.Behaviors.SourceGenerators
                 .CreateSyntaxProvider(
                     predicate: static (node, _) => IsAssemblyAttribute(node, "GenerateTypedTrigger"),
                     transform: (ctx, _) => GetAssemblyTriggerFromAttributeSyntax(ctx))
-                .Where(info => info is not null)
-                .Select((info, _) => info!);
+                .SelectMany((info, _) => info);
 
             var uniqueTriggers = triggers
                 .Collect()
@@ -68,52 +67,8 @@ namespace Xaml.Behaviors.SourceGenerators
 
             if (eventSymbol != null)
             {
-                var targetType = eventSymbol.ContainingType;
-                if (targetType != null)
-                {
-                    var ns = targetType.ContainingNamespace.ToDisplayString();
-                    var namespaceName = (targetType.ContainingNamespace.IsGlobalNamespace || ns == "<global namespace>") ? null : ns;
-                    var className = $"{eventSymbol.Name}Trigger";
-                    var targetTypeName = ToDisplayStringWithNullable(targetType);
-                    var eventName = eventSymbol.Name;
-                    var eventHandlerType = ToDisplayStringWithNullable(eventSymbol.Type);
-                    var diagnosticLocation = context.TargetNode?.GetLocation() ?? Location.None;
-
-                    var validationDiagnostic = ValidateEventSymbol(eventSymbol, diagnosticLocation);
-                    if (validationDiagnostic != null)
-                    {
-                        results.Add(new TriggerInfo(namespaceName, className, targetTypeName, eventName, eventHandlerType, ImmutableArray<TriggerParameter>.Empty, validationDiagnostic));
-                        return results.ToImmutable();
-                    }
-
-                    var invokeMethod = (eventSymbol.Type as INamedTypeSymbol)?.DelegateInvokeMethod;
-                    if (invokeMethod == null)
-                    {
-                        results.Add(new TriggerInfo(namespaceName, className, targetTypeName, eventName, eventHandlerType, ImmutableArray<TriggerParameter>.Empty, Diagnostic.Create(TriggerUnsupportedDelegateDiagnostic, diagnosticLocation, eventName, eventHandlerType)));
-                        return results.ToImmutable();
-                    }
-
-                    if (!invokeMethod.ReturnsVoid)
-                    {
-                        results.Add(new TriggerInfo(namespaceName, className, targetTypeName, eventName, eventHandlerType, ImmutableArray<TriggerParameter>.Empty, Diagnostic.Create(TriggerUnsupportedDelegateReturnTypeDiagnostic, diagnosticLocation, eventName, eventHandlerType)));
-                        return results.ToImmutable();
-                    }
-
-                    var parameters = invokeMethod.Parameters.Select(p =>
-                    {
-                        var name = EscapeIdentifier(p.Name);
-                        var typeName = ToDisplayStringWithNullable(p.Type);
-                        return new TriggerParameter(name, typeName, p.RefKind);
-                    }).ToImmutableArray();
-
-                    if (parameters.Any(p => p.RefKind == RefKind.Out))
-                    {
-                        results.Add(new TriggerInfo(namespaceName, className, targetTypeName, eventName, eventHandlerType, parameters, Diagnostic.Create(TriggerUnsupportedDelegateOutParameterDiagnostic, context.TargetNode?.GetLocation() ?? Location.None, eventName, eventHandlerType)));
-                        return results.ToImmutable();
-                    }
-
-                    results.Add(new TriggerInfo(namespaceName, className, targetTypeName, eventName, eventHandlerType, parameters));
-                }
+                var diagnosticLocation = context.TargetNode?.GetLocation() ?? Location.None;
+                results.Add(CreateTriggerInfo(eventSymbol, diagnosticLocation, includeTypeNamePrefix: false));
             }
 
             return results.ToImmutable();
@@ -137,54 +92,7 @@ namespace Xaml.Behaviors.SourceGenerators
                     continue;
                 }
 
-                var evt = FindEvent(targetType, eventName!);
-                if (evt == null)
-                {
-                    results.Add(new TriggerInfo("", "", "", eventName!, "", ImmutableArray<TriggerParameter>.Empty, Diagnostic.Create(TriggerEventNotFoundDiagnostic, Location.None, eventName!, targetType.Name)));
-                    continue;
-                }
-
-                var ns = targetType.ContainingNamespace.ToDisplayString();
-                var namespaceName = (targetType.ContainingNamespace.IsGlobalNamespace || ns == "<global namespace>") ? null : ns;
-                var className = $"{eventName}Trigger";
-                var targetTypeName = ToDisplayStringWithNullable(targetType);
-                var eventHandlerType = ToDisplayStringWithNullable(evt.Type);
-                var diagnosticLocation = Location.None;
-
-                var validationDiagnostic = ValidateEventSymbol(evt, diagnosticLocation);
-                if (validationDiagnostic != null)
-                {
-                    results.Add(new TriggerInfo(namespaceName, className, targetTypeName, eventName!, eventHandlerType, ImmutableArray<TriggerParameter>.Empty, validationDiagnostic));
-                    continue;
-                }
-
-                var invokeMethod = (evt.Type as INamedTypeSymbol)?.DelegateInvokeMethod;
-                if (invokeMethod == null)
-                {
-                    results.Add(new TriggerInfo(namespaceName, className, targetTypeName, eventName!, eventHandlerType, ImmutableArray<TriggerParameter>.Empty, Diagnostic.Create(TriggerUnsupportedDelegateDiagnostic, diagnosticLocation, eventName!, eventHandlerType)));
-                    continue;
-                }
-
-                if (!invokeMethod.ReturnsVoid)
-                {
-                    results.Add(new TriggerInfo(namespaceName, className, targetTypeName, eventName!, eventHandlerType, ImmutableArray<TriggerParameter>.Empty, Diagnostic.Create(TriggerUnsupportedDelegateReturnTypeDiagnostic, diagnosticLocation, eventName!, eventHandlerType)));
-                    continue;
-                }
-
-                var parameters = invokeMethod.Parameters.Select(p =>
-                {
-                    var name = EscapeIdentifier(p.Name);
-                    var typeName = ToDisplayStringWithNullable(p.Type);
-                    return new TriggerParameter(name, typeName, p.RefKind);
-                }).ToImmutableArray();
-
-                if (parameters.Any(p => p.RefKind == RefKind.Out))
-                {
-                    results.Add(new TriggerInfo(namespaceName, className, targetTypeName, eventName!, eventHandlerType, parameters, Diagnostic.Create(TriggerUnsupportedDelegateOutParameterDiagnostic, diagnosticLocation, eventName!, eventHandlerType)));
-                    continue;
-                }
-
-                results.Add(new TriggerInfo(namespaceName, className, targetTypeName, eventName!, eventHandlerType, parameters));
+                results.AddRange(CreateTriggerInfos(targetType, eventName!, Location.None));
             }
 
             return results.ToImmutable();
@@ -361,57 +269,92 @@ namespace Xaml.Behaviors.SourceGenerators
             return null;
         }
 
-        private TriggerInfo? GetAssemblyTriggerFromAttributeSyntax(GeneratorSyntaxContext context)
+        private ImmutableArray<TriggerInfo> GetAssemblyTriggerFromAttributeSyntax(GeneratorSyntaxContext context)
         {
             if (context.Node is not AttributeSyntax attributeSyntax)
-                return null;
+                return ImmutableArray<TriggerInfo>.Empty;
 
             if (attributeSyntax.ArgumentList?.Arguments.Count != 2)
-                return null;
+                return ImmutableArray<TriggerInfo>.Empty;
 
             if (attributeSyntax.ArgumentList.Arguments[0].Expression is not TypeOfExpressionSyntax typeOfExpression)
-                return null;
+                return ImmutableArray<TriggerInfo>.Empty;
 
             if (attributeSyntax.ArgumentList.Arguments[1].Expression is not LiteralExpressionSyntax eventLiteral)
-                return null;
+                return ImmutableArray<TriggerInfo>.Empty;
 
             var eventName = eventLiteral.Token.ValueText;
             var targetType = context.SemanticModel.GetTypeInfo(typeOfExpression.Type).Type as INamedTypeSymbol;
             if (targetType == null || string.IsNullOrEmpty(eventName))
-                return null;
+                return ImmutableArray<TriggerInfo>.Empty;
 
-            var info = CreateTriggerInfo(targetType, eventName, context.Node.GetLocation());
-            return info;
+            return CreateTriggerInfos(targetType, eventName, context.Node.GetLocation());
         }
 
-        private TriggerInfo CreateTriggerInfo(INamedTypeSymbol targetType, string eventName, Location? diagnosticLocation = null)
+        private ImmutableArray<TriggerInfo> CreateTriggerInfos(INamedTypeSymbol targetType, string eventPattern, Location? diagnosticLocation = null)
         {
-            var evt = FindEvent(targetType, eventName);
-            if (evt == null)
+            var matchingEvents = FindMatchingEvents(targetType, eventPattern);
+            if (matchingEvents.Length == 0)
             {
-                return new TriggerInfo("", "", "", eventName, "", ImmutableArray<TriggerParameter>.Empty, Diagnostic.Create(TriggerEventNotFoundDiagnostic, diagnosticLocation, eventName, targetType.Name));
+                var diagnostic = Diagnostic.Create(TriggerEventNotFoundDiagnostic, diagnosticLocation ?? Location.None, eventPattern, targetType.Name);
+                return ImmutableArray.Create(new TriggerInfo("", "", "", eventPattern, "", ImmutableArray<TriggerParameter>.Empty, diagnostic));
             }
 
-            var ns = targetType.ContainingNamespace.ToDisplayString();
-            var namespaceName = (targetType.ContainingNamespace.IsGlobalNamespace || ns == "<global namespace>") ? null : ns;
-            var className = $"{eventName}Trigger";
-            var targetTypeName = ToDisplayStringWithNullable(targetType);
-            var eventHandlerType = ToDisplayStringWithNullable(evt.Type);
-            var validationDiagnostic = ValidateEventSymbol(evt, diagnosticLocation);
+            var builder = ImmutableArray.CreateBuilder<TriggerInfo>();
+            var invalidBuilder = ImmutableArray.CreateBuilder<TriggerInfo>();
+            foreach (var evt in matchingEvents)
+            {
+                var info = CreateTriggerInfo(evt, diagnosticLocation, includeTypeNamePrefix: true);
+                if (info.Diagnostic is null)
+                {
+                    builder.Add(info);
+                }
+                else
+                {
+                    invalidBuilder.Add(info);
+                }
+            }
+
+            if (builder.Count > 0)
+            {
+                return builder.ToImmutable();
+            }
+
+            if (invalidBuilder.Count > 0)
+            {
+                return invalidBuilder.ToImmutable();
+            }
+
+            var fallback = Diagnostic.Create(TriggerEventNotFoundDiagnostic, diagnosticLocation ?? Location.None, eventPattern, targetType.Name);
+            return ImmutableArray.Create(new TriggerInfo("", "", "", eventPattern, "", ImmutableArray<TriggerParameter>.Empty, fallback));
+        }
+
+        private TriggerInfo CreateTriggerInfo(IEventSymbol eventSymbol, Location? diagnosticLocation = null, bool includeTypeNamePrefix = false)
+        {
+            var targetType = eventSymbol.ContainingType;
+            var ns = targetType?.ContainingNamespace.ToDisplayString();
+            var namespaceName = (targetType?.ContainingNamespace.IsGlobalNamespace == true || ns == "<global namespace>") ? null : ns;
+            var baseName = $"{eventSymbol.Name}Trigger";
+            var typePrefix = includeTypeNamePrefix && targetType != null ? GetTypeNamePrefix(targetType) : string.Empty;
+            var className = string.IsNullOrEmpty(typePrefix) ? baseName : typePrefix + baseName;
+            var targetTypeName = targetType != null ? ToDisplayStringWithNullable(targetType) : string.Empty;
+            var eventName = eventSymbol.Name;
+            var eventHandlerType = ToDisplayStringWithNullable(eventSymbol.Type);
+            var validationDiagnostic = ValidateEventSymbol(eventSymbol, diagnosticLocation);
             if (validationDiagnostic != null)
             {
                 return new TriggerInfo(namespaceName, className, targetTypeName, eventName, eventHandlerType, ImmutableArray<TriggerParameter>.Empty, validationDiagnostic);
             }
 
-            var invokeMethod = (evt.Type as INamedTypeSymbol)?.DelegateInvokeMethod;
+            var invokeMethod = (eventSymbol.Type as INamedTypeSymbol)?.DelegateInvokeMethod;
             if (invokeMethod == null)
             {
-                return new TriggerInfo(namespaceName, className, targetTypeName, eventName, eventHandlerType, ImmutableArray<TriggerParameter>.Empty, Diagnostic.Create(TriggerUnsupportedDelegateDiagnostic, diagnosticLocation, eventName, eventHandlerType));
+                return new TriggerInfo(namespaceName, className, targetTypeName, eventName, eventHandlerType, ImmutableArray<TriggerParameter>.Empty, Diagnostic.Create(TriggerUnsupportedDelegateDiagnostic, diagnosticLocation ?? Location.None, eventName, eventHandlerType));
             }
 
             if (!invokeMethod.ReturnsVoid)
             {
-                return new TriggerInfo(namespaceName, className, targetTypeName, eventName, eventHandlerType, ImmutableArray<TriggerParameter>.Empty, Diagnostic.Create(TriggerUnsupportedDelegateReturnTypeDiagnostic, diagnosticLocation, eventName, eventHandlerType));
+                return new TriggerInfo(namespaceName, className, targetTypeName, eventName, eventHandlerType, ImmutableArray<TriggerParameter>.Empty, Diagnostic.Create(TriggerUnsupportedDelegateReturnTypeDiagnostic, diagnosticLocation ?? Location.None, eventName, eventHandlerType));
             }
 
             var parameters = invokeMethod.Parameters.Select(p =>
@@ -423,7 +366,7 @@ namespace Xaml.Behaviors.SourceGenerators
 
             if (parameters.Any(p => p.RefKind == RefKind.Out))
             {
-                return new TriggerInfo(namespaceName, className, targetTypeName, eventName, eventHandlerType, parameters, Diagnostic.Create(TriggerUnsupportedDelegateOutParameterDiagnostic, diagnosticLocation, eventName, eventHandlerType));
+                return new TriggerInfo(namespaceName, className, targetTypeName, eventName, eventHandlerType, parameters, Diagnostic.Create(TriggerUnsupportedDelegateOutParameterDiagnostic, diagnosticLocation ?? Location.None, eventName, eventHandlerType));
             }
 
             return new TriggerInfo(namespaceName, className, targetTypeName, eventName, eventHandlerType, parameters);

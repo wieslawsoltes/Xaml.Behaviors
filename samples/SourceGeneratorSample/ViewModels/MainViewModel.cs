@@ -12,6 +12,10 @@ using SourceGeneratorSample.Models;
 [assembly: GenerateTypedDataTrigger(typeof(double))]
 [assembly: GenerateTypedDataTrigger(typeof(string))]
 
+// Wildcard examples, you can also use regex patterns.
+[assembly: GenerateTypedChangePropertyAction(typeof(Avalonia.Input.InputElement), "*")]
+[assembly: GenerateTypedTrigger(typeof(Avalonia.Input.InputElement), "*")]
+
 namespace SourceGeneratorSample.ViewModels
 {
     public partial class MainViewModel : ReactiveObject

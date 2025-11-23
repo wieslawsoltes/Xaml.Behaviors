@@ -9,8 +9,8 @@ public class TriggerGeneratorTests
     public void TestEventTrigger_Should_Execute_Actions_On_Event()
     {
         var control = new TestControl();
-        dynamic trigger = GeneratedTypeHelper.CreateInstance("TestEventTrigger", "Avalonia.Xaml.Behaviors.SourceGenerators.UnitTests");
-        dynamic action = GeneratedTypeHelper.CreateInstance("TestMethodAction", "Avalonia.Xaml.Behaviors.SourceGenerators.UnitTests");
+        dynamic trigger = GeneratedTypeHelper.CreateInstance("TestControlTestEventTrigger", "Avalonia.Xaml.Behaviors.SourceGenerators.UnitTests");
+        dynamic action = GeneratedTypeHelper.CreateInstance("TestControlTestMethodAction", "Avalonia.Xaml.Behaviors.SourceGenerators.UnitTests");
         
         trigger.Actions!.Add(action);
         trigger.Attach(control);
