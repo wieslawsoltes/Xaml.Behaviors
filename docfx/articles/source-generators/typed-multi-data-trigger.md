@@ -4,7 +4,7 @@ The `[GenerateTypedMultiDataTrigger]` attribute generates a strongly-typed `Trig
 
 ## Usage
 
-Apply the `[GenerateTypedMultiDataTrigger]` attribute to a partial class inheriting from `StyledElementTrigger`. Use the `[TriggerProperty]` attribute on fields to define the dependency properties that will be used in the condition.
+Apply the `[GenerateTypedMultiDataTrigger]` attribute to a partial class inheriting from `StyledElementTrigger`. Use the `[TriggerProperty]` attribute on fields to define the Avalonia properties that will be used in the condition.
 
 ```csharp
 using Avalonia.Xaml.Interactivity;
@@ -37,8 +37,8 @@ public partial class ValidationTrigger : StyledElementTrigger
 ## Generated Code
 
 The source generator creates:
-1.  DependencyProperties for each field marked with `[TriggerProperty]` (e.g., `IsValidProperty`, `RetryCountProperty`).
-2.  Public properties wrapping the dependency properties.
+1.  Avalonia properties for each field marked with `[TriggerProperty]` (e.g., `IsValidProperty`, `RetryCountProperty`).
+2.  Public properties wrapping the Avalonia properties.
 3.  An `OnPropertyChanged` override that updates the backing fields and calls `Evaluate()`.
 4.  Logic to execute the actions if `Evaluate()` returns `true`.
 
