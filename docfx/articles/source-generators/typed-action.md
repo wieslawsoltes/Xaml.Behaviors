@@ -82,6 +82,25 @@ public void UpdateMessage(string message, int count)
 
 > Ensure `xmlns:local` is defined in your XAML root pointing to the namespace of `UpdateMessageAction`.
 
+### Rich parameter example
+
+```csharp
+[GenerateTypedAction]
+public void Configure(string title, bool isEnabled, double threshold, TimeSpan timeout, Uri endpoint)
+{
+    // ...
+}
+```
+
+```xml
+<local:ConfigureAction TargetObject="{Binding}"
+                       Title="{Binding PageTitle}"
+                       IsEnabled="True"
+                       Threshold="0.85"
+                       Timeout="00:00:30"
+                       Endpoint="https://api.example.com/" />
+```
+
 ## Async Support
 
 If the target method returns `Task` or `ValueTask`, the generated action handles the async execution. It also exposes an `IsExecuting` property that you can bind to (e.g., to show a loading spinner).
