@@ -25,6 +25,7 @@ The Source Generators solve this by generating specific `Action` and `Trigger` c
 *   **[Typed DataTrigger](typed-data-trigger.md)**: Generate strongly-typed data triggers to avoid runtime type conversion.
 *   **[Typed MultiDataTrigger](typed-multi-data-trigger.md)**: Generate triggers that evaluate multiple conditions with zero allocation.
 *   **[Typed InvokeCommandAction](typed-invoke-command-action.md)**: Generate strongly-typed command actions.
+*   **[Diagnostics](diagnostics.md)**: Understand analyzer errors (XBG001-XBG018) with fixes and examples.
 
 ## Example
 
@@ -54,4 +55,3 @@ And in XAML:
 ```
 
 > **Note:** In the examples below, `local:` refers to the namespace where your generated classes are located (e.g., your ViewModel namespace), and `ac:` refers to `Avalonia.Controls` or other standard namespaces. Ensure you define these XML namespaces in your XAML file.
-

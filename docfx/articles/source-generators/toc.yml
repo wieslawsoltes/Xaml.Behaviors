@@ -12,5 +12,7 @@
   href: typed-multi-data-trigger.md
 - name: Typed InvokeCommandAction
   href: typed-invoke-command-action.md
+- name: Diagnostics
+  href: diagnostics.md
 - name: Third-Party Integration
   href: third-party.md
