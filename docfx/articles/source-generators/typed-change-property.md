@@ -24,7 +24,8 @@ Assembly-level attributes are supported as well. The `propertyName` parameter ca
 [assembly: GenerateTypedChangePropertyAction(typeof(MyApp.ViewModels.ShellViewModel), "^(Status|Title)$")]
 ```
 
-> Only public or internal properties with accessible setters are supported. Wildcard/regex assembly attributes ignore inaccessible matches; if no accessible properties match, a diagnostic is produced and no action class is generated.
+> Only public or internal properties with accessible setters are supported; internal requires being in the same/friend assembly. Wildcard/regex assembly attributes ignore inaccessible matches; if no accessible properties match, a diagnostic is produced and no action class is generated.
+> Property types must be public; using a non-public type will produce an XBG014 diagnostic.
 
 ### Matching rules at a glance
 

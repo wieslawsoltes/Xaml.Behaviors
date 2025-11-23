@@ -103,6 +103,27 @@ namespace TestNamespace
     }
 
     [Fact]
+    public void Should_Report_Error_For_Generic_InvokeCommandAction()
+    {
+        var source = @"
+using System.Windows.Input;
+using Xaml.Behaviors.SourceGenerators;
+
+namespace TestNamespace
+{
+    [GenerateTypedInvokeCommandAction]
+    public partial class GenericInvokeCommandAction<T> : Avalonia.Xaml.Interactivity.StyledElementAction
+    {
+        [ActionCommand]
+        private ICommand _command;
+    }
+}";
+        var (diagnostics, _) = GeneratorTestHelper.RunGenerator(source);
+
+        Assert.Contains(diagnostics, d => d.Id == "XBG008");
+    }
+
+    [Fact]
     public void Should_Use_Target_Accessibility()
     {
         var source = @"

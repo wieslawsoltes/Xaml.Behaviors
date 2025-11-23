@@ -68,7 +68,7 @@ namespace Xaml.Behaviors.SourceGenerators
             if (eventSymbol != null)
             {
                 var diagnosticLocation = context.TargetNode?.GetLocation() ?? Location.None;
-                results.Add(CreateTriggerInfo(eventSymbol, diagnosticLocation, includeTypeNamePrefix: false));
+                results.Add(CreateTriggerInfo(eventSymbol, diagnosticLocation, includeTypeNamePrefix: false, compilation: context.SemanticModel.Compilation));
             }
 
             return results.ToImmutable();
@@ -92,7 +92,7 @@ namespace Xaml.Behaviors.SourceGenerators
                     continue;
                 }
 
-                results.AddRange(CreateTriggerInfos(targetType, eventName!, Location.None));
+                results.AddRange(CreateTriggerInfos(targetType, eventName!, Location.None, compilation));
             }
 
             return results.ToImmutable();
@@ -240,7 +240,7 @@ namespace Xaml.Behaviors.SourceGenerators
             spc.AddSource(CreateHintName(info.Namespace, info.ClassName), SourceText.From(sb.ToString(), Encoding.UTF8));
         }
 
-        private static Diagnostic? ValidateEventSymbol(IEventSymbol eventSymbol, Location? diagnosticLocation)
+        private static Diagnostic? ValidateEventSymbol(IEventSymbol eventSymbol, Location? diagnosticLocation, Compilation? compilation)
         {
             var location = diagnosticLocation ?? Location.None;
 
@@ -249,14 +249,14 @@ namespace Xaml.Behaviors.SourceGenerators
                 return Diagnostic.Create(StaticMemberNotSupportedDiagnostic, location, eventSymbol.Name);
             }
 
-            var containingTypeDiagnostic = ValidateTypeAccessibility(eventSymbol.ContainingType, location);
+            var containingTypeDiagnostic = ValidateTypeAccessibility(eventSymbol.ContainingType, location, compilation);
             if (containingTypeDiagnostic != null)
             {
                 return containingTypeDiagnostic;
             }
 
             var accessSymbol = (ISymbol?)eventSymbol.AddMethod ?? eventSymbol;
-            if (!IsAccessibleToGenerator(accessSymbol))
+            if (!IsAccessibleToGenerator(accessSymbol, compilation))
             {
                 return Diagnostic.Create(MemberNotAccessibleDiagnostic, location, eventSymbol.Name, eventSymbol.ContainingType.ToDisplayString());
             }
@@ -288,10 +288,10 @@ namespace Xaml.Behaviors.SourceGenerators
             if (targetType == null || string.IsNullOrEmpty(eventName))
                 return ImmutableArray<TriggerInfo>.Empty;
 
-            return CreateTriggerInfos(targetType, eventName, context.Node.GetLocation());
+            return CreateTriggerInfos(targetType, eventName, context.Node.GetLocation(), context.SemanticModel.Compilation);
         }
 
-        private ImmutableArray<TriggerInfo> CreateTriggerInfos(INamedTypeSymbol targetType, string eventPattern, Location? diagnosticLocation = null)
+        private ImmutableArray<TriggerInfo> CreateTriggerInfos(INamedTypeSymbol targetType, string eventPattern, Location? diagnosticLocation = null, Compilation? compilation = null)
         {
             var matchingEvents = FindMatchingEvents(targetType, eventPattern);
             if (matchingEvents.Length == 0)
@@ -304,7 +304,7 @@ namespace Xaml.Behaviors.SourceGenerators
             var invalidBuilder = ImmutableArray.CreateBuilder<TriggerInfo>();
             foreach (var evt in matchingEvents)
             {
-                var info = CreateTriggerInfo(evt, diagnosticLocation, includeTypeNamePrefix: true);
+                var info = CreateTriggerInfo(evt, diagnosticLocation, includeTypeNamePrefix: true, compilation: compilation);
                 if (info.Diagnostic is null)
                 {
                     builder.Add(info);
@@ -329,7 +329,7 @@ namespace Xaml.Behaviors.SourceGenerators
             return ImmutableArray.Create(new TriggerInfo("", "", "", eventPattern, "", ImmutableArray<TriggerParameter>.Empty, fallback));
         }
 
-        private TriggerInfo CreateTriggerInfo(IEventSymbol eventSymbol, Location? diagnosticLocation = null, bool includeTypeNamePrefix = false)
+        private TriggerInfo CreateTriggerInfo(IEventSymbol eventSymbol, Location? diagnosticLocation = null, bool includeTypeNamePrefix = false, Compilation? compilation = null)
         {
             var targetType = eventSymbol.ContainingType;
             var ns = targetType?.ContainingNamespace.ToDisplayString();
@@ -340,7 +340,7 @@ namespace Xaml.Behaviors.SourceGenerators
             var targetTypeName = targetType != null ? ToDisplayStringWithNullable(targetType) : string.Empty;
             var eventName = eventSymbol.Name;
             var eventHandlerType = ToDisplayStringWithNullable(eventSymbol.Type);
-            var validationDiagnostic = ValidateEventSymbol(eventSymbol, diagnosticLocation);
+            var validationDiagnostic = ValidateEventSymbol(eventSymbol, diagnosticLocation, compilation);
             if (validationDiagnostic != null)
             {
                 return new TriggerInfo(namespaceName, className, targetTypeName, eventName, eventHandlerType, ImmutableArray<TriggerParameter>.Empty, validationDiagnostic);

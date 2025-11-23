@@ -13,9 +13,9 @@ using SourceGeneratorSample.Models;
 [assembly: GenerateTypedDataTrigger(typeof(string))]
 
 // Wildcard examples, you can also use regex patterns.
-[assembly: GenerateTypedChangePropertyAction(typeof(Avalonia.Input.InputElement), "*")]
-[assembly: GenerateTypedTrigger(typeof(Avalonia.Input.InputElement), "*")]
 [assembly: GenerateTypedAction(typeof(Avalonia.Controls.TextBox), "*")]
+[assembly: GenerateTypedTrigger(typeof(Avalonia.Input.InputElement), "*")]
+[assembly: GenerateTypedChangePropertyAction(typeof(Avalonia.Input.InputElement), "*")]
 
 namespace SourceGeneratorSample.ViewModels
 {

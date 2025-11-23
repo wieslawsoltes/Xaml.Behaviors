@@ -24,7 +24,7 @@ You can also register triggers at the assembly level and generate multiple class
 [assembly: GenerateTypedTrigger(typeof(MyApp.ViewModels.ShellViewModel), "^(Loaded|Closed)$")] // ShellViewModelLoadedTrigger, ShellViewModelClosedTrigger
 ```
 
-> Only public or internal events are supported. Wildcard/regex matches skip inaccessible events, and if no accessible matches are found a diagnostic will be emitted.
+> Only public or internal events visible to the generator are supported (internal requires being in the same/friend assembly). Wildcard/regex matches skip inaccessible events, and if no accessible matches are found a diagnostic will be emitted.
 
 ### Matching rules at a glance
 

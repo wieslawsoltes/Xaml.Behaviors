@@ -46,14 +46,20 @@ namespace Xaml.Behaviors.SourceGenerators
                 return results.ToImmutable();
             }
 
-            var accessibilityDiagnostic = ValidateTypeAccessibility(symbol, context.TargetNode?.GetLocation() ?? Location.None);
+            var accessibilityDiagnostic = ValidateTypeAccessibility(symbol, context.TargetNode?.GetLocation() ?? Location.None, context.SemanticModel.Compilation);
             if (accessibilityDiagnostic != null)
             {
                 results.Add(new MultiDataTriggerInfo(null, symbol.Name, "public", ImmutableArray<TriggerPropertyInfo>.Empty, accessibilityDiagnostic));
                 return results.ToImmutable();
             }
 
-            var validationDiagnostic = ValidateStyledElementTriggerType(symbol, context.TargetNode?.GetLocation() ?? Location.None);
+            if (ContainsTypeParameter(symbol))
+            {
+                results.Add(new MultiDataTriggerInfo(null, symbol.Name, "public", ImmutableArray<TriggerPropertyInfo>.Empty, Diagnostic.Create(GenericMemberNotSupportedDiagnostic, context.TargetNode?.GetLocation() ?? Location.None, symbol.Name)));
+                return results.ToImmutable();
+            }
+
+            var validationDiagnostic = ValidateStyledElementTriggerType(symbol, context.TargetNode?.GetLocation() ?? Location.None, context.SemanticModel.Compilation);
             if (validationDiagnostic != null)
             {
                 results.Add(new MultiDataTriggerInfo(null, symbol.Name, "public", ImmutableArray<TriggerPropertyInfo>.Empty, validationDiagnostic));

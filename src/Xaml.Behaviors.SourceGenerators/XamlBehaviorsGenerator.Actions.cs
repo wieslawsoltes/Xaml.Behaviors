@@ -60,7 +60,7 @@ namespace Xaml.Behaviors.SourceGenerators
 
             if (symbol is IMethodSymbol methodSymbol)
             {
-                results.Add(CreateActionInfo(methodSymbol, context.TargetNode?.GetLocation() ?? Location.None));
+                results.Add(CreateActionInfo(methodSymbol, context.TargetNode?.GetLocation() ?? Location.None, context.SemanticModel.Compilation));
             }
 
             return results.ToImmutable();
@@ -92,7 +92,7 @@ namespace Xaml.Behaviors.SourceGenerators
 
                 if (targetType == null || string.IsNullOrEmpty(methodName)) continue;
 
-                results.AddRange(CreateActionInfos(targetType, methodName!, Location.None, includeTypeNamePrefix: true));
+                results.AddRange(CreateActionInfos(targetType, methodName!, Location.None, includeTypeNamePrefix: true, compilation: compilation));
             }
 
             return results.ToImmutable();
@@ -318,7 +318,7 @@ namespace Xaml.Behaviors.SourceGenerators
             return (null, Diagnostic.Create(ActionMethodNotFoundDiagnostic, Location.None, name, targetType.Name));
         }
 
-        private static Diagnostic? ValidateActionMethod(IMethodSymbol methodSymbol, Location? diagnosticLocation)
+        private static Diagnostic? ValidateActionMethod(IMethodSymbol methodSymbol, Location? diagnosticLocation, Compilation? compilation)
         {
             var location = diagnosticLocation ?? Location.None;
 
@@ -327,13 +327,13 @@ namespace Xaml.Behaviors.SourceGenerators
                 return Diagnostic.Create(StaticMemberNotSupportedDiagnostic, location, methodSymbol.Name);
             }
 
-            var containingTypeDiagnostic = ValidateTypeAccessibility(methodSymbol.ContainingType, location);
+            var containingTypeDiagnostic = ValidateTypeAccessibility(methodSymbol.ContainingType, location, compilation);
             if (containingTypeDiagnostic != null)
             {
                 return containingTypeDiagnostic;
             }
 
-            if (!IsAccessibleToGenerator(methodSymbol))
+            if (!IsAccessibleToGenerator(methodSymbol, compilation))
             {
                 return Diagnostic.Create(MemberNotAccessibleDiagnostic, location, methodSymbol.Name, methodSymbol.ContainingType.ToDisplayString());
             }
@@ -380,10 +380,10 @@ namespace Xaml.Behaviors.SourceGenerators
             if (targetType == null || string.IsNullOrEmpty(methodName))
                 return ImmutableArray<ActionInfo>.Empty;
 
-            return CreateActionInfos(targetType, methodName, context.Node.GetLocation(), includeTypeNamePrefix: true);
+            return CreateActionInfos(targetType, methodName, context.Node.GetLocation(), includeTypeNamePrefix: true, compilation: context.SemanticModel.Compilation);
         }
 
-        private ActionInfo CreateActionInfo(IMethodSymbol methodSymbol, Location? diagnosticLocation, bool includeTypeNamePrefix = false)
+        private ActionInfo CreateActionInfo(IMethodSymbol methodSymbol, Location? diagnosticLocation, Compilation? compilation, bool includeTypeNamePrefix = false)
         {
             var targetType = methodSymbol.ContainingType;
             if (targetType == null)
@@ -392,13 +392,13 @@ namespace Xaml.Behaviors.SourceGenerators
                 return new ActionInfo(null, className, "", methodSymbol.Name, ImmutableArray<ActionParameter>.Empty, false, false, Diagnostic.Create(ActionMethodNotFoundDiagnostic, diagnosticLocation ?? Location.None, methodSymbol.Name, "<unknown>"));
             }
 
-            return CreateActionInfo(targetType, methodSymbol, diagnosticLocation, includeTypeNamePrefix);
+            return CreateActionInfo(targetType, methodSymbol, diagnosticLocation, includeTypeNamePrefix, compilation);
         }
 
-        private ImmutableArray<ActionInfo> CreateActionInfos(INamedTypeSymbol targetType, string methodPattern, Location? diagnosticLocation = null, bool includeTypeNamePrefix = false)
+        private ImmutableArray<ActionInfo> CreateActionInfos(INamedTypeSymbol targetType, string methodPattern, Location? diagnosticLocation = null, bool includeTypeNamePrefix = false, Compilation? compilation = null)
         {
-            var allMatches = FindMatchingMethods(targetType, methodPattern, requirePublicAccessibility: false, requireAccessibleTypes: false);
-            var matchedMethods = FindMatchingMethods(targetType, methodPattern);
+            var allMatches = FindMatchingMethods(targetType, methodPattern, requirePublicAccessibility: false, requireAccessibleTypes: false, compilation: compilation);
+            var matchedMethods = FindMatchingMethods(targetType, methodPattern, compilation: compilation);
             var typePrefix = includeTypeNamePrefix ? GetTypeNamePrefix(targetType) : string.Empty;
             var classPrefix = string.IsNullOrEmpty(typePrefix) ? string.Empty : typePrefix;
             var isPattern = methodPattern.Contains("*") ||
@@ -424,7 +424,7 @@ namespace Xaml.Behaviors.SourceGenerators
             var targetTypeNamePart = ToDisplayStringWithNullable(targetType);
             var accessibleMethods = matchedMethods
                 .Where(UsesPublicTypes)
-                .Where(m => ValidateActionMethod(m, diagnosticLocation) is null)
+                .Where(m => ValidateActionMethod(m, diagnosticLocation, compilation) is null)
                 .ToList();
 
             if (accessibleMethods.Count == 0)
@@ -455,19 +455,19 @@ namespace Xaml.Behaviors.SourceGenerators
                     continue;
                 }
 
-                builder.Add(CreateActionInfo(targetType, group.First(), diagnosticLocation, includeTypeNamePrefix));
+                builder.Add(CreateActionInfo(targetType, group.First(), diagnosticLocation, includeTypeNamePrefix, compilation));
             }
 
             return builder.ToImmutable();
         }
 
-        private ActionInfo CreateActionInfo(INamedTypeSymbol targetType, string methodName, Location? diagnosticLocation = null)
+        private ActionInfo CreateActionInfo(INamedTypeSymbol targetType, string methodName, Location? diagnosticLocation = null, Compilation? compilation = null)
         {
-            var infos = CreateActionInfos(targetType, methodName, diagnosticLocation);
+            var infos = CreateActionInfos(targetType, methodName, diagnosticLocation, compilation: compilation);
             return infos.Length > 0 ? infos[0] : new ActionInfo(null, $"{methodName}Action", ToDisplayStringWithNullable(targetType), methodName, ImmutableArray<ActionParameter>.Empty, false, false, Diagnostic.Create(ActionMethodNotFoundDiagnostic, diagnosticLocation ?? Location.None, methodName, targetType.Name));
         }
 
-        private ActionInfo CreateActionInfo(INamedTypeSymbol targetType, IMethodSymbol methodSymbol, Location? diagnosticLocation = null, bool includeTypeNamePrefix = false)
+        private ActionInfo CreateActionInfo(INamedTypeSymbol targetType, IMethodSymbol methodSymbol, Location? diagnosticLocation = null, bool includeTypeNamePrefix = false, Compilation? compilation = null)
         {
             var ns = targetType.ContainingNamespace.ToDisplayString();
             var namespaceName = (targetType.ContainingNamespace.IsGlobalNamespace || ns == "<global namespace>") ? null : ns;
@@ -476,7 +476,7 @@ namespace Xaml.Behaviors.SourceGenerators
             var className = string.IsNullOrEmpty(typePrefix) ? baseName : typePrefix + baseName;
             var targetTypeName = ToDisplayStringWithNullable(targetType);
 
-            var validationDiagnostic = ValidateActionMethod(methodSymbol, diagnosticLocation);
+            var validationDiagnostic = ValidateActionMethod(methodSymbol, diagnosticLocation, compilation);
             if (validationDiagnostic != null)
             {
                 return new ActionInfo(namespaceName, className, targetTypeName, methodSymbol.Name, ImmutableArray<ActionParameter>.Empty, false, false, validationDiagnostic);

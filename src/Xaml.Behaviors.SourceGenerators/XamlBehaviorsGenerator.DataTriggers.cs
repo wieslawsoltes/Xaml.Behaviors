@@ -20,7 +20,7 @@ namespace Xaml.Behaviors.SourceGenerators
         {
             var dataTriggers = context.SyntaxProvider
                 .CreateSyntaxProvider(
-                    predicate: static (node, _) => IsDataTriggerAttributeSyntax(node),
+                    predicate: static (node, _) => IsPotentialDataTriggerAttribute(node),
                     transform: (ctx, _) => GetDataTriggerFromAttributeSyntax(ctx))
                 .Where(info => info is not null)
                 .Select((info, _) => info!);
@@ -37,19 +37,36 @@ namespace Xaml.Behaviors.SourceGenerators
             if (context.Node is not AttributeSyntax attributeSyntax)
                 return null;
 
+            var attributeType = context.SemanticModel.GetTypeInfo(attributeSyntax).Type;
+            if (attributeType == null && context.SemanticModel.GetSymbolInfo(attributeSyntax).Symbol is IMethodSymbol attributeCtor)
+            {
+                attributeType = attributeCtor.ContainingType;
+            }
+
+            var attributeName = attributeType?.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat);
+            if (attributeName?.StartsWith("global::", StringComparison.Ordinal) == true)
+            {
+                attributeName = attributeName.Substring("global::".Length);
+            }
+
+            var matchesAttribute = string.Equals(attributeName, GenerateTypedDataTriggerAttributeName, StringComparison.Ordinal);
+            if (!matchesAttribute && !attributeSyntax.Name.ToString().Contains("GenerateTypedDataTrigger", StringComparison.Ordinal))
+                return null;
+
             if (attributeSyntax.ArgumentList?.Arguments.Count != 1)
                 return null;
 
-            if (attributeSyntax.ArgumentList.Arguments[0].Expression is not TypeOfExpressionSyntax typeOfExpression)
+            var typeOfExpression = attributeSyntax.ArgumentList.Arguments[0].Expression as TypeOfExpressionSyntax;
+            if (typeOfExpression == null)
                 return null;
 
             var typeInfo = context.SemanticModel.GetTypeInfo(typeOfExpression.Type).Type;
             const string namespaceName = "Xaml.Behaviors.Generated";
-            var diagnosticLocation = context.Node.GetLocation();
+            var diagnosticLocation = attributeSyntax.GetLocation();
 
             if (typeInfo != null)
             {
-                var validationDiagnostic = ValidateDataTriggerType(typeInfo, diagnosticLocation);
+                var validationDiagnostic = ValidateDataTriggerType(typeInfo, diagnosticLocation, context.SemanticModel.Compilation);
                 var className = CreateDataTriggerClassName(typeInfo);
                 var typeName = ToDisplayStringWithNullable(typeInfo);
                 return new DataTriggerInfo(namespaceName, className, typeName, validationDiagnostic);
@@ -159,44 +176,18 @@ namespace Xaml.Behaviors.SourceGenerators
             spc.AddSource(CreateHintName(info.Namespace, info.ClassName), SourceText.From(sb.ToString(), Encoding.UTF8));
         }
 
-        private static bool IsDataTriggerAttribute(AttributeData attributeData)
+        private static bool IsPotentialDataTriggerAttribute(SyntaxNode node)
         {
-            var attributeClass = attributeData.AttributeClass;
-            if (attributeClass == null)
-                return false;
-
-            var displayName = attributeClass.ToDisplayString();
-            if (displayName == GenerateTypedDataTriggerAttributeName)
-                return true;
-
-            var fullyQualified = attributeClass.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat);
-            if (fullyQualified.StartsWith("global::", StringComparison.Ordinal))
-            {
-                fullyQualified = fullyQualified.Substring("global::".Length);
-            }
-
-            if (fullyQualified == GenerateTypedDataTriggerAttributeName)
-                return true;
-
-            return attributeClass.Name == "GenerateTypedDataTriggerAttribute";
+            return node is AttributeSyntax;
         }
 
-        private static bool IsDataTriggerAttributeSyntax(SyntaxNode node)
-        {
-            if (node is not AttributeSyntax attributeSyntax)
-                return false;
-
-            var name = attributeSyntax.Name.ToString();
-            return name.Contains("GenerateTypedDataTrigger", StringComparison.Ordinal);
-        }
-
-        private static Diagnostic? ValidateDataTriggerType(ITypeSymbol typeSymbol, Location? diagnosticLocation)
+        private static Diagnostic? ValidateDataTriggerType(ITypeSymbol typeSymbol, Location? diagnosticLocation, Compilation? compilation)
         {
             var location = diagnosticLocation ?? Location.None;
 
             if (typeSymbol is INamedTypeSymbol namedType)
             {
-                var accessibility = ValidateTypeAccessibility(namedType, location);
+                var accessibility = ValidateTypeAccessibility(namedType, location, compilation);
                 if (accessibility != null)
                 {
                     return accessibility;

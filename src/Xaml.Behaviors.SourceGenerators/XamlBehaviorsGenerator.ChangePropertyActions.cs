@@ -59,7 +59,7 @@ namespace Xaml.Behaviors.SourceGenerators
                 var containingType = propertySymbol.ContainingType;
                 if (containingType != null)
                 {
-                    results.Add(CreateChangePropertyInfo(containingType, propertySymbol, diagnosticLocation));
+                    results.Add(CreateChangePropertyInfo(containingType, propertySymbol, diagnosticLocation, includeTypeNamePrefix: false, compilation: context.SemanticModel.Compilation));
                 }
             }
             return results.ToImmutable();
@@ -121,7 +121,7 @@ namespace Xaml.Behaviors.SourceGenerators
             spc.AddSource(CreateHintName(info.Namespace, info.ClassName), SourceText.From(sb.ToString(), Encoding.UTF8));
         }
 
-        private static Diagnostic? ValidatePropertySymbol(IPropertySymbol propertySymbol, Location? diagnosticLocation)
+        private static Diagnostic? ValidatePropertySymbol(IPropertySymbol propertySymbol, Location? diagnosticLocation, Compilation? compilation)
         {
             var location = diagnosticLocation ?? Location.None;
 
@@ -130,13 +130,13 @@ namespace Xaml.Behaviors.SourceGenerators
                 return Diagnostic.Create(StaticMemberNotSupportedDiagnostic, location, propertySymbol.Name);
             }
 
-            var containingTypeDiagnostic = ValidateTypeAccessibility(propertySymbol.ContainingType, location);
+            var containingTypeDiagnostic = ValidateTypeAccessibility(propertySymbol.ContainingType, location, compilation);
             if (containingTypeDiagnostic != null)
             {
                 return containingTypeDiagnostic;
             }
 
-            if (!HasAccessibleSetter(propertySymbol))
+            if (!HasAccessibleSetter(propertySymbol, compilation))
             {
                 return Diagnostic.Create(PropertySetterNotAccessibleDiagnostic, location, propertySymbol.Name, propertySymbol.ContainingType.ToDisplayString());
             }
@@ -149,6 +149,11 @@ namespace Xaml.Behaviors.SourceGenerators
             if (ContainsTypeParameter(propertySymbol.ContainingType) || ContainsTypeParameter(propertySymbol.Type))
             {
                 return Diagnostic.Create(GenericMemberNotSupportedDiagnostic, location, propertySymbol.Name);
+            }
+
+            if (!IsAccessibleType(propertySymbol.Type))
+            {
+                return Diagnostic.Create(MemberNotAccessibleDiagnostic, location, propertySymbol.Name, propertySymbol.ContainingType.ToDisplayString());
             }
 
             return null;
@@ -176,7 +181,7 @@ namespace Xaml.Behaviors.SourceGenerators
                 return ImmutableArray.Create(new ChangePropertyInfo("", "", "", propertyName ?? "<unknown>", "", diagnostic));
             }
 
-            return CreateChangePropertyInfos(targetType, propertyName, context.Node.GetLocation(), includeTypeNamePrefix: true);
+            return CreateChangePropertyInfos(targetType, propertyName, context.Node.GetLocation(), includeTypeNamePrefix: true, compilation: context.SemanticModel.Compilation);
         }
 
         private ImmutableArray<ChangePropertyInfo> GetAssemblyChangePropertyActions(Compilation compilation)
@@ -198,13 +203,13 @@ namespace Xaml.Behaviors.SourceGenerators
                     continue;
                 }
 
-                results.AddRange(CreateChangePropertyInfos(targetType, propertyName!, Location.None, includeTypeNamePrefix: true));
+                results.AddRange(CreateChangePropertyInfos(targetType, propertyName!, Location.None, includeTypeNamePrefix: true, compilation: compilation));
             }
 
             return results.ToImmutable();
         }
 
-        private ImmutableArray<ChangePropertyInfo> CreateChangePropertyInfos(INamedTypeSymbol targetType, string propertyPattern, Location? diagnosticLocation = null, bool includeTypeNamePrefix = false)
+        private ImmutableArray<ChangePropertyInfo> CreateChangePropertyInfos(INamedTypeSymbol targetType, string propertyPattern, Location? diagnosticLocation = null, bool includeTypeNamePrefix = false, Compilation? compilation = null)
         {
             var matchedProperties = FindMatchingProperties(targetType, propertyPattern);
             var typePrefix = includeTypeNamePrefix ? GetTypeNamePrefix(targetType) : string.Empty;
@@ -223,7 +228,7 @@ namespace Xaml.Behaviors.SourceGenerators
             var invalidBuilder = ImmutableArray.CreateBuilder<ChangePropertyInfo>();
             foreach (var property in matchedProperties)
             {
-                var info = CreateChangePropertyInfo(targetType, property, diagnosticLocation, includeTypeNamePrefix);
+                var info = CreateChangePropertyInfo(targetType, property, diagnosticLocation, includeTypeNamePrefix, compilation);
                 if (info.Diagnostic is null)
                 {
                     builder.Add(info);
@@ -253,7 +258,7 @@ namespace Xaml.Behaviors.SourceGenerators
             return ImmutableArray.Create(new ChangePropertyInfo(namespaceNameFallback, classNameFallback, targetTypeNameFallback, propertyPattern, "", fallback));
         }
 
-        private ChangePropertyInfo CreateChangePropertyInfo(INamedTypeSymbol targetType, IPropertySymbol propertySymbol, Location? diagnosticLocation = null, bool includeTypeNamePrefix = false)
+        private ChangePropertyInfo CreateChangePropertyInfo(INamedTypeSymbol targetType, IPropertySymbol propertySymbol, Location? diagnosticLocation = null, bool includeTypeNamePrefix = false, Compilation? compilation = null)
         {
             if (propertySymbol.IsIndexer)
             {
@@ -267,7 +272,7 @@ namespace Xaml.Behaviors.SourceGenerators
                 return new ChangePropertyInfo(namespaceIndex, classNameIndex, targetTypeNameIndex, propertySymbol.Name, ToDisplayStringWithNullable(propertySymbol.Type), diagnostic);
             }
 
-            var validationDiagnostic = ValidatePropertySymbol(propertySymbol, diagnosticLocation);
+            var validationDiagnostic = ValidatePropertySymbol(propertySymbol, diagnosticLocation, compilation);
             var ns = targetType.ContainingNamespace.ToDisplayString();
             var namespaceName = (targetType.ContainingNamespace.IsGlobalNamespace || ns == "<global namespace>") ? null : ns;
             var baseName = $"Set{propertySymbol.Name}Action";

@@ -43,6 +43,21 @@ using Xaml.Behaviors.SourceGenerators;
     }
 
     [Fact]
+    public void Should_Generate_DataTrigger_For_Aliased_Attribute()
+    {
+        var source = @"
+using Xaml.Behaviors.SourceGenerators;
+using Alias = Xaml.Behaviors.SourceGenerators.GenerateTypedDataTriggerAttribute;
+
+[assembly: Alias(typeof(string))]
+";
+        var (diagnostics, sources) = GeneratorTestHelper.RunGenerator(source);
+
+        Assert.Empty(diagnostics);
+        Assert.Contains(sources, s => s.Contains("class StringDataTrigger"));
+    }
+
+    [Fact]
     public void Should_Report_Error_For_Generic_DataTrigger()
     {
         var source = @"

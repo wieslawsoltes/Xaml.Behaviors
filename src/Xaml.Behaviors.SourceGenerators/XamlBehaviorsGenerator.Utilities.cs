@@ -93,6 +93,11 @@ namespace Xaml.Behaviors.SourceGenerators
             return typeName;
         }
 
+        private static bool HasInternalAccess(IAssemblySymbol assemblySymbol, Compilation? compilation)
+        {
+            return AccessibilityHelper.HasInternalAccess(compilation, assemblySymbol);
+        }
+
         private static string MakeUniqueName(string baseName, INamedTypeSymbol scope)
         {
             var fullyQualified = scope.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat);
@@ -230,14 +235,14 @@ namespace Xaml.Behaviors.SourceGenerators
             }
         }
 
-        private static Diagnostic? ValidateStyledElementTriggerType(INamedTypeSymbol symbol, Location? location)
+        private static Diagnostic? ValidateStyledElementTriggerType(INamedTypeSymbol symbol, Location? location, Compilation? compilation)
         {
             if (!InheritsFrom(symbol, "Avalonia.Xaml.Interactivity.StyledElementTrigger"))
             {
                 return Diagnostic.Create(InvalidMultiDataTriggerTargetDiagnostic, location ?? Location.None, symbol.ToDisplayString());
             }
 
-            return null;
+            return ValidateTypeAccessibility(symbol, location, compilation);
         }
 
         private static string GetTypeNamePrefix(INamedTypeSymbol typeSymbol)
@@ -257,14 +262,14 @@ namespace Xaml.Behaviors.SourceGenerators
             return name;
         }
 
-        private static Diagnostic? ValidateStyledElementActionType(INamedTypeSymbol symbol, Location? location)
+        private static Diagnostic? ValidateStyledElementActionType(INamedTypeSymbol symbol, Location? location, Compilation? compilation)
         {
             if (!InheritsFrom(symbol, "Avalonia.Xaml.Interactivity.StyledElementAction"))
             {
                 return Diagnostic.Create(InvalidInvokeCommandTargetDiagnostic, location ?? Location.None, symbol.ToDisplayString());
             }
 
-            return null;
+            return ValidateTypeAccessibility(symbol, location, compilation);
         }
 
         private static Diagnostic? ValidateEvaluateMethod(INamedTypeSymbol symbol, Location? location)
@@ -321,10 +326,9 @@ namespace Xaml.Behaviors.SourceGenerators
             return null;
         }
 
-        private static bool IsAccessibleToGenerator(ISymbol symbol)
+        private static bool IsAccessibleToGenerator(ISymbol symbol, Compilation? compilation)
         {
-            return symbol.DeclaredAccessibility is Accessibility.Public
-                or Accessibility.Internal;
+            return AccessibilityHelper.IsSymbolAccessible(symbol, compilation);
         }
 
         private static bool IsAccessibleType(ITypeSymbol typeSymbol)
@@ -369,14 +373,9 @@ namespace Xaml.Behaviors.SourceGenerators
             return false;
         }
 
-        private static bool HasAccessibleSetter(IPropertySymbol propertySymbol)
+        private static bool HasAccessibleSetter(IPropertySymbol propertySymbol, Compilation? compilation)
         {
-            if (propertySymbol.SetMethod is null)
-            {
-                return false;
-            }
-
-            return IsAccessibleToGenerator(propertySymbol.SetMethod);
+            return AccessibilityHelper.HasAccessibleSetter(propertySymbol, compilation);
         }
 
         private static string CreateHintName(string? @namespace, string className)
@@ -397,20 +396,9 @@ namespace Xaml.Behaviors.SourceGenerators
             };
         }
 
-        private static Diagnostic? ValidateTypeAccessibility(INamedTypeSymbol symbol, Location? location)
+        private static Diagnostic? ValidateTypeAccessibility(INamedTypeSymbol symbol, Location? location, Compilation? compilation)
         {
-            var current = symbol;
-            while (current != null)
-            {
-                if (current.DeclaredAccessibility is not (Accessibility.Public or Accessibility.Internal))
-                {
-                    return Diagnostic.Create(MemberNotAccessibleDiagnostic, location ?? Location.None, current.Name, current.ToDisplayString());
-                }
-
-                current = current.ContainingType;
-            }
-
-            return null;
+            return AccessibilityHelper.ValidateTypeAccessibility(symbol, location, compilation);
         }
 
         private static Diagnostic? EnsureNotNested(INamedTypeSymbol symbol, Location? location)
@@ -489,7 +477,8 @@ namespace Xaml.Behaviors.SourceGenerators
             INamedTypeSymbol? type,
             string pattern,
             bool requirePublicAccessibility = true,
-            bool requireAccessibleTypes = true)
+            bool requireAccessibleTypes = true,
+            Compilation? compilation = null)
         {
             var builder = ImmutableArray.CreateBuilder<IMethodSymbol>();
             var seenSignatures = new HashSet<string>(StringComparer.Ordinal);
@@ -501,7 +490,10 @@ namespace Xaml.Behaviors.SourceGenerators
                     if (method.MethodKind != MethodKind.Ordinary)
                         continue;
 
-                    if (requirePublicAccessibility && method.DeclaredAccessibility != Accessibility.Public)
+                    if (requirePublicAccessibility && method.DeclaredAccessibility is not (Accessibility.Public or Accessibility.Internal))
+                        continue;
+
+                    if (method.DeclaredAccessibility == Accessibility.Internal && !HasInternalAccess(method.ContainingAssembly, compilation))
                         continue;
 
                     if (!NameMatchesPattern(method.Name, pattern))

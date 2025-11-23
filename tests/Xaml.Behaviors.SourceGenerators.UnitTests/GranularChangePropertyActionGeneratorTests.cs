@@ -260,6 +260,27 @@ namespace TestNamespace
     }
 
     [Fact]
+    public void Should_Report_Error_For_Inaccessible_Property_Type()
+    {
+        var source = @"
+using Xaml.Behaviors.SourceGenerators;
+
+namespace TestNamespace
+{
+    internal class Hidden { }
+
+    public partial class TestClass
+    {
+        [GenerateTypedChangePropertyAction]
+        public Hidden TestProperty { get; set; }
+    }
+}";
+        var (diagnostics, _) = GeneratorTestHelper.RunGenerator(source);
+
+        Assert.Contains(diagnostics, d => d.Id == "XBG014");
+    }
+
+    [Fact]
     public void Should_Report_Error_When_Containing_Type_Not_Accessible()
     {
         var source = @"

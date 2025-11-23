@@ -76,6 +76,28 @@ namespace TestNamespace
     }
 
     [Fact]
+    public void Should_Report_Error_For_Generic_MultiDataTrigger()
+    {
+        var source = @"
+using Xaml.Behaviors.SourceGenerators;
+
+namespace TestNamespace
+{
+    [GenerateTypedMultiDataTrigger]
+    public partial class GenericTrigger<T> : Avalonia.Xaml.Interactivity.StyledElementTrigger
+    {
+        [TriggerProperty]
+        private T _value1;
+
+        public bool Evaluate() => true;
+    }
+}";
+        var (diagnostics, _) = GeneratorTestHelper.RunGenerator(source);
+
+        Assert.Contains(diagnostics, d => d.Id == "XBG008");
+    }
+
+    [Fact]
     public void Should_Report_Error_When_Class_Not_Partial()
     {
         var source = @"
