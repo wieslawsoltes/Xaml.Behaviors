@@ -7,16 +7,16 @@
       <meta name="title" content="Network Interactions | XAML Behaviors for Avalonia ">
       
       
-      <link rel="icon" href="../favicon.ico">
-      <link rel="stylesheet" href="../public/docfx.min.css">
-      <link rel="stylesheet" href="../public/main.css">
-      <meta name="docfx:navrel" content="../toc.html">
-      <meta name="docfx:tocrel" content="toc.html">
+      <link rel="icon" href="../../favicon.ico">
+      <link rel="stylesheet" href="../../public/docfx.min.css">
+      <link rel="stylesheet" href="../../public/main.css">
+      <meta name="docfx:navrel" content="../../toc.html">
+      <meta name="docfx:tocrel" content="../toc.html">
       
       
       
       
-      <meta name="docfx:docurl" content="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/docfx/articles/network.md/#L1">
+      <meta name="docfx:docurl" content="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/docfx/articles/network/index.md/#L1">
       <meta name="loc:inThisArticle" content="In this article">
       <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
       <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
@@ -30,7 +30,7 @@
       <meta name="loc:copy" content="Copy">
       <meta name="loc:downloadPdf" content="Download PDF">
 
-      <script type="module" src="./../public/docfx.min.js"></script>
+      <script type="module" src="./../../public/docfx.min.js"></script>
 
       <script>
         const theme = localStorage.getItem('theme') || 'auto'
@@ -43,8 +43,8 @@
     <header class="bg-body border-bottom">
       <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
         <div class="container-xxl flex-nowrap">
-          <a class="navbar-brand" href="../index.html">
-            <img id="logo" class="svg" src="../images/logo.svg" alt="">
+          <a class="navbar-brand" href="../../index.html">
+            <img id="logo" class="svg" src="../../images/logo.svg" alt="">
             
           </a>
           <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
@@ -83,36 +83,20 @@
         <article data-uid="">
 <h1 id="network-interactions">Network Interactions</h1>
 
-<p>The <code>Avalonia.Xaml.Interactions.Network</code> namespace contains actions and triggers for network operations.</p>
+<p>The <code>Avalonia.Xaml.Interactions.Network</code> namespace provides behaviors for simple network scenarios without writing code-behind.</p>
 <h2 id="actions">Actions</h2>
-<h3 id="httprequestaction">HttpRequestAction</h3>
-<p>Performs an HTTP request.</p>
-<pre><code class="lang-xml">&lt;HttpRequestAction Url=&quot;https://api.example.com/data&quot; 
-                   Method=&quot;GET&quot; 
-                   ResponseContent=&quot;{Binding ResponseContent, Mode=OneWayToSource}&quot;
-                   ResponseStatusCode=&quot;{Binding ResponseStatusCode, Mode=OneWayToSource}&quot; /&gt;
-</code></pre>
-<p>Properties:</p>
 <ul>
-<li><code>Url</code>: The URL to request.</li>
-<li><code>Method</code>: The HTTP method (GET, POST, PUT, DELETE, etc.). Default is GET.</li>
-<li><code>Content</code>: The content to send (for POST/PUT).</li>
-<li><code>ContentType</code>: The content type header. Default is &quot;application/json&quot;.</li>
-<li><code>ResponseContent</code>: The response body as string (OneWayToSource).</li>
-<li><code>ResponseStatusCode</code>: The response status code (OneWayToSource).</li>
+<li><a href="http-request-action.html">HttpRequestAction</a>: Sends an HTTP request and exposes the response content and status code as bindable properties.</li>
 </ul>
 <h2 id="triggers">Triggers</h2>
-<h3 id="networkinformationtrigger">NetworkInformationTrigger</h3>
-<p>Listens to network availability changes.</p>
-<pre><code class="lang-xml">&lt;NetworkInformationTrigger&gt;
-    &lt;InvokeCommandAction Command=&quot;{Binding UpdateNetworkStatusCommand}&quot; PassEventArgsToCommand=&quot;True&quot; /&gt;
-&lt;/NetworkInformationTrigger&gt;
-</code></pre>
+<ul>
+<li><a href="network-information-trigger.html">NetworkInformationTrigger</a>: Listens to connectivity changes and runs actions when network availability changes.</li>
+</ul>
 
 </article>
 
         <div class="contribution d-print-none">
-          <a href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/docfx/articles/network.md/#L1" class="edit-link">Edit this page</a>
+          <a href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/docfx/articles/network/index.md/#L1" class="edit-link">Edit this page</a>
         </div>
 
         <div class="next-article d-print-none border-top" id="nextArticle"></div>

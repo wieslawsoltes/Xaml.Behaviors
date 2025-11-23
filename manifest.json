@@ -13233,10 +13233,43 @@
     },
     {
       "type": "Conceptual",
-      "source_relative_path": "articles/network.md",
+      "source_relative_path": "articles/network/http-request-action.md",
       "output": {
         ".html": {
-          "relative_path": "articles/network.html"
+          "relative_path": "articles/network/http-request-action.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/network/index.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/network/index.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/network/network-information-trigger.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/network/network-information-trigger.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "articles/network/toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "articles/network/toc.html"
+        },
+        ".json": {
+          "relative_path": "articles/network/toc.json"
         }
       },
       "version": ""
