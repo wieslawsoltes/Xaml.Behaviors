@@ -68,6 +68,61 @@ namespace Xaml.Behaviors.SourceGenerators
 
     [AttributeUsage(AttributeTargets.Field, Inherited = false, AllowMultiple = false)]
     internal sealed class ActionParameterAttribute : Attribute { }
+
+    [AttributeUsage(AttributeTargets.Field | AttributeTargets.Property | AttributeTargets.Assembly, AllowMultiple = true)]
+    internal sealed class GeneratePropertyTriggerAttribute : Attribute
+    {
+        public string? Name { get; set; }
+        public string? SourceName { get; set; }
+        public bool UseDispatcher { get; set; }
+
+        public GeneratePropertyTriggerAttribute() { }
+        public GeneratePropertyTriggerAttribute(Type targetType, string propertyName) { }
+    }
+
+    [AttributeUsage(AttributeTargets.Event | AttributeTargets.Assembly, AllowMultiple = true)]
+    internal sealed class GenerateEventCommandAttribute : Attribute
+    {
+        public string? Name { get; set; }
+        public string? ParameterPath { get; set; }
+        public bool UseDispatcher { get; set; }
+
+        public GenerateEventCommandAttribute() { }
+        public GenerateEventCommandAttribute(Type targetType, string eventName) { }
+    }
+
+    [AttributeUsage(AttributeTargets.Method | AttributeTargets.Assembly, AllowMultiple = true)]
+    internal sealed class GenerateEventArgsActionAttribute : Attribute
+    {
+        public string? Name { get; set; }
+        public string? Project { get; set; }
+        public bool UseDispatcher { get; set; }
+
+        public GenerateEventArgsActionAttribute() { }
+        public GenerateEventArgsActionAttribute(Type targetType, string methodName) { }
+    }
+
+    [AttributeUsage(AttributeTargets.Property | AttributeTargets.Assembly, AllowMultiple = true)]
+    internal sealed class GenerateAsyncTriggerAttribute : Attribute
+    {
+        public string? Name { get; set; }
+        public bool UseDispatcher { get; set; } = true;
+        public bool FireOnAttach { get; set; } = true;
+
+        public GenerateAsyncTriggerAttribute() { }
+        public GenerateAsyncTriggerAttribute(Type targetType, string propertyName) { }
+    }
+
+    [AttributeUsage(AttributeTargets.Property | AttributeTargets.Assembly, AllowMultiple = true)]
+    internal sealed class GenerateObservableTriggerAttribute : Attribute
+    {
+        public string? Name { get; set; }
+        public bool UseDispatcher { get; set; } = true;
+        public bool FireOnAttach { get; set; } = true;
+
+        public GenerateObservableTriggerAttribute() { }
+        public GenerateObservableTriggerAttribute(Type targetType, string propertyName) { }
+    }
 }
 ";
 

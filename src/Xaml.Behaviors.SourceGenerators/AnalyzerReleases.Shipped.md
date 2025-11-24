@@ -26,3 +26,13 @@ XBG015 | Usage | Error | Property setter not accessible
 XBG016 | Usage | Error | Type must be partial
 XBG017 | Usage | Error | Init-only setter not supported
 XBG018 | Usage | Error | Nested types not supported
+XBG019 | Usage | Error | Invalid Avalonia property for property trigger generation
+XBG020 | Usage | Error | Invalid ParameterPath for event command generation
+XBG021 | Usage | Error | ParameterPath member not accessible
+XBG022 | Usage | Warning | SourceName ignored when target is not part of a name scope
+XBG023 | Usage | Error | Async trigger property not found
+XBG024 | Usage | Error | Observable trigger property not found
+XBG025 | Usage | Error | Invalid async trigger property type
+XBG026 | Usage | Error | Invalid observable trigger property type
+XBG027 | Usage | Error | Projection member not found on event args
+XBG028 | Usage | Error | Projection member not accessible for event args action generation

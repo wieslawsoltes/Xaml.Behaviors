@@ -150,5 +150,85 @@ namespace Xaml.Behaviors.SourceGenerators
             category: "Usage",
             DiagnosticSeverity.Error,
             isEnabledByDefault: true);
+
+        private static readonly DiagnosticDescriptor PropertyTriggerInvalidPropertyTypeDiagnostic = new(
+            id: "XBG019",
+            title: "Invalid Avalonia property",
+            messageFormat: "Member '{0}' must be an Avalonia styled or direct property for property trigger generation",
+            category: "Usage",
+            DiagnosticSeverity.Error,
+            isEnabledByDefault: true);
+
+        private static readonly DiagnosticDescriptor EventCommandInvalidParameterPathDiagnostic = new(
+            id: "XBG020",
+            title: "Invalid ParameterPath",
+            messageFormat: "ParameterPath '{0}' is not valid for event '{1}'",
+            category: "Usage",
+            DiagnosticSeverity.Error,
+            isEnabledByDefault: true);
+
+        private static readonly DiagnosticDescriptor EventCommandParameterPathNotAccessibleDiagnostic = new(
+            id: "XBG021",
+            title: "ParameterPath member not accessible",
+            messageFormat: "ParameterPath '{0}' on event '{1}' references '{2}' which is not accessible",
+            category: "Usage",
+            DiagnosticSeverity.Error,
+            isEnabledByDefault: true);
+
+        private static readonly DiagnosticDescriptor PropertyTriggerSourceNameNotLogicalDiagnostic = new(
+            id: "XBG022",
+            title: "SourceName not available",
+            messageFormat: "SourceName is ignored because '{0}' does not participate in a name scope",
+            category: "Usage",
+            DiagnosticSeverity.Warning,
+            isEnabledByDefault: true);
+
+        private static readonly DiagnosticDescriptor AsyncTriggerPropertyNotFoundDiagnostic = new(
+            id: "XBG023",
+            title: "Async trigger property not found",
+            messageFormat: "Property '{0}' could not be found on type '{1}' for async trigger generation",
+            category: "Usage",
+            DiagnosticSeverity.Error,
+            isEnabledByDefault: true);
+
+        private static readonly DiagnosticDescriptor ObservableTriggerPropertyNotFoundDiagnostic = new(
+            id: "XBG024",
+            title: "Observable trigger property not found",
+            messageFormat: "Property '{0}' could not be found on type '{1}' for observable trigger generation",
+            category: "Usage",
+            DiagnosticSeverity.Error,
+            isEnabledByDefault: true);
+
+        private static readonly DiagnosticDescriptor AsyncTriggerInvalidPropertyTypeDiagnostic = new(
+            id: "XBG025",
+            title: "Invalid async trigger property type",
+            messageFormat: "Property '{0}' must be a Task, Task<T>, ValueTask, or ValueTask<T> for async trigger generation",
+            category: "Usage",
+            DiagnosticSeverity.Error,
+            isEnabledByDefault: true);
+
+        private static readonly DiagnosticDescriptor ObservableTriggerInvalidPropertyTypeDiagnostic = new(
+            id: "XBG026",
+            title: "Invalid observable trigger property type",
+            messageFormat: "Property '{0}' must be IObservable<T> for observable trigger generation",
+            category: "Usage",
+            DiagnosticSeverity.Error,
+            isEnabledByDefault: true);
+
+        private static readonly DiagnosticDescriptor EventArgsProjectionNotFoundDiagnostic = new(
+            id: "XBG027",
+            title: "Projection member not found",
+            messageFormat: "Projection member '{0}' could not be found on event args type '{1}'",
+            category: "Usage",
+            DiagnosticSeverity.Error,
+            isEnabledByDefault: true);
+
+        private static readonly DiagnosticDescriptor EventArgsProjectionNotAccessibleDiagnostic = new(
+            id: "XBG028",
+            title: "Projection member not accessible",
+            messageFormat: "Projection member '{0}' on event args type '{1}' is not accessible for event args action generation",
+            category: "Usage",
+            DiagnosticSeverity.Error,
+            isEnabledByDefault: true);
     }
 }

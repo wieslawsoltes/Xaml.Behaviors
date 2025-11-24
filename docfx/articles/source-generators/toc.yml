@@ -12,6 +12,16 @@
   href: typed-multi-data-trigger.md
 - name: Typed InvokeCommandAction
   href: typed-invoke-command-action.md
+- name: Typed Property Trigger
+  href: typed-property-trigger.md
+- name: Typed Event Command
+  href: typed-event-command.md
+- name: Typed EventArgs Action
+  href: typed-event-args-action.md
+- name: Typed Async Trigger
+  href: typed-async-trigger.md
+- name: Typed Observable Trigger
+  href: typed-observable-trigger.md
 - name: Diagnostics
   href: diagnostics.md
 - name: Third-Party Integration

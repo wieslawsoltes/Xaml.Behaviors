@@ -42,6 +42,18 @@
       <TabItem Header="Command">
         <pages:InvokeCommandActionPage />
       </TabItem>
+      <TabItem Header="Event Command">
+        <pages:EventCommandPage />
+      </TabItem>
+      <TabItem Header="Event Args">
+        <pages:EventArgsActionPage />
+      </TabItem>
+      <TabItem Header="Async/Observable">
+        <pages:AsyncObservableTriggerPage />
+      </TabItem>
+      <TabItem Header="Property Trigger">
+        <pages:PropertyTriggerPage />
+      </TabItem>
     </TabControl>
   </DockPanel>
 </Window>

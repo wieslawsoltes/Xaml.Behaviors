@@ -1,0 +1,39 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:SourceGeneratorSample.ViewModels"
+             xmlns:i="using:Avalonia.Xaml.Interactions.Core"
+             x:Class="SourceGeneratorSample.Views.Pages.EventArgsActionPage"
+             x:DataType="vm:MainViewModel">
+  <StackPanel Spacing="12">
+    <TextBlock Text="EventArgs Actions" FontWeight="Bold" />
+
+    <StackPanel Spacing="6">
+      <TextBlock Text="PointerPressed" FontWeight="SemiBold" />
+      <Border Background="#FFEFEFEF"
+              MinHeight="80"
+              CornerRadius="4"
+              Padding="12">
+        <Interaction.Behaviors>
+          <i:EventTriggerBehavior EventName="PointerPressed">
+            <vm:OnPointerPressedEventArgsAction TargetObject="{Binding}" />
+          </i:EventTriggerBehavior>
+        </Interaction.Behaviors>
+        <TextBlock Text="Tap or click anywhere in this box" />
+      </Border>
+      <TextBlock Text="{Binding PointerStatus}" />
+    </StackPanel>
+
+    <StackPanel Spacing="6">
+      <TextBlock Text="KeyDown" FontWeight="SemiBold" />
+      <TextBox Watermark="Focus here and press any key"
+               MinHeight="36">
+        <Interaction.Behaviors>
+          <i:EventTriggerBehavior EventName="KeyDown">
+            <vm:OnKeyCapturedEventArgsAction TargetObject="{Binding}" />
+          </i:EventTriggerBehavior>
+        </Interaction.Behaviors>
+      </TextBox>
+      <TextBlock Text="{Binding KeyStatus}" />
+    </StackPanel>
+  </StackPanel>
+</UserControl>

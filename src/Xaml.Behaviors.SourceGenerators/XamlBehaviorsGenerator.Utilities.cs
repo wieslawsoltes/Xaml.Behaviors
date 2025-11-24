@@ -630,12 +630,12 @@ namespace Xaml.Behaviors.SourceGenerators
             return defaultValue;
         }
 
-        private static bool GetUseDispatcherFlag(AttributeData attributeData, SemanticModel semanticModel)
+        private static bool GetUseDispatcherFlag(AttributeData attributeData, SemanticModel semanticModel, bool defaultValue = false)
         {
-            var useDispatcher = GetBoolNamedArgument(attributeData, "UseDispatcher");
+            var useDispatcher = GetBoolNamedArgument(attributeData, "UseDispatcher", defaultValue);
             if (!useDispatcher && attributeData.ApplicationSyntaxReference?.GetSyntax() is AttributeSyntax attributeSyntax)
             {
-                useDispatcher = GetBoolNamedArgument(attributeSyntax, semanticModel, "UseDispatcher");
+                useDispatcher = GetBoolNamedArgument(attributeSyntax, semanticModel, "UseDispatcher", defaultValue);
             }
 
             return useDispatcher;

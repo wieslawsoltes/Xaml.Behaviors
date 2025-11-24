@@ -1,0 +1,31 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:SourceGeneratorSample.ViewModels"
+             x:Class="SourceGeneratorSample.Views.Pages.AsyncObservableTriggerPage"
+             x:DataType="vm:MainViewModel">
+  <StackPanel Spacing="12">
+    <TextBlock Text="Async/Observable Triggers" FontWeight="Bold" />
+
+    <StackPanel Spacing="6">
+      <TextBlock Text="Async Trigger" FontWeight="SemiBold" />
+      <Button Content="Start Demo Task" Command="{Binding StartDemoTaskCommand}" />
+      <TextBlock Text="{Binding AsyncTriggerStatus}" />
+      <Interaction.Behaviors>
+        <vm:DemoTaskAsyncTrigger DemoTask="{Binding DemoTask}">
+          <vm:SetStatusTextAction TargetObject="{Binding}" Value="Async trigger fired" />
+        </vm:DemoTaskAsyncTrigger>
+      </Interaction.Behaviors>
+    </StackPanel>
+
+    <StackPanel Spacing="6">
+      <TextBlock Text="Observable Trigger" FontWeight="SemiBold" />
+      <Button Content="Start Demo Observable" Command="{Binding StartDemoObservableCommand}" />
+      <TextBlock Text="{Binding ObservableTriggerStatus}" />
+      <Interaction.Behaviors>
+        <vm:DemoObservableObservableTrigger DemoObservable="{Binding DemoObservable}">
+          <vm:SetProcessingMessageAction TargetObject="{Binding}" Value="Observable emitted" />
+        </vm:DemoObservableObservableTrigger>
+      </Interaction.Behaviors>
+    </StackPanel>
+  </StackPanel>
+</UserControl>

@@ -1,6 +1,6 @@
 # Source Generator Diagnostics
 
-This page lists the analyzer diagnostics emitted by `Xaml.Behaviors.SourceGenerators` (11.3.9.1) with quick fixes and minimal examples you can copy into a failing project to see the error disappear.
+This page lists the analyzer diagnostics emitted by `Xaml.Behaviors.SourceGenerators`.
 
 ## Quick reference
 
@@ -23,7 +23,17 @@ This page lists the analyzer diagnostics emitted by `Xaml.Behaviors.SourceGenera
 | XBG015 | ChangePropertyAction | Property setter is inaccessible | Expose a public/internal setter |
 | XBG016 | MultiDataTrigger/InvokeCommand | Target type is not `partial` | Mark the class `partial` |
 | XBG017 | ChangePropertyAction | Property uses an `init`-only setter | Use a settable property |
-| XBG018 | MultiDataTrigger/InvokeCommand | Target type is nested | Move the class to the top level |
+| XBG018 | MultiDataTrigger/InvokeCommand/EventCommand | Target type is nested | Move the class to the top level |
+| XBG019 | PropertyTrigger | Target is not an Avalonia styled/direct property | Point the attribute at a styled or direct Avalonia property |
+| XBG020 | Event Command | `ParameterPath` does not resolve on event args | Use a valid public property chain for `ParameterPath` |
+| XBG021 | Event Command | `ParameterPath` references an inaccessible member | Make the member public or expose internals |
+| XBG022 | PropertyTrigger | `SourceName` specified on a type without a `NameScope` | Use SourceObject/AssociatedObject or target a logical element |
+| XBG023 | AsyncTrigger | Property name pattern did not match a Task/ValueTask property | Point the attribute at an existing Task/ValueTask property |
+| XBG024 | ObservableTrigger | Property name pattern did not match an `IObservable<T>` property | Point the attribute at an existing observable property |
+| XBG025 | AsyncTrigger | Property is not Task/ValueTask | Use Task/Task<T>/ValueTask/ValueTask<T> for async triggers |
+| XBG026 | ObservableTrigger | Property is not `IObservable<T>` | Use `IObservable<T>` for observable triggers |
+| XBG027 | EventArgsAction | Projection member not found on event args type | Use a valid property name on the event args |
+| XBG028 | EventArgsAction | Projection member is not accessible | Make the projected member public or grant internal access |
 
 ## Trigger diagnostics (XBG001-XBG004)
 
@@ -356,3 +366,165 @@ public class Container
 [GenerateTypedInvokeCommandAction]
 public partial class NestedAction : Avalonia.Xaml.Interactivity.StyledElementAction { } // OK
 ```
+
+## PropertyTrigger diagnostics (XBG019, XBG022)
+
+### XBG019 Invalid Avalonia property
+`[GeneratePropertyTrigger]` must target an Avalonia styled or direct property field.
+
+```csharp
+public class InvalidTriggerHost : Avalonia.Controls.Control
+{
+    public static readonly string NotAProperty = "Oops";
+}
+
+[assembly: GeneratePropertyTrigger(typeof(InvalidTriggerHost), "NotAProperty")] // XBG019
+```
+
+**Fix**: Point the attribute at a styled/direct Avalonia property.
+
+```csharp
+public static readonly Avalonia.StyledProperty<string?> TitleProperty =
+    Avalonia.AvaloniaProperty.Register<InvalidTriggerHost, string?>(nameof(Title));
+
+[assembly: GeneratePropertyTrigger(typeof(InvalidTriggerHost), "TitleProperty")] // OK
+```
+
+### XBG022 SourceName not available
+`SourceName` resolves within a `NameScope`; types that do not participate in the logical tree cannot look up names and will ignore it.
+
+```csharp
+public class HeadlessHost : Avalonia.StyledElement { }
+
+[assembly: GeneratePropertyTrigger(typeof(HeadlessHost), "DataContextProperty", SourceName = "Target")] // XBG022 warning
+```
+
+**Fix**: Remove `SourceName` or target a logical element/control where name scopes exist.
+
+## Async/Observable trigger diagnostics (XBG023-XBG026)
+
+### XBG023 Async trigger property not found
+The property name/pattern did not match a Task/ValueTask property.
+
+```csharp
+using Xaml.Behaviors.SourceGenerators;
+
+public partial class Loader { }
+
+[assembly: GenerateAsyncTrigger(typeof(Loader), "MissingTask")] // XBG023
+```
+
+**Fix**: Point the attribute at an existing Task/ValueTask property.
+
+### XBG024 Observable trigger property not found
+The property name/pattern did not match an `IObservable<T>` property.
+
+```csharp
+using Xaml.Behaviors.SourceGenerators;
+
+public partial class Loader { }
+
+[assembly: GenerateObservableTrigger(typeof(Loader), "MissingStream")] // XBG024
+```
+
+**Fix**: Point the attribute at an existing `IObservable<T>` property.
+
+### XBG025 Invalid async trigger property type
+`[GenerateAsyncTrigger]` requires Task/Task<T>/ValueTask/ValueTask<T>.
+
+```csharp
+public partial class Loader
+{
+    [GenerateAsyncTrigger]
+    public int NotATask { get; set; } // XBG025
+}
+```
+
+**Fix**: Change the property to Task/Task<T>/ValueTask/ValueTask<T>.
+
+### XBG026 Invalid observable trigger property type
+`[GenerateObservableTrigger]` requires `IObservable<T>`.
+
+```csharp
+public partial class Loader
+{
+    [GenerateObservableTrigger]
+    public string NotObservable { get; set; } = string.Empty; // XBG026
+}
+```
+
+**Fix**: Change the property to `IObservable<T>`, e.g. `IObservable<int> Stream { get; set; }`.
+
+## EventArgs action projection diagnostics (XBG027-XBG028)
+
+### XBG027 Projection member not found
+`Project` lists a member that does not exist on the event args type.
+
+```csharp
+using Avalonia.Interactivity;
+using Xaml.Behaviors.SourceGenerators;
+
+public partial class Handler
+{
+    [GenerateEventArgsAction(Project = "Missing")]
+    public void OnRouted(RoutedEventArgs args) { } // XBG027
+}
+```
+
+**Fix**: Use an existing property name on the event args type.
+
+### XBG028 Projection member not accessible
+The projected member exists but is not accessible to the generator (e.g., internal/private without IVT).
+
+```csharp
+using System;
+using Xaml.Behaviors.SourceGenerators;
+
+public class Args : EventArgs
+{
+    internal int Secret { get; } = 1;
+}
+
+public partial class Handler
+{
+    [GenerateEventArgsAction(Project = "Secret")]
+    public void OnSecret(Args args) { } // XBG028
+}
+```
+
+**Fix**: Make the member public or expose internals to the generator assembly.
+
+## EventCommand diagnostics (XBG020-XBG021)
+
+### XBG020 Invalid ParameterPath
+`ParameterPath` must resolve to a property chain on the event args.
+
+```csharp
+using Avalonia.Controls;
+using Xaml.Behaviors.SourceGenerators;
+
+[assembly: GenerateEventCommand(typeof(Button), "Click", ParameterPath = "MissingProperty")] // XBG020
+```
+
+**Fix**: Use a property that exists on the event args, e.g. `Source` or `Key`.
+
+### XBG021 ParameterPath member not accessible
+`ParameterPath` points to a member that is not visible to the generator (e.g., internal/private).
+
+```csharp
+public class Args : EventArgs
+{
+    internal string Secret { get; } = "hidden";
+}
+
+public class Host
+{
+    public event EventHandler<Args>? Fired;
+}
+
+[assembly: GenerateEventCommand(typeof(Host), "Fired", ParameterPath = "Secret")] // XBG021
+```
+
+**Fix**: Make the member public or grant `InternalsVisibleTo` access.
+
+Nested target types still surface `XBG018`; move the target type to the top level if you see that error.

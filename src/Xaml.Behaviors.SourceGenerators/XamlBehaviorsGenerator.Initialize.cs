@@ -17,6 +17,10 @@ namespace Xaml.Behaviors.SourceGenerators
             RegisterDataTriggerGeneration(context);
             RegisterMultiDataTriggerGeneration(context);
             RegisterInvokeCommandActionGeneration(context);
+            RegisterPropertyTriggerGeneration(context);
+            RegisterEventCommandGeneration(context);
+            RegisterEventArgsActionGeneration(context);
+            RegisterAsyncObservableTriggerGeneration(context);
         }
     }
 }

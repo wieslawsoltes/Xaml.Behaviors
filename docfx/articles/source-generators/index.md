@@ -25,7 +25,12 @@ The Source Generators solve this by generating specific `Action` and `Trigger` c
 *   **[Typed DataTrigger](typed-data-trigger.md)**: Generate strongly-typed data triggers to avoid runtime type conversion.
 *   **[Typed MultiDataTrigger](typed-multi-data-trigger.md)**: Generate triggers that evaluate multiple conditions with zero allocation.
 *   **[Typed InvokeCommandAction](typed-invoke-command-action.md)**: Generate strongly-typed command actions.
-*   **[Diagnostics](diagnostics.md)**: Understand analyzer errors (XBG001-XBG018) with fixes and examples.
+*   **[Typed Event Command](typed-event-command.md)**: Generate event-to-command triggers without XAML boilerplate.
+*   **[Typed Property Trigger](typed-property-trigger.md)**: Generate triggers that listen to Avalonia properties without bindings.
+*   **[Typed EventArgs Action](typed-event-args-action.md)**: Generate actions that consume specific event args with optional member projection.
+*   **[Typed Async Trigger](typed-async-trigger.md)**: Generate triggers that react to tasks without converters or reflection.
+*   **[Typed Observable Trigger](typed-observable-trigger.md)**: Generate triggers that react to observables without converters or reflection.
+*   **[Diagnostics](diagnostics.md)**: Understand analyzer errors (XBG001-XBG028) with fixes and examples.
 
 ## Example
 
