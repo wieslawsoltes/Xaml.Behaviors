@@ -20,11 +20,11 @@ The generator creates `ClickEventCommandTrigger` (assembly scope keeps the targe
 ```xml
 <UserControl xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:gen="using:Xaml.Behaviors.Generated">
+             xmlns:controls="using:Avalonia.Controls">
   <Button Content="Click me">
     <Interaction.Behaviors>
-      <gen:ClickEventCommandTrigger Command="{Binding ClickedCommand}"
-                                    ParameterPath="Source" />
+      <controls:ButtonClickEventCommandTrigger Command="{Binding ClickedCommand}"
+                                               ParameterPath="Source" />
     </Interaction.Behaviors>
   </Button>
   <!-- ClickedCommand lives on the DataContext; the trigger passes the event args Source as the command parameter. -->

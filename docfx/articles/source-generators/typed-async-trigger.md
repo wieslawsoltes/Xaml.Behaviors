@@ -27,7 +27,7 @@ Generates `LoadTaskAsyncTrigger` with:
 ```xml
 <UserControl xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="using:Xaml.Behaviors.Generated">
+             xmlns:local="using:MyApp.ViewModels">
   <Grid>
     <Interaction.Behaviors>
       <local:LoadTaskAsyncTrigger LoadTask="{Binding LoadTask}">
