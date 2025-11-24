@@ -218,6 +218,77 @@ public class AsyncObservableRuntimeTests
         Assert.Equal(2, (int)action.SeenParameters.Single()!);
     }
 
+    [AvaloniaFact]
+    public async Task AsyncTrigger_Dispatcher_Path_Drops_Stale_Task()
+    {
+        var host = new RuntimeAsyncObservableHost();
+        dynamic trigger = GeneratedTypeHelper.CreateInstance("DeferredTaskAsyncTrigger", "Avalonia.Xaml.Behaviors.SourceGenerators.UnitTests");
+        var action = new RecordingAction();
+        trigger.Actions.Add(action);
+        trigger.Attach(host);
+
+        var first = new TaskCompletionSource<int>();
+        trigger.DeferredTask = first.Task;
+
+        var second = new TaskCompletionSource<int>();
+        trigger.DeferredTask = second.Task;
+
+        first.SetResult(1);
+        second.SetResult(2);
+
+        await FlushDispatcherAsync();
+        await Task.Delay(50);
+
+        Assert.Equal(2, (int)trigger.LastResult);
+        Assert.Single(action.SeenParameters);
+        Assert.Equal(2, (int)action.SeenParameters.Single()!);
+    }
+
+    [AvaloniaFact]
+    public async Task AsyncTrigger_Uses_SourceObject_When_Property_Not_Set()
+    {
+        var host = new RuntimeAsyncObservableHost();
+        dynamic trigger = GeneratedTypeHelper.CreateInstance("SuccessfulTaskAsyncTrigger", "Avalonia.Xaml.Behaviors.SourceGenerators.UnitTests");
+        var action = new RecordingAction();
+        trigger.Actions.Add(action);
+
+        trigger.SourceObject = host;
+        host.SuccessfulTask = Task.FromResult(9);
+
+        trigger.Attach(host);
+
+        await FlushDispatcherAsync();
+        await Task.Delay(20);
+
+        Assert.Equal(9, (int)trigger.LastResult);
+        Assert.Equal(9, (int)action.SeenParameters.Single());
+    }
+
+    [AvaloniaFact]
+    public async Task AsyncTrigger_Ignores_Stale_Task_When_Reassigned()
+    {
+        var host = new RuntimeAsyncObservableHost();
+        dynamic trigger = GeneratedTypeHelper.CreateInstance("BackgroundTaskAsyncTrigger", "Avalonia.Xaml.Behaviors.SourceGenerators.UnitTests");
+        var action = new RecordingAction();
+        trigger.Actions.Add(action);
+        trigger.Attach(host);
+
+        var first = new TaskCompletionSource<int>();
+        trigger.BackgroundTask = first.Task;
+
+        var second = new TaskCompletionSource<int>();
+        trigger.BackgroundTask = second.Task;
+
+        second.SetResult(2);
+        first.SetResult(1);
+
+        await Task.Delay(50);
+
+        Assert.Equal(2, (int)trigger.LastResult);
+        Assert.Single(action.SeenParameters);
+        Assert.Equal(2, (int)action.SeenParameters.Single()!);
+    }
+
     private static async Task FlushDispatcherAsync()
     {
         await Dispatcher.UIThread.InvokeAsync(() => { });

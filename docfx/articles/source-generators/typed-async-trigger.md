@@ -49,3 +49,4 @@ Generates `LoadTaskAsyncTrigger` with:
 
 - Assembly-level attributes generate classes in `Xaml.Behaviors.Generated` and prefix the target type name.
 - Collisions are disambiguated via hashed suffixes.  
+- `SourceObject` can be used to point the trigger at the owning object when the trigger property itself is not set (e.g., bind the trigger to the host control and let it read the task property from that source).
