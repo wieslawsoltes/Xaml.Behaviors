@@ -182,9 +182,106 @@ public static class Program
         Assert.True(runResult.ExitCode == 0, $"dotnet run failed:{Environment.NewLine}{runResult.AllOutput}");
     }
 
-    private string CreateSampleProject(string sampleDirectory)
+    [Fact]
+    public async Task PackageReference_GeneratesAndExecutesMultipleGenerators()
     {
-        var projectPath = Path.Combine(sampleDirectory, "SampleProject.csproj");
+        var sampleDirectory = Path.Combine(_fixture.PackagesDirectory, "SampleProject.Multi");
+        Directory.CreateDirectory(sampleDirectory);
+
+        CreateNuGetConfig(sampleDirectory, _fixture.PackagesDirectory);
+        var projectFile = CreateSampleProject(sampleDirectory, "SampleProject.Multi");
+        var programFile = Path.Combine(sampleDirectory, "Program.cs");
+
+        File.WriteAllText(programFile, """
+using System;
+using Avalonia.Controls;
+using Avalonia.Xaml.Interactivity;
+using Xaml.Behaviors.SourceGenerators;
+using Xaml.Behaviors.Generated;
+
+[assembly: GenerateTypedDataTrigger(typeof(int))]
+
+namespace IntegrationSample.Multi;
+
+public partial class SampleControl : Control
+{
+    public int CallCount { get; private set; }
+    public string? Status { get; set; }
+
+    [GenerateTypedAction]
+    public void Increment() => CallCount++;
+
+    [GenerateTypedTrigger]
+    public event EventHandler? Clicked;
+
+    [GenerateTypedChangePropertyAction]
+    public string Tag { get; set; } = string.Empty;
+
+    public void Raise() => Clicked?.Invoke(this, EventArgs.Empty);
+}
+
+public static class Program
+{
+    public static int Main()
+    {
+        var control = new SampleControl();
+
+        var setTag = new SetTagAction { TargetObject = control, Value = "Hello" };
+        setTag.Execute(null, null);
+        if (control.Tag != "Hello") return -1;
+
+        var action = new IncrementAction { TargetObject = control };
+        action.Execute(null, null);
+        if (control.CallCount != 1) return -2;
+
+        var trigger = new ClickedTrigger();
+        trigger.Actions!.Add(new IncrementAction { TargetObject = control });
+        trigger.Attach(control);
+        control.Raise();
+        if (control.CallCount != 2) return -3;
+
+        var dataTrigger = new Int32DataTrigger
+        {
+            Binding = 5,
+            Value = 5,
+            ComparisonCondition = ComparisonConditionType.Equal
+        };
+        dataTrigger.Actions!.Add(new IncrementAction { TargetObject = control });
+        dataTrigger.Attach(control);
+        if (control.CallCount != 3) return -4;
+
+        return 0;
+    }
+}
+""");
+
+        var buildResult = await ProcessRunner.RunAsync("dotnet", new[]
+        {
+            "build",
+            projectFile,
+            "-c",
+            "Release",
+            "--nologo"
+        }, sampleDirectory, _fixture.NuGetEnvironment);
+
+        Assert.True(buildResult.ExitCode == 0, $"dotnet build failed:{Environment.NewLine}{buildResult.AllOutput}");
+
+        var runResult = await ProcessRunner.RunAsync("dotnet", new[]
+        {
+            "run",
+            "--project",
+            projectFile,
+            "-c",
+            "Release",
+            "--no-build"
+        }, sampleDirectory, _fixture.NuGetEnvironment);
+
+        Assert.True(runResult.ExitCode == 0, $"dotnet run failed:{Environment.NewLine}{runResult.AllOutput}");
+    }
+
+    private string CreateSampleProject(string sampleDirectory, string projectName = "SampleProject")
+    {
+        var projectPath = Path.Combine(sampleDirectory, $"{projectName}.csproj");
         File.WriteAllText(projectPath, $"""
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>

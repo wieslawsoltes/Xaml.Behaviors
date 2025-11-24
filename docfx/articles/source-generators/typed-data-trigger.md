@@ -32,3 +32,4 @@ The generator will create classes named `DoubleDataTrigger` and `StringDataTrigg
 
 In the generated trigger, the `Binding` and `Value` properties are strongly typed (e.g., `double`), so no type conversion is needed at runtime.
 If the requested type is internal (and visible to the generator), the generated trigger class will be `internal`; otherwise it is `public`.
+The generated trigger also evaluates once when attached, so matching initial values will fire actions immediately without waiting for another property change.

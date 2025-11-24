@@ -538,4 +538,30 @@ namespace TestNamespace
         Assert.Contains("internal partial class UseInternalAction", generated);
         Assert.Contains("StyledProperty<global::TestNamespace.InternalType>", generated);
     }
+
+    [Fact]
+    public void Method_With_NonObject_First_Parameter_Should_Not_Use_Event_Handler_Path()
+    {
+        var source = @"
+using Xaml.Behaviors.SourceGenerators;
+
+namespace TestNamespace
+{
+    public class CustomObject { }
+
+    public partial class TestClass
+    {
+        [GenerateTypedAction]
+        public void Handle(CustomObject sender, string payload) { }
+    }
+}";
+        var (diagnostics, sources) = GeneratorTestHelper.RunGenerator(source);
+
+        Assert.Empty(diagnostics);
+        var generated = sources.FirstOrDefault(s => s.Contains("class HandleAction"));
+        Assert.NotNull(generated);
+        Assert.Contains("SenderProperty", generated);
+        Assert.Contains("PayloadProperty", generated);
+        Assert.Contains("typedTarget.Handle(Sender, Payload)", generated);
+    }
 }

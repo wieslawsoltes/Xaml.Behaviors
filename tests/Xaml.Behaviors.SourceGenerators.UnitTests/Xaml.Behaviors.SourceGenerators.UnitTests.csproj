@@ -7,6 +7,7 @@
     <GenerateRuntimeConfigurationFiles>True</GenerateRuntimeConfigurationFiles>
     <IsPackable>False</IsPackable>
     <Nullable>enable</Nullable>
+    <NoWarn>$(NoWarn);IL2026;IL2072</NoWarn>
     <!-- Keep compiler generated files in obj to avoid polluting the repo -->
     <EmitCompilerGeneratedFiles>false</EmitCompilerGeneratedFiles>
   </PropertyGroup>

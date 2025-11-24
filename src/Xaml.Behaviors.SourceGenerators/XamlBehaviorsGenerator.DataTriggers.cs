@@ -131,6 +131,12 @@ namespace Xaml.Behaviors.SourceGenerators
             sb.AppendLine("            set => SetValue(ValueProperty, value);");
             sb.AppendLine("        }");
             sb.AppendLine();
+            sb.AppendLine("        protected override void OnAttached()");
+            sb.AppendLine("        {");
+            sb.AppendLine("            base.OnAttached();");
+            sb.AppendLine("            Evaluate();");
+            sb.AppendLine("        }");
+            sb.AppendLine();
             sb.AppendLine("        protected override void OnPropertyChanged(AvaloniaPropertyChangedEventArgs change)");
             sb.AppendLine("        {");
             sb.AppendLine("            base.OnPropertyChanged(change);");

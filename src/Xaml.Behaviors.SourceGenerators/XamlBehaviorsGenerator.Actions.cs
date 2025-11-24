@@ -142,8 +142,8 @@ namespace Xaml.Behaviors.SourceGenerators
             bool isEventHandlerStyle = false;
             if (info.Parameters.Length == 2)
             {
-                var p1Type = info.Parameters[0].Type;
-                if (p1Type.Contains("System.Object") || p1Type.Contains("object"))
+                var p1Type = TrimNullableAnnotation(info.Parameters[0].Type);
+                if (IsObjectType(p1Type))
                 {
                     isEventHandlerStyle = true;
                 }
