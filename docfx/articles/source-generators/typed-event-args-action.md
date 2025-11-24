@@ -1,6 +1,6 @@
 # Typed EventArgs Action
 
-The `[GenerateEventArgsAction]` attribute generates a strongly-typed action that consumes a specific `EventArgs` type and can optionally project members from the event args into styled properties for binding.
+The `[GenerateEventArgsAction]` attribute generates a strongly-typed action that consumes a single parameter (typically an `EventArgs`-derived type) and can optionally project members from the event args into styled properties for binding.
 
 ## Usage
 
@@ -20,7 +20,7 @@ public partial class PointerHandler
 }
 ```
 
-The generator produces `OnPointerPressedEventArgsAction` in the same namespace. For assembly-level usage, the class name is prefixed with the target type name and placed in `Xaml.Behaviors.Generated`.
+The generator produces `OnPointerPressedEventArgsAction` in the same namespace. For assembly-level usage, the class name is prefixed with the target type name and stays in that target namespace.
 
 ### XAML Example
 
@@ -51,5 +51,5 @@ When the action executes (e.g., from an `EventTriggerBehavior`), it casts `param
 
 ## Notes
 
-- Methods must have exactly one parameter of the target `EventArgs` type.
+- Methods must have exactly one accessible parameter (commonly an `EventArgs`-derived type).
 - Projected properties are populated from the event args before invocation, enabling binding to the latest event data.  

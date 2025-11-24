@@ -20,7 +20,7 @@ Generates `LoadTaskAsyncTrigger` with:
 - `IsExecuting`, `LastError`, and `LastResult` (for `T`) styled properties.
 - Executes actions when the task completes successfully; sets `LastError` on fault; cancels quietly without firing actions.
 
-`UseDispatcher` defaults to `true` for callbacks. `FireOnAttach` controls whether the current task is tracked when the trigger attaches (set it to `false` to wait for a new value). `Name` can override the generated class name. Assembly-level attributes use the same defaults and generate prefixed class names under `Xaml.Behaviors.Generated`.
+`UseDispatcher` defaults to `true` for callbacks. `FireOnAttach` controls whether the current task is tracked when the trigger attaches (set it to `false` to wait for a new value). `Name` can override the generated class name. Assembly-level attributes use the same defaults, emit in the target type’s namespace, and prefix the type name to avoid collisions.
 
 ### XAML Example
 
@@ -47,6 +47,6 @@ Generates `LoadTaskAsyncTrigger` with:
 
 ## Notes
 
-- Assembly-level attributes generate classes in `Xaml.Behaviors.Generated` and prefix the target type name.
+- Assembly-level attributes stay in the target type’s namespace and prefix the type name.
 - Collisions are disambiguated via hashed suffixes.  
 - `SourceObject` can be used to point the trigger at the owning object when the trigger property itself is not set (e.g., bind the trigger to the host control and let it read the task property from that source).

@@ -20,14 +20,14 @@ public class MyControl : Control
 [assembly: GeneratePropertyTrigger(typeof(MyControl), "OpacityProperty")]
 ```
 
-The generator produces `OpacityPropertyTrigger` in `Xaml.Behaviors.Generated` for the assembly-level attribute.
+The generator produces `OpacityPropertyTrigger` in the target type’s namespace (e.g., `MyApp.Controls`), prefixing the type name for assembly-level attributes.
 
 ### XAML Example
 
 ```xml
 <UserControl xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="using:Xaml.Behaviors.Generated">
+             xmlns:local="using:MyApp.Controls">
   <Grid>
     <Interaction.Behaviors>
       <local:OpacityPropertyTrigger Value="0" ComparisonCondition="GreaterThan">

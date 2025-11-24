@@ -13,7 +13,7 @@ using Xaml.Behaviors.SourceGenerators;
 [assembly: GenerateEventCommand(typeof(Button), "Click", ParameterPath = "Source", UseDispatcher = true)]
 ```
 
-The generator creates `ClickEventCommandTrigger` (assembly scope uses `Xaml.Behaviors.Generated`).
+The generator creates `ClickEventCommandTrigger` (assembly scope keeps the target type’s namespace and prefixes the type name).
 
 ### XAML Example
 

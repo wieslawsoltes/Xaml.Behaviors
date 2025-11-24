@@ -20,7 +20,7 @@ Generates `StreamObservableTrigger` with:
 - `LastValue` and `LastError` styled properties.
 - Executes actions on `OnNext` (value passed as parameter), `OnError` (exception), and `OnCompleted` (null).
 
-`UseDispatcher` defaults to `true`; `FireOnAttach` subscribes immediately when the trigger attaches (set it to `false` to wait for a property change after attach). `Name` can override the generated class name. Assembly-level attributes use the same defaults and emit prefixed types in `Xaml.Behaviors.Generated`.
+`UseDispatcher` defaults to `true`; `FireOnAttach` subscribes immediately when the trigger attaches (set it to `false` to wait for a property change after attach). `Name` can override the generated class name. Assembly-level attributes use the same defaults, emit in the target type’s namespace, and prefix the type name to avoid collisions.
 
 ### XAML Example
 
@@ -47,5 +47,5 @@ Generates `StreamObservableTrigger` with:
 
 ## Notes
 
-- Assembly-level attributes generate classes in `Xaml.Behaviors.Generated` and prefix the target type name.
+- Assembly-level attributes stay in the target type’s namespace and prefix the type name.
 - Collisions are disambiguated via hashed suffixes.  
