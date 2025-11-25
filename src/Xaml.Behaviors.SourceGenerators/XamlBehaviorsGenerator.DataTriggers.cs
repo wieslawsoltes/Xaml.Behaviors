@@ -21,7 +21,7 @@ namespace Xaml.Behaviors.SourceGenerators
             var dataTriggers = context.SyntaxProvider
                 .CreateSyntaxProvider(
                     predicate: static (node, _) => IsPotentialDataTriggerAttribute(node),
-                    transform: (ctx, _) => GetDataTriggerFromAttributeSyntax(ctx))
+                    transform: static (ctx, _) => GetDataTriggerFromAttributeSyntax(ctx))
                 .Where(info => info is not null)
                 .Select((info, _) => info!);
 
@@ -37,7 +37,9 @@ namespace Xaml.Behaviors.SourceGenerators
             if (context.Node is not AttributeSyntax attributeSyntax)
                 return null;
 
-            var attributeType = context.SemanticModel.GetTypeInfo(attributeSyntax).Type;
+            var attributeType = context.SemanticModel.GetTypeInfo(attributeSyntax).Type
+                ?? context.SemanticModel.GetAliasInfo(attributeSyntax.Name)?.Target as INamedTypeSymbol;
+
             if (attributeType == null && context.SemanticModel.GetSymbolInfo(attributeSyntax).Symbol is IMethodSymbol attributeCtor)
             {
                 attributeType = attributeCtor.ContainingType;
@@ -49,8 +51,7 @@ namespace Xaml.Behaviors.SourceGenerators
                 attributeName = attributeName.Substring("global::".Length);
             }
 
-            var matchesAttribute = string.Equals(attributeName, GenerateTypedDataTriggerAttributeName, StringComparison.Ordinal);
-            if (!matchesAttribute && !attributeSyntax.Name.ToString().Contains("GenerateTypedDataTrigger", StringComparison.Ordinal))
+            if (!string.Equals(attributeName, GenerateTypedDataTriggerAttributeName, StringComparison.Ordinal))
                 return null;
 
             if (attributeSyntax.ArgumentList?.Arguments.Count != 1)
@@ -197,7 +198,8 @@ namespace Xaml.Behaviors.SourceGenerators
 
         private static bool IsPotentialDataTriggerAttribute(SyntaxNode node)
         {
-            return node is AttributeSyntax;
+            return node is AttributeSyntax attribute &&
+                   attribute.ArgumentList?.Arguments.Count == 1;
         }
 
         private static Diagnostic? ValidateDataTriggerType(ITypeSymbol typeSymbol, Location? diagnosticLocation, Compilation? compilation)

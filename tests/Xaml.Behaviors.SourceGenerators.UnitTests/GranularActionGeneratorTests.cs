@@ -122,6 +122,27 @@ namespace TestNamespace
     }
 
     [Fact]
+    public void Assembly_Attribute_Should_Generate_Action_For_ProtectedInternal_Method()
+    {
+        var source = @"
+using Xaml.Behaviors.SourceGenerators;
+
+[assembly: GenerateTypedAction(typeof(TestNamespace.TestClass), ""DoWork"")]
+
+namespace TestNamespace
+{
+    public class TestClass
+    {
+        protected internal void DoWork() { }
+    }
+}";
+        var (diagnostics, sources) = GeneratorTestHelper.RunGenerator(source);
+
+        Assert.Empty(diagnostics);
+        Assert.Contains(sources, s => s.Contains("class TestClassDoWorkAction"));
+    }
+
+    [Fact]
     public void Assembly_Wildcard_Should_Skip_Inaccessible_Methods()
     {
         var source = @"

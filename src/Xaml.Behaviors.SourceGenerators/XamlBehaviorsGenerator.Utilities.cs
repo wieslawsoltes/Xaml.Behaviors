@@ -352,7 +352,7 @@ namespace Xaml.Behaviors.SourceGenerators
 
             if (typeSymbol is INamedTypeSymbol named)
             {
-                if (named.DeclaredAccessibility is Accessibility.Internal)
+                if (named.DeclaredAccessibility is Accessibility.Internal or Accessibility.ProtectedOrInternal)
                 {
                     if (!HasInternalAccess(compilation, named.ContainingAssembly))
                         return false;
@@ -371,7 +371,7 @@ namespace Xaml.Behaviors.SourceGenerators
                 var current = named.ContainingType;
                 while (current != null)
                 {
-                    if (current.DeclaredAccessibility is Accessibility.Internal)
+                    if (current.DeclaredAccessibility is Accessibility.Internal or Accessibility.ProtectedOrInternal)
                     {
                         if (!HasInternalAccess(compilation, current.ContainingAssembly))
                             return false;
@@ -395,7 +395,7 @@ namespace Xaml.Behaviors.SourceGenerators
             {
                 IArrayTypeSymbol array => ContainsInternalType(array.ElementType),
                 IPointerTypeSymbol pointer => ContainsInternalType(pointer.PointedAtType),
-                INamedTypeSymbol named => named.DeclaredAccessibility == Accessibility.Internal ||
+                INamedTypeSymbol named => named.DeclaredAccessibility is Accessibility.Internal or Accessibility.ProtectedOrInternal ||
                                           (named.ContainingType is not null && ContainsInternalType(named.ContainingType)) ||
                                           named.TypeArguments.Any(ContainsInternalType),
                 _ => false
@@ -519,10 +519,12 @@ namespace Xaml.Behaviors.SourceGenerators
                     if (method.MethodKind != MethodKind.Ordinary)
                         continue;
 
-                    if (requirePublicAccessibility && method.DeclaredAccessibility is not (Accessibility.Public or Accessibility.Internal))
+                    if (requirePublicAccessibility && method.DeclaredAccessibility is not (Accessibility.Public or Accessibility.Internal or Accessibility.ProtectedOrInternal))
                         continue;
 
                     if (method.DeclaredAccessibility == Accessibility.Internal && !HasInternalAccess(compilation, method.ContainingAssembly))
+                        continue;
+                    if (method.DeclaredAccessibility == Accessibility.ProtectedOrInternal && !HasInternalAccess(compilation, method.ContainingAssembly))
                         continue;
 
                     if (!NameMatchesPattern(method.Name, pattern))

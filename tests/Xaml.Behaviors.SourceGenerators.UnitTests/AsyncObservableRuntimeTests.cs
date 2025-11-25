@@ -66,6 +66,30 @@ public class AsyncObservableRuntimeTests
     }
 
     [AvaloniaFact]
+    public async Task AsyncTrigger_Clears_LastResult_On_Cancellation()
+    {
+        dynamic trigger = GeneratedTypeHelper.CreateInstance("SuccessfulTaskAsyncTrigger", "Avalonia.Xaml.Behaviors.SourceGenerators.UnitTests");
+        trigger.Attach(new TestControl());
+
+        trigger.SuccessfulTask = Task.FromResult(5);
+
+        await FlushDispatcherAsync();
+        await Task.Delay(20);
+
+        Assert.Equal(5, (int)trigger.LastResult);
+
+        var canceled = new TaskCompletionSource<int>();
+        trigger.SuccessfulTask = canceled.Task;
+        canceled.SetCanceled();
+
+        await FlushDispatcherAsync();
+        await Task.Delay(20);
+
+        Assert.Equal(0, (int)trigger.LastResult);
+        Assert.Null(trigger.LastError);
+    }
+
+    [AvaloniaFact]
     public async Task AsyncTrigger_Respects_UseDispatcher_False()
     {
         dynamic trigger = GeneratedTypeHelper.CreateInstance("BackgroundTaskAsyncTrigger", "Avalonia.Xaml.Behaviors.SourceGenerators.UnitTests");
@@ -193,6 +217,40 @@ public class AsyncObservableRuntimeTests
 
         Assert.Equal("hello", (string)trigger.LastValue);
         Assert.Equal("hello", (string)action.SeenParameters.Single()!);
+    }
+
+    [AvaloniaFact]
+    public async Task ObservableTrigger_Resets_State_When_Resubscribed()
+    {
+        dynamic trigger = GeneratedTypeHelper.CreateInstance("IntStreamObservableTrigger", "Avalonia.Xaml.Behaviors.SourceGenerators.UnitTests");
+        trigger.Attach(new TestControl());
+
+        var first = new TestObservable<int>();
+        trigger.IntStream = first;
+
+        first.OnNext(5);
+        await FlushDispatcherAsync();
+
+        Assert.Equal(5, (int)trigger.LastValue);
+
+        var ex = new InvalidOperationException("stream failure");
+        first.OnError(ex);
+        await FlushDispatcherAsync();
+
+        Assert.Same(ex, trigger.LastError);
+
+        var second = new TestObservable<int>();
+        trigger.IntStream = second;
+
+        await FlushDispatcherAsync();
+
+        Assert.Equal(0, (int)trigger.LastValue);
+        Assert.Null(trigger.LastError);
+
+        second.OnNext(2);
+        await FlushDispatcherAsync();
+
+        Assert.Equal(2, (int)trigger.LastValue);
     }
 
     [AvaloniaFact]

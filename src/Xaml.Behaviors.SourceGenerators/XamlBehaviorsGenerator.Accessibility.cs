@@ -16,6 +16,16 @@ namespace Xaml.Behaviors.SourceGenerators
                     return false;
                 }
 
+                if (SymbolEqualityComparer.Default.Equals(compilation.Assembly, assemblySymbol))
+                {
+                    return true;
+                }
+
+                if (assemblySymbol.Identity.Equals(compilation.Assembly.Identity))
+                {
+                    return true;
+                }
+
                 return assemblySymbol.GivesAccessTo(compilation.Assembly);
             }
 
@@ -24,6 +34,7 @@ namespace Xaml.Behaviors.SourceGenerators
                 return symbol.DeclaredAccessibility switch
                 {
                     Accessibility.Public => true,
+                    Accessibility.ProtectedOrInternal => HasInternalAccess(compilation, symbol.ContainingAssembly),
                     Accessibility.Internal => HasInternalAccess(compilation, symbol.ContainingAssembly),
                     _ => false
                 };
@@ -34,12 +45,13 @@ namespace Xaml.Behaviors.SourceGenerators
                 var current = symbol;
                 while (current != null)
                 {
-                    if (current.DeclaredAccessibility is not (Accessibility.Public or Accessibility.Internal))
+                    if (current.DeclaredAccessibility is not (Accessibility.Public or Accessibility.Internal or Accessibility.ProtectedOrInternal))
                     {
                         return Diagnostic.Create(MemberNotAccessibleDiagnostic, location ?? Location.None, current.Name, current.ToDisplayString());
                     }
 
-                    if (current.DeclaredAccessibility == Accessibility.Internal && !HasInternalAccess(compilation, current.ContainingAssembly))
+                    if (current.DeclaredAccessibility is Accessibility.Internal or Accessibility.ProtectedOrInternal &&
+                        !HasInternalAccess(compilation, current.ContainingAssembly))
                     {
                         return Diagnostic.Create(MemberNotAccessibleDiagnostic, location ?? Location.None, current.Name, current.ToDisplayString());
                     }

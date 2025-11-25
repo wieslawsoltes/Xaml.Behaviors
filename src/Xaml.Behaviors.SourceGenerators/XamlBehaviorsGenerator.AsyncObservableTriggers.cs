@@ -319,9 +319,14 @@ namespace Xaml.Behaviors.SourceGenerators
             sb.AppendLine("        private void TrackTask(object? taskObj)");
             sb.AppendLine("        {");
             sb.AppendLine("            var version = Interlocked.Increment(ref _taskVersion);");
+            if (info.ResultTypeName != null)
+            {
+                sb.AppendLine("            LastResult = default!;");
+            }
             sb.AppendLine("            if (taskObj is null)");
             sb.AppendLine("            {");
             sb.AppendLine("                IsExecuting = false;");
+            sb.AppendLine("                LastError = null;");
             sb.AppendLine("                return;");
             sb.AppendLine("            }");
             if (info.ResultTypeName != null)
@@ -376,6 +381,7 @@ namespace Xaml.Behaviors.SourceGenerators
                 sb.AppendLine("        {");
                 sb.AppendLine("            IsExecuting = true;");
                 sb.AppendLine("            LastError = null;");
+                sb.AppendLine("            LastResult = default!;");
                 sb.AppendLine("            task.ContinueWith(t =>");
                 sb.AppendLine("            {");
                 sb.AppendLine("                if (version != Volatile.Read(ref _taskVersion))");
@@ -457,6 +463,7 @@ namespace Xaml.Behaviors.SourceGenerators
             sb.AppendLine($"            AvaloniaProperty.Register<{info.ClassName}, Exception?>(nameof(LastError));");
             sb.AppendLine();
             sb.AppendLine("        private IDisposable? _subscription;");
+            sb.AppendLine($"        private IObservable<{info.ValueTypeName}>? _currentObservable;");
             sb.AppendLine();
             sb.AppendLine("        public object? SourceObject");
             sb.AppendLine("        {");
@@ -512,6 +519,13 @@ namespace Xaml.Behaviors.SourceGenerators
             sb.AppendLine("            _subscription?.Dispose();");
             sb.AppendLine("            _subscription = null;");
             sb.AppendLine("            var obs = GetObservable();");
+            sb.AppendLine("            if (ReferenceEquals(obs, _currentObservable))");
+            sb.AppendLine("            {");
+            sb.AppendLine("                return;");
+            sb.AppendLine("            }");
+            sb.AppendLine("            _currentObservable = obs;");
+            sb.AppendLine("            LastError = null;");
+            sb.AppendLine("            LastValue = default!;");
             sb.AppendLine("            if (obs is null) return;");
             sb.AppendLine($"            _subscription = obs.Subscribe(new SimpleObserver<{info.ValueTypeName}>(");
             sb.AppendLine("                onNext: value =>");

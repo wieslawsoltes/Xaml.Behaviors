@@ -19,7 +19,7 @@ This page lists the analyzer diagnostics emitted by `Xaml.Behaviors.SourceGenera
 | XBG011 | Typed MultiDataTrigger | Target type not derived from `StyledElementTrigger` | Derive from `Avalonia.Xaml.Interactivity.StyledElementTrigger` |
 | XBG012 | Typed InvokeCommandAction | Target type not derived from `StyledElementAction` | Derive from `Avalonia.Xaml.Interactivity.StyledElementAction` |
 | XBG013 | Typed MultiDataTrigger | Missing non-static `bool Evaluate()` | Add `bool Evaluate()` |
-| XBG014 | All generators | Target or its types are not accessible | Make members/types public or grant `InternalsVisibleTo` access |
+| XBG014 | All generators | Target or its types are not accessible | Make members/types public or grant `InternalsVisibleTo` access to the consuming assembly |
 | XBG015 | ChangePropertyAction | Property setter is inaccessible | Expose a public/internal setter |
 | XBG016 | MultiDataTrigger/InvokeCommand | Target type is not `partial` | Mark the class `partial` |
 | XBG017 | ChangePropertyAction | Property uses an `init`-only setter | Use a settable property |
@@ -261,7 +261,7 @@ public class ViewModel
 **Fix**: Make the member an instance member.
 
 ### XBG014 Member not accessible
-The target member or one of its types is not accessible to the generator (non-public and not visible via `InternalsVisibleTo`).
+The target member or one of its types is not accessible to the generated code (non-public and not visible to the consuming assembly via `InternalsVisibleTo`).
 
 ```csharp
 internal class ViewModel
@@ -275,7 +275,7 @@ internal class ViewModel
 **Fix**: Make members/types public, or expose internals to `Xaml.Behaviors.SourceGenerators`.
 
 ```csharp
-[assembly: System.Runtime.CompilerServices.InternalsVisibleTo("Xaml.Behaviors.SourceGenerators")]
+[assembly: System.Runtime.CompilerServices.InternalsVisibleTo("MyApp")] // Use your assembly name here
 ```
 
 ## MultiDataTrigger and InvokeCommand diagnostics (XBG011-XBG013, XBG016, XBG018)
@@ -528,6 +528,6 @@ public class Host
 [assembly: GenerateEventCommand(typeof(Host), "Fired", ParameterPath = "Secret")] // XBG021
 ```
 
-**Fix**: Make the member public or grant `InternalsVisibleTo` access.
+**Fix**: Make the member public or grant `InternalsVisibleTo` access to the assembly that contains the generated code.
 
 Nested target types still surface `XBG018`; move the target type to the top level if you see that error.

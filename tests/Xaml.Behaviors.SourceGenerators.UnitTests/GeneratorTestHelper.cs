@@ -159,6 +159,15 @@ namespace Xaml.Behaviors.SourceGenerators
             .Select(a => $"{a.AttributeClass?.ToDisplayString()}({string.Join(",", a.ConstructorArguments.Select(c => c.Value?.ToString() ?? "<null>"))})");
         Console.Error.WriteLine("Assembly attributes: " + string.Join(" | ", attributeInfo));
 
+        if (Environment.GetEnvironmentVariable("GENERATOR_TEST_DEBUG") == "1")
+        {
+            foreach (var attr in compilation.Assembly.GetAttributes())
+            {
+                var arg = attr.ConstructorArguments.FirstOrDefault();
+                Console.Error.WriteLine($"[Helper] Attr {attr.AttributeClass?.ToDisplayString()} arg kind {arg.Kind} value type {arg.Value?.GetType()} value {arg.Value}");
+            }
+        }
+
         var generator = new XamlBehaviorsGenerator();
         GeneratorDriver driver = CSharpGeneratorDriver.Create(generator);
 

@@ -24,8 +24,8 @@ Assembly-level attributes are supported as well. The `propertyName` parameter ca
 [assembly: GenerateTypedChangePropertyAction(typeof(MyApp.ViewModels.ShellViewModel), "^(Status|Title)$")]
 ```
 
-> Only public or internal properties with accessible setters are supported; internal requires being in the same/friend assembly (e.g., via `InternalsVisibleTo("Xaml.Behaviors.SourceGenerators")`). Wildcard/regex assembly attributes ignore inaccessible matches; if no accessible properties match, a diagnostic is produced and no action class is generated.
-> Property types must be public, or internal and visible to the generator via the same `InternalsVisibleTo` arrangement; otherwise an XBG014 diagnostic is produced.
+> Only public or internal properties with accessible setters are supported. Internal members are fine when you generate inside the same assembly (the normal case). If you need to reach internal members in another assembly, that assembly must grant `InternalsVisibleTo("<your assembly name>")` to the consuming assembly. Wildcard/regex assembly attributes ignore inaccessible matches; if no accessible properties match, a diagnostic is produced and no action class is generated.
+> Property types must be public, or internal and visible to the consuming assembly via the same `InternalsVisibleTo` arrangement; otherwise an XBG014 diagnostic is produced.
 > Generated action classes are `public` unless the target or property type requires `internal`.
 
 ## UI Thread Dispatching
