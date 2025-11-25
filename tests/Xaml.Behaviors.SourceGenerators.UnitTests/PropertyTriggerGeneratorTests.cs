@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using Avalonia.Headless.XUnit;
 using Xunit;
@@ -113,5 +114,38 @@ namespace TestNamespace
         var (diagnostics, _) = GeneratorTestHelper.RunGenerator(source);
 
         Assert.Contains(diagnostics, d => d.Id == "XBG008");
+    }
+
+    [Fact]
+    public void Should_Generate_Multiple_PropertyTriggers_From_Multiple_Attributes()
+    {
+        var source = @"
+using Avalonia;
+using Avalonia.Controls;
+using Xaml.Behaviors.SourceGenerators;
+
+namespace TestNamespace
+{
+    public class TestControl : Control
+    {
+        [GeneratePropertyTrigger(Name = ""FirstCountTrigger"")]
+        [GeneratePropertyTrigger(Name = ""SecondCountTrigger"", UseDispatcher = true)]
+        public static readonly StyledProperty<int> CountProperty =
+            AvaloniaProperty.Register<TestControl, int>(nameof(Count));
+
+        public int Count
+        {
+            get => GetValue(CountProperty);
+            set => SetValue(CountProperty, value);
+        }
+    }
+}
+";
+
+        var (diagnostics, sources) = GeneratorTestHelper.RunGenerator(source);
+
+        Assert.Empty(diagnostics);
+        Assert.Contains(sources, s => s.Contains("FirstCountTrigger", StringComparison.Ordinal));
+        Assert.Contains(sources, s => s.Contains("SecondCountTrigger", StringComparison.Ordinal));
     }
 }

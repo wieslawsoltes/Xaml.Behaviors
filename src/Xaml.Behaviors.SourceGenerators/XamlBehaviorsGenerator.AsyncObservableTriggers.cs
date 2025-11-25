@@ -88,11 +88,15 @@ namespace Xaml.Behaviors.SourceGenerators
 
             if (context.TargetSymbol is IPropertySymbol propertySymbol)
             {
-                var useDispatcher = GetUseDispatcherFlag(context.Attributes.First(), context.SemanticModel, defaultValue: true);
-                var fireOnAttach = GetBoolNamedArgument(context.Attributes.First(), "FireOnAttach", defaultValue: true);
-                var nameOverride = GetNameOverride(context.Attributes.First(), context.SemanticModel);
-                var info = CreateAsyncTriggerInfo(propertySymbol, context.TargetNode?.GetLocation(), context.SemanticModel.Compilation, includeTypeNamePrefix: false, useDispatcher, fireOnAttach, nameOverride);
-                builder.Add(info);
+                foreach (var attribute in context.Attributes)
+                {
+                    var useDispatcher = GetUseDispatcherFlag(attribute, context.SemanticModel, defaultValue: true);
+                    var fireOnAttach = GetBoolNamedArgument(attribute, "FireOnAttach", defaultValue: true);
+                    var nameOverride = GetNameOverride(attribute, context.SemanticModel);
+                    var location = attribute.ApplicationSyntaxReference?.GetSyntax()?.GetLocation() ?? context.TargetNode?.GetLocation();
+                    var info = CreateAsyncTriggerInfo(propertySymbol, location, context.SemanticModel.Compilation, includeTypeNamePrefix: false, useDispatcher, fireOnAttach, nameOverride);
+                    builder.Add(info);
+                }
             }
 
             return builder.ToImmutable();
@@ -139,11 +143,15 @@ namespace Xaml.Behaviors.SourceGenerators
 
             if (context.TargetSymbol is IPropertySymbol propertySymbol)
             {
-                var useDispatcher = GetUseDispatcherFlag(context.Attributes.First(), context.SemanticModel, defaultValue: true);
-                var fireOnAttach = GetBoolNamedArgument(context.Attributes.First(), "FireOnAttach", defaultValue: true);
-                var nameOverride = GetNameOverride(context.Attributes.First(), context.SemanticModel);
-                var info = CreateObservableTriggerInfo(propertySymbol, context.TargetNode?.GetLocation(), context.SemanticModel.Compilation, includeTypeNamePrefix: false, useDispatcher, fireOnAttach, nameOverride);
-                builder.Add(info);
+                foreach (var attribute in context.Attributes)
+                {
+                    var useDispatcher = GetUseDispatcherFlag(attribute, context.SemanticModel, defaultValue: true);
+                    var fireOnAttach = GetBoolNamedArgument(attribute, "FireOnAttach", defaultValue: true);
+                    var nameOverride = GetNameOverride(attribute, context.SemanticModel);
+                    var location = attribute.ApplicationSyntaxReference?.GetSyntax()?.GetLocation() ?? context.TargetNode?.GetLocation();
+                    var info = CreateObservableTriggerInfo(propertySymbol, location, context.SemanticModel.Compilation, includeTypeNamePrefix: false, useDispatcher, fireOnAttach, nameOverride);
+                    builder.Add(info);
+                }
             }
 
             return builder.ToImmutable();

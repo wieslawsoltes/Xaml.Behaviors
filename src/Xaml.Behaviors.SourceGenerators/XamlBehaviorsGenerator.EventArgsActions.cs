@@ -60,11 +60,15 @@ namespace Xaml.Behaviors.SourceGenerators
 
             if (context.TargetSymbol is IMethodSymbol methodSymbol)
             {
-                var useDispatcher = GetUseDispatcherFlag(context.Attributes.First(), context.SemanticModel);
-                var nameOverride = GetNameOverride(context.Attributes.First(), context.SemanticModel);
-                var project = GetProjectList(context.Attributes.First(), context.SemanticModel);
-                var info = CreateEventArgsActionInfo(methodSymbol, context.TargetNode?.GetLocation() ?? Location.None, includeTypeNamePrefix: false, context.SemanticModel.Compilation, useDispatcher, nameOverride, project);
-                builder.Add(info);
+                foreach (var attribute in context.Attributes)
+                {
+                    var useDispatcher = GetUseDispatcherFlag(attribute, context.SemanticModel);
+                    var nameOverride = GetNameOverride(attribute, context.SemanticModel);
+                    var project = GetProjectList(attribute, context.SemanticModel);
+                    var location = attribute.ApplicationSyntaxReference?.GetSyntax()?.GetLocation() ?? context.TargetNode?.GetLocation() ?? Location.None;
+                    var info = CreateEventArgsActionInfo(methodSymbol, location, includeTypeNamePrefix: false, context.SemanticModel.Compilation, useDispatcher, nameOverride, project);
+                    builder.Add(info);
+                }
             }
 
             return builder.ToImmutable();

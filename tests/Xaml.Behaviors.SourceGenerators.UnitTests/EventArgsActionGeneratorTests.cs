@@ -140,4 +140,30 @@ namespace TestNamespace
 
         Assert.Contains(diagnostics, d => d.Id == "XBG008");
     }
+
+    [Fact]
+    public void Should_Generate_Multiple_EventArgs_Actions_From_Multiple_Attributes()
+    {
+        var source = @"
+using Avalonia.Interactivity;
+using Xaml.Behaviors.SourceGenerators;
+
+namespace TestNamespace
+{
+    public partial class Handler
+    {
+        [GenerateEventArgsAction(Name = ""FirstRoutedAction"")]
+        [GenerateEventArgsAction(Name = ""SecondRoutedAction"", Project = ""Handled"")]
+        public void OnRouted(RoutedEventArgs args) { }
+    }
+}
+";
+
+        var (diagnostics, sources) = GeneratorTestHelper.RunGenerator(source);
+
+        Assert.Empty(diagnostics);
+        Assert.Contains(sources, s => s.Contains("FirstRoutedAction", StringComparison.Ordinal));
+        Assert.Contains(sources, s => s.Contains("SecondRoutedAction", StringComparison.Ordinal));
+        Assert.Contains(sources, s => s.Contains("HandledProperty", StringComparison.Ordinal));
+    }
 }

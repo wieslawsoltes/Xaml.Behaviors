@@ -169,6 +169,18 @@ namespace Xaml.Behaviors.SourceGenerators
             sb.AppendLine("                             case ComparisonConditionType.GreaterThanOrEqual: result = diff >= 0; break;");
             sb.AppendLine("                         }");
             sb.AppendLine("                     }");
+            var comparableType = TrimNullableAnnotation(info.TypeName);
+            sb.AppendLine($"                     else if (leftObj is System.IComparable<{comparableType}> gcmp)");
+            sb.AppendLine("                     {");
+            sb.AppendLine("                         var diff = gcmp.CompareTo(right);");
+            sb.AppendLine("                         switch (ComparisonCondition)");
+            sb.AppendLine("                         {");
+            sb.AppendLine("                             case ComparisonConditionType.LessThan: result = diff < 0; break;");
+            sb.AppendLine("                             case ComparisonConditionType.LessThanOrEqual: result = diff <= 0; break;");
+            sb.AppendLine("                             case ComparisonConditionType.GreaterThan: result = diff > 0; break;");
+            sb.AppendLine("                             case ComparisonConditionType.GreaterThanOrEqual: result = diff >= 0; break;");
+            sb.AppendLine("                         }");
+            sb.AppendLine("                     }");
             sb.AppendLine("                     break;");
             sb.AppendLine("             }");
             sb.AppendLine();

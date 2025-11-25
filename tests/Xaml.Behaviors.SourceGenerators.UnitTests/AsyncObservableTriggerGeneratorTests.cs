@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Xunit;
@@ -268,5 +269,55 @@ namespace TestNamespace
         var (diagnostics, _) = GeneratorTestHelper.RunGenerator(source);
 
         Assert.Contains(diagnostics, d => d.Id == "XBG008");
+    }
+
+    [Fact]
+    public void Should_Generate_Multiple_Async_Triggers_From_Multiple_Attributes()
+    {
+        var source = @"
+using System.Threading.Tasks;
+using Xaml.Behaviors.SourceGenerators;
+
+namespace TestNamespace
+{
+    public partial class Vm
+    {
+        [GenerateAsyncTrigger(Name = ""FirstLoadTask"")]
+        [GenerateAsyncTrigger(Name = ""SecondLoadTask"", UseDispatcher = false)]
+        public Task<int>? LoadTask { get; set; }
+    }
+}
+";
+
+        var (diagnostics, sources) = GeneratorTestHelper.RunGenerator(source);
+
+        Assert.Empty(diagnostics);
+        Assert.Contains(sources, s => s.Contains("FirstLoadTask", StringComparison.Ordinal));
+        Assert.Contains(sources, s => s.Contains("SecondLoadTask", StringComparison.Ordinal));
+    }
+
+    [Fact]
+    public void Should_Generate_Multiple_Observable_Triggers_From_Multiple_Attributes()
+    {
+        var source = @"
+using System;
+using Xaml.Behaviors.SourceGenerators;
+
+namespace TestNamespace
+{
+    public partial class Vm
+    {
+        [GenerateObservableTrigger(Name = ""FirstStreamTrigger"")]
+        [GenerateObservableTrigger(Name = ""SecondStreamTrigger"", FireOnAttach = false)]
+        public IObservable<int>? Stream { get; set; }
+    }
+}
+";
+
+        var (diagnostics, sources) = GeneratorTestHelper.RunGenerator(source);
+
+        Assert.Empty(diagnostics);
+        Assert.Contains(sources, s => s.Contains("FirstStreamTrigger", StringComparison.Ordinal));
+        Assert.Contains(sources, s => s.Contains("SecondStreamTrigger", StringComparison.Ordinal));
     }
 }

@@ -58,25 +58,23 @@ namespace Xaml.Behaviors.SourceGenerators
                 return builder.ToImmutable();
             }
 
-            bool useDispatcher = false;
-            string? nameOverride = null;
-            string? sourceName = null;
-            if (context.Attributes.FirstOrDefault() is { } attribute)
+            foreach (var attribute in context.Attributes)
             {
-                useDispatcher = GetUseDispatcherFlag(attribute, context.SemanticModel);
-                nameOverride = GetNameOverride(attribute, context.SemanticModel);
-                sourceName = GetSourceName(attribute, context.SemanticModel);
-            }
+                var useDispatcher = GetUseDispatcherFlag(attribute, context.SemanticModel);
+                var nameOverride = GetNameOverride(attribute, context.SemanticModel);
+                var sourceName = GetSourceName(attribute, context.SemanticModel);
+                var location = attribute.ApplicationSyntaxReference?.GetSyntax()?.GetLocation() ?? context.TargetNode?.GetLocation();
 
-            if (symbol is IFieldSymbol fieldSymbol)
-            {
-                var info = CreatePropertyTriggerInfo(fieldSymbol, context.TargetNode?.GetLocation(), context.SemanticModel.Compilation, useDispatcher, nameOverride, sourceName);
-                builder.Add(info);
-            }
-            else if (symbol is IPropertySymbol propertySymbol)
-            {
-                var info = CreatePropertyTriggerInfo(propertySymbol, context.TargetNode?.GetLocation(), context.SemanticModel.Compilation, useDispatcher, nameOverride, sourceName);
-                builder.Add(info);
+                if (symbol is IFieldSymbol fieldSymbol)
+                {
+                    var info = CreatePropertyTriggerInfo(fieldSymbol, location, context.SemanticModel.Compilation, useDispatcher, nameOverride, sourceName);
+                    builder.Add(info);
+                }
+                else if (symbol is IPropertySymbol propertySymbol)
+                {
+                    var info = CreatePropertyTriggerInfo(propertySymbol, location, context.SemanticModel.Compilation, useDispatcher, nameOverride, sourceName);
+                    builder.Add(info);
+                }
             }
 
             return builder.ToImmutable();
