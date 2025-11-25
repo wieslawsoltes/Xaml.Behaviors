@@ -487,7 +487,7 @@ namespace Xaml.Behaviors.SourceGenerators
             sb.AppendLine("        protected override void OnPropertyChanged(AvaloniaPropertyChangedEventArgs change)");
             sb.AppendLine("        {");
             sb.AppendLine("            base.OnPropertyChanged(change);");
-            sb.AppendLine($"            if (change.Property == {info.PropertyName}Property && (FireOnAttach || AssociatedObject is not null))");
+            sb.AppendLine($"            if ((change.Property == {info.PropertyName}Property || change.Property == SourceObjectProperty) && (FireOnAttach || AssociatedObject is not null))");
             sb.AppendLine("            {");
             sb.AppendLine("                Subscribe();");
             sb.AppendLine("            }");

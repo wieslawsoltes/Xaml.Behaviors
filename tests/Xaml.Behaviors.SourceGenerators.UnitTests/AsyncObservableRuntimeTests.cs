@@ -219,6 +219,27 @@ public class AsyncObservableRuntimeTests
     }
 
     [AvaloniaFact]
+    public async Task ObservableTrigger_Uses_SourceObject_When_Property_Not_Set()
+    {
+        var host = new RuntimeAsyncObservableHost();
+        var observable = new TestObservable<int>();
+        host.IntStream = observable;
+
+        dynamic trigger = GeneratedTypeHelper.CreateInstance("IntStreamObservableTrigger", "Avalonia.Xaml.Behaviors.SourceGenerators.UnitTests");
+        var action = new RecordingAction();
+        trigger.Actions.Add(action);
+
+        trigger.Attach(new TestControl());
+        trigger.SourceObject = host;
+
+        observable.OnNext(7);
+        await FlushDispatcherAsync();
+
+        Assert.Equal(7, (int)trigger.LastValue);
+        Assert.Equal(7, (int)action.SeenParameters.Single());
+    }
+
+    [AvaloniaFact]
     public async Task AsyncTrigger_Dispatcher_Path_Drops_Stale_Task()
     {
         var host = new RuntimeAsyncObservableHost();

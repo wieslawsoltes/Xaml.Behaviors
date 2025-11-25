@@ -48,4 +48,5 @@ Generates `StreamObservableTrigger` with:
 ## Notes
 
 - Assembly-level attributes stay in the target type’s namespace and prefix the type name.
+- If the trigger’s own property is unset, it reads the observable from `SourceObject` (or `AssociatedObject`) and will resubscribe when `SourceObject` changes.
 - Collisions are disambiguated via hashed suffixes.  
