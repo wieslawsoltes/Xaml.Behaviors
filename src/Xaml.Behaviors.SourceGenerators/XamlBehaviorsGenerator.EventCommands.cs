@@ -90,7 +90,7 @@ namespace Xaml.Behaviors.SourceGenerators
             if (context.Node is not AttributeSyntax attributeSyntax)
                 return ImmutableArray<EventCommandInfo>.Empty;
 
-            if (attributeSyntax.ArgumentList?.Arguments.Count < 2)
+            if (attributeSyntax.ArgumentList is null || attributeSyntax.ArgumentList.Arguments.Count < 2)
                 return ImmutableArray<EventCommandInfo>.Empty;
 
             if (attributeSyntax.ArgumentList.Arguments[0].Expression is not TypeOfExpressionSyntax typeOfExpression)

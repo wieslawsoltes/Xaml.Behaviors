@@ -43,7 +43,7 @@ The generator produces `OpacityPropertyTrigger` in the target type’s namespace
 
 - `UseDispatcher`: marshal evaluation and action invocation to the UI thread.
 - `Name`: optional override for the generated class name.
-- `SourceName`: resolve the source by name from the nearest `NameScope`; falls back to `SourceObject` or `AssociatedObject`. If the target type is not part of the logical tree, the generator emits a warning because `SourceName` cannot be resolved.
+- `SourceName`: resolve the source by name from the nearest `NameScope`; falls back to `SourceObject` or `AssociatedObject`. If the target type is not part of the logical tree, the generator emits a warning because `SourceName` cannot be resolved. Types implementing `Avalonia.LogicalTree.ILogical` (e.g., controls) are considered part of the logical tree.
 
 ## Diagnostics
 

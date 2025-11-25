@@ -277,6 +277,11 @@ namespace Xaml.Behaviors.SourceGenerators
                 return Diagnostic.Create(StaticMemberNotSupportedDiagnostic, loc, methodSymbol.Name);
             }
 
+            if (!IsAccessibleToGenerator(methodSymbol, compilation))
+            {
+                return Diagnostic.Create(MemberNotAccessibleDiagnostic, loc, methodSymbol.Name, methodSymbol.ContainingType.ToDisplayString());
+            }
+
             if (methodSymbol.IsGenericMethod || methodSymbol.TypeParameters.Length > 0)
             {
                 return Diagnostic.Create(GenericMemberNotSupportedDiagnostic, loc, methodSymbol.Name);

@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using Avalonia.Interactivity;
 using Xunit;
@@ -86,13 +87,35 @@ public class SecretArgs : EventArgs
 
 public partial class Handler
 {
-    [GenerateEventArgsAction(Project = ""Secret"")]
-    public void OnSecret(SecretArgs args) { }
+[GenerateEventArgsAction(Project = ""Secret"")]
+public void OnSecret(SecretArgs args) { }
 }
 ";
 
         var (diagnostics, _) = GeneratorTestHelper.RunGenerator(source);
 
         Assert.Contains(diagnostics, d => d.Id == "XBG028");
+    }
+
+    [Fact]
+    public void Should_Report_Diagnostic_For_Inaccessible_Method()
+    {
+        var source = @"
+using System;
+using Xaml.Behaviors.SourceGenerators;
+
+namespace TestNamespace
+{
+    public partial class Handler
+    {
+        [GenerateEventArgsAction]
+        private void OnSecret(EventArgs args) { }
+    }
+}
+";
+
+        var (diagnostics, _) = GeneratorTestHelper.RunGenerator(source);
+
+        Assert.Contains(diagnostics, d => d.Id == "XBG014");
     }
 }

@@ -526,7 +526,25 @@ namespace Xaml.Behaviors.SourceGenerators
 
         private static bool IsLogicalType(INamedTypeSymbol typeSymbol)
         {
-            return InheritsFrom(typeSymbol, "Avalonia.LogicalTree.ILogical");
+            if (InheritsFrom(typeSymbol, "Avalonia.LogicalTree.ILogical"))
+            {
+                return true;
+            }
+
+            foreach (var iface in typeSymbol.AllInterfaces)
+            {
+                var name = iface.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat);
+                if (name.StartsWith("global::", System.StringComparison.Ordinal))
+                {
+                    name = name.Substring("global::".Length);
+                }
+                if (name == "Avalonia.LogicalTree.ILogical")
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         private string GetPropertyTriggerAccessibility(IFieldSymbol fieldSymbol, INamedTypeSymbol containingType, string valueTypeName)

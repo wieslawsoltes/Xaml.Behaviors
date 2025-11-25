@@ -53,3 +53,4 @@ When the action executes (e.g., from an `EventTriggerBehavior`), it casts `param
 
 - Methods must have exactly one accessible parameter (commonly an `EventArgs`-derived type).
 - Projected properties are populated from the event args before invocation, enabling binding to the latest event data.  
+- The handler method itself must be public or internal (and visible to the generator); private/protected handlers emit XBG014.
