@@ -225,4 +225,48 @@ namespace TestNamespace
 
         Assert.Contains(diagnostics, d => d.Id == "XBG014");
     }
+
+    [Fact]
+    public void AsyncTrigger_Generic_ContainingType_Reports_Diagnostic()
+    {
+        var source = @"
+using System.Threading.Tasks;
+using Xaml.Behaviors.SourceGenerators;
+
+namespace TestNamespace
+{
+    public partial class Vm<T>
+    {
+        [GenerateAsyncTrigger]
+        public Task? LoadTask { get; set; }
+    }
+}
+";
+
+        var (diagnostics, _) = GeneratorTestHelper.RunGenerator(source);
+
+        Assert.Contains(diagnostics, d => d.Id == "XBG008");
+    }
+
+    [Fact]
+    public void ObservableTrigger_Generic_ContainingType_Reports_Diagnostic()
+    {
+        var source = @"
+using System;
+using Xaml.Behaviors.SourceGenerators;
+
+namespace TestNamespace
+{
+    public partial class Vm<T>
+    {
+        [GenerateObservableTrigger]
+        public IObservable<int>? Stream { get; set; }
+    }
+}
+";
+
+        var (diagnostics, _) = GeneratorTestHelper.RunGenerator(source);
+
+        Assert.Contains(diagnostics, d => d.Id == "XBG008");
+    }
 }

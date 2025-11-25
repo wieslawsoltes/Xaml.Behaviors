@@ -489,6 +489,11 @@ namespace Xaml.Behaviors.SourceGenerators
                 return Diagnostic.Create(GenericMemberNotSupportedDiagnostic, location ?? Location.None, fieldSymbol.Name);
             }
 
+            if (ContainsTypeParameter(fieldSymbol.ContainingType))
+            {
+                return Diagnostic.Create(GenericMemberNotSupportedDiagnostic, location ?? Location.None, fieldSymbol.Name);
+            }
+
             var containingTypeDiagnostic = ValidateTypeAccessibility(fieldSymbol.ContainingType, location, compilation);
             if (containingTypeDiagnostic != null)
             {

@@ -118,4 +118,26 @@ namespace TestNamespace
 
         Assert.Contains(diagnostics, d => d.Id == "XBG014");
     }
+
+    [Fact]
+    public void Should_Report_Diagnostic_For_Generic_Containing_Type()
+    {
+        var source = @"
+using System;
+using Xaml.Behaviors.SourceGenerators;
+
+namespace TestNamespace
+{
+    public partial class Handler<T>
+    {
+        [GenerateEventArgsAction]
+        public void OnGeneric(EventArgs args) { }
+    }
+}
+";
+
+        var (diagnostics, _) = GeneratorTestHelper.RunGenerator(source);
+
+        Assert.Contains(diagnostics, d => d.Id == "XBG008");
+    }
 }

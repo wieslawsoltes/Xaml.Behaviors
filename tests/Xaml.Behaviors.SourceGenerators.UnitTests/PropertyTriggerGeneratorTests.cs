@@ -85,4 +85,33 @@ namespace TestNamespace
 
         Assert.DoesNotContain(diagnostics, d => d.Id == "XBG022");
     }
+
+    [Fact]
+    public void Should_Report_Diagnostic_For_Generic_Containing_Type()
+    {
+        var source = @"
+using Avalonia;
+using Xaml.Behaviors.SourceGenerators;
+
+namespace TestNamespace
+{
+    public class GenericControl<T> : Avalonia.AvaloniaObject
+    {
+        [GeneratePropertyTrigger]
+        public static readonly StyledProperty<int> CountProperty =
+            AvaloniaProperty.Register<GenericControl<T>, int>(nameof(Count));
+
+        public int Count
+        {
+            get => GetValue(CountProperty);
+            set => SetValue(CountProperty, value);
+        }
+    }
+}
+";
+
+        var (diagnostics, _) = GeneratorTestHelper.RunGenerator(source);
+
+        Assert.Contains(diagnostics, d => d.Id == "XBG008");
+    }
 }

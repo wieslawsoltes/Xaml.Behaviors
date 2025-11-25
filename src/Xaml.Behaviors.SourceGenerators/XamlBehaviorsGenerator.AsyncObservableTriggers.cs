@@ -690,6 +690,11 @@ namespace Xaml.Behaviors.SourceGenerators
                 return Diagnostic.Create(StaticMemberNotSupportedDiagnostic, location, propertySymbol.Name);
             }
 
+            if (ContainsTypeParameter(targetType))
+            {
+                return Diagnostic.Create(GenericMemberNotSupportedDiagnostic, location, propertySymbol.Name);
+            }
+
             if (ContainsTypeParameter(propertySymbol.Type))
             {
                 return Diagnostic.Create(GenericMemberNotSupportedDiagnostic, location, propertySymbol.Name);
@@ -720,6 +725,11 @@ namespace Xaml.Behaviors.SourceGenerators
             if (propertySymbol.IsStatic)
             {
                 return Diagnostic.Create(StaticMemberNotSupportedDiagnostic, location, propertySymbol.Name);
+            }
+
+            if (ContainsTypeParameter(targetType))
+            {
+                return Diagnostic.Create(GenericMemberNotSupportedDiagnostic, location, propertySymbol.Name);
             }
 
             if (ContainsTypeParameter(propertySymbol.Type))
