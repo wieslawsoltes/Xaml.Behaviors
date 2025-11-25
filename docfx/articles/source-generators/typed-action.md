@@ -117,6 +117,8 @@ public void Configure(string title, bool isEnabled, double threshold, TimeSpan t
 
 If the target method returns `Task` or `ValueTask`, the generated action handles the async execution. It also exposes an `IsExecuting` property that you can bind to (e.g., to show a loading spinner).
 
+When the async method faults or is canceled, the generated action now captures the exception in `LastError` instead of rethrowing on the UI thread. You can bind to `LastError` to surface errors while keeping the app running.
+
 ### Example
 
 ```csharp

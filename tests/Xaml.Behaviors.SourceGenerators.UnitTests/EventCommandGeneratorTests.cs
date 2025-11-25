@@ -1,4 +1,6 @@
+using System;
 using System.Linq;
+using System.Text.RegularExpressions;
 using Xunit;
 
 namespace Avalonia.Xaml.Behaviors.SourceGenerators.UnitTests;
@@ -38,6 +40,23 @@ using Xaml.Behaviors.SourceGenerators;
         var trigger = Assert.Single(sources.Where(s => s.Contains("ButtonClickEventCommandTrigger")));
         Assert.Contains("nameof(ParameterPath), \"Source\"", trigger);
         Assert.Contains("TryResolveParameterPath", trigger);
+    }
+
+    [Fact]
+    public void Assembly_Attribute_Allows_Constant_ParameterPath()
+    {
+        var source = @"
+using Avalonia.Controls;
+using Xaml.Behaviors.SourceGenerators;
+
+[assembly: GenerateEventCommand(typeof(Button), ""Click"", ParameterPath = nameof(Avalonia.Interactivity.RoutedEventArgs.Source))]
+";
+
+        var (diagnostics, sources) = GeneratorTestHelper.RunGenerator(source);
+
+        Assert.Empty(diagnostics);
+        var trigger = Assert.Single(sources.Where(s => s.Contains("ButtonClickEventCommandTrigger")));
+        Assert.Contains("nameof(ParameterPath), \"Source\"", trigger);
     }
 
     [Fact]
@@ -154,5 +173,40 @@ public class Host
         Assert.DoesNotContain("GetType().GetProperty", trigger);
         Assert.Contains("TryResolveParameterPath", trigger);
         Assert.Contains("string.Equals(ParameterPath, \"Data.Value\"", trigger);
+    }
+
+    [Fact]
+    public void Multiple_EventCommands_With_Different_Options_Are_Distinct()
+    {
+        var source = @"
+using System;
+using Avalonia.Interactivity;
+using Xaml.Behaviors.SourceGenerators;
+
+public class Host
+{
+    [GenerateEventCommand(Name = ""Shared"", ParameterPath = nameof(RoutedEventArgs.Source))]
+    [GenerateEventCommand(Name = ""Shared"", ParameterPath = nameof(RoutedEventArgs.RoutedEvent), UseDispatcher = true)]
+    public event EventHandler<RoutedEventArgs>? Fired;
+}
+";
+
+        var (diagnostics, sources) = GeneratorTestHelper.RunGenerator(source);
+
+        Assert.Empty(diagnostics);
+
+        var triggerSources = sources
+            .Where(s => s.Contains("StyledElementTrigger", StringComparison.Ordinal) && s.Contains("ParameterPathProperty", StringComparison.Ordinal))
+            .ToList();
+
+        Assert.True(triggerSources.Count >= 2, "Expected two generated triggers for differing options.");
+
+        var defaults = triggerSources
+            .SelectMany(s => Regex.Matches(s, @"ParameterPath\),\s*(?<val>""[^""]*""|default\(string\?\))").Select(m => m.Groups["val"].Value))
+            .Distinct(StringComparer.Ordinal)
+            .ToList();
+
+        Assert.Contains("\"Source\"", defaults);
+        Assert.Contains("\"RoutedEvent\"", defaults);
     }
 }

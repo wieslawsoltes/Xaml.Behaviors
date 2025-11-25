@@ -1,4 +1,5 @@
 using System;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Avalonia.Controls;
@@ -19,6 +20,19 @@ public partial class DispatcherHost : Control
 
     [GenerateTypedAction(UseDispatcher = true)]
     public void Increment() => Calls++;
+
+    [GenerateTypedAction(UseDispatcher = true)]
+    public async Task FaultingAsync()
+    {
+        await Task.Yield();
+        throw new InvalidOperationException("boom");
+    }
+
+    [GenerateTypedAction(UseDispatcher = true)]
+    public async Task CanceledAsync()
+    {
+        await Task.FromCanceled(new CancellationToken(true));
+    }
 }
 
 [GenerateTypedInvokeCommandAction(UseDispatcher = true)]
@@ -91,8 +105,48 @@ public class DispatcherGeneratorRuntimeTests
         Assert.Equal("Param", command.LastParameter);
     }
 
+    [AvaloniaFact]
+    public async Task TypedAction_UseDispatcher_Faulted_Task_Sets_LastError()
+    {
+        var host = new DispatcherHost();
+        dynamic action = GeneratedTypeHelper.CreateInstance("FaultingAsyncAction", "Avalonia.Xaml.Behaviors.SourceGenerators.UnitTests");
+
+        action.TargetObject = host;
+        action.Execute(host, null);
+
+        await WaitForExecutionToCompleteAsync(action);
+        Assert.IsType<InvalidOperationException>(action.LastError);
+    }
+
+    [AvaloniaFact]
+    public async Task TypedAction_UseDispatcher_Canceled_Task_Sets_LastError()
+    {
+        var host = new DispatcherHost();
+        dynamic action = GeneratedTypeHelper.CreateInstance("CanceledAsyncAction", "Avalonia.Xaml.Behaviors.SourceGenerators.UnitTests");
+
+        action.TargetObject = host;
+        action.Execute(host, null);
+
+        await WaitForExecutionToCompleteAsync(action);
+        Assert.IsType<OperationCanceledException>(action.LastError);
+    }
+
     private static async Task FlushDispatcherAsync()
     {
         await Dispatcher.UIThread.InvokeAsync(() => { });
+    }
+
+    private static async Task WaitForExecutionToCompleteAsync(dynamic action)
+    {
+        for (var i = 0; i < 80; i++)
+        {
+            await FlushDispatcherAsync();
+            await Task.Delay(5);
+            if (!(bool)action.IsExecuting && action.LastError != null)
+            {
+                break;
+            }
+        }
+        await FlushDispatcherAsync();
     }
 }

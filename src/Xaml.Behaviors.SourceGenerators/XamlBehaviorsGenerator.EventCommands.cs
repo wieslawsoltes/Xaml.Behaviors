@@ -59,16 +59,6 @@ namespace Xaml.Behaviors.SourceGenerators
                 return builder.ToImmutable();
             }
 
-            bool useDispatcher = false;
-            string? nameOverride = null;
-            string? parameterPath = null;
-            if (context.Attributes.FirstOrDefault() is { } attribute)
-            {
-                useDispatcher = GetUseDispatcherFlag(attribute, context.SemanticModel);
-                nameOverride = GetNameOverride(attribute, context.SemanticModel);
-                parameterPath = GetParameterPath(attribute, context.SemanticModel);
-            }
-
             var eventSymbol = context.TargetSymbol as IEventSymbol;
             if (eventSymbol == null && context.TargetSymbol is IFieldSymbol fieldSymbol)
             {
@@ -77,9 +67,15 @@ namespace Xaml.Behaviors.SourceGenerators
 
             if (eventSymbol != null)
             {
-                var diagnosticLocation = context.TargetNode?.GetLocation() ?? Location.None;
-                var info = CreateEventCommandInfo(eventSymbol, diagnosticLocation, includeTypeNamePrefix: false, context.SemanticModel.Compilation, useDispatcher, nameOverride, parameterPath);
-                builder.Add(info);
+                foreach (var attribute in context.Attributes)
+                {
+                    var useDispatcher = GetUseDispatcherFlag(attribute, context.SemanticModel);
+                    var nameOverride = GetNameOverride(attribute, context.SemanticModel);
+                    var parameterPath = GetParameterPath(attribute, context.SemanticModel);
+                    var diagnosticLocation = attribute.ApplicationSyntaxReference?.GetSyntax()?.GetLocation() ?? context.TargetNode?.GetLocation() ?? Location.None;
+                    var info = CreateEventCommandInfo(eventSymbol, diagnosticLocation, includeTypeNamePrefix: false, context.SemanticModel.Compilation, useDispatcher, nameOverride, parameterPath);
+                    builder.Add(info);
+                }
             }
 
             return builder.ToImmutable();
@@ -531,7 +527,7 @@ namespace Xaml.Behaviors.SourceGenerators
             foreach (var group in infos.GroupBy(info => (info.Namespace, info.ClassName)))
             {
                 var distinct = group
-                    .GroupBy(info => (info.TargetTypeName, info.EventName))
+                    .GroupBy(info => (info.TargetTypeName, info.EventName, info.UseDispatcher, info.DefaultParameterPath ?? string.Empty))
                     .Select(g => g.FirstOrDefault(info => info.Diagnostic is null) ?? g.First())
                     .ToList();
 
@@ -543,7 +539,7 @@ namespace Xaml.Behaviors.SourceGenerators
 
                 foreach (var info in distinct)
                 {
-                    yield return info with { ClassName = MakeUniqueName(info.ClassName, info.TargetTypeName) };
+                    yield return info with { ClassName = MakeUniqueName(info.ClassName, info.TargetTypeName + "|" + (info.DefaultParameterPath ?? string.Empty) + "|" + info.UseDispatcher) };
                 }
             }
         }
@@ -560,18 +556,13 @@ namespace Xaml.Behaviors.SourceGenerators
 
             if (attributeData.ApplicationSyntaxReference?.GetSyntax() is AttributeSyntax syntax)
             {
-                return GetParameterPathFromSyntax(syntax);
+                return GetParameterPath(syntax, semanticModel);
             }
 
             return null;
         }
 
         private static string? GetParameterPath(AttributeSyntax attributeSyntax, SemanticModel semanticModel)
-        {
-            return GetParameterPathFromSyntax(attributeSyntax);
-        }
-
-        private static string? GetParameterPathFromSyntax(AttributeSyntax attributeSyntax)
         {
             if (attributeSyntax.ArgumentList == null)
             {
@@ -582,9 +573,10 @@ namespace Xaml.Behaviors.SourceGenerators
             {
                 if (argument.NameEquals?.Name.Identifier.Text == "ParameterPath")
                 {
-                    if (argument.Expression is LiteralExpressionSyntax literal && literal.Token.ValueText is { Length: > 0 } valueText)
+                    var constant = semanticModel.GetConstantValue(argument.Expression);
+                    if (constant.HasValue && constant.Value is string s && !string.IsNullOrWhiteSpace(s))
                     {
-                        return valueText;
+                        return s;
                     }
                 }
             }
