@@ -10,6 +10,7 @@ using Avalonia;
 using Avalonia.Input;
 using Avalonia.Controls;
 using Avalonia.Layout;
+using System.Diagnostics.CodeAnalysis;
 
 [assembly: GenerateTypedChangePropertyAction(typeof(Avalonia.Controls.TextBlock), "Foreground")]
 [assembly: GenerateTypedChangePropertyAction(typeof(Avalonia.Controls.TextBlock), "Text")]
@@ -31,6 +32,7 @@ using Avalonia.Layout;
 
 namespace SourceGeneratorSample.ViewModels
 {
+#pragma warning disable IL2026, IL3050 // Sample uses ReactiveCommand for demo purposes; trimming/AOT not targeted here.
     public partial class MainViewModel : ReactiveObject
     {
         public MainViewModel()
@@ -276,4 +278,5 @@ namespace SourceGeneratorSample.ViewModels
              Value = 0;
         }
     }
+#pragma warning restore IL2026, IL3050
 }
