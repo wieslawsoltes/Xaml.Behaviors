@@ -21,7 +21,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Xaml.Behaviors.SourceGenerators\Xaml.Behaviors.SourceGenerators.csproj" />
+    <ProjectReference Include="..\Xaml.Behaviors.SourceGenerators\Xaml.Behaviors.SourceGenerators.csproj"
+                      OutputItemType="Analyzer"
+                      ReferenceOutputAssembly="false" />
   </ItemGroup>
 
   <Import Project="..\..\build\SignAssembly.props" />

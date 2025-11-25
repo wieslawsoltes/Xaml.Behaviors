@@ -29,7 +29,9 @@
     <ProjectReference Include="..\Xaml.Behaviors.Interactions.Draggable\Xaml.Behaviors.Interactions.Draggable.csproj" />
     <ProjectReference Include="..\Xaml.Behaviors.Interactions.Events\Xaml.Behaviors.Interactions.Events.csproj" />
     <ProjectReference Include="..\Xaml.Behaviors.Interactions.Responsive\Xaml.Behaviors.Interactions.Responsive.csproj" />
-    <ProjectReference Include="..\Xaml.Behaviors.SourceGenerators\Xaml.Behaviors.SourceGenerators.csproj" />
+    <ProjectReference Include="..\Xaml.Behaviors.SourceGenerators\Xaml.Behaviors.SourceGenerators.csproj"
+                      OutputItemType="Analyzer"
+                      ReferenceOutputAssembly="false" />
   </ItemGroup>
 
 </Project>
