@@ -170,6 +170,25 @@ namespace TestNamespace
     }
 
     [Fact]
+    public void Should_Report_Error_When_No_TriggerProperty_Fields()
+    {
+        var source = @"
+using Xaml.Behaviors.SourceGenerators;
+
+namespace TestNamespace
+{
+    [GenerateTypedMultiDataTrigger]
+    public partial class InvalidTrigger : Avalonia.Xaml.Interactivity.StyledElementTrigger
+    {
+        public bool Evaluate() => true;
+    }
+}";
+        var (diagnostics, _) = GeneratorTestHelper.RunGenerator(source);
+
+        Assert.Contains(diagnostics, d => d.Id == "XBG031");
+    }
+
+    [Fact]
     public void Should_Report_Error_When_Evaluate_Is_Generic()
     {
         var source = @"

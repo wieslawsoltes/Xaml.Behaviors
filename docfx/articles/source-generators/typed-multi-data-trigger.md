@@ -33,6 +33,7 @@ public partial class ValidationTrigger : StyledElementTrigger
 > Note: The target type must be a top-level `partial` class (nested types are not supported for this generator).
 > The `Evaluate` method must be a non-generic, parameterless method returning `bool`.
 > The generated class is `public` unless the target or any `[TriggerProperty]` field type requires `internal`.
+> At least one field must be marked with `[TriggerProperty]`; otherwise generation fails with a diagnostic.
 
 ## Generated Code
 

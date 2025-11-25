@@ -105,6 +105,14 @@ namespace Xaml.Behaviors.SourceGenerators
                 var accessibility = GetInvokeCommandActionAccessibility(symbol, commandProp, parameterProp);
                 results.Add(new InvokeCommandActionInfo(namespaceName, className, accessibility, commandProp, parameterProp, useDispatcher));
             }
+            else
+            {
+                var ns = symbol.ContainingNamespace.ToDisplayString();
+                var namespaceName = (symbol.ContainingNamespace.IsGlobalNamespace || ns == "<global namespace>") ? null : ns;
+                var className = symbol.Name;
+                var accessibility = GetAccessibilityKeyword(symbol);
+                results.Add(new InvokeCommandActionInfo(namespaceName, className, accessibility, null, null, useDispatcher, Diagnostic.Create(InvokeCommandMissingCommandFieldDiagnostic, context.TargetNode?.GetLocation() ?? Location.None, symbol.ToDisplayString())));
+            }
 
             return results.ToImmutable();
         }

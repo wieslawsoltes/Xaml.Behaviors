@@ -27,6 +27,7 @@ public partial class SubmitAction : StyledElementAction
 
 > Note: The target type must be a top-level `partial` class derived from `StyledElementAction`; nested types are not supported for this generator.
 > The generated class is `public` unless the target type or any command/parameter field type requires `internal`.
+> At least one field must be annotated with `[ActionCommand]`; the generator will emit an error if none are found.
 
 ## Generated Code
 

@@ -230,5 +230,29 @@ namespace Xaml.Behaviors.SourceGenerators
             category: "Usage",
             DiagnosticSeverity.Error,
             isEnabledByDefault: true);
+
+        private static readonly DiagnosticDescriptor EventCommandParameterModifierNotSupportedDiagnostic = new(
+            id: "XBG029",
+            title: "Unsupported event command parameter modifier",
+            messageFormat: "Event '{0}' delegate '{1}' uses parameter '{2}' with modifier '{3}' which is not supported for event command generation",
+            category: "Usage",
+            DiagnosticSeverity.Error,
+            isEnabledByDefault: true);
+
+        private static readonly DiagnosticDescriptor InvokeCommandMissingCommandFieldDiagnostic = new(
+            id: "XBG030",
+            title: "ActionCommand field required",
+            messageFormat: "Type '{0}' must declare a field marked with [ActionCommand] to use GenerateTypedInvokeCommandAction",
+            category: "Usage",
+            DiagnosticSeverity.Error,
+            isEnabledByDefault: true);
+
+        private static readonly DiagnosticDescriptor MultiDataTriggerMissingTriggerPropertyDiagnostic = new(
+            id: "XBG031",
+            title: "TriggerProperty field required",
+            messageFormat: "Type '{0}' must declare at least one field marked with [TriggerProperty] to use GenerateTypedMultiDataTrigger",
+            category: "Usage",
+            DiagnosticSeverity.Error,
+            isEnabledByDefault: true);
     }
 }

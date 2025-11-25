@@ -198,4 +198,23 @@ namespace TestNamespace
 
         Assert.Contains(diagnostics, d => d.Id == "XBG018");
     }
+
+    [Fact]
+    public void Should_Report_Error_When_Command_Field_Missing()
+    {
+        var source = @"
+using Xaml.Behaviors.SourceGenerators;
+
+namespace TestNamespace
+{
+    [GenerateTypedInvokeCommandAction]
+    public partial class InvalidInvokeCommandAction : Avalonia.Xaml.Interactivity.StyledElementAction
+    {
+    }
+}";
+
+        var (diagnostics, _) = GeneratorTestHelper.RunGenerator(source);
+
+        Assert.Contains(diagnostics, d => d.Id == "XBG030");
+    }
 }

@@ -103,6 +103,27 @@ public class Host
     }
 
     [Fact]
+    public void Should_Report_Diagnostic_For_Ref_Parameter()
+    {
+        var source = @"
+using System;
+using Xaml.Behaviors.SourceGenerators;
+
+public delegate void RefHandler(ref EventArgs args);
+
+public class Host
+{
+    [GenerateEventCommand]
+    public event RefHandler? Fired;
+}
+";
+
+        var (diagnostics, _) = GeneratorTestHelper.RunGenerator(source);
+
+        Assert.Contains(diagnostics, d => d.Id == "XBG029");
+    }
+
+    [Fact]
     public void Should_Generate_ParameterPath_Without_Reflection()
     {
         var source = @"

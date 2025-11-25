@@ -36,3 +36,6 @@ XBG025 | Usage | Error | Invalid async trigger property type
 XBG026 | Usage | Error | Invalid observable trigger property type
 XBG027 | Usage | Error | Projection member not found on event args
 XBG028 | Usage | Error | Projection member not accessible for event args action generation
+XBG029 | Usage | Error | Unsupported event command parameter modifier
+XBG030 | Usage | Error | ActionCommand field required
+XBG031 | Usage | Error | TriggerProperty field required

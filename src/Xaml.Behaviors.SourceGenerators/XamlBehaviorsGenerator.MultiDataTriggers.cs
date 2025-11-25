@@ -100,6 +100,14 @@ namespace Xaml.Behaviors.SourceGenerators
                 var accessibility = requiresInternal ? "internal" : GetAccessibilityKeyword(symbol);
                 results.Add(new MultiDataTriggerInfo(namespaceName, className, accessibility, properties.ToImmutable()));
             }
+            else
+            {
+                var ns = symbol.ContainingNamespace.ToDisplayString();
+                var namespaceName = (symbol.ContainingNamespace.IsGlobalNamespace || ns == "<global namespace>") ? null : ns;
+                var className = symbol.Name;
+                var accessibility = GetAccessibilityKeyword(symbol);
+                results.Add(new MultiDataTriggerInfo(namespaceName, className, accessibility, ImmutableArray<TriggerPropertyInfo>.Empty, Diagnostic.Create(MultiDataTriggerMissingTriggerPropertyDiagnostic, context.TargetNode?.GetLocation() ?? Location.None, symbol.ToDisplayString())));
+            }
 
             return results.ToImmutable();
         }

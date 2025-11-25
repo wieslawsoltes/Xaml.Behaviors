@@ -481,10 +481,23 @@ namespace Xaml.Behaviors.SourceGenerators
                 return new EventCommandInfo(namespaceName, className, accessibility, targetTypeName, eventName, eventHandlerType, ImmutableArray<TriggerParameter>.Empty, useDispatcher, parameterPath, ImmutableArray<ParameterPathSegment>.Empty, Diagnostic.Create(TriggerUnsupportedDelegateReturnTypeDiagnostic, diagnosticLocation ?? Location.None, eventName, eventHandlerType));
             }
 
-            if (invokeMethod.Parameters.Any(p => p.RefKind == RefKind.Out))
+            var refParam = invokeMethod.Parameters.FirstOrDefault(p => p.RefKind != RefKind.None);
+            if (refParam != null)
             {
                 var accessibility = requiresInternal ? "internal" : "public";
-                return new EventCommandInfo(namespaceName, className, accessibility, targetTypeName, eventName, eventHandlerType, ImmutableArray<TriggerParameter>.Empty, useDispatcher, parameterPath, ImmutableArray<ParameterPathSegment>.Empty, Diagnostic.Create(TriggerUnsupportedDelegateOutParameterDiagnostic, diagnosticLocation ?? Location.None, eventName, eventHandlerType));
+                var modifier = FormatRefKindKeyword(refParam.RefKind);
+                return new EventCommandInfo(
+                    namespaceName,
+                    className,
+                    accessibility,
+                    targetTypeName,
+                    eventName,
+                    eventHandlerType,
+                    ImmutableArray<TriggerParameter>.Empty,
+                    useDispatcher,
+                    parameterPath,
+                    ImmutableArray<ParameterPathSegment>.Empty,
+                    Diagnostic.Create(EventCommandParameterModifierNotSupportedDiagnostic, diagnosticLocation ?? Location.None, eventName, eventHandlerType, refParam.Name, modifier));
             }
 
             var parameterPathSegments = ImmutableArray<ParameterPathSegment>.Empty;

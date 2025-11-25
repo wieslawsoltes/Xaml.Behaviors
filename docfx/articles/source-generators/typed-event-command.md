@@ -38,6 +38,7 @@ The generator creates `ClickEventCommandTrigger` (assembly scope keeps the targe
 - `UseDispatcher`: marshal `CanExecute/Execute` onto the UI thread.
 - `Name`: optional override for the generated class name.
 - `SourceObject`/`SourceName`: resolve the event source via binding or namescope lookup.
+- Event delegates must use by-value parameters (`ref`/`in`/`out` parameters are not supported).
 
 ## Diagnostics
 

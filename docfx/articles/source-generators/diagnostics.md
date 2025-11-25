@@ -34,6 +34,9 @@ This page lists the analyzer diagnostics emitted by `Xaml.Behaviors.SourceGenera
 | XBG026 | ObservableTrigger | Property is not `IObservable<T>` | Use `IObservable<T>` for observable triggers |
 | XBG027 | EventArgsAction | Projection member not found on event args type | Use a valid property name on the event args |
 | XBG028 | EventArgsAction | Projection member is not accessible | Make the projected member public or grant internal access |
+| XBG029 | Event Command | Event delegate parameter uses `ref`/`in`/`out` | Change the delegate to use by-value parameters |
+| XBG030 | InvokeCommandAction | Missing `[ActionCommand]` field | Add a field marked with `[ActionCommand]` |
+| XBG031 | MultiDataTrigger | No fields marked with `[TriggerProperty]` | Add at least one `[TriggerProperty]` field |
 
 ## Trigger diagnostics (XBG001-XBG004)
 
