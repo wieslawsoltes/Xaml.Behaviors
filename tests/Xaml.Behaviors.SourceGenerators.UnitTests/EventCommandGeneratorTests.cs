@@ -23,6 +23,24 @@ using Xaml.Behaviors.SourceGenerators;
     }
 
     [Fact]
+    public void Should_Honor_Assembly_Attribute_ParameterPath()
+    {
+        var source = @"
+using Avalonia.Controls;
+using Xaml.Behaviors.SourceGenerators;
+
+[assembly: GenerateEventCommand(typeof(Button), ""Click"", ParameterPath = ""Source"")]
+";
+
+        var (diagnostics, sources) = GeneratorTestHelper.RunGenerator(source);
+
+        Assert.Empty(diagnostics);
+        var trigger = Assert.Single(sources.Where(s => s.Contains("ButtonClickEventCommandTrigger")));
+        Assert.Contains("nameof(ParameterPath), \"Source\"", trigger);
+        Assert.Contains("TryResolveParameterPath", trigger);
+    }
+
+    [Fact]
     public void Should_Report_Diagnostic_For_Missing_Event()
     {
         var source = @"
@@ -82,5 +100,38 @@ public class Host
         var (diagnostics, _) = GeneratorTestHelper.RunGenerator(source);
 
         Assert.Contains(diagnostics, d => d.Id == "XBG021");
+    }
+
+    [Fact]
+    public void Should_Generate_ParameterPath_Without_Reflection()
+    {
+        var source = @"
+using System;
+using Xaml.Behaviors.SourceGenerators;
+
+public class Payload
+{
+    public string? Value { get; set; }
+}
+
+public class Args : EventArgs
+{
+    public Payload? Data { get; set; }
+}
+
+public class Host
+{
+    [GenerateEventCommand(ParameterPath = ""Data.Value"")]
+    public event EventHandler<Args>? Fired;
+}
+";
+
+        var (diagnostics, sources) = GeneratorTestHelper.RunGenerator(source);
+
+        Assert.Empty(diagnostics);
+        var trigger = Assert.Single(sources.Where(s => s.Contains("FiredEventCommandTrigger")));
+        Assert.DoesNotContain("GetType().GetProperty", trigger);
+        Assert.Contains("TryResolveParameterPath", trigger);
+        Assert.Contains("string.Equals(ParameterPath, \"Data.Value\"", trigger);
     }
 }

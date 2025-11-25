@@ -33,7 +33,7 @@ The generator creates `ClickEventCommandTrigger` (assembly scope keeps the targe
 
 ## Options
 
-- `ParameterPath`: optional dotted path into event args (e.g., `OriginalSource`, `Key`) used as the command parameter.
+- `ParameterPath`: optional dotted path into event args (e.g., `OriginalSource`, `Key`) used as the command parameter. It is resolved at compile time into a typed accessor—no runtime reflection. The generated `ParameterPath` property must match the compile-time value; set it to `null`/empty to fall back to `Parameter` or the event args.
 - `Parameter`: styled property to supply a fixed parameter (used if set and no path is provided).
 - `UseDispatcher`: marshal `CanExecute/Execute` onto the UI thread.
 - `Name`: optional override for the generated class name.
@@ -48,4 +48,5 @@ The generator creates `ClickEventCommandTrigger` (assembly scope keeps the targe
 ## Notes
 
 - The trigger uses a weak proxy to detach if the source is GC’d.
+- Parameter paths are compiled into direct member access to avoid reflection and trimming issues.
 - Assembly-level generation prefixes the target type name to avoid collisions; hashed suffixes are used if multiple identical names are emitted.  

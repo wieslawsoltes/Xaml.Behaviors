@@ -17,7 +17,7 @@
     <PackageVersion Include="Microsoft.CodeAnalysis.CSharp.Workspaces" Version="5.0.0" />
     <PackageVersion Include="Microsoft.CodeAnalysis.Workspaces.MSBuild" Version="5.0.0" />
     <PackageVersion Include="Microsoft.CodeAnalysis.Analyzers" Version="3.11.0" />
-    <PackageVersion Include="ReactiveUI.Avalonia" Version="14.7.1" />
+    <PackageVersion Include="ReactiveUI.Avalonia" Version="11.3.8" />
     <PackageVersion Include="ReactiveGenerator" Version="0.12.0" />
     <PackageVersion Include="ReactiveUI" Version="22.2.1" />
     <PackageVersion Include="System.Collections.Immutable" Version="8.0.0" />

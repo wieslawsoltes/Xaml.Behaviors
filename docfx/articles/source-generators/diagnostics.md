@@ -497,7 +497,7 @@ public partial class Handler
 ## EventCommand diagnostics (XBG020-XBG021)
 
 ### XBG020 Invalid ParameterPath
-`ParameterPath` must resolve to a property chain on the event args.
+`ParameterPath` must resolve to a property chain on the event args; the generator emits a typed accessor (no reflection), so the path has to be valid at compile time.
 
 ```csharp
 using Avalonia.Controls;
@@ -509,7 +509,7 @@ using Xaml.Behaviors.SourceGenerators;
 **Fix**: Use a property that exists on the event args, e.g. `Source` or `Key`.
 
 ### XBG021 ParameterPath member not accessible
-`ParameterPath` points to a member that is not visible to the generator (e.g., internal/private).
+`ParameterPath` points to a member that is not visible to the generator (e.g., internal/private). Because the path is compiled into direct member access, the referenced members must be accessible.
 
 ```csharp
 public class Args : EventArgs

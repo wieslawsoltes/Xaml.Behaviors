@@ -18,7 +18,7 @@ using System.Diagnostics.CodeAnalysis;
 [assembly: GenerateTypedTrigger(typeof(SourceGeneratorSample.ViewModels.MainViewModel), "ProcessingFinished")]
 [assembly: GenerateTypedDataTrigger(typeof(double))]
 [assembly: GenerateTypedDataTrigger(typeof(string))]
-[assembly: GenerateEventCommand(typeof(Avalonia.Controls.Button), "Click")]
+[assembly: GenerateEventCommand(typeof(Avalonia.Controls.Button), "Click", ParameterPath = "Source")]
 [assembly: GenerateAsyncTrigger(typeof(SourceGeneratorSample.ViewModels.MainViewModel), "DemoTask")]
 [assembly: GenerateObservableTrigger(typeof(SourceGeneratorSample.ViewModels.MainViewModel), "DemoObservable")]
 [assembly: GeneratePropertyTrigger(typeof(Avalonia.Visual), "IsVisibleProperty")]

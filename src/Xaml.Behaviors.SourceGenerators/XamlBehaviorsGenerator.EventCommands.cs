@@ -13,6 +13,8 @@ namespace Xaml.Behaviors.SourceGenerators
 {
     public partial class XamlBehaviorsGenerator
     {
+        private record ParameterPathSegment(string Name, bool IsNullableValueType, bool NeedsNullCheck);
+
         private record EventCommandInfo(
             string? Namespace,
             string ClassName,
@@ -23,6 +25,7 @@ namespace Xaml.Behaviors.SourceGenerators
             ImmutableArray<TriggerParameter> Parameters,
             bool UseDispatcher,
             string? DefaultParameterPath,
+            ImmutableArray<ParameterPathSegment> ParameterPathSegments,
             Diagnostic? Diagnostic = null);
 
         private void RegisterEventCommandGeneration(IncrementalGeneratorInitializationContext context)
@@ -87,7 +90,7 @@ namespace Xaml.Behaviors.SourceGenerators
             if (context.Node is not AttributeSyntax attributeSyntax)
                 return ImmutableArray<EventCommandInfo>.Empty;
 
-            if (attributeSyntax.ArgumentList?.Arguments.Count != 2)
+            if (attributeSyntax.ArgumentList?.Arguments.Count < 2)
                 return ImmutableArray<EventCommandInfo>.Empty;
 
             if (attributeSyntax.ArgumentList.Arguments[0].Expression is not TypeOfExpressionSyntax typeOfExpression)
@@ -278,21 +281,19 @@ namespace Xaml.Behaviors.SourceGenerators
             sb.AppendLine();
             sb.AppendLine("        private object? ResolveParameter(object? eventArgs)");
             sb.AppendLine("        {");
-            sb.AppendLine("            if (!string.IsNullOrEmpty(ParameterPath) && eventArgs is not null)");
-            sb.AppendLine("            {");
-            sb.AppendLine("                var path = ParameterPath!;");
-            sb.AppendLine("                var segments = path.Split('.');");
-            sb.AppendLine("                object? current = eventArgs;");
-            sb.AppendLine("                foreach (var seg in segments)");
-            sb.AppendLine("                {");
-            sb.AppendLine("                    if (current is null) return null;");
-            sb.AppendLine("                    var prop = current.GetType().GetProperty(seg);");
-            sb.AppendLine("                    if (prop is null) return null;");
-            sb.AppendLine("                    current = prop.GetValue(current);");
-            sb.AppendLine("                }");
-            sb.AppendLine("                return current;");
-            sb.AppendLine("            }");
-            sb.AppendLine();
+            if (info.ParameterPathSegments.Length > 0 && info.DefaultParameterPath is not null && info.Parameters.Length > 0)
+            {
+                var parameterPathLiteral = info.DefaultParameterPath.Replace("\\", "\\\\").Replace("\"", "\\\"");
+                var eventArgsType = TrimNullableAnnotation(info.Parameters.Last().Type);
+                sb.AppendLine("            if (!string.IsNullOrEmpty(ParameterPath) &&");
+                sb.AppendLine($"                string.Equals(ParameterPath, \"{parameterPathLiteral}\", StringComparison.Ordinal) &&");
+                sb.AppendLine($"                eventArgs is {eventArgsType} typedArgs &&");
+                sb.AppendLine("                TryResolveParameterPath(typedArgs, out var parameterFromPath))");
+                sb.AppendLine("            {");
+                sb.AppendLine("                return parameterFromPath;");
+                sb.AppendLine("            }");
+                sb.AppendLine();
+            }
             sb.AppendLine("            if (IsSet(ParameterProperty))");
             sb.AppendLine("            {");
             sb.AppendLine("                return Parameter;");
@@ -300,7 +301,49 @@ namespace Xaml.Behaviors.SourceGenerators
             sb.AppendLine();
             sb.AppendLine("            return eventArgs;");
             sb.AppendLine("        }");
-            sb.AppendLine();
+            if (info.ParameterPathSegments.Length > 0 && info.Parameters.Length > 0)
+            {
+                var eventArgsType = TrimNullableAnnotation(info.Parameters.Last().Type);
+                sb.AppendLine();
+                sb.AppendLine($"        private static bool TryResolveParameterPath({eventArgsType} args, out object? result)");
+                sb.AppendLine("        {");
+                sb.AppendLine("            result = null;");
+                var currentIdentifier = "args";
+                for (int i = 0; i < info.ParameterPathSegments.Length; i++)
+                {
+                    var segment = info.ParameterPathSegments[i];
+                    var segmentName = EscapeIdentifier(segment.Name);
+                    var variableName = $"p{i}";
+                    sb.AppendLine($"            var {variableName} = {currentIdentifier}.{segmentName};");
+                    if (segment.IsNullableValueType)
+                    {
+                        sb.AppendLine($"            if (!{variableName}.HasValue)");
+                        sb.AppendLine("            {");
+                        sb.AppendLine("                result = null;");
+                        sb.AppendLine("                return true;");
+                        sb.AppendLine("            }");
+                        var valueName = $"{variableName}Value";
+                        sb.AppendLine($"            var {valueName} = {variableName}.Value;");
+                        currentIdentifier = valueName;
+                    }
+                    else
+                    {
+                        if (segment.NeedsNullCheck)
+                        {
+                            sb.AppendLine($"            if ({variableName} is null)");
+                            sb.AppendLine("            {");
+                            sb.AppendLine("                result = null;");
+                            sb.AppendLine("                return true;");
+                            sb.AppendLine("            }");
+                        }
+                        currentIdentifier = variableName;
+                    }
+                }
+                sb.AppendLine($"            result = {currentIdentifier};");
+                sb.AppendLine("            return true;");
+                sb.AppendLine("        }");
+                sb.AppendLine();
+            }
             sb.AppendLine("        private class EventProxy");
             sb.AppendLine("        {");
             sb.AppendLine($"            private readonly WeakReference<{info.ClassName}> _trigger;");
@@ -317,7 +360,7 @@ namespace Xaml.Behaviors.SourceGenerators
             sb.AppendLine("                if (_trigger.TryGetTarget(out var trigger))");
             sb.AppendLine("                {");
             var senderArg = info.Parameters.Length > 0 ? info.Parameters[0].Name : "null";
-            var argsArg = info.Parameters.Length > 1 ? info.Parameters[1].Name : (info.Parameters.Length > 0 ? info.Parameters[0].Name : "null");
+            var argsArg = info.Parameters.Length > 1 ? info.Parameters.Last().Name : (info.Parameters.Length > 0 ? info.Parameters[0].Name : "null");
             sb.AppendLine($"                    trigger.OnEvent({senderArg}, {argsArg});");
             sb.AppendLine("                }");
             sb.AppendLine("                else");
@@ -356,7 +399,6 @@ namespace Xaml.Behaviors.SourceGenerators
             {
                 sb.AppendLine("}");
             }
-
             spc.AddSource(CreateHintName(info.Namespace, info.ClassName), SourceText.From(sb.ToString(), Encoding.UTF8));
         }
 
@@ -366,7 +408,7 @@ namespace Xaml.Behaviors.SourceGenerators
             if (matchingEvents.Length == 0)
             {
                 var diagnostic = Diagnostic.Create(TriggerEventNotFoundDiagnostic, diagnosticLocation ?? Location.None, eventPattern, targetType.Name);
-                return ImmutableArray.Create(new EventCommandInfo("", "", "public", eventPattern, "", "", ImmutableArray<TriggerParameter>.Empty, useDispatcher, parameterPath, diagnostic));
+                return ImmutableArray.Create(new EventCommandInfo("", "", "public", eventPattern, "", "", ImmutableArray<TriggerParameter>.Empty, useDispatcher, parameterPath, ImmutableArray<ParameterPathSegment>.Empty, diagnostic));
             }
 
             var builder = ImmutableArray.CreateBuilder<EventCommandInfo>();
@@ -395,7 +437,7 @@ namespace Xaml.Behaviors.SourceGenerators
             }
 
             var fallback = Diagnostic.Create(TriggerEventNotFoundDiagnostic, diagnosticLocation ?? Location.None, eventPattern, targetType.Name);
-            return ImmutableArray.Create(new EventCommandInfo("", "", "public", eventPattern, "", "", ImmutableArray<TriggerParameter>.Empty, useDispatcher, parameterPath, fallback));
+            return ImmutableArray.Create(new EventCommandInfo("", "", "public", eventPattern, "", "", ImmutableArray<TriggerParameter>.Empty, useDispatcher, parameterPath, ImmutableArray<ParameterPathSegment>.Empty, fallback));
         }
 
         private EventCommandInfo CreateEventCommandInfo(IEventSymbol eventSymbol, Location? diagnosticLocation, bool includeTypeNamePrefix, Compilation? compilation, bool useDispatcher, string? nameOverride, string? parameterPath)
@@ -414,7 +456,7 @@ namespace Xaml.Behaviors.SourceGenerators
                 var nestedAccessibility = targetType.DeclaredAccessibility == Accessibility.Internal || ContainsInternalType(targetType)
                     ? "internal"
                     : "public";
-                return new EventCommandInfo(namespaceName, className, nestedAccessibility, targetTypeName, eventName, eventHandlerType, ImmutableArray<TriggerParameter>.Empty, useDispatcher, parameterPath, Diagnostic.Create(NestedTypeNotSupportedDiagnostic, diagnosticLocation ?? Location.None, targetType.ToDisplayString()));
+                return new EventCommandInfo(namespaceName, className, nestedAccessibility, targetTypeName, eventName, eventHandlerType, ImmutableArray<TriggerParameter>.Empty, useDispatcher, parameterPath, ImmutableArray<ParameterPathSegment>.Empty, Diagnostic.Create(NestedTypeNotSupportedDiagnostic, diagnosticLocation ?? Location.None, targetType.ToDisplayString()));
             }
             var requiresInternal = targetType?.DeclaredAccessibility == Accessibility.Internal ||
                                    eventSymbol.DeclaredAccessibility == Accessibility.Internal ||
@@ -423,35 +465,36 @@ namespace Xaml.Behaviors.SourceGenerators
             if (validationDiagnostic != null)
             {
                 var accessibility = requiresInternal ? "internal" : "public";
-                return new EventCommandInfo(namespaceName, className, accessibility, targetTypeName, eventName, eventHandlerType, ImmutableArray<TriggerParameter>.Empty, useDispatcher, parameterPath, validationDiagnostic);
+                return new EventCommandInfo(namespaceName, className, accessibility, targetTypeName, eventName, eventHandlerType, ImmutableArray<TriggerParameter>.Empty, useDispatcher, parameterPath, ImmutableArray<ParameterPathSegment>.Empty, validationDiagnostic);
             }
 
             var invokeMethod = (eventSymbol.Type as INamedTypeSymbol)?.DelegateInvokeMethod;
             if (invokeMethod == null)
             {
                 var accessibility = requiresInternal ? "internal" : "public";
-                return new EventCommandInfo(namespaceName, className, accessibility, targetTypeName, eventName, eventHandlerType, ImmutableArray<TriggerParameter>.Empty, useDispatcher, parameterPath, Diagnostic.Create(TriggerUnsupportedDelegateDiagnostic, diagnosticLocation ?? Location.None, eventName, eventHandlerType));
+                return new EventCommandInfo(namespaceName, className, accessibility, targetTypeName, eventName, eventHandlerType, ImmutableArray<TriggerParameter>.Empty, useDispatcher, parameterPath, ImmutableArray<ParameterPathSegment>.Empty, Diagnostic.Create(TriggerUnsupportedDelegateDiagnostic, diagnosticLocation ?? Location.None, eventName, eventHandlerType));
             }
 
             if (!invokeMethod.ReturnsVoid)
             {
                 var accessibility = requiresInternal ? "internal" : "public";
-                return new EventCommandInfo(namespaceName, className, accessibility, targetTypeName, eventName, eventHandlerType, ImmutableArray<TriggerParameter>.Empty, useDispatcher, parameterPath, Diagnostic.Create(TriggerUnsupportedDelegateReturnTypeDiagnostic, diagnosticLocation ?? Location.None, eventName, eventHandlerType));
+                return new EventCommandInfo(namespaceName, className, accessibility, targetTypeName, eventName, eventHandlerType, ImmutableArray<TriggerParameter>.Empty, useDispatcher, parameterPath, ImmutableArray<ParameterPathSegment>.Empty, Diagnostic.Create(TriggerUnsupportedDelegateReturnTypeDiagnostic, diagnosticLocation ?? Location.None, eventName, eventHandlerType));
             }
 
             if (invokeMethod.Parameters.Any(p => p.RefKind == RefKind.Out))
             {
                 var accessibility = requiresInternal ? "internal" : "public";
-                return new EventCommandInfo(namespaceName, className, accessibility, targetTypeName, eventName, eventHandlerType, ImmutableArray<TriggerParameter>.Empty, useDispatcher, parameterPath, Diagnostic.Create(TriggerUnsupportedDelegateOutParameterDiagnostic, diagnosticLocation ?? Location.None, eventName, eventHandlerType));
+                return new EventCommandInfo(namespaceName, className, accessibility, targetTypeName, eventName, eventHandlerType, ImmutableArray<TriggerParameter>.Empty, useDispatcher, parameterPath, ImmutableArray<ParameterPathSegment>.Empty, Diagnostic.Create(TriggerUnsupportedDelegateOutParameterDiagnostic, diagnosticLocation ?? Location.None, eventName, eventHandlerType));
             }
 
+            var parameterPathSegments = ImmutableArray<ParameterPathSegment>.Empty;
             if (parameterPath != null)
             {
-                var parameterPathDiagnostic = ValidateParameterPath(invokeMethod, eventName, parameterPath, diagnosticLocation, compilation, ref requiresInternal);
+                var parameterPathDiagnostic = ValidateParameterPath(invokeMethod, eventName, parameterPath, diagnosticLocation, compilation, ref requiresInternal, out parameterPathSegments);
                 if (parameterPathDiagnostic != null)
                 {
                     var accessibility = requiresInternal ? "internal" : "public";
-                    return new EventCommandInfo(namespaceName, className, accessibility, targetTypeName, eventName, eventHandlerType, ImmutableArray<TriggerParameter>.Empty, useDispatcher, parameterPath, parameterPathDiagnostic);
+                    return new EventCommandInfo(namespaceName, className, accessibility, targetTypeName, eventName, eventHandlerType, ImmutableArray<TriggerParameter>.Empty, useDispatcher, parameterPath, ImmutableArray<ParameterPathSegment>.Empty, parameterPathDiagnostic);
                 }
             }
 
@@ -467,7 +510,7 @@ namespace Xaml.Behaviors.SourceGenerators
             }).ToImmutableArray();
 
             var finalAccessibility = requiresInternal ? "internal" : "public";
-            return new EventCommandInfo(namespaceName, className, finalAccessibility, targetTypeName, eventName, eventHandlerType, parameters, useDispatcher, parameterPath);
+            return new EventCommandInfo(namespaceName, className, finalAccessibility, targetTypeName, eventName, eventHandlerType, parameters, useDispatcher, parameterPath, parameterPathSegments);
         }
 
         private static IEnumerable<EventCommandInfo> EnsureUniqueEventCommands(IEnumerable<EventCommandInfo> infos)
@@ -536,26 +579,30 @@ namespace Xaml.Behaviors.SourceGenerators
             return null;
         }
 
-        private Diagnostic? ValidateParameterPath(IMethodSymbol invokeMethod, string eventName, string parameterPath, Location? diagnosticLocation, Compilation? compilation, ref bool requiresInternal)
+        private Diagnostic? ValidateParameterPath(IMethodSymbol invokeMethod, string eventName, string parameterPath, Location? diagnosticLocation, Compilation? compilation, ref bool requiresInternal, out ImmutableArray<ParameterPathSegment> segments)
         {
+            var builder = ImmutableArray.CreateBuilder<ParameterPathSegment>();
             var parts = parameterPath.Split('.');
             var currentType = invokeMethod.Parameters.LastOrDefault()?.Type;
             foreach (var part in parts)
             {
                 if (currentType is null)
                 {
+                    segments = ImmutableArray<ParameterPathSegment>.Empty;
                     return Diagnostic.Create(EventCommandInvalidParameterPathDiagnostic, diagnosticLocation ?? Location.None, parameterPath, eventName);
                 }
 
                 var property = currentType.GetMembers().OfType<IPropertySymbol>().FirstOrDefault(p => string.Equals(p.Name, part, System.StringComparison.Ordinal));
                 if (property?.GetMethod is null)
                 {
+                    segments = ImmutableArray<ParameterPathSegment>.Empty;
                     return Diagnostic.Create(EventCommandInvalidParameterPathDiagnostic, diagnosticLocation ?? Location.None, parameterPath, eventName);
                 }
 
                 if (!IsAccessibleToGenerator(property, compilation) || !IsAccessibleToGenerator(property.GetMethod, compilation))
                 {
                     var memberName = $"{currentType.ToDisplayString()}.{property.Name}";
+                    segments = ImmutableArray<ParameterPathSegment>.Empty;
                     return Diagnostic.Create(EventCommandParameterPathNotAccessibleDiagnostic, diagnosticLocation ?? Location.None, parameterPath, eventName, memberName);
                 }
 
@@ -564,9 +611,14 @@ namespace Xaml.Behaviors.SourceGenerators
                     requiresInternal = true;
                 }
 
+                var isNullableValueType = property.Type.IsValueType &&
+                                          property.Type.OriginalDefinition.SpecialType == SpecialType.System_Nullable_T;
+                var needsNullCheck = !property.Type.IsValueType || isNullableValueType;
+                builder.Add(new ParameterPathSegment(property.Name, isNullableValueType, needsNullCheck));
                 currentType = property.Type;
             }
 
+            segments = builder.ToImmutable();
             return null;
         }
     }
