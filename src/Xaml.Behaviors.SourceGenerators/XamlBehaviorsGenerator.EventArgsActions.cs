@@ -22,6 +22,8 @@ namespace Xaml.Behaviors.SourceGenerators
             string MethodName,
             string EventArgsTypeName,
             ImmutableArray<ProjectionInfo> Projections,
+            bool IsAwaitable,
+            bool IsValueTask,
             bool UseDispatcher,
             Diagnostic? Diagnostic = null);
 
@@ -171,22 +173,110 @@ namespace Xaml.Behaviors.SourceGenerators
                 sb.AppendLine();
             }
             var invocation = $"typedTarget.{info.MethodName}(args)";
-            if (info.UseDispatcher)
+            if (info.IsAwaitable)
             {
-                sb.AppendLine("                Avalonia.Threading.Dispatcher.UIThread.Post(() =>");
-                sb.AppendLine("                {");
-                sb.AppendLine($"                    {invocation};");
-                sb.AppendLine("                });");
-                sb.AppendLine("                return true;");
+                if (info.UseDispatcher)
+                {
+                    sb.AppendLine("                Avalonia.Threading.Dispatcher.UIThread.Post(() =>");
+                    sb.AppendLine("                {");
+                    sb.AppendLine("                    try");
+                    sb.AppendLine("                    {");
+                    sb.AppendLine($"                        var task = {invocation};");
+                    if (info.IsValueTask)
+                    {
+                        sb.AppendLine("                        ObserveTask(task.AsTask());");
+                    }
+                    else
+                    {
+                        sb.AppendLine("                        ObserveTask(task);");
+                    }
+                    sb.AppendLine("                    }");
+                    sb.AppendLine("                    catch (System.Exception)");
+                    sb.AppendLine("                    {");
+                    sb.AppendLine("                        // Exceptions are observed to avoid crashing the dispatcher thread.");
+                    sb.AppendLine("                    }");
+                    sb.AppendLine("                });");
+                    sb.AppendLine("                return true;");
+                }
+                else
+                {
+                    sb.AppendLine("                try");
+                    sb.AppendLine("                {");
+                    sb.AppendLine($"                    var task = {invocation};");
+                    if (info.IsValueTask)
+                    {
+                        sb.AppendLine("                    ObserveTask(task.AsTask());");
+                    }
+                    else
+                    {
+                        sb.AppendLine("                    ObserveTask(task);");
+                    }
+                    sb.AppendLine("                }");
+                    sb.AppendLine("                catch (System.Exception)");
+                    sb.AppendLine("                {");
+                    sb.AppendLine("                    // Exceptions are observed to avoid crashing the calling thread.");
+                    sb.AppendLine("                }");
+                    sb.AppendLine("                return true;");
+                }
             }
             else
             {
-                sb.AppendLine($"                {invocation};");
-                sb.AppendLine("                return true;");
+                if (info.UseDispatcher)
+                {
+                    sb.AppendLine("                Avalonia.Threading.Dispatcher.UIThread.Post(() =>");
+                    sb.AppendLine("                {");
+                    sb.AppendLine($"                    {invocation};");
+                    sb.AppendLine("                });");
+                    sb.AppendLine("                return true;");
+                }
+                else
+                {
+                    sb.AppendLine($"                {invocation};");
+                    sb.AppendLine("                return true;");
+                }
             }
             sb.AppendLine("            }");
             sb.AppendLine("            return false;");
             sb.AppendLine("        }");
+            if (info.IsAwaitable)
+            {
+                sb.AppendLine();
+                sb.AppendLine("        private void ObserveTask(System.Threading.Tasks.Task? task)");
+                sb.AppendLine("        {");
+                sb.AppendLine("            if (task is null)");
+                sb.AppendLine("            {");
+                sb.AppendLine("                return;");
+                sb.AppendLine("            }");
+                sb.AppendLine();
+                sb.AppendLine("            if (task.IsCompleted)");
+                sb.AppendLine("            {");
+                sb.AppendLine("                ObserveCompletedTask(task);");
+                sb.AppendLine("                return;");
+                sb.AppendLine("            }");
+                sb.AppendLine();
+                sb.AppendLine("            _ = ObserveTaskAsync(task);");
+                sb.AppendLine("        }");
+                sb.AppendLine();
+                sb.AppendLine("        private void ObserveCompletedTask(System.Threading.Tasks.Task task)");
+                sb.AppendLine("        {");
+                sb.AppendLine("            if (task.IsFaulted)");
+                sb.AppendLine("            {");
+                sb.AppendLine("                task.Exception?.Flatten().Handle(_ => true);");
+                sb.AppendLine("            }");
+                sb.AppendLine("        }");
+                sb.AppendLine();
+                sb.AppendLine("        private async System.Threading.Tasks.Task ObserveTaskAsync(System.Threading.Tasks.Task task)");
+                sb.AppendLine("        {");
+                sb.AppendLine("            try");
+                sb.AppendLine("            {");
+                sb.AppendLine("                await task.ConfigureAwait(false);");
+                sb.AppendLine("            }");
+                sb.AppendLine("            catch");
+                sb.AppendLine("            {");
+                sb.AppendLine("                // Exceptions are observed and ignored.");
+                sb.AppendLine("            }");
+                sb.AppendLine("        }");
+            }
             sb.AppendLine("    }");
             if (!string.IsNullOrEmpty(info.Namespace))
             {
@@ -209,7 +299,7 @@ namespace Xaml.Behaviors.SourceGenerators
                 var className = string.IsNullOrEmpty(typePrefix) ? baseName : typePrefix + baseName;
                 var accessibility = GetAccessibilityKeyword(targetType);
                 var targetTypeName = ToDisplayStringWithNullable(targetType);
-                return ImmutableArray.Create(new EventArgsActionInfo(namespaceName, className, accessibility, targetTypeName, methodPattern, "", ImmutableArray<ProjectionInfo>.Empty, useDispatcher, diagnostic));
+                return ImmutableArray.Create(new EventArgsActionInfo(namespaceName, className, accessibility, targetTypeName, methodPattern, "", ImmutableArray<ProjectionInfo>.Empty, IsAwaitable: false, IsValueTask: false, useDispatcher, diagnostic));
             }
 
             var builder = ImmutableArray.CreateBuilder<EventArgsActionInfo>();
@@ -235,11 +325,14 @@ namespace Xaml.Behaviors.SourceGenerators
             var validation = ValidateEventArgsMethod(methodSymbol, diagnosticLocation, compilation);
             if (validation != null)
             {
-                return new EventArgsActionInfo(namespaceName, className, accessibility, targetTypeName, methodSymbol.Name, "", ImmutableArray<ProjectionInfo>.Empty, useDispatcher, validation);
+                return new EventArgsActionInfo(namespaceName, className, accessibility, targetTypeName, methodSymbol.Name, "", ImmutableArray<ProjectionInfo>.Empty, IsAwaitable: false, IsValueTask: false, useDispatcher, validation);
             }
 
             var eventArgsType = methodSymbol.Parameters.First().Type;
             var eventArgsTypeName = ToDisplayStringWithNullable(eventArgsType);
+            var returnType = methodSymbol.ReturnType;
+            var isAwaitable = IsAwaitableType(returnType);
+            var isValueTask = IsValueTaskType(returnType);
 
             var projections = ImmutableArray<ProjectionInfo>.Empty;
             if (!project.IsDefaultOrEmpty)
@@ -251,7 +344,7 @@ namespace Xaml.Behaviors.SourceGenerators
                     if (member == null)
                     {
                         var diag = Diagnostic.Create(EventArgsProjectionNotFoundDiagnostic, diagnosticLocation ?? Location.None, projName, eventArgsTypeName);
-                        return new EventArgsActionInfo(namespaceName, className, accessibility, targetTypeName, methodSymbol.Name, eventArgsTypeName, ImmutableArray<ProjectionInfo>.Empty, useDispatcher, diag);
+                        return new EventArgsActionInfo(namespaceName, className, accessibility, targetTypeName, methodSymbol.Name, eventArgsTypeName, ImmutableArray<ProjectionInfo>.Empty, isAwaitable, isValueTask, useDispatcher, diag);
                     }
                     var memberAccessible =
                         member.DeclaredAccessibility == Accessibility.Public &&
@@ -261,7 +354,7 @@ namespace Xaml.Behaviors.SourceGenerators
                     if (!memberAccessible || !AccessibilityHelper.IsPubliclyAccessibleType(member.Type))
                     {
                         var diag = Diagnostic.Create(EventArgsProjectionNotAccessibleDiagnostic, diagnosticLocation ?? Location.None, projName, eventArgsTypeName);
-                        return new EventArgsActionInfo(namespaceName, className, accessibility, targetTypeName, methodSymbol.Name, eventArgsTypeName, ImmutableArray<ProjectionInfo>.Empty, useDispatcher, diag);
+                        return new EventArgsActionInfo(namespaceName, className, accessibility, targetTypeName, methodSymbol.Name, eventArgsTypeName, ImmutableArray<ProjectionInfo>.Empty, isAwaitable, isValueTask, useDispatcher, diag);
                     }
                     var typeName = ToDisplayStringWithNullable(member.Type);
                     projBuilder.Add(new ProjectionInfo(projName, typeName, member.Name));
@@ -269,7 +362,7 @@ namespace Xaml.Behaviors.SourceGenerators
                 projections = projBuilder.ToImmutable();
             }
 
-            return new EventArgsActionInfo(namespaceName, className, accessibility, targetTypeName, methodSymbol.Name, eventArgsTypeName, projections, useDispatcher);
+            return new EventArgsActionInfo(namespaceName, className, accessibility, targetTypeName, methodSymbol.Name, eventArgsTypeName, projections, isAwaitable, isValueTask, useDispatcher);
         }
 
         private Diagnostic? ValidateEventArgsMethod(IMethodSymbol methodSymbol, Location? location, Compilation? compilation)

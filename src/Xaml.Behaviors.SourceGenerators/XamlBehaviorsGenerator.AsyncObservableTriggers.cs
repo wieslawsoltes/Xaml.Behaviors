@@ -503,6 +503,9 @@ namespace Xaml.Behaviors.SourceGenerators
             sb.AppendLine("            base.OnDetaching();");
             sb.AppendLine("            _subscription?.Dispose();");
             sb.AppendLine("            _subscription = null;");
+            sb.AppendLine("            _currentObservable = null;");
+            sb.AppendLine("            LastError = null;");
+            sb.AppendLine("            LastValue = default!;");
             sb.AppendLine("        }");
             sb.AppendLine();
             sb.AppendLine("        protected override void OnPropertyChanged(AvaloniaPropertyChangedEventArgs change)");

@@ -73,19 +73,6 @@ namespace Xaml.Behaviors.SourceGenerators
             return results.ToImmutable();
         }
 
-        private bool IsAwaitableType(ITypeSymbol typeSymbol)
-        {
-            var typeName = ToDisplayStringWithNullable(typeSymbol);
-            return typeName.StartsWith("global::System.Threading.Tasks.Task") ||
-                   typeName.StartsWith("global::System.Threading.Tasks.ValueTask");
-        }
-
-        private bool IsValueTaskType(ITypeSymbol typeSymbol)
-        {
-            var typeName = ToDisplayStringWithNullable(typeSymbol);
-            return typeName.StartsWith("global::System.Threading.Tasks.ValueTask");
-        }
-
         private ImmutableArray<ActionInfo> GetAssemblyActions(Compilation compilation)
         {
             var results = ImmutableArray.CreateBuilder<ActionInfo>();
@@ -226,18 +213,26 @@ namespace Xaml.Behaviors.SourceGenerators
             {
                 if (info.UseDispatcher)
                 {
-                    sb.AppendLine("                Avalonia.Threading.Dispatcher.UIThread.Post(async () =>");
+                    sb.AppendLine("                Avalonia.Threading.Dispatcher.UIThread.Post(() =>");
                     sb.AppendLine("                {");
-                    sb.AppendLine($"                    var task = {invocation};");
+                    sb.AppendLine("                    try");
+                    sb.AppendLine("                    {");
+                    sb.AppendLine($"                        var task = {invocation};");
                     if (info.IsValueTask)
                     {
-                        sb.AppendLine("                    var t = task.AsTask();");
+                        sb.AppendLine("                        var t = task.AsTask();");
                     }
                     else
                     {
-                        sb.AppendLine("                    var t = task;");
+                        sb.AppendLine("                        var t = task;");
                     }
-                    sb.AppendLine("                    TrackTask(t);");
+                    sb.AppendLine("                        TrackTask(t);");
+                    sb.AppendLine("                    }");
+                    sb.AppendLine("                    catch (System.Exception ex)");
+                    sb.AppendLine("                    {");
+                    sb.AppendLine("                        LastError = ex;");
+                    sb.AppendLine("                        IsExecuting = false;");
+                    sb.AppendLine("                    }");
                     sb.AppendLine("                });");
                     sb.AppendLine("                return true;");
                 }

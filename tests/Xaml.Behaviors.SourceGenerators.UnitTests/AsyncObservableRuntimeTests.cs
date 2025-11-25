@@ -395,6 +395,24 @@ public class AsyncObservableRuntimeTests
         Assert.Empty(action.SeenParameters);
     }
 
+    [AvaloniaFact]
+    public async Task ObservableTrigger_Reattaches_To_Same_Instance_After_Detach()
+    {
+        dynamic trigger = GeneratedTypeHelper.CreateInstance("IntStreamObservableTrigger", "Avalonia.Xaml.Behaviors.SourceGenerators.UnitTests");
+        var observable = new TestObservable<int>();
+        var control = new TestControl();
+
+        trigger.IntStream = observable;
+        trigger.Attach(control);
+        trigger.Detach();
+        trigger.Attach(control);
+
+        observable.OnNext(42);
+        await FlushDispatcherAsync();
+
+        Assert.Equal(42, (int)trigger.LastValue);
+    }
+
     private static async Task FlushDispatcherAsync()
     {
         await Dispatcher.UIThread.InvokeAsync(() => { });

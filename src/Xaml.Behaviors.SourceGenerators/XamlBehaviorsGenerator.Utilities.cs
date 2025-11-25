@@ -78,6 +78,19 @@ namespace Xaml.Behaviors.SourceGenerators
             };
         }
 
+        private static bool IsAwaitableType(ITypeSymbol typeSymbol)
+        {
+            var typeName = ToDisplayStringWithNullable(typeSymbol);
+            return typeName.StartsWith("global::System.Threading.Tasks.Task", StringComparison.Ordinal) ||
+                   typeName.StartsWith("global::System.Threading.Tasks.ValueTask", StringComparison.Ordinal);
+        }
+
+        private static bool IsValueTaskType(ITypeSymbol typeSymbol)
+        {
+            var typeName = ToDisplayStringWithNullable(typeSymbol);
+            return typeName.StartsWith("global::System.Threading.Tasks.ValueTask", StringComparison.Ordinal);
+        }
+
         private static bool IsObjectType(string typeName)
         {
             return typeName == "object" || typeName == "System.Object" || typeName == "global::System.Object";

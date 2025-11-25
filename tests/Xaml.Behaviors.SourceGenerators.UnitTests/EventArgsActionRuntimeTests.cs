@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 using Avalonia;
 using Avalonia.Controls;
@@ -48,6 +49,27 @@ public class EventArgsActionRuntimeTests
         public void Handle(RoutedEventArgs args)
         {
             Called = true;
+        }
+    }
+
+    public class AsyncEventArgsHandler
+    {
+        public int Calls { get; private set; }
+
+        [GenerateEventArgsAction(UseDispatcher = true)]
+        public Task HandleAsync(RoutedEventArgs args)
+        {
+            Calls++;
+            return Task.CompletedTask;
+        }
+    }
+
+    public class ThrowingEventArgsHandler
+    {
+        [GenerateEventArgsAction(UseDispatcher = true)]
+        public Task FailAsync(RoutedEventArgs args)
+        {
+            throw new System.InvalidOperationException("boom");
         }
     }
 
@@ -125,6 +147,40 @@ public class EventArgsActionRuntimeTests
         Assert.Equal(Key.Space, handler.LastKey);
         Assert.Equal(KeyModifiers.Meta, handler.LastModifiers);
         Assert.Equal(Key.Space, (Key)action.Key);
+    }
+
+    [AvaloniaFact]
+    public async Task EventArgsAction_Should_Observe_Task_Result()
+    {
+        var handler = new AsyncEventArgsHandler();
+        dynamic action = GeneratedTypeHelper.CreateInstance("HandleAsyncEventArgsAction", "Avalonia.Xaml.Behaviors.SourceGenerators.UnitTests");
+        action.TargetObject = handler;
+
+        var executed = (bool)action.Execute(null, new RoutedEventArgs());
+        Assert.True(executed);
+
+        await FlushDispatcherAsync();
+        Assert.Equal(1, handler.Calls);
+    }
+
+    [AvaloniaFact]
+    public async Task EventArgsAction_Dispatcher_Should_Swallow_Async_Exception()
+    {
+        var handler = new ThrowingEventArgsHandler();
+        dynamic action = GeneratedTypeHelper.CreateInstance("FailAsyncEventArgsAction", "Avalonia.Xaml.Behaviors.SourceGenerators.UnitTests");
+        action.TargetObject = handler;
+
+        var executed = (bool)action.Execute(null, new RoutedEventArgs());
+        Assert.True(executed);
+
+        try
+        {
+            await FlushDispatcherAsync();
+        }
+        catch (PlatformNotSupportedException)
+        {
+            return;
+        }
     }
 
     private static PointerPressedEventArgs CreatePointerArgs(KeyModifiers modifiers, int clickCount)
