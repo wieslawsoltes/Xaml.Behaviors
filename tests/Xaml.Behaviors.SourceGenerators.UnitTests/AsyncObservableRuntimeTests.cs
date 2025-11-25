@@ -310,6 +310,33 @@ public class AsyncObservableRuntimeTests
         Assert.Equal(2, (int)action.SeenParameters.Single()!);
     }
 
+    [AvaloniaFact]
+    public async Task AsyncTrigger_Resets_State_On_Detach()
+    {
+        var host = new RuntimeAsyncObservableHost();
+        var tcs = new TaskCompletionSource<int>();
+
+        dynamic trigger = GeneratedTypeHelper.CreateInstance("SuccessfulTaskAsyncTrigger", "Avalonia.Xaml.Behaviors.SourceGenerators.UnitTests");
+        var action = new RecordingAction();
+        trigger.Actions.Add(action);
+        trigger.Attach(host);
+
+        trigger.SuccessfulTask = tcs.Task;
+
+        Assert.True((bool)trigger.IsExecuting);
+
+        trigger.Detach();
+
+        Assert.False((bool)trigger.IsExecuting);
+        Assert.Null(trigger.LastError);
+        Assert.Equal(0, (int)trigger.LastResult);
+
+        tcs.SetResult(5);
+        await Task.Delay(20);
+
+        Assert.Empty(action.SeenParameters);
+    }
+
     private static async Task FlushDispatcherAsync()
     {
         await Dispatcher.UIThread.InvokeAsync(() => { });

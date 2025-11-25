@@ -281,6 +281,12 @@ namespace Xaml.Behaviors.SourceGenerators
             sb.AppendLine("        protected override void OnDetaching()");
             sb.AppendLine("        {");
             sb.AppendLine("            Interlocked.Increment(ref _taskVersion);");
+            sb.AppendLine("            IsExecuting = false;");
+            sb.AppendLine("            LastError = null;");
+            if (info.ResultTypeName != null)
+            {
+                sb.AppendLine("            LastResult = default!;");
+            }
             sb.AppendLine("            base.OnDetaching();");
             sb.AppendLine("        }");
             sb.AppendLine();
