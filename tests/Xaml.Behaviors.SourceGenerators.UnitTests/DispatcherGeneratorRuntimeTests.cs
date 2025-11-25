@@ -33,7 +33,9 @@ public sealed class TestRelayCommand : ICommand
     public bool Executed { get; private set; }
     public object? LastParameter { get; private set; }
 
+#pragma warning disable CS0067
     public event EventHandler? CanExecuteChanged;
+#pragma warning restore CS0067
 
     public bool CanExecute(object? parameter) => true;
 

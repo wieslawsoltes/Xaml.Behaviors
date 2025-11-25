@@ -30,6 +30,7 @@ namespace Xaml.Behaviors.SourceGenerators
             {
                 ctx.AddSource("GenerateTypedActionAttribute.g.cs", SourceText.From("""
                     using System;
+                    #nullable enable
 
                     namespace Xaml.Behaviors.SourceGenerators
                     {
@@ -51,6 +52,7 @@ namespace Xaml.Behaviors.SourceGenerators
 
                 ctx.AddSource("GenerateTypedTriggerAttribute.g.cs", SourceText.From("""
                     using System;
+                    #nullable enable
 
                     namespace Xaml.Behaviors.SourceGenerators
                     {
@@ -70,6 +72,7 @@ namespace Xaml.Behaviors.SourceGenerators
 
                 ctx.AddSource("GenerateTypedChangePropertyActionAttribute.g.cs", SourceText.From("""
                     using System;
+                    #nullable enable
 
                     namespace Xaml.Behaviors.SourceGenerators
                     {
@@ -91,6 +94,7 @@ namespace Xaml.Behaviors.SourceGenerators
 
                 ctx.AddSource("GenerateTypedDataTriggerAttribute.g.cs", SourceText.From("""
                     using System;
+                    #nullable enable
 
                     namespace Xaml.Behaviors.SourceGenerators
                     {
@@ -106,6 +110,7 @@ namespace Xaml.Behaviors.SourceGenerators
 
                 ctx.AddSource("GenerateTypedMultiDataTriggerAttribute.g.cs", SourceText.From("""
                     using System;
+                    #nullable enable
 
                     namespace Xaml.Behaviors.SourceGenerators
                     {
@@ -123,6 +128,7 @@ namespace Xaml.Behaviors.SourceGenerators
 
                 ctx.AddSource("GenerateTypedInvokeCommandActionAttribute.g.cs", SourceText.From("""
                     using System;
+                    #nullable enable
 
                     namespace Xaml.Behaviors.SourceGenerators
                     {
@@ -146,6 +152,7 @@ namespace Xaml.Behaviors.SourceGenerators
 
                 ctx.AddSource("GenerateEventCommandAttribute.g.cs", SourceText.From("""
                     using System;
+                    #nullable enable
 
                     namespace Xaml.Behaviors.SourceGenerators
                     {
@@ -169,6 +176,7 @@ namespace Xaml.Behaviors.SourceGenerators
 
                 ctx.AddSource("GenerateEventArgsActionAttribute.g.cs", SourceText.From("""
                     using System;
+                    #nullable enable
 
                     namespace Xaml.Behaviors.SourceGenerators
                     {
@@ -192,6 +200,7 @@ namespace Xaml.Behaviors.SourceGenerators
 
                 ctx.AddSource("GenerateAsyncTriggerAttribute.g.cs", SourceText.From("""
                     using System;
+                    #nullable enable
 
                     namespace Xaml.Behaviors.SourceGenerators
                     {
@@ -215,6 +224,7 @@ namespace Xaml.Behaviors.SourceGenerators
 
                 ctx.AddSource("GenerateObservableTriggerAttribute.g.cs", SourceText.From("""
                     using System;
+                    #nullable enable
 
                     namespace Xaml.Behaviors.SourceGenerators
                     {
@@ -238,6 +248,7 @@ namespace Xaml.Behaviors.SourceGenerators
 
                 ctx.AddSource("GeneratePropertyTriggerAttribute.g.cs", SourceText.From("""
                     using System;
+                    #nullable enable
 
                     namespace Xaml.Behaviors.SourceGenerators
                     {

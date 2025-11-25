@@ -24,10 +24,10 @@ public class AsyncObservableRuntimeTests
         await FlushDispatcherAsync();
         await Task.Delay(10);
 
-        Assert.Equal(7, (int)trigger.LastResult);
+        Assert.Equal(7, Assert.IsType<int>(trigger.LastResult));
         Assert.Null(trigger.LastError);
         Assert.False((bool)trigger.IsExecuting);
-        Assert.Equal(7, (int)action.SeenParameters.Single());
+        Assert.Equal(7, Assert.IsType<int>(action.SeenParameters.Single()));
     }
 
     [AvaloniaFact]
@@ -235,8 +235,8 @@ public class AsyncObservableRuntimeTests
         observable.OnNext(7);
         await FlushDispatcherAsync();
 
-        Assert.Equal(7, (int)trigger.LastValue);
-        Assert.Equal(7, (int)action.SeenParameters.Single());
+        Assert.Equal(7, Assert.IsType<int>(trigger.LastValue));
+        Assert.Equal(7, Assert.IsType<int>(action.SeenParameters.Single()));
     }
 
     [AvaloniaFact]
@@ -260,9 +260,9 @@ public class AsyncObservableRuntimeTests
         await FlushDispatcherAsync();
         await Task.Delay(50);
 
-        Assert.Equal(2, (int)trigger.LastResult);
+        Assert.Equal(2, Assert.IsType<int>(trigger.LastResult));
         Assert.Single(action.SeenParameters);
-        Assert.Equal(2, (int)action.SeenParameters.Single()!);
+        Assert.Equal(2, Assert.IsType<int>(action.SeenParameters.Single()!));
     }
 
     [AvaloniaFact]
@@ -281,8 +281,8 @@ public class AsyncObservableRuntimeTests
         await FlushDispatcherAsync();
         await Task.Delay(20);
 
-        Assert.Equal(9, (int)trigger.LastResult);
-        Assert.Equal(9, (int)action.SeenParameters.Single());
+        Assert.Equal(9, Assert.IsType<int>(trigger.LastResult));
+        Assert.Equal(9, Assert.IsType<int>(action.SeenParameters.Single()));
     }
 
     [AvaloniaFact]

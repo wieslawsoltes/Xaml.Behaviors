@@ -179,11 +179,14 @@ namespace Xaml.Behaviors.SourceGenerators
                 sb.AppendLine("                });");
                 sb.AppendLine("                return true;");
             }
-            sb.AppendLine($"                if (command.CanExecute({param}))");
-            sb.AppendLine("                {");
-            sb.AppendLine($"                    command.Execute({param});");
-            sb.AppendLine("                    return true;");
-            sb.AppendLine("                }");
+            else
+            {
+                sb.AppendLine($"                if (command.CanExecute({param}))");
+                sb.AppendLine("                {");
+                sb.AppendLine($"                    command.Execute({param});");
+                sb.AppendLine("                    return true;");
+                sb.AppendLine("                }");
+            }
             sb.AppendLine("            }");
             sb.AppendLine("            return false;");
             sb.AppendLine("        }");

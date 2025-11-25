@@ -15,7 +15,9 @@ public class EventCommandRuntimeTests
     private class CommandStub : System.Windows.Input.ICommand
     {
         public bool Executed { get; private set; }
+#pragma warning disable CS0067
         public event System.EventHandler? CanExecuteChanged;
+#pragma warning restore CS0067
         public bool CanExecute(object? parameter) => true;
         public void Execute(object? parameter) => Executed = true;
     }
@@ -81,12 +83,13 @@ public class EventCommandRuntimeTests
         dynamic trigger = GeneratedTypeHelper.CreateInstance("FiredEventCommandTrigger", "Avalonia.Xaml.Behaviors.SourceGenerators.UnitTests");
         trigger.Attach(source);
         var weak = new WeakReference((object)trigger);
-        trigger = null;
+        trigger = null!;
         return weak;
     }
 
     private static void NullOutProxyWeakReference(DispatcherEventSource source)
     {
+#pragma warning disable IL2075 // Reflection access is intentional in test helper
         var handler = source.FirstHandler?.GetInvocationList().FirstOrDefault();
         if (handler?.Target is not object proxy)
         {
@@ -108,6 +111,7 @@ public class EventCommandRuntimeTests
 
         var weakNull = ctor.Invoke(new object?[] { null });
         triggerField.SetValue(proxy, weakNull);
+#pragma warning restore IL2075
     }
 
     private static async Task FlushDispatcherAsync()
