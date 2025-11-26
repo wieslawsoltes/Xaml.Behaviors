@@ -120,6 +120,28 @@ namespace TestNamespace
     }
 
     [Fact]
+    public void Should_Report_Diagnostic_For_Ref_Parameter()
+    {
+        var source = @"
+using System;
+using Xaml.Behaviors.SourceGenerators;
+
+namespace TestNamespace
+{
+    public partial class Handler
+    {
+        [GenerateEventArgsAction]
+        public void Handle(ref EventArgs args) { }
+    }
+}
+";
+
+        var (diagnostics, _) = GeneratorTestHelper.RunGenerator(source);
+
+        Assert.Contains(diagnostics, d => d.Id == "XBG009");
+    }
+
+    [Fact]
     public void Should_Report_Diagnostic_For_Generic_Containing_Type()
     {
         var source = @"

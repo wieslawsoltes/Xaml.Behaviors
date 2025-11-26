@@ -142,6 +142,50 @@ namespace TestNamespace
     }
 
     [Fact]
+    public void AsyncTrigger_Inaccessible_Property_Reports_Diagnostic()
+    {
+        var source = @"
+using System.Threading.Tasks;
+using Xaml.Behaviors.SourceGenerators;
+
+namespace TestNamespace
+{
+    public partial class Vm
+    {
+        [GenerateAsyncTrigger]
+        private Task? HiddenTask { get; set; }
+    }
+}
+";
+
+        var (diagnostics, _) = GeneratorTestHelper.RunGenerator(source);
+
+        Assert.Contains(diagnostics, d => d.Id == "XBG014");
+    }
+
+    [Fact]
+    public void ObservableTrigger_Inaccessible_Property_Reports_Diagnostic()
+    {
+        var source = @"
+using System;
+using Xaml.Behaviors.SourceGenerators;
+
+namespace TestNamespace
+{
+    public partial class Vm
+    {
+        [GenerateObservableTrigger]
+        private IObservable<int>? HiddenStream { get; set; }
+    }
+}
+";
+
+        var (diagnostics, _) = GeneratorTestHelper.RunGenerator(source);
+
+        Assert.Contains(diagnostics, d => d.Id == "XBG014");
+    }
+
+    [Fact]
     public void AsyncTrigger_Missing_Property_Pattern_Reports_Diagnostic()
     {
         var source = @"

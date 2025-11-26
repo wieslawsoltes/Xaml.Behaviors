@@ -395,6 +395,13 @@ namespace Xaml.Behaviors.SourceGenerators
             }
 
             var argsType = methodSymbol.Parameters[0].Type;
+            var parameter = methodSymbol.Parameters[0];
+            if (parameter.RefKind != RefKind.None)
+            {
+                var modifier = FormatRefKindKeyword(parameter.RefKind);
+                return Diagnostic.Create(ActionParameterModifierNotSupportedDiagnostic, loc, methodSymbol.Name, parameter.Name, modifier);
+            }
+
             if (!IsAccessibleType(argsType, compilation))
             {
                 return Diagnostic.Create(MemberNotAccessibleDiagnostic, loc, methodSymbol.Name, methodSymbol.ContainingType.ToDisplayString());

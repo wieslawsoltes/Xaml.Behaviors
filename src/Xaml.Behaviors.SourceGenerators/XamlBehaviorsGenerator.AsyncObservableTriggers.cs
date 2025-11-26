@@ -731,6 +731,12 @@ namespace Xaml.Behaviors.SourceGenerators
                 return Diagnostic.Create(GenericMemberNotSupportedDiagnostic, location, propertySymbol.Name);
             }
 
+            if (!IsAccessibleToGenerator(propertySymbol, compilation) ||
+                propertySymbol.GetMethod is not null && !IsAccessibleToGenerator(propertySymbol.GetMethod, compilation))
+            {
+                return Diagnostic.Create(MemberNotAccessibleDiagnostic, location, propertySymbol.Name, propertySymbol.ContainingType.ToDisplayString());
+            }
+
             if (!IsTaskLike(propertySymbol.Type, out resultType))
             {
                 return Diagnostic.Create(AsyncTriggerInvalidPropertyTypeDiagnostic, location, propertySymbol.Name);
@@ -766,6 +772,12 @@ namespace Xaml.Behaviors.SourceGenerators
             if (ContainsTypeParameter(propertySymbol.Type))
             {
                 return Diagnostic.Create(GenericMemberNotSupportedDiagnostic, location, propertySymbol.Name);
+            }
+
+            if (!IsAccessibleToGenerator(propertySymbol, compilation) ||
+                propertySymbol.GetMethod is not null && !IsAccessibleToGenerator(propertySymbol.GetMethod, compilation))
+            {
+                return Diagnostic.Create(MemberNotAccessibleDiagnostic, location, propertySymbol.Name, propertySymbol.ContainingType.ToDisplayString());
             }
 
             if (!IsObservableType(propertySymbol.Type, out valueType))

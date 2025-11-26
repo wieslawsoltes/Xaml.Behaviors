@@ -88,6 +88,36 @@ namespace TestNamespace
     }
 
     [Fact]
+    public void Should_Warn_SourceName_For_NonLogical_Type()
+    {
+        var source = @"
+using Avalonia;
+using Xaml.Behaviors.SourceGenerators;
+
+namespace TestNamespace
+{
+    public class PlainAvaloniaObject : Avalonia.AvaloniaObject
+    {
+        public static readonly StyledProperty<int> CountProperty =
+            AvaloniaProperty.Register<PlainAvaloniaObject, int>(nameof(Count));
+
+        public int Count
+        {
+            get => GetValue(CountProperty);
+            set => SetValue(CountProperty, value);
+        }
+    }
+}
+
+[assembly: GeneratePropertyTrigger(typeof(TestNamespace.PlainAvaloniaObject), ""CountProperty"", SourceName = ""source"")]
+";
+
+        var (diagnostics, _) = GeneratorTestHelper.RunGenerator(source);
+
+        Assert.Contains(diagnostics, d => d.Id == "XBG022");
+    }
+
+    [Fact]
     public void Should_Report_Diagnostic_For_Generic_Containing_Type()
     {
         var source = @"

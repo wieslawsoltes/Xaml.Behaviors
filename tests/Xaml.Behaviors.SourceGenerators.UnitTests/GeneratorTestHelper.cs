@@ -180,13 +180,18 @@ namespace Xaml.Behaviors.SourceGenerators
         outputCompilation = outputCompilation.RemoveSyntaxTrees(generatedAttributeTrees);
         var compilationDiagnostics = outputCompilation
             .GetDiagnostics()
-            .Where(d => d.Severity == DiagnosticSeverity.Error && !IsGeneratorAttributeDuplicate(d))
+            .Where(d => (d.Severity == DiagnosticSeverity.Error || d.Severity == DiagnosticSeverity.Warning) && !IsGeneratorAttributeDuplicate(d))
             .ToImmutableArray();
         var generatorErrors = generatorDiagnostics
-            .Where(d => d.Severity == DiagnosticSeverity.Error)
+            .Where(d => d.Severity is DiagnosticSeverity.Error or DiagnosticSeverity.Warning)
             .Where(d => !IsGeneratorAttributeDuplicate(d))
             .ToImmutableArray();
-        var diagnostics = generatorErrors.AddRange(compilationDiagnostics);
+        var diagnostics = generatorErrors
+            .AddRange(compilationDiagnostics)
+            .Where(d =>
+                d.Severity == DiagnosticSeverity.Error ||
+                d.Id.StartsWith("XBG", StringComparison.Ordinal))
+            .ToImmutableArray();
         
         var generatedSources = result.Results[0].GeneratedSources
             .Select(s => s.SourceText.ToString())
