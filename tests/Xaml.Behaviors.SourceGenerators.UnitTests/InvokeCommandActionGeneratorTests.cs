@@ -20,4 +20,35 @@ public class InvokeCommandActionGeneratorTests
         Assert.True(command.Executed);
         Assert.Equal("Param", command.ExecutedParameter);
     }
+
+    [Fact]
+    public void InvokeCommandAction_Inaccessible_Field_Type_Reports_Diagnostic()
+    {
+        var source = @"
+using System;
+using System.Windows.Input;
+using Avalonia.Xaml.Interactivity;
+using Xaml.Behaviors.SourceGenerators;
+
+[GenerateTypedInvokeCommandAction]
+public partial class Host : StyledElementAction
+{
+    private class PrivateCommand : ICommand
+    {
+#pragma warning disable CS0067
+        public event EventHandler? CanExecuteChanged;
+#pragma warning restore CS0067
+        public bool CanExecute(object? parameter) => true;
+        public void Execute(object? parameter) { }
+    }
+
+    [ActionCommand] private PrivateCommand _command = new();
+    [ActionParameter] private object? _parameter;
+}
+";
+
+        var (diagnostics, _) = GeneratorTestHelper.RunGenerator(source);
+
+        Assert.Contains(diagnostics, d => d.Id == "XBG014");
+    }
 }

@@ -201,6 +201,30 @@ public class Host
     }
 
     [Fact]
+    public void ParameterPath_Indexer_Is_Rejected()
+    {
+        var source = @"
+using System;
+using Xaml.Behaviors.SourceGenerators;
+
+public class Args : EventArgs
+{
+    public string this[int index] => ""value"";
+}
+
+public class Host
+{
+    [GenerateEventCommand(ParameterPath = ""Item"")]
+    public event EventHandler<Args>? Fired;
+}
+";
+
+        var (diagnostics, _) = GeneratorTestHelper.RunGenerator(source);
+
+        Assert.Contains(diagnostics, d => d.Id == "XBG020");
+    }
+
+    [Fact]
     public void Multiple_EventCommands_With_Different_Options_Are_Distinct()
     {
         var source = @"

@@ -618,6 +618,12 @@ namespace Xaml.Behaviors.SourceGenerators
                     return Diagnostic.Create(EventCommandInvalidParameterPathDiagnostic, diagnosticLocation ?? Location.None, parameterPath, eventName);
                 }
 
+                if (property.IsIndexer || property.Parameters.Length > 0)
+                {
+                    segments = ImmutableArray<ParameterPathSegment>.Empty;
+                    return Diagnostic.Create(EventCommandInvalidParameterPathDiagnostic, diagnosticLocation ?? Location.None, parameterPath, eventName);
+                }
+
                 if (!IsAccessibleToGenerator(property, compilation) || !IsAccessibleToGenerator(property.GetMethod, compilation))
                 {
                     var memberName = $"{currentType.ToDisplayString()}.{property.Name}";

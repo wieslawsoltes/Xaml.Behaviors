@@ -106,6 +106,28 @@ namespace Xaml.Behaviors.SourceGenerators
                     return results.ToImmutable();
                 }
 
+                if (ContainsTypeParameter(member.Type))
+                {
+                    var nsGeneric = symbol.ContainingNamespace.ToDisplayString();
+                    var namespaceGeneric = (symbol.ContainingNamespace.IsGlobalNamespace || nsGeneric == "<global namespace>") ? null : nsGeneric;
+                    var classGeneric = symbol.Name;
+                    var accessibilityGeneric = GetAccessibilityKeyword(symbol);
+                    var diag = Diagnostic.Create(GenericMemberNotSupportedDiagnostic, member.Locations.FirstOrDefault() ?? context.TargetNode?.GetLocation() ?? Location.None, member.Name);
+                    results.Add(new InvokeCommandActionInfo(namespaceGeneric, classGeneric, accessibilityGeneric, null, null, useDispatcher, diag));
+                    return results.ToImmutable();
+                }
+
+                if (!IsAccessibleType(member.Type, context.SemanticModel.Compilation))
+                {
+                    var nsInaccessible = symbol.ContainingNamespace.ToDisplayString();
+                    var namespaceInaccessible = (symbol.ContainingNamespace.IsGlobalNamespace || nsInaccessible == "<global namespace>") ? null : nsInaccessible;
+                    var classInaccessible = symbol.Name;
+                    var accessibilityInaccessible = GetAccessibilityKeyword(symbol);
+                    var diag = Diagnostic.Create(MemberNotAccessibleDiagnostic, member.Locations.FirstOrDefault() ?? context.TargetNode?.GetLocation() ?? Location.None, member.Name, symbol.ToDisplayString());
+                    results.Add(new InvokeCommandActionInfo(namespaceInaccessible, classInaccessible, accessibilityInaccessible, null, null, useDispatcher, diag));
+                    return results.ToImmutable();
+                }
+
                 if (hasCommandAttribute)
                 {
                     var fieldName = member.Name;

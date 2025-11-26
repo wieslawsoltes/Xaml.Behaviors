@@ -68,4 +68,25 @@ namespace TestNamespace
 
         Assert.Contains(diagnostics, d => d.Id == "XBG010");
     }
+
+    [Fact]
+    public void Should_Report_Error_When_Type_Is_Not_Partial()
+    {
+        var source = @"
+using Avalonia.Xaml.Interactivity;
+using Xaml.Behaviors.SourceGenerators;
+
+[GenerateTypedMultiDataTrigger]
+public class NonPartialTrigger : StyledElementTrigger
+{
+    [TriggerProperty]
+    private bool _flag;
+
+    private bool Evaluate() => _flag;
+}
+";
+        var (diagnostics, _) = GeneratorTestHelper.RunGenerator(source);
+
+        Assert.Contains(diagnostics, d => d.Id == "XBG016");
+    }
 }
