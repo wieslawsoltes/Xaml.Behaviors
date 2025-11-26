@@ -30,7 +30,7 @@ The Source Generators solve this by generating specific `Action` and `Trigger` c
 *   **[Typed EventArgs Action](typed-event-args-action.md)**: Generate actions that consume specific event args with optional member projection.
 *   **[Typed Async Trigger](typed-async-trigger.md)**: Generate triggers that react to tasks without converters or reflection.
 *   **[Typed Observable Trigger](typed-observable-trigger.md)**: Generate triggers that react to observables without converters or reflection.
-*   **[Diagnostics](diagnostics.md)**: Understand analyzer errors (XBG001-XBG031) with fixes and examples.
+*   **[Diagnostics](diagnostics.md)**: Understand analyzer errors (XBG001-XBG032) with fixes and examples.
 
 ## Example
 
