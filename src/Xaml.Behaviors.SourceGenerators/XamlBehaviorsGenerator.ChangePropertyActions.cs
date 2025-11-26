@@ -131,7 +131,10 @@ namespace Xaml.Behaviors.SourceGenerators
             sb.AppendLine("            return false;");
             sb.AppendLine("        }");
             sb.AppendLine("    }");
-            sb.AppendLine("}");
+            if (!string.IsNullOrEmpty(info.Namespace))
+            {
+                sb.AppendLine("}");
+            }
 
             spc.AddSource(CreateHintName(info.Namespace, info.ClassName), SourceText.From(sb.ToString(), Encoding.UTF8));
         }

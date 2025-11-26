@@ -24,6 +24,7 @@ namespace Xaml.Behaviors.SourceGenerators
             ImmutableArray<ActionParameter> Parameters,
             bool IsAwaitable,
             bool IsValueTask,
+            bool IsEventHandlerStyle,
             bool UseDispatcher,
             Diagnostic? Diagnostic = null);
 
@@ -126,15 +127,7 @@ namespace Xaml.Behaviors.SourceGenerators
             sb.AppendLine("        }");
             sb.AppendLine();
 
-            bool isEventHandlerStyle = false;
-            if (info.Parameters.Length == 2)
-            {
-                var p1Type = TrimNullableAnnotation(info.Parameters[0].Type);
-                if (IsObjectType(p1Type))
-                {
-                    isEventHandlerStyle = true;
-                }
-            }
+            var isEventHandlerStyle = info.IsEventHandlerStyle;
 
             if (!isEventHandlerStyle)
             {
@@ -441,7 +434,7 @@ namespace Xaml.Behaviors.SourceGenerators
             if (targetType == null)
             {
                 var className = $"{methodSymbol.Name}Action";
-                return new ActionInfo(null, className, "public", "", methodSymbol.Name, ImmutableArray<ActionParameter>.Empty, false, false, useDispatcher, Diagnostic.Create(ActionMethodNotFoundDiagnostic, diagnosticLocation ?? Location.None, methodSymbol.Name, "<unknown>"));
+                return new ActionInfo(null, className, "public", "", methodSymbol.Name, ImmutableArray<ActionParameter>.Empty, false, false, false, useDispatcher, Diagnostic.Create(ActionMethodNotFoundDiagnostic, diagnosticLocation ?? Location.None, methodSymbol.Name, "<unknown>"));
             }
 
             return CreateActionInfo(targetType, methodSymbol, diagnosticLocation, includeTypeNamePrefix, compilation, useDispatcher);
@@ -469,7 +462,7 @@ namespace Xaml.Behaviors.SourceGenerators
                 var className = string.IsNullOrEmpty(classPrefix) ? baseName : classPrefix + baseName;
                 var targetTypeName = ToDisplayStringWithNullable(targetType);
                 var accessibility = GetActionAccessibility(targetType);
-                return ImmutableArray.Create(new ActionInfo(namespaceName, className, accessibility, targetTypeName, methodPattern, ImmutableArray<ActionParameter>.Empty, false, false, useDispatcher, diagnostic));
+                return ImmutableArray.Create(new ActionInfo(namespaceName, className, accessibility, targetTypeName, methodPattern, ImmutableArray<ActionParameter>.Empty, false, false, false, useDispatcher, diagnostic));
             }
 
             var nsPart = targetType.ContainingNamespace.ToDisplayString();
@@ -490,7 +483,7 @@ namespace Xaml.Behaviors.SourceGenerators
                 var fallbackBase = $"{CreateSafeIdentifier(methodPattern)}Action";
                 var fallbackClassName = string.IsNullOrEmpty(classPrefix) ? fallbackBase : classPrefix + fallbackBase;
                 var accessibility = GetActionAccessibility(targetType);
-                return ImmutableArray.Create(new ActionInfo(namespaceNamePart, fallbackClassName, accessibility, targetTypeNamePart, methodPattern, ImmutableArray<ActionParameter>.Empty, false, false, useDispatcher, diag));
+                return ImmutableArray.Create(new ActionInfo(namespaceNamePart, fallbackClassName, accessibility, targetTypeNamePart, methodPattern, ImmutableArray<ActionParameter>.Empty, false, false, false, useDispatcher, diag));
             }
 
             var builder = ImmutableArray.CreateBuilder<ActionInfo>();
@@ -505,7 +498,7 @@ namespace Xaml.Behaviors.SourceGenerators
                         var baseName = $"{group.Key}Action";
                         var className = string.IsNullOrEmpty(classPrefix) ? baseName : classPrefix + baseName;
                         var accessibility = GetActionAccessibility(targetType, group.First());
-                        builder.Add(new ActionInfo(namespaceNamePart, className, accessibility, targetTypeNamePart, group.Key, ImmutableArray<ActionParameter>.Empty, false, false, useDispatcher, diagnostic));
+                        builder.Add(new ActionInfo(namespaceNamePart, className, accessibility, targetTypeNamePart, group.Key, ImmutableArray<ActionParameter>.Empty, false, false, false, useDispatcher, diagnostic));
                     }
                     continue;
                 }
@@ -520,7 +513,7 @@ namespace Xaml.Behaviors.SourceGenerators
         {
             var infos = CreateActionInfos(targetType, methodName, diagnosticLocation, compilation: compilation, useDispatcher: useDispatcher);
             var accessibility = GetActionAccessibility(targetType);
-            return infos.Length > 0 ? infos[0] : new ActionInfo(null, $"{methodName}Action", accessibility, ToDisplayStringWithNullable(targetType), methodName, ImmutableArray<ActionParameter>.Empty, false, false, useDispatcher, Diagnostic.Create(ActionMethodNotFoundDiagnostic, diagnosticLocation ?? Location.None, methodName, targetType.Name));
+            return infos.Length > 0 ? infos[0] : new ActionInfo(null, $"{methodName}Action", accessibility, ToDisplayStringWithNullable(targetType), methodName, ImmutableArray<ActionParameter>.Empty, false, false, false, useDispatcher, Diagnostic.Create(ActionMethodNotFoundDiagnostic, diagnosticLocation ?? Location.None, methodName, targetType.Name));
         }
 
         private ActionInfo CreateActionInfo(INamedTypeSymbol targetType, IMethodSymbol methodSymbol, Location? diagnosticLocation = null, bool includeTypeNamePrefix = false, Compilation? compilation = null, bool useDispatcher = false)
@@ -532,17 +525,18 @@ namespace Xaml.Behaviors.SourceGenerators
             var className = string.IsNullOrEmpty(typePrefix) ? baseName : typePrefix + baseName;
             var targetTypeName = ToDisplayStringWithNullable(targetType);
             var accessibility = GetActionAccessibility(targetType, methodSymbol);
+            var isEventHandlerStyle = IsEventHandlerSignature(methodSymbol);
 
             var validationDiagnostic = ValidateActionMethod(methodSymbol, diagnosticLocation, compilation);
             if (validationDiagnostic != null)
             {
-                return new ActionInfo(namespaceName, className, accessibility, targetTypeName, methodSymbol.Name, ImmutableArray<ActionParameter>.Empty, false, false, useDispatcher, validationDiagnostic);
+                return new ActionInfo(namespaceName, className, accessibility, targetTypeName, methodSymbol.Name, ImmutableArray<ActionParameter>.Empty, false, false, isEventHandlerStyle, useDispatcher, validationDiagnostic);
             }
 
             if (!IsAccessibleType(methodSymbol.ReturnType, compilation) || methodSymbol.Parameters.Any(p => !IsAccessibleType(p.Type, compilation)))
             {
                 var diag = Diagnostic.Create(MemberNotAccessibleDiagnostic, diagnosticLocation ?? Location.None, methodSymbol.Name, methodSymbol.ContainingType.ToDisplayString());
-                return new ActionInfo(namespaceName, className, accessibility, targetTypeName, methodSymbol.Name, ImmutableArray<ActionParameter>.Empty, false, false, useDispatcher, diag);
+                return new ActionInfo(namespaceName, className, accessibility, targetTypeName, methodSymbol.Name, ImmutableArray<ActionParameter>.Empty, false, false, isEventHandlerStyle, useDispatcher, diag);
             }
 
             var parameters = methodSymbol.Parameters.Select(p => new ActionParameter(p.Name, ToDisplayStringWithNullable(p.Type))).ToImmutableArray();
@@ -551,12 +545,29 @@ namespace Xaml.Behaviors.SourceGenerators
             bool isAwaitable = IsAwaitableType(returnType);
             bool isValueTask = IsValueTaskType(returnType);
 
-            return new ActionInfo(namespaceName, className, accessibility, targetTypeName, methodSymbol.Name, parameters, isAwaitable, isValueTask, useDispatcher);
+            return new ActionInfo(namespaceName, className, accessibility, targetTypeName, methodSymbol.Name, parameters, isAwaitable, isValueTask, isEventHandlerStyle, useDispatcher);
         }
 
         private bool UsesAccessibleTypes(IMethodSymbol methodSymbol, Compilation? compilation)
         {
             return IsAccessibleType(methodSymbol.ReturnType, compilation) && methodSymbol.Parameters.All(p => IsAccessibleType(p.Type, compilation));
+        }
+
+        private static bool IsEventHandlerSignature(IMethodSymbol methodSymbol)
+        {
+            if (methodSymbol.Parameters.Length != 2)
+                return false;
+
+            var first = methodSymbol.Parameters[0].Type;
+            var second = methodSymbol.Parameters[1].Type;
+
+            if (first.SpecialType != SpecialType.System_Object)
+                return false;
+
+            if (second.SpecialType == SpecialType.System_Object)
+                return true;
+
+            return InheritsFromEventArgs(second);
         }
 
         private string GetActionAccessibility(INamedTypeSymbol targetType, IMethodSymbol? methodSymbol = null)

@@ -16,4 +16,21 @@ public class ChangePropertyActionGeneratorTests
         
         Assert.Equal("TagValue", control.Tag);
     }
+
+    [Fact]
+    public void ChangePropertyAction_Should_Handle_Global_Namespace()
+    {
+        var source = @"
+using Xaml.Behaviors.SourceGenerators;
+
+public class GlobalViewModel
+{
+    [GenerateTypedChangePropertyAction]
+    public string Name { get; set; } = string.Empty;
+}
+";
+        var (diagnostics, _) = GeneratorTestHelper.RunGenerator(source);
+
+        Assert.Empty(diagnostics);
+    }
 }

@@ -91,6 +91,23 @@ namespace Xaml.Behaviors.SourceGenerators
             return typeName.StartsWith("global::System.Threading.Tasks.ValueTask", StringComparison.Ordinal);
         }
 
+        private static bool InheritsFromEventArgs(ITypeSymbol typeSymbol)
+        {
+            var current = typeSymbol;
+            while (current is INamedTypeSymbol named)
+            {
+                var display = named.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat);
+                if (display == "global::System.EventArgs")
+                {
+                    return true;
+                }
+
+                current = named.BaseType;
+            }
+
+            return false;
+        }
+
         private static bool IsObjectType(string typeName)
         {
             return typeName == "object" || typeName == "System.Object" || typeName == "global::System.Object";

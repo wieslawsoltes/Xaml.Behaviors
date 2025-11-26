@@ -283,6 +283,31 @@ namespace TestNamespace
     }
 
     [Fact]
+    public void TwoParameter_NonEventHandler_Should_Generate_Properties()
+    {
+        var source = @"
+using Xaml.Behaviors.SourceGenerators;
+
+namespace TestNamespace
+{
+    public partial class TestClass
+    {
+        [GenerateTypedAction]
+        public void TestMethod(object sender, int value) { }
+    }
+}";
+        var (diagnostics, sources) = GeneratorTestHelper.RunGenerator(source);
+
+        Assert.Empty(diagnostics);
+        var generated = sources.FirstOrDefault(s => s.Contains("class TestMethodAction"));
+        Assert.NotNull(generated);
+        Assert.Contains("public static readonly StyledProperty<object", generated);
+        Assert.Contains("public static readonly StyledProperty<int> ValueProperty", generated);
+        Assert.DoesNotContain("sender is object", generated);
+        Assert.Contains("typedTarget.TestMethod(Sender, Value)", generated);
+    }
+
+    [Fact]
     public void Should_Generate_Async_Action_Task()
     {
         var source = @"
