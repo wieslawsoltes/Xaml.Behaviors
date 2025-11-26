@@ -60,6 +60,31 @@ using Xaml.Behaviors.SourceGenerators;
     }
 
     [Fact]
+    public void ParameterPath_Can_Target_Base_EventArgs_Property()
+    {
+        var source = @"
+using System;
+using Avalonia.Interactivity;
+using Xaml.Behaviors.SourceGenerators;
+
+public class DerivedArgs : RoutedEventArgs { }
+
+public class Host
+{
+    [GenerateEventCommand(ParameterPath = nameof(RoutedEventArgs.Handled))]
+    public event EventHandler<DerivedArgs>? Fired;
+}
+";
+
+        var (diagnostics, sources) = GeneratorTestHelper.RunGenerator(source);
+
+        Assert.Empty(diagnostics);
+        var trigger = Assert.Single(sources.Where(s => s.Contains("FiredEventCommandTrigger", StringComparison.Ordinal)));
+        Assert.Contains("nameof(ParameterPath), \"Handled\"", trigger);
+        Assert.Contains(".Handled", trigger);
+    }
+
+    [Fact]
     public void Should_Report_Diagnostic_For_Missing_Event()
     {
         var source = @"

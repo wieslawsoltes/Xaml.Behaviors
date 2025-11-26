@@ -339,7 +339,7 @@ namespace Xaml.Behaviors.SourceGenerators
             foreach (var group in infos.GroupBy(info => (info.Namespace, info.ClassName)))
             {
                 var distinct = group
-                    .GroupBy(info => (info.TargetTypeName, info.PropertyName))
+                    .GroupBy(info => (info.TargetTypeName, info.PropertyName, info.UseDispatcher))
                     .Select(g => g.FirstOrDefault(info => info.Diagnostic is null) ?? g.First())
                     .ToList();
 
@@ -351,7 +351,8 @@ namespace Xaml.Behaviors.SourceGenerators
 
                 foreach (var info in distinct)
                 {
-                    yield return info with { ClassName = MakeUniqueName(info.ClassName, info.TargetTypeName) };
+                    var scope = $"{info.TargetTypeName}|{info.PropertyName}|{info.UseDispatcher}";
+                    yield return info with { ClassName = MakeUniqueName(info.ClassName, scope) };
                 }
             }
         }

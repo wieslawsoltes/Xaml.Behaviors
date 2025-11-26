@@ -1,3 +1,6 @@
+using System;
+using System.Linq;
+using System.Text.RegularExpressions;
 using Avalonia.Headless.XUnit;
 using Xunit;
 
@@ -32,5 +35,32 @@ public class GlobalViewModel
         var (diagnostics, _) = GeneratorTestHelper.RunGenerator(source);
 
         Assert.Empty(diagnostics);
+    }
+
+    [Fact]
+    public void ChangePropertyActions_With_Different_Dispatcher_Flags_Are_Distinct()
+    {
+        var source = @"
+using Xaml.Behaviors.SourceGenerators;
+
+public class Host
+{
+    public string Name { get; set; } = string.Empty;
+}
+
+[assembly: GenerateTypedChangePropertyAction(typeof(Host), ""Name"")]
+[assembly: GenerateTypedChangePropertyAction(typeof(Host), ""Name"", UseDispatcher = true)]
+";
+        var (diagnostics, sources) = GeneratorTestHelper.RunGenerator(source);
+
+        Assert.Empty(diagnostics);
+
+        var classNames = sources
+            .SelectMany(s => Regex.Matches(s, @"partial class (\w+)").Select(m => m.Groups[1].Value))
+            .Where(n => n.Contains("NameAction", StringComparison.Ordinal))
+            .Distinct()
+            .ToList();
+
+        Assert.Equal(2, classNames.Count);
     }
 }

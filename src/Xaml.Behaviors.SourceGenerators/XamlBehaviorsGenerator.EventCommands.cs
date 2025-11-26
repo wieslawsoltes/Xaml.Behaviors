@@ -601,7 +601,17 @@ namespace Xaml.Behaviors.SourceGenerators
                     return Diagnostic.Create(EventCommandInvalidParameterPathDiagnostic, diagnosticLocation ?? Location.None, parameterPath, eventName);
                 }
 
-                var property = currentType.GetMembers().OfType<IPropertySymbol>().FirstOrDefault(p => string.Equals(p.Name, part, System.StringComparison.Ordinal));
+                IPropertySymbol? property = null;
+                var searchType = currentType;
+                while (searchType != null)
+                {
+                    property = searchType.GetMembers().OfType<IPropertySymbol>().FirstOrDefault(p => string.Equals(p.Name, part, System.StringComparison.Ordinal));
+                    if (property != null)
+                    {
+                        break;
+                    }
+                    searchType = (searchType as INamedTypeSymbol)?.BaseType;
+                }
                 if (property?.GetMethod is null)
                 {
                     segments = ImmutableArray<ParameterPathSegment>.Empty;
