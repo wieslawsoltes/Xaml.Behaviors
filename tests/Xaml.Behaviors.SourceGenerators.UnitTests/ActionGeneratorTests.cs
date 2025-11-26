@@ -1,3 +1,4 @@
+using System;
 using Avalonia.Headless.XUnit;
 using Xunit;
 
@@ -27,5 +28,28 @@ public class ActionGeneratorTests
         
         Assert.True(control.MethodCalled);
         Assert.Equal("Test", control.MethodParameter);
+    }
+
+    [Fact]
+    public void Assembly_Alias_Attribute_Is_Recognized()
+    {
+        var source = @"
+using Xaml.Behaviors.SourceGenerators;
+using G = Xaml.Behaviors.SourceGenerators.GenerateTypedActionAttribute;
+
+namespace TestNamespace;
+
+public partial class AliasHost
+{
+    public void Run() { }
+}
+
+[assembly: G(typeof(TestNamespace.AliasHost), ""Run"")]
+";
+
+        var (diagnostics, sources) = GeneratorTestHelper.RunGenerator(source);
+
+        Assert.Empty(diagnostics);
+        Assert.Contains(sources, s => s.Contains("AliasHostRunAction", StringComparison.Ordinal));
     }
 }

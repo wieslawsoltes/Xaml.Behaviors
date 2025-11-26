@@ -37,7 +37,7 @@ namespace Xaml.Behaviors.SourceGenerators
 
             var assemblyTriggers = context.SyntaxProvider
                 .CreateSyntaxProvider(
-                    predicate: static (node, _) => IsAssemblyAttribute(node, "GeneratePropertyTrigger"),
+                    predicate: static (node, _) => IsAssemblyAttribute(node),
                     transform: (ctx, _) => GetAssemblyPropertyTriggerFromAttributeSyntax(ctx))
                 .SelectMany((x, _) => x);
 
@@ -83,6 +83,10 @@ namespace Xaml.Behaviors.SourceGenerators
         private ImmutableArray<PropertyTriggerInfo> GetAssemblyPropertyTriggerFromAttributeSyntax(GeneratorSyntaxContext context)
         {
             if (context.Node is not AttributeSyntax attributeSyntax)
+                return ImmutableArray<PropertyTriggerInfo>.Empty;
+
+            var attributeType = context.SemanticModel.GetTypeInfo(attributeSyntax).Type;
+            if (!IsAttributeType(attributeType, GeneratePropertyTriggerAttributeName))
                 return ImmutableArray<PropertyTriggerInfo>.Empty;
 
             if (attributeSyntax.ArgumentList?.Arguments == null)

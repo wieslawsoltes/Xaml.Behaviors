@@ -46,7 +46,7 @@ When the action executes (e.g., from an `EventTriggerBehavior`), it casts `param
 
 ## Diagnostics
 
-- Reuses existing action diagnostics: static/generic not supported (`XBG010`/`XBG008`), method not found/ambiguous (`XBG006`/`XBG007`), accessibility (`XBG014`).
+- Reuses existing action diagnostics: static/generic not supported (`XBG010`/`XBG008`), method not found/ambiguous (`XBG006`/`XBG007`), wrong parameter shape (`XBG033`), accessibility (`XBG014`).
 - Projection-specific diagnostics: `XBG027` when a projected member is missing; `XBG028` when the projected member exists but is not accessible.
 
 ## Notes

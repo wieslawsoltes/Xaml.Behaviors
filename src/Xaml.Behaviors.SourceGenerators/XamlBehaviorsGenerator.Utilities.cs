@@ -139,12 +139,9 @@ namespace Xaml.Behaviors.SourceGenerators
             return $"{baseName}_{ComputeHash(scope)}";
         }
 
-        private static bool IsAssemblyAttribute(SyntaxNode node, string attributeName)
+        private static bool IsAssemblyAttribute(SyntaxNode node)
         {
             if (node is not AttributeSyntax attributeSyntax)
-                return false;
-
-            if (!attributeSyntax.Name.ToString().Contains(attributeName, StringComparison.Ordinal))
                 return false;
 
             if (attributeSyntax.Parent is AttributeListSyntax list && list.Target?.Identifier.IsKind(SyntaxKind.AssemblyKeyword) == true)
@@ -173,6 +170,27 @@ namespace Xaml.Behaviors.SourceGenerators
                 return true;
 
             return attributeClass.Name == metadataName.Split('.').Last();
+        }
+
+        private static bool IsAttributeType(ITypeSymbol? attributeType, string metadataName)
+        {
+            if (attributeType == null)
+                return false;
+
+            var displayName = attributeType.ToDisplayString();
+            if (displayName == metadataName)
+                return true;
+
+            var fullyQualified = attributeType.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat);
+            if (fullyQualified.StartsWith("global::", StringComparison.Ordinal))
+            {
+                fullyQualified = fullyQualified.Substring("global::".Length);
+            }
+
+            if (fullyQualified == metadataName)
+                return true;
+
+            return attributeType.Name == metadataName.Split('.').Last();
         }
 
         private static bool ContainsTypeParameter(ITypeSymbol? typeSymbol)

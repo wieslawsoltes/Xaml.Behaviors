@@ -48,7 +48,7 @@ namespace TestNamespace
 
         var (diagnostics, _) = GeneratorTestHelper.RunGenerator(source);
 
-        Assert.Contains(diagnostics, d => d.Id == "XBG007");
+        Assert.Contains(diagnostics, d => d.Id == "XBG033");
     }
 
     [Fact]

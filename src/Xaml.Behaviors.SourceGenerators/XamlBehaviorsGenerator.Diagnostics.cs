@@ -262,5 +262,13 @@ namespace Xaml.Behaviors.SourceGenerators
             category: "Usage",
             DiagnosticSeverity.Error,
             isEnabledByDefault: true);
+
+        private static readonly DiagnosticDescriptor EventArgsActionInvalidSignatureDiagnostic = new(
+            id: "XBG033",
+            title: "Invalid event args action signature",
+            messageFormat: "Method '{0}' must declare exactly one parameter for event args action generation",
+            category: "Usage",
+            DiagnosticSeverity.Error,
+            isEnabledByDefault: true);
     }
 }

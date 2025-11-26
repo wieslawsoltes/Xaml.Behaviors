@@ -34,7 +34,7 @@ namespace Xaml.Behaviors.SourceGenerators
 
             var assemblyPropertyActions = context.SyntaxProvider
                 .CreateSyntaxProvider(
-                    predicate: static (node, _) => IsAssemblyAttribute(node, "GenerateTypedChangePropertyAction"),
+                    predicate: static (node, _) => IsAssemblyAttribute(node),
                     transform: (ctx, _) => GetAssemblyChangePropertyFromAttributeSyntax(ctx))
                 .SelectMany((info, _) => info);
 
@@ -180,6 +180,10 @@ namespace Xaml.Behaviors.SourceGenerators
         private ImmutableArray<ChangePropertyInfo> GetAssemblyChangePropertyFromAttributeSyntax(GeneratorSyntaxContext context)
         {
             if (context.Node is not AttributeSyntax attributeSyntax)
+                return ImmutableArray<ChangePropertyInfo>.Empty;
+
+            var attributeType = context.SemanticModel.GetTypeInfo(attributeSyntax).Type;
+            if (!IsAttributeType(attributeType, GenerateTypedChangePropertyActionAttributeName))
                 return ImmutableArray<ChangePropertyInfo>.Empty;
 
             if (attributeSyntax.ArgumentList?.Arguments == null)

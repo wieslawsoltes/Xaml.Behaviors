@@ -40,7 +40,7 @@ namespace Xaml.Behaviors.SourceGenerators
 
             var assemblyActions = context.SyntaxProvider
                 .CreateSyntaxProvider(
-                    predicate: static (node, _) => IsAssemblyAttribute(node, "GenerateEventArgsAction"),
+                    predicate: static (node, _) => IsAssemblyAttribute(node),
                     transform: (ctx, _) => GetAssemblyEventArgsActions(ctx))
                 .SelectMany((x, _) => x);
 
@@ -79,6 +79,10 @@ namespace Xaml.Behaviors.SourceGenerators
         private ImmutableArray<EventArgsActionInfo> GetAssemblyEventArgsActions(GeneratorSyntaxContext context)
         {
             if (context.Node is not AttributeSyntax attributeSyntax)
+                return ImmutableArray<EventArgsActionInfo>.Empty;
+
+            var attributeType = context.SemanticModel.GetTypeInfo(attributeSyntax).Type;
+            if (!IsAttributeType(attributeType, GenerateEventArgsActionAttributeName))
                 return ImmutableArray<EventArgsActionInfo>.Empty;
 
             if (attributeSyntax.ArgumentList?.Arguments == null)
@@ -391,7 +395,7 @@ namespace Xaml.Behaviors.SourceGenerators
 
             if (methodSymbol.Parameters.Length != 1)
             {
-                return Diagnostic.Create(ActionMethodAmbiguousDiagnostic, loc, methodSymbol.Name, methodSymbol.ContainingType.Name);
+                return Diagnostic.Create(EventArgsActionInvalidSignatureDiagnostic, loc, methodSymbol.Name);
             }
 
             var argsType = methodSymbol.Parameters[0].Type;

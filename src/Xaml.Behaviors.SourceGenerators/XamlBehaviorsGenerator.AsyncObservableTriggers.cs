@@ -50,7 +50,7 @@ namespace Xaml.Behaviors.SourceGenerators
 
             var asyncAssembly = context.SyntaxProvider
                 .CreateSyntaxProvider(
-                    predicate: static (node, _) => IsAssemblyAttribute(node, "GenerateAsyncTrigger"),
+                    predicate: static (node, _) => IsAssemblyAttribute(node),
                     transform: (ctx, _) => GetAsyncTriggerFromAssemblyAttribute(ctx))
                 .SelectMany((x, _) => x);
 
@@ -63,7 +63,7 @@ namespace Xaml.Behaviors.SourceGenerators
 
             var observableAssembly = context.SyntaxProvider
                 .CreateSyntaxProvider(
-                    predicate: static (node, _) => IsAssemblyAttribute(node, "GenerateObservableTrigger"),
+                    predicate: static (node, _) => IsAssemblyAttribute(node),
                     transform: (ctx, _) => GetObservableTriggerFromAssemblyAttribute(ctx))
                 .SelectMany((x, _) => x);
 
@@ -117,6 +117,10 @@ namespace Xaml.Behaviors.SourceGenerators
         private ImmutableArray<AsyncTriggerInfo> GetAsyncTriggerFromAssemblyAttribute(GeneratorSyntaxContext context)
         {
             if (context.Node is not AttributeSyntax attributeSyntax)
+                return ImmutableArray<AsyncTriggerInfo>.Empty;
+
+            var attributeType = context.SemanticModel.GetTypeInfo(attributeSyntax).Type;
+            if (!IsAttributeType(attributeType, GenerateAsyncTriggerAttributeName))
                 return ImmutableArray<AsyncTriggerInfo>.Empty;
 
             if (attributeSyntax.ArgumentList?.Arguments == null)
@@ -183,6 +187,10 @@ namespace Xaml.Behaviors.SourceGenerators
         private ImmutableArray<ObservableTriggerInfo> GetObservableTriggerFromAssemblyAttribute(GeneratorSyntaxContext context)
         {
             if (context.Node is not AttributeSyntax attributeSyntax)
+                return ImmutableArray<ObservableTriggerInfo>.Empty;
+
+            var attributeType = context.SemanticModel.GetTypeInfo(attributeSyntax).Type;
+            if (!IsAttributeType(attributeType, GenerateObservableTriggerAttributeName))
                 return ImmutableArray<ObservableTriggerInfo>.Empty;
 
             if (attributeSyntax.ArgumentList?.Arguments == null)

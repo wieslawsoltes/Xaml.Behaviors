@@ -39,7 +39,7 @@ namespace Xaml.Behaviors.SourceGenerators
 
             var assemblyCommands = context.SyntaxProvider
                 .CreateSyntaxProvider(
-                    predicate: static (node, _) => IsAssemblyAttribute(node, "GenerateEventCommand"),
+                    predicate: static (node, _) => IsAssemblyAttribute(node),
                     transform: (ctx, _) => GetAssemblyEventCommandFromAttributeSyntax(ctx))
                 .SelectMany((x, _) => x);
 
@@ -84,6 +84,10 @@ namespace Xaml.Behaviors.SourceGenerators
         private ImmutableArray<EventCommandInfo> GetAssemblyEventCommandFromAttributeSyntax(GeneratorSyntaxContext context)
         {
             if (context.Node is not AttributeSyntax attributeSyntax)
+                return ImmutableArray<EventCommandInfo>.Empty;
+
+            var attributeType = context.SemanticModel.GetTypeInfo(attributeSyntax).Type;
+            if (!IsAttributeType(attributeType, GenerateEventCommandAttributeName))
                 return ImmutableArray<EventCommandInfo>.Empty;
 
             if (attributeSyntax.ArgumentList is null || attributeSyntax.ArgumentList.Arguments.Count < 2)

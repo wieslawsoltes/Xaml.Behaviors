@@ -39,7 +39,7 @@ namespace Xaml.Behaviors.SourceGenerators
 
             var assemblyActions = context.SyntaxProvider
                 .CreateSyntaxProvider(
-                    predicate: static (node, _) => IsAssemblyAttribute(node, "GenerateTypedAction"),
+                    predicate: static (node, _) => IsAssemblyAttribute(node),
                     transform: (ctx, _) => GetAssemblyActionFromAttributeSyntax(ctx))
                 .SelectMany((info, _) => info);
 
@@ -400,6 +400,10 @@ namespace Xaml.Behaviors.SourceGenerators
         private ImmutableArray<ActionInfo> GetAssemblyActionFromAttributeSyntax(GeneratorSyntaxContext context)
         {
             if (context.Node is not AttributeSyntax attributeSyntax)
+                return ImmutableArray<ActionInfo>.Empty;
+
+            var attributeType = context.SemanticModel.GetTypeInfo(attributeSyntax).Type;
+            if (!IsAttributeType(attributeType, GenerateTypedActionAttributeName))
                 return ImmutableArray<ActionInfo>.Empty;
 
             if (attributeSyntax.ArgumentList?.Arguments == null)
