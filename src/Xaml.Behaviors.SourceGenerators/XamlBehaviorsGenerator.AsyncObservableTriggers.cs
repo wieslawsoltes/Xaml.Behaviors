@@ -1,6 +1,7 @@
 // Copyright (c) Wiesław Šoltés. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for details.
 
+using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
@@ -86,6 +87,7 @@ namespace Xaml.Behaviors.SourceGenerators
             if (context.TargetSymbol is IAssemblySymbol)
                 return builder.ToImmutable();
 
+            var classNameCounts = new Dictionary<string, int>(StringComparer.Ordinal);
             if (context.TargetSymbol is IPropertySymbol propertySymbol)
             {
                 foreach (var attribute in context.Attributes)
@@ -95,6 +97,16 @@ namespace Xaml.Behaviors.SourceGenerators
                     var nameOverride = GetNameOverride(attribute, context.SemanticModel);
                     var location = attribute.ApplicationSyntaxReference?.GetSyntax()?.GetLocation() ?? context.TargetNode?.GetLocation();
                     var info = CreateAsyncTriggerInfo(propertySymbol, location, context.SemanticModel.Compilation, includeTypeNamePrefix: false, useDispatcher, fireOnAttach, nameOverride);
+                    if (classNameCounts.TryGetValue(info.ClassName, out var count))
+                    {
+                        classNameCounts[info.ClassName] = count + 1;
+                        var scope = $"{info.TargetTypeName}|{info.PropertyName}|{info.UseDispatcher}|{info.FireOnAttach}|{count + 1}";
+                        info = info with { ClassName = MakeUniqueName(info.ClassName, scope) };
+                    }
+                    else
+                    {
+                        classNameCounts[info.ClassName] = 1;
+                    }
                     builder.Add(info);
                 }
             }
@@ -141,6 +153,7 @@ namespace Xaml.Behaviors.SourceGenerators
             if (context.TargetSymbol is IAssemblySymbol)
                 return builder.ToImmutable();
 
+            var classNameCounts = new Dictionary<string, int>(StringComparer.Ordinal);
             if (context.TargetSymbol is IPropertySymbol propertySymbol)
             {
                 foreach (var attribute in context.Attributes)
@@ -150,6 +163,16 @@ namespace Xaml.Behaviors.SourceGenerators
                     var nameOverride = GetNameOverride(attribute, context.SemanticModel);
                     var location = attribute.ApplicationSyntaxReference?.GetSyntax()?.GetLocation() ?? context.TargetNode?.GetLocation();
                     var info = CreateObservableTriggerInfo(propertySymbol, location, context.SemanticModel.Compilation, includeTypeNamePrefix: false, useDispatcher, fireOnAttach, nameOverride);
+                    if (classNameCounts.TryGetValue(info.ClassName, out var count))
+                    {
+                        classNameCounts[info.ClassName] = count + 1;
+                        var scope = $"{info.TargetTypeName}|{info.PropertyName}|{info.UseDispatcher}|{info.FireOnAttach}|{count + 1}";
+                        info = info with { ClassName = MakeUniqueName(info.ClassName, scope) };
+                    }
+                    else
+                    {
+                        classNameCounts[info.ClassName] = 1;
+                    }
                     builder.Add(info);
                 }
             }
@@ -519,13 +542,13 @@ namespace Xaml.Behaviors.SourceGenerators
             sb.AppendLine();
             sb.AppendLine("        private void Subscribe()");
             sb.AppendLine("        {");
-            sb.AppendLine("            _subscription?.Dispose();");
-            sb.AppendLine("            _subscription = null;");
             sb.AppendLine("            var obs = GetObservable();");
             sb.AppendLine("            if (ReferenceEquals(obs, _currentObservable))");
             sb.AppendLine("            {");
             sb.AppendLine("                return;");
             sb.AppendLine("            }");
+            sb.AppendLine("            _subscription?.Dispose();");
+            sb.AppendLine("            _subscription = null;");
             sb.AppendLine("            _currentObservable = obs;");
             sb.AppendLine("            LastError = null;");
             sb.AppendLine("            LastValue = default!;");
@@ -678,6 +701,11 @@ namespace Xaml.Behaviors.SourceGenerators
             var typePrefix = includeTypeNamePrefix ? GetTypeNamePrefix(targetType) : string.Empty;
             var baseName = nameOverride ?? $"{propertySymbol.Name}AsyncTrigger";
             var className = string.IsNullOrEmpty(typePrefix) ? baseName : typePrefix + baseName;
+            if (nameOverride is not null && (useDispatcher != true || fireOnAttach != true))
+            {
+                var scope = $"{targetType.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat)}|{propertySymbol.Name}|{useDispatcher}|{fireOnAttach}";
+                className = MakeUniqueName(className, scope);
+            }
             var targetTypeName = ToDisplayStringWithNullable(targetType);
             var propertyTypeName = ToDisplayStringWithNullable(propertySymbol.Type);
             var accessibility = GetAccessibilityKeyword(targetType);
@@ -700,6 +728,11 @@ namespace Xaml.Behaviors.SourceGenerators
             var typePrefix = includeTypeNamePrefix ? GetTypeNamePrefix(targetType) : string.Empty;
             var baseName = nameOverride ?? $"{propertySymbol.Name}ObservableTrigger";
             var className = string.IsNullOrEmpty(typePrefix) ? baseName : typePrefix + baseName;
+            if (nameOverride is not null && (useDispatcher != true || fireOnAttach != true))
+            {
+                var scope = $"{targetType.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat)}|{propertySymbol.Name}|{useDispatcher}|{fireOnAttach}";
+                className = MakeUniqueName(className, scope);
+            }
             var targetTypeName = ToDisplayStringWithNullable(targetType);
             var propertyTypeName = ToDisplayStringWithNullable(propertySymbol.Type);
             var accessibility = GetAccessibilityKeyword(targetType);
@@ -848,7 +881,7 @@ namespace Xaml.Behaviors.SourceGenerators
             foreach (var group in infos.GroupBy(info => (info.Namespace, info.ClassName)))
             {
                 var distinct = group
-                    .GroupBy(info => (info.TargetTypeName, info.PropertyName))
+                    .GroupBy(info => (info.TargetTypeName, info.PropertyName, info.UseDispatcher, info.FireOnAttach))
                     .Select(g => g.FirstOrDefault(info => info.Diagnostic is null) ?? g.First())
                     .ToList();
 
@@ -860,7 +893,8 @@ namespace Xaml.Behaviors.SourceGenerators
 
                 foreach (var info in distinct)
                 {
-                    yield return info with { ClassName = MakeUniqueName(info.ClassName, info.TargetTypeName) };
+                    var scope = $"{info.TargetTypeName}|{info.PropertyName}|{info.UseDispatcher}|{info.FireOnAttach}";
+                    yield return info with { ClassName = MakeUniqueName(info.ClassName, scope) };
                 }
             }
         }
@@ -870,7 +904,7 @@ namespace Xaml.Behaviors.SourceGenerators
             foreach (var group in infos.GroupBy(info => (info.Namespace, info.ClassName)))
             {
                 var distinct = group
-                    .GroupBy(info => (info.TargetTypeName, info.PropertyName))
+                    .GroupBy(info => (info.TargetTypeName, info.PropertyName, info.UseDispatcher, info.FireOnAttach))
                     .Select(g => g.FirstOrDefault(info => info.Diagnostic is null) ?? g.First())
                     .ToList();
 
@@ -882,7 +916,8 @@ namespace Xaml.Behaviors.SourceGenerators
 
                 foreach (var info in distinct)
                 {
-                    yield return info with { ClassName = MakeUniqueName(info.ClassName, info.TargetTypeName) };
+                    var scope = $"{info.TargetTypeName}|{info.PropertyName}|{info.UseDispatcher}|{info.FireOnAttach}";
+                    yield return info with { ClassName = MakeUniqueName(info.ClassName, scope) };
                 }
             }
         }

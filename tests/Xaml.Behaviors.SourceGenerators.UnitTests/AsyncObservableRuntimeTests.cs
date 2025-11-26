@@ -298,6 +298,31 @@ public class AsyncObservableRuntimeTests
     }
 
     [AvaloniaFact]
+    public async Task ObservableTrigger_Reuses_Subscription_When_SourceObject_Changes_But_Observable_Is_Same()
+    {
+        var stream = new TestObservable<int>();
+        var host1 = new RuntimeAsyncObservableHost { IntStream = stream };
+        var host2 = new RuntimeAsyncObservableHost { IntStream = stream };
+
+        dynamic trigger = GeneratedTypeHelper.CreateInstance("IntStreamObservableTrigger", "Avalonia.Xaml.Behaviors.SourceGenerators.UnitTests");
+        var action = new RecordingAction();
+        trigger.Actions.Add(action);
+        trigger.Attach(new TestControl());
+
+        trigger.SourceObject = host1;
+        stream.OnNext(1);
+        await FlushDispatcherAsync();
+        Assert.Equal(1, Assert.IsType<int>(action.SeenParameters.Last()));
+
+        trigger.SourceObject = host2;
+        stream.OnNext(2);
+        await FlushDispatcherAsync();
+
+        Assert.Equal(2, Assert.IsType<int>(action.SeenParameters.Last()));
+        Assert.Equal(2, action.SeenParameters.Count);
+    }
+
+    [AvaloniaFact]
     public async Task AsyncTrigger_Dispatcher_Path_Drops_Stale_Task()
     {
         var host = new RuntimeAsyncObservableHost();

@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -363,5 +364,61 @@ namespace TestNamespace
         Assert.Empty(diagnostics);
         Assert.Contains(sources, s => s.Contains("FirstStreamTrigger", StringComparison.Ordinal));
         Assert.Contains(sources, s => s.Contains("SecondStreamTrigger", StringComparison.Ordinal));
+    }
+
+    [Fact]
+    public void AsyncTrigger_Different_Options_With_Same_Name_Are_Unique()
+    {
+        var source = @"
+using System.Threading.Tasks;
+using Xaml.Behaviors.SourceGenerators;
+
+public partial class Vm
+{
+    [GenerateAsyncTrigger(Name = ""LoadTrigger"", UseDispatcher = true)]
+    [GenerateAsyncTrigger(Name = ""LoadTrigger"", UseDispatcher = false, FireOnAttach = false)]
+    public Task? LoadTask { get; set; }
+}
+";
+
+        var (diagnostics, sources) = GeneratorTestHelper.RunGenerator(source);
+
+        Assert.Empty(diagnostics);
+
+        var classNames = sources
+            .SelectMany(s => Regex.Matches(s, @"class\s+(?<name>\w+)\s*:\s*Avalonia\.Xaml\.Interactivity\.StyledElementTrigger")
+                .Select(m => m.Groups["name"].Value))
+            .Distinct()
+            .ToList();
+
+        Assert.True(classNames.Count >= 2, "Expected two generated async triggers with differing options.");
+    }
+
+    [Fact]
+    public void ObservableTrigger_Different_Options_With_Same_Name_Are_Unique()
+    {
+        var source = @"
+using System;
+using Xaml.Behaviors.SourceGenerators;
+
+public partial class Vm
+{
+    [GenerateObservableTrigger(Name = ""StreamTrigger"", UseDispatcher = true)]
+    [GenerateObservableTrigger(Name = ""StreamTrigger"", UseDispatcher = false, FireOnAttach = false)]
+    public IObservable<int>? Stream { get; set; }
+}
+";
+
+        var (diagnostics, sources) = GeneratorTestHelper.RunGenerator(source);
+
+        Assert.Empty(diagnostics);
+
+        var classNames = sources
+            .SelectMany(s => Regex.Matches(s, @"class\s+(?<name>\w+)\s*:\s*Avalonia\.Xaml\.Interactivity\.StyledElementTrigger")
+                .Select(m => m.Groups["name"].Value))
+            .Distinct()
+            .ToList();
+
+        Assert.True(classNames.Count >= 2, "Expected two generated observable triggers with differing options.");
     }
 }

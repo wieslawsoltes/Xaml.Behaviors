@@ -532,3 +532,83 @@ public class Host
 **Fix**: Make the member public or grant `InternalsVisibleTo` access to the assembly that contains the generated code.
 
 Nested target types still surface `XBG018`; move the target type to the top level if you see that error.
+
+### XBG029 Unsupported event command parameter modifier
+The event delegate has a parameter that uses `ref`/`in`/`out`, which cannot be forwarded by the generated trigger.
+
+```csharp
+public delegate void RefHandler(ref EventArgs args);
+
+public class Host
+{
+    [GenerateEventCommand]
+    public event RefHandler? Fired; // XBG029
+}
+```
+
+**Fix**: Use by-value parameters in the event delegate.
+
+```csharp
+public delegate void RefHandler(EventArgs args); // OK
+```
+
+## InvokeCommand/MultiDataTrigger diagnostics (XBG030-XBG032)
+
+### XBG030 ActionCommand field required
+`[GenerateTypedInvokeCommandAction]` requires a field marked with `[ActionCommand]` to hold the command.
+
+```csharp
+[GenerateTypedInvokeCommandAction]
+public partial class InvokeSave : Avalonia.Xaml.Interactivity.StyledElementAction
+{
+    // Missing [ActionCommand] field -> XBG030
+}
+```
+
+**Fix**: Add a mutable field and mark it with `[ActionCommand]`.
+
+```csharp
+[GenerateTypedInvokeCommandAction]
+public partial class InvokeSave : Avalonia.Xaml.Interactivity.StyledElementAction
+{
+    [ActionCommand] private ICommand? _command;
+}
+```
+
+### XBG031 TriggerProperty field required
+`[GenerateTypedMultiDataTrigger]` needs at least one `[TriggerProperty]` field to evaluate.
+
+```csharp
+[GenerateTypedMultiDataTrigger]
+public partial class ValidationTrigger : Avalonia.Xaml.Interactivity.StyledElementTrigger
+{
+    // No [TriggerProperty] fields -> XBG031
+}
+```
+
+**Fix**: Add one or more mutable fields marked with `[TriggerProperty]`.
+
+```csharp
+[GenerateTypedMultiDataTrigger]
+public partial class ValidationTrigger : Avalonia.Xaml.Interactivity.StyledElementTrigger
+{
+    [TriggerProperty] private bool _isValid;
+}
+```
+
+### XBG032 Read-only member not supported
+Fields marked with `[TriggerProperty]`, `[ActionCommand]`, or `[ActionParameter]` must be mutable.
+
+```csharp
+[GenerateTypedInvokeCommandAction]
+public partial class InvokeSave : Avalonia.Xaml.Interactivity.StyledElementAction
+{
+    [ActionCommand] private readonly ICommand? _command; // XBG032
+}
+```
+
+**Fix**: Remove `readonly` so the generator can assign into the backing field.
+
+```csharp
+[ActionCommand] private ICommand? _command; // OK
+```
