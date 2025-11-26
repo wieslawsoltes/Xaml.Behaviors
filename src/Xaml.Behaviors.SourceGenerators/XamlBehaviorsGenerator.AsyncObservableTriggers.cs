@@ -875,12 +875,26 @@ namespace Xaml.Behaviors.SourceGenerators
         private static bool IsObservableType(ITypeSymbol typeSymbol, out string? valueType)
         {
             valueType = null;
-            if (typeSymbol is INamedTypeSymbol named &&
-                named.ConstructedFrom?.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat) == "global::System.IObservable<T>")
+
+            if (typeSymbol is INamedTypeSymbol named)
             {
-                valueType = ToDisplayStringWithNullable(named.TypeArguments[0]);
-                return true;
+                if (named.ConstructedFrom?.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat) == "global::System.IObservable<T>")
+                {
+                    valueType = ToDisplayStringWithNullable(named.TypeArguments[0]);
+                    return true;
+                }
+
+                var observableInterface = named.AllInterfaces
+                    .OfType<INamedTypeSymbol>()
+                    .FirstOrDefault(i => i.ConstructedFrom?.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat) == "global::System.IObservable<T>");
+
+                if (observableInterface != null)
+                {
+                    valueType = ToDisplayStringWithNullable(observableInterface.TypeArguments[0]);
+                    return true;
+                }
             }
+
             return false;
         }
 

@@ -57,6 +57,34 @@ namespace TestNamespace
     }
 
     [Fact]
+    public void ObservableTrigger_Allows_Type_Implementing_Interface()
+    {
+        var source = @"
+using System;
+using Xaml.Behaviors.SourceGenerators;
+
+namespace TestNamespace
+{
+    public class CustomObservable : IObservable<int>
+    {
+        public IDisposable Subscribe(IObserver<int> observer) => throw new NotImplementedException();
+    }
+
+    public partial class Vm
+    {
+        [GenerateObservableTrigger]
+        public CustomObservable? CustomStream { get; set; }
+    }
+}
+";
+
+        var (diagnostics, sources) = GeneratorTestHelper.RunGenerator(source);
+
+        Assert.Empty(diagnostics);
+        Assert.Contains(sources, s => s.Contains("CustomStreamObservableTrigger", StringComparison.Ordinal));
+    }
+
+    [Fact]
     public void AsyncTrigger_Defaults_To_UseDispatcher_For_Member()
     {
         var source = @"

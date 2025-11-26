@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using System.Text.RegularExpressions;
 using Avalonia.Headless.XUnit;
 using Xunit;
 
@@ -177,5 +178,45 @@ namespace TestNamespace
         Assert.Empty(diagnostics);
         Assert.Contains(sources, s => s.Contains("FirstCountTrigger", StringComparison.Ordinal));
         Assert.Contains(sources, s => s.Contains("SecondCountTrigger", StringComparison.Ordinal));
+    }
+
+    [Fact]
+    public void PropertyTriggers_With_Different_Dispatcher_Settings_Are_Distinct()
+    {
+        var source = @"
+using Avalonia;
+using Avalonia.Controls;
+using Xaml.Behaviors.SourceGenerators;
+
+namespace TestNamespace
+{
+    public class TestControl : Control
+    {
+        [GeneratePropertyTrigger(Name = ""CountTrigger"")]
+        [GeneratePropertyTrigger(Name = ""CountTrigger"", UseDispatcher = true)]
+        public static readonly StyledProperty<int> CountProperty =
+            AvaloniaProperty.Register<TestControl, int>(nameof(Count));
+
+        public int Count
+        {
+            get => GetValue(CountProperty);
+            set => SetValue(CountProperty, value);
+        }
+    }
+}
+";
+
+        var (diagnostics, sources) = GeneratorTestHelper.RunGenerator(source);
+
+        Assert.Empty(diagnostics);
+
+        var classNames = sources
+            .SelectMany(s => Regex.Matches(s, @"class\s+(?<name>\w+)\s*:\s*Avalonia\.Xaml\.Interactivity\.StyledElementTrigger")
+                .Select(m => m.Groups["name"].Value))
+            .Where(n => n.Contains("CountTrigger", StringComparison.Ordinal))
+            .Distinct()
+            .ToList();
+
+        Assert.True(classNames.Count >= 2, "Expected distinct CountTrigger classes for differing UseDispatcher values.");
     }
 }
