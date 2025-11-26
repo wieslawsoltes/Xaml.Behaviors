@@ -32,7 +32,7 @@ public partial class SubmitAction : StyledElementAction
 ## Generated Code
 
 The source generator creates:
-1.  DependencyProperties for the command and parameter.
+1.  StyledProperties for the command and parameter.
 2.  An `Execute` method override that:
     *   Syncs the backing fields with the property values.
     *   Checks `CanExecute`.

@@ -176,6 +176,27 @@ namespace TestNamespace
     }
 
     [Fact]
+    public void Should_Report_Error_For_Readonly_Command_Field()
+    {
+        var source = @"
+using System.Windows.Input;
+using Xaml.Behaviors.SourceGenerators;
+
+namespace TestNamespace
+{
+    [GenerateTypedInvokeCommandAction]
+    public partial class ReadonlyCommandAction : Avalonia.Xaml.Interactivity.StyledElementAction
+    {
+        [ActionCommand]
+        private readonly ICommand _command;
+    }
+}";
+        var (diagnostics, _) = GeneratorTestHelper.RunGenerator(source);
+
+        Assert.Contains(diagnostics, d => d.Id == "XBG032");
+    }
+
+    [Fact]
     public void Should_Report_Error_For_Nested_Type()
     {
         var source = @"

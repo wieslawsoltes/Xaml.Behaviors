@@ -37,6 +37,7 @@ This page lists the analyzer diagnostics emitted by `Xaml.Behaviors.SourceGenera
 | XBG029 | Event Command | Event delegate parameter uses `ref`/`in`/`out` | Change the delegate to use by-value parameters |
 | XBG030 | InvokeCommandAction | Missing `[ActionCommand]` field | Add a field marked with `[ActionCommand]` |
 | XBG031 | MultiDataTrigger | No fields marked with `[TriggerProperty]` | Add at least one `[TriggerProperty]` field |
+| XBG032 | MultiDataTrigger/InvokeCommand | `[TriggerProperty]`/`[ActionCommand]`/`[ActionParameter]` field is read-only | Make the field mutable |
 
 ## Trigger diagnostics (XBG001-XBG004)
 

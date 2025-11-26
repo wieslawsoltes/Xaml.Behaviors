@@ -277,6 +277,11 @@ namespace Xaml.Behaviors.SourceGenerators
             sb.AppendLine();
             sb.AppendLine("        private object? ResolveParameter(object? eventArgs)");
             sb.AppendLine("        {");
+            sb.AppendLine("            if (IsSet(ParameterProperty))");
+            sb.AppendLine("            {");
+            sb.AppendLine("                return Parameter;");
+            sb.AppendLine("            }");
+            sb.AppendLine();
             if (info.ParameterPathSegments.Length > 0 && info.DefaultParameterPath is not null && info.Parameters.Length > 0)
             {
                 var parameterPathLiteral = info.DefaultParameterPath.Replace("\\", "\\\\").Replace("\"", "\\\"");
@@ -290,11 +295,6 @@ namespace Xaml.Behaviors.SourceGenerators
                 sb.AppendLine("            }");
                 sb.AppendLine();
             }
-            sb.AppendLine("            if (IsSet(ParameterProperty))");
-            sb.AppendLine("            {");
-            sb.AppendLine("                return Parameter;");
-            sb.AppendLine("            }");
-            sb.AppendLine();
             sb.AppendLine("            return eventArgs;");
             sb.AppendLine("        }");
             if (info.ParameterPathSegments.Length > 0 && info.Parameters.Length > 0)

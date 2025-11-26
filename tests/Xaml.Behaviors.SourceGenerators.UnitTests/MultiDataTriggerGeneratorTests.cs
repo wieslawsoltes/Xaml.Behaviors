@@ -20,4 +20,52 @@ public class MultiDataTriggerGeneratorTests
         
         Assert.True(control.MethodCalled);
     }
+
+    [Fact]
+    public void Should_Report_Error_For_Readonly_Field()
+    {
+        var source = @"
+using Avalonia.Xaml.Interactivity;
+using Xaml.Behaviors.SourceGenerators;
+
+namespace TestNamespace
+{
+    [GenerateTypedMultiDataTrigger]
+    public partial class ReadonlyTrigger : StyledElementTrigger
+    {
+        [TriggerProperty]
+        private readonly bool _flag;
+
+        private bool Evaluate() => _flag;
+    }
+}
+";
+        var (diagnostics, _) = GeneratorTestHelper.RunGenerator(source);
+
+        Assert.Contains(diagnostics, d => d.Id == "XBG032");
+    }
+
+    [Fact]
+    public void Should_Report_Error_For_Static_Field()
+    {
+        var source = @"
+using Avalonia.Xaml.Interactivity;
+using Xaml.Behaviors.SourceGenerators;
+
+namespace TestNamespace
+{
+    [GenerateTypedMultiDataTrigger]
+    public partial class StaticTrigger : StyledElementTrigger
+    {
+        [TriggerProperty]
+        private static bool _flag;
+
+        private bool Evaluate() => _flag;
+    }
+}
+";
+        var (diagnostics, _) = GeneratorTestHelper.RunGenerator(source);
+
+        Assert.Contains(diagnostics, d => d.Id == "XBG010");
+    }
 }

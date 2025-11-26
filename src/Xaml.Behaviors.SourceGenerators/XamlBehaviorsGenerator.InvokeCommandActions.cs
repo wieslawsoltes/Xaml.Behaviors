@@ -77,7 +77,36 @@ namespace Xaml.Behaviors.SourceGenerators
 
             foreach (var member in symbol.GetMembers().OfType<IFieldSymbol>())
             {
-                if (member.GetAttributes().Any(a => a.AttributeClass?.ToDisplayString() == ActionCommandAttributeName))
+                var hasCommandAttribute = member.GetAttributes().Any(a => a.AttributeClass?.ToDisplayString() == ActionCommandAttributeName);
+                var hasParameterAttribute = member.GetAttributes().Any(a => a.AttributeClass?.ToDisplayString() == ActionParameterAttributeName);
+                if (!hasCommandAttribute && !hasParameterAttribute)
+                {
+                    continue;
+                }
+
+                if (member.IsStatic)
+                {
+                    var nsStatic = symbol.ContainingNamespace.ToDisplayString();
+                    var namespaceStatic = (symbol.ContainingNamespace.IsGlobalNamespace || nsStatic == "<global namespace>") ? null : nsStatic;
+                    var classStatic = symbol.Name;
+                    var accessibilityStatic = GetAccessibilityKeyword(symbol);
+                    var diag = Diagnostic.Create(StaticMemberNotSupportedDiagnostic, member.Locations.FirstOrDefault() ?? context.TargetNode?.GetLocation() ?? Location.None, member.Name);
+                    results.Add(new InvokeCommandActionInfo(namespaceStatic, classStatic, accessibilityStatic, null, null, useDispatcher, diag));
+                    return results.ToImmutable();
+                }
+
+                if (member.IsReadOnly)
+                {
+                    var nsReadonly = symbol.ContainingNamespace.ToDisplayString();
+                    var namespaceReadonly = (symbol.ContainingNamespace.IsGlobalNamespace || nsReadonly == "<global namespace>") ? null : nsReadonly;
+                    var classReadonly = symbol.Name;
+                    var accessibilityReadonly = GetAccessibilityKeyword(symbol);
+                    var diag = Diagnostic.Create(ReadOnlyMemberNotSupportedDiagnostic, member.Locations.FirstOrDefault() ?? context.TargetNode?.GetLocation() ?? Location.None, member.Name);
+                    results.Add(new InvokeCommandActionInfo(namespaceReadonly, classReadonly, accessibilityReadonly, null, null, useDispatcher, diag));
+                    return results.ToImmutable();
+                }
+
+                if (hasCommandAttribute)
                 {
                     var fieldName = member.Name;
                     var propertyName = fieldName.TrimStart('_');
@@ -86,7 +115,7 @@ namespace Xaml.Behaviors.SourceGenerators
                     var requiresInternal = ContainsInternalType(member.Type);
                     commandProp = new TriggerPropertyInfo(propertyName, typeName, fieldName, requiresInternal);
                 }
-                if (member.GetAttributes().Any(a => a.AttributeClass?.ToDisplayString() == ActionParameterAttributeName))
+                if (hasParameterAttribute)
                 {
                     var fieldName = member.Name;
                     var propertyName = fieldName.TrimStart('_');

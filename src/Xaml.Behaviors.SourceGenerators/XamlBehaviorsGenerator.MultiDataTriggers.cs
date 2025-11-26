@@ -79,6 +79,26 @@ namespace Xaml.Behaviors.SourceGenerators
             {
                 if (member.GetAttributes().Any(a => a.AttributeClass?.ToDisplayString() == TriggerPropertyAttributeName))
                 {
+                    if (member.IsStatic)
+                    {
+                        var diag = Diagnostic.Create(StaticMemberNotSupportedDiagnostic, member.Locations.FirstOrDefault() ?? context.TargetNode?.GetLocation() ?? Location.None, member.Name);
+                        var nsStatic = symbol.ContainingNamespace.ToDisplayString();
+                        var namespaceStatic = (symbol.ContainingNamespace.IsGlobalNamespace || nsStatic == "<global namespace>") ? null : nsStatic;
+                        var classStatic = symbol.Name;
+                        results.Add(new MultiDataTriggerInfo(namespaceStatic, classStatic, "public", ImmutableArray<TriggerPropertyInfo>.Empty, diag));
+                        return results.ToImmutable();
+                    }
+
+                    if (member.IsReadOnly)
+                    {
+                        var diag = Diagnostic.Create(ReadOnlyMemberNotSupportedDiagnostic, member.Locations.FirstOrDefault() ?? context.TargetNode?.GetLocation() ?? Location.None, member.Name);
+                        var nsReadonly = symbol.ContainingNamespace.ToDisplayString();
+                        var namespaceReadonly = (symbol.ContainingNamespace.IsGlobalNamespace || nsReadonly == "<global namespace>") ? null : nsReadonly;
+                        var classReadonly = symbol.Name;
+                        results.Add(new MultiDataTriggerInfo(namespaceReadonly, classReadonly, "public", ImmutableArray<TriggerPropertyInfo>.Empty, diag));
+                        return results.ToImmutable();
+                    }
+
                     var fieldName = member.Name;
                     var propertyName = fieldName.TrimStart('_');
                     if (propertyName.Length > 0)

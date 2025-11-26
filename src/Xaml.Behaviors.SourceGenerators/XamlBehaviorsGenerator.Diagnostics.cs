@@ -254,5 +254,13 @@ namespace Xaml.Behaviors.SourceGenerators
             category: "Usage",
             DiagnosticSeverity.Error,
             isEnabledByDefault: true);
+
+        private static readonly DiagnosticDescriptor ReadOnlyMemberNotSupportedDiagnostic = new(
+            id: "XBG032",
+            title: "Read-only member not supported",
+            messageFormat: "Field '{0}' must be mutable for typed generation",
+            category: "Usage",
+            DiagnosticSeverity.Error,
+            isEnabledByDefault: true);
     }
 }

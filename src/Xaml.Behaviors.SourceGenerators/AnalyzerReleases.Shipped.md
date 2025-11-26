@@ -39,3 +39,4 @@ XBG028 | Usage | Error | Projection member not accessible for event args action 
 XBG029 | Usage | Error | Unsupported event command parameter modifier
 XBG030 | Usage | Error | ActionCommand field required
 XBG031 | Usage | Error | TriggerProperty field required
+XBG032 | Usage | Error | Read-only member not supported for typed generation

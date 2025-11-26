@@ -209,4 +209,25 @@ public class Host
         Assert.Contains("\"Source\"", defaults);
         Assert.Contains("\"RoutedEvent\"", defaults);
     }
+
+    [Fact]
+    public void Parameter_Should_Override_ParameterPath_Default()
+    {
+        var source = @"
+using Avalonia.Controls;
+using Xaml.Behaviors.SourceGenerators;
+
+[assembly: GenerateEventCommand(typeof(Button), ""Click"", ParameterPath = nameof(Avalonia.Interactivity.RoutedEventArgs.Source))]
+";
+
+        var (diagnostics, sources) = GeneratorTestHelper.RunGenerator(source);
+
+        Assert.Empty(diagnostics);
+        var trigger = Assert.Single(sources.Where(s => s.Contains("ButtonClickEventCommandTrigger")));
+        var parameterCheck = trigger.IndexOf("IsSet(ParameterProperty)", StringComparison.Ordinal);
+        var pathCheck = trigger.IndexOf("TryResolveParameterPath", StringComparison.Ordinal);
+        Assert.True(parameterCheck >= 0);
+        Assert.True(pathCheck >= 0);
+        Assert.True(parameterCheck < pathCheck, "Parameter should be considered before resolving ParameterPath.");
+    }
 }
