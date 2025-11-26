@@ -5,7 +5,6 @@
     <TargetFramework>net10.0</TargetFramework>
     <IsPackable>False</IsPackable>
     <Nullable>enable</Nullable>
-    <PublishAot>true</PublishAot>
     <EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
     <CompilerGeneratedFilesOutputPath>$(BaseIntermediateOutputPath)\GeneratedFiles</CompilerGeneratedFilesOutputPath>
   </PropertyGroup>

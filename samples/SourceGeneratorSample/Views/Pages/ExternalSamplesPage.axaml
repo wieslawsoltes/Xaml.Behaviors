@@ -15,7 +15,7 @@
       </Interaction.Behaviors>
     </Button>
 
-    <Button Content="Raise External Event" Command="{Binding TriggerExternal}">
+    <Button Content="Raise External Event" Command="{Binding TriggerExternalCommand}">
       <Interaction.Behaviors>
         <m:ExternalEventTrigger SourceObject="{Binding ExternalObject}">
           <vm:SetExternalEventMessageAction TargetObject="{Binding}" Value="External Event Received!" />
