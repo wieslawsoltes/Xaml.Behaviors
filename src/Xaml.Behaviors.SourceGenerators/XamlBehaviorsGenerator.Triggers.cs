@@ -359,6 +359,13 @@ namespace Xaml.Behaviors.SourceGenerators
                 return new TriggerInfo(namespaceName, className, accessibility, targetTypeName, eventName, eventHandlerType, ImmutableArray<TriggerParameter>.Empty, Diagnostic.Create(TriggerUnsupportedDelegateReturnTypeDiagnostic, diagnosticLocation ?? Location.None, eventName, eventHandlerType));
             }
 
+            var byRefParameter = invokeMethod.Parameters.FirstOrDefault(p => p.RefKind != RefKind.None);
+            if (byRefParameter != null)
+            {
+                var accessibility = requiresInternal ? "internal" : "public";
+                return new TriggerInfo(namespaceName, className, accessibility, targetTypeName, eventName, eventHandlerType, ImmutableArray<TriggerParameter>.Empty, Diagnostic.Create(TriggerUnsupportedDelegateOutParameterDiagnostic, diagnosticLocation ?? Location.None, eventName, eventHandlerType));
+            }
+
             var parameters = invokeMethod.Parameters.Select(p =>
             {
                 var name = EscapeIdentifier(p.Name);
@@ -368,12 +375,6 @@ namespace Xaml.Behaviors.SourceGenerators
             if (invokeMethod.Parameters.Any(p => ContainsInternalType(p.Type)))
             {
                 requiresInternal = true;
-            }
-
-            if (parameters.Any(p => p.RefKind == RefKind.Out))
-            {
-                var accessibility = requiresInternal ? "internal" : "public";
-                return new TriggerInfo(namespaceName, className, accessibility, targetTypeName, eventName, eventHandlerType, parameters, Diagnostic.Create(TriggerUnsupportedDelegateOutParameterDiagnostic, diagnosticLocation ?? Location.None, eventName, eventHandlerType));
             }
 
             var finalAccessibility = requiresInternal ? "internal" : "public";

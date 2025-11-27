@@ -8,7 +8,7 @@ This page lists the analyzer diagnostics emitted by `Xaml.Behaviors.SourceGenera
 | --- | --- | --- | --- |
 | XBG001 | Typed Trigger | Event delegate cannot be inspected | Use a normal delegate type with an `Invoke` method (e.g., `EventHandler`) |
 | XBG002 | Typed Trigger | Event delegate returns non-`void` | Change the delegate to return `void` |
-| XBG003 | Typed Trigger | Event delegate has an `out` parameter | Remove the `out` parameter |
+| XBG003 | Typed Trigger | Event delegate has a by-ref parameter (`ref`/`in`/`out`) | Use by-value parameters |
 | XBG004 | Typed Trigger | Event name pattern did not match an event | Point the attribute at an existing event |
 | XBG005 | ChangePropertyAction | Property name pattern did not match a property | Point the attribute at an existing property with a setter |
 | XBG006 | Typed Action | Method name pattern did not match a method | Point the attribute at an existing method |
@@ -86,10 +86,10 @@ public event CompletedHandler? Completed; // OK
 ```
 
 ### XBG003 Unsupported trigger delegate parameter
-The event delegate has an `out` parameter, which cannot be forwarded by the generated trigger.
+The event delegate has a by-ref parameter (`ref`, `in`, or `out`), which cannot be forwarded by the generated trigger.
 
 ```csharp
-public delegate void RequestHandler(out string payload);
+public delegate void RequestHandler(ref string payload);
 
 public class Sender
 {
@@ -99,7 +99,7 @@ public class Sender
 [assembly: GenerateTypedTrigger(typeof(Sender), "Requested")] // XBG003
 ```
 
-**Fix**: Remove the `out` parameter or redesign the event arguments.
+**Fix**: Use by-value parameters (e.g., wrap data in the event args type instead of passing by reference).
 
 ```csharp
 public delegate void RequestHandler(object? sender, RequestEventArgs args);

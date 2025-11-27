@@ -322,6 +322,28 @@ namespace TestNamespace
     }
 
     [Fact]
+    public void Should_Report_Error_For_ByRef_Parameter_Delegate()
+    {
+        var source = @"
+using System;
+using Xaml.Behaviors.SourceGenerators;
+
+namespace TestNamespace
+{
+    public delegate void RefParamDelegate(ref int value);
+
+    public partial class TestClass
+    {
+        [GenerateTypedTrigger]
+        public event RefParamDelegate TestEvent;
+    }
+}";
+        var (diagnostics, _) = GeneratorTestHelper.RunGenerator(source);
+
+        Assert.Contains(diagnostics, d => d.Id == "XBG003");
+    }
+
+    [Fact]
     public void Assembly_Attribute_Should_Report_Error_For_NonVoid_Delegate()
     {
         var source = @"

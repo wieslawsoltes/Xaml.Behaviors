@@ -441,6 +441,28 @@ namespace TestNamespace
     }
 
     [Fact]
+    public void Pattern_Should_Report_Error_On_Ambiguous_Methods()
+    {
+        var source = @"
+using Xaml.Behaviors.SourceGenerators;
+
+[assembly: GenerateTypedAction(typeof(TestNamespace.TestClass), ""Do*"")]
+
+namespace TestNamespace
+{
+    public class TestClass
+    {
+        public void DoWork() { }
+        public void DoWork(int value) { }
+        public void DoMore() { }
+    }
+}";
+        var (diagnostics, _) = GeneratorTestHelper.RunGenerator(source);
+
+        Assert.Contains(diagnostics, d => d.Id == "XBG007");
+    }
+
+    [Fact]
     public void Should_Report_Error_For_Generic_Action()
     {
         var source = @"

@@ -496,14 +496,11 @@ namespace Xaml.Behaviors.SourceGenerators
             {
                 if (group.Skip(1).Any())
                 {
-                    if (!isPattern)
-                    {
-                        var diagnostic = Diagnostic.Create(ActionMethodAmbiguousDiagnostic, diagnosticLocation ?? Location.None, group.Key, targetType.Name);
-                        var baseName = $"{group.Key}Action";
-                        var className = string.IsNullOrEmpty(classPrefix) ? baseName : classPrefix + baseName;
-                        var accessibility = GetActionAccessibility(targetType, group.First());
-                        builder.Add(new ActionInfo(namespaceNamePart, className, accessibility, targetTypeNamePart, group.Key, ImmutableArray<ActionParameter>.Empty, false, false, false, useDispatcher, diagnostic));
-                    }
+                    var diagnostic = Diagnostic.Create(ActionMethodAmbiguousDiagnostic, diagnosticLocation ?? Location.None, group.Key, targetType.Name);
+                    var baseName = $"{group.Key}Action";
+                    var className = string.IsNullOrEmpty(classPrefix) ? baseName : classPrefix + baseName;
+                    var accessibility = GetActionAccessibility(targetType, group.First());
+                    builder.Add(new ActionInfo(namespaceNamePart, className, accessibility, targetTypeNamePart, group.Key, ImmutableArray<ActionParameter>.Empty, false, false, false, useDispatcher, diagnostic));
                     continue;
                 }
 

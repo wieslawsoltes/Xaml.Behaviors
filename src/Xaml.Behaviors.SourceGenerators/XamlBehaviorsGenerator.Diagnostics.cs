@@ -26,7 +26,7 @@ namespace Xaml.Behaviors.SourceGenerators
         private static readonly DiagnosticDescriptor TriggerUnsupportedDelegateOutParameterDiagnostic = new(
             id: "XBG003",
             title: "Unsupported trigger delegate parameter",
-            messageFormat: "Event '{0}' delegate '{1}' uses an out parameter which is not supported for trigger generation",
+            messageFormat: "Event '{0}' delegate '{1}' uses a by-ref parameter which is not supported for trigger generation",
             category: "Usage",
             DiagnosticSeverity.Error,
             isEnabledByDefault: true);

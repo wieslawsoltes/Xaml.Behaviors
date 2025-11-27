@@ -26,7 +26,7 @@ using System.Diagnostics.CodeAnalysis;
 [assembly: GeneratePropertyTrigger(typeof(Avalonia.Controls.TextBox), "TextProperty", UseDispatcher = true, Name = "DispatchingTextPropertyTrigger")]
 
 // Wildcard examples, you can also use regex patterns.
-[assembly: GenerateTypedAction(typeof(Avalonia.Controls.TextBox), "*")]
+[assembly: GenerateTypedAction(typeof(Avalonia.Controls.TextBox), "Copy*")]
 [assembly: GenerateTypedTrigger(typeof(Avalonia.Input.InputElement), "*")]
 [assembly: GenerateTypedChangePropertyAction(typeof(Avalonia.Input.InputElement), "*")]
 
