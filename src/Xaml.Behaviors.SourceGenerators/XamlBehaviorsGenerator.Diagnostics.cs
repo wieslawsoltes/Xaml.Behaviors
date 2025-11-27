@@ -239,6 +239,14 @@ namespace Xaml.Behaviors.SourceGenerators
             DiagnosticSeverity.Error,
             isEnabledByDefault: true);
 
+        private static readonly DiagnosticDescriptor EventCommandParameterCountNotSupportedDiagnostic = new(
+            id: "XBG034",
+            title: "Unsupported event command parameter count",
+            messageFormat: "Event '{0}' delegate '{1}' declares more than two parameters which is not supported for event command generation",
+            category: "Usage",
+            DiagnosticSeverity.Error,
+            isEnabledByDefault: true);
+
         private static readonly DiagnosticDescriptor InvokeCommandMissingCommandFieldDiagnostic = new(
             id: "XBG030",
             title: "ActionCommand field required",

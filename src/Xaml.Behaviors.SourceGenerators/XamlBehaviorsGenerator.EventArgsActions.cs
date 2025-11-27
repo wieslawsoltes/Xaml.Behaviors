@@ -307,9 +307,34 @@ namespace Xaml.Behaviors.SourceGenerators
             }
 
             var builder = ImmutableArray.CreateBuilder<EventArgsActionInfo>();
-            foreach (var method in methods)
+            var nsResolved = targetType.ContainingNamespace.ToDisplayString();
+            var namespaceNameResolved = (targetType.ContainingNamespace.IsGlobalNamespace || nsResolved == "<global namespace>") ? null : nsResolved;
+            var typePrefixResolved = includeTypeNamePrefix ? GetTypeNamePrefix(targetType) : string.Empty;
+            var targetTypeNamePart = ToDisplayStringWithNullable(targetType);
+
+            foreach (var group in methods.GroupBy(m => m.Name))
             {
-                var info = CreateEventArgsActionInfo(method, diagnosticLocation, includeTypeNamePrefix, compilation, useDispatcher, nameOverride, project);
+                if (group.Skip(1).Any())
+                {
+                    var baseName = nameOverride ?? $"{group.Key}EventArgsAction";
+                    var className = string.IsNullOrEmpty(typePrefixResolved) ? baseName : typePrefixResolved + baseName;
+                    var accessibility = GetAccessibilityKeyword(targetType);
+                    builder.Add(new EventArgsActionInfo(
+                        namespaceNameResolved,
+                        className,
+                        accessibility,
+                        targetTypeNamePart,
+                        group.Key,
+                        "",
+                        ImmutableArray<ProjectionInfo>.Empty,
+                        IsAwaitable: false,
+                        IsValueTask: false,
+                        useDispatcher,
+                        Diagnostic.Create(ActionMethodAmbiguousDiagnostic, diagnosticLocation ?? Location.None, group.Key, targetType.Name)));
+                    continue;
+                }
+
+                var info = CreateEventArgsActionInfo(group.First(), diagnosticLocation, includeTypeNamePrefix, compilation, useDispatcher, nameOverride, project);
                 builder.Add(info);
             }
             return builder.ToImmutable();
@@ -490,7 +515,15 @@ namespace Xaml.Behaviors.SourceGenerators
             foreach (var group in infos.GroupBy(info => (info.Namespace, info.ClassName)))
             {
                 var distinct = group
-                    .GroupBy(info => (info.TargetTypeName, info.MethodName))
+                    .GroupBy(info =>
+                    (
+                        info.TargetTypeName,
+                        info.MethodName,
+                        info.UseDispatcher,
+                        info.Projections.IsDefaultOrEmpty
+                            ? string.Empty
+                            : string.Join(";", info.Projections.Select(p => $"{p.Name}:{p.SourceMemberName}:{p.TypeName}"))
+                    ))
                     .Select(g => g.FirstOrDefault(info => info.Diagnostic is null) ?? g.First())
                     .ToList();
 
@@ -502,7 +535,8 @@ namespace Xaml.Behaviors.SourceGenerators
 
                 foreach (var info in distinct)
                 {
-                    yield return info with { ClassName = MakeUniqueName(info.ClassName, info.TargetTypeName) };
+                    var scope = $"{info.TargetTypeName}|{info.MethodName}|{info.UseDispatcher}|{(info.Projections.IsDefaultOrEmpty ? string.Empty : string.Join(",", info.Projections.Select(p => p.SourceMemberName)))}";
+                    yield return info with { ClassName = MakeUniqueName(info.ClassName, scope) };
                 }
             }
         }

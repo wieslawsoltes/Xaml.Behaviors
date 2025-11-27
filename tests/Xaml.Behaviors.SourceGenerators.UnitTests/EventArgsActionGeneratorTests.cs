@@ -142,6 +142,51 @@ namespace TestNamespace
     }
 
     [Fact]
+    public void Should_Report_Diagnostic_For_Ambiguous_Overloads()
+    {
+        var source = @"
+using Avalonia.Interactivity;
+using Avalonia.Input;
+using Xaml.Behaviors.SourceGenerators;
+
+[assembly: GenerateEventArgsAction(typeof(Handler), ""OnRouted"")]
+
+public partial class Handler
+{
+    public void OnRouted(RoutedEventArgs args) { }
+
+    public void OnRouted(PointerEventArgs args) { }
+}
+";
+
+        var (diagnostics, _) = GeneratorTestHelper.RunGenerator(source);
+
+        Assert.Contains(diagnostics, d => d.Id == "XBG007");
+    }
+
+    [Fact]
+        public void Duplicate_Named_EventArgsActions_With_Different_Options_Should_Not_Collide()
+        {
+            var source = @"
+using Avalonia.Interactivity;
+using Xaml.Behaviors.SourceGenerators;
+
+public partial class Handler
+{
+    [GenerateEventArgsAction(Name = ""Shared"")]
+    [GenerateEventArgsAction(Name = ""Shared"", UseDispatcher = true, Project = ""Handled"")]
+    public void OnRouted(RoutedEventArgs args) { }
+}
+";
+
+            var (diagnostics, sources) = GeneratorTestHelper.RunGenerator(source);
+
+            Assert.Empty(diagnostics);
+            var generated = sources.Where(s => s.Contains("Shared", StringComparison.Ordinal) && s.Contains("StyledElementAction", StringComparison.Ordinal)).ToList();
+            Assert.True(generated.Count >= 2, "Expected two generated EventArgs actions for differing options.");
+        }
+
+    [Fact]
     public void Should_Report_Diagnostic_For_Generic_Containing_Type()
     {
         var source = @"

@@ -168,6 +168,27 @@ public class Host
     }
 
     [Fact]
+    public void Should_Report_Diagnostic_For_Too_Many_Parameters()
+    {
+        var source = @"
+using System;
+using Xaml.Behaviors.SourceGenerators;
+
+public delegate void ThreeParamHandler(object sender, EventArgs args, int value);
+
+public class Host
+{
+    [GenerateEventCommand]
+    public event ThreeParamHandler? Fired;
+}
+";
+
+        var (diagnostics, _) = GeneratorTestHelper.RunGenerator(source);
+
+        Assert.Contains(diagnostics, d => d.Id == "XBG034");
+    }
+
+    [Fact]
     public void Should_Generate_ParameterPath_Without_Reflection()
     {
         var source = @"

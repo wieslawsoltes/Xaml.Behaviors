@@ -35,6 +35,7 @@ This page lists the analyzer diagnostics emitted by `Xaml.Behaviors.SourceGenera
 | XBG027 | EventArgsAction | Projection member not found on event args type | Use a valid property name on the event args |
 | XBG028 | EventArgsAction | Projection member is not accessible | Make the projected member public or grant internal access |
 | XBG029 | Event Command | Event delegate parameter uses `ref`/`in`/`out` | Change the delegate to use by-value parameters |
+| XBG034 | Event Command | Event delegate declares more than two parameters | Limit the delegate to sender/args |
 | XBG030 | InvokeCommandAction | Missing `[ActionCommand]` field | Add a field marked with `[ActionCommand]` |
 | XBG031 | MultiDataTrigger | No fields marked with `[TriggerProperty]` | Add at least one `[TriggerProperty]` field |
 | XBG032 | MultiDataTrigger/InvokeCommand | `[TriggerProperty]`/`[ActionCommand]`/`[ActionParameter]` field is read-only | Make the field mutable |
@@ -552,6 +553,21 @@ public class Host
 ```csharp
 public delegate void RefHandler(EventArgs args); // OK
 ```
+
+### XBG034 Unsupported event command parameter count
+The event delegate declares more than two parameters; the generator only supports the usual `(sender, args)` (or zero/one-parameter) event shapes.
+
+```csharp
+public delegate void ThreeParamHandler(object sender, EventArgs args, int value);
+
+public class Host
+{
+    [GenerateEventCommand]
+    public event ThreeParamHandler? Fired; // XBG034
+}
+```
+
+**Fix**: Change the delegate to the standard two-parameter form or remove the extra parameters.
 
 ## InvokeCommand/MultiDataTrigger diagnostics (XBG030-XBG032)
 

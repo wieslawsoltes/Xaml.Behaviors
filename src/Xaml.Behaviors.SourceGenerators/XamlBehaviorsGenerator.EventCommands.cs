@@ -500,6 +500,23 @@ namespace Xaml.Behaviors.SourceGenerators
                     Diagnostic.Create(EventCommandParameterModifierNotSupportedDiagnostic, diagnosticLocation ?? Location.None, eventName, eventHandlerType, refParam.Name, modifier));
             }
 
+            if (invokeMethod.Parameters.Length > 2)
+            {
+                var accessibility = requiresInternal ? "internal" : "public";
+                return new EventCommandInfo(
+                    namespaceName,
+                    className,
+                    accessibility,
+                    targetTypeName,
+                    eventName,
+                    eventHandlerType,
+                    ImmutableArray<TriggerParameter>.Empty,
+                    useDispatcher,
+                    parameterPath,
+                    ImmutableArray<ParameterPathSegment>.Empty,
+                    Diagnostic.Create(EventCommandParameterCountNotSupportedDiagnostic, diagnosticLocation ?? Location.None, eventName, eventHandlerType));
+            }
+
             var parameterPathSegments = ImmutableArray<ParameterPathSegment>.Empty;
             if (parameterPath != null)
             {
