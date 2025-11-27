@@ -24,10 +24,13 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v4
 
-    - name: Setup .NET SDK
+    - name: Setup .NET SDKs
       uses: actions/setup-dotnet@v4
       with:
-        global-json-file: global.json
+        dotnet-version: |
+          10.0.x
+          8.0.x
+          6.0.x
 
     - name: Build Release
       run: dotnet build --configuration Release

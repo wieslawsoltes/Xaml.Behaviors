@@ -9,7 +9,11 @@
 
 **Xaml Behaviors** is a port of [Windows UWP](https://github.com/Microsoft/XamlBehaviors) version of XAML Behaviors for [Avalonia](https://github.com/AvaloniaUI/Avalonia) XAML.
 
-XAML Behaviors for Avalonia is an easy-to-use means of adding common and reusable interactivity to your [Avalonia](https://github.com/AvaloniaUI/Avalonia) applications with minimal code. Avalonia port is available only for managed applications. Use of XAML Behaviors is governed by the MIT License. 
+XAML Behaviors for Avalonia is an easy-to-use means of adding common and reusable interactivity to your [Avalonia](https://github.com/AvaloniaUI/Avalonia) applications with minimal code. Avalonia port is available only for managed applications. Use of XAML Behaviors is governed by the MIT License.
+
+In addition to the classic reflection-based behaviors from WPF/UWP, this port adds **source generators** that create strongly typed actions and triggers. They remove runtime reflection, improve AOT/linker friendliness, and surface diagnostics at compile time.
+
+See the [AOT-friendly behaviors docs](docfx/articles/source-generators/index.md) for examples and guidance.
 
 ## Building XAML Behaviors Avalonia
 

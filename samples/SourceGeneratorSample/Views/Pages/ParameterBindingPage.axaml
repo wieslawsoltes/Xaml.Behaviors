@@ -1,0 +1,21 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:SourceGeneratorSample.ViewModels"
+             xmlns:ac="using:Avalonia.Controls"
+             x:Class="SourceGeneratorSample.Views.Pages.ParameterBindingPage"
+             x:DataType="vm:MainViewModel">
+  <StackPanel Spacing="10">
+    <TextBlock Text="Parameter Binding" FontWeight="Bold" />
+    <StackPanel Orientation="Horizontal" Spacing="5">
+      <TextBlock Text="Count:" VerticalAlignment="Center" />
+      <NumericUpDown Value="{Binding Count}" Minimum="0" Maximum="100" />
+      <Button Content="Update Message (Params)">
+        <Interaction.Behaviors>
+          <ac:ButtonClickTrigger>
+            <vm:UpdateMessageAction TargetObject="{Binding}" Message="Hello from XAML!" Count="{Binding Count}" />
+          </ac:ButtonClickTrigger>
+        </Interaction.Behaviors>
+      </Button>
+    </StackPanel>
+  </StackPanel>
+</UserControl>

@@ -20,6 +20,12 @@
     <PackageReference Include="Avalonia" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Xaml.Behaviors.SourceGenerators\Xaml.Behaviors.SourceGenerators.csproj"
+                      OutputItemType="Analyzer"
+                      ReferenceOutputAssembly="false" />
+  </ItemGroup>
+
   <Import Project="..\..\build\SignAssembly.props" />
   <Import Project="..\..\build\SourceLink.props" />
   <Import Project="..\..\build\TrimmingEnable.targets" />

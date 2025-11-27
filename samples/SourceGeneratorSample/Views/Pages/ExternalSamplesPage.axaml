@@ -1,0 +1,27 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:SourceGeneratorSample.ViewModels"
+             xmlns:m="using:SourceGeneratorSample.Models"
+             xmlns:ac="using:Avalonia.Controls"
+             x:Class="SourceGeneratorSample.Views.Pages.ExternalSamplesPage"
+             x:DataType="vm:MainViewModel">
+  <StackPanel Spacing="10">
+    <TextBlock Text="External Action &amp; Trigger" FontWeight="Bold" />
+    <Button Content="Call External Method">
+      <Interaction.Behaviors>
+        <ac:ButtonClickTrigger>
+          <m:ExternalMethodAction TargetObject="{Binding ExternalObject}" />
+        </ac:ButtonClickTrigger>
+      </Interaction.Behaviors>
+    </Button>
+
+    <Button Content="Raise External Event" Command="{Binding TriggerExternalCommand}">
+      <Interaction.Behaviors>
+        <m:ExternalEventTrigger SourceObject="{Binding ExternalObject}">
+          <vm:SetExternalEventMessageAction TargetObject="{Binding}" Value="External Event Received!" />
+        </m:ExternalEventTrigger>
+      </Interaction.Behaviors>
+    </Button>
+    <TextBlock Text="{Binding ExternalEventMessage}" />
+  </StackPanel>
+</UserControl>

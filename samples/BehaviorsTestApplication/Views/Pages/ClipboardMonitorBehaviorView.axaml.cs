@@ -1,4 +1,5 @@
 using Avalonia.Controls;
+using Avalonia.Input.Platform;
 using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
 
@@ -16,7 +17,7 @@ public partial class ClipboardMonitorBehaviorView : UserControl
         var topLevel = TopLevel.GetTopLevel(this);
         if (topLevel?.Clipboard is { } clipboard)
         {
-            var text = await clipboard.GetTextAsync();
+            var text = await ClipboardExtensions.TryGetTextAsync(clipboard);
             var outputBox = this.FindControl<TextBox>("OutputBox");
             if (outputBox != null)
             {

@@ -1,0 +1,17 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:SourceGeneratorSample.ViewModels"
+             xmlns:controls="using:Avalonia.Controls"
+             x:Class="SourceGeneratorSample.Views.Pages.EventCommandPage"
+             x:DataType="vm:MainViewModel">
+  <StackPanel Spacing="10">
+    <TextBlock Text="Event Command Trigger" FontWeight="Bold" />
+    <Button Content="Click to run command">
+      <Interaction.Behaviors>
+        <controls:ButtonClickEventCommandTrigger Command="{Binding EventCommand}"
+                                                 ParameterPath="Source" />
+      </Interaction.Behaviors>
+    </Button>
+    <TextBlock Text="{Binding EventCommandMessage}" />
+  </StackPanel>
+</UserControl>
