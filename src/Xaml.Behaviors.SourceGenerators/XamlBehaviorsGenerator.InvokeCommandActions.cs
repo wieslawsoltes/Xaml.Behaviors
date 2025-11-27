@@ -74,6 +74,7 @@ namespace Xaml.Behaviors.SourceGenerators
 
             TriggerPropertyInfo? commandProp = null;
             TriggerPropertyInfo? parameterProp = null;
+            IFieldSymbol? internalField = null;
 
             foreach (var member in symbol.GetMembers().OfType<IFieldSymbol>())
             {
@@ -128,14 +129,20 @@ namespace Xaml.Behaviors.SourceGenerators
                     return results.ToImmutable();
                 }
 
+                var requiresInternal = ContainsInternalType(member.Type);
+                if (requiresInternal && internalField is null)
+                {
+                    internalField = member;
+                }
+
                 if (hasCommandAttribute)
                 {
                     var fieldName = member.Name;
                     var propertyName = fieldName.TrimStart('_');
                     if (propertyName.Length > 0) propertyName = char.ToUpper(propertyName[0]) + propertyName.Substring(1);
                     var typeName = ToDisplayStringWithNullable(member.Type);
-                    var requiresInternal = ContainsInternalType(member.Type);
-                    commandProp = new TriggerPropertyInfo(propertyName, typeName, fieldName, requiresInternal);
+                    var propRequiresInternal = ContainsInternalType(member.Type);
+                    commandProp = new TriggerPropertyInfo(propertyName, typeName, fieldName, propRequiresInternal);
                 }
                 if (hasParameterAttribute)
                 {
@@ -143,8 +150,8 @@ namespace Xaml.Behaviors.SourceGenerators
                     var propertyName = fieldName.TrimStart('_');
                     if (propertyName.Length > 0) propertyName = char.ToUpper(propertyName[0]) + propertyName.Substring(1);
                     var typeName = ToDisplayStringWithNullable(member.Type);
-                    var requiresInternal = ContainsInternalType(member.Type);
-                    parameterProp = new TriggerPropertyInfo(propertyName, typeName, fieldName, requiresInternal);
+                    var propRequiresInternal = ContainsInternalType(member.Type);
+                    parameterProp = new TriggerPropertyInfo(propertyName, typeName, fieldName, propRequiresInternal);
                 }
             }
 
@@ -153,7 +160,17 @@ namespace Xaml.Behaviors.SourceGenerators
                 var ns = symbol.ContainingNamespace.ToDisplayString();
                 var namespaceName = (symbol.ContainingNamespace.IsGlobalNamespace || ns == "<global namespace>") ? null : ns;
                 var className = symbol.Name;
-                var accessibility = GetInvokeCommandActionAccessibility(symbol, commandProp, parameterProp);
+                var accessibility = GetAccessibilityKeyword(symbol);
+
+                if (internalField != null &&
+                    symbol.DeclaredAccessibility is not Accessibility.Internal and not Accessibility.ProtectedOrInternal)
+                {
+                    var diagLocation = internalField.Locations.FirstOrDefault() ?? context.TargetNode?.GetLocation() ?? Location.None;
+                    var diag = Diagnostic.Create(MemberNotAccessibleDiagnostic, diagLocation, internalField.Name, symbol.ToDisplayString());
+                    results.Add(new InvokeCommandActionInfo(namespaceName, className, accessibility, null, null, useDispatcher, diag));
+                    return results.ToImmutable();
+                }
+
                 results.Add(new InvokeCommandActionInfo(namespaceName, className, accessibility, commandProp, parameterProp, useDispatcher));
             }
             else
@@ -255,14 +272,5 @@ namespace Xaml.Behaviors.SourceGenerators
             spc.AddSource(CreateHintName(info.Namespace, info.ClassName), SourceText.From(sb.ToString(), Encoding.UTF8));
         }
 
-        private static string GetInvokeCommandActionAccessibility(INamedTypeSymbol symbol, TriggerPropertyInfo? command, TriggerPropertyInfo? parameter)
-        {
-            var requiresInternal =
-                symbol.DeclaredAccessibility == Accessibility.Internal ||
-                (command?.RequiresInternal == true) ||
-                (parameter?.RequiresInternal == true);
-
-            return requiresInternal ? "internal" : GetAccessibilityKeyword(symbol);
-        }
     }
 }

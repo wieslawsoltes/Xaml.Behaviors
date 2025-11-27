@@ -74,6 +74,7 @@ namespace Xaml.Behaviors.SourceGenerators
             }
 
             var properties = ImmutableArray.CreateBuilder<TriggerPropertyInfo>();
+            IFieldSymbol? internalField = null;
 
             foreach (var member in symbol.GetMembers().OfType<IFieldSymbol>())
             {
@@ -107,6 +108,10 @@ namespace Xaml.Behaviors.SourceGenerators
                     }
                     var typeName = ToDisplayStringWithNullable(member.Type);
                     var requiresInternal = ContainsInternalType(member.Type);
+                    if (requiresInternal && internalField is null)
+                    {
+                        internalField = member;
+                    }
                     properties.Add(new TriggerPropertyInfo(propertyName, typeName, fieldName, requiresInternal));
                 }
             }
@@ -117,7 +122,17 @@ namespace Xaml.Behaviors.SourceGenerators
                 var namespaceName = (symbol.ContainingNamespace.IsGlobalNamespace || ns == "<global namespace>") ? null : ns;
                 var className = symbol.Name;
                 var requiresInternal = properties.Any(p => p.RequiresInternal);
-                var accessibility = requiresInternal ? "internal" : GetAccessibilityKeyword(symbol);
+                var accessibility = GetAccessibilityKeyword(symbol);
+
+                if (requiresInternal &&
+                    symbol.DeclaredAccessibility is not Accessibility.Internal and not Accessibility.ProtectedOrInternal)
+                {
+                    var diagLocation = internalField?.Locations.FirstOrDefault() ?? context.TargetNode?.GetLocation() ?? Location.None;
+                    var diag = Diagnostic.Create(MemberNotAccessibleDiagnostic, diagLocation, internalField?.Name ?? symbol.Name, symbol.ToDisplayString());
+                    results.Add(new MultiDataTriggerInfo(namespaceName, className, accessibility, ImmutableArray<TriggerPropertyInfo>.Empty, diag));
+                    return results.ToImmutable();
+                }
+
                 results.Add(new MultiDataTriggerInfo(namespaceName, className, accessibility, properties.ToImmutable()));
             }
             else

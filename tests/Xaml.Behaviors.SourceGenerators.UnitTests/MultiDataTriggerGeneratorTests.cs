@@ -89,4 +89,30 @@ public class NonPartialTrigger : StyledElementTrigger
 
         Assert.Contains(diagnostics, d => d.Id == "XBG016");
     }
+
+    [Fact]
+    public void Should_Report_Error_When_Internal_Field_Type_On_Public_Type()
+    {
+        var source = @"
+using Avalonia.Xaml.Interactivity;
+using Xaml.Behaviors.SourceGenerators;
+
+internal class InternalDependency {}
+
+namespace TestNamespace
+{
+    [GenerateTypedMultiDataTrigger]
+    public partial class PublicTrigger : StyledElementTrigger
+    {
+        [TriggerProperty]
+        private InternalDependency _dep;
+
+        private bool Evaluate() => _dep != null;
+    }
+}
+";
+        var (diagnostics, _) = GeneratorTestHelper.RunGenerator(source);
+
+        Assert.Contains(diagnostics, d => d.Id == "XBG014");
+    }
 }
