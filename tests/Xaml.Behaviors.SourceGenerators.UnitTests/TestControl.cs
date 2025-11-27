@@ -6,7 +6,7 @@ namespace Avalonia.Xaml.Behaviors.SourceGenerators.UnitTests;
 
 public class TestControl : Control
 {
-    public bool MethodCalled { get; private set; }
+    public bool MethodCalled { get; internal set; }
     public string? MethodParameter { get; private set; }
 
     public void TestMethod()

@@ -12,6 +12,7 @@ using Avalonia.Xaml.Behaviors.SourceGenerators.UnitTests;
 [assembly: GenerateEventCommand(typeof(Avalonia.Controls.Button), "Click")]
 [assembly: GeneratePropertyTrigger(typeof(TestControl), "Tag")]
 [assembly: GeneratePropertyTrigger(typeof(RuntimePropertyHost), "FooProperty")]
+[assembly: GenerateTypedTrigger(typeof(SourceTrackingControl), "SourceEvent")]
 
 namespace Avalonia.Xaml.Behaviors.SourceGenerators.UnitTests;
 
