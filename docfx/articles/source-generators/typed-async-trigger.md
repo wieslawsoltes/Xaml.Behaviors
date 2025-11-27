@@ -41,7 +41,7 @@ Generates `LoadTaskAsyncTrigger` with:
 
 ## Diagnostics
 
-- `XBG023` when the property name/pattern is missing.
+- `XBG023` when no Task/ValueTask property matching the name/pattern is found on the target type.
 - `XBG025` when the property type is not Task/Task<T>/ValueTask/ValueTask<T>.
 - Generic/static members are rejected (`XBG008`/`XBG010`); accessibility issues report `XBG014`.
 

@@ -35,7 +35,7 @@ The generator creates `ButtonClickEventCommandTrigger` (assembly scope keeps the
 
 - `ParameterPath`: optional dotted path into event args (e.g., `OriginalSource`, `Key`) used as the command parameter. It is resolved at compile time into a typed accessor—no runtime reflection. The generated `ParameterPath` property must match the compile-time value; set it to `null`/empty to fall back to `Parameter` or the event args.
 - `Parameter`: styled property to supply a fixed parameter. When it is set, it takes precedence over `ParameterPath` (even if the path matches the compile-time value).
-- `UseDispatcher`: marshal `CanExecute/Execute` onto the UI thread.
+- `UseDispatcher`: marshal `CanExecute/Execute` onto the UI thread (defaults to `false`; without it the command runs on the event thread).
 - `Name`: optional override for the generated class name.
 - `SourceObject`/`SourceName`: resolve the event source via binding or namescope lookup.
 - Event delegates must use by-value parameters (`ref`/`in`/`out` parameters are not supported) and may have at most two parameters (the typical `sender`/`args` pattern).
