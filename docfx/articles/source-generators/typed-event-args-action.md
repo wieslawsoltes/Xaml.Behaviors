@@ -44,6 +44,7 @@ When the action executes (e.g., from an `EventTriggerBehavior`), it casts `param
 - `Name`: override the generated class name.
 - `Project`: comma/semicolon-separated list of event-args property names to expose as styled properties (e.g., `Project = "Position,KeyModifiers"`).
 - Overloaded handlers with the same name are not supported; the generator reports XBG007 when multiple overloads match the requested method name.
+- Async handlers returning `Task`/`ValueTask` are supported; the generated action observes the task (swallowing exceptions) so the dispatcher thread stays alive.
 
 ## Diagnostics
 

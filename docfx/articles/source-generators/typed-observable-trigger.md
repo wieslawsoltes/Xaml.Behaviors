@@ -19,6 +19,7 @@ Generates `StreamObservableTrigger` with:
 - `Stream` styled property to bind an `IObservable<T>`.
 - `LastValue` and `LastError` styled properties.
 - Executes actions on `OnNext` (value passed as parameter), `OnError` (exception), and `OnCompleted` (null).
+- `SourceObject` styled property to point the trigger at another object when you are not binding `Stream` directly on the trigger.
 
 `UseDispatcher` defaults to `true`; `FireOnAttach` subscribes immediately when the trigger attaches (set it to `false` to wait for a property change after attach). `Name` can override the generated class name. Assembly-level attributes use the same defaults, emit in the target type’s namespace, and prefix the type name to avoid collisions.
 

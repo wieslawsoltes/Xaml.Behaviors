@@ -37,8 +37,8 @@ You can also add attributes at the assembly level to generate actions for one or
 | --- | --- |
 | Pattern kinds | Literal name, `*` wildcard, or regular expression |
 | Name collisions | Assembly attributes prefix the target type name (e.g. `ButtonClickAction`) |
-| Accessibility | Methods must be public/internal; parameter and return types must be public |
-| Ambiguity | Literal names with multiple overloads produce XBG007; wildcard/regex skip ambiguous overload groups |
+| Accessibility | Methods must be public/internal; parameter and return types must be accessible (public or internal with `InternalsVisibleTo`) |
+| Ambiguity | Literal names with multiple overloads produce XBG007; wildcard/regex still emit XBG007 if multiple overloads remain after filtering |
 | Inaccessible matches | Wildcard/regex patterns drop matches that use non-public types and emit XBG014 if nothing accessible remains |
 | Static/generic | Static methods and generic type/parameter usage are rejected (diagnostic) |
 

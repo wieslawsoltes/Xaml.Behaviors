@@ -20,7 +20,7 @@ public class MyControl : Control
 [assembly: GeneratePropertyTrigger(typeof(MyControl), "OpacityProperty")]
 ```
 
-The generator produces `OpacityPropertyTrigger` in the target type’s namespace (e.g., `MyApp.Controls`), prefixing the type name for assembly-level attributes.
+The generator produces `MyControlOpacityPropertyTrigger` in the target type’s namespace (e.g., `MyApp.Controls`), prefixing the type name for assembly-level attributes.
 
 ### XAML Example
 
@@ -30,9 +30,9 @@ The generator produces `OpacityPropertyTrigger` in the target type’s namespace
              xmlns:local="using:MyApp.Controls">
   <Grid>
     <Interaction.Behaviors>
-      <local:OpacityPropertyTrigger Value="0" ComparisonCondition="GreaterThan">
+      <local:MyControlOpacityPropertyTrigger Value="0" ComparisonCondition="GreaterThan">
         <local:SomeAction />
-      </local:OpacityPropertyTrigger>
+      </local:MyControlOpacityPropertyTrigger>
     </Interaction.Behaviors>
     <!-- UI content -->
   </Grid>
@@ -43,6 +43,7 @@ The generator produces `OpacityPropertyTrigger` in the target type’s namespace
 
 - `UseDispatcher`: marshal evaluation and action invocation to the UI thread.
 - `Name`: optional override for the generated class name.
+- `SourceObject`: bind the source instance directly when you are not using `SourceName`.
 - `SourceName`: resolve the source by name from the nearest `NameScope`; falls back to `SourceObject` or `AssociatedObject`. If the target type is not part of the logical tree, the generator emits a warning because `SourceName` cannot be resolved. Types implementing `Avalonia.LogicalTree.ILogical` (e.g., controls) are considered part of the logical tree.
 
 ## Diagnostics

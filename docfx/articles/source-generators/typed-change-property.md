@@ -43,7 +43,7 @@ public string StatusText { get; set; }
 | --- | --- |
 | Pattern kinds | Literal name, `*` wildcard, or regular expression |
 | Name collisions | Assembly attributes prefix the target type name (e.g. `TextBlockSetTextAction`) |
-| Accessibility | Property and setter must be public/internal; property type must be public |
+| Accessibility | Property and setter must be public/internal; property type must be accessible (public or internal with `InternalsVisibleTo`) |
 | Ambiguity | Multiple properties with the same name are treated as a single match; inaccessible setters are skipped |
 | Inaccessible matches | Wildcard/regex patterns drop properties with non-public setters/types and emit XBG015/XBG014 if nothing accessible remains |
 | Static/generic | Static properties or generic type parameters are rejected (diagnostic) |

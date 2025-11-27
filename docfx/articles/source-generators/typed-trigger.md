@@ -33,7 +33,7 @@ You can also register triggers at the assembly level and generate multiple class
 | --- | --- |
 | Pattern kinds | Literal name, `*` wildcard, or regular expression |
 | Name collisions | Assembly attributes prefix the target type name (e.g. `ButtonClickTrigger`) |
-| Accessibility | Events must be public/internal; the event handler delegate and its parameter types must be public |
+| Accessibility | Events must be public/internal; the event handler delegate and its parameter types must be accessible (public or internal with `InternalsVisibleTo`) |
 | Ambiguity | Event name conflicts are resolved by the event name; duplicate matches are de-duplicated per name |
 | Inaccessible matches | Wildcard/regex patterns drop matches using non-public members and emit XBG014 if nothing accessible remains |
 | Static/generic | Static or generic events are rejected (diagnostic) |

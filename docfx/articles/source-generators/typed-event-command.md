@@ -13,7 +13,7 @@ using Xaml.Behaviors.SourceGenerators;
 [assembly: GenerateEventCommand(typeof(Button), "Click", ParameterPath = "Source", UseDispatcher = true)]
 ```
 
-The generator creates `ClickEventCommandTrigger` (assembly scope keeps the target type’s namespace and prefixes the type name).
+The generator creates `ButtonClickEventCommandTrigger` (assembly scope keeps the target type’s namespace and prefixes the type name).
 
 ### XAML Example
 
@@ -34,7 +34,7 @@ The generator creates `ClickEventCommandTrigger` (assembly scope keeps the targe
 ## Options
 
 - `ParameterPath`: optional dotted path into event args (e.g., `OriginalSource`, `Key`) used as the command parameter. It is resolved at compile time into a typed accessor—no runtime reflection. The generated `ParameterPath` property must match the compile-time value; set it to `null`/empty to fall back to `Parameter` or the event args.
-- `Parameter`: styled property to supply a fixed parameter (used if set and no path is provided).
+- `Parameter`: styled property to supply a fixed parameter. When it is set, it takes precedence over `ParameterPath` (even if the path matches the compile-time value).
 - `UseDispatcher`: marshal `CanExecute/Execute` onto the UI thread.
 - `Name`: optional override for the generated class name.
 - `SourceObject`/`SourceName`: resolve the event source via binding or namescope lookup.
@@ -45,6 +45,8 @@ The generator creates `ClickEventCommandTrigger` (assembly scope keeps the targe
 - Reuses existing trigger diagnostics: `XBG004` (event not found), `XBG001-003` for unsupported delegates, plus accessibility checks.
 - `XBG020`: `ParameterPath` does not resolve on the event args.
 - `XBG021`: `ParameterPath` resolves to a non-public member; make it public or expose internals.
+- `XBG029`: Event delegate parameter uses `ref`/`in`/`out`.
+- `XBG034`: Event delegate declares more than two parameters.
 
 ## Notes
 

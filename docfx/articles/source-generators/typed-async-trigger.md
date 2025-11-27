@@ -18,7 +18,7 @@ public partial class Loader
 Generates `LoadTaskAsyncTrigger` with:
 - `LoadTask` styled property to bind a `Task`/`Task<T>`/`ValueTask`/`ValueTask<T>`.
 - `IsExecuting`, `LastError`, and `LastResult` (for `T`) styled properties.
-- Executes actions when the task completes successfully; sets `LastError` on fault; cancels quietly without firing actions.
+- Executes actions when the task completes successfully, passing the result as the action parameter for `Task<T>/ValueTask<T>`; sets `LastError` on fault; cancellation stops tracking without firing actions.
 
 `UseDispatcher` defaults to `true` for callbacks. `FireOnAttach` controls whether the current task is tracked when the trigger attaches (set it to `false` to wait for a new value). `Name` can override the generated class name. Assembly-level attributes use the same defaults, emit in the target type’s namespace, and prefix the type name to avoid collisions.
 

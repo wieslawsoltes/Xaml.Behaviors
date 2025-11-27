@@ -12,7 +12,7 @@ Add the attributes to your assembly (e.g., in `Program.cs` or `App.axaml.cs`).
 [assembly: GenerateTypedAction(typeof(ThirdPartyViewModel), "ExternalMethod")]
 ```
 
-This generates `ExternalMethodAction` in the namespace of `ThirdPartyViewModel`.
+This generates `ThirdPartyViewModelExternalMethodAction` in the namespace of `ThirdPartyViewModel`.
 
 ### Triggers
 
@@ -20,7 +20,7 @@ This generates `ExternalMethodAction` in the namespace of `ThirdPartyViewModel`.
 [assembly: GenerateTypedTrigger(typeof(ThirdPartyViewModel), "ExternalEvent")]
 ```
 
-This generates `ExternalEventTrigger` in the namespace of `ThirdPartyViewModel`.
+This generates `ThirdPartyViewModelExternalEventTrigger` in the namespace of `ThirdPartyViewModel`.
 
 ### ChangePropertyAction
 
@@ -28,7 +28,7 @@ This generates `ExternalEventTrigger` in the namespace of `ThirdPartyViewModel`.
 [assembly: GenerateTypedChangePropertyAction(typeof(ThirdPartyViewModel), "ExternalProperty")]
 ```
 
-This generates `SetExternalPropertyAction` in the namespace of `ThirdPartyViewModel`.
+This generates `ThirdPartyViewModelSetExternalPropertyAction` in the namespace of `ThirdPartyViewModel`.
 
 ## Avalonia control examples
 
@@ -45,7 +45,7 @@ using Xaml.Behaviors.SourceGenerators;
 [assembly: GenerateTypedTrigger(typeof(InputElement), "^(KeyDown|KeyUp)$")]    // regex for specific keys
 
 // Actions
-[assembly: GenerateTypedAction(typeof(Control), "Focus")]                      // generates FocusAction for any Control
+[assembly: GenerateTypedAction(typeof(Control), "Focus")]                      // generates ControlFocusAction for any Control
 
 // ChangePropertyAction
 [assembly: GenerateTypedChangePropertyAction(typeof(InputElement), "IsEnabled")]
@@ -62,20 +62,20 @@ using Xaml.Behaviors.SourceGenerators;
     <Button Content="Click Me">
         <Interaction.Behaviors>
             <!-- From GenerateTypedTrigger(typeof(Button), \"Click\") -->
-            <ac:ClickTrigger>
+            <ac:ButtonClickTrigger>
                 <!-- From GenerateTypedAction(typeof(Control), \"Focus\") -->
-                <ac:FocusAction TargetObject="{Binding RelativeSource={RelativeSource AncestorType=ac:Button}}" />
-            </ac:ClickTrigger>
+                <ac:ControlFocusAction TargetObject="{Binding RelativeSource={RelativeSource AncestorType=ac:Button}}" />
+            </ac:ButtonClickTrigger>
         </Interaction.Behaviors>
     </Button>
 
     <TextBox>
         <Interaction.Behaviors>
             <!-- From GenerateTypedTrigger(typeof(InputElement), \"Pointer*\") -->
-            <ai:PointerEnteredTrigger>
+            <ai:InputElementPointerEnteredTrigger>
                 <!-- From GenerateTypedChangePropertyAction(typeof(InputElement), \"IsEnabled\") -->
-                <ai:SetIsEnabledAction Value=\"False\" />
-            </ai:PointerEnteredTrigger>
+                <ai:InputElementSetIsEnabledAction Value=\"False\" />
+            </ai:InputElementPointerEnteredTrigger>
         </Interaction.Behaviors>
     </TextBox>
 </UserControl>
@@ -96,7 +96,7 @@ Since the generated classes are placed in the same namespace as the target type 
     <Button Content="Click Me">
         <Interaction.Behaviors>
             <EventTriggerBehavior EventName="Click">
-                <external:ExternalMethodAction TargetObject="{Binding ExternalViewModel}" />
+                <external:ThirdPartyViewModelExternalMethodAction TargetObject="{Binding ExternalViewModel}" />
             </EventTriggerBehavior>
         </Interaction.Behaviors>
     </Button>
