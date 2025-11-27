@@ -329,7 +329,7 @@ namespace TestNamespace
         Assert.NotNull(generated);
         Assert.Contains("public static readonly StyledProperty<bool> IsExecutingProperty", generated);
         Assert.Contains("var t = task;", generated);
-        Assert.Contains("TrackTask(t);", generated);
+        Assert.Contains("TrackTask(t, version);", generated);
         Assert.Contains("IsExecuting = true;", generated);
     }
 
@@ -354,7 +354,7 @@ namespace TestNamespace
         var generated = sources.FirstOrDefault(s => s.Contains("class TestMethodAsyncAction"));
         Assert.NotNull(generated);
         Assert.Contains("var t = task.AsTask();", generated);
-        Assert.Contains("TrackTask(t);", generated);
+        Assert.Contains("TrackTask(t, version);", generated);
     }
 
     [Fact]

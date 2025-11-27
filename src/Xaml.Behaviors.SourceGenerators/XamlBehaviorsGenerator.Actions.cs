@@ -168,6 +168,8 @@ namespace Xaml.Behaviors.SourceGenerators
                 sb.AppendLine("            private set => SetValue(LastErrorProperty, value);");
                 sb.AppendLine("        }");
                 sb.AppendLine();
+                sb.AppendLine("        private int _taskVersion;");
+                sb.AppendLine();
             }
 
             sb.AppendLine("        public override object Execute(object? sender, object? parameter)");
@@ -206,8 +208,13 @@ namespace Xaml.Behaviors.SourceGenerators
             {
                 if (info.UseDispatcher)
                 {
+                    sb.AppendLine("                var version = System.Threading.Interlocked.Increment(ref _taskVersion);");
                     sb.AppendLine("                Avalonia.Threading.Dispatcher.UIThread.Post(() =>");
                     sb.AppendLine("                {");
+                    sb.AppendLine("                    if (version != System.Threading.Volatile.Read(ref _taskVersion))");
+                    sb.AppendLine("                    {");
+                    sb.AppendLine("                        return;");
+                    sb.AppendLine("                    }");
                     sb.AppendLine("                    try");
                     sb.AppendLine("                    {");
                     sb.AppendLine($"                        var task = {invocation};");
@@ -219,18 +226,24 @@ namespace Xaml.Behaviors.SourceGenerators
                     {
                         sb.AppendLine("                        var t = task;");
                     }
-                    sb.AppendLine("                        TrackTask(t);");
+                    sb.AppendLine("                        TrackTask(t, version);");
                     sb.AppendLine("                    }");
                     sb.AppendLine("                    catch (System.Exception ex)");
                     sb.AppendLine("                    {");
-                    sb.AppendLine("                        LastError = ex;");
-                    sb.AppendLine("                        IsExecuting = false;");
+                    sb.AppendLine("                        if (version == System.Threading.Volatile.Read(ref _taskVersion))");
+                    sb.AppendLine("                        {");
+                    sb.AppendLine("                            LastError = ex;");
+                    sb.AppendLine("                            IsExecuting = false;");
+                    sb.AppendLine("                        }");
                     sb.AppendLine("                    }");
                     sb.AppendLine("                });");
                     sb.AppendLine("                return true;");
                 }
                 else
                 {
+                    sb.AppendLine("                var version = System.Threading.Interlocked.Increment(ref _taskVersion);");
+                    sb.AppendLine("                try");
+                    sb.AppendLine("                {");
                     sb.AppendLine($"                var task = {invocation};");
                     if (info.IsValueTask)
                     {
@@ -240,7 +253,17 @@ namespace Xaml.Behaviors.SourceGenerators
                     {
                         sb.AppendLine("                var t = task;");
                     }
-                    sb.AppendLine("                return TrackTask(t);");
+                    sb.AppendLine("                return TrackTask(t, version);");
+                    sb.AppendLine("                }");
+                    sb.AppendLine("                catch (System.Exception ex)");
+                    sb.AppendLine("                {");
+                    sb.AppendLine("                    if (version == System.Threading.Volatile.Read(ref _taskVersion))");
+                    sb.AppendLine("                    {");
+                    sb.AppendLine("                        LastError = ex;");
+                    sb.AppendLine("                        IsExecuting = false;");
+                    sb.AppendLine("                    }");
+                    sb.AppendLine("                    return false;");
+                    sb.AppendLine("                }");
                 }
             }
             else
@@ -263,8 +286,12 @@ namespace Xaml.Behaviors.SourceGenerators
             if (info.IsAwaitable)
             {
                 sb.AppendLine();
-                sb.AppendLine("        private bool TrackTask(System.Threading.Tasks.Task? task)");
+                sb.AppendLine("        private bool TrackTask(System.Threading.Tasks.Task? task, int version)");
                 sb.AppendLine("        {");
+                sb.AppendLine("            if (version != System.Threading.Volatile.Read(ref _taskVersion))");
+                sb.AppendLine("            {");
+                sb.AppendLine("                return true;");
+                sb.AppendLine("            }");
                 sb.AppendLine("            LastError = null;");
                 sb.AppendLine("            if (task == null)");
                 sb.AppendLine("            {");
@@ -274,16 +301,20 @@ namespace Xaml.Behaviors.SourceGenerators
                 sb.AppendLine();
                 sb.AppendLine("            if (task.IsCompleted)");
                 sb.AppendLine("            {");
-                sb.AppendLine("                return ObserveCompletedTask(task);");
+                sb.AppendLine("                return ObserveCompletedTask(task, version);");
                 sb.AppendLine("            }");
                 sb.AppendLine();
                 sb.AppendLine("            IsExecuting = true;");
-                sb.AppendLine("            _ = ObserveTaskAsync(task);");
+                sb.AppendLine("            _ = ObserveTaskAsync(task, version);");
                 sb.AppendLine("            return true;");
                 sb.AppendLine("        }");
                 sb.AppendLine();
-                sb.AppendLine("        private bool ObserveCompletedTask(System.Threading.Tasks.Task task)");
+                sb.AppendLine("        private bool ObserveCompletedTask(System.Threading.Tasks.Task task, int version)");
                 sb.AppendLine("        {");
+                sb.AppendLine("            if (version != System.Threading.Volatile.Read(ref _taskVersion))");
+                sb.AppendLine("            {");
+                sb.AppendLine("                return true;");
+                sb.AppendLine("            }");
                 sb.AppendLine("            if (task.IsFaulted)");
                 sb.AppendLine("            {");
                 sb.AppendLine("                LastError = task.Exception?.GetBaseException();");
@@ -302,7 +333,7 @@ namespace Xaml.Behaviors.SourceGenerators
                 sb.AppendLine("            return true;");
                 sb.AppendLine("        }");
                 sb.AppendLine();
-                sb.AppendLine("        private async System.Threading.Tasks.Task ObserveTaskAsync(System.Threading.Tasks.Task task)");
+                sb.AppendLine("        private async System.Threading.Tasks.Task ObserveTaskAsync(System.Threading.Tasks.Task task, int version)");
                 sb.AppendLine("        {");
                 sb.AppendLine("            try");
                 sb.AppendLine("            {");
@@ -310,11 +341,17 @@ namespace Xaml.Behaviors.SourceGenerators
                 sb.AppendLine("            }");
                 sb.AppendLine("            catch (System.Exception ex)");
                 sb.AppendLine("            {");
-                sb.AppendLine("                Avalonia.Threading.Dispatcher.UIThread.Post(() => LastError = ex);");
+                sb.AppendLine("                if (version == System.Threading.Volatile.Read(ref _taskVersion))");
+                sb.AppendLine("                {");
+                sb.AppendLine("                    Avalonia.Threading.Dispatcher.UIThread.Post(() => LastError = ex);");
+                sb.AppendLine("                }");
                 sb.AppendLine("            }");
                 sb.AppendLine("            finally");
                 sb.AppendLine("            {");
-                sb.AppendLine("                Avalonia.Threading.Dispatcher.UIThread.Post(() => IsExecuting = false);");
+                sb.AppendLine("                if (version == System.Threading.Volatile.Read(ref _taskVersion))");
+                sb.AppendLine("                {");
+                sb.AppendLine("                    Avalonia.Threading.Dispatcher.UIThread.Post(() => IsExecuting = false);");
+                sb.AppendLine("                }");
                 sb.AppendLine("            }");
                 sb.AppendLine("        }");
             }
