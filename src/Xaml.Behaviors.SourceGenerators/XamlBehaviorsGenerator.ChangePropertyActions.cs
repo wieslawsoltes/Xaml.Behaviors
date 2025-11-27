@@ -215,32 +215,6 @@ namespace Xaml.Behaviors.SourceGenerators
             return CreateChangePropertyInfos(targetType, propertyName, context.Node.GetLocation(), includeTypeNamePrefix: true, compilation: context.SemanticModel.Compilation, useDispatcher: useDispatcher);
         }
 
-        private ImmutableArray<ChangePropertyInfo> GetAssemblyChangePropertyActions(Compilation compilation)
-        {
-            var results = ImmutableArray.CreateBuilder<ChangePropertyInfo>();
-
-            foreach (var attributeData in compilation.Assembly.GetAttributes())
-            {
-                if (!IsAttribute(attributeData, GenerateTypedChangePropertyActionAttributeName)) continue;
-                if (attributeData.ConstructorArguments.Length != 2) continue;
-
-                var targetType = attributeData.ConstructorArguments[0].Value as INamedTypeSymbol;
-                var propertyName = attributeData.ConstructorArguments[1].Value as string;
-                var useDispatcher = GetBoolNamedArgument(attributeData, "UseDispatcher");
-
-                if (targetType == null || string.IsNullOrEmpty(propertyName))
-                {
-                    var diagnostic = Diagnostic.Create(ChangePropertyNotFoundDiagnostic, Location.None, propertyName ?? "<unknown>", targetType?.Name ?? "<unknown>");
-                    results.Add(new ChangePropertyInfo("", "", "public", "", "", "", useDispatcher, diagnostic));
-                    continue;
-                }
-
-                results.AddRange(CreateChangePropertyInfos(targetType, propertyName!, Location.None, includeTypeNamePrefix: true, compilation: compilation, useDispatcher: useDispatcher));
-            }
-
-            return results.ToImmutable();
-        }
-
         private ImmutableArray<ChangePropertyInfo> CreateChangePropertyInfos(INamedTypeSymbol targetType, string propertyPattern, Location? diagnosticLocation = null, bool includeTypeNamePrefix = false, Compilation? compilation = null, bool useDispatcher = false)
         {
             var matchedProperties = FindMatchingProperties(targetType, propertyPattern);

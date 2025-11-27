@@ -51,3 +51,4 @@ The generator creates `ClickEventCommandTrigger` (assembly scope keeps the targe
 - The trigger uses a weak proxy to detach if the source is GC’d.
 - Parameter paths are compiled into direct member access to avoid reflection and trimming issues.
 - Assembly-level generation prefixes the target type name to avoid collisions; hashed suffixes are used if multiple identical names are emitted.  
+- `ParameterPath` is honored only when it matches the compile-time constant from the attribute. Changing `ParameterPath` at runtime (for example, in XAML) will fall back to using the `Parameter` value or the event args directly; this is intentional to keep the accessor fully compile-time.

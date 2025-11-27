@@ -74,26 +74,6 @@ namespace Xaml.Behaviors.SourceGenerators
             return results.ToImmutable();
         }
 
-        private ImmutableArray<ActionInfo> GetAssemblyActions(Compilation compilation)
-        {
-            var results = ImmutableArray.CreateBuilder<ActionInfo>();
-            foreach (var attributeData in compilation.Assembly.GetAttributes())
-            {
-                if (!IsAttribute(attributeData, GenerateTypedActionAttributeName)) continue;
-                if (attributeData.ConstructorArguments.Length != 2) continue;
-
-                var targetType = attributeData.ConstructorArguments[0].Value as INamedTypeSymbol;
-                var methodName = attributeData.ConstructorArguments[1].Value as string;
-                var useDispatcher = GetBoolNamedArgument(attributeData, "UseDispatcher");
-
-                if (targetType == null || string.IsNullOrEmpty(methodName)) continue;
-
-                results.AddRange(CreateActionInfos(targetType, methodName!, Location.None, includeTypeNamePrefix: true, compilation: compilation, useDispatcher: useDispatcher));
-            }
-
-            return results.ToImmutable();
-        }
-
         private void ExecuteGenerateAction(SourceProductionContext spc, ActionInfo info)
         {
             if (info.Diagnostic != null)
@@ -620,23 +600,6 @@ namespace Xaml.Behaviors.SourceGenerators
             }
 
             return requiresInternal ? "internal" : "public";
-        }
-
-        private static IMethodSymbol? SelectBestOverload(IEnumerable<IMethodSymbol> methods)
-        {
-            var list = methods.ToList();
-            if (list.Count == 0) return null;
-
-            var ordered = list
-                .OrderByDescending(m => GetInheritanceDepth(m.ContainingType))
-                .ThenBy(m => m.Parameters.Length)
-                .ThenBy(m => m.Parameters.Select(p => p.Type.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat)).Aggregate(0, (a, b) => a + b.Length))
-                .ToList();
-
-            var best = ordered[0];
-            var bestKey = CreateMethodSignatureKey(best) + "|" + GetInheritanceDepth(best.ContainingType);
-            var tie = ordered.Skip(1).Any(m => (CreateMethodSignatureKey(m) + "|" + GetInheritanceDepth(m.ContainingType)) == bestKey);
-            return tie ? null : best;
         }
 
         private static int GetInheritanceDepth(INamedTypeSymbol? type)
