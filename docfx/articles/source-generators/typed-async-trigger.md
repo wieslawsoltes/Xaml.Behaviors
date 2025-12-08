@@ -20,7 +20,9 @@ Generates `LoadTaskAsyncTrigger` with:
 - `IsExecuting`, `LastError`, and `LastResult` (for `T`) styled properties.
 - Executes actions when the task completes successfully, passing the result as the action parameter for `Task<T>/ValueTask<T>`; sets `LastError` on fault; cancellation stops tracking without firing actions.
 
-`UseDispatcher` defaults to `true` for callbacks. `FireOnAttach` controls whether the current task is tracked when the trigger attaches (set it to `false` to wait for a new value). `Name` can override the generated class name. Assembly-level attributes use the same defaults, emit in the target type’s namespace, and prefix the type name to avoid collisions.
+`UseDispatcher` defaults to `true` for callbacks. `FireOnAttach` controls whether the current task is tracked when the trigger attaches (set it to `false` to wait for a new value). `Name` can override the generated class name. Assembly-level attributes use the same defaults, emit in the target type’s namespace, and prefix the type name to avoid collisions. When used at the assembly level, the `propertyName` argument can be an exact name, a `*` wildcard pattern, or a regex to generate triggers for multiple matching `Task`/`ValueTask` properties (an `XBG023` diagnostic is produced if nothing matches).
+
+`UseDispatcher`, `FireOnAttach`, and `Name` are compile-time attribute flags that bake behavior into the generated class; they are not exposed as styled properties on the trigger. Set them on the attribute rather than in XAML.
 
 ### XAML Example
 
@@ -31,7 +33,7 @@ Generates `LoadTaskAsyncTrigger` with:
   <Grid>
     <Interaction.Behaviors>
       <local:LoadTaskAsyncTrigger LoadTask="{Binding LoadTask}">
-        <local:SetStatusTextAction Value="Loaded!" />
+        <local:SetStatusTextAction TargetObject="{Binding}" Value="Loaded!" />
       </local:LoadTaskAsyncTrigger>
     </Interaction.Behaviors>
     <!-- UI content -->

@@ -13,7 +13,7 @@ using Xaml.Behaviors.SourceGenerators;
 [assembly: GenerateEventCommand(typeof(Button), "Click", ParameterPath = "Source", UseDispatcher = true)]
 ```
 
-The generator creates `ButtonClickEventCommandTrigger` (assembly scope keeps the target type’s namespace and prefixes the type name).
+The generator creates `ButtonClickEventCommandTrigger` (assembly scope keeps the target type’s namespace and prefixes the type name). At the assembly level the `eventName` argument can be an exact name, a `*` wildcard pattern, or a regex to generate triggers for every matching event; `XBG004` is reported when nothing matches.
 
 ### XAML Example
 
@@ -39,6 +39,7 @@ The generator creates `ButtonClickEventCommandTrigger` (assembly scope keeps the
 - `Name`: optional override for the generated class name.
 - `SourceObject`/`SourceName`: resolve the event source via binding or namescope lookup.
 - Event delegates must use by-value parameters (`ref`/`in`/`out` parameters are not supported) and may have at most two parameters (the typical `sender`/`args` pattern).
+- `UseDispatcher` and `Name` are compile-time attribute flags; they are baked into the generated trigger and are not available as styled properties at runtime. Set them on the attribute, not in XAML.
 
 ## Diagnostics
 
@@ -47,6 +48,7 @@ The generator creates `ButtonClickEventCommandTrigger` (assembly scope keeps the
 - `XBG021`: `ParameterPath` resolves to a non-public member; make it public or expose internals.
 - `XBG029`: Event delegate parameter uses `ref`/`in`/`out`.
 - `XBG034`: Event delegate declares more than two parameters.
+- `XBG018`: Target types that are nested are not supported for event command generation.
 
 ## Notes
 

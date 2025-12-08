@@ -30,7 +30,9 @@ The generator produces `OnPointerPressedEventArgsAction` in the same namespace. 
              xmlns:local="using:MyApp.Handlers">
   <Border>
     <Interaction.Behaviors>
-      <local:OnPointerPressedEventArgsAction />
+      <EventTriggerBehavior EventName="PointerPressed">
+        <local:OnPointerPressedEventArgsAction TargetObject="{Binding}" />
+      </EventTriggerBehavior>
     </Interaction.Behaviors>
   </Border>
 </UserControl>

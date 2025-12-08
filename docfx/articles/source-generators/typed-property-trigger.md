@@ -29,9 +29,12 @@ The generator produces `MyControlOpacityPropertyTrigger` in the target type’s 
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="using:MyApp.Controls">
   <Grid>
+    <local:MyControl x:Name="TargetControl" />
     <Interaction.Behaviors>
-      <local:MyControlOpacityPropertyTrigger Value="0" ComparisonCondition="GreaterThan">
-        <local:SomeAction />
+      <local:MyControlOpacityPropertyTrigger SourceName="TargetControl"
+                                             Value="0"
+                                             ComparisonCondition="GreaterThan">
+        <local:SomeAction TargetObject="{Binding}" />
       </local:MyControlOpacityPropertyTrigger>
     </Interaction.Behaviors>
     <!-- UI content -->

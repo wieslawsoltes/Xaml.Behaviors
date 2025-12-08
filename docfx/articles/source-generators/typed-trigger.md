@@ -45,9 +45,11 @@ You can also register triggers at the assembly level and generate multiple class
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="using:MyApp.ViewModels">
     <!-- ... -->
-    <local:ProcessingFinishedTrigger SourceObject="{Binding}">
-        <local:SubmitAction />
-    </local:ProcessingFinishedTrigger>
+    <Interaction.Behaviors>
+        <local:ProcessingFinishedTrigger SourceObject="{Binding}">
+            <local:SubmitAction TargetObject="{Binding}" />
+        </local:ProcessingFinishedTrigger>
+    </Interaction.Behaviors>
     <!-- ... -->
 </UserControl>
 ```

@@ -87,9 +87,15 @@ public void UpdateMessage(string message, int count)
 ### XAML Usage
 
 ```xml
-<local:UpdateMessageAction TargetObject="{Binding}" 
-                           Message="Hello World" 
-                           Count="{Binding Count}" />
+<Button Content="Update">
+    <Interaction.Behaviors>
+        <EventTriggerBehavior EventName="Click">
+            <local:UpdateMessageAction TargetObject="{Binding}" 
+                                       Message="Hello World" 
+                                       Count="{Binding Count}" />
+        </EventTriggerBehavior>
+    </Interaction.Behaviors>
+</Button>
 ```
 
 > Ensure `xmlns:local` is defined in your XAML root pointing to the namespace of `UpdateMessageAction`.
@@ -105,12 +111,18 @@ public void Configure(string title, bool isEnabled, double threshold, TimeSpan t
 ```
 
 ```xml
-<local:ConfigureAction TargetObject="{Binding}"
-                       Title="{Binding PageTitle}"
-                       IsEnabled="True"
-                       Threshold="0.85"
-                       Timeout="00:00:30"
-                       Endpoint="https://api.example.com/" />
+<Button Content="Configure">
+    <Interaction.Behaviors>
+        <EventTriggerBehavior EventName="Click">
+            <local:ConfigureAction TargetObject="{Binding}"
+                                   Title="{Binding PageTitle}"
+                                   IsEnabled="True"
+                                   Threshold="0.85"
+                                   Timeout="00:00:30"
+                                   Endpoint="https://api.example.com/" />
+        </EventTriggerBehavior>
+    </Interaction.Behaviors>
+</Button>
 ```
 
 ## Async Support

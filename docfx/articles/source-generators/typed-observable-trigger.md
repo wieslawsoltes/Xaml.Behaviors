@@ -21,7 +21,9 @@ Generates `StreamObservableTrigger` with:
 - Executes actions on `OnNext` (value passed as parameter), `OnError` (exception), and `OnCompleted` (null).
 - `SourceObject` styled property to point the trigger at another object when you are not binding `Stream` directly on the trigger.
 
-`UseDispatcher` defaults to `true`; `FireOnAttach` subscribes immediately when the trigger attaches (set it to `false` to wait for a property change after attach). `Name` can override the generated class name. Assembly-level attributes use the same defaults, emit in the target type’s namespace, and prefix the type name to avoid collisions.
+`UseDispatcher` defaults to `true`; `FireOnAttach` subscribes immediately when the trigger attaches (set it to `false` to wait for a property change after attach). `Name` can override the generated class name. Assembly-level attributes use the same defaults, emit in the target type’s namespace, and prefix the type name to avoid collisions. At the assembly level the `propertyName` argument can be an exact name, a `*` wildcard pattern, or a regex to generate triggers for every matching `IObservable<T>` property; `XBG024` is reported when nothing matches.
+
+`UseDispatcher`, `FireOnAttach`, and `Name` are compile-time attribute flags that are baked into the generated trigger; they are not exposed as styled properties at runtime. Set them on the attribute, not in XAML.
 
 ### XAML Example
 
@@ -32,7 +34,7 @@ Generates `StreamObservableTrigger` with:
   <Grid>
     <Interaction.Behaviors>
       <local:StreamObservableTrigger Stream="{Binding Stream}">
-        <local:SetStatusTextAction Value="New value received" />
+        <local:SetStatusTextAction TargetObject="{Binding}" Value="New value received" />
       </local:StreamObservableTrigger>
     </Interaction.Behaviors>
     <!-- UI content -->
@@ -42,7 +44,7 @@ Generates `StreamObservableTrigger` with:
 
 ## Diagnostics
 
-- `XBG024` when the property name/pattern is missing.
+- `XBG024` when no `IObservable<T>` property matching the name/pattern is found on the target type.
 - `XBG026` when the property type is not `IObservable<T>`.
 - Generic/static members are rejected (`XBG008`/`XBG010`); accessibility issues report `XBG014`.
 

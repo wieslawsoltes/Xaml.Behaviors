@@ -55,7 +55,13 @@ public string StatusText { get; set; }
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="using:MyApp.ViewModels">
     <!-- ... -->
-    <local:SetStatusTextAction TargetObject="{Binding}" Value="New Status" />
+    <Button Content="Set Status">
+        <Interaction.Behaviors>
+            <EventTriggerBehavior EventName="Click">
+                <local:SetStatusTextAction TargetObject="{Binding}" Value="New Status" />
+            </EventTriggerBehavior>
+        </Interaction.Behaviors>
+    </Button>
     <!-- ... -->
 </UserControl>
 ```

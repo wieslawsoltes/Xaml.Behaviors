@@ -21,9 +21,11 @@ The generator will create classes named `DoubleDataTrigger` and `StringDataTrigg
              xmlns:local="using:Xaml.Behaviors.Generated"
              xmlns:vm="using:MyApp.ViewModels">
     <!-- ... -->
-    <local:DoubleDataTrigger Binding="{Binding Value}" Value="5" ComparisonCondition="Equal">
-         <vm:SetStatusTextAction Value="Value is 5" />
-    </local:DoubleDataTrigger>
+    <Interaction.Behaviors>
+        <local:DoubleDataTrigger Binding="{Binding Value}" Value="5" ComparisonCondition="Equal">
+             <vm:SetStatusTextAction TargetObject="{Binding}" Value="Value is 5" />
+        </local:DoubleDataTrigger>
+    </Interaction.Behaviors>
     <!-- ... -->
 </UserControl>
 ```
