@@ -241,30 +241,45 @@ namespace Xaml.Behaviors.SourceGenerators
             if (info.Command != null) sb.AppendLine($"            this.{info.Command.FieldName} = this.{info.Command.Name};");
             if (info.Parameter != null) sb.AppendLine($"            this.{info.Parameter.FieldName} = this.{info.Parameter.Name};");
 
-            sb.AppendLine($"            if (this.{info.Command!.FieldName} is ICommand command)");
+            sb.AppendLine($"            if (this.{info.Command!.FieldName} is not ICommand command)");
             sb.AppendLine("            {");
+            sb.AppendLine("                return false;");
+            sb.AppendLine("            }");
+
             var param = info.Parameter != null ? $"this.{info.Parameter.FieldName}" : "parameter";
+            sb.AppendLine($"            var commandParameter = {param};");
+
             if (info.UseDispatcher)
             {
-                sb.AppendLine("                Avalonia.Threading.Dispatcher.UIThread.Post(() =>");
+                sb.AppendLine("            if (Avalonia.Threading.Dispatcher.UIThread.CheckAccess())");
+                sb.AppendLine("            {");
+                sb.AppendLine("                if (command.CanExecute(commandParameter))");
                 sb.AppendLine("                {");
-                sb.AppendLine($"                    if (command.CanExecute({param}))");
-                sb.AppendLine("                    {");
-                sb.AppendLine($"                        command.Execute({param});");
-                sb.AppendLine("                    }");
-                sb.AppendLine("                });");
-                sb.AppendLine("                return true;");
+                sb.AppendLine("                    command.Execute(commandParameter);");
+                sb.AppendLine("                    return true;");
+                sb.AppendLine("                }");
+                sb.AppendLine("                return false;");
+                sb.AppendLine("            }");
+                sb.AppendLine();
+                sb.AppendLine("            return Avalonia.Threading.Dispatcher.UIThread.InvokeAsync(() =>");
+                sb.AppendLine("            {");
+                sb.AppendLine("                if (command.CanExecute(commandParameter))");
+                sb.AppendLine("                {");
+                sb.AppendLine("                    command.Execute(commandParameter);");
+                sb.AppendLine("                    return true;");
+                sb.AppendLine("                }");
+                sb.AppendLine("                return false;");
+                sb.AppendLine("            }).GetAwaiter().GetResult();");
             }
             else
             {
-                sb.AppendLine($"                if (command.CanExecute({param}))");
-                sb.AppendLine("                {");
-                sb.AppendLine($"                    command.Execute({param});");
-                sb.AppendLine("                    return true;");
-                sb.AppendLine("                }");
+                sb.AppendLine("            if (command.CanExecute(commandParameter))");
+                sb.AppendLine("            {");
+                sb.AppendLine("                command.Execute(commandParameter);");
+                sb.AppendLine("                return true;");
+                sb.AppendLine("            }");
+                sb.AppendLine("            return false;");
             }
-            sb.AppendLine("            }");
-            sb.AppendLine("            return false;");
             sb.AppendLine("        }");
             sb.AppendLine("    }");
             sb.AppendLine("}");

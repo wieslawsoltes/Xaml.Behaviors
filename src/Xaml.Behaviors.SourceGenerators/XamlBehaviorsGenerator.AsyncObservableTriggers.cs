@@ -324,7 +324,7 @@ namespace Xaml.Behaviors.SourceGenerators
             sb.AppendLine("        protected override void OnPropertyChanged(AvaloniaPropertyChangedEventArgs change)");
             sb.AppendLine("        {");
             sb.AppendLine("            base.OnPropertyChanged(change);");
-            sb.AppendLine($"            if ((change.Property == {info.PropertyName}Property || change.Property == SourceObjectProperty) && (FireOnAttach || AssociatedObject is not null))");
+            sb.AppendLine($"            if (AssociatedObject is not null && (change.Property == {info.PropertyName}Property || change.Property == SourceObjectProperty))");
             sb.AppendLine("            {");
             sb.AppendLine("                TrackTask(GetCurrentTask());");
             sb.AppendLine("            }");
@@ -542,7 +542,7 @@ namespace Xaml.Behaviors.SourceGenerators
             sb.AppendLine("        protected override void OnPropertyChanged(AvaloniaPropertyChangedEventArgs change)");
             sb.AppendLine("        {");
             sb.AppendLine("            base.OnPropertyChanged(change);");
-            sb.AppendLine($"            if ((change.Property == {info.PropertyName}Property || change.Property == SourceObjectProperty) && (FireOnAttach || AssociatedObject is not null))");
+            sb.AppendLine($"            if (AssociatedObject is not null && (change.Property == {info.PropertyName}Property || change.Property == SourceObjectProperty))");
             sb.AppendLine("            {");
             sb.AppendLine("                Subscribe();");
             sb.AppendLine("            }");
