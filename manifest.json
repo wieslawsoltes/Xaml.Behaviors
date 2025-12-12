@@ -7493,6 +7493,34 @@
       "Summary": null
     },
     {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Xaml.Behaviors.SourceGenerators.XamlBehaviorsGenerator.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Xaml.Behaviors.SourceGenerators.XamlBehaviorsGenerator.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Xaml.Behaviors.SourceGenerators.XamlBehaviorsGenerator",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Xaml.Behaviors.SourceGenerators.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Xaml.Behaviors.SourceGenerators.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Xaml.Behaviors.SourceGenerators",
+      "Summary": null
+    },
+    {
       "type": "Conceptual",
       "source_relative_path": "api/index.md",
       "output": {
@@ -13409,6 +13437,159 @@
         },
         ".json": {
           "relative_path": "articles/scripting/toc.json"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/source-generators/diagnostics.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/source-generators/diagnostics.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/source-generators/index.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/source-generators/index.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/source-generators/third-party.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/source-generators/third-party.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "articles/source-generators/toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "articles/source-generators/toc.html"
+        },
+        ".json": {
+          "relative_path": "articles/source-generators/toc.json"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/source-generators/typed-action.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/source-generators/typed-action.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/source-generators/typed-async-trigger.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/source-generators/typed-async-trigger.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/source-generators/typed-change-property.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/source-generators/typed-change-property.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/source-generators/typed-data-trigger.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/source-generators/typed-data-trigger.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/source-generators/typed-event-args-action.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/source-generators/typed-event-args-action.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/source-generators/typed-event-command.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/source-generators/typed-event-command.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/source-generators/typed-invoke-command-action.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/source-generators/typed-invoke-command-action.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/source-generators/typed-multi-data-trigger.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/source-generators/typed-multi-data-trigger.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/source-generators/typed-observable-trigger.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/source-generators/typed-observable-trigger.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/source-generators/typed-property-trigger.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/source-generators/typed-property-trigger.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/source-generators/typed-trigger.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/source-generators/typed-trigger.html"
         }
       },
       "version": ""

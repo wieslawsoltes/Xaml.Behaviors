@@ -1,0 +1,735 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+      <title>Source Generator Diagnostics | XAML Behaviors for Avalonia </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="Source Generator Diagnostics | XAML Behaviors for Avalonia ">
+      
+      
+      <link rel="icon" href="../../favicon.ico">
+      <link rel="stylesheet" href="../../public/docfx.min.css">
+      <link rel="stylesheet" href="../../public/main.css">
+      <meta name="docfx:navrel" content="../../toc.html">
+      <meta name="docfx:tocrel" content="../toc.html">
+      
+      
+      
+      
+      <meta name="docfx:docurl" content="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/docfx/articles/source-generators/diagnostics.md/#L1">
+      <meta name="loc:inThisArticle" content="In this article">
+      <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
+      <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
+      <meta name="loc:tocFilter" content="Filter by title">
+      <meta name="loc:nextArticle" content="Next">
+      <meta name="loc:prevArticle" content="Previous">
+      <meta name="loc:themeLight" content="Light">
+      <meta name="loc:themeDark" content="Dark">
+      <meta name="loc:themeAuto" content="Auto">
+      <meta name="loc:changeTheme" content="Change theme">
+      <meta name="loc:copy" content="Copy">
+      <meta name="loc:downloadPdf" content="Download PDF">
+
+      <script type="module" src="./../../public/docfx.min.js"></script>
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
+  </head>
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../../index.html">
+            <img id="logo" class="svg" src="../../images/logo.svg" alt="">
+            
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <nav class="toc" id="toc"></nav>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
+            <i class="bi bi-list"></i>
+          </button>
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article data-uid="">
+<h1 id="source-generator-diagnostics">Source Generator Diagnostics</h1>
+
+<p>This page lists the analyzer diagnostics emitted by <code>Xaml.Behaviors.SourceGenerators</code>.</p>
+<h2 id="quick-reference">Quick reference</h2>
+<table>
+<thead>
+<tr>
+<th>Rule</th>
+<th>Applies to</th>
+<th>When it fires</th>
+<th>Typical fix</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>XBG001</td>
+<td>Typed Trigger</td>
+<td>Event delegate cannot be inspected</td>
+<td>Use a normal delegate type with an <code>Invoke</code> method (e.g., <code>EventHandler</code>)</td>
+</tr>
+<tr>
+<td>XBG002</td>
+<td>Typed Trigger</td>
+<td>Event delegate returns non-<code>void</code></td>
+<td>Change the delegate to return <code>void</code></td>
+</tr>
+<tr>
+<td>XBG003</td>
+<td>Typed Trigger</td>
+<td>Event delegate has a by-ref parameter (<code>ref</code>/<code>in</code>/<code>out</code>)</td>
+<td>Use by-value parameters</td>
+</tr>
+<tr>
+<td>XBG004</td>
+<td>Typed Trigger</td>
+<td>Event name pattern did not match an event</td>
+<td>Point the attribute at an existing event</td>
+</tr>
+<tr>
+<td>XBG005</td>
+<td>ChangePropertyAction</td>
+<td>Property name pattern did not match a property</td>
+<td>Point the attribute at an existing property with a setter</td>
+</tr>
+<tr>
+<td>XBG006</td>
+<td>Typed Action</td>
+<td>Method name pattern did not match a method</td>
+<td>Point the attribute at an existing method</td>
+</tr>
+<tr>
+<td>XBG007</td>
+<td>Typed Action</td>
+<td>Literal method name has multiple overloads</td>
+<td>Rename/adjust methods to make the target unambiguous</td>
+</tr>
+<tr>
+<td>XBG008</td>
+<td>All generators</td>
+<td>Generic target/member/type parameter found</td>
+<td>Use non-generic types/members for generation</td>
+</tr>
+<tr>
+<td>XBG009</td>
+<td>Typed Action</td>
+<td>Method parameter uses <code>ref</code>/<code>out</code>/<code>in</code></td>
+<td>Pass parameters by value</td>
+</tr>
+<tr>
+<td>XBG010</td>
+<td>Actions/Triggers/ChangeProperty</td>
+<td>Static member targeted</td>
+<td>Use instance members</td>
+</tr>
+<tr>
+<td>XBG011</td>
+<td>Typed MultiDataTrigger</td>
+<td>Target type not derived from <code>StyledElementTrigger</code></td>
+<td>Derive from <code>Avalonia.Xaml.Interactivity.StyledElementTrigger</code></td>
+</tr>
+<tr>
+<td>XBG012</td>
+<td>Typed InvokeCommandAction</td>
+<td>Target type not derived from <code>StyledElementAction</code></td>
+<td>Derive from <code>Avalonia.Xaml.Interactivity.StyledElementAction</code></td>
+</tr>
+<tr>
+<td>XBG013</td>
+<td>Typed MultiDataTrigger</td>
+<td>Missing non-static <code>bool Evaluate()</code></td>
+<td>Add <code>bool Evaluate()</code></td>
+</tr>
+<tr>
+<td>XBG014</td>
+<td>All generators</td>
+<td>Target or its types are not accessible</td>
+<td>Make members/types public or grant <code>InternalsVisibleTo</code> access to the consuming assembly</td>
+</tr>
+<tr>
+<td>XBG015</td>
+<td>ChangePropertyAction</td>
+<td>Property setter is inaccessible</td>
+<td>Expose a public/internal setter</td>
+</tr>
+<tr>
+<td>XBG016</td>
+<td>MultiDataTrigger/InvokeCommand</td>
+<td>Target type is not <code>partial</code></td>
+<td>Mark the class <code>partial</code></td>
+</tr>
+<tr>
+<td>XBG017</td>
+<td>ChangePropertyAction</td>
+<td>Property uses an <code>init</code>-only setter</td>
+<td>Use a settable property</td>
+</tr>
+<tr>
+<td>XBG018</td>
+<td>MultiDataTrigger/InvokeCommand/EventCommand</td>
+<td>Target type is nested</td>
+<td>Move the class to the top level</td>
+</tr>
+<tr>
+<td>XBG019</td>
+<td>PropertyTrigger</td>
+<td>Target is not an Avalonia styled/direct property</td>
+<td>Point the attribute at a styled or direct Avalonia property</td>
+</tr>
+<tr>
+<td>XBG020</td>
+<td>Event Command</td>
+<td><code>ParameterPath</code> does not resolve on event args</td>
+<td>Use a valid public property chain for <code>ParameterPath</code></td>
+</tr>
+<tr>
+<td>XBG021</td>
+<td>Event Command</td>
+<td><code>ParameterPath</code> references an inaccessible member</td>
+<td>Make the member public or expose internals</td>
+</tr>
+<tr>
+<td>XBG022</td>
+<td>PropertyTrigger</td>
+<td><code>SourceName</code> specified on a type without a <code>NameScope</code></td>
+<td>Use SourceObject/AssociatedObject or target a logical element</td>
+</tr>
+<tr>
+<td>XBG023</td>
+<td>AsyncTrigger</td>
+<td>Property name pattern did not match a Task/ValueTask property</td>
+<td>Point the attribute at an existing Task/ValueTask property</td>
+</tr>
+<tr>
+<td>XBG024</td>
+<td>ObservableTrigger</td>
+<td>Property name pattern did not match an <code>IObservable&lt;T&gt;</code> property</td>
+<td>Point the attribute at an existing observable property</td>
+</tr>
+<tr>
+<td>XBG025</td>
+<td>AsyncTrigger</td>
+<td>Property is not Task/ValueTask</td>
+<td>Use Task/Task<t>/ValueTask/ValueTask<t> for async triggers</t></t></td>
+</tr>
+<tr>
+<td>XBG026</td>
+<td>ObservableTrigger</td>
+<td>Property is not <code>IObservable&lt;T&gt;</code></td>
+<td>Use <code>IObservable&lt;T&gt;</code> for observable triggers</td>
+</tr>
+<tr>
+<td>XBG027</td>
+<td>EventArgsAction</td>
+<td>Projection member not found on event args type</td>
+<td>Use a valid property name on the event args</td>
+</tr>
+<tr>
+<td>XBG028</td>
+<td>EventArgsAction</td>
+<td>Projection member is not accessible</td>
+<td>Make the projected member public or grant internal access</td>
+</tr>
+<tr>
+<td>XBG029</td>
+<td>Event Command</td>
+<td>Event delegate parameter uses <code>ref</code>/<code>in</code>/<code>out</code></td>
+<td>Change the delegate to use by-value parameters</td>
+</tr>
+<tr>
+<td>XBG034</td>
+<td>Event Command</td>
+<td>Event delegate declares more than two parameters</td>
+<td>Limit the delegate to sender/args</td>
+</tr>
+<tr>
+<td>XBG030</td>
+<td>InvokeCommandAction</td>
+<td>Missing <code>[ActionCommand]</code> field</td>
+<td>Add a field marked with <code>[ActionCommand]</code></td>
+</tr>
+<tr>
+<td>XBG031</td>
+<td>MultiDataTrigger</td>
+<td>No fields marked with <code>[TriggerProperty]</code></td>
+<td>Add at least one <code>[TriggerProperty]</code> field</td>
+</tr>
+<tr>
+<td>XBG032</td>
+<td>MultiDataTrigger/InvokeCommand</td>
+<td><code>[TriggerProperty]</code>/<code>[ActionCommand]</code>/<code>[ActionParameter]</code> field is read-only</td>
+<td>Make the field mutable</td>
+</tr>
+<tr>
+<td>XBG033</td>
+<td>EventArgsAction</td>
+<td>Method does not declare exactly one parameter</td>
+<td>Add a single parameter (the event args) to the target method</td>
+</tr>
+</tbody>
+</table>
+<h2 id="trigger-diagnostics-xbg001-xbg004">Trigger diagnostics (XBG001-XBG004)</h2>
+<h3 id="xbg001-unsupported-trigger-delegate">XBG001 Unsupported trigger delegate</h3>
+<p>The event delegate type cannot be inspected (no usable <code>Invoke</code> method was found).</p>
+<pre><code class="lang-csharp">using Xaml.Behaviors.SourceGenerators;
+
+public class Sender
+{
+    // Delegates such as System.Delegate/MulticastDelegate cannot be inspected.
+    public event Delegate? Broken;
+}
+
+[assembly: GenerateTypedTrigger(typeof(Sender), &quot;Broken&quot;)] // XBG001
+</code></pre>
+<p><strong>Fix</strong>: Use a delegate type with a normal <code>void</code>-returning <code>Invoke</code>.</p>
+<pre><code class="lang-csharp">public delegate void ReadyHandler(object? sender, EventArgs args);
+public event ReadyHandler? Ready; // OK
+</code></pre>
+<h3 id="xbg002-unsupported-trigger-delegate-return-type">XBG002 Unsupported trigger delegate return type</h3>
+<p>The event delegate returns a value; typed triggers require <code>void</code>.</p>
+<pre><code class="lang-csharp">public delegate int ReturningHandler(object? sender, EventArgs args);
+
+public class Sender
+{
+    public event ReturningHandler? Completed;
+}
+
+[assembly: GenerateTypedTrigger(typeof(Sender), &quot;Completed&quot;)] // XBG002
+</code></pre>
+<p><strong>Fix</strong>: Change the delegate to <code>void</code>.</p>
+<pre><code class="lang-csharp">public delegate void CompletedHandler(object? sender, EventArgs args);
+public event CompletedHandler? Completed; // OK
+</code></pre>
+<h3 id="xbg003-unsupported-trigger-delegate-parameter">XBG003 Unsupported trigger delegate parameter</h3>
+<p>The event delegate has a by-ref parameter (<code>ref</code>, <code>in</code>, or <code>out</code>), which cannot be forwarded by the generated trigger.</p>
+<pre><code class="lang-csharp">public delegate void RequestHandler(ref string payload);
+
+public class Sender
+{
+    public event RequestHandler? Requested;
+}
+
+[assembly: GenerateTypedTrigger(typeof(Sender), &quot;Requested&quot;)] // XBG003
+</code></pre>
+<p><strong>Fix</strong>: Use by-value parameters (e.g., wrap data in the event args type instead of passing by reference).</p>
+<pre><code class="lang-csharp">public delegate void RequestHandler(object? sender, RequestEventArgs args);
+</code></pre>
+<h3 id="xbg004-trigger-event-not-found">XBG004 Trigger event not found</h3>
+<p>No event matched the name/pattern supplied to <code>GenerateTypedTrigger</code>.</p>
+<pre><code class="lang-csharp">using Avalonia.Controls;
+using Xaml.Behaviors.SourceGenerators;
+
+[assembly: GenerateTypedTrigger(typeof(Button), &quot;Tapped&quot;)] // XBG004, Button has Click not Tapped
+</code></pre>
+<p><strong>Fix</strong>: Point the attribute at an existing event or correct the pattern.</p>
+<pre><code class="lang-csharp">[assembly: GenerateTypedTrigger(typeof(Button), &quot;Click&quot;)] // OK
+</code></pre>
+<h2 id="changepropertyaction-diagnostics-xbg005-xbg015-xbg017">ChangePropertyAction diagnostics (XBG005, XBG015, XBG017)</h2>
+<h3 id="xbg005-change-property-target-not-found">XBG005 Change property target not found</h3>
+<p>The supplied property name/pattern did not match a writable property.</p>
+<pre><code class="lang-csharp">using Avalonia.Controls;
+using Xaml.Behaviors.SourceGenerators;
+
+[assembly: GenerateTypedChangePropertyAction(typeof(TextBox), &quot;Forecolor&quot;)] // XBG005, property is Foreground
+</code></pre>
+<p><strong>Fix</strong>: Use the correct property name.</p>
+<pre><code class="lang-csharp">[assembly: GenerateTypedChangePropertyAction(typeof(TextBox), &quot;Foreground&quot;)] // OK
+</code></pre>
+<h3 id="xbg015-property-setter-not-accessible">XBG015 Property setter not accessible</h3>
+<p>The property exists but its setter is not accessible to the generator.</p>
+<pre><code class="lang-csharp">public class ViewModel
+{
+    public string Name { get; private set; } = string.Empty;
+}
+
+[assembly: GenerateTypedChangePropertyAction(typeof(ViewModel), &quot;Name&quot;)] // XBG015
+</code></pre>
+<p><strong>Fix</strong>: Expose a public/internal setter that the generator can call.</p>
+<pre><code class="lang-csharp">public string Name { get; set; } = string.Empty; // OK
+</code></pre>
+<h3 id="xbg017-init-only-setter-not-supported">XBG017 Init-only setter not supported</h3>
+<p>The property uses an <code>init</code>-only setter, which cannot be set at runtime by the generated action.</p>
+<pre><code class="lang-csharp">public class ViewModel
+{
+    public string Name { get; init; } = string.Empty;
+}
+
+[assembly: GenerateTypedChangePropertyAction(typeof(ViewModel), &quot;Name&quot;)] // XBG017
+</code></pre>
+<p><strong>Fix</strong>: Switch to a settable property.</p>
+<pre><code class="lang-csharp">public string Name { get; set; } = string.Empty; // OK
+</code></pre>
+<h2 id="action-diagnostics-xbg006-xbg007-xbg009">Action diagnostics (XBG006, XBG007, XBG009)</h2>
+<h3 id="xbg006-action-method-not-found">XBG006 Action method not found</h3>
+<p>No method matched the name/pattern supplied to <code>GenerateTypedAction</code>.</p>
+<pre><code class="lang-csharp">using Xaml.Behaviors.SourceGenerators;
+
+public class ViewModel
+{
+    public void Submit() { }
+}
+
+[assembly: GenerateTypedAction(typeof(ViewModel), &quot;Save*&quot;)] // XBG006
+</code></pre>
+<p><strong>Fix</strong>: Point the attribute at an existing method or correct the pattern.</p>
+<pre><code class="lang-csharp">[assembly: GenerateTypedAction(typeof(ViewModel), &quot;Submit&quot;)] // OK
+</code></pre>
+<h3 id="xbg007-action-method-ambiguous">XBG007 Action method ambiguous</h3>
+<p>A literal method name matched multiple overloads; the generator cannot choose one.</p>
+<pre><code class="lang-csharp">public class ViewModel
+{
+    [GenerateTypedAction]
+    public void Save() { }
+
+    public void Save(string value) { }
+}
+// XBG007 for Save
+</code></pre>
+<p><strong>Fix</strong>: Remove/rename overloads or split the methods so the target is unique.</p>
+<h3 id="xbg009-unsupported-parameter-modifier">XBG009 Unsupported parameter modifier</h3>
+<p>The action method uses <code>ref</code>, <code>out</code>, or <code>in</code> parameters, which cannot be passed through the generated action.</p>
+<pre><code class="lang-csharp">public class ViewModel
+{
+    [GenerateTypedAction]
+    public void Increment(ref int value) { value++; }
+}
+// XBG009
+</code></pre>
+<p><strong>Fix</strong>: Pass by value instead.</p>
+<pre><code class="lang-csharp">[GenerateTypedAction]
+public void Increment(int value) { /* ... */ } // OK
+</code></pre>
+<h2 id="shape-and-accessibility-diagnostics-xbg008-xbg010-xbg014">Shape and accessibility diagnostics (XBG008, XBG010, XBG014)</h2>
+<h3 id="xbg008-generic-members-not-supported">XBG008 Generic members not supported</h3>
+<p>The target type or member uses type parameters or generic members.</p>
+<pre><code class="lang-csharp">public class ViewModel&lt;T&gt;
+{
+    [GenerateTypedAction]
+    public void Save(T value) { }
+}
+// XBG008
+</code></pre>
+<p><strong>Fix</strong>: Move generation to non-generic types/members.</p>
+<h3 id="xbg010-static-member-not-supported">XBG010 Static member not supported</h3>
+<p>Static methods/properties/events cannot be used by the generators.</p>
+<pre><code class="lang-csharp">public class ViewModel
+{
+    [GenerateTypedAction]
+    public static void Submit() { }
+}
+// XBG010
+</code></pre>
+<p><strong>Fix</strong>: Make the member an instance member.</p>
+<h3 id="xbg014-member-not-accessible">XBG014 Member not accessible</h3>
+<p>The target member or one of its types is not accessible to the generated code (non-public and not visible to the consuming assembly via <code>InternalsVisibleTo</code>).</p>
+<pre><code class="lang-csharp">internal class ViewModel
+{
+    [GenerateTypedAction]
+    internal void Save() { }
+}
+// XBG014 when the generator does not have internal visibility
+</code></pre>
+<p><strong>Fix</strong>: Make members/types public, or expose internals to <code>Xaml.Behaviors.SourceGenerators</code>.</p>
+<pre><code class="lang-csharp">[assembly: System.Runtime.CompilerServices.InternalsVisibleTo(&quot;MyApp&quot;)] // Use your assembly name here
+</code></pre>
+<h2 id="multidatatrigger-and-invokecommand-diagnostics-xbg011-xbg013-xbg016-xbg018">MultiDataTrigger and InvokeCommand diagnostics (XBG011-XBG013, XBG016, XBG018)</h2>
+<h3 id="xbg011-invalid-multi-data-trigger-target">XBG011 Invalid multi data trigger target</h3>
+<p><code>[GenerateTypedMultiDataTrigger]</code> must be applied to a type deriving from <code>Avalonia.Xaml.Interactivity.StyledElementTrigger</code>.</p>
+<pre><code class="lang-csharp">using Xaml.Behaviors.SourceGenerators;
+
+[GenerateTypedMultiDataTrigger]
+public partial class InvalidTrigger { } // XBG011
+</code></pre>
+<p><strong>Fix</strong>: Derive from <code>StyledElementTrigger</code>.</p>
+<pre><code class="lang-csharp">using Avalonia.Xaml.Interactivity;
+
+[GenerateTypedMultiDataTrigger]
+public partial class ValidationTrigger : StyledElementTrigger { } // OK
+</code></pre>
+<h3 id="xbg012-invalid-invoke-command-action-target">XBG012 Invalid invoke command action target</h3>
+<p><code>[GenerateTypedInvokeCommandAction]</code> must be applied to a type deriving from <code>Avalonia.Xaml.Interactivity.StyledElementAction</code>.</p>
+<pre><code class="lang-csharp">[GenerateTypedInvokeCommandAction]
+public partial class InvokeFromControl // XBG012
+{
+}
+</code></pre>
+<p><strong>Fix</strong>: Derive from <code>StyledElementAction</code>.</p>
+<pre><code class="lang-csharp">using Avalonia.Xaml.Interactivity;
+
+[GenerateTypedInvokeCommandAction]
+public partial class InvokeSave : StyledElementAction { } // OK
+</code></pre>
+<h3 id="xbg013-evaluate-method-required">XBG013 Evaluate method required</h3>
+<p><code>[GenerateTypedMultiDataTrigger]</code> requires a non-static <code>bool Evaluate()</code> method.</p>
+<pre><code class="lang-csharp">[GenerateTypedMultiDataTrigger]
+public partial class ValidationTrigger : Avalonia.Xaml.Interactivity.StyledElementTrigger
+{
+    [TriggerProperty] private bool _isValid;
+}
+// XBG013
+</code></pre>
+<p><strong>Fix</strong>: Add <code>Evaluate</code>.</p>
+<pre><code class="lang-csharp">private bool Evaluate() =&gt; _isValid;
+</code></pre>
+<h3 id="xbg016-type-must-be-partial">XBG016 Type must be partial</h3>
+<p><code>[GenerateTypedMultiDataTrigger]</code> and <code>[GenerateTypedInvokeCommandAction]</code> target classes must be declared <code>partial</code>.</p>
+<pre><code class="lang-csharp">[GenerateTypedInvokeCommandAction]
+public class SubmitCommandAction : Avalonia.Xaml.Interactivity.StyledElementAction // XBG016
+{
+}
+</code></pre>
+<p><strong>Fix</strong>: Mark the class <code>partial</code>.</p>
+<pre><code class="lang-csharp">public partial class SubmitCommandAction : Avalonia.Xaml.Interactivity.StyledElementAction { } // OK
+</code></pre>
+<h3 id="xbg018-nested-types-not-supported">XBG018 Nested types not supported</h3>
+<p>The target type is nested inside another class/struct.</p>
+<pre><code class="lang-csharp">public class Container
+{
+    [GenerateTypedInvokeCommandAction]
+    public partial class NestedAction : Avalonia.Xaml.Interactivity.StyledElementAction { } // XBG018
+}
+</code></pre>
+<p><strong>Fix</strong>: Move the type to the top level.</p>
+<pre><code class="lang-csharp">[GenerateTypedInvokeCommandAction]
+public partial class NestedAction : Avalonia.Xaml.Interactivity.StyledElementAction { } // OK
+</code></pre>
+<h2 id="propertytrigger-diagnostics-xbg019-xbg022">PropertyTrigger diagnostics (XBG019, XBG022)</h2>
+<h3 id="xbg019-invalid-avalonia-property">XBG019 Invalid Avalonia property</h3>
+<p><code>[GeneratePropertyTrigger]</code> must target an Avalonia styled or direct property field.</p>
+<pre><code class="lang-csharp">public class InvalidTriggerHost : Avalonia.Controls.Control
+{
+    public static readonly string NotAProperty = &quot;Oops&quot;;
+}
+
+[assembly: GeneratePropertyTrigger(typeof(InvalidTriggerHost), &quot;NotAProperty&quot;)] // XBG019
+</code></pre>
+<p><strong>Fix</strong>: Point the attribute at a styled/direct Avalonia property.</p>
+<pre><code class="lang-csharp">public static readonly Avalonia.StyledProperty&lt;string?&gt; TitleProperty =
+    Avalonia.AvaloniaProperty.Register&lt;InvalidTriggerHost, string?&gt;(nameof(Title));
+
+[assembly: GeneratePropertyTrigger(typeof(InvalidTriggerHost), &quot;TitleProperty&quot;)] // OK
+</code></pre>
+<h3 id="xbg022-sourcename-not-available">XBG022 SourceName not available</h3>
+<p><code>SourceName</code> resolves within a <code>NameScope</code>; types that do not participate in the logical tree cannot look up names and will ignore it.</p>
+<pre><code class="lang-csharp">public class HeadlessHost : Avalonia.StyledElement { }
+
+[assembly: GeneratePropertyTrigger(typeof(HeadlessHost), &quot;DataContextProperty&quot;, SourceName = &quot;Target&quot;)] // XBG022 warning
+</code></pre>
+<p><strong>Fix</strong>: Remove <code>SourceName</code> or target a logical element/control where name scopes exist.</p>
+<h2 id="asyncobservable-trigger-diagnostics-xbg023-xbg026">Async/Observable trigger diagnostics (XBG023-XBG026)</h2>
+<h3 id="xbg023-async-trigger-property-not-found">XBG023 Async trigger property not found</h3>
+<p>The property name/pattern did not match a Task/ValueTask property.</p>
+<pre><code class="lang-csharp">using Xaml.Behaviors.SourceGenerators;
+
+public partial class Loader { }
+
+[assembly: GenerateAsyncTrigger(typeof(Loader), &quot;MissingTask&quot;)] // XBG023
+</code></pre>
+<p><strong>Fix</strong>: Point the attribute at an existing Task/ValueTask property.</p>
+<h3 id="xbg024-observable-trigger-property-not-found">XBG024 Observable trigger property not found</h3>
+<p>The property name/pattern did not match an <code>IObservable&lt;T&gt;</code> property.</p>
+<pre><code class="lang-csharp">using Xaml.Behaviors.SourceGenerators;
+
+public partial class Loader { }
+
+[assembly: GenerateObservableTrigger(typeof(Loader), &quot;MissingStream&quot;)] // XBG024
+</code></pre>
+<p><strong>Fix</strong>: Point the attribute at an existing <code>IObservable&lt;T&gt;</code> property.</p>
+<h3 id="xbg025-invalid-async-trigger-property-type">XBG025 Invalid async trigger property type</h3>
+<p><code>[GenerateAsyncTrigger]</code> requires Task/Task<t>/ValueTask/ValueTask<t>.</t></t></p>
+<pre><code class="lang-csharp">public partial class Loader
+{
+    [GenerateAsyncTrigger]
+    public int NotATask { get; set; } // XBG025
+}
+</code></pre>
+<p><strong>Fix</strong>: Change the property to Task/Task<t>/ValueTask/ValueTask<t>.</t></t></p>
+<h3 id="xbg026-invalid-observable-trigger-property-type">XBG026 Invalid observable trigger property type</h3>
+<p><code>[GenerateObservableTrigger]</code> requires <code>IObservable&lt;T&gt;</code>.</p>
+<pre><code class="lang-csharp">public partial class Loader
+{
+    [GenerateObservableTrigger]
+    public string NotObservable { get; set; } = string.Empty; // XBG026
+}
+</code></pre>
+<p><strong>Fix</strong>: Change the property to <code>IObservable&lt;T&gt;</code>, e.g. <code>IObservable&lt;int&gt; Stream { get; set; }</code>.</p>
+<h2 id="eventargs-action-projection-diagnostics-xbg027-xbg028">EventArgs action projection diagnostics (XBG027-XBG028)</h2>
+<h3 id="xbg027-projection-member-not-found">XBG027 Projection member not found</h3>
+<p><code>Project</code> lists a member that does not exist on the event args type.</p>
+<pre><code class="lang-csharp">using Avalonia.Interactivity;
+using Xaml.Behaviors.SourceGenerators;
+
+public partial class Handler
+{
+    [GenerateEventArgsAction(Project = &quot;Missing&quot;)]
+    public void OnRouted(RoutedEventArgs args) { } // XBG027
+}
+</code></pre>
+<p><strong>Fix</strong>: Use an existing property name on the event args type.</p>
+<h3 id="xbg028-projection-member-not-accessible">XBG028 Projection member not accessible</h3>
+<p>The projected member exists but is not accessible to the generator (e.g., internal/private without IVT).</p>
+<pre><code class="lang-csharp">using System;
+using Xaml.Behaviors.SourceGenerators;
+
+public class Args : EventArgs
+{
+    internal int Secret { get; } = 1;
+}
+
+public partial class Handler
+{
+    [GenerateEventArgsAction(Project = &quot;Secret&quot;)]
+    public void OnSecret(Args args) { } // XBG028
+}
+</code></pre>
+<p><strong>Fix</strong>: Make the member public or expose internals to the generator assembly.</p>
+<h2 id="eventcommand-diagnostics-xbg020-xbg021">EventCommand diagnostics (XBG020-XBG021)</h2>
+<h3 id="xbg020-invalid-parameterpath">XBG020 Invalid ParameterPath</h3>
+<p><code>ParameterPath</code> must resolve to a property chain on the event args; the generator emits a typed accessor (no reflection), so the path has to be valid at compile time.</p>
+<pre><code class="lang-csharp">using Avalonia.Controls;
+using Xaml.Behaviors.SourceGenerators;
+
+[assembly: GenerateEventCommand(typeof(Button), &quot;Click&quot;, ParameterPath = &quot;MissingProperty&quot;)] // XBG020
+</code></pre>
+<p><strong>Fix</strong>: Use a property that exists on the event args, e.g. <code>Source</code> or <code>Key</code>.</p>
+<h3 id="xbg021-parameterpath-member-not-accessible">XBG021 ParameterPath member not accessible</h3>
+<p><code>ParameterPath</code> points to a member that is not visible to the generator (e.g., internal/private). Because the path is compiled into direct member access, the referenced members must be accessible.</p>
+<pre><code class="lang-csharp">public class Args : EventArgs
+{
+    internal string Secret { get; } = &quot;hidden&quot;;
+}
+
+public class Host
+{
+    public event EventHandler&lt;Args&gt;? Fired;
+}
+
+[assembly: GenerateEventCommand(typeof(Host), &quot;Fired&quot;, ParameterPath = &quot;Secret&quot;)] // XBG021
+</code></pre>
+<p><strong>Fix</strong>: Make the member public or grant <code>InternalsVisibleTo</code> access to the assembly that contains the generated code.</p>
+<p>Nested target types still surface <code>XBG018</code>; move the target type to the top level if you see that error.</p>
+<h3 id="xbg029-unsupported-event-command-parameter-modifier">XBG029 Unsupported event command parameter modifier</h3>
+<p>The event delegate has a parameter that uses <code>ref</code>/<code>in</code>/<code>out</code>, which cannot be forwarded by the generated trigger.</p>
+<pre><code class="lang-csharp">public delegate void RefHandler(ref EventArgs args);
+
+public class Host
+{
+    [GenerateEventCommand]
+    public event RefHandler? Fired; // XBG029
+}
+</code></pre>
+<p><strong>Fix</strong>: Use by-value parameters in the event delegate.</p>
+<pre><code class="lang-csharp">public delegate void RefHandler(EventArgs args); // OK
+</code></pre>
+<h3 id="xbg034-unsupported-event-command-parameter-count">XBG034 Unsupported event command parameter count</h3>
+<p>The event delegate declares more than two parameters; the generator only supports the usual <code>(sender, args)</code> (or zero/one-parameter) event shapes.</p>
+<pre><code class="lang-csharp">public delegate void ThreeParamHandler(object sender, EventArgs args, int value);
+
+public class Host
+{
+    [GenerateEventCommand]
+    public event ThreeParamHandler? Fired; // XBG034
+}
+</code></pre>
+<p><strong>Fix</strong>: Change the delegate to the standard two-parameter form or remove the extra parameters.</p>
+<h2 id="invokecommandmultidatatrigger-diagnostics-xbg030-xbg032">InvokeCommand/MultiDataTrigger diagnostics (XBG030-XBG032)</h2>
+<h3 id="xbg030-actioncommand-field-required">XBG030 ActionCommand field required</h3>
+<p><code>[GenerateTypedInvokeCommandAction]</code> requires a field marked with <code>[ActionCommand]</code> to hold the command.</p>
+<pre><code class="lang-csharp">[GenerateTypedInvokeCommandAction]
+public partial class InvokeSave : Avalonia.Xaml.Interactivity.StyledElementAction
+{
+    // Missing [ActionCommand] field -&gt; XBG030
+}
+</code></pre>
+<p><strong>Fix</strong>: Add a mutable field and mark it with <code>[ActionCommand]</code>.</p>
+<pre><code class="lang-csharp">[GenerateTypedInvokeCommandAction]
+public partial class InvokeSave : Avalonia.Xaml.Interactivity.StyledElementAction
+{
+    [ActionCommand] private ICommand? _command;
+}
+</code></pre>
+<h3 id="xbg031-triggerproperty-field-required">XBG031 TriggerProperty field required</h3>
+<p><code>[GenerateTypedMultiDataTrigger]</code> needs at least one <code>[TriggerProperty]</code> field to evaluate.</p>
+<pre><code class="lang-csharp">[GenerateTypedMultiDataTrigger]
+public partial class ValidationTrigger : Avalonia.Xaml.Interactivity.StyledElementTrigger
+{
+    // No [TriggerProperty] fields -&gt; XBG031
+}
+</code></pre>
+<p><strong>Fix</strong>: Add one or more mutable fields marked with <code>[TriggerProperty]</code>.</p>
+<pre><code class="lang-csharp">[GenerateTypedMultiDataTrigger]
+public partial class ValidationTrigger : Avalonia.Xaml.Interactivity.StyledElementTrigger
+{
+    [TriggerProperty] private bool _isValid;
+}
+</code></pre>
+<h3 id="xbg032-read-only-member-not-supported">XBG032 Read-only member not supported</h3>
+<p>Fields marked with <code>[TriggerProperty]</code>, <code>[ActionCommand]</code>, or <code>[ActionParameter]</code> must be mutable.</p>
+<pre><code class="lang-csharp">[GenerateTypedInvokeCommandAction]
+public partial class InvokeSave : Avalonia.Xaml.Interactivity.StyledElementAction
+{
+    [ActionCommand] private readonly ICommand? _command; // XBG032
+}
+</code></pre>
+<p><strong>Fix</strong>: Remove <code>readonly</code> so the generator can assign into the backing field.</p>
+<pre><code class="lang-csharp">[ActionCommand] private ICommand? _command; // OK
+</code></pre>
+
+</article>
+
+        <div class="contribution d-print-none">
+          <a href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/docfx/articles/source-generators/diagnostics.md/#L1" class="edit-link">Edit this page</a>
+        </div>
+
+        <div class="next-article d-print-none border-top" id="nextArticle"></div>
+
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          <span>Made with <a href="https://dotnet.github.io/docfx">docfx</a></span>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

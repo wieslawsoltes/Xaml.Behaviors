@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+      <title>Typed Actions | XAML Behaviors for Avalonia </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="Typed Actions | XAML Behaviors for Avalonia ">
+      
+      
+      <link rel="icon" href="../../favicon.ico">
+      <link rel="stylesheet" href="../../public/docfx.min.css">
+      <link rel="stylesheet" href="../../public/main.css">
+      <meta name="docfx:navrel" content="../../toc.html">
+      <meta name="docfx:tocrel" content="../toc.html">
+      
+      
+      
+      
+      <meta name="docfx:docurl" content="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/docfx/articles/source-generators/typed-action.md/#L1">
+      <meta name="loc:inThisArticle" content="In this article">
+      <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
+      <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
+      <meta name="loc:tocFilter" content="Filter by title">
+      <meta name="loc:nextArticle" content="Next">
+      <meta name="loc:prevArticle" content="Previous">
+      <meta name="loc:themeLight" content="Light">
+      <meta name="loc:themeDark" content="Dark">
+      <meta name="loc:themeAuto" content="Auto">
+      <meta name="loc:changeTheme" content="Change theme">
+      <meta name="loc:copy" content="Copy">
+      <meta name="loc:downloadPdf" content="Download PDF">
+
+      <script type="module" src="./../../public/docfx.min.js"></script>
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
+  </head>
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../../index.html">
+            <img id="logo" class="svg" src="../../images/logo.svg" alt="">
+            
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <nav class="toc" id="toc"></nav>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
+            <i class="bi bi-list"></i>
+          </button>
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article data-uid="">
+<h1 id="typed-actions">Typed Actions</h1>
+
+<p>The <code>[GenerateTypedAction]</code> attribute generates a strongly-typed <code>Action</code> class that invokes a specific method on a target object. This is the AOT-safe alternative to <code>CallMethodAction</code>.</p>
+<h2 id="usage">Usage</h2>
+<p>Annotate a method in your ViewModel (or any class) with <code>[GenerateTypedAction]</code>.</p>
+<pre><code class="lang-csharp">public partial class MyViewModel
+{
+    [GenerateTypedAction]
+    public void Submit()
+    {
+        // ...
+    }
+}
+</code></pre>
+<p>The generator will create a class named <code>SubmitAction</code> in the same namespace.</p>
+<p>You can also add attributes at the assembly level to generate actions for one or more methods on a type. The <code>methodName</code> can be a literal name, a wildcard (<code>*</code>) pattern, or a regular expression. Assembly-level actions are prefixed with the target type name to avoid collisions (e.g. <code>ButtonSubmitAction</code>).</p>
+<pre><code class="lang-csharp">[assembly: GenerateTypedAction(typeof(Avalonia.Controls.Button), &quot;Click&quot;)]
+[assembly: GenerateTypedAction(typeof(MyApp.ViewModels.ShellViewModel), &quot;Save*&quot;)]
+[assembly: GenerateTypedAction(typeof(MyApp.ViewModels.ShellViewModel), &quot;^(Load|Unload)$&quot;)]
+</code></pre>
+<blockquote>
+<p>Actions require the target method to be public or internal in the same/friend assembly. Wildcard/regex assembly attributes skip inaccessible matches and will emit a diagnostic if nothing accessible matches.
+Method parameter and return types must also be accessible. Public types always work; internal types are fine when you generate inside the same assembly (the normal case). If you point at internal members in a different assembly, that assembly must grant <code>InternalsVisibleTo(&quot;&lt;your assembly name&gt;&quot;)</code> to the consuming assembly. Wildcard/regex matches that rely on inaccessible types are ignored.
+Generated action classes are <code>public</code> unless any target/parameter/return type requires <code>internal</code>, in which case the class is emitted as <code>internal</code>.</p>
+</blockquote>
+<h3 id="matching-rules-at-a-glance">Matching rules at a glance</h3>
+<table>
+<thead>
+<tr>
+<th>Aspect</th>
+<th>Behavior</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Pattern kinds</td>
+<td>Literal name, <code>*</code> wildcard, or regular expression</td>
+</tr>
+<tr>
+<td>Name collisions</td>
+<td>Assembly attributes prefix the target type name (e.g. <code>ButtonClickAction</code>)</td>
+</tr>
+<tr>
+<td>Accessibility</td>
+<td>Methods must be public/internal; parameter and return types must be accessible (public or internal with <code>InternalsVisibleTo</code>)</td>
+</tr>
+<tr>
+<td>Ambiguity</td>
+<td>Literal names with multiple overloads produce XBG007; wildcard/regex still emit XBG007 if multiple overloads remain after filtering</td>
+</tr>
+<tr>
+<td>Inaccessible matches</td>
+<td>Wildcard/regex patterns drop matches that use non-public types and emit XBG014 if nothing accessible remains</td>
+</tr>
+<tr>
+<td>Static/generic</td>
+<td>Static methods and generic type/parameter usage are rejected (diagnostic)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="xaml-usage">XAML Usage</h3>
+<pre><code class="lang-xml">&lt;UserControl xmlns=&quot;https://github.com/avaloniaui&quot;
+             xmlns:x=&quot;http://schemas.microsoft.com/winfx/2006/xaml&quot;
+             xmlns:local=&quot;using:MyApp.ViewModels&quot;&gt;
+    &lt;Button Content=&quot;Submit&quot;&gt;
+        &lt;Interaction.Behaviors&gt;
+            &lt;EventTriggerBehavior EventName=&quot;Click&quot;&gt;
+                &lt;local:SubmitAction TargetObject=&quot;{Binding}&quot; /&gt;
+            &lt;/EventTriggerBehavior&gt;
+        &lt;/Interaction.Behaviors&gt;
+    &lt;/Button&gt;
+&lt;/UserControl&gt;
+</code></pre>
+<h2 id="ui-thread-dispatching">UI Thread Dispatching</h2>
+<p>Set <code>UseDispatcher = true</code> on the attribute to have the generated action marshal the method invocation to <code>Dispatcher.UIThread.Post</code>, mirroring the behavior of <code>FocusControlAction</code>. The default is <code>false</code>, which executes on the calling thread.</p>
+<pre><code class="lang-csharp">[GenerateTypedAction(UseDispatcher = true)]
+public void Submit()
+{
+    // ...
+}
+</code></pre>
+<h2 id="parameter-binding">Parameter Binding</h2>
+<p>The generator supports methods with parameters. For each parameter in the method, a corresponding <code>StyledProperty</code> is generated on the Action class, allowing you to bind values from XAML.</p>
+<h3 id="example">Example</h3>
+<pre><code class="lang-csharp">[GenerateTypedAction]
+public void UpdateMessage(string message, int count)
+{
+    // ...
+}
+</code></pre>
+<h3 id="xaml-usage-1">XAML Usage</h3>
+<pre><code class="lang-xml">&lt;Button Content=&quot;Update&quot;&gt;
+    &lt;Interaction.Behaviors&gt;
+        &lt;EventTriggerBehavior EventName=&quot;Click&quot;&gt;
+            &lt;local:UpdateMessageAction TargetObject=&quot;{Binding}&quot; 
+                                       Message=&quot;Hello World&quot; 
+                                       Count=&quot;{Binding Count}&quot; /&gt;
+        &lt;/EventTriggerBehavior&gt;
+    &lt;/Interaction.Behaviors&gt;
+&lt;/Button&gt;
+</code></pre>
+<blockquote>
+<p>Ensure <code>xmlns:local</code> is defined in your XAML root pointing to the namespace of <code>UpdateMessageAction</code>.</p>
+</blockquote>
+<h3 id="rich-parameter-example">Rich parameter example</h3>
+<pre><code class="lang-csharp">[GenerateTypedAction]
+public void Configure(string title, bool isEnabled, double threshold, TimeSpan timeout, Uri endpoint)
+{
+    // ...
+}
+</code></pre>
+<pre><code class="lang-xml">&lt;Button Content=&quot;Configure&quot;&gt;
+    &lt;Interaction.Behaviors&gt;
+        &lt;EventTriggerBehavior EventName=&quot;Click&quot;&gt;
+            &lt;local:ConfigureAction TargetObject=&quot;{Binding}&quot;
+                                   Title=&quot;{Binding PageTitle}&quot;
+                                   IsEnabled=&quot;True&quot;
+                                   Threshold=&quot;0.85&quot;
+                                   Timeout=&quot;00:00:30&quot;
+                                   Endpoint=&quot;https://api.example.com/&quot; /&gt;
+        &lt;/EventTriggerBehavior&gt;
+    &lt;/Interaction.Behaviors&gt;
+&lt;/Button&gt;
+</code></pre>
+<h2 id="async-support">Async Support</h2>
+<p>If the target method returns <code>Task</code> or <code>ValueTask</code>, the generated action handles the async execution. It also exposes an <code>IsExecuting</code> property that you can bind to (e.g., to show a loading spinner).</p>
+<p>When the async method faults or is canceled, the generated action now captures the exception in <code>LastError</code> instead of rethrowing on the UI thread. You can bind to <code>LastError</code> to surface errors while keeping the app running.</p>
+<h3 id="example-1">Example</h3>
+<pre><code class="lang-csharp">[GenerateTypedAction]
+public async Task SubmitAsync()
+{
+    await Task.Delay(1000);
+}
+</code></pre>
+<h3 id="xaml-usage-2">XAML Usage</h3>
+<pre><code class="lang-xml">&lt;Button Content=&quot;Submit&quot; IsEnabled=&quot;{Binding !IsBusy}&quot;&gt;
+    &lt;Interaction.Behaviors&gt;
+        &lt;EventTriggerBehavior EventName=&quot;Click&quot;&gt;
+            &lt;local:SubmitAsyncAction TargetObject=&quot;{Binding}&quot; 
+                                     IsExecuting=&quot;{Binding IsBusy, Mode=OneWayToSource}&quot; /&gt;
+        &lt;/EventTriggerBehavior&gt;
+    &lt;/Interaction.Behaviors&gt;
+&lt;/Button&gt;
+</code></pre>
+<blockquote>
+<p>Ensure <code>xmlns:local</code> is defined in your XAML root pointing to the namespace of <code>SubmitAsyncAction</code>.</p>
+</blockquote>
+<h2 id="event-handler-signature">Event Handler Signature</h2>
+<p>If the method matches the standard event handler signature <code>(object sender, object parameter)</code> (or <code>EventArgs</code>), the generated <code>Execute</code> method will pass the sender and parameter directly to the method, similar to how <code>CallMethodAction</code> works for event handlers.</p>
+<pre><code class="lang-csharp">[GenerateTypedAction]
+public void OnClick(object sender, object parameter)
+{
+    // ...
+}
+</code></pre>
+
+</article>
+
+        <div class="contribution d-print-none">
+          <a href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/docfx/articles/source-generators/typed-action.md/#L1" class="edit-link">Edit this page</a>
+        </div>
+
+        <div class="next-article d-print-none border-top" id="nextArticle"></div>
+
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          <span>Made with <a href="https://dotnet.github.io/docfx">docfx</a></span>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

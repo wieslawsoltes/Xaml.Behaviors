@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+      <title>Typed MultiDataTrigger | XAML Behaviors for Avalonia </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="Typed MultiDataTrigger | XAML Behaviors for Avalonia ">
+      
+      
+      <link rel="icon" href="../../favicon.ico">
+      <link rel="stylesheet" href="../../public/docfx.min.css">
+      <link rel="stylesheet" href="../../public/main.css">
+      <meta name="docfx:navrel" content="../../toc.html">
+      <meta name="docfx:tocrel" content="../toc.html">
+      
+      
+      
+      
+      <meta name="docfx:docurl" content="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/docfx/articles/source-generators/typed-multi-data-trigger.md/#L1">
+      <meta name="loc:inThisArticle" content="In this article">
+      <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
+      <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
+      <meta name="loc:tocFilter" content="Filter by title">
+      <meta name="loc:nextArticle" content="Next">
+      <meta name="loc:prevArticle" content="Previous">
+      <meta name="loc:themeLight" content="Light">
+      <meta name="loc:themeDark" content="Dark">
+      <meta name="loc:themeAuto" content="Auto">
+      <meta name="loc:changeTheme" content="Change theme">
+      <meta name="loc:copy" content="Copy">
+      <meta name="loc:downloadPdf" content="Download PDF">
+
+      <script type="module" src="./../../public/docfx.min.js"></script>
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
+  </head>
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../../index.html">
+            <img id="logo" class="svg" src="../../images/logo.svg" alt="">
+            
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <nav class="toc" id="toc"></nav>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
+            <i class="bi bi-list"></i>
+          </button>
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article data-uid="">
+<h1 id="typed-multidatatrigger">Typed MultiDataTrigger</h1>
+
+<p>The <code>[GenerateTypedMultiDataTrigger]</code> attribute generates a strongly-typed <code>Trigger</code> that evaluates multiple conditions. This provides better performance than the standard <code>MultiDataTriggerBehavior</code> by avoiding boxing, reflection, and runtime type checking.</p>
+<h2 id="usage">Usage</h2>
+<p>Apply the <code>[GenerateTypedMultiDataTrigger]</code> attribute to a partial class inheriting from <code>StyledElementTrigger</code>. Use the <code>[TriggerProperty]</code> attribute on fields to define the Avalonia properties that will be used in the condition.</p>
+<pre><code class="lang-csharp">using Avalonia.Xaml.Interactivity;
+using Xaml.Behaviors.SourceGenerators;
+
+namespace MyApp.Behaviors;
+
+[GenerateTypedMultiDataTrigger]
+public partial class ValidationTrigger : StyledElementTrigger
+{
+    [TriggerProperty]
+    private bool _isValid;
+
+    [TriggerProperty]
+    private int _retryCount;
+
+    // Implement the evaluation logic
+    private bool Evaluate()
+    {
+        // This logic is compiled directly, ensuring type safety and performance
+        return IsValid &amp;&amp; RetryCount &lt; 3;
+    }
+}
+</code></pre>
+<blockquote>
+<p>Note: The target type must be a top-level <code>partial</code> class (nested types are not supported for this generator).
+The <code>Evaluate</code> method must be a non-generic, parameterless method returning <code>bool</code>.
+The generated class is <code>public</code> unless the target or any <code>[TriggerProperty]</code> field type requires <code>internal</code>.
+At least one field must be marked with <code>[TriggerProperty]</code>; otherwise generation fails with a diagnostic.</p>
+</blockquote>
+<h2 id="generated-code">Generated Code</h2>
+<p>The source generator creates:</p>
+<ol>
+<li>Avalonia properties for each field marked with <code>[TriggerProperty]</code> (e.g., <code>IsValidProperty</code>, <code>RetryCountProperty</code>).</li>
+<li>Public properties wrapping the Avalonia properties.</li>
+<li>An <code>OnPropertyChanged</code> override that updates the backing fields and calls <code>Evaluate()</code>.</li>
+<li>Logic to execute the actions if <code>Evaluate()</code> returns <code>true</code>.</li>
+</ol>
+<h2 id="xaml-usage">XAML Usage</h2>
+<pre><code class="lang-xml">&lt;UserControl xmlns=&quot;https://github.com/avaloniaui&quot;
+             xmlns:x=&quot;http://schemas.microsoft.com/winfx/2006/xaml&quot;
+             xmlns:ac=&quot;using:Avalonia.Controls&quot;
+             xmlns:local=&quot;using:MyApp.Behaviors&quot;&gt;
+    &lt;TextBlock Text=&quot;Status&quot;&gt;
+        &lt;Interaction.Behaviors&gt;
+            &lt;local:ValidationTrigger IsValid=&quot;{Binding IsFormValid}&quot; RetryCount=&quot;{Binding Retries}&quot;&gt;
+                &lt;ac:SetForegroundAction Value=&quot;Red&quot; /&gt;
+            &lt;/local:ValidationTrigger&gt;
+        &lt;/Interaction.Behaviors&gt;
+    &lt;/TextBlock&gt;
+&lt;/UserControl&gt;
+</code></pre>
+<h2 id="benefits">Benefits</h2>
+<ul>
+<li><strong>Zero Allocation</strong>: Values are stored in fields of their native type, avoiding boxing.</li>
+<li><strong>Performance</strong>: Comparisons are compiled C# code, not runtime interpretation.</li>
+<li><strong>Type Safety</strong>: You cannot accidentally compare incompatible types.</li>
+</ul>
+
+</article>
+
+        <div class="contribution d-print-none">
+          <a href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/docfx/articles/source-generators/typed-multi-data-trigger.md/#L1" class="edit-link">Edit this page</a>
+        </div>
+
+        <div class="next-article d-print-none border-top" id="nextArticle"></div>
+
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          <span>Made with <a href="https://dotnet.github.io/docfx">docfx</a></span>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

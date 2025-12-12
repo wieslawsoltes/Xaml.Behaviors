@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+      <title>Typed Triggers | XAML Behaviors for Avalonia </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="Typed Triggers | XAML Behaviors for Avalonia ">
+      
+      
+      <link rel="icon" href="../../favicon.ico">
+      <link rel="stylesheet" href="../../public/docfx.min.css">
+      <link rel="stylesheet" href="../../public/main.css">
+      <meta name="docfx:navrel" content="../../toc.html">
+      <meta name="docfx:tocrel" content="../toc.html">
+      
+      
+      
+      
+      <meta name="docfx:docurl" content="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/docfx/articles/source-generators/typed-trigger.md/#L1">
+      <meta name="loc:inThisArticle" content="In this article">
+      <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
+      <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
+      <meta name="loc:tocFilter" content="Filter by title">
+      <meta name="loc:nextArticle" content="Next">
+      <meta name="loc:prevArticle" content="Previous">
+      <meta name="loc:themeLight" content="Light">
+      <meta name="loc:themeDark" content="Dark">
+      <meta name="loc:themeAuto" content="Auto">
+      <meta name="loc:changeTheme" content="Change theme">
+      <meta name="loc:copy" content="Copy">
+      <meta name="loc:downloadPdf" content="Download PDF">
+
+      <script type="module" src="./../../public/docfx.min.js"></script>
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
+  </head>
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../../index.html">
+            <img id="logo" class="svg" src="../../images/logo.svg" alt="">
+            
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <nav class="toc" id="toc"></nav>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
+            <i class="bi bi-list"></i>
+          </button>
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article data-uid="">
+<h1 id="typed-triggers">Typed Triggers</h1>
+
+<p>The <code>[GenerateTypedTrigger]</code> attribute generates a strongly-typed <code>Trigger</code> class that subscribes to a specific CLR event on a source object. This is the AOT-safe alternative to <code>EventTriggerBehavior</code> for non-RoutedEvents.</p>
+<h2 id="usage">Usage</h2>
+<p>Annotate an event in your ViewModel (or any class) with <code>[GenerateTypedTrigger]</code>.</p>
+<pre><code class="lang-csharp">public partial class MyViewModel
+{
+    [GenerateTypedTrigger]
+    public event EventHandler? ProcessingFinished;
+}
+</code></pre>
+<p>The generator will create a class named <code>ProcessingFinishedTrigger</code> in the same namespace.</p>
+<p>You can also register triggers at the assembly level and generate multiple classes at once. The <code>eventName</code> argument accepts either a literal name, a wildcard pattern (e.g. <code>*Finished</code>), or a regular expression. When generated from an assembly attribute, the class name is prefixed with the target type to avoid collisions (e.g. <code>ButtonClickTrigger</code>).</p>
+<pre><code class="lang-csharp">[assembly: GenerateTypedTrigger(typeof(Avalonia.Controls.Button), &quot;Click&quot;)]                  // ButtonClickTrigger
+[assembly: GenerateTypedTrigger(typeof(MyApp.ViewModels.ShellViewModel), &quot;*Finished&quot;)]       // ShellViewModelProcessingFinishedTrigger, etc.
+[assembly: GenerateTypedTrigger(typeof(MyApp.ViewModels.ShellViewModel), &quot;^(Loaded|Closed)$&quot;)] // ShellViewModelLoadedTrigger, ShellViewModelClosedTrigger
+</code></pre>
+<blockquote>
+<p>Only public or internal events visible to the generator are supported (internal requires being in the same/friend assembly). Wildcard/regex matches skip inaccessible events, and if no accessible matches are found a diagnostic will be emitted.
+Generated trigger classes are <code>public</code> unless the event or delegate types require <code>internal</code>, in which case the class is emitted as <code>internal</code>.</p>
+</blockquote>
+<h3 id="matching-rules-at-a-glance">Matching rules at a glance</h3>
+<table>
+<thead>
+<tr>
+<th>Aspect</th>
+<th>Behavior</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Pattern kinds</td>
+<td>Literal name, <code>*</code> wildcard, or regular expression</td>
+</tr>
+<tr>
+<td>Name collisions</td>
+<td>Assembly attributes prefix the target type name (e.g. <code>ButtonClickTrigger</code>)</td>
+</tr>
+<tr>
+<td>Accessibility</td>
+<td>Events must be public/internal; the event handler delegate and its parameter types must be accessible (public or internal with <code>InternalsVisibleTo</code>)</td>
+</tr>
+<tr>
+<td>Ambiguity</td>
+<td>Event name conflicts are resolved by the event name; duplicate matches are de-duplicated per name</td>
+</tr>
+<tr>
+<td>Inaccessible matches</td>
+<td>Wildcard/regex patterns drop matches using non-public members and emit XBG014 if nothing accessible remains</td>
+</tr>
+<tr>
+<td>Static/generic</td>
+<td>Static or generic events are rejected (diagnostic)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="xaml-usage">XAML Usage</h3>
+<pre><code class="lang-xml">&lt;UserControl xmlns=&quot;https://github.com/avaloniaui&quot;
+             xmlns:x=&quot;http://schemas.microsoft.com/winfx/2006/xaml&quot;
+             xmlns:local=&quot;using:MyApp.ViewModels&quot;&gt;
+    &lt;!-- ... --&gt;
+    &lt;Interaction.Behaviors&gt;
+        &lt;local:ProcessingFinishedTrigger SourceObject=&quot;{Binding}&quot;&gt;
+            &lt;local:SubmitAction TargetObject=&quot;{Binding}&quot; /&gt;
+        &lt;/local:ProcessingFinishedTrigger&gt;
+    &lt;/Interaction.Behaviors&gt;
+    &lt;!-- ... --&gt;
+&lt;/UserControl&gt;
+</code></pre>
+<h2 id="weak-event-pattern">Weak Event Pattern</h2>
+<p>The generated trigger implements a <strong>Weak Event Pattern</strong>. This ensures that the trigger does not cause memory leaks if the Source Object lives longer than the Trigger (e.g., a singleton ViewModel and a transient View).</p>
+<p>The trigger uses a proxy object to subscribe to the event. If the trigger is garbage collected, the proxy automatically unsubscribes from the source event the next time it is raised.
+This applies to delegates with or without a sender parameter (e.g., <code>Action</code>).</p>
+
+</article>
+
+        <div class="contribution d-print-none">
+          <a href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/docfx/articles/source-generators/typed-trigger.md/#L1" class="edit-link">Edit this page</a>
+        </div>
+
+        <div class="next-article d-print-none border-top" id="nextArticle"></div>
+
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          <span>Made with <a href="https://dotnet.github.io/docfx">docfx</a></span>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

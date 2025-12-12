@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+      <title>Typed ChangePropertyAction | XAML Behaviors for Avalonia </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="Typed ChangePropertyAction | XAML Behaviors for Avalonia ">
+      
+      
+      <link rel="icon" href="../../favicon.ico">
+      <link rel="stylesheet" href="../../public/docfx.min.css">
+      <link rel="stylesheet" href="../../public/main.css">
+      <meta name="docfx:navrel" content="../../toc.html">
+      <meta name="docfx:tocrel" content="../toc.html">
+      
+      
+      
+      
+      <meta name="docfx:docurl" content="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/docfx/articles/source-generators/typed-change-property.md/#L1">
+      <meta name="loc:inThisArticle" content="In this article">
+      <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
+      <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
+      <meta name="loc:tocFilter" content="Filter by title">
+      <meta name="loc:nextArticle" content="Next">
+      <meta name="loc:prevArticle" content="Previous">
+      <meta name="loc:themeLight" content="Light">
+      <meta name="loc:themeDark" content="Dark">
+      <meta name="loc:themeAuto" content="Auto">
+      <meta name="loc:changeTheme" content="Change theme">
+      <meta name="loc:copy" content="Copy">
+      <meta name="loc:downloadPdf" content="Download PDF">
+
+      <script type="module" src="./../../public/docfx.min.js"></script>
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
+  </head>
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../../index.html">
+            <img id="logo" class="svg" src="../../images/logo.svg" alt="">
+            
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <nav class="toc" id="toc"></nav>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
+            <i class="bi bi-list"></i>
+          </button>
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article data-uid="">
+<h1 id="typed-changepropertyaction">Typed ChangePropertyAction</h1>
+
+<p>The <code>[GenerateTypedChangePropertyAction]</code> attribute generates a strongly-typed <code>Action</code> class that sets a specific property on a target object. This is the AOT-safe alternative to <code>ChangePropertyAction</code>.</p>
+<h2 id="usage">Usage</h2>
+<p>Annotate a property in your ViewModel (or any class) with <code>[GenerateTypedChangePropertyAction]</code>.</p>
+<pre><code class="lang-csharp">public partial class MyViewModel
+{
+    [GenerateTypedChangePropertyAction]
+    public string StatusText { get; set; }
+}
+</code></pre>
+<p>The generator will create a class named <code>SetStatusTextAction</code> in the same namespace.</p>
+<p>Assembly-level attributes are supported as well. The <code>propertyName</code> parameter can be a literal name, a wildcard (<code>*</code>) pattern, or a regular expression. Classes generated from assembly attributes are prefixed with the target type to reduce collisions (e.g. <code>TextBlockSetTextAction</code>).</p>
+<pre><code class="lang-csharp">[assembly: GenerateTypedChangePropertyAction(typeof(Avalonia.Controls.TextBlock), &quot;Text&quot;)]
+[assembly: GenerateTypedChangePropertyAction(typeof(MyApp.ViewModels.ShellViewModel), &quot;*Property&quot;)]
+[assembly: GenerateTypedChangePropertyAction(typeof(MyApp.ViewModels.ShellViewModel), &quot;^(Status|Title)$&quot;)]
+</code></pre>
+<blockquote>
+<p>Only public or internal properties with accessible setters are supported. Internal members are fine when you generate inside the same assembly (the normal case). If you need to reach internal members in another assembly, that assembly must grant <code>InternalsVisibleTo(&quot;&lt;your assembly name&gt;&quot;)</code> to the consuming assembly. Wildcard/regex assembly attributes ignore inaccessible matches; if no accessible properties match, a diagnostic is produced and no action class is generated.
+Property types must be public, or internal and visible to the consuming assembly via the same <code>InternalsVisibleTo</code> arrangement; otherwise an XBG014 diagnostic is produced.
+Generated action classes are <code>public</code> unless the target or property type requires <code>internal</code>.</p>
+</blockquote>
+<h2 id="ui-thread-dispatching">UI Thread Dispatching</h2>
+<p>Set <code>UseDispatcher = true</code> on the attribute when the property assignment must run on the UI thread. The generated action queues the setter via <code>Dispatcher.UIThread.Post</code>; the default <code>false</code> keeps the immediate assignment.</p>
+<pre><code class="lang-csharp">[GenerateTypedChangePropertyAction(UseDispatcher = true)]
+public string StatusText { get; set; }
+</code></pre>
+<h3 id="matching-rules-at-a-glance">Matching rules at a glance</h3>
+<table>
+<thead>
+<tr>
+<th>Aspect</th>
+<th>Behavior</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Pattern kinds</td>
+<td>Literal name, <code>*</code> wildcard, or regular expression</td>
+</tr>
+<tr>
+<td>Name collisions</td>
+<td>Assembly attributes prefix the target type name (e.g. <code>TextBlockSetTextAction</code>)</td>
+</tr>
+<tr>
+<td>Accessibility</td>
+<td>Property and setter must be public/internal; property type must be accessible (public or internal with <code>InternalsVisibleTo</code>)</td>
+</tr>
+<tr>
+<td>Ambiguity</td>
+<td>Multiple properties with the same name are treated as a single match; inaccessible setters are skipped</td>
+</tr>
+<tr>
+<td>Inaccessible matches</td>
+<td>Wildcard/regex patterns drop properties with non-public setters/types and emit XBG015/XBG014 if nothing accessible remains</td>
+</tr>
+<tr>
+<td>Static/generic</td>
+<td>Static properties or generic type parameters are rejected (diagnostic)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="xaml-usage">XAML Usage</h3>
+<pre><code class="lang-xml">&lt;UserControl xmlns=&quot;https://github.com/avaloniaui&quot;
+             xmlns:x=&quot;http://schemas.microsoft.com/winfx/2006/xaml&quot;
+             xmlns:local=&quot;using:MyApp.ViewModels&quot;&gt;
+    &lt;!-- ... --&gt;
+    &lt;Button Content=&quot;Set Status&quot;&gt;
+        &lt;Interaction.Behaviors&gt;
+            &lt;EventTriggerBehavior EventName=&quot;Click&quot;&gt;
+                &lt;local:SetStatusTextAction TargetObject=&quot;{Binding}&quot; Value=&quot;New Status&quot; /&gt;
+            &lt;/EventTriggerBehavior&gt;
+        &lt;/Interaction.Behaviors&gt;
+    &lt;/Button&gt;
+    &lt;!-- ... --&gt;
+&lt;/UserControl&gt;
+</code></pre>
+
+</article>
+
+        <div class="contribution d-print-none">
+          <a href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/docfx/articles/source-generators/typed-change-property.md/#L1" class="edit-link">Edit this page</a>
+        </div>
+
+        <div class="next-article d-print-none border-top" id="nextArticle"></div>
+
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          <span>Made with <a href="https://dotnet.github.io/docfx">docfx</a></span>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>
