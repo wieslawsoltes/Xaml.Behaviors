@@ -1,0 +1,55 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:SourceGeneratorSample.ViewModels"
+             xmlns:avalonia="using:Avalonia"
+             xmlns:controls="using:Avalonia.Controls"
+             x:Class="SourceGeneratorSample.Views.Pages.PropertyTriggerPage"
+             x:DataType="vm:MainViewModel">
+  <StackPanel Spacing="12">
+    <TextBlock Text="Property Triggers" FontWeight="Bold" />
+    <TextBlock Text="{Binding PropertyTriggerStatus}" />
+
+    <StackPanel Spacing="6">
+      <TextBlock Text="IsVisible trigger (name scope lookup)" FontWeight="SemiBold" />
+      <ToggleSwitch Content="Show region" IsChecked="{Binding ShowRegion}" />
+      <Border x:Name="VisibilityTarget"
+              IsVisible="{Binding ShowRegion}"
+              Background="LightGray"
+              Padding="12">
+        <TextBlock Text="Toggle the switch to change visibility." />
+      </Border>
+      <Interaction.Behaviors>
+        <avalonia:VisualIsVisiblePropertyTrigger SourceName="VisibilityTarget" Value="True">
+          <vm:SetPropertyTriggerStatusAction TargetObject="{Binding}" Value="Region became visible" />
+        </avalonia:VisualIsVisiblePropertyTrigger>
+        <avalonia:VisualIsVisiblePropertyTrigger SourceName="VisibilityTarget" Value="False">
+          <vm:SetPropertyTriggerStatusAction TargetObject="{Binding}" Value="Region hidden" />
+        </avalonia:VisualIsVisiblePropertyTrigger>
+      </Interaction.Behaviors>
+    </StackPanel>
+
+    <StackPanel Spacing="6">
+      <TextBlock Text="Bounds trigger (non-zero layout)" FontWeight="SemiBold" />
+      <Slider Minimum="100" Maximum="400" Value="{Binding BoundsWidth}" />
+      <Border x:Name="BoundsTarget"
+              Width="{Binding BoundsWidth}"
+              Height="80"
+              Background="LightBlue" />
+      <Interaction.Behaviors>
+        <avalonia:VisualBoundsPropertyTrigger SourceName="BoundsTarget" Value="0,0,0,0" ComparisonCondition="NotEqual">
+          <vm:SetPropertyTriggerStatusAction TargetObject="{Binding}" Value="Bounds changed (dispatched)" />
+        </avalonia:VisualBoundsPropertyTrigger>
+      </Interaction.Behaviors>
+    </StackPanel>
+
+    <StackPanel Spacing="6">
+      <TextBlock Text="Text trigger (dispatcher enabled)" FontWeight="SemiBold" />
+      <TextBox x:Name="TextTarget" Watermark="Type 'ping' to trigger" />
+      <Interaction.Behaviors>
+        <controls:TextBoxDispatchingTextPropertyTrigger SourceName="TextTarget" Value="ping">
+          <vm:SetPropertyTriggerStatusAction TargetObject="{Binding}" Value="Text matched 'ping' on UI thread" />
+        </controls:TextBoxDispatchingTextPropertyTrigger>
+      </Interaction.Behaviors>
+    </StackPanel>
+  </StackPanel>
+</UserControl>

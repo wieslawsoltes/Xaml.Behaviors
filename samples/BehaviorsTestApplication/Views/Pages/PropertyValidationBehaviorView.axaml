@@ -15,7 +15,7 @@
   </Design.DataContext>
 
   <StackPanel Spacing="12" Margin="16">
-    <TextBlock Text="PropertyValidationBehavior applies rules to a dependency property and surfaces IsValid/Error values." TextWrapping="Wrap" />
+    <TextBlock Text="PropertyValidationBehavior applies rules to a avalonia property and surfaces IsValid/Error values." TextWrapping="Wrap" />
     <TextBox Width="260" Watermark="Enter at least 3 characters" Text="{Binding ValidatedText}">
       <Interaction.Behaviors>
         <custom:PropertyValidationBehavior x:TypeArguments="TextBox, sys:String"

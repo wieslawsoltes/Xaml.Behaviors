@@ -1,0 +1,55 @@
+# Typed Observable Trigger
+
+The `[GenerateObservableTrigger]` attribute generates a trigger that reacts to `IObservable<T>` properties without reflection or converter glue.
+
+## Usage
+
+```csharp
+using System;
+using Xaml.Behaviors.SourceGenerators;
+
+public partial class StreamHost
+{
+    [GenerateObservableTrigger]
+    public IObservable<int>? Stream { get; set; }
+}
+```
+
+Generates `StreamObservableTrigger` with:
+- `Stream` styled property to bind an `IObservable<T>`.
+- `LastValue` and `LastError` styled properties.
+- Executes actions on `OnNext` (value passed as parameter), `OnError` (exception), and `OnCompleted` (null).
+- `SourceObject` styled property to point the trigger at another object when you are not binding `Stream` directly on the trigger.
+
+`UseDispatcher` defaults to `true`; `FireOnAttach` subscribes immediately when the trigger attaches (set it to `false` to wait for a property change after attach). `Name` can override the generated class name. Assembly-level attributes use the same defaults, emit in the target type’s namespace, and prefix the type name to avoid collisions. At the assembly level the `propertyName` argument can be an exact name, a `*` wildcard pattern, or a regex to generate triggers for every matching `IObservable<T>` property; `XBG024` is reported when nothing matches.
+
+`UseDispatcher`, `FireOnAttach`, and `Name` are compile-time attribute flags that are baked into the generated trigger; they are not exposed as styled properties at runtime. Set them on the attribute, not in XAML.
+
+### XAML Example
+
+```xml
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="using:MyApp.ViewModels">
+  <Grid>
+    <Interaction.Behaviors>
+      <local:StreamObservableTrigger Stream="{Binding Stream}">
+        <local:SetStatusTextAction TargetObject="{Binding}" Value="New value received" />
+      </local:StreamObservableTrigger>
+    </Interaction.Behaviors>
+    <!-- UI content -->
+  </Grid>
+</UserControl>
+```
+
+## Diagnostics
+
+- `XBG024` when no `IObservable<T>` property matching the name/pattern is found on the target type.
+- `XBG026` when the property type is not `IObservable<T>`.
+- Generic/static members are rejected (`XBG008`/`XBG010`); accessibility issues report `XBG014`.
+
+## Notes
+
+- Assembly-level attributes stay in the target type’s namespace and prefix the type name.
+- If the trigger’s own property is unset, it reads the observable from `SourceObject` (or `AssociatedObject`) and will resubscribe when `SourceObject` changes.
+- Collisions are disambiguated via hashed suffixes.  

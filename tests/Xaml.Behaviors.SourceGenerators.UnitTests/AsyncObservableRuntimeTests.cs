@@ -1,0 +1,445 @@
+using System;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
+using Avalonia.Controls;
+using Avalonia.Headless.XUnit;
+using Avalonia.Threading;
+using Xunit;
+
+namespace Avalonia.Xaml.Behaviors.SourceGenerators.UnitTests;
+
+public class AsyncObservableRuntimeTests
+{
+    [AvaloniaFact]
+    public async Task AsyncTrigger_Completes_With_Result()
+    {
+        dynamic trigger = GeneratedTypeHelper.CreateInstance("SuccessfulTaskAsyncTrigger", "Avalonia.Xaml.Behaviors.SourceGenerators.UnitTests");
+        var action = new RecordingAction();
+        trigger.Actions.Add(action);
+        trigger.Attach(new TestControl());
+
+        await Dispatcher.UIThread.InvokeAsync(() => trigger.SuccessfulTask = Task.FromResult(7));
+
+        await FlushDispatcherAsync();
+        await Task.Delay(10);
+
+        Assert.Equal(7, Assert.IsType<int>(trigger.LastResult));
+        Assert.Null(trigger.LastError);
+        Assert.False((bool)trigger.IsExecuting);
+        Assert.Equal(7, Assert.IsType<int>(action.SeenParameters.Single()));
+    }
+
+    [AvaloniaFact]
+    public async Task AsyncTrigger_Reports_Faulted_Task()
+    {
+        dynamic trigger = GeneratedTypeHelper.CreateInstance("FaultedTaskAsyncTrigger", "Avalonia.Xaml.Behaviors.SourceGenerators.UnitTests");
+        var action = new RecordingAction();
+        trigger.Actions.Add(action);
+        trigger.Attach(new TestControl());
+
+        await Dispatcher.UIThread.InvokeAsync(() => trigger.FaultedTask = Task.FromException(new InvalidOperationException("boom")));
+
+        await FlushDispatcherAsync();
+        await Task.Delay(10);
+
+        Assert.Empty(action.SeenParameters);
+        Assert.IsType<InvalidOperationException>(trigger.LastError);
+        Assert.False((bool)trigger.IsExecuting);
+    }
+
+    [AvaloniaFact]
+    public async Task AsyncTrigger_Handles_Cancellation()
+    {
+        dynamic trigger = GeneratedTypeHelper.CreateInstance("CanceledTaskAsyncTrigger", "Avalonia.Xaml.Behaviors.SourceGenerators.UnitTests");
+        var action = new RecordingAction();
+        trigger.Actions.Add(action);
+        trigger.Attach(new TestControl());
+
+        await Dispatcher.UIThread.InvokeAsync(() => trigger.CanceledTask = Task.FromCanceled(new CancellationToken(true)));
+
+        await FlushDispatcherAsync();
+        await Task.Delay(200);
+
+        Assert.Null(trigger.LastError);
+        Assert.False((bool)trigger.IsExecuting);
+    }
+
+    [AvaloniaFact]
+    public async Task AsyncTrigger_Clears_LastResult_On_Cancellation()
+    {
+        dynamic trigger = GeneratedTypeHelper.CreateInstance("SuccessfulTaskAsyncTrigger", "Avalonia.Xaml.Behaviors.SourceGenerators.UnitTests");
+        trigger.Attach(new TestControl());
+
+        trigger.SuccessfulTask = Task.FromResult(5);
+
+        await FlushDispatcherAsync();
+        await Task.Delay(20);
+
+        Assert.Equal(5, (int)trigger.LastResult);
+
+        var canceled = new TaskCompletionSource<int>();
+        trigger.SuccessfulTask = canceled.Task;
+        canceled.SetCanceled();
+
+        await FlushDispatcherAsync();
+        await Task.Delay(20);
+
+        Assert.Equal(0, (int)trigger.LastResult);
+        Assert.Null(trigger.LastError);
+    }
+
+    [AvaloniaFact]
+    public async Task AsyncTrigger_Respects_UseDispatcher_False()
+    {
+        dynamic trigger = GeneratedTypeHelper.CreateInstance("BackgroundTaskAsyncTrigger", "Avalonia.Xaml.Behaviors.SourceGenerators.UnitTests");
+        var action = new RecordingAction();
+        trigger.Actions.Add(action);
+        trigger.Attach(new TestControl());
+
+        var tcs = new TaskCompletionSource<int>();
+        await Dispatcher.UIThread.InvokeAsync(() => trigger.BackgroundTask = tcs.Task);
+        tcs.SetResult(3);
+
+        await tcs.Task;
+        await Task.Delay(50);
+
+        Assert.Equal(3, (int)trigger.LastResult);
+        Assert.False((bool)trigger.IsExecuting);
+    }
+
+    [AvaloniaFact]
+    public async Task Assembly_AsyncTrigger_Defaults_To_Dispatcher()
+    {
+        dynamic trigger = GeneratedTypeHelper.CreateInstance("AssemblyAsyncHostBackgroundTaskAsyncTrigger", "Avalonia.Xaml.Behaviors.SourceGenerators.UnitTests");
+        var action = new RecordingAction();
+        trigger.Actions.Add(action);
+        trigger.Attach(new TestControl());
+
+        trigger.BackgroundTask = Task.CompletedTask;
+
+        Assert.Empty(action.SeenParameters);
+
+        await FlushDispatcherAsync();
+        await Task.Delay(10);
+
+        Assert.Single(action.SeenParameters);
+    }
+
+    [AvaloniaFact]
+    public async Task AsyncTrigger_FireOnAttach_False_Waits_For_Change()
+    {
+        dynamic trigger = GeneratedTypeHelper.CreateInstance("DeferredTaskAsyncTrigger", "Avalonia.Xaml.Behaviors.SourceGenerators.UnitTests");
+        var action = new RecordingAction();
+        trigger.Actions.Add(action);
+
+        await Dispatcher.UIThread.InvokeAsync(() => trigger.DeferredTask = Task.FromResult(1));
+        trigger.Attach(new TestControl());
+
+        await FlushDispatcherAsync();
+        await Task.Delay(50);
+        Assert.Equal(0, (int)trigger.LastResult);
+
+        await Dispatcher.UIThread.InvokeAsync(() => trigger.DeferredTask = Task.FromResult(2));
+        await FlushDispatcherAsync();
+        await Task.Delay(50);
+
+        Assert.Equal(2, (int)trigger.LastResult);
+    }
+
+    [AvaloniaFact]
+    public async Task ObservableTrigger_OnNext_Updates_LastValue()
+    {
+        dynamic trigger = GeneratedTypeHelper.CreateInstance("IntStreamObservableTrigger", "Avalonia.Xaml.Behaviors.SourceGenerators.UnitTests");
+        var action = new RecordingAction();
+        trigger.Actions.Add(action);
+        trigger.Attach(new TestControl());
+
+        var observable = new TestObservable<int>();
+        trigger.IntStream = observable;
+
+        observable.OnNext(5);
+        await FlushDispatcherAsync();
+
+        Assert.Equal(5, (int)trigger.LastValue);
+        Assert.Equal(5, (int)action.SeenParameters.Single()!);
+    }
+
+    [AvaloniaFact]
+    public async Task ObservableTrigger_OnError_Sets_LastError()
+    {
+        dynamic trigger = GeneratedTypeHelper.CreateInstance("IntStreamObservableTrigger", "Avalonia.Xaml.Behaviors.SourceGenerators.UnitTests");
+        var action = new RecordingAction();
+        trigger.Actions.Add(action);
+        trigger.Attach(new TestControl());
+
+        var observable = new TestObservable<int>();
+        trigger.IntStream = observable;
+
+        var ex = new InvalidOperationException("stream failure");
+        observable.OnError(ex);
+        await FlushDispatcherAsync();
+
+        Assert.Same(ex, trigger.LastError);
+        Assert.Same(ex, action.SeenParameters.Single());
+    }
+
+    [AvaloniaFact]
+    public async Task ObservableTrigger_OnCompleted_Sends_Null()
+    {
+        dynamic trigger = GeneratedTypeHelper.CreateInstance("IntStreamObservableTrigger", "Avalonia.Xaml.Behaviors.SourceGenerators.UnitTests");
+        var action = new RecordingAction();
+        trigger.Actions.Add(action);
+        trigger.Attach(new TestControl());
+
+        var observable = new TestObservable<int>();
+        trigger.IntStream = observable;
+
+        observable.OnCompleted();
+        await FlushDispatcherAsync();
+
+        Assert.Single(action.SeenParameters);
+        Assert.Null(action.SeenParameters[0]);
+    }
+
+    [AvaloniaFact]
+    public void ObservableTrigger_UseDispatcher_False_Runs_Immediately()
+    {
+        dynamic trigger = GeneratedTypeHelper.CreateInstance("BackgroundStreamObservableTrigger", "Avalonia.Xaml.Behaviors.SourceGenerators.UnitTests");
+        var action = new RecordingAction();
+        trigger.Actions.Add(action);
+        trigger.Attach(new TestControl());
+
+        var observable = new TestObservable<string>();
+        trigger.BackgroundStream = observable;
+
+        observable.OnNext("hello");
+
+        Assert.Equal("hello", (string)trigger.LastValue);
+        Assert.Equal("hello", (string)action.SeenParameters.Single()!);
+    }
+
+    [AvaloniaFact]
+    public async Task ObservableTrigger_Resets_State_When_Resubscribed()
+    {
+        dynamic trigger = GeneratedTypeHelper.CreateInstance("IntStreamObservableTrigger", "Avalonia.Xaml.Behaviors.SourceGenerators.UnitTests");
+        trigger.Attach(new TestControl());
+
+        var first = new TestObservable<int>();
+        trigger.IntStream = first;
+
+        first.OnNext(5);
+        await FlushDispatcherAsync();
+
+        Assert.Equal(5, (int)trigger.LastValue);
+
+        var ex = new InvalidOperationException("stream failure");
+        first.OnError(ex);
+        await FlushDispatcherAsync();
+
+        Assert.Same(ex, trigger.LastError);
+
+        var second = new TestObservable<int>();
+        trigger.IntStream = second;
+
+        await FlushDispatcherAsync();
+
+        Assert.Equal(0, (int)trigger.LastValue);
+        Assert.Null(trigger.LastError);
+
+        second.OnNext(2);
+        await FlushDispatcherAsync();
+
+        Assert.Equal(2, (int)trigger.LastValue);
+    }
+
+    [AvaloniaFact]
+    public async Task ObservableTrigger_FireOnAttach_False_Waits_For_Reassignment()
+    {
+        dynamic trigger = GeneratedTypeHelper.CreateInstance("DeferredStreamObservableTrigger", "Avalonia.Xaml.Behaviors.SourceGenerators.UnitTests");
+        var action = new RecordingAction();
+        trigger.Actions.Add(action);
+
+        var initial = new TestObservable<int>();
+        trigger.DeferredStream = initial;
+        trigger.Attach(new TestControl());
+
+        initial.OnNext(1);
+        await FlushDispatcherAsync();
+        Assert.Empty(action.SeenParameters);
+
+        var replacement = new TestObservable<int>();
+        trigger.DeferredStream = replacement;
+        replacement.OnNext(2);
+        await FlushDispatcherAsync();
+
+        Assert.Equal(2, (int)action.SeenParameters.Single()!);
+    }
+
+    [AvaloniaFact]
+    public async Task ObservableTrigger_Uses_SourceObject_When_Property_Not_Set()
+    {
+        var host = new RuntimeAsyncObservableHost();
+        var observable = new TestObservable<int>();
+        host.IntStream = observable;
+
+        dynamic trigger = GeneratedTypeHelper.CreateInstance("IntStreamObservableTrigger", "Avalonia.Xaml.Behaviors.SourceGenerators.UnitTests");
+        var action = new RecordingAction();
+        trigger.Actions.Add(action);
+
+        trigger.Attach(new TestControl());
+        trigger.SourceObject = host;
+
+        observable.OnNext(7);
+        await FlushDispatcherAsync();
+
+        Assert.Equal(7, Assert.IsType<int>(trigger.LastValue));
+        Assert.Equal(7, Assert.IsType<int>(action.SeenParameters.Single()));
+    }
+
+    [AvaloniaFact]
+    public async Task ObservableTrigger_Reuses_Subscription_When_SourceObject_Changes_But_Observable_Is_Same()
+    {
+        var stream = new TestObservable<int>();
+        var host1 = new RuntimeAsyncObservableHost { IntStream = stream };
+        var host2 = new RuntimeAsyncObservableHost { IntStream = stream };
+
+        dynamic trigger = GeneratedTypeHelper.CreateInstance("IntStreamObservableTrigger", "Avalonia.Xaml.Behaviors.SourceGenerators.UnitTests");
+        var action = new RecordingAction();
+        trigger.Actions.Add(action);
+        trigger.Attach(new TestControl());
+
+        trigger.SourceObject = host1;
+        stream.OnNext(1);
+        await FlushDispatcherAsync();
+        Assert.Equal(1, Assert.IsType<int>(action.SeenParameters.Last()));
+
+        trigger.SourceObject = host2;
+        stream.OnNext(2);
+        await FlushDispatcherAsync();
+
+        Assert.Equal(2, Assert.IsType<int>(action.SeenParameters.Last()));
+        Assert.Equal(2, action.SeenParameters.Count);
+    }
+
+    [AvaloniaFact]
+    public async Task AsyncTrigger_Dispatcher_Path_Drops_Stale_Task()
+    {
+        var host = new RuntimeAsyncObservableHost();
+        dynamic trigger = GeneratedTypeHelper.CreateInstance("DeferredTaskAsyncTrigger", "Avalonia.Xaml.Behaviors.SourceGenerators.UnitTests");
+        var action = new RecordingAction();
+        trigger.Actions.Add(action);
+        trigger.Attach(host);
+
+        var first = new TaskCompletionSource<int>();
+        trigger.DeferredTask = first.Task;
+
+        var second = new TaskCompletionSource<int>();
+        trigger.DeferredTask = second.Task;
+
+        first.SetResult(1);
+        second.SetResult(2);
+
+        await FlushDispatcherAsync();
+        await Task.Delay(50);
+
+        Assert.Equal(2, Assert.IsType<int>(trigger.LastResult));
+        Assert.Single(action.SeenParameters);
+        Assert.Equal(2, Assert.IsType<int>(action.SeenParameters.Single()!));
+    }
+
+    [AvaloniaFact]
+    public async Task AsyncTrigger_Uses_SourceObject_When_Property_Not_Set()
+    {
+        var host = new RuntimeAsyncObservableHost();
+        dynamic trigger = GeneratedTypeHelper.CreateInstance("SuccessfulTaskAsyncTrigger", "Avalonia.Xaml.Behaviors.SourceGenerators.UnitTests");
+        var action = new RecordingAction();
+        trigger.Actions.Add(action);
+
+        trigger.SourceObject = host;
+        host.SuccessfulTask = Task.FromResult(9);
+
+        trigger.Attach(host);
+
+        await FlushDispatcherAsync();
+        await Task.Delay(20);
+
+        Assert.Equal(9, Assert.IsType<int>(trigger.LastResult));
+        Assert.Equal(9, Assert.IsType<int>(action.SeenParameters.Single()));
+    }
+
+    [AvaloniaFact]
+    public async Task AsyncTrigger_Ignores_Stale_Task_When_Reassigned()
+    {
+        var host = new RuntimeAsyncObservableHost();
+        dynamic trigger = GeneratedTypeHelper.CreateInstance("BackgroundTaskAsyncTrigger", "Avalonia.Xaml.Behaviors.SourceGenerators.UnitTests");
+        var action = new RecordingAction();
+        trigger.Actions.Add(action);
+        trigger.Attach(host);
+
+        var first = new TaskCompletionSource<int>();
+        trigger.BackgroundTask = first.Task;
+
+        var second = new TaskCompletionSource<int>();
+        trigger.BackgroundTask = second.Task;
+
+        second.SetResult(2);
+        first.SetResult(1);
+
+        await Task.Delay(50);
+
+        Assert.Equal(2, (int)trigger.LastResult);
+        Assert.Single(action.SeenParameters);
+        Assert.Equal(2, (int)action.SeenParameters.Single()!);
+    }
+
+    [AvaloniaFact]
+    public async Task AsyncTrigger_Resets_State_On_Detach()
+    {
+        var host = new RuntimeAsyncObservableHost();
+        var tcs = new TaskCompletionSource<int>();
+
+        dynamic trigger = GeneratedTypeHelper.CreateInstance("SuccessfulTaskAsyncTrigger", "Avalonia.Xaml.Behaviors.SourceGenerators.UnitTests");
+        var action = new RecordingAction();
+        trigger.Actions.Add(action);
+        trigger.Attach(host);
+
+        trigger.SuccessfulTask = tcs.Task;
+
+        Assert.True((bool)trigger.IsExecuting);
+
+        trigger.Detach();
+
+        Assert.False((bool)trigger.IsExecuting);
+        Assert.Null(trigger.LastError);
+        Assert.Equal(0, (int)trigger.LastResult);
+
+        tcs.SetResult(5);
+        await Task.Delay(20);
+
+        Assert.Empty(action.SeenParameters);
+    }
+
+    [AvaloniaFact]
+    public async Task ObservableTrigger_Reattaches_To_Same_Instance_After_Detach()
+    {
+        dynamic trigger = GeneratedTypeHelper.CreateInstance("IntStreamObservableTrigger", "Avalonia.Xaml.Behaviors.SourceGenerators.UnitTests");
+        var observable = new TestObservable<int>();
+        var control = new TestControl();
+
+        trigger.IntStream = observable;
+        trigger.Attach(control);
+        trigger.Detach();
+        trigger.Attach(control);
+
+        observable.OnNext(42);
+        await FlushDispatcherAsync();
+
+        Assert.Equal(42, (int)trigger.LastValue);
+    }
+
+    private static async Task FlushDispatcherAsync()
+    {
+        await Dispatcher.UIThread.InvokeAsync(() => { });
+    }
+}
