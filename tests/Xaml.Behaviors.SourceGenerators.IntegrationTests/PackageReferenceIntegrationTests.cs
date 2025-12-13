@@ -58,8 +58,8 @@ public sealed class SourceGeneratorPackageFixture : IAsyncLifetime
         var current = AppContext.BaseDirectory;
         while (!string.IsNullOrEmpty(current))
         {
-            var candidate = Path.Combine(current, "AvaloniaBehaviors.sln");
-            if (File.Exists(candidate))
+            var slnx = Path.Combine(current, "AvaloniaBehaviors.slnx");
+            if (File.Exists(slnx))
             {
                 return current;
             }
@@ -73,7 +73,7 @@ public sealed class SourceGeneratorPackageFixture : IAsyncLifetime
             current = parent.FullName;
         }
 
-        throw new InvalidOperationException("Could not locate repository root containing AvaloniaBehaviors.sln.");
+        throw new InvalidOperationException("Could not locate repository root containing AvaloniaBehaviors.slnx.");
     }
 
     private async Task PackProjectAsync(string projectPath)
