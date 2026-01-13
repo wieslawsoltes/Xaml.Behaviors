@@ -153,6 +153,15 @@ public class ManagedContextDropBehavior : StyledElementBehavior<Control>
     private void OnDragStarted()
     {
         UpdateOver(false);
+
+        // If the content is not visible then we must not send drop events.
+        var target = AssociatedObject;
+        if (target is null || !target.IsEffectivelyVisible)
+        {
+            UpdateWantsDrop(false);
+            return;
+        }
+        
         var svc = ManagedDragDropService.Instance;
         var compatible = AllowDrop && Handler is not null && svc.IsDragging && string.Equals(svc.DataFormat, AcceptDataFormat, StringComparison.Ordinal);
         if (compatible)
