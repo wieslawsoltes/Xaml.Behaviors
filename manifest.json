@@ -1334,6 +1334,20 @@
     },
     {
       "type": "ManagedReference",
+      "source_relative_path": "api/Avalonia.Xaml.Interactions.Custom.ClickEventTrigger.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Avalonia.Xaml.Interactions.Custom.ClickEventTrigger.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Avalonia.Xaml.Interactions.Custom.ClickEventTrigger",
+      "Summary": "<p sourcefile=\"api/Avalonia.Xaml.Interactions.Custom.ClickEventTrigger.yml\" sourcestartlinenumber=\"1\">Trigger that emulates <xref href=\"Avalonia.Controls.Button\" data-throw-if-not-resolved=\"false\"></xref> click semantics on any <xref href=\"Avalonia.Controls.Control\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
       "source_relative_path": "api/Avalonia.Xaml.Interactions.Custom.ClipboardMonitorBehavior.yml",
       "output": {
         ".html": {
@@ -10832,6 +10846,16 @@
       "output": {
         ".html": {
           "relative_path": "articles/interactions-custom/input-element/capture-pointer-action.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactions-custom/input-element/click-event-trigger.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactions-custom/input-element/click-event-trigger.html"
         }
       },
       "version": ""
