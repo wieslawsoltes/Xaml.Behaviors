@@ -20,12 +20,12 @@ class Program
         MSBuildLocator.RegisterDefaults();
 
         var rootDir = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "../../../../../"));
-        var solutionPath = Path.Combine(rootDir, "AvaloniaBehaviors.sln");
+        var solutionPath = ResolveSolutionPath(rootDir);
         var docsPath = Path.Combine(rootDir, "docfx/articles");
 
-        if (!File.Exists(solutionPath))
+        if (solutionPath is null)
         {
-            Console.WriteLine($"Error: Solution not found at {solutionPath}");
+            Console.WriteLine($"Error: Solution not found at {Path.Combine(rootDir, "AvaloniaBehaviors.sln")} or {Path.Combine(rootDir, "AvaloniaBehaviors.slnx")}");
             return;
         }
 
@@ -169,5 +169,22 @@ class Program
     static string ToKebabCase(string name)
     {
         return Regex.Replace(name, "(?<!^)([A-Z][a-z]|(?<=[a-z])[A-Z])", "-$1").ToLower();
+    }
+
+    static string? ResolveSolutionPath(string rootDir)
+    {
+        var slnPath = Path.Combine(rootDir, "AvaloniaBehaviors.sln");
+        if (File.Exists(slnPath))
+        {
+            return slnPath;
+        }
+
+        var slnxPath = Path.Combine(rootDir, "AvaloniaBehaviors.slnx");
+        if (File.Exists(slnxPath))
+        {
+            return slnxPath;
+        }
+
+        return null;
     }
 }
