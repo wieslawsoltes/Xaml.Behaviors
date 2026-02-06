@@ -1,0 +1,236 @@
+<UserControl x:Class="BehaviorsTestApplication.Views.Pages.ClickEventTriggerView"
+             xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:primitives="using:Avalonia.Controls.Primitives"
+             xmlns:vm="using:BehaviorsTestApplication.ViewModels"
+             x:DataType="vm:MainWindowViewModel"
+             mc:Ignorable="d"
+             d:DesignWidth="900"
+             d:DesignHeight="700">
+  <ScrollViewer>
+    <StackPanel Spacing="8" Margin="10">
+      <TextBlock FontSize="18" FontWeight="Bold" Text="ClickEventTrigger" />
+      <TextBlock Text="Emulates Button click semantics on non-button controls." />
+
+      <TextBlock FontWeight="Bold" Text="ClickMode: Release vs Press" />
+      <StackPanel Orientation="Horizontal" Spacing="8">
+        <Border Name="ReleaseTarget"
+                Width="250"
+                Height="72"
+                Background="LightSteelBlue"
+                CornerRadius="4"
+                Focusable="True"
+                VerticalAlignment="Center">
+          <Interaction.Behaviors>
+            <ClickEventTrigger ClickMode="Release">
+              <ChangePropertyAction TargetObject="ReleaseStatus"
+                                    PropertyName="Text"
+                                    Value="Release target clicked." />
+            </ClickEventTrigger>
+          </Interaction.Behaviors>
+          <TextBlock HorizontalAlignment="Center"
+                     VerticalAlignment="Center"
+                     Text="Release (click on pointer up)" />
+        </Border>
+
+        <Border Name="PressTarget"
+                Width="250"
+                Height="72"
+                Background="PeachPuff"
+                CornerRadius="4"
+                Focusable="True"
+                VerticalAlignment="Center">
+          <Interaction.Behaviors>
+            <ClickEventTrigger ClickMode="Press">
+              <ChangePropertyAction TargetObject="PressStatus"
+                                    PropertyName="Text"
+                                    Value="Press target clicked." />
+            </ClickEventTrigger>
+          </Interaction.Behaviors>
+          <TextBlock HorizontalAlignment="Center"
+                     VerticalAlignment="Center"
+                     Text="Press (click on pointer down)" />
+        </Border>
+      </StackPanel>
+      <TextBlock Name="ReleaseStatus" Text="Release status: waiting..." />
+      <TextBlock Name="PressStatus" Text="Press status: waiting..." />
+
+      <TextBlock FontWeight="Bold" Text="KeyModifiers Filter" />
+      <Border Name="ModifierTarget"
+              Width="350"
+              Height="72"
+              Background="LightGoldenrodYellow"
+              CornerRadius="4"
+              Focusable="True">
+        <Interaction.Behaviors>
+          <ClickEventTrigger KeyModifiers="Control">
+            <ChangePropertyAction TargetObject="ModifierStatus"
+                                  PropertyName="Text"
+                                  Value="Modifier target clicked with Control." />
+          </ClickEventTrigger>
+        </Interaction.Behaviors>
+        <TextBlock HorizontalAlignment="Center"
+                   VerticalAlignment="Center"
+                   Text="Ctrl+Click required" />
+      </Border>
+      <TextBlock Name="ModifierStatus" Text="Modifier status: waiting..." />
+
+      <TextBlock FontWeight="Bold" Text="SourceControl (External Source Resolution)" />
+      <TextBlock Text="Behavior is attached to the right target, but listens on the left source via SourceControl." />
+      <StackPanel Orientation="Horizontal" Spacing="8">
+        <Border Name="SourceControlSourceTarget"
+                Width="300"
+                Height="72"
+                Background="LightCyan"
+                CornerRadius="4"
+                Focusable="True">
+          <TextBlock HorizontalAlignment="Center"
+                     VerticalAlignment="Center"
+                     Text="Source target (click me)" />
+        </Border>
+
+        <Border Name="SourceControlHostTarget"
+                Width="300"
+                Height="72"
+                Background="PowderBlue"
+                CornerRadius="4"
+                Focusable="True">
+          <Interaction.Behaviors>
+            <ClickEventTrigger SourceControl="SourceControlSourceTarget">
+              <ChangePropertyAction TargetObject="SourceControlStatus"
+                                    PropertyName="Text"
+                                    Value="SourceControl example fired from the external source target." />
+            </ClickEventTrigger>
+          </Interaction.Behaviors>
+          <TextBlock HorizontalAlignment="Center"
+                     VerticalAlignment="Center"
+                     Text="Host target (behavior attached here)" />
+        </Border>
+      </StackPanel>
+      <TextBlock Name="SourceControlStatus" Text="SourceControl status: click the source target." />
+
+      <TextBlock FontWeight="Bold" Text="IsDefault / IsCancel" />
+      <TextBlock Text="Focus the TextBox and press Enter or Escape." />
+      <TextBox Name="KeyboardSource"
+               Width="350"
+               Watermark="Focus here, then press Enter (default) or Escape (cancel)." />
+      <StackPanel Orientation="Horizontal" Spacing="8">
+        <Border Name="DefaultTarget"
+                Width="250"
+                Height="62"
+                Background="Honeydew"
+                CornerRadius="4"
+                Focusable="True">
+          <Interaction.Behaviors>
+            <ClickEventTrigger IsDefault="True">
+              <ChangePropertyAction TargetObject="DefaultCancelStatus"
+                                    PropertyName="Text"
+                                    Value="Default target activated." />
+            </ClickEventTrigger>
+          </Interaction.Behaviors>
+          <TextBlock HorizontalAlignment="Center"
+                     VerticalAlignment="Center"
+                     Text="Default target (Enter)" />
+        </Border>
+        <Border Name="CancelTarget"
+                Width="250"
+                Height="62"
+                Background="MistyRose"
+                CornerRadius="4"
+                Focusable="True">
+          <Interaction.Behaviors>
+            <ClickEventTrigger IsCancel="True">
+              <ChangePropertyAction TargetObject="DefaultCancelStatus"
+                                    PropertyName="Text"
+                                    Value="Cancel target activated." />
+            </ClickEventTrigger>
+          </Interaction.Behaviors>
+          <TextBlock HorizontalAlignment="Center"
+                     VerticalAlignment="Center"
+                     Text="Cancel target (Escape)" />
+        </Border>
+      </StackPanel>
+      <TextBlock Name="DefaultCancelStatus" Text="Default/Cancel status: waiting..." />
+
+      <TextBlock FontWeight="Bold" Text="Flyout Toggle" />
+      <Border Name="FlyoutTarget"
+              Width="320"
+              Height="72"
+              Background="Lavender"
+              CornerRadius="4"
+              Focusable="True">
+        <primitives:FlyoutBase.AttachedFlyout>
+          <Flyout>
+            <StackPanel Margin="10" Spacing="4">
+              <TextBlock FontWeight="Bold" Text="Attached Flyout" />
+              <TextBlock Text="Click the target again to close." />
+            </StackPanel>
+          </Flyout>
+        </primitives:FlyoutBase.AttachedFlyout>
+        <Interaction.Behaviors>
+          <ClickEventTrigger>
+            <ChangePropertyAction TargetObject="FlyoutStatus"
+                                  PropertyName="Text"
+                                  Value="Flyout target clicked; flyout toggled." />
+          </ClickEventTrigger>
+        </Interaction.Behaviors>
+        <TextBlock HorizontalAlignment="Center"
+                   VerticalAlignment="Center"
+                   Text="Click to toggle attached flyout" />
+      </Border>
+      <TextBlock Name="FlyoutStatus" Text="Flyout status: waiting..." />
+
+      <TextBlock FontWeight="Bold" Text="Open/Save File Picker with MVVM Commands" />
+      <TextBlock Text="These targets use ClickEventTrigger + picker actions bound to OpenFilesCommand and SaveFileCommand." />
+      <StackPanel Orientation="Horizontal" Spacing="8">
+        <Border Name="OpenFilePickerTarget"
+                Width="300"
+                Height="72"
+                Background="LightGreen"
+                CornerRadius="4"
+                Focusable="True">
+          <Interaction.Behaviors>
+            <ClickEventTrigger>
+              <OpenFilePickerAction Command="{Binding OpenFilesCommand}"
+                                    Title="Open Files from ClickEventTrigger"
+                                    SuggestedFileName="TriggerSample"
+                                    AllowMultiple="True"
+                                    FileTypeFilter="Text Files|*.txt|Markdown Files|*.md|All Files|*.*" />
+            </ClickEventTrigger>
+          </Interaction.Behaviors>
+          <TextBlock HorizontalAlignment="Center"
+                     VerticalAlignment="Center"
+                     Text="Open Files (ClickEventTrigger)" />
+        </Border>
+
+        <Border Name="SaveFilePickerTarget"
+                Width="300"
+                Height="72"
+                Background="LightSalmon"
+                CornerRadius="4"
+                Focusable="True">
+          <Interaction.Behaviors>
+            <ClickEventTrigger>
+              <SaveFilePickerAction Command="{Binding SaveFileCommand}"
+                                    InputConverter="{x:Static StorageItemToPathConverter.Instance}"
+                                    Title="Save File from ClickEventTrigger"
+                                    SuggestedFileName="TriggerSample"
+                                    DefaultExtension="txt"
+                                    FileTypeChoices="Text Files (*.txt)|*.txt|Markdown Files (*.md)|*.md|All Files (*.*)|*.*" />
+            </ClickEventTrigger>
+          </Interaction.Behaviors>
+          <TextBlock HorizontalAlignment="Center"
+                     VerticalAlignment="Center"
+                     Text="Save File (ClickEventTrigger)" />
+        </Border>
+      </StackPanel>
+
+      <TextBlock FontWeight="SemiBold" Text="MVVM output (OpenFilesCommand / SaveFileCommand):" />
+      <Border BorderBrush="Gray" BorderThickness="1" CornerRadius="4" Padding="4">
+        <ListBox Height="140" ItemsSource="{Binding FileItems}" />
+      </Border>
+    </StackPanel>
+  </ScrollViewer>
+</UserControl>

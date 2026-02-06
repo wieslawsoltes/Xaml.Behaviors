@@ -204,6 +204,9 @@
       <TabItem Header="ButtonClickEventTriggerBehavior">
         <pages:ButtonClickEventTriggerBehaviorView />
       </TabItem>
+      <TabItem Header="ClickEventTrigger">
+        <pages:ClickEventTriggerView />
+      </TabItem>
       <TabItem Header="Advanced Behavior">
         <pages:AdvancedView />
       </TabItem>

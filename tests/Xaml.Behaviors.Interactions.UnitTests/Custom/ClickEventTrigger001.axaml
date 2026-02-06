@@ -1,0 +1,98 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:custom="clr-namespace:Avalonia.Xaml.Interactions.UnitTests.Custom"
+        xmlns:primitives="using:Avalonia.Controls.Primitives"
+        x:Class="Avalonia.Xaml.Interactions.UnitTests.Custom.ClickEventTrigger001"
+        x:DataType="custom:ClickEventTrigger001"
+        Title="ClickEventTrigger001"
+        Width="1000"
+        Height="800">
+  <StackPanel Margin="10" Spacing="8">
+    <TextBox Name="FocusSource" Width="420" Text="Focus source for root key handling" />
+
+    <StackPanel Orientation="Horizontal" Spacing="8">
+      <Border Name="ReleaseTarget" Width="220" Height="70" Background="LightSteelBlue" Focusable="True">
+        <Interaction.Behaviors>
+          <ClickEventTrigger ClickMode="Release">
+            <CallMethodAction TargetObject="{Binding}" MethodName="OnReleaseClicked" />
+          </ClickEventTrigger>
+        </Interaction.Behaviors>
+      </Border>
+      <Border Name="OutsideTarget" Width="220" Height="70" Background="LightGray" Focusable="True" />
+    </StackPanel>
+
+    <Border Name="PressTarget" Width="220" Height="70" Background="PeachPuff" Focusable="True">
+      <Interaction.Behaviors>
+        <ClickEventTrigger ClickMode="Press" HandleEvent="False">
+          <CallMethodAction TargetObject="{Binding}" MethodName="OnPressClicked" />
+        </ClickEventTrigger>
+      </Interaction.Behaviors>
+    </Border>
+
+    <Border Name="ModifierTarget" Width="220" Height="70" Background="LightGoldenrodYellow" Focusable="True">
+      <Interaction.Behaviors>
+        <ClickEventTrigger KeyModifiers="Control">
+          <CallMethodAction TargetObject="{Binding}" MethodName="OnModifierClicked" />
+        </ClickEventTrigger>
+      </Interaction.Behaviors>
+    </Border>
+
+    <StackPanel Orientation="Horizontal" Spacing="8">
+      <Border Name="SourceControlSourceTarget" Width="220" Height="70" Background="LightCyan" Focusable="True" />
+      <Border Name="SourceControlHostTarget" Width="220" Height="70" Background="PowderBlue" Focusable="True">
+        <Interaction.Behaviors>
+          <ClickEventTrigger SourceControl="SourceControlSourceTarget">
+            <CallMethodAction TargetObject="{Binding}" MethodName="OnSourceControlClicked" />
+          </ClickEventTrigger>
+        </Interaction.Behaviors>
+      </Border>
+    </StackPanel>
+
+    <StackPanel Orientation="Horizontal" Spacing="8">
+      <Border Name="SpaceReleaseTarget" Width="220" Height="70" Background="AliceBlue" Focusable="True">
+        <Interaction.Behaviors>
+          <ClickEventTrigger ClickMode="Release">
+            <CallMethodAction TargetObject="{Binding}" MethodName="OnSpaceReleaseClicked" />
+          </ClickEventTrigger>
+        </Interaction.Behaviors>
+      </Border>
+      <Border Name="SpacePressTarget" Width="220" Height="70" Background="LavenderBlush" Focusable="True">
+        <Interaction.Behaviors>
+          <ClickEventTrigger ClickMode="Press">
+            <CallMethodAction TargetObject="{Binding}" MethodName="OnSpacePressClicked" />
+          </ClickEventTrigger>
+        </Interaction.Behaviors>
+      </Border>
+    </StackPanel>
+
+    <StackPanel Orientation="Horizontal" Spacing="8">
+      <Border Name="DefaultTarget" Width="220" Height="70" Background="Honeydew" Focusable="True">
+        <Interaction.Behaviors>
+          <ClickEventTrigger IsDefault="True">
+            <CallMethodAction TargetObject="{Binding}" MethodName="OnDefaultClicked" />
+          </ClickEventTrigger>
+        </Interaction.Behaviors>
+      </Border>
+      <Border Name="CancelTarget" Width="220" Height="70" Background="MistyRose" Focusable="True">
+        <Interaction.Behaviors>
+          <ClickEventTrigger IsCancel="True">
+            <CallMethodAction TargetObject="{Binding}" MethodName="OnCancelClicked" />
+          </ClickEventTrigger>
+        </Interaction.Behaviors>
+      </Border>
+    </StackPanel>
+
+    <Border Name="FlyoutTarget" Width="260" Height="70" Background="Thistle" Focusable="True">
+      <primitives:FlyoutBase.AttachedFlyout>
+        <Flyout OverlayDismissEventPassThrough="True">
+          <TextBlock Margin="10" Text="Flyout content" />
+        </Flyout>
+      </primitives:FlyoutBase.AttachedFlyout>
+      <Interaction.Behaviors>
+        <ClickEventTrigger>
+          <CallMethodAction TargetObject="{Binding}" MethodName="OnFlyoutClicked" />
+        </ClickEventTrigger>
+      </Interaction.Behaviors>
+    </Border>
+  </StackPanel>
+</Window>

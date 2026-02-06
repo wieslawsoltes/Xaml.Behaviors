@@ -2,6 +2,8 @@
   href: overview.md
 - name: CapturePointerAction
   href: capture-pointer-action.md
+- name: ClickEventTrigger
+  href: click-event-trigger.md
 - name: DoubleTappedTrigger
   href: double-tapped-trigger.md
 - name: GotFocusTrigger
