@@ -15,7 +15,14 @@ namespace Avalonia.Xaml.Interactions.Custom;
 public class ClickEventTrigger : StyledElementTrigger<Control>
 {
     private bool _isPressed;
+    private Control? _resolvedSourceControl;
     private IInputElement? _rootInputElement;
+
+    /// <summary>
+    /// Identifies the <see cref="SourceControl"/> avalonia property.
+    /// </summary>
+    public static readonly StyledProperty<Control?> SourceControlProperty =
+        AvaloniaProperty.Register<ClickEventTrigger, Control?>(nameof(SourceControl));
 
     /// <summary>
     /// Identifies the <see cref="ClickMode"/> avalonia property.
@@ -58,6 +65,17 @@ public class ClickEventTrigger : StyledElementTrigger<Control>
     /// </summary>
     public static readonly StyledProperty<bool> HandleEventProperty =
         AvaloniaProperty.Register<ClickEventTrigger, bool>(nameof(HandleEvent), true);
+
+    /// <summary>
+    /// Gets or sets the source control from which this trigger listens for click semantics.
+    /// If not set, it defaults to the associated object.
+    /// </summary>
+    [ResolveByName]
+    public Control? SourceControl
+    {
+        get => GetValue(SourceControlProperty);
+        set => SetValue(SourceControlProperty, value);
+    }
 
     /// <summary>
     /// Gets or sets how this trigger reacts to pointer and keyboard clicks.
@@ -126,33 +144,14 @@ public class ClickEventTrigger : StyledElementTrigger<Control>
     /// <inheritdoc />
     protected override void OnAttachedToVisualTree()
     {
-        if (AssociatedObject is not null)
-        {
-            AssociatedObject.AddHandler(InputElement.PointerPressedEvent, OnPointerPressed, RoutingStrategies.Bubble);
-            AssociatedObject.AddHandler(InputElement.PointerReleasedEvent, OnPointerReleased, RoutingStrategies.Bubble);
-            AssociatedObject.AddHandler(InputElement.PointerCaptureLostEvent, OnPointerCaptureLost, RoutingStrategies.Direct);
-            AssociatedObject.AddHandler(InputElement.KeyDownEvent, OnKeyDown, RoutingStrategies.Bubble);
-            AssociatedObject.AddHandler(InputElement.KeyUpEvent, OnKeyUp, RoutingStrategies.Bubble);
-            AssociatedObject.AddHandler(InputElement.LostFocusEvent, OnLostFocus, RoutingStrategies.Bubble);
-
-            UpdateRootSubscription();
-        }
+        SetResolvedSource(ResolveSourceControl());
     }
 
     /// <inheritdoc />
     protected override void OnDetachedFromVisualTree()
     {
         DetachRootSubscription();
-
-        if (AssociatedObject is not null)
-        {
-            AssociatedObject.RemoveHandler(InputElement.PointerPressedEvent, OnPointerPressed);
-            AssociatedObject.RemoveHandler(InputElement.PointerReleasedEvent, OnPointerReleased);
-            AssociatedObject.RemoveHandler(InputElement.PointerCaptureLostEvent, OnPointerCaptureLost);
-            AssociatedObject.RemoveHandler(InputElement.KeyDownEvent, OnKeyDown);
-            AssociatedObject.RemoveHandler(InputElement.KeyUpEvent, OnKeyUp);
-            AssociatedObject.RemoveHandler(InputElement.LostFocusEvent, OnLostFocus);
-        }
+        SetResolvedSource(null);
 
         _isPressed = false;
     }
@@ -162,7 +161,11 @@ public class ClickEventTrigger : StyledElementTrigger<Control>
     {
         base.OnPropertyChanged(change);
 
-        if (change.Property == IsDefaultProperty || change.Property == IsCancelProperty)
+        if (change.Property == SourceControlProperty)
+        {
+            SetResolvedSource(ResolveSourceControl());
+        }
+        else if (change.Property == IsDefaultProperty || change.Property == IsCancelProperty)
         {
             UpdateRootSubscription();
         }
@@ -170,13 +173,13 @@ public class ClickEventTrigger : StyledElementTrigger<Control>
 
     private void OnPointerPressed(object? sender, PointerPressedEventArgs e)
     {
-        if (AssociatedObject is not { IsEffectivelyEnabled: true } associatedObject
-            || !e.GetCurrentPoint(associatedObject).Properties.IsLeftButtonPressed)
+        if (_resolvedSourceControl is not { IsEffectivelyEnabled: true } sourceControl
+            || !e.GetCurrentPoint(sourceControl).Properties.IsLeftButtonPressed)
         {
             return;
         }
 
-        if (IsFlyoutOpenForAssociatedObject())
+        if (IsFlyoutOpenForResolvedSource())
         {
             SetHandled(e);
             ExecuteClick(e.KeyModifiers);
@@ -184,7 +187,7 @@ public class ClickEventTrigger : StyledElementTrigger<Control>
         }
 
         _isPressed = true;
-        e.Pointer?.Capture(associatedObject);
+        e.Pointer?.Capture(sourceControl);
         SetHandled(e);
 
         if (ClickMode == ClickMode.Press)
@@ -201,7 +204,7 @@ public class ClickEventTrigger : StyledElementTrigger<Control>
             e.Pointer?.Capture(null);
             SetHandled(e);
 
-            if (ClickMode == ClickMode.Release && IsPointerWithinAssociatedObject(e))
+            if (ClickMode == ClickMode.Release && IsPointerWithinResolvedSource(e))
             {
                 ExecuteClick(e.KeyModifiers);
             }
@@ -220,7 +223,7 @@ public class ClickEventTrigger : StyledElementTrigger<Control>
 
     private void OnKeyDown(object? sender, KeyEventArgs e)
     {
-        if (AssociatedObject is not { IsEffectivelyEnabled: true } associatedObject)
+        if (_resolvedSourceControl is not { IsEffectivelyEnabled: true } sourceControl)
         {
             return;
         }
@@ -228,13 +231,13 @@ public class ClickEventTrigger : StyledElementTrigger<Control>
         switch (e.Key)
         {
             case Key.Enter:
-                if (associatedObject.IsFocused && ExecuteClick(e.KeyModifiers))
+                if (sourceControl.IsFocused && ExecuteClick(e.KeyModifiers))
                 {
                     SetHandled(e);
                 }
                 break;
             case Key.Space:
-                if (associatedObject.IsFocused)
+                if (sourceControl.IsFocused)
                 {
                     if (ClickMode == ClickMode.Press)
                     {
@@ -246,7 +249,7 @@ public class ClickEventTrigger : StyledElementTrigger<Control>
                 }
                 break;
             case Key.Escape:
-                if (TryGetResolvedFlyout() is { } flyout && IsFlyoutOpenForAssociatedObject(flyout))
+                if (TryGetResolvedFlyout() is { } flyout && IsFlyoutOpenForResolvedSource(flyout))
                 {
                     flyout.Hide();
                 }
@@ -256,12 +259,12 @@ public class ClickEventTrigger : StyledElementTrigger<Control>
 
     private void OnKeyUp(object? sender, KeyEventArgs e)
     {
-        if (AssociatedObject is not { IsEffectivelyEnabled: true } associatedObject)
+        if (_resolvedSourceControl is not { IsEffectivelyEnabled: true } sourceControl)
         {
             return;
         }
 
-        if (e.Key == Key.Space && associatedObject.IsFocused)
+        if (e.Key == Key.Space && sourceControl.IsFocused)
         {
             if (ClickMode == ClickMode.Release)
             {
@@ -275,11 +278,11 @@ public class ClickEventTrigger : StyledElementTrigger<Control>
 
     private void OnRootKeyDown(object? sender, KeyEventArgs e)
     {
-        if (AssociatedObject is null
+        if (_resolvedSourceControl is null
             || (!IsDefault && !IsCancel)
-            || !AssociatedObject.IsEffectivelyVisible
-            || !AssociatedObject.IsEffectivelyEnabled
-            || IsSourceInsideAssociatedObject(e.Source))
+            || !_resolvedSourceControl.IsEffectivelyVisible
+            || !_resolvedSourceControl.IsEffectivelyEnabled
+            || IsSourceInsideResolvedSource(e.Source))
         {
             return;
         }
@@ -296,15 +299,15 @@ public class ClickEventTrigger : StyledElementTrigger<Control>
 
     private bool ExecuteClick(KeyModifiers currentModifiers)
     {
-        if (!IsEnabled || AssociatedObject is not { IsEffectivelyEnabled: true } associatedObject || !MatchesModifiers(currentModifiers))
+        if (!IsEnabled || _resolvedSourceControl is not { IsEffectivelyEnabled: true } sourceControl || !MatchesModifiers(currentModifiers))
         {
             return false;
         }
 
-        ToggleFlyout(associatedObject);
+        ToggleFlyout(sourceControl);
 
-        var clickArgs = new RoutedEventArgs(Button.ClickEvent, associatedObject);
-        Interaction.ExecuteActions(associatedObject, Actions, clickArgs);
+        var clickArgs = new RoutedEventArgs(Button.ClickEvent, sourceControl);
+        Interaction.ExecuteActions(sourceControl, Actions, clickArgs);
         return true;
     }
 
@@ -316,7 +319,7 @@ public class ClickEventTrigger : StyledElementTrigger<Control>
             return;
         }
 
-        if (IsFlyoutOpenForAssociatedObject(flyout))
+        if (IsFlyoutOpenForResolvedSource(flyout))
         {
             flyout.Hide();
         }
@@ -333,34 +336,34 @@ public class ClickEventTrigger : StyledElementTrigger<Control>
             return Flyout;
         }
 
-        return UseAttachedFlyout && AssociatedObject is not null
-            ? FlyoutBase.GetAttachedFlyout(AssociatedObject)
+        return UseAttachedFlyout && _resolvedSourceControl is not null
+            ? FlyoutBase.GetAttachedFlyout(_resolvedSourceControl)
             : null;
     }
 
-    private bool IsFlyoutOpenForAssociatedObject()
+    private bool IsFlyoutOpenForResolvedSource()
     {
-        return IsFlyoutOpenForAssociatedObject(TryGetResolvedFlyout());
+        return IsFlyoutOpenForResolvedSource(TryGetResolvedFlyout());
     }
 
-    private bool IsFlyoutOpenForAssociatedObject(FlyoutBase? flyout)
+    private bool IsFlyoutOpenForResolvedSource(FlyoutBase? flyout)
     {
         return flyout is not null
                && flyout.IsOpen
-               && ReferenceEquals(flyout.Target, AssociatedObject);
+               && ReferenceEquals(flyout.Target, _resolvedSourceControl);
     }
 
-    private bool IsPointerWithinAssociatedObject(PointerReleasedEventArgs e)
+    private bool IsPointerWithinResolvedSource(PointerReleasedEventArgs e)
     {
-        if (AssociatedObject is null)
+        if (_resolvedSourceControl is null)
         {
             return false;
         }
 
-        var position = e.GetPosition(AssociatedObject);
-        foreach (var visual in AssociatedObject.GetVisualsAt(position))
+        var position = e.GetPosition(_resolvedSourceControl);
+        foreach (var visual in _resolvedSourceControl.GetVisualsAt(position))
         {
-            if (ReferenceEquals(visual, AssociatedObject) || AssociatedObject.IsVisualAncestorOf(visual))
+            if (ReferenceEquals(visual, _resolvedSourceControl) || _resolvedSourceControl.IsVisualAncestorOf(visual))
             {
                 return true;
             }
@@ -375,14 +378,14 @@ public class ClickEventTrigger : StyledElementTrigger<Control>
         return requiredModifiers is null || requiredModifiers.Value == currentModifiers;
     }
 
-    private bool IsSourceInsideAssociatedObject(object? source)
+    private bool IsSourceInsideResolvedSource(object? source)
     {
-        if (AssociatedObject is null || source is not Visual sourceVisual)
+        if (_resolvedSourceControl is null || source is not Visual sourceVisual)
         {
             return false;
         }
 
-        return ReferenceEquals(sourceVisual, AssociatedObject) || AssociatedObject.IsVisualAncestorOf(sourceVisual);
+        return ReferenceEquals(sourceVisual, _resolvedSourceControl) || _resolvedSourceControl.IsVisualAncestorOf(sourceVisual);
     }
 
     private void SetHandled(RoutedEventArgs e)
@@ -395,8 +398,9 @@ public class ClickEventTrigger : StyledElementTrigger<Control>
 
     private void UpdateRootSubscription()
     {
-        if (AssociatedObject is null)
+        if (_resolvedSourceControl is null)
         {
+            DetachRootSubscription();
             return;
         }
 
@@ -406,7 +410,7 @@ public class ClickEventTrigger : StyledElementTrigger<Control>
             return;
         }
 
-        var rootInputElement = AssociatedObject.GetVisualRoot() as IInputElement;
+        var rootInputElement = _resolvedSourceControl.GetVisualRoot() as IInputElement;
         if (ReferenceEquals(_rootInputElement, rootInputElement))
         {
             return;
@@ -421,6 +425,55 @@ public class ClickEventTrigger : StyledElementTrigger<Control>
 
         _rootInputElement = rootInputElement;
         _rootInputElement.AddHandler(InputElement.KeyDownEvent, OnRootKeyDown);
+    }
+
+    private void SetResolvedSource(Control? newSource)
+    {
+        if (ReferenceEquals(_resolvedSourceControl, newSource))
+        {
+            return;
+        }
+
+        _isPressed = false;
+
+        if (_resolvedSourceControl is not null)
+        {
+            UnregisterInputHandlers(_resolvedSourceControl);
+        }
+
+        _resolvedSourceControl = newSource;
+
+        if (_resolvedSourceControl is not null)
+        {
+            RegisterInputHandlers(_resolvedSourceControl);
+        }
+
+        UpdateRootSubscription();
+    }
+
+    private Control? ResolveSourceControl()
+    {
+        return SourceControl ?? AssociatedObject;
+    }
+
+    private void RegisterInputHandlers(Control sourceControl)
+    {
+        sourceControl.AddHandler(InputElement.PointerPressedEvent, OnPointerPressed, RoutingStrategies.Bubble);
+        sourceControl.AddHandler(InputElement.PointerReleasedEvent, OnPointerReleased, RoutingStrategies.Bubble);
+        sourceControl.AddHandler(InputElement.PointerCaptureLostEvent, OnPointerCaptureLost, RoutingStrategies.Direct);
+        sourceControl.AddHandler(InputElement.KeyDownEvent, OnKeyDown, RoutingStrategies.Bubble);
+        sourceControl.AddHandler(InputElement.KeyUpEvent, OnKeyUp, RoutingStrategies.Bubble);
+        sourceControl.AddHandler(InputElement.LostFocusEvent, OnLostFocus, RoutingStrategies.Bubble);
+    }
+
+    private void UnregisterInputHandlers(Control sourceControl)
+    {
+        sourceControl.RemoveHandler(InputElement.PointerPressedEvent, OnPointerPressed);
+        sourceControl.RemoveHandler(InputElement.PointerReleasedEvent, OnPointerReleased);
+        sourceControl.RemoveHandler(InputElement.PointerCaptureLostEvent, OnPointerCaptureLost);
+        sourceControl.RemoveHandler(InputElement.KeyDownEvent, OnKeyDown);
+        sourceControl.RemoveHandler(InputElement.KeyUpEvent, OnKeyUp);
+        sourceControl.RemoveHandler(InputElement.LostFocusEvent, OnLostFocus);
     }
 
     private void DetachRootSubscription()
