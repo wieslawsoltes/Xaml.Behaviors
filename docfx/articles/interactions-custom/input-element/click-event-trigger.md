@@ -16,6 +16,7 @@ It supports:
 
 | Property | Type | Description |
 | --- | --- | --- |
+| `SourceControl` | `Control?` | Optional external source control (resolved by name). If set, click handling and execution use that control instead of the associated object. |
 | `ClickMode` | `ClickMode` | Determines whether the click fires on press or release. Default is `Release`. |
 | `KeyModifiers` | `KeyModifiers?` | Optional exact key-modifier filter. `null` means no filter. |
 | `IsDefault` | `bool` | If `true`, Enter on the visual root can trigger click when the control is visible and enabled. |
@@ -23,6 +24,8 @@ It supports:
 | `Flyout` | `FlyoutBase?` | Optional explicit flyout to toggle on click. |
 | `UseAttachedFlyout` | `bool` | If `true`, uses `FlyoutBase.AttachedFlyout` when `Flyout` is not set. Default is `true`. |
 | `HandleEvent` | `bool` | If `true`, marks handled at button-like decision points. Default is `true`. |
+
+If `SourceControl` is not set, `ClickEventTrigger` uses the associated object.
 
 ## Example
 
@@ -36,6 +39,32 @@ It supports:
         </ClickEventTrigger>
     </Interaction.Behaviors>
 </Border>
+```
+
+## SourceControl Example
+
+```xml
+<StackPanel Orientation="Horizontal" Spacing="8">
+    <Border Name="SourceControlSourceTarget"
+            Width="300"
+            Height="72"
+            Background="LightCyan"
+            Focusable="True" />
+
+    <Border Width="300"
+            Height="72"
+            Background="PowderBlue"
+            Focusable="True">
+        <Interaction.Behaviors>
+            <ClickEventTrigger SourceControl="SourceControlSourceTarget">
+                <InvokeCommandAction Command="{Binding SourceControlClickCommand}" />
+            </ClickEventTrigger>
+        </Interaction.Behaviors>
+        <TextBlock HorizontalAlignment="Center"
+                   VerticalAlignment="Center"
+                   Text="Behavior host (source is external)" />
+    </Border>
+</StackPanel>
 ```
 
 ## Open/Save Picker + MVVM Commands
