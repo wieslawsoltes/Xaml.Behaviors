@@ -38,6 +38,17 @@
     </Border>
 
     <StackPanel Orientation="Horizontal" Spacing="8">
+      <Border Name="SourceControlSourceTarget" Width="220" Height="70" Background="LightCyan" Focusable="True" />
+      <Border Name="SourceControlHostTarget" Width="220" Height="70" Background="PowderBlue" Focusable="True">
+        <Interaction.Behaviors>
+          <ClickEventTrigger SourceControl="SourceControlSourceTarget">
+            <CallMethodAction TargetObject="{Binding}" MethodName="OnSourceControlClicked" />
+          </ClickEventTrigger>
+        </Interaction.Behaviors>
+      </Border>
+    </StackPanel>
+
+    <StackPanel Orientation="Horizontal" Spacing="8">
       <Border Name="SpaceReleaseTarget" Width="220" Height="70" Background="AliceBlue" Focusable="True">
         <Interaction.Behaviors>
           <ClickEventTrigger ClickMode="Release">

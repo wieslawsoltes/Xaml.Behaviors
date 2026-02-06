@@ -69,6 +69,20 @@ public class ClickEventTriggerTests
     }
 
     [AvaloniaFact]
+    public void ClickEventTrigger_SourceControl_UsesExternalSourceControl()
+    {
+        var window = new ClickEventTrigger001();
+
+        window.Show();
+
+        window.Click(window.SourceControlHostTarget);
+        Assert.Equal(0, window.SourceControlClicks);
+
+        window.Click(window.SourceControlSourceTarget);
+        Assert.Equal(1, window.SourceControlClicks);
+    }
+
+    [AvaloniaFact]
     public void ClickEventTrigger_SpaceHandling_WorksForPressAndReleaseModes()
     {
         var window = new ClickEventTrigger001();

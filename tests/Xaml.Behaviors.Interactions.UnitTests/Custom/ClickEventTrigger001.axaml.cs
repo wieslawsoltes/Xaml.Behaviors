@@ -7,6 +7,7 @@ public partial class ClickEventTrigger001 : Window
     public int ReleaseClicks { get; private set; }
     public int PressClicks { get; private set; }
     public int ModifierClicks { get; private set; }
+    public int SourceControlClicks { get; private set; }
     public int SpaceReleaseClicks { get; private set; }
     public int SpacePressClicks { get; private set; }
     public int DefaultClicks { get; private set; }
@@ -24,6 +25,8 @@ public partial class ClickEventTrigger001 : Window
     public void OnPressClicked() => PressClicks++;
 
     public void OnModifierClicked() => ModifierClicks++;
+
+    public void OnSourceControlClicked() => SourceControlClicks++;
 
     public void OnSpaceReleaseClicked() => SpaceReleaseClicks++;
 
