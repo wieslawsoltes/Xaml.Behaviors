@@ -12,13 +12,21 @@
 
 ## Usage
 
-Attach the behavior to the `ItemsControl`.
+Attach the behavior to individual items of the `ItemsControl`.
 
 ```xml
 <ListBox ItemsSource="{Binding Items}">
-    <Interaction.Behaviors>
-        <ListReorderDragBehavior />
-    </Interaction.Behaviors>
+    <ListBox.Styles>
+        <Style Selector="ListBoxItem">
+            <Setter Property="(Interaction.Behaviors)">
+                <BehaviorCollectionTemplate>
+                    <BehaviorCollection>
+                        <ListReorderDragBehavior Orientation="Vertical" />
+                    </BehaviorCollection>
+                </BehaviorCollectionTemplate>
+            </Setter>
+        </Style>
+    </ListBox.Styles>
     
     <ListBox.ItemTemplate>
         <DataTemplate>
