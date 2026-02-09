@@ -13,18 +13,16 @@
     <Border x:Name="AnimatedBorder" Width="100" Height="100" Background="SteelBlue">
       <Interaction.Behaviors>
         <PlayAnimationBehavior>
-          <!-- TODO: Error AVLN2200 Avalonia: Could not determine target type of Setter
           <PlayAnimationBehavior.Animation>
-            <Animation Duration="0:0:1" x:DataType="Visual">
+            <Animation Duration="0:0:1" x:SetterTargetType="Visual">
               <KeyFrame Cue="0%">
-                <Setter Property="{x:Static Visual.OpacityProperty}" Value="0" />
+                <Setter Property="Opacity" Value="0" />
               </KeyFrame>
               <KeyFrame Cue="100%">
-                <Setter Property="{x:Static Visual.OpacityProperty}" Value="1" />
+                <Setter Property="Opacity" Value="1" />
               </KeyFrame>
             </Animation>
           </PlayAnimationBehavior.Animation>
-          -->
         </PlayAnimationBehavior>
       </Interaction.Behaviors>
     </Border>
@@ -32,22 +30,20 @@
       <Interaction.Behaviors>
         <EventTriggerBehavior EventName="Click">
           <BeginAnimationAction TargetControl="{Binding #AnimatedBorder}">
-            <!-- TODO: Error AVLN2200 Avalonia: Could not determine target type of Setter
             <BeginAnimationAction.Animation>
-              <Animation Duration="0:0:1">
+              <Animation Duration="0:0:1" x:SetterTargetType="Visual">
                 <KeyFrame Cue="0%">
-                  <Setter Property="{x:Static Visual.RenderTransformProperty}">
+                  <Setter Property="RenderTransform">
                     <ScaleTransform ScaleX="1" ScaleY="1" />
                   </Setter>
                 </KeyFrame>
                 <KeyFrame Cue="100%">
-                  <Setter Property="{x:Static Visual.RenderTransformProperty}">
+                  <Setter Property="RenderTransform">
                     <ScaleTransform ScaleX="1.5" ScaleY="1.5" />
                   </Setter>
                 </KeyFrame>
               </Animation>
             </BeginAnimationAction.Animation>
-            -->
           </BeginAnimationAction>
         </EventTriggerBehavior>
       </Interaction.Behaviors>
