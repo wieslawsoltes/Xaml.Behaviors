@@ -15,6 +15,7 @@ namespace Avalonia.Xaml.Interactions.Custom;
 public class ClickEventTrigger : StyledElementTrigger<Control>
 {
     private bool _isPressed;
+    private bool _ownsPointerCapture;
     private Control? _resolvedSourceControl;
     private IInputElement? _rootInputElement;
 
@@ -65,6 +66,12 @@ public class ClickEventTrigger : StyledElementTrigger<Control>
     /// </summary>
     public static readonly StyledProperty<bool> HandleEventProperty =
         AvaloniaProperty.Register<ClickEventTrigger, bool>(nameof(HandleEvent), true);
+
+    /// <summary>
+    /// Identifies the <see cref="HandledEventsToo"/> avalonia property.
+    /// </summary>
+    public static readonly StyledProperty<bool> HandledEventsTooProperty =
+        AvaloniaProperty.Register<ClickEventTrigger, bool>(nameof(HandledEventsToo), false);
 
     /// <summary>
     /// Gets or sets the source control from which this trigger listens for click semantics.
@@ -141,6 +148,15 @@ public class ClickEventTrigger : StyledElementTrigger<Control>
         set => SetValue(HandleEventProperty, value);
     }
 
+    /// <summary>
+    /// Gets or sets whether this trigger should receive already handled routed events.
+    /// </summary>
+    public bool HandledEventsToo
+    {
+        get => GetValue(HandledEventsTooProperty);
+        set => SetValue(HandledEventsTooProperty, value);
+    }
+
     /// <inheritdoc />
     protected override void OnAttachedToVisualTree()
     {
@@ -154,6 +170,7 @@ public class ClickEventTrigger : StyledElementTrigger<Control>
         SetResolvedSource(null);
 
         _isPressed = false;
+        _ownsPointerCapture = false;
     }
 
     /// <inheritdoc />
@@ -164,6 +181,10 @@ public class ClickEventTrigger : StyledElementTrigger<Control>
         if (change.Property == SourceControlProperty)
         {
             SetResolvedSource(ResolveSourceControl());
+        }
+        else if (change.Property == HandledEventsTooProperty)
+        {
+            SetResolvedSource(ResolveSourceControl(), forceReattachHandlers: true);
         }
         else if (change.Property == IsDefaultProperty || change.Property == IsCancelProperty)
         {
@@ -187,7 +208,13 @@ public class ClickEventTrigger : StyledElementTrigger<Control>
         }
 
         _isPressed = true;
-        e.Pointer?.Capture(sourceControl);
+
+        if (ShouldCapturePointer(sourceControl))
+        {
+            e.Pointer?.Capture(sourceControl);
+            _ownsPointerCapture = true;
+        }
+
         SetHandled(e);
 
         if (ClickMode == ClickMode.Press)
@@ -201,7 +228,13 @@ public class ClickEventTrigger : StyledElementTrigger<Control>
         if (_isPressed && e.InitialPressMouseButton == MouseButton.Left)
         {
             _isPressed = false;
-            e.Pointer?.Capture(null);
+
+            if (_ownsPointerCapture)
+            {
+                e.Pointer?.Capture(null);
+                _ownsPointerCapture = false;
+            }
+
             SetHandled(e);
 
             if (ClickMode == ClickMode.Release && IsPointerWithinResolvedSource(e))
@@ -213,7 +246,11 @@ public class ClickEventTrigger : StyledElementTrigger<Control>
 
     private void OnPointerCaptureLost(object? sender, PointerCaptureLostEventArgs e)
     {
-        _isPressed = false;
+        if (_ownsPointerCapture)
+        {
+            _isPressed = false;
+            _ownsPointerCapture = false;
+        }
     }
 
     private void OnLostFocus(object? sender, RoutedEventArgs e)
@@ -307,8 +344,20 @@ public class ClickEventTrigger : StyledElementTrigger<Control>
         ToggleFlyout(sourceControl);
 
         var clickArgs = new RoutedEventArgs(Button.ClickEvent, sourceControl);
+        RaiseClickEventIfNeeded(sourceControl, clickArgs);
         Interaction.ExecuteActions(sourceControl, Actions, clickArgs);
         return true;
+    }
+
+    private static void RaiseClickEventIfNeeded(Control sourceControl, RoutedEventArgs clickArgs)
+    {
+        // Button-derived controls already raise ClickEvent through native control logic.
+        if (sourceControl is Button)
+        {
+            return;
+        }
+
+        sourceControl.RaiseEvent(clickArgs);
     }
 
     private void ToggleFlyout(Control associatedObject)
@@ -378,6 +427,17 @@ public class ClickEventTrigger : StyledElementTrigger<Control>
         return requiredModifiers is null || requiredModifiers.Value == currentModifiers;
     }
 
+    private bool ShouldCapturePointer(Control sourceControl)
+    {
+        // In non-invasive mode we should not capture the pointer, otherwise controls such as TextBox can lose native drag-selection behavior.
+        if (!HandleEvent)
+        {
+            return false;
+        }
+
+        return sourceControl is not TextBox;
+    }
+
     private bool IsSourceInsideResolvedSource(object? source)
     {
         if (_resolvedSourceControl is null || source is not Visual sourceVisual)
@@ -396,7 +456,7 @@ public class ClickEventTrigger : StyledElementTrigger<Control>
         }
     }
 
-    private void UpdateRootSubscription()
+    private void UpdateRootSubscription(bool forceReattach = false)
     {
         if (_resolvedSourceControl is null)
         {
@@ -411,7 +471,7 @@ public class ClickEventTrigger : StyledElementTrigger<Control>
         }
 
         var rootInputElement = _resolvedSourceControl.GetVisualRoot() as IInputElement;
-        if (ReferenceEquals(_rootInputElement, rootInputElement))
+        if (!forceReattach && ReferenceEquals(_rootInputElement, rootInputElement))
         {
             return;
         }
@@ -424,17 +484,36 @@ public class ClickEventTrigger : StyledElementTrigger<Control>
         }
 
         _rootInputElement = rootInputElement;
-        _rootInputElement.AddHandler(InputElement.KeyDownEvent, OnRootKeyDown);
+        _rootInputElement.AddHandler(
+            InputElement.KeyDownEvent,
+            OnRootKeyDown,
+            RoutingStrategies.Direct | RoutingStrategies.Bubble,
+            HandledEventsToo);
     }
 
-    private void SetResolvedSource(Control? newSource)
+    private void SetResolvedSource(Control? newSource, bool forceReattachHandlers = false)
     {
         if (ReferenceEquals(_resolvedSourceControl, newSource))
         {
+            if (forceReattachHandlers)
+            {
+                _isPressed = false;
+                _ownsPointerCapture = false;
+
+                if (_resolvedSourceControl is not null)
+                {
+                    UnregisterInputHandlers(_resolvedSourceControl);
+                    RegisterInputHandlers(_resolvedSourceControl);
+                }
+
+                UpdateRootSubscription(forceReattach: true);
+            }
+
             return;
         }
 
         _isPressed = false;
+        _ownsPointerCapture = false;
 
         if (_resolvedSourceControl is not null)
         {
@@ -458,12 +537,12 @@ public class ClickEventTrigger : StyledElementTrigger<Control>
 
     private void RegisterInputHandlers(Control sourceControl)
     {
-        sourceControl.AddHandler(InputElement.PointerPressedEvent, OnPointerPressed, RoutingStrategies.Bubble);
-        sourceControl.AddHandler(InputElement.PointerReleasedEvent, OnPointerReleased, RoutingStrategies.Bubble);
-        sourceControl.AddHandler(InputElement.PointerCaptureLostEvent, OnPointerCaptureLost, RoutingStrategies.Direct);
-        sourceControl.AddHandler(InputElement.KeyDownEvent, OnKeyDown, RoutingStrategies.Bubble);
-        sourceControl.AddHandler(InputElement.KeyUpEvent, OnKeyUp, RoutingStrategies.Bubble);
-        sourceControl.AddHandler(InputElement.LostFocusEvent, OnLostFocus, RoutingStrategies.Bubble);
+        sourceControl.AddHandler(InputElement.PointerPressedEvent, OnPointerPressed, RoutingStrategies.Bubble, HandledEventsToo);
+        sourceControl.AddHandler(InputElement.PointerReleasedEvent, OnPointerReleased, RoutingStrategies.Bubble, HandledEventsToo);
+        sourceControl.AddHandler(InputElement.PointerCaptureLostEvent, OnPointerCaptureLost, RoutingStrategies.Direct, HandledEventsToo);
+        sourceControl.AddHandler(InputElement.KeyDownEvent, OnKeyDown, RoutingStrategies.Bubble, HandledEventsToo);
+        sourceControl.AddHandler(InputElement.KeyUpEvent, OnKeyUp, RoutingStrategies.Bubble, HandledEventsToo);
+        sourceControl.AddHandler(InputElement.LostFocusEvent, OnLostFocus, RoutingStrategies.Bubble, HandledEventsToo);
     }
 
     private void UnregisterInputHandlers(Control sourceControl)
