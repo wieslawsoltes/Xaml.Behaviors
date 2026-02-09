@@ -105,11 +105,19 @@
 <li><strong><code>PlaceholderTemplate</code></strong>: An optional <code>DataTemplate</code> to display a visual placeholder at the insertion point while dragging.</li>
 </ul>
 <h2 id="usage">Usage</h2>
-<p>Attach the behavior to the <code>ItemsControl</code>.</p>
+<p>Attach the behavior to individual items of the <code>ItemsControl</code>.</p>
 <pre><code class="lang-xml">&lt;ListBox ItemsSource=&quot;{Binding Items}&quot;&gt;
-    &lt;Interaction.Behaviors&gt;
-        &lt;ListReorderDragBehavior /&gt;
-    &lt;/Interaction.Behaviors&gt;
+    &lt;ListBox.Styles&gt;
+        &lt;Style Selector=&quot;ListBoxItem&quot;&gt;
+            &lt;Setter Property=&quot;(Interaction.Behaviors)&quot;&gt;
+                &lt;BehaviorCollectionTemplate&gt;
+                    &lt;BehaviorCollection&gt;
+                        &lt;ListReorderDragBehavior Orientation=&quot;Vertical&quot; /&gt;
+                    &lt;/BehaviorCollection&gt;
+                &lt;/BehaviorCollectionTemplate&gt;
+            &lt;/Setter&gt;
+        &lt;/Style&gt;
+    &lt;/ListBox.Styles&gt;
     
     &lt;ListBox.ItemTemplate&gt;
         &lt;DataTemplate&gt;
