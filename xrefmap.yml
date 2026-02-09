@@ -5412,6 +5412,25 @@ references:
   commentId: F:Avalonia.Xaml.Interactions.Custom.ClickEventTrigger.HandleEventProperty
   fullName: Avalonia.Xaml.Interactions.Custom.ClickEventTrigger.HandleEventProperty
   nameWithType: ClickEventTrigger.HandleEventProperty
+- uid: Avalonia.Xaml.Interactions.Custom.ClickEventTrigger.HandledEventsToo
+  name: HandledEventsToo
+  href: api/Avalonia.Xaml.Interactions.Custom.ClickEventTrigger.html#Avalonia_Xaml_Interactions_Custom_ClickEventTrigger_HandledEventsToo
+  commentId: P:Avalonia.Xaml.Interactions.Custom.ClickEventTrigger.HandledEventsToo
+  fullName: Avalonia.Xaml.Interactions.Custom.ClickEventTrigger.HandledEventsToo
+  nameWithType: ClickEventTrigger.HandledEventsToo
+- uid: Avalonia.Xaml.Interactions.Custom.ClickEventTrigger.HandledEventsToo*
+  name: HandledEventsToo
+  href: api/Avalonia.Xaml.Interactions.Custom.ClickEventTrigger.html#Avalonia_Xaml_Interactions_Custom_ClickEventTrigger_HandledEventsToo_
+  commentId: Overload:Avalonia.Xaml.Interactions.Custom.ClickEventTrigger.HandledEventsToo
+  isSpec: "True"
+  fullName: Avalonia.Xaml.Interactions.Custom.ClickEventTrigger.HandledEventsToo
+  nameWithType: ClickEventTrigger.HandledEventsToo
+- uid: Avalonia.Xaml.Interactions.Custom.ClickEventTrigger.HandledEventsTooProperty
+  name: HandledEventsTooProperty
+  href: api/Avalonia.Xaml.Interactions.Custom.ClickEventTrigger.html#Avalonia_Xaml_Interactions_Custom_ClickEventTrigger_HandledEventsTooProperty
+  commentId: F:Avalonia.Xaml.Interactions.Custom.ClickEventTrigger.HandledEventsTooProperty
+  fullName: Avalonia.Xaml.Interactions.Custom.ClickEventTrigger.HandledEventsTooProperty
+  nameWithType: ClickEventTrigger.HandledEventsTooProperty
 - uid: Avalonia.Xaml.Interactions.Custom.ClickEventTrigger.IsCancel
   name: IsCancel
   href: api/Avalonia.Xaml.Interactions.Custom.ClickEventTrigger.html#Avalonia_Xaml_Interactions_Custom_ClickEventTrigger_IsCancel
