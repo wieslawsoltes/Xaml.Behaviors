@@ -24,4 +24,4 @@ The `InputElement` category contains the following interactions:
 * [TextInputMethodClientRequestedTrigger](text-input-method-client-requested-trigger.md)
 * [TextInputTrigger](text-input-trigger.md)
 
-The `ClickEventTrigger` article includes end-to-end examples that combine click emulation with `OpenFilePickerAction` and `SaveFilePickerAction`, wired to MVVM commands.
+The `ClickEventTrigger` article includes end-to-end examples for click emulation, `SourceControl`, `HandleEvent`/`HandledEventsToo` event-routing strategies, and picker actions wired to MVVM commands.

@@ -9,6 +9,7 @@ It supports:
 * Optional `IsDefault` and `IsCancel` root key handling
 * Optional flyout toggle behavior
 * Optional exact `KeyModifiers` filtering
+* Optional handled-event subscription with `HandledEventsToo`
 
 > Access-key internals are intentionally not emulated. This trigger uses only public Avalonia APIs.
 
@@ -24,8 +25,21 @@ It supports:
 | `Flyout` | `FlyoutBase?` | Optional explicit flyout to toggle on click. |
 | `UseAttachedFlyout` | `bool` | If `true`, uses `FlyoutBase.AttachedFlyout` when `Flyout` is not set. Default is `true`. |
 | `HandleEvent` | `bool` | If `true`, marks handled at button-like decision points. Default is `true`. |
+| `HandledEventsToo` | `bool` | If `true`, the trigger listens to routed events even when they were already marked handled by earlier handlers. Default is `false`. |
 
 If `SourceControl` is not set, `ClickEventTrigger` uses the associated object.
+
+## Event Handling Strategy (`HandleEvent` vs `HandledEventsToo`)
+
+Use these two properties together depending on the behavior you need:
+
+| Goal | `HandleEvent` | `HandledEventsToo` | Why |
+| --- | --- | --- | --- |
+| Button-like behavior on generic control | `true` (default) | `false` (default) | Trigger consumes the click semantics and avoids duplicate input handling. |
+| Keep native control behavior (Button/TextBox/etc.) and still run actions | `false` | Usually `true` | Native control logic is not suppressed, and trigger can still react if another handler marks input as handled first. |
+| Only react to unhandled routed events | any | `false` | Trigger ignores already-handled events and participates in normal bubbling only. |
+
+`SourceControl` and `HandledEventsToo` are safe to change at runtime. The trigger reattaches its handlers automatically when either value changes.
 
 ## Example
 
@@ -63,6 +77,70 @@ If `SourceControl` is not set, `ClickEventTrigger` uses the associated object.
         <TextBlock HorizontalAlignment="Center"
                    VerticalAlignment="Center"
                    Text="Behavior host (source is external)" />
+    </Border>
+</StackPanel>
+```
+
+## SourceControl + `HandledEventsToo` with a Button source
+
+Use this when a `Button` should keep its native click behavior while a separate host still runs trigger actions.
+
+```xml
+<StackPanel Orientation="Horizontal" Spacing="8">
+    <Button Name="ActionButton"
+            Width="280"
+            Content="Native Button source">
+        <Interaction.Behaviors>
+            <ClickEventTrigger HandleEvent="False" HandledEventsToo="True">
+                <InvokeCommandAction Command="{Binding SourceButtonCommand}" />
+            </ClickEventTrigger>
+        </Interaction.Behaviors>
+    </Button>
+
+    <Border Width="280"
+            Height="64"
+            Background="LightSkyBlue"
+            Focusable="True">
+        <Interaction.Behaviors>
+            <ClickEventTrigger SourceControl="ActionButton" HandledEventsToo="True">
+                <InvokeCommandAction Command="{Binding MirroredActionCommand}" />
+            </ClickEventTrigger>
+        </Interaction.Behaviors>
+        <TextBlock HorizontalAlignment="Center"
+                   VerticalAlignment="Center"
+                   Text="Host target (Button source)" />
+    </Border>
+</StackPanel>
+```
+
+## `TextBox` Example (preserve text input behavior)
+
+Use `HandleEvent="False"` so editing behavior remains intact, and `HandledEventsToo="True"` when you still want the trigger to observe input that may already be marked handled.
+
+```xml
+<StackPanel Orientation="Horizontal" Spacing="8">
+    <TextBox Name="SearchBox"
+             Width="280"
+             Text="{Binding Query, Mode=TwoWay}">
+        <Interaction.Behaviors>
+            <ClickEventTrigger HandleEvent="False" HandledEventsToo="True">
+                <InvokeCommandAction Command="{Binding TextBoxTriggerCommand}" />
+            </ClickEventTrigger>
+        </Interaction.Behaviors>
+    </TextBox>
+
+    <Border Width="280"
+            Height="64"
+            Background="CadetBlue"
+            Focusable="True">
+        <Interaction.Behaviors>
+            <ClickEventTrigger SourceControl="SearchBox" HandledEventsToo="True">
+                <InvokeCommandAction Command="{Binding SourceTextBoxCommand}" />
+            </ClickEventTrigger>
+        </Interaction.Behaviors>
+        <TextBlock HorizontalAlignment="Center"
+                   VerticalAlignment="Center"
+                   Text="Host target (TextBox source)" />
     </Border>
 </StackPanel>
 ```
