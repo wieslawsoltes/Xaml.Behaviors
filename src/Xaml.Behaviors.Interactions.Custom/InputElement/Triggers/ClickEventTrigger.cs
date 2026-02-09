@@ -246,8 +246,11 @@ public class ClickEventTrigger : StyledElementTrigger<Control>
 
     private void OnPointerCaptureLost(object? sender, PointerCaptureLostEventArgs e)
     {
-        _isPressed = false;
-        _ownsPointerCapture = false;
+        if (_ownsPointerCapture)
+        {
+            _isPressed = false;
+            _ownsPointerCapture = false;
+        }
     }
 
     private void OnLostFocus(object? sender, RoutedEventArgs e)

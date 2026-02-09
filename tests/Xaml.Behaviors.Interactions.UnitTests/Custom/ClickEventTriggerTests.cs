@@ -234,6 +234,19 @@ public class ClickEventTriggerTests
     }
 
     [AvaloniaFact]
+    public void ClickEventTrigger_HandleEventFalse_TextBox_PointerClick_FiresTriggerAndClickEvent()
+    {
+        var window = new ClickEventTrigger001();
+
+        window.Show();
+
+        window.Click(window.HandleEventFalseTextBoxTarget);
+
+        Assert.Equal(1, window.HandleEventFalseTextBoxClicks);
+        Assert.Equal(1, window.HandleEventFalseTextBoxClickEvents);
+    }
+
+    [AvaloniaFact]
     public void ClickEventTrigger_HandleEventFalse_TextBox_AllowsPointerDragSelection()
     {
         var window = new ClickEventTrigger001();
