@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using Avalonia.Controls.Primitives;
 using Avalonia.Headless;
@@ -201,6 +202,7 @@ public class ClickEventTriggerTests
 
         Assert.Equal(1, window.HandleEventFalseButtonClicks);
         Assert.Equal(1, window.HandleEventFalseButtonNativeClicks);
+        Assert.Equal(1, window.HandleEventFalseButtonClickEvents);
     }
 
     [AvaloniaFact]
@@ -227,7 +229,27 @@ public class ClickEventTriggerTests
         });
 
         Assert.Equal(1, window.HandleEventFalseTextBoxClicks);
+        Assert.Equal(1, window.HandleEventFalseTextBoxClickEvents);
         Assert.Equal(1, window.HandleEventFalseTextBoxBubbledKeyUp);
+    }
+
+    [AvaloniaFact]
+    public void ClickEventTrigger_HandleEventFalse_TextBox_AllowsPointerDragSelection()
+    {
+        var window = new ClickEventTrigger001();
+
+        window.Show();
+
+        var textBox = window.HandleEventFalseTextBoxTarget;
+        textBox.Focus();
+        textBox.CaretIndex = 0;
+
+        var y = textBox.Bounds.Height / 2;
+        window.MouseDown(textBox, new Point(4, y), MouseButton.Left);
+        window.MouseMove(textBox, new Point(textBox.Bounds.Width - 6, y), RawInputModifiers.LeftMouseButton);
+        window.MouseUp(textBox, new Point(textBox.Bounds.Width - 6, y), MouseButton.Left);
+
+        Assert.True(Math.Abs(textBox.SelectionEnd - textBox.SelectionStart) > 0);
     }
 
     [AvaloniaFact]

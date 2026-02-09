@@ -41,6 +41,18 @@ Use these two properties together depending on the behavior you need:
 
 `SourceControl` and `HandledEventsToo` are safe to change at runtime. The trigger reattaches its handlers automatically when either value changes.
 
+### Pointer Capture Guidance
+
+`ClickEventTrigger` now avoids pointer capture for `TextBox` sources and for non-invasive mode (`HandleEvent="False"`).
+
+Use this guidance:
+
+* If your source is editable (for example `TextBox`) and you need native drag-selection/caret behavior, set `HandleEvent="False"`.
+* If upstream handlers may mark events handled and you still want trigger actions, add `HandledEventsToo="True"`.
+* For non-editable controls, keep defaults unless you explicitly need native behavior to win.
+
+This prevents the trigger from stealing pointer ownership in text-editing scenarios while preserving action execution.
+
 ## Example
 
 ```xml

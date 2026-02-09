@@ -16,6 +16,8 @@ public partial class ClickEventTrigger001 : Window
     public int HandleEventFalseButtonClicks { get; private set; }
     public int HandleEventFalseTextBoxClicks { get; private set; }
     public int HandleEventFalseButtonNativeClicks { get; private set; }
+    public int HandleEventFalseButtonClickEvents { get; private set; }
+    public int HandleEventFalseTextBoxClickEvents { get; private set; }
     public int HandleEventFalseTextBoxBubbledKeyUp { get; private set; }
     public int SpaceReleaseClicks { get; private set; }
     public int SpacePressClicks { get; private set; }
@@ -28,6 +30,8 @@ public partial class ClickEventTrigger001 : Window
         InitializeComponent();
         DataContext = this;
         HandleEventFalseButtonTarget.Click += OnHandleEventFalseButtonNativeClick;
+        HandleEventFalseButtonTarget.AddHandler(Button.ClickEvent, OnHandleEventFalseButtonClickEvent, RoutingStrategies.Bubble);
+        HandleEventFalseTextBoxTarget.AddHandler(Button.ClickEvent, OnHandleEventFalseTextBoxClickEvent, RoutingStrategies.Bubble);
 
         AddHandler(
             InputElement.PointerPressedEvent,
@@ -120,6 +124,22 @@ public partial class ClickEventTrigger001 : Window
     private void OnHandleEventFalseButtonNativeClick(object? sender, RoutedEventArgs e)
     {
         HandleEventFalseButtonNativeClicks++;
+    }
+
+    private void OnHandleEventFalseButtonClickEvent(object? sender, RoutedEventArgs e)
+    {
+        if (IsSourceInsideTarget(e.Source, HandleEventFalseButtonTarget))
+        {
+            HandleEventFalseButtonClickEvents++;
+        }
+    }
+
+    private void OnHandleEventFalseTextBoxClickEvent(object? sender, RoutedEventArgs e)
+    {
+        if (IsSourceInsideTarget(e.Source, HandleEventFalseTextBoxTarget))
+        {
+            HandleEventFalseTextBoxClickEvents++;
+        }
     }
 
     private bool IsHandledEventsTooSource(object? source)

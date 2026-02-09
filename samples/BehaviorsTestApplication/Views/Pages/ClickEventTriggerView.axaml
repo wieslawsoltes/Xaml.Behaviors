@@ -112,7 +112,7 @@
       <TextBlock Name="SourceControlStatus" Text="SourceControl status: click the source target." />
 
       <TextBlock FontWeight="Bold" Text="HandledEventsToo" />
-      <TextBlock Text="Source controls use HandleEvent=False so native control behavior remains intact." />
+      <TextBlock Text="Source controls use HandleEvent=False so native control behavior remains intact (for TextBox, drag-selection still works)." />
       <StackPanel Orientation="Horizontal" Spacing="8">
         <Button Name="HandledEventsTooSourceTarget"
                 Width="300"
@@ -124,6 +124,11 @@
                                     PropertyName="Text"
                                     Value="Button source trigger fired with HandleEvent=False." />
             </ClickEventTrigger>
+            <RoutedEventTriggerBehavior RoutedEvent="{x:Static Button.ClickEvent}">
+              <ChangePropertyAction TargetObject="HandledEventsTooButtonSourceClickEventStatus"
+                                    PropertyName="Text"
+                                    Value="Button source raised Button.ClickEvent." />
+            </RoutedEventTriggerBehavior>
           </Interaction.Behaviors>
         </Button>
 
@@ -146,6 +151,7 @@
         </Border>
       </StackPanel>
       <TextBlock Name="HandledEventsTooButtonSourceStatus" Text="Button source status: waiting..." />
+      <TextBlock Name="HandledEventsTooButtonSourceClickEventStatus" Text="Button source click-event status: waiting..." />
       <TextBlock Name="HandledEventsTooButtonHostStatus" Text="Button host status: waiting..." />
 
       <StackPanel Orientation="Horizontal" Spacing="8">
@@ -158,6 +164,11 @@
                                     PropertyName="Text"
                                     Value="TextBox source trigger fired with HandleEvent=False." />
             </ClickEventTrigger>
+            <RoutedEventTriggerBehavior RoutedEvent="{x:Static Button.ClickEvent}">
+              <ChangePropertyAction TargetObject="HandledEventsTooTextBoxSourceClickEventStatus"
+                                    PropertyName="Text"
+                                    Value="TextBox source raised Button.ClickEvent." />
+            </RoutedEventTriggerBehavior>
           </Interaction.Behaviors>
         </TextBox>
 
@@ -180,6 +191,7 @@
         </Border>
       </StackPanel>
       <TextBlock Name="HandledEventsTooTextBoxSourceStatus" Text="TextBox source status: waiting..." />
+      <TextBlock Name="HandledEventsTooTextBoxSourceClickEventStatus" Text="TextBox source click-event status: waiting..." />
       <TextBlock Name="HandledEventsTooTextBoxHostStatus" Text="TextBox host status: waiting..." />
 
       <TextBlock FontWeight="Bold" Text="IsDefault / IsCancel" />

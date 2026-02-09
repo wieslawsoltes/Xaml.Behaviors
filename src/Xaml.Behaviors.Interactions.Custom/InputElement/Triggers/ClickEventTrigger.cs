@@ -15,6 +15,7 @@ namespace Avalonia.Xaml.Interactions.Custom;
 public class ClickEventTrigger : StyledElementTrigger<Control>
 {
     private bool _isPressed;
+    private bool _ownsPointerCapture;
     private Control? _resolvedSourceControl;
     private IInputElement? _rootInputElement;
 
@@ -169,6 +170,7 @@ public class ClickEventTrigger : StyledElementTrigger<Control>
         SetResolvedSource(null);
 
         _isPressed = false;
+        _ownsPointerCapture = false;
     }
 
     /// <inheritdoc />
@@ -206,7 +208,13 @@ public class ClickEventTrigger : StyledElementTrigger<Control>
         }
 
         _isPressed = true;
-        e.Pointer?.Capture(sourceControl);
+
+        if (ShouldCapturePointer(sourceControl))
+        {
+            e.Pointer?.Capture(sourceControl);
+            _ownsPointerCapture = true;
+        }
+
         SetHandled(e);
 
         if (ClickMode == ClickMode.Press)
@@ -220,7 +228,13 @@ public class ClickEventTrigger : StyledElementTrigger<Control>
         if (_isPressed && e.InitialPressMouseButton == MouseButton.Left)
         {
             _isPressed = false;
-            e.Pointer?.Capture(null);
+
+            if (_ownsPointerCapture)
+            {
+                e.Pointer?.Capture(null);
+                _ownsPointerCapture = false;
+            }
+
             SetHandled(e);
 
             if (ClickMode == ClickMode.Release && IsPointerWithinResolvedSource(e))
@@ -233,6 +247,7 @@ public class ClickEventTrigger : StyledElementTrigger<Control>
     private void OnPointerCaptureLost(object? sender, PointerCaptureLostEventArgs e)
     {
         _isPressed = false;
+        _ownsPointerCapture = false;
     }
 
     private void OnLostFocus(object? sender, RoutedEventArgs e)
@@ -326,8 +341,20 @@ public class ClickEventTrigger : StyledElementTrigger<Control>
         ToggleFlyout(sourceControl);
 
         var clickArgs = new RoutedEventArgs(Button.ClickEvent, sourceControl);
+        RaiseClickEventIfNeeded(sourceControl, clickArgs);
         Interaction.ExecuteActions(sourceControl, Actions, clickArgs);
         return true;
+    }
+
+    private static void RaiseClickEventIfNeeded(Control sourceControl, RoutedEventArgs clickArgs)
+    {
+        // Button-derived controls already raise ClickEvent through native control logic.
+        if (sourceControl is Button)
+        {
+            return;
+        }
+
+        sourceControl.RaiseEvent(clickArgs);
     }
 
     private void ToggleFlyout(Control associatedObject)
@@ -397,6 +424,17 @@ public class ClickEventTrigger : StyledElementTrigger<Control>
         return requiredModifiers is null || requiredModifiers.Value == currentModifiers;
     }
 
+    private bool ShouldCapturePointer(Control sourceControl)
+    {
+        // In non-invasive mode we should not capture the pointer, otherwise controls such as TextBox can lose native drag-selection behavior.
+        if (!HandleEvent)
+        {
+            return false;
+        }
+
+        return sourceControl is not TextBox;
+    }
+
     private bool IsSourceInsideResolvedSource(object? source)
     {
         if (_resolvedSourceControl is null || source is not Visual sourceVisual)
@@ -457,6 +495,7 @@ public class ClickEventTrigger : StyledElementTrigger<Control>
             if (forceReattachHandlers)
             {
                 _isPressed = false;
+                _ownsPointerCapture = false;
 
                 if (_resolvedSourceControl is not null)
                 {
@@ -471,6 +510,7 @@ public class ClickEventTrigger : StyledElementTrigger<Control>
         }
 
         _isPressed = false;
+        _ownsPointerCapture = false;
 
         if (_resolvedSourceControl is not null)
         {
