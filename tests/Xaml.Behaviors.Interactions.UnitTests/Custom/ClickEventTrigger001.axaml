@@ -49,6 +49,46 @@
     </StackPanel>
 
     <StackPanel Orientation="Horizontal" Spacing="8">
+      <Button Name="HandledEventsTooSourceTarget" Width="220" Height="36" Content="HandledEventsToo button source" />
+      <Border Name="HandledEventsTooHostTarget" Width="220" Height="70" Background="SkyBlue" Focusable="True">
+        <Interaction.Behaviors>
+          <ClickEventTrigger SourceControl="HandledEventsTooSourceTarget">
+            <CallMethodAction TargetObject="{Binding}" MethodName="OnHandledEventsTooClicked" />
+          </ClickEventTrigger>
+        </Interaction.Behaviors>
+      </Border>
+    </StackPanel>
+
+    <StackPanel Orientation="Horizontal" Spacing="8">
+      <TextBox Name="HandledEventsTooTextBoxSourceTarget" Width="220" Text="HandledEventsToo TextBox source" />
+      <Border Name="HandledEventsTooTextBoxHostTarget" Width="220" Height="70" Background="CadetBlue" Focusable="True">
+        <Interaction.Behaviors>
+          <ClickEventTrigger SourceControl="HandledEventsTooTextBoxSourceTarget">
+            <CallMethodAction TargetObject="{Binding}" MethodName="OnHandledEventsTooTextBoxClicked" />
+          </ClickEventTrigger>
+        </Interaction.Behaviors>
+      </Border>
+    </StackPanel>
+
+    <StackPanel Orientation="Horizontal" Spacing="8">
+      <Button Name="HandleEventFalseButtonTarget" Width="220" Height="36" Content="HandleEvent=False button">
+        <Interaction.Behaviors>
+          <ClickEventTrigger HandleEvent="False" HandledEventsToo="True">
+            <CallMethodAction TargetObject="{Binding}" MethodName="OnHandleEventFalseButtonClicked" />
+          </ClickEventTrigger>
+        </Interaction.Behaviors>
+      </Button>
+
+      <TextBox Name="HandleEventFalseTextBoxTarget" Width="220" Text="HandleEvent=False TextBox">
+        <Interaction.Behaviors>
+          <ClickEventTrigger HandleEvent="False" HandledEventsToo="True">
+            <CallMethodAction TargetObject="{Binding}" MethodName="OnHandleEventFalseTextBoxClicked" />
+          </ClickEventTrigger>
+        </Interaction.Behaviors>
+      </TextBox>
+    </StackPanel>
+
+    <StackPanel Orientation="Horizontal" Spacing="8">
       <Border Name="SpaceReleaseTarget" Width="220" Height="70" Background="AliceBlue" Focusable="True">
         <Interaction.Behaviors>
           <ClickEventTrigger ClickMode="Release">

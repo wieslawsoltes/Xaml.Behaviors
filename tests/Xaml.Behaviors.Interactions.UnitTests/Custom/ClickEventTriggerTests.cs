@@ -1,8 +1,10 @@
+using System.Linq;
 using Avalonia.Controls.Primitives;
 using Avalonia.Headless;
 using Avalonia.Headless.XUnit;
 using Avalonia.Input;
 using Avalonia.Interactivity;
+using Avalonia.Xaml.Interactions.Custom;
 using Xunit;
 
 namespace Avalonia.Xaml.Interactions.UnitTests.Custom;
@@ -80,6 +82,152 @@ public class ClickEventTriggerTests
 
         window.Click(window.SourceControlSourceTarget);
         Assert.Equal(1, window.SourceControlClicks);
+    }
+
+    [AvaloniaFact]
+    public void ClickEventTrigger_HandledEventsToo_DefaultFalse_AndPropertyChange_RewiresHandlers_ForButtonAndTextBoxSources()
+    {
+        var window = new ClickEventTrigger001();
+
+        window.Show();
+
+        var buttonTrigger = Avalonia.Xaml.Interactivity.Interaction.GetBehaviors(window.HandledEventsTooHostTarget)
+            .OfType<ClickEventTrigger>()
+            .Single();
+        var textBoxTrigger = Avalonia.Xaml.Interactivity.Interaction.GetBehaviors(window.HandledEventsTooTextBoxHostTarget)
+            .OfType<ClickEventTrigger>()
+            .Single();
+
+        Assert.False(buttonTrigger.HandledEventsToo);
+        Assert.False(textBoxTrigger.HandledEventsToo);
+
+        window.Click(window.HandledEventsTooSourceTarget);
+        Assert.Equal(0, window.HandledEventsTooClicks);
+        window.Click(window.HandledEventsTooTextBoxSourceTarget);
+        Assert.Equal(0, window.HandledEventsTooTextBoxClicks);
+
+        buttonTrigger.HandledEventsToo = true;
+        textBoxTrigger.HandledEventsToo = true;
+
+        window.Click(window.HandledEventsTooSourceTarget);
+        Assert.Equal(1, window.HandledEventsTooClicks);
+        window.Click(window.HandledEventsTooTextBoxSourceTarget);
+        Assert.Equal(1, window.HandledEventsTooTextBoxClicks);
+
+        buttonTrigger.HandledEventsToo = false;
+        textBoxTrigger.HandledEventsToo = false;
+
+        window.Click(window.HandledEventsTooSourceTarget);
+        Assert.Equal(1, window.HandledEventsTooClicks);
+        window.Click(window.HandledEventsTooTextBoxSourceTarget);
+        Assert.Equal(1, window.HandledEventsTooTextBoxClicks);
+    }
+
+    [AvaloniaFact]
+    public void ClickEventTrigger_HandledEventsToo_AlsoControlsKeyboardHandlers()
+    {
+        var window = new ClickEventTrigger001();
+
+        window.Show();
+
+        var textBoxTrigger = Avalonia.Xaml.Interactivity.Interaction.GetBehaviors(window.HandledEventsTooTextBoxHostTarget)
+            .OfType<ClickEventTrigger>()
+            .Single();
+
+        window.HandledEventsTooTextBoxSourceTarget.Focus();
+        window.HandledEventsTooTextBoxSourceTarget.RaiseEvent(new KeyEventArgs
+        {
+            RoutedEvent = InputElement.KeyDownEvent,
+            Key = Key.Space,
+            KeyModifiers = KeyModifiers.None,
+            Source = window.HandledEventsTooTextBoxSourceTarget
+        });
+        window.HandledEventsTooTextBoxSourceTarget.RaiseEvent(new KeyEventArgs
+        {
+            RoutedEvent = InputElement.KeyUpEvent,
+            Key = Key.Space,
+            KeyModifiers = KeyModifiers.None,
+            Source = window.HandledEventsTooTextBoxSourceTarget
+        });
+        Assert.Equal(0, window.HandledEventsTooTextBoxClicks);
+
+        textBoxTrigger.HandledEventsToo = true;
+
+        window.HandledEventsTooTextBoxSourceTarget.Focus();
+        window.HandledEventsTooTextBoxSourceTarget.RaiseEvent(new KeyEventArgs
+        {
+            RoutedEvent = InputElement.KeyDownEvent,
+            Key = Key.Space,
+            KeyModifiers = KeyModifiers.None,
+            Source = window.HandledEventsTooTextBoxSourceTarget
+        });
+        window.HandledEventsTooTextBoxSourceTarget.RaiseEvent(new KeyEventArgs
+        {
+            RoutedEvent = InputElement.KeyUpEvent,
+            Key = Key.Space,
+            KeyModifiers = KeyModifiers.None,
+            Source = window.HandledEventsTooTextBoxSourceTarget
+        });
+        Assert.Equal(1, window.HandledEventsTooTextBoxClicks);
+
+        textBoxTrigger.HandledEventsToo = false;
+
+        window.HandledEventsTooTextBoxSourceTarget.Focus();
+        window.HandledEventsTooTextBoxSourceTarget.RaiseEvent(new KeyEventArgs
+        {
+            RoutedEvent = InputElement.KeyDownEvent,
+            Key = Key.Space,
+            KeyModifiers = KeyModifiers.None,
+            Source = window.HandledEventsTooTextBoxSourceTarget
+        });
+        window.HandledEventsTooTextBoxSourceTarget.RaiseEvent(new KeyEventArgs
+        {
+            RoutedEvent = InputElement.KeyUpEvent,
+            Key = Key.Space,
+            KeyModifiers = KeyModifiers.None,
+            Source = window.HandledEventsTooTextBoxSourceTarget
+        });
+        Assert.Equal(1, window.HandledEventsTooTextBoxClicks);
+    }
+
+    [AvaloniaFact]
+    public void ClickEventTrigger_HandleEventFalse_Button_PreservesNativeClick()
+    {
+        var window = new ClickEventTrigger001();
+
+        window.Show();
+
+        window.Click(window.HandleEventFalseButtonTarget);
+
+        Assert.Equal(1, window.HandleEventFalseButtonClicks);
+        Assert.Equal(1, window.HandleEventFalseButtonNativeClicks);
+    }
+
+    [AvaloniaFact]
+    public void ClickEventTrigger_HandleEventFalse_TextBox_PreservesKeyBubbling()
+    {
+        var window = new ClickEventTrigger001();
+
+        window.Show();
+
+        window.HandleEventFalseTextBoxTarget.Focus();
+        window.HandleEventFalseTextBoxTarget.RaiseEvent(new KeyEventArgs
+        {
+            RoutedEvent = InputElement.KeyDownEvent,
+            Key = Key.Space,
+            KeyModifiers = KeyModifiers.None,
+            Source = window.HandleEventFalseTextBoxTarget
+        });
+        window.HandleEventFalseTextBoxTarget.RaiseEvent(new KeyEventArgs
+        {
+            RoutedEvent = InputElement.KeyUpEvent,
+            Key = Key.Space,
+            KeyModifiers = KeyModifiers.None,
+            Source = window.HandleEventFalseTextBoxTarget
+        });
+
+        Assert.Equal(1, window.HandleEventFalseTextBoxClicks);
+        Assert.Equal(1, window.HandleEventFalseTextBoxBubbledKeyUp);
     }
 
     [AvaloniaFact]
