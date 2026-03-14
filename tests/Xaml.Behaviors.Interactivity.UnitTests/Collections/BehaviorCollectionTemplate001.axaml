@@ -1,19 +1,17 @@
 ﻿<Window xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:generic="clr-namespace:System.Collections.Generic;assembly=System.Collections"
-        xmlns:system="clr-namespace:System;assembly=System.Runtime"
         x:Class="Avalonia.Xaml.Interactivity.UnitTests.BehaviorCollectionTemplate001"
         Title="BehaviorCollectionTemplate001">
   <Window.Resources>
     <SolidColorBrush x:Key="RedBrush" Color="Red" />
   </Window.Resources>
   <Window.Styles>
-    <Style Selector="ListBox.red > ListBoxItem">
+    <Style Selector="Button.red">
       <Setter Property="(Interaction.Behaviors)">
         <BehaviorCollectionTemplate>
           <BehaviorCollection>
-            <EventTriggerBehavior EventName="KeyDown">
-              <ChangePropertyAction PropertyName="Background" 
+            <EventTriggerBehavior EventName="Click">
+              <ChangePropertyAction PropertyName="Background"
                                     Value="{StaticResource RedBrush}" />
             </EventTriggerBehavior>
           </BehaviorCollection>
@@ -21,14 +19,9 @@
       </Setter>
     </Style>
   </Window.Styles>
-  <ListBox Name="TargetListBox"
-           Classes="red">
-    <ListBox.ItemsSource>
-      <generic:List x:TypeArguments="x:String">
-        <system:String>Item1</system:String>
-        <system:String>Item2</system:String>
-        <system:String>Item3</system:String>
-      </generic:List>
-    </ListBox.ItemsSource>
-  </ListBox>
+  <StackPanel Spacing="8">
+    <Button Name="TargetButton1" Classes="red" Background="Transparent" Content="Item1" />
+    <Button Name="TargetButton2" Classes="red" Background="Transparent" Content="Item2" />
+    <Button Name="TargetButton3" Classes="red" Background="Transparent" Content="Item3" />
+  </StackPanel>
 </Window>
