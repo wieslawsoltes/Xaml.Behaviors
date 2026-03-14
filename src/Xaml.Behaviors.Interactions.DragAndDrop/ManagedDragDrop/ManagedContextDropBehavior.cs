@@ -326,19 +326,7 @@ public class ManagedContextDropBehavior : StyledElementBehavior<Control>
     {
         try
         {
-            var data = new DataTransfer();
-            if (svc.Payload is not null && svc.DataFormat is { })
-            {
-                var item = new DataTransferItem();
-                item.Set(DataFormat.CreateStringApplicationFormat(svc.DataFormat), svc.Payload.ToString() ?? string.Empty);
-
-                if (svc.Payload is string text)
-                {
-                    item.SetText(text);
-                }
-
-                data.Add(item);
-            }
+            IDataTransfer data = CreateDataTransfer(svc.Payload, svc.DataFormat);
             // Use Interactive (base for Control) as required by DragEventArgs
             var target = AssociatedObject as Interactive;
             if (target is null) return null;
@@ -351,6 +339,19 @@ public class ManagedContextDropBehavior : StyledElementBehavior<Control>
         {
             return null;
         }
+    }
+
+    internal static IDataTransfer CreateDataTransfer(object? payload, string? format)
+    {
+        if (payload is not null && format is not null)
+        {
+            // Avalonia 12 only exposes public application-format factories for string and byte[].
+            // Preserve the managed in-process payload in a custom IDataTransfer wrapper so callers
+            // can still recover the original object instead of a stringified surrogate.
+            return ManagedPayloadDataTransfer.Create(format, payload);
+        }
+
+        return new DataTransfer();
     }
 
     private void InvokeHandlerEnter()
