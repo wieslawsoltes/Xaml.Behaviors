@@ -20,18 +20,11 @@ public class FocusNextElementAction : StyledElementAction
         }
 
         var topLevel = TopLevel.GetTopLevel(source);
-        var focusedElement = topLevel?.FocusManager?.GetFocusedElement();
-        if (topLevel is not null && focusedElement is not null)
+        var current = topLevel?.FocusManager?.GetFocusedElement() ?? source;
+        if (topLevel is not null
+            && FocusNavigationHelper.FindAdjacent(topLevel, current, NavigationDirection.Next, wrap: false) is { } next)
         {
-            topLevel.RaiseEvent(new KeyEventArgs
-            {
-                RoutedEvent = InputElement.KeyDownEvent,
-                Key = Key.Tab,
-                PhysicalKey = PhysicalKey.Tab,
-                KeyModifiers = KeyModifiers.None,
-                KeyDeviceType = KeyDeviceType.Keyboard,
-                Source = focusedElement
-            });
+            next.Focus(NavigationMethod.Tab, KeyModifiers.None);
         }
 
         return null;
