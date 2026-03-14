@@ -12,7 +12,7 @@ public class PinchEndedGestureTrigger : RoutedEventTriggerBase<PinchEndedEventAr
 {
     /// <inheritdoc />
     protected override RoutedEvent<PinchEndedEventArgs> RoutedEvent
-        => Gestures.PinchEndedEvent;
+        => InputElement.PinchEndedEvent;
 
     static PinchEndedGestureTrigger()
     {

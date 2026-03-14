@@ -12,7 +12,7 @@ public class PinchGestureTrigger : RoutedEventTriggerBase<PinchEventArgs>
 {
     /// <inheritdoc />
     protected override RoutedEvent<PinchEventArgs> RoutedEvent
-        => Gestures.PinchEvent;
+        => InputElement.PinchEvent;
 
     static PinchGestureTrigger()
     {

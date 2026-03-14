@@ -37,7 +37,7 @@ public class NotificationManagerBehavior : AttachedToVisualTreeBehavior<Control>
         }
         else
         {
-            if (AssociatedObject?.GetVisualRoot() is TopLevel visualRootTopLevel)
+            if (TopLevel.GetTopLevel(AssociatedObject) is TopLevel visualRootTopLevel)
             {
                 NotificationManager = new WindowNotificationManager(visualRootTopLevel);
             }

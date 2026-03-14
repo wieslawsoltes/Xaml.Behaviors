@@ -22,7 +22,7 @@ public class ButtonExecuteCommandOnKeyDownBehavior : ExecuteCommandOnKeyBehavior
     /// <returns>A disposable used to detach the key handler.</returns>
     protected override System.IDisposable OnAttachedToVisualTreeOverride()
     {
-        if (AssociatedObject?.GetVisualRoot() is InputElement inputRoot)
+        if (TopLevel.GetTopLevel(AssociatedObject) is InputElement inputRoot)
         {
             return inputRoot.AddDisposableHandler(InputElement.KeyDownEvent, RootDefaultKeyDown);
         }

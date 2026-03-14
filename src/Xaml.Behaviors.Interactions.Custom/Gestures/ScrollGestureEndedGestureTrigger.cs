@@ -12,7 +12,7 @@ public class ScrollGestureEndedGestureTrigger : RoutedEventTriggerBase<ScrollGes
 {
     /// <inheritdoc />
     protected override RoutedEvent<ScrollGestureEndedEventArgs> RoutedEvent
-        => Gestures.ScrollGestureEndedEvent;
+        => InputElement.ScrollGestureEndedEvent;
 
     static ScrollGestureEndedGestureTrigger()
     {

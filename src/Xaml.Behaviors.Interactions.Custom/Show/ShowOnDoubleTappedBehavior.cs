@@ -19,7 +19,7 @@ public class ShowOnDoubleTappedBehavior : ShowBehaviorBase
     {
         var dispose = AssociatedObject?
             .AddDisposableHandler(
-                Gestures.DoubleTappedEvent, 
+                InputElement.DoubleTappedEvent,
                 AssociatedObject_DoubleTapped, 
                 EventRoutingStrategy);
 

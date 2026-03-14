@@ -18,12 +18,12 @@
 
     <StackPanel Spacing="4">
       <TextBlock Text="Sample file path" FontWeight="SemiBold" />
-      <TextBox Watermark="File path" Text="{Binding UploadFilePath}" />
+      <TextBox PlaceholderText="File path" Text="{Binding UploadFilePath}" />
     </StackPanel>
 
     <StackPanel Spacing="4">
       <TextBlock Text="Upload URL" FontWeight="SemiBold" />
-      <TextBox Watermark="Upload URL" Text="{Binding UploadUrl}" />
+      <TextBox PlaceholderText="Upload URL" Text="{Binding UploadUrl}" />
     </StackPanel>
 
     <StackPanel Spacing="6">

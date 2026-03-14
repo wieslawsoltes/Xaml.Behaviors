@@ -50,7 +50,7 @@ public class WindowStateTrigger : AttachedToVisualTreeTriggerBase<Control>
     /// <inheritdoc />
     protected override IDisposable OnAttachedToVisualTreeOverride()
     {
-        var window = Window ?? AssociatedObject?.GetVisualRoot() as Window;
+        var window = Window ?? TopLevel.GetTopLevel(AssociatedObject) as Window;
         if (window is null)
         {
             return DisposableAction.Empty;

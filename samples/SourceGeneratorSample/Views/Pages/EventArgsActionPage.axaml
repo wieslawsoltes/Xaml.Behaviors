@@ -25,7 +25,7 @@
 
     <StackPanel Spacing="6">
       <TextBlock Text="KeyDown" FontWeight="SemiBold" />
-      <TextBox Watermark="Focus here and press any key"
+      <TextBox PlaceholderText="Focus here and press any key"
                MinHeight="36">
         <Interaction.Behaviors>
           <i:EventTriggerBehavior EventName="KeyDown">

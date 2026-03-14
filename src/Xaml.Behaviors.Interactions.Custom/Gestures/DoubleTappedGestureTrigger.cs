@@ -12,7 +12,7 @@ public class DoubleTappedGestureTrigger : RoutedEventTriggerBase<TappedEventArgs
 {
     /// <inheritdoc />
     protected override RoutedEvent<TappedEventArgs> RoutedEvent 
-        => Gestures.DoubleTappedEvent;
+        => InputElement.DoubleTappedEvent;
  
     static DoubleTappedGestureTrigger()
     {

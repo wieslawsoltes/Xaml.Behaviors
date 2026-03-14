@@ -62,103 +62,46 @@ public class FocusTrapBehavior : Behavior<Control>
                 ? NavigationDirection.Previous
                 : NavigationDirection.Next;
 
-            var focusManager = TopLevel.GetTopLevel(AssociatedObject)?.FocusManager;
+            var topLevel = TopLevel.GetTopLevel(AssociatedObject);
+            var focusManager = topLevel?.FocusManager;
             if (focusManager == null)
             {
                 return;
             }
 
             var currentFocus = focusManager.GetFocusedElement() as Control;
-            
-            // If focus is not currently within our container, force it in.
+
             if (currentFocus == null || !AssociatedObject.IsVisualAncestorOf(currentFocus))
             {
-                // Focus the first focusable element in the container
-                var first = KeyboardNavigationHandler.GetNext(AssociatedObject, NavigationDirection.Next);
-                if (first != null)
+                var boundary = GetBoundaryElement(direction);
+                if (boundary != null)
                 {
-                    first.Focus();
+                    boundary.Focus();
                     e.Handled = true;
                 }
                 return;
             }
 
-            // Check if we are about to leave the container
-            var next = KeyboardNavigationHandler.GetNext(currentFocus, direction);
+            var next = topLevel is null
+                ? null
+                : FocusNavigationHelper.FindAdjacent(topLevel, currentFocus, direction, wrap: false);
 
-            if (next == null || !AssociatedObject.IsVisualAncestorOf(next as Visual))
+            if (next == null || next is not Visual nextVisual || !AssociatedObject.IsVisualAncestorOf(nextVisual))
             {
-                // Wrap around
-                var wrapTarget = direction == NavigationDirection.Next
-                    ? KeyboardNavigationHandler.GetNext(AssociatedObject, NavigationDirection.Next) // First
-                    : KeyboardNavigationHandler.GetNext(AssociatedObject, NavigationDirection.Previous); // Last (this might need better logic for "Last")
-
-                // Finding the "Last" element via GetNext(container, Previous) might not work as expected depending on implementation.
-                // A robust way is to find the first element and cycle, or just let Avalonia's FocusManager handle it if we can restrict the scope.
-                // But Avalonia doesn't have a "FocusScope" that traps strictly yet.
-                
-                if (direction == NavigationDirection.Previous)
+                var wrapTarget = GetBoundaryElement(direction);
+                if (wrapTarget is not null)
                 {
-                    // To find the last focusable element, we can try to find the first one and go backwards? 
-                    // Or just focus the container itself if it's focusable?
-                    // Let's try to find the last focusable descendant.
-                    // For now, let's just wrap to the first one for simplicity or try to find a better way.
-                    
-                    // Actually, KeyboardNavigationHandler.GetNext(AssociatedObject, NavigationDirection.Previous) should give the last focusable element inside if AssociatedObject is a focus scope?
-                    // No, it usually gives the element *before* AssociatedObject in the global order.
-                    
-                    // Let's try to find the first element, and if we are going backwards from the first element, go to the last.
-                    // But we don't know easily which is the last.
-                    
-                    // Simple approach: If we are at the edge, focus the other edge.
-                    
-                    // If we are going Next and next is outside, focus First.
-                    if (direction == NavigationDirection.Next)
-                    {
-                         var first = KeyboardNavigationHandler.GetNext(AssociatedObject, NavigationDirection.Next);
-                         if (first != null)
-                         {
-                             first.Focus();
-                             e.Handled = true;
-                         }
-                    }
-                    else // Previous
-                    {
-                        // If we are going Previous and next is outside, focus Last.
-                        // How to get Last? 
-                        // We can iterate all focusable elements? That's expensive.
-                        // Or we can just focus the container and let the user tab forward? No.
-                        
-                        // Let's just focus the first element for now as a fallback, effectively cycling to start.
-                        // Ideally we want to cycle to end.
-                        
-                        var first = KeyboardNavigationHandler.GetNext(AssociatedObject, NavigationDirection.Next);
-                        if (first != null)
-                        {
-                            first.Focus();
-                            e.Handled = true;
-                        }
-                    }
-                }
-                else
-                {
-                     if (wrapTarget != null && AssociatedObject.IsVisualAncestorOf(wrapTarget as Visual))
-                     {
-                         wrapTarget.Focus();
-                         e.Handled = true;
-                     }
-                     else
-                     {
-                         // Fallback to first
-                         var first = KeyboardNavigationHandler.GetNext(AssociatedObject, NavigationDirection.Next);
-                         if (first != null)
-                         {
-                             first.Focus();
-                             e.Handled = true;
-                         }
-                     }
+                    wrapTarget.Focus();
+                    e.Handled = true;
                 }
             }
         }
+    }
+
+    private Control? GetBoundaryElement(NavigationDirection direction)
+    {
+        return AssociatedObject is null
+            ? null
+            : FocusNavigationHelper.FindBoundary(AssociatedObject, direction) as Control;
     }
 }

@@ -12,7 +12,7 @@ public class PullGestureEndedGestureTrigger : RoutedEventTriggerBase<PullGesture
 {
     /// <inheritdoc />
     protected override RoutedEvent<PullGestureEndedEventArgs> RoutedEvent
-        => Gestures.PullGestureEndedEvent;
+        => InputElement.PullGestureEndedEvent;
 
     static PullGestureEndedGestureTrigger()
     {

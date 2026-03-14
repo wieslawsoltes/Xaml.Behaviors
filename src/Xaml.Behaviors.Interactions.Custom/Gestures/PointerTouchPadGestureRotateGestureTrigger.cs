@@ -12,7 +12,7 @@ public class PointerTouchPadGestureRotateGestureTrigger : RoutedEventTriggerBase
 {
     /// <inheritdoc />
     protected override RoutedEvent<PointerDeltaEventArgs> RoutedEvent
-        => Gestures.PointerTouchPadGestureRotateEvent;
+        => InputElement.PointerTouchPadGestureRotateEvent;
 
     static PointerTouchPadGestureRotateGestureTrigger()
     {

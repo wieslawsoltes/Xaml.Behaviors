@@ -20,7 +20,7 @@ public class ExecuteCommandOnPointerTouchPadGestureSwipeBehavior : ExecuteComman
         var control = SourceControl ?? AssociatedObject;
         var dispose = control?
             .AddDisposableHandler(
-                Gestures.PointerTouchPadGestureSwipeEvent,
+                InputElement.PointerTouchPadGestureSwipeEvent,
                 OnPointerTouchPadGestureSwipe,
                 EventRoutingStrategy);
 

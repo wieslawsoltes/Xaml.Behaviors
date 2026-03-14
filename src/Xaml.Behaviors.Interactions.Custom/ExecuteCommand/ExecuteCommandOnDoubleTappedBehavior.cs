@@ -20,7 +20,7 @@ public class ExecuteCommandOnDoubleTappedBehavior : ExecuteCommandRoutedEventBeh
         var control = SourceControl ?? AssociatedObject;
         var dispose = control?
             .AddDisposableHandler(
-                Gestures.DoubleTappedEvent,
+                InputElement.DoubleTappedEvent,
                 OnDoubleTapped,
                 EventRoutingStrategy);
 

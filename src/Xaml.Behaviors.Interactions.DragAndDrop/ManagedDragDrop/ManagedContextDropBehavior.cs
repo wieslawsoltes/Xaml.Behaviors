@@ -166,7 +166,7 @@ public class ManagedContextDropBehavior : StyledElementBehavior<Control>
             try
             {
                 Point local = default;
-                if (target.GetVisualRoot() is TopLevel tl)
+                if (TopLevel.GetTopLevel(target) is TopLevel tl)
                 {
                     var pTop = tl.PointToClient(svc.ScreenPosition);
                     local = tl.TranslatePoint(pTop, target) ?? default;
@@ -226,7 +226,7 @@ public class ManagedContextDropBehavior : StyledElementBehavior<Control>
             return;
         }
 
-        if (target.GetVisualRoot() is not TopLevel tl)
+        if (TopLevel.GetTopLevel(target) is not TopLevel tl)
         {
             if (_isOver)
             {
@@ -326,10 +326,18 @@ public class ManagedContextDropBehavior : StyledElementBehavior<Control>
     {
         try
         {
-            var data = new DataObject();
+            var data = new DataTransfer();
             if (svc.Payload is not null && svc.DataFormat is { })
             {
-                data.Set(svc.DataFormat, svc.Payload);
+                var item = new DataTransferItem();
+                item.Set(DataFormat.CreateStringApplicationFormat(svc.DataFormat), svc.Payload.ToString() ?? string.Empty);
+
+                if (svc.Payload is string text)
+                {
+                    item.SetText(text);
+                }
+
+                data.Add(item);
             }
             // Use Interactive (base for Control) as required by DragEventArgs
             var target = AssociatedObject as Interactive;
@@ -352,7 +360,7 @@ public class ManagedContextDropBehavior : StyledElementBehavior<Control>
         var svc = ManagedDragDropService.Instance;
         if (handler is null || target is null || !target.IsEffectivelyVisible || !AllowDrop || !svc.IsDragging || !string.Equals(svc.DataFormat, AcceptDataFormat, StringComparison.Ordinal))
             return;
-        var tl = target.GetVisualRoot() as TopLevel;
+        var tl = TopLevel.GetTopLevel(target);
         if (tl is null) return;
         var pTop = tl.PointToClient(svc.ScreenPosition);
         var pLocal = tl.TranslatePoint(pTop, target) ?? default;
@@ -378,7 +386,7 @@ public class ManagedContextDropBehavior : StyledElementBehavior<Control>
         var target = AssociatedObject;
         if (handler is null || target is null || !target.IsEffectivelyVisible || !_isOver)
             return;
-        var tl = target.GetVisualRoot() as TopLevel;
+        var tl = TopLevel.GetTopLevel(target);
         if (tl is null) return;
         var pTop = tl.PointToClient(svc.ScreenPosition);
         var pLocal = tl.TranslatePoint(pTop, target) ?? default;

@@ -20,7 +20,7 @@ public class ExecuteCommandOnScrollGestureBehavior : ExecuteCommandRoutedEventBe
         var control = SourceControl ?? AssociatedObject;
         var dispose = control?
             .AddDisposableHandler(
-                Gestures.ScrollGestureEvent,
+                InputElement.ScrollGestureEvent,
                 OnScrollGesture,
                 EventRoutingStrategy);
 

@@ -12,7 +12,7 @@ public class ScrollGestureInertiaStartingGestureTrigger : RoutedEventTriggerBase
 {
     /// <inheritdoc />
     protected override RoutedEvent<ScrollGestureInertiaStartingEventArgs> RoutedEvent
-        => Gestures.ScrollGestureInertiaStartingEvent;
+        => InputElement.ScrollGestureInertiaStartingEvent;
 
     static ScrollGestureInertiaStartingGestureTrigger()
     {

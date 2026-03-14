@@ -6,20 +6,20 @@ using Avalonia.Xaml.Interactivity;
 namespace Avalonia.Xaml.Interactions.Events;
 
 /// <summary>
-/// Behavior that handles the <see cref="Gestures.ScrollGestureEndedEvent"/>.
+/// Behavior that handles the <see cref="InputElement.ScrollGestureEndedEvent"/>.
 /// </summary>
 public abstract class ScrollGestureEndedEventBehavior : InteractiveBehaviorBase
 {
     /// <inheritdoc />
     protected override void OnAttachedToVisualTree()
     {
-        AssociatedObject?.AddHandler(Gestures.ScrollGestureEndedEvent, ScrollGestureEnded, RoutingStrategies);
+        AssociatedObject?.AddHandler(InputElement.ScrollGestureEndedEvent, ScrollGestureEnded, RoutingStrategies);
     }
 
     /// <inheritdoc />
     protected override void OnDetachedFromVisualTree()
     {
-        AssociatedObject?.RemoveHandler(Gestures.ScrollGestureEndedEvent, ScrollGestureEnded);
+        AssociatedObject?.RemoveHandler(InputElement.ScrollGestureEndedEvent, ScrollGestureEnded);
     }
 
     private void ScrollGestureEnded(object? sender, ScrollGestureEventArgs e)

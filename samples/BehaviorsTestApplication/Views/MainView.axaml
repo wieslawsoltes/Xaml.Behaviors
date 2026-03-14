@@ -14,7 +14,7 @@
   </UserControl.Styles>
   <DockPanel>
     <TextBox x:Name="SearchBox"
-             Watermark="Search pages..."
+             PlaceholderText="Search pages..."
              Margin="0,0,0,8"
              DockPanel.Dock="Top">
       <Interaction.Behaviors>

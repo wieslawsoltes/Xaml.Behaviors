@@ -20,7 +20,7 @@ public class ExecuteCommandOnPinchEndedBehavior : ExecuteCommandRoutedEventBehav
         var control = SourceControl ?? AssociatedObject;
         var dispose = control?
             .AddDisposableHandler(
-                Gestures.PinchEndedEvent,
+                InputElement.PinchEndedEvent,
                 OnPinchEnded,
                 EventRoutingStrategy);
 

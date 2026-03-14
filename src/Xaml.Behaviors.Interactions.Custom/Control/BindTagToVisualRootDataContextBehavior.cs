@@ -18,7 +18,7 @@ public class BindTagToVisualRootDataContextBehavior : DisposingBehavior<Control>
     /// <returns>A disposable that clears the binding.</returns>
     protected override IDisposable OnAttachedOverride()
     {
-        var visualRoot = (Control?)AssociatedObject?.GetVisualRoot();
+        var visualRoot = TopLevel.GetTopLevel(AssociatedObject);
         if (visualRoot is not null)
         {
             return BindDataContextToTag(visualRoot, AssociatedObject);
@@ -27,7 +27,7 @@ public class BindTagToVisualRootDataContextBehavior : DisposingBehavior<Control>
         return DisposableAction.Empty;
     }
 
-    private static IDisposable BindDataContextToTag(Control source, Control? target)
+    private static IDisposable BindDataContextToTag(StyledElement source, Control? target)
     {
         if (source is null)
         {

@@ -17,7 +17,7 @@ public class DragPreviewWindow : Window
     {
         CanResize = false;
         ShowInTaskbar = false;
-        SystemDecorations = SystemDecorations.None;
+        WindowDecorations = global::Avalonia.Controls.WindowDecorations.None;
         Topmost = true;
         Background = Brushes.Transparent;
         TransparencyLevelHint = new[] { WindowTransparencyLevel.Transparent };

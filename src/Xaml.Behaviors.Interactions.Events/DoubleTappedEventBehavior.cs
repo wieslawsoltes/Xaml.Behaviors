@@ -7,20 +7,20 @@ using Avalonia.Xaml.Interactivity;
 namespace Avalonia.Xaml.Interactions.Events;
 
 /// <summary>
-/// Behavior that listens for <see cref="Gestures.DoubleTappedEvent"/>.
+/// Behavior that listens for <see cref="InputElement.DoubleTappedEvent"/>.
 /// </summary>
 public abstract class DoubleTappedEventBehavior : InteractiveBehaviorBase
 {
     /// <inheritdoc />
     protected override void OnAttachedToVisualTree()
     {
-        AssociatedObject?.AddHandler(Gestures.DoubleTappedEvent, DoubleTapped, RoutingStrategies);
+        AssociatedObject?.AddHandler(InputElement.DoubleTappedEvent, DoubleTapped, RoutingStrategies);
     }
 
     /// <inheritdoc />
     protected override void OnDetachedFromVisualTree()
     {
-        AssociatedObject?.RemoveHandler(Gestures.DoubleTappedEvent, DoubleTapped);
+        AssociatedObject?.RemoveHandler(InputElement.DoubleTappedEvent, DoubleTapped);
     }
 
     private void DoubleTapped(object? sender, RoutedEventArgs e)

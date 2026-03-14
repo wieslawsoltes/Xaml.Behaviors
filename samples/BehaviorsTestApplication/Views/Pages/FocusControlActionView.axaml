@@ -10,7 +10,7 @@
     <vm:MainWindowViewModel />
   </Design.DataContext>
   <StackPanel>
-    <TextBox x:Name="TargetBox" Margin="5" Watermark="Focus me" />
+    <TextBox x:Name="TargetBox" Margin="5" PlaceholderText="Focus me" />
     <Button x:Name="FocusButton" Content="Focus TextBox" Margin="5">
       <Interaction.Behaviors>
         <EventTriggerBehavior EventName="Click" SourceObject="FocusButton">

@@ -24,18 +24,10 @@ public class FocusNextElementAction : StyledElementAction
         var topLevel = TopLevel.GetTopLevel(source);
         if (topLevel is not null)
         {
-            var focusManager = topLevel.FocusManager;
-            if (focusManager is not null)
+            var next = FocusNavigationHelper.FindAdjacent(topLevel, topLevel.FocusManager?.GetFocusedElement(), NavigationDirection.Next, wrap: false);
+            if (next is not null)
             {
-                var current = focusManager.GetFocusedElement();
-                if (current is not null)
-                {
-                    var next = KeyboardNavigationHandler.GetNext(current, NavigationDirection.Next);
-                    if (next is not null)
-                    {
-                        Dispatcher.UIThread.Post(() => next.Focus());
-                    }
-                }
+                Dispatcher.UIThread.Post(() => next.Focus());
             }
         }
 

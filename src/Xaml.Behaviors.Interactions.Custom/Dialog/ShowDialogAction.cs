@@ -57,7 +57,7 @@ public class ShowDialogAction : StyledElementAction
             return false;
         }
 
-        var owner = Owner ?? (sender as Visual)?.GetVisualRoot() as Window;
+        var owner = Owner ?? TopLevel.GetTopLevel(sender as Visual) as Window;
         if (owner is not null)
         {
             dialog.ShowDialog(owner);

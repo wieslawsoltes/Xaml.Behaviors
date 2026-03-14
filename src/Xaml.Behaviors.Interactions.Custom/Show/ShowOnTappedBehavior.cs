@@ -19,7 +19,7 @@ public class ShowOnTappedBehavior : ShowBehaviorBase
     {
         var dispose = AssociatedObject?
             .AddDisposableHandler(
-                Gestures.TappedEvent, 
+                InputElement.TappedEvent,
                 AssociatedObject_Tapped, 
                 EventRoutingStrategy);
 

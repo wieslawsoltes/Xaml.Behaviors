@@ -198,7 +198,7 @@
       <TextBlock Text="Focus the TextBox and press Enter or Escape." />
       <TextBox Name="KeyboardSource"
                Width="350"
-               Watermark="Focus here, then press Enter (default) or Escape (cancel)." />
+               PlaceholderText="Focus here, then press Enter (default) or Escape (cancel)." />
       <StackPanel Orientation="Horizontal" Spacing="8">
         <Border Name="DefaultTarget"
                 Width="250"

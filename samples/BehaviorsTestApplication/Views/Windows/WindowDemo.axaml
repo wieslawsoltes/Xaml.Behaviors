@@ -5,7 +5,7 @@
         mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="400"
         x:Class="BehaviorsTestApplication.Views.Windows.WindowDemo"
         Title="Window Demo" Height="400" Width="600"
-        SystemDecorations="None"
+        WindowDecorations="None"
         WindowStartupLocation="CenterOwner">
     <Grid RowDefinitions="Auto,*">
         <!-- Custom Title Bar -->

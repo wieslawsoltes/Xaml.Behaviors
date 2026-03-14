@@ -12,7 +12,7 @@ public class HoldingGestureTrigger : RoutedEventTriggerBase<HoldingRoutedEventAr
 {
     /// <inheritdoc />
     protected override RoutedEvent<HoldingRoutedEventArgs> RoutedEvent 
-        => Gestures.HoldingEvent;
+        => InputElement.HoldingEvent;
  
     static HoldingGestureTrigger()
     {

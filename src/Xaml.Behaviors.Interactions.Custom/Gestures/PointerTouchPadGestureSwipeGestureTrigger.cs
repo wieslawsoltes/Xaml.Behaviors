@@ -12,7 +12,7 @@ public class PointerTouchPadGestureSwipeGestureTrigger : RoutedEventTriggerBase<
 {
     /// <inheritdoc />
     protected override RoutedEvent<PointerDeltaEventArgs> RoutedEvent
-        => Gestures.PointerTouchPadGestureSwipeEvent;
+        => InputElement.PointerTouchPadGestureSwipeEvent;
 
     static PointerTouchPadGestureSwipeGestureTrigger()
     {

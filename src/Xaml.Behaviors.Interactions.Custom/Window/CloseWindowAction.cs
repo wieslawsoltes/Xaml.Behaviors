@@ -37,7 +37,7 @@ public class CloseWindowAction : StyledElementAction
 
         var window = TargetWindow
                      ?? sender as Window
-                     ?? (sender as Control)?.GetVisualRoot() as Window;
+                     ?? TopLevel.GetTopLevel(sender as Visual) as Window;
         if (window is null)
         {
             return false;
