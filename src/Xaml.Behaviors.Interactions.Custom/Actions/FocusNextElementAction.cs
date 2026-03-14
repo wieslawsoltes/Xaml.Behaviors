@@ -2,7 +2,6 @@
 // Licensed under the MIT license. See LICENSE file in the project root for details.
 using Avalonia.Controls;
 using Avalonia.Input;
-using Avalonia.Threading;
 using Avalonia.Xaml.Interactivity;
 
 namespace Avalonia.Xaml.Interactions.Custom;
@@ -15,20 +14,24 @@ public class FocusNextElementAction : StyledElementAction
     /// <inheritdoc />
     public override object? Execute(object? sender, object? parameter)
     {
-        var source = sender as Control;
-        if (source is null)
+        if (sender is not Control source)
         {
             return null;
         }
 
         var topLevel = TopLevel.GetTopLevel(source);
-        if (topLevel is not null)
+        var focusedElement = topLevel?.FocusManager?.GetFocusedElement();
+        if (topLevel is not null && focusedElement is not null)
         {
-            var next = FocusNavigationHelper.FindAdjacent(topLevel, topLevel.FocusManager?.GetFocusedElement(), NavigationDirection.Next, wrap: false);
-            if (next is not null)
+            topLevel.RaiseEvent(new KeyEventArgs
             {
-                Dispatcher.UIThread.Post(() => next.Focus());
-            }
+                RoutedEvent = InputElement.KeyDownEvent,
+                Key = Key.Tab,
+                PhysicalKey = PhysicalKey.Tab,
+                KeyModifiers = KeyModifiers.None,
+                KeyDeviceType = KeyDeviceType.Keyboard,
+                Source = focusedElement
+            });
         }
 
         return null;
