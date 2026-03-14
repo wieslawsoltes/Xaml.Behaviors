@@ -15,6 +15,6 @@ namespace SourceGeneratorSample
                 .UsePlatformDetect()
                 .WithInterFont()
                 .LogToTrace()
-                .UseReactiveUI();
+                .UseReactiveUI(_ => { });
     }
 }

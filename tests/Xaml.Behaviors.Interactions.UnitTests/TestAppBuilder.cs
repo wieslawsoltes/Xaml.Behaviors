@@ -12,6 +12,7 @@ public class TestAppBuilder
         return AppBuilder
             .Configure<App>()
             .UseSkia()
+            .UseHarfBuzz()
             .UseHeadless(new AvaloniaHeadlessPlatformOptions { UseHeadlessDrawing = false });
     }
 }
