@@ -6,6 +6,7 @@ using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.VisualTree;
 using Avalonia.Xaml.Interactivity;
+using EventRoutingStrategies = Avalonia.Interactivity.RoutingStrategies;
 
 namespace Avalonia.Xaml.Interactions.Custom;
 
@@ -30,6 +31,14 @@ public class ClickEventTrigger : StyledElementTrigger<Control>
     /// </summary>
     public static readonly StyledProperty<ClickMode> ClickModeProperty =
         AvaloniaProperty.Register<ClickEventTrigger, ClickMode>(nameof(ClickMode), ClickMode.Release);
+
+    /// <summary>
+    /// Identifies the <see cref="RoutingStrategies"/> avalonia property.
+    /// </summary>
+    public static readonly StyledProperty<EventRoutingStrategies> RoutingStrategiesProperty =
+        AvaloniaProperty.Register<ClickEventTrigger, EventRoutingStrategies>(
+            nameof(RoutingStrategies),
+            EventRoutingStrategies.Tunnel);
 
     /// <summary>
     /// Identifies the <see cref="KeyModifiers"/> avalonia property.
@@ -91,6 +100,15 @@ public class ClickEventTrigger : StyledElementTrigger<Control>
     {
         get => GetValue(ClickModeProperty);
         set => SetValue(ClickModeProperty, value);
+    }
+
+    /// <summary>
+    /// Gets or sets the routed event strategies used when subscribing to pointer and keyboard input events.
+    /// </summary>
+    public EventRoutingStrategies RoutingStrategies
+    {
+        get => GetValue(RoutingStrategiesProperty);
+        set => SetValue(RoutingStrategiesProperty, value);
     }
 
     /// <summary>
@@ -181,6 +199,14 @@ public class ClickEventTrigger : StyledElementTrigger<Control>
         if (change.Property == SourceControlProperty)
         {
             SetResolvedSource(ResolveSourceControl());
+        }
+        else if (change.Property == RoutingStrategiesProperty)
+        {
+            SetResolvedSource(ResolveSourceControl(), forceReattachHandlers: true);
+        }
+        else if (change.Property == HandleEventProperty)
+        {
+            SetResolvedSource(ResolveSourceControl(), forceReattachHandlers: true);
         }
         else if (change.Property == HandledEventsTooProperty)
         {
@@ -470,7 +496,7 @@ public class ClickEventTrigger : StyledElementTrigger<Control>
             return;
         }
 
-        var rootInputElement = _resolvedSourceControl.GetVisualRoot() as IInputElement;
+        var rootInputElement = TopLevel.GetTopLevel(_resolvedSourceControl) as IInputElement;
         if (!forceReattach && ReferenceEquals(_rootInputElement, rootInputElement))
         {
             return;
@@ -487,7 +513,7 @@ public class ClickEventTrigger : StyledElementTrigger<Control>
         _rootInputElement.AddHandler(
             InputElement.KeyDownEvent,
             OnRootKeyDown,
-            RoutingStrategies.Direct | RoutingStrategies.Bubble,
+            EventRoutingStrategies.Direct | EventRoutingStrategies.Bubble,
             HandledEventsToo);
     }
 
@@ -537,12 +563,14 @@ public class ClickEventTrigger : StyledElementTrigger<Control>
 
     private void RegisterInputHandlers(Control sourceControl)
     {
-        sourceControl.AddHandler(InputElement.PointerPressedEvent, OnPointerPressed, RoutingStrategies.Bubble, HandledEventsToo);
-        sourceControl.AddHandler(InputElement.PointerReleasedEvent, OnPointerReleased, RoutingStrategies.Bubble, HandledEventsToo);
-        sourceControl.AddHandler(InputElement.PointerCaptureLostEvent, OnPointerCaptureLost, RoutingStrategies.Direct, HandledEventsToo);
-        sourceControl.AddHandler(InputElement.KeyDownEvent, OnKeyDown, RoutingStrategies.Bubble, HandledEventsToo);
-        sourceControl.AddHandler(InputElement.KeyUpEvent, OnKeyUp, RoutingStrategies.Bubble, HandledEventsToo);
-        sourceControl.AddHandler(InputElement.LostFocusEvent, OnLostFocus, RoutingStrategies.Bubble, HandledEventsToo);
+        var inputRoutingStrategies = RoutingStrategies;
+
+        sourceControl.AddHandler(InputElement.PointerPressedEvent, OnPointerPressed, inputRoutingStrategies, HandledEventsToo);
+        sourceControl.AddHandler(InputElement.PointerReleasedEvent, OnPointerReleased, inputRoutingStrategies, HandledEventsToo);
+        sourceControl.AddHandler(InputElement.PointerCaptureLostEvent, OnPointerCaptureLost, EventRoutingStrategies.Direct, HandledEventsToo);
+        sourceControl.AddHandler(InputElement.KeyDownEvent, OnKeyDown, inputRoutingStrategies, HandledEventsToo);
+        sourceControl.AddHandler(InputElement.KeyUpEvent, OnKeyUp, inputRoutingStrategies, HandledEventsToo);
+        sourceControl.AddHandler(InputElement.LostFocusEvent, OnLostFocus, EventRoutingStrategies.Bubble, HandledEventsToo);
     }
 
     private void UnregisterInputHandlers(Control sourceControl)
