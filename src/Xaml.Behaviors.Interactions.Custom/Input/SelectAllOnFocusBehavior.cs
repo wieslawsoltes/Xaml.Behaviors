@@ -31,7 +31,7 @@ public class SelectAllOnFocusBehavior : Behavior<Control>
         }
     }
 
-    private void AssociatedObject_GotFocus(object? sender, GotFocusEventArgs e)
+    private void AssociatedObject_GotFocus(object? sender, FocusChangedEventArgs e)
     {
         if (AssociatedObject is TextBox textBox)
         {

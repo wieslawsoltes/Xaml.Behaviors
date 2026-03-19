@@ -24,7 +24,7 @@ public class TextBoxSelectAllOnGotFocusBehavior : StyledElementBehavior<TextBox>
         AssociatedObject?.RemoveHandler(InputElement.GotFocusEvent, AssociatedObject_GotFocus);
     }
 
-    private void AssociatedObject_GotFocus(object? sender, GotFocusEventArgs e)
+    private void AssociatedObject_GotFocus(object? sender, FocusChangedEventArgs e)
     {
         AssociatedObject?.SelectAll();
     }

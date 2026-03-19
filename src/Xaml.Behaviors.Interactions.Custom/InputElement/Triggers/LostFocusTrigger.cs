@@ -8,10 +8,10 @@ namespace Avalonia.Xaml.Interactions.Custom;
 /// <summary>
 /// 
 /// </summary>
-public class LostFocusTrigger : RoutedEventTriggerBase<RoutedEventArgs>
+public class LostFocusTrigger : RoutedEventTriggerBase<FocusChangedEventArgs>
 {
     /// <inheritdoc />
-    protected override RoutedEvent<RoutedEventArgs> RoutedEvent 
+    protected override RoutedEvent<FocusChangedEventArgs> RoutedEvent 
         => InputElement.LostFocusEvent;
 
     static LostFocusTrigger()

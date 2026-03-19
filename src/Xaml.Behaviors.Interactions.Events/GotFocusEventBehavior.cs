@@ -22,7 +22,7 @@ public abstract class GotFocusEventBehavior : InteractiveBehaviorBase
         AssociatedObject?.RemoveHandler(InputElement.GotFocusEvent, GotFocus);
     }
 
-    private void GotFocus(object? sender, GotFocusEventArgs e)
+    private void GotFocus(object? sender, FocusChangedEventArgs e)
     {
         OnGotFocus(sender, e);
     }
@@ -32,7 +32,7 @@ public abstract class GotFocusEventBehavior : InteractiveBehaviorBase
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="e"></param>
-    protected virtual void OnGotFocus(object? sender, GotFocusEventArgs e)
+    protected virtual void OnGotFocus(object? sender, FocusChangedEventArgs e)
     {
     }
 }

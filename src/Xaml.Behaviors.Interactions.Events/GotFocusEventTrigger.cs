@@ -22,7 +22,7 @@ public class GotFocusEventTrigger : InteractiveTriggerBase
         AssociatedObject?.RemoveHandler(InputElement.GotFocusEvent, OnGotFocus);
     }
 
-    private void OnGotFocus(object? sender, GotFocusEventArgs e)
+    private void OnGotFocus(object? sender, FocusChangedEventArgs e)
     {
         Execute(e);
     }

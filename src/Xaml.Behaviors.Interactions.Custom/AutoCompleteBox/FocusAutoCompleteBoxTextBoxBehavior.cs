@@ -28,7 +28,7 @@ public class FocusAutoCompleteBoxTextBoxBehavior : AttachedToVisualTreeBehavior<
         return DisposableAction.Create(() => AssociatedObject.GotFocus -= AssociatedObjectOnGotFocus);
     }
 
-    private void AssociatedObjectOnGotFocus(object? sender, GotFocusEventArgs e)
+    private void AssociatedObjectOnGotFocus(object? sender, FocusChangedEventArgs e)
     {
         var textBox = AssociatedObject?.GetVisualDescendants().OfType<TextBox>().FirstOrDefault();
         Dispatcher.UIThread.Post(() => textBox?.Focus());
