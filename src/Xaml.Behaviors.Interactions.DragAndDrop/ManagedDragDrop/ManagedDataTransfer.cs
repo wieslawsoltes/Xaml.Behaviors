@@ -46,7 +46,7 @@ internal sealed class ManagedPayloadDataTransferItem : IDataTransferItem, IAsync
         ArgumentNullException.ThrowIfNull(payload);
 
         _payload = payload;
-        _payloadFormat = ManagedDataFormatHelper.CreateLookupFormat(format);
+        _payloadFormat = ManagedDataFormatHelper.CreatePayloadFormat(format, payload);
         _formats = payload is string
             ? [_payloadFormat, DataFormat.Text]
             : [_payloadFormat];
@@ -77,13 +77,35 @@ internal sealed class ManagedPayloadDataTransferItem : IDataTransferItem, IAsync
 
 internal static class ManagedDataFormatHelper
 {
-    public static DataFormat CreateLookupFormat(string identifier)
+    public static IEnumerable<DataFormat> CreateLookupFormats(string identifier)
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(identifier);
 
-        return IsValidApplicationIdentifier(identifier)
-            ? DataFormat.CreateStringApplicationFormat(identifier)
-            : DataFormat.CreateStringPlatformFormat(identifier);
+        if (IsValidApplicationIdentifier(identifier))
+        {
+            yield return DataFormat.CreateBytesApplicationFormat(identifier);
+            yield return DataFormat.CreateStringApplicationFormat(identifier);
+            yield break;
+        }
+
+        yield return DataFormat.CreateBytesPlatformFormat(identifier);
+        yield return DataFormat.CreateStringPlatformFormat(identifier);
+    }
+
+    public static DataFormat CreatePayloadFormat(string identifier, object payload)
+    {
+        ArgumentException.ThrowIfNullOrWhiteSpace(identifier);
+        ArgumentNullException.ThrowIfNull(payload);
+
+        var isApplicationIdentifier = IsValidApplicationIdentifier(identifier);
+
+        return payload is byte[]
+            ? isApplicationIdentifier
+                ? DataFormat.CreateBytesApplicationFormat(identifier)
+                : DataFormat.CreateBytesPlatformFormat(identifier)
+            : isApplicationIdentifier
+                ? DataFormat.CreateStringApplicationFormat(identifier)
+                : DataFormat.CreateStringPlatformFormat(identifier);
     }
 
     private static bool IsValidApplicationIdentifier(string identifier)

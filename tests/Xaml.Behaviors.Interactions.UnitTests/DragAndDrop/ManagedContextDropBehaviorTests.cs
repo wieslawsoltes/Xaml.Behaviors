@@ -37,5 +37,17 @@ public class ManagedContextDropBehaviorTests
         Assert.Same(payload, dataTransfer.TryGetManagedValue<ManagedPayload>(format));
     }
 
+    [Fact]
+    public void ManagedDataTransferExtensions_Keep_ByteArray_Payload_Compatible_With_Avalonia_Byte_APIs()
+    {
+        const string format = "Managed.Bytes";
+        byte[] payload = [0x01, 0x02, 0x03];
+
+        IDataTransfer dataTransfer = ManagedPayloadDataTransfer.Create(format, payload);
+
+        Assert.Same(payload, dataTransfer.TryGetManagedValue(format));
+        Assert.Same(payload, dataTransfer.TryGetValue(DataFormat.CreateBytesApplicationFormat(format)));
+    }
+
     private sealed record ManagedPayload(string Value);
 }

@@ -103,6 +103,151 @@ public class FocusNextElementActionTests
         Assert.Equal(0, tabKeyDownCount);
     }
 
+    [AvaloniaFact]
+    public void Execute_Skips_None_TabNavigation_Children()
+    {
+        var before = CreateButton("Before");
+        var skippedChild = CreateButton("SkippedChild");
+        var after = CreateButton("After");
+
+        var noneContainer = new StackPanel
+        {
+            Children =
+            {
+                skippedChild
+            }
+        };
+
+        KeyboardNavigation.SetTabNavigation(noneContainer, KeyboardNavigationMode.None);
+
+        var window = new Window
+        {
+            Width = 240,
+            Height = 160,
+            Content = new StackPanel
+            {
+                Children =
+                {
+                    before,
+                    noneContainer,
+                    after
+                }
+            }
+        };
+
+        window.Show();
+        window.CaptureRenderedFrame();
+
+        Assert.True(before.Focus());
+
+        var action = new FocusNextElementAction();
+        action.Execute(before, null);
+
+        Dispatcher.UIThread.RunJobs();
+
+        Assert.Equal("After", (window.FocusManager?.GetFocusedElement() as Button)?.Content);
+    }
+
+    [AvaloniaFact]
+    public void Execute_Uses_TabOnceActiveElement_For_Once_Containers()
+    {
+        var before = CreateButton("Before");
+        var onceFirst = CreateButton("OnceFirst");
+        var onceSecond = CreateButton("OnceSecond");
+        var after = CreateButton("After");
+
+        var onceContainer = new StackPanel
+        {
+            Children =
+            {
+                onceFirst,
+                onceSecond
+            }
+        };
+
+        KeyboardNavigation.SetTabNavigation(onceContainer, KeyboardNavigationMode.Once);
+        KeyboardNavigation.SetTabOnceActiveElement(onceContainer, onceSecond);
+
+        var window = new Window
+        {
+            Width = 240,
+            Height = 160,
+            Content = new StackPanel
+            {
+                Children =
+                {
+                    before,
+                    onceContainer,
+                    after
+                }
+            }
+        };
+
+        window.Show();
+        window.CaptureRenderedFrame();
+
+        var action = new FocusNextElementAction();
+
+        Assert.True(before.Focus());
+        action.Execute(before, null);
+        Dispatcher.UIThread.RunJobs();
+        Assert.Equal("OnceSecond", (window.FocusManager?.GetFocusedElement() as Button)?.Content);
+
+        action.Execute(onceSecond, null);
+        Dispatcher.UIThread.RunJobs();
+        Assert.Equal("After", (window.FocusManager?.GetFocusedElement() as Button)?.Content);
+    }
+
+    [AvaloniaFact]
+    public void Execute_Respects_Local_TabNavigation_Subtree_Order()
+    {
+        var localFirst = CreateButton("LocalFirst");
+        localFirst.TabIndex = 10;
+
+        var localSecond = CreateButton("LocalSecond");
+        localSecond.TabIndex = 0;
+
+        var after = CreateButton("After");
+        after.TabIndex = 1;
+
+        var localContainer = new StackPanel
+        {
+            Children =
+            {
+                localFirst,
+                localSecond
+            }
+        };
+
+        KeyboardNavigation.SetTabNavigation(localContainer, KeyboardNavigationMode.Local);
+
+        var window = new Window
+        {
+            Width = 240,
+            Height = 160,
+            Content = new StackPanel
+            {
+                Children =
+                {
+                    localContainer,
+                    after
+                }
+            }
+        };
+
+        window.Show();
+        window.CaptureRenderedFrame();
+
+        Assert.True(localSecond.Focus());
+
+        var action = new FocusNextElementAction();
+        action.Execute(localSecond, null);
+
+        Dispatcher.UIThread.RunJobs();
+
+        Assert.Equal("LocalFirst", (window.FocusManager?.GetFocusedElement() as Button)?.Content);
+    }
+
     private static Button CreateButton(string content)
     {
         return new Button

@@ -18,14 +18,15 @@ public static class ManagedDataTransferExtensions
     {
         ArgumentNullException.ThrowIfNull(dataTransfer);
 
-        DataFormat managedFormat = ManagedDataFormatHelper.CreateLookupFormat(format);
-
         foreach (IDataTransferItem item in dataTransfer.Items)
         {
-            object? value = item.TryGetRaw(managedFormat);
-            if (value is not null)
+            foreach (DataFormat managedFormat in ManagedDataFormatHelper.CreateLookupFormats(format))
             {
-                return value;
+                object? value = item.TryGetRaw(managedFormat);
+                if (value is not null)
+                {
+                    return value;
+                }
             }
         }
 
@@ -54,7 +55,17 @@ public static class ManagedDataTransferExtensions
     public static object? TryGetManagedValue(this IDataTransferItem dataTransferItem, string format)
     {
         ArgumentNullException.ThrowIfNull(dataTransferItem);
-        return dataTransferItem.TryGetRaw(ManagedDataFormatHelper.CreateLookupFormat(format));
+
+        foreach (DataFormat managedFormat in ManagedDataFormatHelper.CreateLookupFormats(format))
+        {
+            object? value = dataTransferItem.TryGetRaw(managedFormat);
+            if (value is not null)
+            {
+                return value;
+            }
+        }
+
+        return null;
     }
 
     /// <summary>
