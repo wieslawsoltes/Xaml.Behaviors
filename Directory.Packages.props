@@ -1,8 +1,8 @@
 ﻿<Project>
   <PropertyGroup>
     <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
-    <AvaloniaVersion>12.0.0-rc1</AvaloniaVersion>
-    <AvaloniaDataGridVersion>12.0.0-rc1</AvaloniaDataGridVersion>
+    <AvaloniaVersion>12.0.0</AvaloniaVersion>
+    <AvaloniaDataGridVersion>12.0.0</AvaloniaDataGridVersion>
   </PropertyGroup>
   <ItemGroup>
     <PackageVersion Include="Avalonia" Version="$(AvaloniaVersion)" />
