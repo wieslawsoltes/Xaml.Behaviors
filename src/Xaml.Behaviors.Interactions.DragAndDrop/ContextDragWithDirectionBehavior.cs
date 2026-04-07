@@ -16,7 +16,7 @@ namespace Avalonia.Xaml.Interactions.DragAndDrop;
 public sealed class ContextDragWithDirectionBehavior : StyledElementBehavior<Control>
 {
     private Point _dragStartPoint;
-    private PointerEventArgs? _triggerEvent;
+    private PointerPressedEventArgs? _triggerEvent;
     private bool _lock;
     private bool _captured;
     private static readonly DataFormat<string> DirectionDataTransferFormat =
@@ -104,7 +104,7 @@ public sealed class ContextDragWithDirectionBehavior : StyledElementBehavior<Con
         AssociatedObject?.RemoveHandler(InputElement.PointerCaptureLostEvent, AssociatedObject_CaptureLost);
     }
 
-    private async Task DoDragDrop(PointerEventArgs triggerEvent, object? value, string direction)
+    private async Task DoDragDrop(PointerPressedEventArgs triggerEvent, object? value, string direction)
     {
         var data = new DataTransfer();
         var contextKey = DragDropContextStore.Add(value);

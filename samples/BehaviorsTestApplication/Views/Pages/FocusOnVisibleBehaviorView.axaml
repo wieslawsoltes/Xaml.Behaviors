@@ -12,7 +12,7 @@
   <StackPanel Spacing="12">
     <TextBlock Text="Toggle the checkbox to make the input visible." />
     <CheckBox x:Name="VisibilityToggle" Content="Show input" />
-    <TextBox Width="200" Watermark="Focus when visible" IsVisible="{Binding #VisibilityToggle.IsChecked}">
+    <TextBox Width="200" PlaceholderText="Focus when visible" IsVisible="{Binding #VisibilityToggle.IsChecked}">
       <Interaction.Behaviors>
         <FocusOnVisibleBehavior />
       </Interaction.Behaviors>

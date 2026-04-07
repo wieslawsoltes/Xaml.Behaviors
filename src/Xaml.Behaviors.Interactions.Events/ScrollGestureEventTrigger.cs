@@ -6,20 +6,20 @@ using Avalonia.Xaml.Interactivity;
 namespace Avalonia.Xaml.Interactions.Events;
 
 /// <summary>
-/// Trigger that listens for the <see cref="Gestures.ScrollGestureEvent"/>.
+/// Trigger that listens for the <see cref="InputElement.ScrollGestureEvent"/>.
 /// </summary>
 public class ScrollGestureEventTrigger : InteractiveTriggerBase
 {
     /// <inheritdoc />
     protected override void OnAttachedToVisualTree()
     {
-        AssociatedObject?.AddHandler(Gestures.ScrollGestureEvent, OnScrollGesture, RoutingStrategies);
+        AssociatedObject?.AddHandler(InputElement.ScrollGestureEvent, OnScrollGesture, RoutingStrategies);
     }
 
     /// <inheritdoc />
     protected override void OnDetachedFromVisualTree()
     {
-        AssociatedObject?.RemoveHandler(Gestures.ScrollGestureEvent, OnScrollGesture);
+        AssociatedObject?.RemoveHandler(InputElement.ScrollGestureEvent, OnScrollGesture);
     }
 
     private void OnScrollGesture(object? sender, ScrollGestureEventArgs e)

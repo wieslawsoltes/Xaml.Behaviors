@@ -6,6 +6,7 @@ It supports:
 
 * Pointer click handling with `ClickMode` (`Release` / `Press`)
 * Keyboard activation (`Enter`, `Space`)
+* Configurable input subscription routing via `RoutingStrategies`
 * Optional `IsDefault` and `IsCancel` root key handling
 * Optional flyout toggle behavior
 * Optional exact `KeyModifiers` filtering
@@ -19,6 +20,7 @@ It supports:
 | --- | --- | --- |
 | `SourceControl` | `Control?` | Optional external source control (resolved by name). If set, click handling and execution use that control instead of the associated object. |
 | `ClickMode` | `ClickMode` | Determines whether the click fires on press or release. Default is `Release`. |
+| `RoutingStrategies` | `RoutingStrategies` | Routed-event strategies used for pointer/keyboard subscriptions. Default is `Tunnel`. |
 | `KeyModifiers` | `KeyModifiers?` | Optional exact key-modifier filter. `null` means no filter. |
 | `IsDefault` | `bool` | If `true`, Enter on the visual root can trigger click when the control is visible and enabled. |
 | `IsCancel` | `bool` | If `true`, Escape on the visual root can trigger click when the control is visible and enabled. |
@@ -40,6 +42,87 @@ Use these two properties together depending on the behavior you need:
 | Only react to unhandled routed events | any | `false` | Trigger ignores already-handled events and participates in normal bubbling only. |
 
 `SourceControl` and `HandledEventsToo` are safe to change at runtime. The trigger reattaches its handlers automatically when either value changes.
+
+`RoutingStrategies` is also safe to change at runtime. The trigger reattaches pointer/keyboard handlers when the value changes.
+
+## RoutingStrategies Deep Dive
+
+`ClickEventTrigger` listens to pointer/key routed events and then executes its click semantics.
+`RoutingStrategies` controls *where in the routed-event pipeline* those handlers run.
+
+### Why the default is `Tunnel`
+
+Defaulting to `Tunnel` makes `ClickEventTrigger` deterministic for command/picker workflows on controls such as `Button`:
+
+* Tunnel handlers run before bubble handlers.
+* With `HandleEvent="True"` (default), the trigger can consume the event first.
+* This avoids native control command paths running before picker cancel checks.
+
+### Choosing a strategy
+
+| Goal | `RoutingStrategies` | Typical companion settings | Notes |
+| --- | --- | --- | --- |
+| Intercept first and keep trigger authoritative | `Tunnel` (default) | `HandleEvent="True"` | Best for picker/action-driven click behavior where native command side-effects should not run first. |
+| Let native control behavior run first, then observe | `Bubble` | `HandleEvent="False"` + `HandledEventsToo="True"` | Useful for telemetry, mirrored actions, or secondary command paths. |
+| Observe both routed phases | `Tunnel,Bubble` | Depends on scenario | Useful for complex trees/source controls. Keep trigger actions idempotent, because routes can pass through both phases. |
+| Subscribe only to direct stage | `Direct` | Advanced usage | Only use when you specifically need direct routing semantics. |
+
+### Example: Default `Tunnel` for picker/command safety
+
+```xml
+<Button Content="Save"
+        Command="{Binding NativeButtonCommand}">
+    <Interaction.Behaviors>
+        <ClickEventTrigger RoutingStrategies="Tunnel">
+            <SaveFilePickerAction Command="{Binding SaveFileCommand}"
+                                  Title="Save Document" />
+        </ClickEventTrigger>
+    </Interaction.Behaviors>
+</Button>
+```
+
+Use this when the trigger action should own click processing and native command behavior should not run first.
+
+### Example: `Bubble` to preserve native behavior
+
+```xml
+<Button Content="Run native + analytics"
+        Command="{Binding NativeButtonCommand}">
+    <Interaction.Behaviors>
+        <ClickEventTrigger RoutingStrategies="Bubble"
+                           HandleEvent="False"
+                           HandledEventsToo="True">
+            <InvokeCommandAction Command="{Binding AnalyticsCommand}" />
+        </ClickEventTrigger>
+    </Interaction.Behaviors>
+</Button>
+```
+
+Use this when native control behavior is primary and trigger actions are additive.
+
+### Example: Combined flags (`Tunnel,Bubble`) with external source
+
+```xml
+<StackPanel Orientation="Horizontal" Spacing="8">
+    <TextBox Name="SearchBox" Width="260" Text="{Binding Query}" />
+
+    <Border Width="260"
+            Height="64"
+            Background="LightSteelBlue"
+            Focusable="True">
+        <Interaction.Behaviors>
+            <ClickEventTrigger SourceControl="SearchBox"
+                               RoutingStrategies="Tunnel,Bubble"
+                               HandleEvent="False"
+                               HandledEventsToo="True">
+                <InvokeCommandAction Command="{Binding SearchBoxClickCommand}" />
+            </ClickEventTrigger>
+        </Interaction.Behaviors>
+    </Border>
+</StackPanel>
+```
+
+Use this when source events may be observed in different routed phases and you want maximum compatibility.
 
 ### Pointer Capture Guidance
 

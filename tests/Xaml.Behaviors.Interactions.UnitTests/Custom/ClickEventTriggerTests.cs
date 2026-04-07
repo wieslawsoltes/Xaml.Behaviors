@@ -1,17 +1,155 @@
 using System;
 using System.Linq;
+using System.Threading.Tasks;
+using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
 using Avalonia.Headless;
 using Avalonia.Headless.XUnit;
 using Avalonia.Input;
 using Avalonia.Interactivity;
+using Avalonia.Threading;
+using Avalonia.Xaml.Interactions.Core;
 using Avalonia.Xaml.Interactions.Custom;
+using Avalonia.Xaml.Interactions.UnitTests.Core;
 using Xunit;
 
 namespace Avalonia.Xaml.Interactions.UnitTests.Custom;
 
 public class ClickEventTriggerTests
 {
+    [AvaloniaFact]
+    public async Task ClickEventTrigger_SaveFilePickerAction_Cancel_DoesNotExecuteCommand()
+    {
+        var commandCalls = 0;
+
+        var window = new Window
+        {
+            Width = 200,
+            Height = 120,
+        };
+
+        var target = new Border
+        {
+            Width = 160,
+            Height = 60,
+            Focusable = true,
+        };
+
+        var trigger = new ClickEventTrigger();
+        var action = new SaveFilePickerAction
+        {
+            Command = new Command(_ => commandCalls++),
+        };
+
+        trigger.Actions ??= [];
+        trigger.Actions.Add(action);
+        Avalonia.Xaml.Interactivity.Interaction.GetBehaviors(target).Add(trigger);
+
+        window.Content = target;
+        window.Show();
+
+        window.Click(target);
+
+        await Dispatcher.UIThread.InvokeAsync(() => { }, DispatcherPriority.Background);
+        await Dispatcher.UIThread.InvokeAsync(() => { }, DispatcherPriority.Background);
+
+        Assert.Equal(0, commandCalls);
+    }
+
+    [AvaloniaFact]
+    public async Task ClickEventTrigger_ButtonWithPickerAction_Cancel_DoesNotInvokeNativeButtonCommand()
+    {
+        var nativeCommandCalls = 0;
+        var pickerCommandCalls = 0;
+
+        var window = new Window
+        {
+            Width = 200,
+            Height = 120,
+        };
+
+        var button = new Button
+        {
+            Width = 160,
+            Height = 60,
+            Command = new Command(_ => nativeCommandCalls++),
+        };
+
+        var trigger = new ClickEventTrigger();
+        var saveFilePickerAction = new SaveFilePickerAction
+        {
+            Command = new Command(_ => pickerCommandCalls++),
+        };
+        trigger.Actions ??= [];
+        trigger.Actions.Add(saveFilePickerAction);
+        Avalonia.Xaml.Interactivity.Interaction.GetBehaviors(button).Add(trigger);
+
+        window.Content = button;
+        window.Show();
+
+        window.Click(button);
+
+        await Dispatcher.UIThread.InvokeAsync(() => { }, DispatcherPriority.Background);
+        await Dispatcher.UIThread.InvokeAsync(() => { }, DispatcherPriority.Background);
+
+        Assert.Equal(0, nativeCommandCalls);
+        Assert.Equal(0, pickerCommandCalls);
+    }
+
+    [AvaloniaFact]
+    public async Task ClickEventTrigger_RoutingStrategies_PropertyChange_RewiresHandlers()
+    {
+        var nativeCommandCalls = 0;
+        var pickerCommandCalls = 0;
+
+        var window = new Window
+        {
+            Width = 200,
+            Height = 120,
+        };
+
+        var button = new Button
+        {
+            Width = 160,
+            Height = 60,
+            Command = new Command(_ => nativeCommandCalls++),
+        };
+
+        var trigger = new ClickEventTrigger
+        {
+            RoutingStrategies = RoutingStrategies.Bubble
+        };
+        var saveFilePickerAction = new SaveFilePickerAction
+        {
+            Command = new Command(_ => pickerCommandCalls++),
+        };
+
+        trigger.Actions ??= [];
+        trigger.Actions.Add(saveFilePickerAction);
+        Avalonia.Xaml.Interactivity.Interaction.GetBehaviors(button).Add(trigger);
+
+        window.Content = button;
+        window.Show();
+
+        // Bubble route allows native Button command to run before the trigger consumes input.
+        window.Click(button);
+        await Dispatcher.UIThread.InvokeAsync(() => { }, DispatcherPriority.Background);
+        await Dispatcher.UIThread.InvokeAsync(() => { }, DispatcherPriority.Background);
+
+        Assert.Equal(1, nativeCommandCalls);
+        Assert.Equal(0, pickerCommandCalls);
+
+        // Switching to Tunnel should rewire handlers and suppress native Button command on cancel.
+        trigger.RoutingStrategies = RoutingStrategies.Tunnel;
+
+        window.Click(button);
+        await Dispatcher.UIThread.InvokeAsync(() => { }, DispatcherPriority.Background);
+        await Dispatcher.UIThread.InvokeAsync(() => { }, DispatcherPriority.Background);
+
+        Assert.Equal(1, nativeCommandCalls);
+        Assert.Equal(0, pickerCommandCalls);
+    }
+
     [AvaloniaFact]
     public void ClickEventTrigger_ReleaseMode_DoesNotFireWhenReleasedOutside()
     {
@@ -360,4 +498,5 @@ public class ClickEventTriggerTests
         Assert.False(flyout.IsOpen);
         Assert.Equal(2, window.FlyoutClicks);
     }
+
 }

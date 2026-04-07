@@ -7,20 +7,20 @@ using Avalonia.Xaml.Interactivity;
 namespace Avalonia.Xaml.Interactions.Events;
 
 /// <summary>
-/// Behavior that handles the <see cref="Gestures.TappedEvent"/>.
+/// Behavior that handles the <see cref="InputElement.TappedEvent"/>.
 /// </summary>
 public abstract class TappedEventBehavior : InteractiveBehaviorBase
 {
     /// <inheritdoc />
     protected override void OnAttachedToVisualTree()
     {
-        AssociatedObject?.AddHandler(Gestures.TappedEvent, Tapped, RoutingStrategies);
+        AssociatedObject?.AddHandler(InputElement.TappedEvent, Tapped, RoutingStrategies);
     }
 
     /// <inheritdoc />
     protected override void OnDetachedFromVisualTree()
     {
-        AssociatedObject?.RemoveHandler(Gestures.TappedEvent, Tapped);
+        AssociatedObject?.RemoveHandler(InputElement.TappedEvent, Tapped);
     }
 
     private void Tapped(object? sender, RoutedEventArgs e)

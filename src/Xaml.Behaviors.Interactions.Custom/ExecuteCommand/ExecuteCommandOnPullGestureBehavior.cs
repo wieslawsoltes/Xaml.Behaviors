@@ -20,7 +20,7 @@ public class ExecuteCommandOnPullGestureBehavior : ExecuteCommandRoutedEventBeha
         var control = SourceControl ?? AssociatedObject;
         var dispose = control?
             .AddDisposableHandler(
-                Gestures.PullGestureEvent,
+                InputElement.PullGestureEvent,
                 OnPullGesture,
                 EventRoutingStrategy);
 

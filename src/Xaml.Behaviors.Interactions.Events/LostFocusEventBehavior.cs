@@ -1,7 +1,6 @@
 ﻿// Copyright (c) Wiesław Šoltés. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for details.
 using Avalonia.Input;
-using Avalonia.Interactivity;
 using Avalonia.Xaml.Interactivity;
 
 namespace Avalonia.Xaml.Interactions.Events;
@@ -23,7 +22,7 @@ public abstract class LostFocusEventBehavior : InteractiveBehaviorBase
         AssociatedObject?.RemoveHandler(InputElement.LostFocusEvent, LostFocus);
     }
 
-    private void LostFocus(object? sender, RoutedEventArgs e)
+    private void LostFocus(object? sender, FocusChangedEventArgs e)
     {
         OnLostFocus(sender, e);
     }
@@ -33,7 +32,7 @@ public abstract class LostFocusEventBehavior : InteractiveBehaviorBase
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="e"></param>
-    protected virtual void OnLostFocus(object? sender, RoutedEventArgs e)
+    protected virtual void OnLostFocus(object? sender, FocusChangedEventArgs e)
     {
     }
 }

@@ -3,6 +3,7 @@ using System.Linq;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Input;
+using Avalonia.Input.Platform;
 using Avalonia.Threading;
 using Avalonia.Xaml.Interactivity;
 
@@ -130,23 +131,24 @@ public class ClipboardMonitorBehavior : StyledElementBehavior<Control>
         {
             try
             {
-#pragma warning disable CS0618
-                var formats = await clipboard.GetFormatsAsync();
-#pragma warning restore CS0618
+                var formats = await ClipboardExtensions.GetDataFormatsAsync(clipboard);
                 var requestedFormats = (Formats ?? "").Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
                                                       .Select(f => f.Trim())
                                                       .Where(f => !string.IsNullOrEmpty(f))
                                                       .ToArray();
+                var normalizedFormats = formats?.Select(ConvertDataFormatIdentifier).ToArray();
 
                 bool hasData = false;
                 if (requestedFormats.Length == 0)
                 {
                     // If no formats specified, check if any format exists
-                    hasData = formats != null && formats.Length > 0;
+                    hasData = normalizedFormats != null && normalizedFormats.Length > 0;
                 }
                 else
                 {
-                    hasData = requestedFormats.Any(f => formats != null && formats.Contains(f));
+                    hasData = requestedFormats.Any(requestedFormat =>
+                        normalizedFormats != null &&
+                        normalizedFormats.Any(format => string.Equals(format, NormalizeRequestedFormat(requestedFormat), StringComparison.OrdinalIgnoreCase)));
                 }
 
                 if (_hasData != hasData)
@@ -161,4 +163,29 @@ public class ClipboardMonitorBehavior : StyledElementBehavior<Control>
             }
         }
     }
+
+    private static string ConvertDataFormatIdentifier(DataFormat format)
+    {
+        if (DataFormat.Text.Equals(format))
+        {
+            return TextFormat;
+        }
+
+        if (DataFormat.File.Equals(format))
+        {
+            return FilesFormat;
+        }
+
+        return format.Identifier;
+    }
+
+    private static string NormalizeRequestedFormat(string format)
+    {
+        return format.Equals("FileNames", StringComparison.OrdinalIgnoreCase)
+            ? FilesFormat
+            : format;
+    }
+
+    private const string TextFormat = "Text";
+    private const string FilesFormat = "Files";
 }

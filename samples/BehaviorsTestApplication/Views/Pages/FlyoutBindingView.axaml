@@ -13,7 +13,7 @@
     <Button x:Name="FlyoutButton" Content="Press me">
       <Button.Flyout>
         <Flyout>
-          <TextBox Watermark="Type here">
+          <TextBox PlaceholderText="Type here">
             <Interaction.Behaviors>
               <EventTriggerBehavior EventName="TextChanged">
                 <InvokeCommandAction Command="{Binding TextChangedCommand}" PassEventArgsToCommand="True"/>

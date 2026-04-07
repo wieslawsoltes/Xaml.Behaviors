@@ -25,12 +25,12 @@
         <TextBlock Text="Focus events" FontWeight="SemiBold" />
         <TextBlock Text="Tab between the boxes to fire focus commands." FontSize="12" TextWrapping="Wrap" />
         <StackPanel Orientation="Horizontal" Spacing="12">
-          <TextBox Width="160" Watermark="Focus me">
+          <TextBox Width="160" PlaceholderText="Focus me">
             <Interaction.Behaviors>
               <ExecuteCommandOnGotFocusBehavior Command="{Binding GotFocusCommand}" />
             </Interaction.Behaviors>
           </TextBox>
-          <TextBox Width="160" Watermark="... then leave">
+          <TextBox Width="160" PlaceholderText="... then leave">
             <Interaction.Behaviors>
               <ExecuteCommandOnLostFocusBehavior Command="{Binding LostFocusCommand}" />
             </Interaction.Behaviors>
@@ -41,7 +41,7 @@
       <StackPanel Spacing="8">
         <TextBlock Text="Keyboard and text input" FontWeight="SemiBold" />
         <TextBlock Text="Key down/up and text input all route to commands." FontSize="12" TextWrapping="Wrap" />
-        <TextBox Width="260" Watermark="Type here" AcceptsReturn="False">
+        <TextBox Width="260" PlaceholderText="Type here" AcceptsReturn="False">
           <Interaction.Behaviors>
             <ExecuteCommandOnKeyDownBehavior Command="{Binding KeyDownCommand}" />
             <ExecuteCommandOnKeyUpBehavior Command="{Binding KeyUpCommand}" />
@@ -53,7 +53,7 @@
       <StackPanel Spacing="8">
         <TextBlock Text="Text input method client requested" FontWeight="SemiBold" />
         <TextBlock Text="Some platforms raise this when the OS needs an input panel. Focus the box while using an IME to trigger the command." FontSize="12" TextWrapping="Wrap" />
-        <TextBox Width="260" Watermark="Focus with IME enabled">
+        <TextBox Width="260" PlaceholderText="Focus with IME enabled">
           <Interaction.Behaviors>
             <ExecuteCommandOnTextInputMethodClientRequestedBehavior Command="{Binding TextInputMethodRequestedCommand}" />
           </Interaction.Behaviors>

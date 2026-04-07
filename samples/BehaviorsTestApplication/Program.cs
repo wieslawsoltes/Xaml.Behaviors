@@ -20,7 +20,7 @@ class Program
         return AppBuilder.Configure<App>()
             .WithInterFont()
             .UsePlatformDetect()
-            .UseReactiveUI()
+            .UseReactiveUI(_ => { })
             .LogToTrace();
     }
 }

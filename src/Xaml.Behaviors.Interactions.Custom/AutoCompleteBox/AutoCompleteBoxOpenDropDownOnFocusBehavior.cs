@@ -26,7 +26,7 @@ public class AutoCompleteBoxOpenDropDownOnFocusBehavior : AttachedToVisualTreeBe
         return DisposableAction.Create(() => AssociatedObject.GotFocus -= AssociatedObjectOnGotFocus);
     }
 
-    private void AssociatedObjectOnGotFocus(object? sender, GotFocusEventArgs e)
+    private void AssociatedObjectOnGotFocus(object? sender, FocusChangedEventArgs e)
     {
         if (AssociatedObject is null)
         {

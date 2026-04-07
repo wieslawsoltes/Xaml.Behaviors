@@ -36,7 +36,7 @@ public class CenterWindowBehavior : StyledElementBehavior<Control>
 
     private void Center()
     {
-        var window = Window ?? AssociatedObject?.GetVisualRoot() as Window;
+        var window = Window ?? TopLevel.GetTopLevel(AssociatedObject) as Window;
         if (window is null)
         {
             return;

@@ -27,8 +27,8 @@ public class BindingBehavior : AttachedToVisualTreeBehavior<Control>
     /// <summary>
     /// Gets or sets the binding to apply.
     /// </summary>
-    public static readonly StyledProperty<IBinding?> BindingProperty =
-        AvaloniaProperty.Register<BindingBehavior, IBinding?>(nameof(Binding));
+    public static readonly StyledProperty<BindingBase?> BindingProperty =
+        AvaloniaProperty.Register<BindingBehavior, BindingBase?>(nameof(Binding));
 
     /// <summary>
     /// 
@@ -53,7 +53,7 @@ public class BindingBehavior : AttachedToVisualTreeBehavior<Control>
     /// 
     /// </summary>
     [AssignBinding]
-    public IBinding? Binding
+    public BindingBase? Binding
     {
         get => GetValue(BindingProperty);
         set => SetValue(BindingProperty, value);

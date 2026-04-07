@@ -16,8 +16,8 @@ public class Condition : AvaloniaObject
     /// <summary>
     /// Identifies the <seealso cref="Binding"/> avalonia property.
     /// </summary>
-    public static readonly StyledProperty<IBinding?> BindingProperty =
-        AvaloniaProperty.Register<Condition, IBinding?>(nameof(Binding));
+    public static readonly StyledProperty<BindingBase?> BindingProperty =
+        AvaloniaProperty.Register<Condition, BindingBase?>(nameof(Binding));
 
     internal static readonly StyledProperty<object?> BindingValueProperty =
         AvaloniaProperty.Register<Condition, object?>(nameof(BindingValue));
@@ -50,7 +50,7 @@ public class Condition : AvaloniaObject
     /// Gets or sets the bound object to compare. This is an avalonia property.
     /// </summary>
     [AssignBinding]
-    public IBinding? Binding
+    public BindingBase? Binding
     {
         get => GetValue(BindingProperty);
         set => SetValue(BindingProperty, value);
@@ -105,7 +105,7 @@ public class Condition : AvaloniaObject
 
         if (change.Property == BindingProperty)
         {
-            if (change.GetNewValue<IBinding?>() is not null && Property is not null)
+            if (change.GetNewValue<BindingBase?>() is not null && Property is not null)
             {
                 throw new InvalidOperationException("Condition cannot use both Property and Binding.");
             }
@@ -113,7 +113,7 @@ public class Condition : AvaloniaObject
             _bindingSubscription?.Dispose();
             _bindingSubscription = null;
 
-            var newBinding = change.GetNewValue<IBinding?>();
+            var newBinding = change.GetNewValue<BindingBase?>();
             if (newBinding is not null)
             {
                 _bindingSubscription = this.Bind(BindingValueProperty, newBinding);

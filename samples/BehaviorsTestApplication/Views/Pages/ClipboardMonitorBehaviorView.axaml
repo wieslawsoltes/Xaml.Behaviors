@@ -16,7 +16,7 @@
       <TextBlock Text="{Binding #ClipboardMonitor.HasData, StringFormat='HasData: {0}'}" VerticalAlignment="Center" />
     </StackPanel>
 
-    <TextBox Name="OutputBox" Watermark="Pasted text will appear here..." Height="100" AcceptsReturn="True" />
+    <TextBox Name="OutputBox" PlaceholderText="Pasted text will appear here..." Height="100" AcceptsReturn="True" />
     <Interaction.Behaviors>
       <ClipboardMonitorBehavior x:Name="ClipboardMonitor" Formats="Text" />
     </Interaction.Behaviors>

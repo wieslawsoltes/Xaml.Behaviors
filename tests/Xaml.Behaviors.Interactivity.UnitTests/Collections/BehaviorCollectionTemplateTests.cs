@@ -1,8 +1,7 @@
-using System.Linq;
 using Avalonia.Controls;
 using Avalonia.Headless;
 using Avalonia.Headless.XUnit;
-using Avalonia.Input;
+using Avalonia.Interactivity;
 using Avalonia.Media;
 using Xunit;
 
@@ -17,43 +16,42 @@ public class BehaviorCollectionTemplateTests
 
         window.Show();
 
-        var containers = window.TargetListBox.GetRealizedContainers().Cast<ListBoxItem>().ToList();
+        var buttons = new[]
+        {
+            window.TargetButton1,
+            window.TargetButton2,
+            window.TargetButton3
+        };
 
-        var behavior0 = containers[0].GetValue(Interaction.BehaviorsProperty);
+        var behavior0 = buttons[0].GetValue(Interaction.BehaviorsProperty);
         Assert.NotNull(behavior0);
         Assert.Single(behavior0);
-        Assert.Equal(containers[0], behavior0!.AssociatedObject);
+        Assert.Equal(buttons[0], behavior0!.AssociatedObject);
 
-        var behavior1 = containers[1].GetValue(Interaction.BehaviorsProperty);
+        var behavior1 = buttons[1].GetValue(Interaction.BehaviorsProperty);
         Assert.NotNull(behavior1);
         Assert.Single(behavior1);
-        Assert.Equal(containers[1], behavior1!.AssociatedObject);
+        Assert.Equal(buttons[1], behavior1!.AssociatedObject);
 
-        var behavior2 = containers[2].GetValue(Interaction.BehaviorsProperty);
+        var behavior2 = buttons[2].GetValue(Interaction.BehaviorsProperty);
         Assert.NotNull(behavior2);
         Assert.Single(behavior2);
-        Assert.Equal(containers[2], behavior2!.AssociatedObject);
+        Assert.Equal(buttons[2], behavior2!.AssociatedObject);
 
-        Assert.Equal(containers[0].Background, Brushes.Transparent);
-        Assert.Equal(containers[1].Background, Brushes.Transparent);
-        Assert.Equal(containers[2].Background, Brushes.Transparent);
+        Assert.Equal(buttons[0].Background, Brushes.Transparent);
+        Assert.Equal(buttons[1].Background, Brushes.Transparent);
+        Assert.Equal(buttons[2].Background, Brushes.Transparent);
 
-        // KeyDown
-        containers[0].Focus();
-        window.KeyPressQwerty(PhysicalKey.Enter, RawInputModifiers.None);
+        buttons[0].RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
 
-        Assert.Equal(window.Resources["RedBrush"], containers[0].Background);
+        Assert.Equal(window.Resources["RedBrush"], buttons[0].Background);
 
-        // KeyDown
-        containers[1].Focus();
-        window.KeyPressQwerty(PhysicalKey.Enter, RawInputModifiers.None);
+        buttons[1].RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
 
-        Assert.Equal(window.Resources["RedBrush"], containers[1].Background);
+        Assert.Equal(window.Resources["RedBrush"], buttons[1].Background);
 
-        // KeyDown
-        containers[2].Focus();
-        window.KeyPressQwerty(PhysicalKey.Enter, RawInputModifiers.None);
+        buttons[2].RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
 
-        Assert.Equal(window.Resources["RedBrush"], containers[2].Background);
+        Assert.Equal(window.Resources["RedBrush"], buttons[2].Background);
     }
 }

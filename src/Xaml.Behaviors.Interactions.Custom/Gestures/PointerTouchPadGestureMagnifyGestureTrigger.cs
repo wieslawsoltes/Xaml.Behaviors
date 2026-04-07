@@ -12,7 +12,7 @@ public class PointerTouchPadGestureMagnifyGestureTrigger : RoutedEventTriggerBas
 {
     /// <inheritdoc />
     protected override RoutedEvent<PointerDeltaEventArgs> RoutedEvent
-        => Gestures.PointerTouchPadGestureMagnifyEvent;
+        => InputElement.PointerTouchPadGestureMagnifyEvent;
 
     static PointerTouchPadGestureMagnifyGestureTrigger()
     {

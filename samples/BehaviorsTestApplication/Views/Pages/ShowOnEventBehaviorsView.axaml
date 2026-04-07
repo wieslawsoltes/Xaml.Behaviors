@@ -89,7 +89,7 @@
           <TextBlock Text="ShowOnKeyDownBehavior" FontWeight="SemiBold" />
           <TextBlock Text="Focus the textbox and press Enter to display the panel." FontSize="12" TextWrapping="Wrap" />
           <TextBox Width="220"
-                   Watermark="Press Enter">
+                   PlaceholderText="Press Enter">
             <Interaction.Behaviors>
               <ShowOnKeyDownBehavior TargetControl="{Binding #KeyDownReveal}" Key="Enter" />
             </Interaction.Behaviors>

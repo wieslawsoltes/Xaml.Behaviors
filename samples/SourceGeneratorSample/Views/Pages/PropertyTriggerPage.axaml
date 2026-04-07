@@ -44,7 +44,7 @@
 
     <StackPanel Spacing="6">
       <TextBlock Text="Text trigger (dispatcher enabled)" FontWeight="SemiBold" />
-      <TextBox x:Name="TextTarget" Watermark="Type 'ping' to trigger" />
+      <TextBox x:Name="TextTarget" PlaceholderText="Type 'ping' to trigger" />
       <Interaction.Behaviors>
         <controls:TextBoxDispatchingTextPropertyTrigger SourceName="TextTarget" Value="ping">
           <vm:SetPropertyTriggerStatusAction TargetObject="{Binding}" Value="Text matched 'ping' on UI thread" />

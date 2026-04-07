@@ -10,7 +10,7 @@
     <vm:MainWindowViewModel />
   </Design.DataContext>
   <Grid RowDefinitions="Auto,Auto,*,Auto">
-    <TextBox x:Name="TipBox" Margin="5" Watermark="Enter tooltip text" />
+    <TextBox x:Name="TipBox" Margin="5" PlaceholderText="Enter tooltip text" />
     <Button Grid.Row="1" Margin="5" Content="Set Tooltip">
       <Interaction.Behaviors>
         <EventTriggerBehavior EventName="Click">

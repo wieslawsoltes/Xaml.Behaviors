@@ -16,7 +16,7 @@ namespace Avalonia.Xaml.Interactions.DragAndDrop;
 public abstract class ContextDragBehaviorBase : StyledElementBehavior<Control>
 {
     private Point _dragStartPoint;
-    private PointerEventArgs? _triggerEvent;
+    private PointerPressedEventArgs? _triggerEvent;
     private bool _lock;
     private bool _captured;
 
@@ -101,7 +101,7 @@ public abstract class ContextDragBehaviorBase : StyledElementBehavior<Control>
     /// <param name="context"></param>
     protected abstract void OnAfterDragDrop(object? sender, PointerEventArgs e, object? context);
 
-    private async Task DoDragDrop(PointerEventArgs triggerEvent, object? value)
+    private async Task DoDragDrop(PointerPressedEventArgs triggerEvent, object? value)
     {
         var data = new DataTransfer();
         var contextKey = DragDropContextStore.Add(value);

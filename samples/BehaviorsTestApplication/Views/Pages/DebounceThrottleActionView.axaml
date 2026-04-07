@@ -11,7 +11,7 @@
     <Border BorderBrush="Gray" BorderThickness="1" Padding="10" CornerRadius="5">
       <StackPanel Spacing="10">
         <TextBlock Text="Debounce Example (Type in the box, updates after 500ms delay)" FontWeight="SemiBold" />
-        <TextBox Name="SearchBox" Watermark="Type something..." />
+        <TextBox Name="SearchBox" PlaceholderText="Type something..." />
         <TextBlock Text="{Binding #SearchBox.Text, StringFormat='Current Text: {0}'}" />
         <TextBlock Name="DebouncedText" Text="Debounced Output: " Foreground="Green" />
         

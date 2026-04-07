@@ -10,7 +10,7 @@
     <vm:MainWindowViewModel />
   </Design.DataContext>
   <StackPanel>
-    <TextBox x:Name="TargetBox" Margin="5" Watermark="Toggle enabled" />
+    <TextBox x:Name="TargetBox" Margin="5" PlaceholderText="Toggle enabled" />
     <StackPanel Orientation="Horizontal" Spacing="5">
       <Button x:Name="DisableButton" Content="Disable" Margin="5" />
       <Button x:Name="EnableButton" Content="Enable" Margin="5" />

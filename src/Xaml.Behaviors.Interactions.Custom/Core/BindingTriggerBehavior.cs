@@ -17,8 +17,8 @@ public class BindingTriggerBehavior : StyledElementTrigger
     /// <summary>
     /// Identifies the <seealso cref="Binding"/> avalonia property.
     /// </summary>
-    public static readonly StyledProperty<IBinding?> BindingProperty =
-        AvaloniaProperty.Register<BindingTriggerBehavior, IBinding?>(nameof(Binding));
+    public static readonly StyledProperty<BindingBase?> BindingProperty =
+        AvaloniaProperty.Register<BindingTriggerBehavior, BindingBase?>(nameof(Binding));
 
     /// <summary>
     /// Identifies the <seealso cref="ComparisonCondition"/> avalonia property.
@@ -41,7 +41,7 @@ public class BindingTriggerBehavior : StyledElementTrigger
     /// Gets or sets the bound object that the <see cref="BindingTriggerBehavior"/> will listen to. This is an avalonia property.
     /// </summary>
     [AssignBinding]
-    public IBinding? Binding
+    public BindingBase? Binding
     {
         get => GetValue(BindingProperty);
         set => SetValue(BindingProperty, value);
@@ -87,7 +87,7 @@ public class BindingTriggerBehavior : StyledElementTrigger
         {
             _dispose?.Dispose();
 
-            var newValue = change.GetNewValue<IBinding?>();
+            var newValue = change.GetNewValue<BindingBase?>();
             if (newValue is not null)
             {
                 _dispose = Bind(BindingValueProperty, newValue);

@@ -35,7 +35,7 @@ public class LoseFocusOnEnterBehavior : StyledElementBehavior<Control>
         if (e.Key == Key.Enter)
         {
             var topLevel = TopLevel.GetTopLevel(AssociatedObject);
-            topLevel?.FocusManager?.ClearFocus();
+            topLevel?.FocusManager?.Focus(null, NavigationMethod.Unspecified, KeyModifiers.None);
         }
     }
 }
