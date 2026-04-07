@@ -1,8 +1,8 @@
-# PR Summary: Avalonia 12 Preview Migration
+# PR Summary: Avalonia 12.0.0 Update
 
 ## Overview
 
-This branch migrates `Avalonia.Xaml.Behaviors` to the Avalonia 12 preview line and updates the repository to build and test against the new API surface.
+This branch updates `Avalonia.Xaml.Behaviors` to the stable Avalonia 12.0.0 line and keeps the repository building and testing against the finalized API surface.
 
 The migration was based on the official Avalonia 12 breaking-changes guidance and the current Avalonia release stream:
 
@@ -11,8 +11,8 @@ The migration was based on the official Avalonia 12 breaking-changes guidance an
 
 Validated package baseline used in this branch:
 
-- `Avalonia`: `12.0.0-preview2`
-- `Avalonia.Controls.DataGrid`: `12.0.0-preview2-2`
+- `Avalonia`: `12.0.0`
+- `Avalonia.Controls.DataGrid`: `12.0.0`
 - `ReactiveUI.Avalonia`: `11.4.12`
 
 ## Commit Stack
@@ -28,7 +28,7 @@ Validated package baseline used in this branch:
 ### 1. Package and TFM baseline
 
 - Moved Avalonia-consuming projects to `net8.0` and `net10.0`.
-- Updated central package management for Avalonia 12 preview packages.
+- Updated central package management for stable Avalonia 12.0.0 packages.
 - Added `Avalonia.Skia` back for renderer-backed headless test coverage.
 - Moved the test package baseline to the xUnit v3 package set already used elsewhere in the repository.
 - Updated sample startup code for the new `UseReactiveUI(...)` signature.
@@ -48,7 +48,7 @@ Validated package baseline used in this branch:
 ### 3. Samples and docs
 
 - Updated sample XAML to match renamed Avalonia 12 properties and events.
-- Added a committed migration note at `docfx/articles/avalonia-v12-preview-migration.md`.
+- Added a committed migration note at `docfx/articles/avalonia-v12-migration.md`.
 
 ### 4. Test updates
 
