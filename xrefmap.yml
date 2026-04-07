@@ -5527,6 +5527,25 @@ references:
   isSpec: "True"
   fullName: Avalonia.Xaml.Interactions.Custom.ClickEventTrigger.OnPropertyChanged
   nameWithType: ClickEventTrigger.OnPropertyChanged
+- uid: Avalonia.Xaml.Interactions.Custom.ClickEventTrigger.RoutingStrategies
+  name: RoutingStrategies
+  href: api/Avalonia.Xaml.Interactions.Custom.ClickEventTrigger.html#Avalonia_Xaml_Interactions_Custom_ClickEventTrigger_RoutingStrategies
+  commentId: P:Avalonia.Xaml.Interactions.Custom.ClickEventTrigger.RoutingStrategies
+  fullName: Avalonia.Xaml.Interactions.Custom.ClickEventTrigger.RoutingStrategies
+  nameWithType: ClickEventTrigger.RoutingStrategies
+- uid: Avalonia.Xaml.Interactions.Custom.ClickEventTrigger.RoutingStrategies*
+  name: RoutingStrategies
+  href: api/Avalonia.Xaml.Interactions.Custom.ClickEventTrigger.html#Avalonia_Xaml_Interactions_Custom_ClickEventTrigger_RoutingStrategies_
+  commentId: Overload:Avalonia.Xaml.Interactions.Custom.ClickEventTrigger.RoutingStrategies
+  isSpec: "True"
+  fullName: Avalonia.Xaml.Interactions.Custom.ClickEventTrigger.RoutingStrategies
+  nameWithType: ClickEventTrigger.RoutingStrategies
+- uid: Avalonia.Xaml.Interactions.Custom.ClickEventTrigger.RoutingStrategiesProperty
+  name: RoutingStrategiesProperty
+  href: api/Avalonia.Xaml.Interactions.Custom.ClickEventTrigger.html#Avalonia_Xaml_Interactions_Custom_ClickEventTrigger_RoutingStrategiesProperty
+  commentId: F:Avalonia.Xaml.Interactions.Custom.ClickEventTrigger.RoutingStrategiesProperty
+  fullName: Avalonia.Xaml.Interactions.Custom.ClickEventTrigger.RoutingStrategiesProperty
+  nameWithType: ClickEventTrigger.RoutingStrategiesProperty
 - uid: Avalonia.Xaml.Interactions.Custom.ClickEventTrigger.SourceControl
   name: SourceControl
   href: api/Avalonia.Xaml.Interactions.Custom.ClickEventTrigger.html#Avalonia_Xaml_Interactions_Custom_ClickEventTrigger_SourceControl
@@ -22532,6 +22551,55 @@ references:
   commentId: F:Avalonia.Xaml.Interactions.DragAndDrop.ManagedContextDropBehavior.OverClassProperty
   fullName: Avalonia.Xaml.Interactions.DragAndDrop.ManagedContextDropBehavior.OverClassProperty
   nameWithType: ManagedContextDropBehavior.OverClassProperty
+- uid: Avalonia.Xaml.Interactions.DragAndDrop.ManagedDataTransferExtensions
+  name: ManagedDataTransferExtensions
+  href: api/Avalonia.Xaml.Interactions.DragAndDrop.ManagedDataTransferExtensions.html
+  commentId: T:Avalonia.Xaml.Interactions.DragAndDrop.ManagedDataTransferExtensions
+  fullName: Avalonia.Xaml.Interactions.DragAndDrop.ManagedDataTransferExtensions
+  nameWithType: ManagedDataTransferExtensions
+- uid: Avalonia.Xaml.Interactions.DragAndDrop.ManagedDataTransferExtensions.TryGetManagedValue(Avalonia.Input.IDataTransfer,System.String)
+  name: TryGetManagedValue(IDataTransfer, string)
+  href: api/Avalonia.Xaml.Interactions.DragAndDrop.ManagedDataTransferExtensions.html#Avalonia_Xaml_Interactions_DragAndDrop_ManagedDataTransferExtensions_TryGetManagedValue_Avalonia_Input_IDataTransfer_System_String_
+  commentId: M:Avalonia.Xaml.Interactions.DragAndDrop.ManagedDataTransferExtensions.TryGetManagedValue(Avalonia.Input.IDataTransfer,System.String)
+  name.vb: TryGetManagedValue(IDataTransfer, String)
+  fullName: Avalonia.Xaml.Interactions.DragAndDrop.ManagedDataTransferExtensions.TryGetManagedValue(Avalonia.Input.IDataTransfer, string)
+  fullName.vb: Avalonia.Xaml.Interactions.DragAndDrop.ManagedDataTransferExtensions.TryGetManagedValue(Avalonia.Input.IDataTransfer, String)
+  nameWithType: ManagedDataTransferExtensions.TryGetManagedValue(IDataTransfer, string)
+  nameWithType.vb: ManagedDataTransferExtensions.TryGetManagedValue(IDataTransfer, String)
+- uid: Avalonia.Xaml.Interactions.DragAndDrop.ManagedDataTransferExtensions.TryGetManagedValue(Avalonia.Input.IDataTransferItem,System.String)
+  name: TryGetManagedValue(IDataTransferItem, string)
+  href: api/Avalonia.Xaml.Interactions.DragAndDrop.ManagedDataTransferExtensions.html#Avalonia_Xaml_Interactions_DragAndDrop_ManagedDataTransferExtensions_TryGetManagedValue_Avalonia_Input_IDataTransferItem_System_String_
+  commentId: M:Avalonia.Xaml.Interactions.DragAndDrop.ManagedDataTransferExtensions.TryGetManagedValue(Avalonia.Input.IDataTransferItem,System.String)
+  name.vb: TryGetManagedValue(IDataTransferItem, String)
+  fullName: Avalonia.Xaml.Interactions.DragAndDrop.ManagedDataTransferExtensions.TryGetManagedValue(Avalonia.Input.IDataTransferItem, string)
+  fullName.vb: Avalonia.Xaml.Interactions.DragAndDrop.ManagedDataTransferExtensions.TryGetManagedValue(Avalonia.Input.IDataTransferItem, String)
+  nameWithType: ManagedDataTransferExtensions.TryGetManagedValue(IDataTransferItem, string)
+  nameWithType.vb: ManagedDataTransferExtensions.TryGetManagedValue(IDataTransferItem, String)
+- uid: Avalonia.Xaml.Interactions.DragAndDrop.ManagedDataTransferExtensions.TryGetManagedValue*
+  name: TryGetManagedValue
+  href: api/Avalonia.Xaml.Interactions.DragAndDrop.ManagedDataTransferExtensions.html#Avalonia_Xaml_Interactions_DragAndDrop_ManagedDataTransferExtensions_TryGetManagedValue_
+  commentId: Overload:Avalonia.Xaml.Interactions.DragAndDrop.ManagedDataTransferExtensions.TryGetManagedValue
+  isSpec: "True"
+  fullName: Avalonia.Xaml.Interactions.DragAndDrop.ManagedDataTransferExtensions.TryGetManagedValue
+  nameWithType: ManagedDataTransferExtensions.TryGetManagedValue
+- uid: Avalonia.Xaml.Interactions.DragAndDrop.ManagedDataTransferExtensions.TryGetManagedValue``1(Avalonia.Input.IDataTransfer,System.String)
+  name: TryGetManagedValue<T>(IDataTransfer, string)
+  href: api/Avalonia.Xaml.Interactions.DragAndDrop.ManagedDataTransferExtensions.html#Avalonia_Xaml_Interactions_DragAndDrop_ManagedDataTransferExtensions_TryGetManagedValue__1_Avalonia_Input_IDataTransfer_System_String_
+  commentId: M:Avalonia.Xaml.Interactions.DragAndDrop.ManagedDataTransferExtensions.TryGetManagedValue``1(Avalonia.Input.IDataTransfer,System.String)
+  name.vb: TryGetManagedValue(Of T)(IDataTransfer, String)
+  fullName: Avalonia.Xaml.Interactions.DragAndDrop.ManagedDataTransferExtensions.TryGetManagedValue<T>(Avalonia.Input.IDataTransfer, string)
+  fullName.vb: Avalonia.Xaml.Interactions.DragAndDrop.ManagedDataTransferExtensions.TryGetManagedValue(Of T)(Avalonia.Input.IDataTransfer, String)
+  nameWithType: ManagedDataTransferExtensions.TryGetManagedValue<T>(IDataTransfer, string)
+  nameWithType.vb: ManagedDataTransferExtensions.TryGetManagedValue(Of T)(IDataTransfer, String)
+- uid: Avalonia.Xaml.Interactions.DragAndDrop.ManagedDataTransferExtensions.TryGetManagedValue``1(Avalonia.Input.IDataTransferItem,System.String)
+  name: TryGetManagedValue<T>(IDataTransferItem, string)
+  href: api/Avalonia.Xaml.Interactions.DragAndDrop.ManagedDataTransferExtensions.html#Avalonia_Xaml_Interactions_DragAndDrop_ManagedDataTransferExtensions_TryGetManagedValue__1_Avalonia_Input_IDataTransferItem_System_String_
+  commentId: M:Avalonia.Xaml.Interactions.DragAndDrop.ManagedDataTransferExtensions.TryGetManagedValue``1(Avalonia.Input.IDataTransferItem,System.String)
+  name.vb: TryGetManagedValue(Of T)(IDataTransferItem, String)
+  fullName: Avalonia.Xaml.Interactions.DragAndDrop.ManagedDataTransferExtensions.TryGetManagedValue<T>(Avalonia.Input.IDataTransferItem, string)
+  fullName.vb: Avalonia.Xaml.Interactions.DragAndDrop.ManagedDataTransferExtensions.TryGetManagedValue(Of T)(Avalonia.Input.IDataTransferItem, String)
+  nameWithType: ManagedDataTransferExtensions.TryGetManagedValue<T>(IDataTransferItem, string)
+  nameWithType.vb: ManagedDataTransferExtensions.TryGetManagedValue(Of T)(IDataTransferItem, String)
 - uid: Avalonia.Xaml.Interactions.DragAndDrop.ManagedDragDropService
   name: ManagedDragDropService
   href: api/Avalonia.Xaml.Interactions.DragAndDrop.ManagedDragDropService.html
@@ -23685,15 +23753,15 @@ references:
   isSpec: "True"
   fullName: Avalonia.Xaml.Interactions.Events.GotFocusEventBehavior.OnDetachedFromVisualTree
   nameWithType: GotFocusEventBehavior.OnDetachedFromVisualTree
-- uid: Avalonia.Xaml.Interactions.Events.GotFocusEventBehavior.OnGotFocus(System.Object,Avalonia.Input.GotFocusEventArgs)
-  name: OnGotFocus(object?, GotFocusEventArgs)
-  href: api/Avalonia.Xaml.Interactions.Events.GotFocusEventBehavior.html#Avalonia_Xaml_Interactions_Events_GotFocusEventBehavior_OnGotFocus_System_Object_Avalonia_Input_GotFocusEventArgs_
-  commentId: M:Avalonia.Xaml.Interactions.Events.GotFocusEventBehavior.OnGotFocus(System.Object,Avalonia.Input.GotFocusEventArgs)
-  name.vb: OnGotFocus(Object, GotFocusEventArgs)
-  fullName: Avalonia.Xaml.Interactions.Events.GotFocusEventBehavior.OnGotFocus(object?, Avalonia.Input.GotFocusEventArgs)
-  fullName.vb: Avalonia.Xaml.Interactions.Events.GotFocusEventBehavior.OnGotFocus(Object, Avalonia.Input.GotFocusEventArgs)
-  nameWithType: GotFocusEventBehavior.OnGotFocus(object?, GotFocusEventArgs)
-  nameWithType.vb: GotFocusEventBehavior.OnGotFocus(Object, GotFocusEventArgs)
+- uid: Avalonia.Xaml.Interactions.Events.GotFocusEventBehavior.OnGotFocus(System.Object,Avalonia.Input.FocusChangedEventArgs)
+  name: OnGotFocus(object?, FocusChangedEventArgs)
+  href: api/Avalonia.Xaml.Interactions.Events.GotFocusEventBehavior.html#Avalonia_Xaml_Interactions_Events_GotFocusEventBehavior_OnGotFocus_System_Object_Avalonia_Input_FocusChangedEventArgs_
+  commentId: M:Avalonia.Xaml.Interactions.Events.GotFocusEventBehavior.OnGotFocus(System.Object,Avalonia.Input.FocusChangedEventArgs)
+  name.vb: OnGotFocus(Object, FocusChangedEventArgs)
+  fullName: Avalonia.Xaml.Interactions.Events.GotFocusEventBehavior.OnGotFocus(object?, Avalonia.Input.FocusChangedEventArgs)
+  fullName.vb: Avalonia.Xaml.Interactions.Events.GotFocusEventBehavior.OnGotFocus(Object, Avalonia.Input.FocusChangedEventArgs)
+  nameWithType: GotFocusEventBehavior.OnGotFocus(object?, FocusChangedEventArgs)
+  nameWithType.vb: GotFocusEventBehavior.OnGotFocus(Object, FocusChangedEventArgs)
 - uid: Avalonia.Xaml.Interactions.Events.GotFocusEventBehavior.OnGotFocus*
   name: OnGotFocus
   href: api/Avalonia.Xaml.Interactions.Events.GotFocusEventBehavior.html#Avalonia_Xaml_Interactions_Events_GotFocusEventBehavior_OnGotFocus_
@@ -23925,15 +23993,15 @@ references:
   isSpec: "True"
   fullName: Avalonia.Xaml.Interactions.Events.LostFocusEventBehavior.OnDetachedFromVisualTree
   nameWithType: LostFocusEventBehavior.OnDetachedFromVisualTree
-- uid: Avalonia.Xaml.Interactions.Events.LostFocusEventBehavior.OnLostFocus(System.Object,Avalonia.Interactivity.RoutedEventArgs)
-  name: OnLostFocus(object?, RoutedEventArgs)
-  href: api/Avalonia.Xaml.Interactions.Events.LostFocusEventBehavior.html#Avalonia_Xaml_Interactions_Events_LostFocusEventBehavior_OnLostFocus_System_Object_Avalonia_Interactivity_RoutedEventArgs_
-  commentId: M:Avalonia.Xaml.Interactions.Events.LostFocusEventBehavior.OnLostFocus(System.Object,Avalonia.Interactivity.RoutedEventArgs)
-  name.vb: OnLostFocus(Object, RoutedEventArgs)
-  fullName: Avalonia.Xaml.Interactions.Events.LostFocusEventBehavior.OnLostFocus(object?, Avalonia.Interactivity.RoutedEventArgs)
-  fullName.vb: Avalonia.Xaml.Interactions.Events.LostFocusEventBehavior.OnLostFocus(Object, Avalonia.Interactivity.RoutedEventArgs)
-  nameWithType: LostFocusEventBehavior.OnLostFocus(object?, RoutedEventArgs)
-  nameWithType.vb: LostFocusEventBehavior.OnLostFocus(Object, RoutedEventArgs)
+- uid: Avalonia.Xaml.Interactions.Events.LostFocusEventBehavior.OnLostFocus(System.Object,Avalonia.Input.FocusChangedEventArgs)
+  name: OnLostFocus(object?, FocusChangedEventArgs)
+  href: api/Avalonia.Xaml.Interactions.Events.LostFocusEventBehavior.html#Avalonia_Xaml_Interactions_Events_LostFocusEventBehavior_OnLostFocus_System_Object_Avalonia_Input_FocusChangedEventArgs_
+  commentId: M:Avalonia.Xaml.Interactions.Events.LostFocusEventBehavior.OnLostFocus(System.Object,Avalonia.Input.FocusChangedEventArgs)
+  name.vb: OnLostFocus(Object, FocusChangedEventArgs)
+  fullName: Avalonia.Xaml.Interactions.Events.LostFocusEventBehavior.OnLostFocus(object?, Avalonia.Input.FocusChangedEventArgs)
+  fullName.vb: Avalonia.Xaml.Interactions.Events.LostFocusEventBehavior.OnLostFocus(Object, Avalonia.Input.FocusChangedEventArgs)
+  nameWithType: LostFocusEventBehavior.OnLostFocus(object?, FocusChangedEventArgs)
+  nameWithType.vb: LostFocusEventBehavior.OnLostFocus(Object, FocusChangedEventArgs)
 - uid: Avalonia.Xaml.Interactions.Events.LostFocusEventBehavior.OnLostFocus*
   name: OnLostFocus
   href: api/Avalonia.Xaml.Interactions.Events.LostFocusEventBehavior.html#Avalonia_Xaml_Interactions_Events_LostFocusEventBehavior_OnLostFocus_

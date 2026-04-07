@@ -98,7 +98,7 @@ Class GotFocusEventBehavior  <a class="header-action link-secondary" title="View
   <div class="markdown conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public abstract class GotFocusEventBehavior : InteractiveBehaviorBase, INotifyPropertyChanged, IDataContextProvider, ILogical, IThemeVariantHost, IResourceHost, IResourceNode, IStyleHost, ISetLogicalParent, ISetInheritanceParent, ISupportInitialize, IStyleable, INamed, IBehavior, IBehaviorEventsHandler</code></pre>
+    <pre><code class="lang-csharp hljs">public abstract class GotFocusEventBehavior : InteractiveBehaviorBase, INotifyPropertyChanged, IDataContextProvider, ILogical, IThemeVariantHost, IResourceHost, IResourceNode, IStyleHost, ISetLogicalParent, ISetInheritanceParent, ISupportInitialize, INamed, IBehavior, IBehaviorEventsHandler</code></pre>
   </div>
 
 
@@ -131,7 +131,6 @@ Class GotFocusEventBehavior  <a class="header-action link-secondary" title="View
       <div><span class="xref">ISetLogicalParent</span></div>
       <div><span class="xref">ISetInheritanceParent</span></div>
       <div><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.componentmodel.isupportinitialize">ISupportInitialize</a></div>
-      <div><span class="xref">IStyleable</span></div>
       <div><span class="xref">INamed</span></div>
       <div><a class="xref" href="Avalonia.Xaml.Interactivity.IBehavior.html">IBehavior</a></div>
       <div><a class="xref" href="Avalonia.Xaml.Interactivity.IBehaviorEventsHandler.html">IBehaviorEventsHandler</a></div>
@@ -377,7 +376,7 @@ Class GotFocusEventBehavior  <a class="header-action link-secondary" title="View
       <span class="xref">AvaloniaObject.SetCurrentValue&lt;T&gt;(StyledProperty&lt;T&gt;, T)</span>
     </div>
     <div>
-      <span class="xref">AvaloniaObject.Bind(AvaloniaProperty, IBinding)</span>
+      <span class="xref">AvaloniaObject.Bind(AvaloniaProperty, BindingBase)</span>
     </div>
     <div>
       <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.iobservable-1">AvaloniaObject.Bind(AvaloniaProperty, IObservable&lt;object&gt;, BindingPriority)</a>
@@ -420,6 +419,9 @@ Class GotFocusEventBehavior  <a class="header-action link-secondary" title="View
     </div>
     <div>
       <span class="xref">AvaloniaObject.this[IndexerDescriptor]</span>
+    </div>
+    <div>
+      <span class="xref">AvaloniaObject.Dispatcher</span>
     </div>
     <div>
       <span class="xref">AvaloniaObject.PropertyChanged</span>
@@ -512,8 +514,8 @@ Class GotFocusEventBehavior  <a class="header-action link-secondary" title="View
 
   <a id="Avalonia_Xaml_Interactions_Events_GotFocusEventBehavior_OnGotFocus_" data-uid="Avalonia.Xaml.Interactions.Events.GotFocusEventBehavior.OnGotFocus*"></a>
 
-  <h3 id="Avalonia_Xaml_Interactions_Events_GotFocusEventBehavior_OnGotFocus_System_Object_Avalonia_Input_GotFocusEventArgs_" data-uid="Avalonia.Xaml.Interactions.Events.GotFocusEventBehavior.OnGotFocus(System.Object,Avalonia.Input.GotFocusEventArgs)">
-  OnGotFocus(object?, GotFocusEventArgs)
+  <h3 id="Avalonia_Xaml_Interactions_Events_GotFocusEventBehavior_OnGotFocus_System_Object_Avalonia_Input_FocusChangedEventArgs_" data-uid="Avalonia.Xaml.Interactions.Events.GotFocusEventBehavior.OnGotFocus(System.Object,Avalonia.Input.FocusChangedEventArgs)">
+  OnGotFocus(object?, FocusChangedEventArgs)
   <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactions.Events/GotFocusEventBehavior.cs/#L35"><i class="bi bi-code-slash"></i></a>
   </h3>
 
@@ -522,14 +524,14 @@ Class GotFocusEventBehavior  <a class="header-action link-secondary" title="View
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">protected virtual void OnGotFocus(object? sender, GotFocusEventArgs e)</code></pre>
+    <pre><code class="lang-csharp hljs">protected virtual void OnGotFocus(object? sender, FocusChangedEventArgs e)</code></pre>
   </div>
 
   <h4 class="section">Parameters</h4>
   <dl class="parameters">
     <dt><code>sender</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a></dt>
     <dd></dd>
-    <dt><code>e</code> <span class="xref">GotFocusEventArgs</span></dt>
+    <dt><code>e</code> <span class="xref">FocusChangedEventArgs</span></dt>
     <dd></dd>
   </dl>
 

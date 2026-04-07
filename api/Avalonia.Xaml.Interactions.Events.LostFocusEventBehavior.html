@@ -85,7 +85,7 @@
 
 
   <h1 id="Avalonia_Xaml_Interactions_Events_LostFocusEventBehavior" data-uid="Avalonia.Xaml.Interactions.Events.LostFocusEventBehavior" class="text-break">
-Class LostFocusEventBehavior  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactions.Events/LostFocusEventBehavior.cs/#L12"><i class="bi bi-code-slash"></i></a>
+Class LostFocusEventBehavior  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactions.Events/LostFocusEventBehavior.cs/#L11"><i class="bi bi-code-slash"></i></a>
   </h1>
 
   <div class="facts text-secondary">
@@ -98,7 +98,7 @@ Class LostFocusEventBehavior  <a class="header-action link-secondary" title="Vie
   <div class="markdown conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public abstract class LostFocusEventBehavior : InteractiveBehaviorBase, INotifyPropertyChanged, IDataContextProvider, ILogical, IThemeVariantHost, IResourceHost, IResourceNode, IStyleHost, ISetLogicalParent, ISetInheritanceParent, ISupportInitialize, IStyleable, INamed, IBehavior, IBehaviorEventsHandler</code></pre>
+    <pre><code class="lang-csharp hljs">public abstract class LostFocusEventBehavior : InteractiveBehaviorBase, INotifyPropertyChanged, IDataContextProvider, ILogical, IThemeVariantHost, IResourceHost, IResourceNode, IStyleHost, ISetLogicalParent, ISetInheritanceParent, ISupportInitialize, INamed, IBehavior, IBehaviorEventsHandler</code></pre>
   </div>
 
 
@@ -131,7 +131,6 @@ Class LostFocusEventBehavior  <a class="header-action link-secondary" title="Vie
       <div><span class="xref">ISetLogicalParent</span></div>
       <div><span class="xref">ISetInheritanceParent</span></div>
       <div><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.componentmodel.isupportinitialize">ISupportInitialize</a></div>
-      <div><span class="xref">IStyleable</span></div>
       <div><span class="xref">INamed</span></div>
       <div><a class="xref" href="Avalonia.Xaml.Interactivity.IBehavior.html">IBehavior</a></div>
       <div><a class="xref" href="Avalonia.Xaml.Interactivity.IBehaviorEventsHandler.html">IBehaviorEventsHandler</a></div>
@@ -377,7 +376,7 @@ Class LostFocusEventBehavior  <a class="header-action link-secondary" title="Vie
       <span class="xref">AvaloniaObject.SetCurrentValue&lt;T&gt;(StyledProperty&lt;T&gt;, T)</span>
     </div>
     <div>
-      <span class="xref">AvaloniaObject.Bind(AvaloniaProperty, IBinding)</span>
+      <span class="xref">AvaloniaObject.Bind(AvaloniaProperty, BindingBase)</span>
     </div>
     <div>
       <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.iobservable-1">AvaloniaObject.Bind(AvaloniaProperty, IObservable&lt;object&gt;, BindingPriority)</a>
@@ -422,6 +421,9 @@ Class LostFocusEventBehavior  <a class="header-action link-secondary" title="Vie
       <span class="xref">AvaloniaObject.this[IndexerDescriptor]</span>
     </div>
     <div>
+      <span class="xref">AvaloniaObject.Dispatcher</span>
+    </div>
+    <div>
       <span class="xref">AvaloniaObject.PropertyChanged</span>
     </div>
     <div>
@@ -454,7 +456,7 @@ Class LostFocusEventBehavior  <a class="header-action link-secondary" title="Vie
 
   <h3 id="Avalonia_Xaml_Interactions_Events_LostFocusEventBehavior_OnAttachedToVisualTree" data-uid="Avalonia.Xaml.Interactions.Events.LostFocusEventBehavior.OnAttachedToVisualTree">
   OnAttachedToVisualTree()
-  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactions.Events/LostFocusEventBehavior.cs/#L15"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactions.Events/LostFocusEventBehavior.cs/#L14"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Called after the <a class="xref" href="Avalonia.Xaml.Interactivity.StyledElementBehavior.html#Avalonia_Xaml_Interactivity_StyledElementBehavior_AssociatedObject">AssociatedObject</a> is attached to the visual tree.</p>
@@ -484,7 +486,7 @@ Class LostFocusEventBehavior  <a class="header-action link-secondary" title="Vie
 
   <h3 id="Avalonia_Xaml_Interactions_Events_LostFocusEventBehavior_OnDetachedFromVisualTree" data-uid="Avalonia.Xaml.Interactions.Events.LostFocusEventBehavior.OnDetachedFromVisualTree">
   OnDetachedFromVisualTree()
-  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactions.Events/LostFocusEventBehavior.cs/#L21"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactions.Events/LostFocusEventBehavior.cs/#L20"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Called when the <a class="xref" href="Avalonia.Xaml.Interactivity.StyledElementBehavior.html#Avalonia_Xaml_Interactivity_StyledElementBehavior_AssociatedObject">AssociatedObject</a> is being detached from the visual tree.</p>
@@ -512,9 +514,9 @@ Class LostFocusEventBehavior  <a class="header-action link-secondary" title="Vie
 
   <a id="Avalonia_Xaml_Interactions_Events_LostFocusEventBehavior_OnLostFocus_" data-uid="Avalonia.Xaml.Interactions.Events.LostFocusEventBehavior.OnLostFocus*"></a>
 
-  <h3 id="Avalonia_Xaml_Interactions_Events_LostFocusEventBehavior_OnLostFocus_System_Object_Avalonia_Interactivity_RoutedEventArgs_" data-uid="Avalonia.Xaml.Interactions.Events.LostFocusEventBehavior.OnLostFocus(System.Object,Avalonia.Interactivity.RoutedEventArgs)">
-  OnLostFocus(object?, RoutedEventArgs)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactions.Events/LostFocusEventBehavior.cs/#L36"><i class="bi bi-code-slash"></i></a>
+  <h3 id="Avalonia_Xaml_Interactions_Events_LostFocusEventBehavior_OnLostFocus_System_Object_Avalonia_Input_FocusChangedEventArgs_" data-uid="Avalonia.Xaml.Interactions.Events.LostFocusEventBehavior.OnLostFocus(System.Object,Avalonia.Input.FocusChangedEventArgs)">
+  OnLostFocus(object?, FocusChangedEventArgs)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactions.Events/LostFocusEventBehavior.cs/#L35"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Called when the associated control loses focus.</p>
@@ -522,14 +524,14 @@ Class LostFocusEventBehavior  <a class="header-action link-secondary" title="Vie
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">protected virtual void OnLostFocus(object? sender, RoutedEventArgs e)</code></pre>
+    <pre><code class="lang-csharp hljs">protected virtual void OnLostFocus(object? sender, FocusChangedEventArgs e)</code></pre>
   </div>
 
   <h4 class="section">Parameters</h4>
   <dl class="parameters">
     <dt><code>sender</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a></dt>
     <dd></dd>
-    <dt><code>e</code> <span class="xref">RoutedEventArgs</span></dt>
+    <dt><code>e</code> <span class="xref">FocusChangedEventArgs</span></dt>
     <dd></dd>
   </dl>
 
@@ -548,7 +550,7 @@ Class LostFocusEventBehavior  <a class="header-action link-secondary" title="Vie
 </article>
 
         <div class="contribution d-print-none">
-          <a href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactions.Events/LostFocusEventBehavior.cs/#L12" class="edit-link">Edit this page</a>
+          <a href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactions.Events/LostFocusEventBehavior.cs/#L11" class="edit-link">Edit this page</a>
         </div>
 
 

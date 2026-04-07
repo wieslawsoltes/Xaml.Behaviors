@@ -98,7 +98,7 @@ Class AttachedToVisualTreeTriggerBase&lt;T&gt;  <a class="header-action link-sec
   <div class="markdown conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public abstract class AttachedToVisualTreeTriggerBase&lt;T&gt; : DisposingTrigger&lt;T&gt;, INotifyPropertyChanged, IDataContextProvider, ILogical, IThemeVariantHost, IResourceHost, IResourceNode, IStyleHost, ISetLogicalParent, ISetInheritanceParent, ISupportInitialize, IStyleable, INamed, IBehaviorEventsHandler, ITrigger, IBehavior where T : Visual</code></pre>
+    <pre><code class="lang-csharp hljs">public abstract class AttachedToVisualTreeTriggerBase&lt;T&gt; : DisposingTrigger&lt;T&gt;, INotifyPropertyChanged, IDataContextProvider, ILogical, IThemeVariantHost, IResourceHost, IResourceNode, IStyleHost, ISetLogicalParent, ISetInheritanceParent, ISupportInitialize, INamed, IBehaviorEventsHandler, ITrigger, IBehavior where T : Visual</code></pre>
   </div>
 
 
@@ -137,7 +137,6 @@ Class AttachedToVisualTreeTriggerBase&lt;T&gt;  <a class="header-action link-sec
       <div><span class="xref">ISetLogicalParent</span></div>
       <div><span class="xref">ISetInheritanceParent</span></div>
       <div><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.componentmodel.isupportinitialize">ISupportInitialize</a></div>
-      <div><span class="xref">IStyleable</span></div>
       <div><span class="xref">INamed</span></div>
       <div><a class="xref" href="Avalonia.Xaml.Interactivity.IBehaviorEventsHandler.html">IBehaviorEventsHandler</a></div>
       <div><a class="xref" href="Avalonia.Xaml.Interactivity.ITrigger.html">ITrigger</a></div>
@@ -396,7 +395,7 @@ Class AttachedToVisualTreeTriggerBase&lt;T&gt;  <a class="header-action link-sec
       <span class="xref">AvaloniaObject.SetCurrentValue&lt;T&gt;(StyledProperty&lt;T&gt;, T)</span>
     </div>
     <div>
-      <span class="xref">AvaloniaObject.Bind(AvaloniaProperty, IBinding)</span>
+      <span class="xref">AvaloniaObject.Bind(AvaloniaProperty, BindingBase)</span>
     </div>
     <div>
       <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.iobservable-1">AvaloniaObject.Bind(AvaloniaProperty, IObservable&lt;object&gt;, BindingPriority)</a>
@@ -439,6 +438,9 @@ Class AttachedToVisualTreeTriggerBase&lt;T&gt;  <a class="header-action link-sec
     </div>
     <div>
       <span class="xref">AvaloniaObject.this[IndexerDescriptor]</span>
+    </div>
+    <div>
+      <span class="xref">AvaloniaObject.Dispatcher</span>
     </div>
     <div>
       <span class="xref">AvaloniaObject.PropertyChanged</span>

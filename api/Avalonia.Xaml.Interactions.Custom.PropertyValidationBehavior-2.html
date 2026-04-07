@@ -99,7 +99,7 @@ Class PropertyValidationBehavior&lt;TControl, TValue&gt;  <a class="header-actio
 
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">[SuppressMessage(&quot;AvaloniaProperty&quot;, &quot;AVP1002:AvaloniaProperty objects should not be owned by a generic type&quot;)]
-public class PropertyValidationBehavior&lt;TControl, TValue&gt; : DisposingBehavior&lt;TControl&gt;, INotifyPropertyChanged, IDataContextProvider, ILogical, IThemeVariantHost, IResourceHost, IResourceNode, IStyleHost, ISetLogicalParent, ISetInheritanceParent, ISupportInitialize, IStyleable, INamed, IBehavior, IBehaviorEventsHandler where TControl : AvaloniaObject</code></pre>
+public class PropertyValidationBehavior&lt;TControl, TValue&gt; : DisposingBehavior&lt;TControl&gt;, INotifyPropertyChanged, IDataContextProvider, ILogical, IThemeVariantHost, IResourceHost, IResourceNode, IStyleHost, ISetLogicalParent, ISetInheritanceParent, ISupportInitialize, INamed, IBehavior, IBehaviorEventsHandler where TControl : AvaloniaObject</code></pre>
   </div>
 
 
@@ -141,7 +141,6 @@ public class PropertyValidationBehavior&lt;TControl, TValue&gt; : DisposingBehav
       <div><span class="xref">ISetLogicalParent</span></div>
       <div><span class="xref">ISetInheritanceParent</span></div>
       <div><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.componentmodel.isupportinitialize">ISupportInitialize</a></div>
-      <div><span class="xref">IStyleable</span></div>
       <div><span class="xref">INamed</span></div>
       <div><a class="xref" href="Avalonia.Xaml.Interactivity.IBehavior.html">IBehavior</a></div>
       <div><a class="xref" href="Avalonia.Xaml.Interactivity.IBehaviorEventsHandler.html">IBehaviorEventsHandler</a></div>
@@ -394,7 +393,7 @@ public class PropertyValidationBehavior&lt;TControl, TValue&gt; : DisposingBehav
       <span class="xref">AvaloniaObject.SetCurrentValue&lt;T&gt;(StyledProperty&lt;T&gt;, T)</span>
     </div>
     <div>
-      <span class="xref">AvaloniaObject.Bind(AvaloniaProperty, IBinding)</span>
+      <span class="xref">AvaloniaObject.Bind(AvaloniaProperty, BindingBase)</span>
     </div>
     <div>
       <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.iobservable-1">AvaloniaObject.Bind(AvaloniaProperty, IObservable&lt;object&gt;, BindingPriority)</a>
@@ -437,6 +436,9 @@ public class PropertyValidationBehavior&lt;TControl, TValue&gt; : DisposingBehav
     </div>
     <div>
       <span class="xref">AvaloniaObject.this[IndexerDescriptor]</span>
+    </div>
+    <div>
+      <span class="xref">AvaloniaObject.Dispatcher</span>
     </div>
     <div>
       <span class="xref">AvaloniaObject.PropertyChanged</span>

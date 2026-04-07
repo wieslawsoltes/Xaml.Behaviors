@@ -182,7 +182,7 @@ Class Condition  <a class="header-action link-secondary" title="View source" hre
       <span class="xref">AvaloniaObject.SetCurrentValue&lt;T&gt;(StyledProperty&lt;T&gt;, T)</span>
     </div>
     <div>
-      <span class="xref">AvaloniaObject.Bind(AvaloniaProperty, IBinding)</span>
+      <span class="xref">AvaloniaObject.Bind(AvaloniaProperty, BindingBase)</span>
     </div>
     <div>
       <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.iobservable-1">AvaloniaObject.Bind(AvaloniaProperty, IObservable&lt;object&gt;, BindingPriority)</a>
@@ -230,6 +230,9 @@ Class Condition  <a class="header-action link-secondary" title="View source" hre
       <span class="xref">AvaloniaObject.this[IndexerDescriptor]</span>
     </div>
     <div>
+      <span class="xref">AvaloniaObject.Dispatcher</span>
+    </div>
+    <div>
       <span class="xref">AvaloniaObject.PropertyChanged</span>
     </div>
     <div>
@@ -269,7 +272,7 @@ Class Condition  <a class="header-action link-secondary" title="View source" hre
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static readonly StyledProperty&lt;IBinding?&gt; BindingProperty</code></pre>
+    <pre><code class="lang-csharp hljs">public static readonly StyledProperty&lt;BindingBase?&gt; BindingProperty</code></pre>
   </div>
 
 
@@ -277,7 +280,7 @@ Class Condition  <a class="header-action link-secondary" title="View source" hre
 
   <h4 class="section">Field Value</h4>
   <dl class="parameters">
-    <dt><span class="xref">StyledProperty</span>&lt;<span class="xref">IBinding</span>&gt;</dt>
+    <dt><span class="xref">StyledProperty</span>&lt;<span class="xref">BindingBase</span>&gt;</dt>
     <dd></dd>
   </dl>
 
@@ -430,7 +433,7 @@ Class Condition  <a class="header-action link-secondary" title="View source" hre
 
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">[AssignBinding]
-public IBinding? Binding { get; set; }</code></pre>
+public BindingBase? Binding { get; set; }</code></pre>
   </div>
 
 
@@ -439,7 +442,7 @@ public IBinding? Binding { get; set; }</code></pre>
 
   <h4 class="section">Property Value</h4>
   <dl class="parameters">
-    <dt><span class="xref">IBinding</span></dt>
+    <dt><span class="xref">BindingBase</span></dt>
     <dd></dd>
   </dl>
 

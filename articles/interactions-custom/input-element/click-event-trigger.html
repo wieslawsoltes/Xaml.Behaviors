@@ -88,6 +88,7 @@
 <ul>
 <li>Pointer click handling with <code>ClickMode</code> (<code>Release</code> / <code>Press</code>)</li>
 <li>Keyboard activation (<code>Enter</code>, <code>Space</code>)</li>
+<li>Configurable input subscription routing via <code>RoutingStrategies</code></li>
 <li>Optional <code>IsDefault</code> and <code>IsCancel</code> root key handling</li>
 <li>Optional flyout toggle behavior</li>
 <li>Optional exact <code>KeyModifiers</code> filtering</li>
@@ -115,6 +116,11 @@
 <td><code>ClickMode</code></td>
 <td><code>ClickMode</code></td>
 <td>Determines whether the click fires on press or release. Default is <code>Release</code>.</td>
+</tr>
+<tr>
+<td><code>RoutingStrategies</code></td>
+<td><code>RoutingStrategies</code></td>
+<td>Routed-event strategies used for pointer/keyboard subscriptions. Default is <code>Tunnel</code>.</td>
 </tr>
 <tr>
 <td><code>KeyModifiers</code></td>
@@ -187,6 +193,99 @@
 </tbody>
 </table>
 <p><code>SourceControl</code> and <code>HandledEventsToo</code> are safe to change at runtime. The trigger reattaches its handlers automatically when either value changes.</p>
+<p><code>RoutingStrategies</code> is also safe to change at runtime. The trigger reattaches pointer/keyboard handlers when the value changes.</p>
+<h2 id="routingstrategies-deep-dive">RoutingStrategies Deep Dive</h2>
+<p><code>ClickEventTrigger</code> listens to pointer/key routed events and then executes its click semantics.
+<code>RoutingStrategies</code> controls <em>where in the routed-event pipeline</em> those handlers run.</p>
+<h3 id="why-the-default-is-tunnel">Why the default is <code>Tunnel</code></h3>
+<p>Defaulting to <code>Tunnel</code> makes <code>ClickEventTrigger</code> deterministic for command/picker workflows on controls such as <code>Button</code>:</p>
+<ul>
+<li>Tunnel handlers run before bubble handlers.</li>
+<li>With <code>HandleEvent=&quot;True&quot;</code> (default), the trigger can consume the event first.</li>
+<li>This avoids native control command paths running before picker cancel checks.</li>
+</ul>
+<h3 id="choosing-a-strategy">Choosing a strategy</h3>
+<table>
+<thead>
+<tr>
+<th>Goal</th>
+<th><code>RoutingStrategies</code></th>
+<th>Typical companion settings</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Intercept first and keep trigger authoritative</td>
+<td><code>Tunnel</code> (default)</td>
+<td><code>HandleEvent=&quot;True&quot;</code></td>
+<td>Best for picker/action-driven click behavior where native command side-effects should not run first.</td>
+</tr>
+<tr>
+<td>Let native control behavior run first, then observe</td>
+<td><code>Bubble</code></td>
+<td><code>HandleEvent=&quot;False&quot;</code> + <code>HandledEventsToo=&quot;True&quot;</code></td>
+<td>Useful for telemetry, mirrored actions, or secondary command paths.</td>
+</tr>
+<tr>
+<td>Observe both routed phases</td>
+<td><code>Tunnel,Bubble</code></td>
+<td>Depends on scenario</td>
+<td>Useful for complex trees/source controls. Keep trigger actions idempotent, because routes can pass through both phases.</td>
+</tr>
+<tr>
+<td>Subscribe only to direct stage</td>
+<td><code>Direct</code></td>
+<td>Advanced usage</td>
+<td>Only use when you specifically need direct routing semantics.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="example-default-tunnel-for-pickercommand-safety">Example: Default <code>Tunnel</code> for picker/command safety</h3>
+<pre><code class="lang-xml">&lt;Button Content=&quot;Save&quot;
+        Command=&quot;{Binding NativeButtonCommand}&quot;&gt;
+    &lt;Interaction.Behaviors&gt;
+        &lt;ClickEventTrigger RoutingStrategies=&quot;Tunnel&quot;&gt;
+            &lt;SaveFilePickerAction Command=&quot;{Binding SaveFileCommand}&quot;
+                                  Title=&quot;Save Document&quot; /&gt;
+        &lt;/ClickEventTrigger&gt;
+    &lt;/Interaction.Behaviors&gt;
+&lt;/Button&gt;
+</code></pre>
+<p>Use this when the trigger action should own click processing and native command behavior should not run first.</p>
+<h3 id="example-bubble-to-preserve-native-behavior">Example: <code>Bubble</code> to preserve native behavior</h3>
+<pre><code class="lang-xml">&lt;Button Content=&quot;Run native + analytics&quot;
+        Command=&quot;{Binding NativeButtonCommand}&quot;&gt;
+    &lt;Interaction.Behaviors&gt;
+        &lt;ClickEventTrigger RoutingStrategies=&quot;Bubble&quot;
+                           HandleEvent=&quot;False&quot;
+                           HandledEventsToo=&quot;True&quot;&gt;
+            &lt;InvokeCommandAction Command=&quot;{Binding AnalyticsCommand}&quot; /&gt;
+        &lt;/ClickEventTrigger&gt;
+    &lt;/Interaction.Behaviors&gt;
+&lt;/Button&gt;
+</code></pre>
+<p>Use this when native control behavior is primary and trigger actions are additive.</p>
+<h3 id="example-combined-flags-tunnelbubble-with-external-source">Example: Combined flags (<code>Tunnel,Bubble</code>) with external source</h3>
+<pre><code class="lang-xml">&lt;StackPanel Orientation=&quot;Horizontal&quot; Spacing=&quot;8&quot;&gt;
+    &lt;TextBox Name=&quot;SearchBox&quot; Width=&quot;260&quot; Text=&quot;{Binding Query}&quot; /&gt;
+
+    &lt;Border Width=&quot;260&quot;
+            Height=&quot;64&quot;
+            Background=&quot;LightSteelBlue&quot;
+            Focusable=&quot;True&quot;&gt;
+        &lt;Interaction.Behaviors&gt;
+            &lt;ClickEventTrigger SourceControl=&quot;SearchBox&quot;
+                               RoutingStrategies=&quot;Tunnel,Bubble&quot;
+                               HandleEvent=&quot;False&quot;
+                               HandledEventsToo=&quot;True&quot;&gt;
+                &lt;InvokeCommandAction Command=&quot;{Binding SearchBoxClickCommand}&quot; /&gt;
+            &lt;/ClickEventTrigger&gt;
+        &lt;/Interaction.Behaviors&gt;
+    &lt;/Border&gt;
+&lt;/StackPanel&gt;
+</code></pre>
+<p>Use this when source events may be observed in different routed phases and you want maximum compatibility.</p>
 <h3 id="pointer-capture-guidance">Pointer Capture Guidance</h3>
 <p><code>ClickEventTrigger</code> now avoids pointer capture for <code>TextBox</code> sources and for non-invasive mode (<code>HandleEvent=&quot;False&quot;</code>).</p>
 <p>Use this guidance:</p>

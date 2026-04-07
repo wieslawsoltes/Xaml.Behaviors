@@ -5814,6 +5814,20 @@
     },
     {
       "type": "ManagedReference",
+      "source_relative_path": "api/Avalonia.Xaml.Interactions.DragAndDrop.ManagedDataTransferExtensions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Avalonia.Xaml.Interactions.DragAndDrop.ManagedDataTransferExtensions.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Avalonia.Xaml.Interactions.DragAndDrop.ManagedDataTransferExtensions",
+      "Summary": "<p sourcefile=\"api/Avalonia.Xaml.Interactions.DragAndDrop.ManagedDataTransferExtensions.yml\" sourcestartlinenumber=\"1\">Provides helpers to retrieve managed drag-drop payloads from Avalonia 12 data transfer objects.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
       "source_relative_path": "api/Avalonia.Xaml.Interactions.DragAndDrop.ManagedDragDropService.yml",
       "output": {
         ".html": {
@@ -6048,7 +6062,7 @@
       "Uid": null,
       "IsMRef": true,
       "Title": "Avalonia.Xaml.Interactions.Events.DoubleTappedEventBehavior",
-      "Summary": "<p sourcefile=\"api/Avalonia.Xaml.Interactions.Events.DoubleTappedEventBehavior.yml\" sourcestartlinenumber=\"1\">Behavior that listens for <xref href=\"Avalonia.Input.Gestures.DoubleTappedEvent\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
+      "Summary": "<p sourcefile=\"api/Avalonia.Xaml.Interactions.Events.DoubleTappedEventBehavior.yml\" sourcestartlinenumber=\"1\">Behavior that listens for <xref href=\"Avalonia.Input.InputElement.DoubleTappedEvent\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
     },
     {
       "type": "ManagedReference",
@@ -6062,7 +6076,7 @@
       "Uid": null,
       "IsMRef": true,
       "Title": "Avalonia.Xaml.Interactions.Events.DoubleTappedEventTrigger",
-      "Summary": "<p sourcefile=\"api/Avalonia.Xaml.Interactions.Events.DoubleTappedEventTrigger.yml\" sourcestartlinenumber=\"1\">Trigger that listens for <xref href=\"Avalonia.Input.Gestures.DoubleTappedEvent\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
+      "Summary": "<p sourcefile=\"api/Avalonia.Xaml.Interactions.Events.DoubleTappedEventTrigger.yml\" sourcestartlinenumber=\"1\">Trigger that listens for <xref href=\"Avalonia.Input.InputElement.DoubleTappedEvent\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
     },
     {
       "type": "ManagedReference",
@@ -6468,7 +6482,7 @@
       "Uid": null,
       "IsMRef": true,
       "Title": "Avalonia.Xaml.Interactions.Events.RightTappedEventBehavior",
-      "Summary": "<p sourcefile=\"api/Avalonia.Xaml.Interactions.Events.RightTappedEventBehavior.yml\" sourcestartlinenumber=\"1\">Behavior that handles the <xref href=\"Avalonia.Input.Gestures.RightTappedEvent\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
+      "Summary": "<p sourcefile=\"api/Avalonia.Xaml.Interactions.Events.RightTappedEventBehavior.yml\" sourcestartlinenumber=\"1\">Behavior that handles the <xref href=\"Avalonia.Input.InputElement.RightTappedEvent\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
     },
     {
       "type": "ManagedReference",
@@ -6482,7 +6496,7 @@
       "Uid": null,
       "IsMRef": true,
       "Title": "Avalonia.Xaml.Interactions.Events.RightTappedEventTrigger",
-      "Summary": "<p sourcefile=\"api/Avalonia.Xaml.Interactions.Events.RightTappedEventTrigger.yml\" sourcestartlinenumber=\"1\">Trigger that listens for the <xref href=\"Avalonia.Input.Gestures.RightTappedEvent\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
+      "Summary": "<p sourcefile=\"api/Avalonia.Xaml.Interactions.Events.RightTappedEventTrigger.yml\" sourcestartlinenumber=\"1\">Trigger that listens for the <xref href=\"Avalonia.Input.InputElement.RightTappedEvent\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
     },
     {
       "type": "ManagedReference",
@@ -6496,7 +6510,7 @@
       "Uid": null,
       "IsMRef": true,
       "Title": "Avalonia.Xaml.Interactions.Events.ScrollGestureEndedEventBehavior",
-      "Summary": "<p sourcefile=\"api/Avalonia.Xaml.Interactions.Events.ScrollGestureEndedEventBehavior.yml\" sourcestartlinenumber=\"1\">Behavior that handles the <xref href=\"Avalonia.Input.Gestures.ScrollGestureEndedEvent\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
+      "Summary": "<p sourcefile=\"api/Avalonia.Xaml.Interactions.Events.ScrollGestureEndedEventBehavior.yml\" sourcestartlinenumber=\"1\">Behavior that handles the <xref href=\"Avalonia.Input.InputElement.ScrollGestureEndedEvent\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
     },
     {
       "type": "ManagedReference",
@@ -6510,7 +6524,7 @@
       "Uid": null,
       "IsMRef": true,
       "Title": "Avalonia.Xaml.Interactions.Events.ScrollGestureEndedEventTrigger",
-      "Summary": "<p sourcefile=\"api/Avalonia.Xaml.Interactions.Events.ScrollGestureEndedEventTrigger.yml\" sourcestartlinenumber=\"1\">Trigger that listens for the <xref href=\"Avalonia.Input.Gestures.ScrollGestureEndedEvent\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
+      "Summary": "<p sourcefile=\"api/Avalonia.Xaml.Interactions.Events.ScrollGestureEndedEventTrigger.yml\" sourcestartlinenumber=\"1\">Trigger that listens for the <xref href=\"Avalonia.Input.InputElement.ScrollGestureEndedEvent\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
     },
     {
       "type": "ManagedReference",
@@ -6524,7 +6538,7 @@
       "Uid": null,
       "IsMRef": true,
       "Title": "Avalonia.Xaml.Interactions.Events.ScrollGestureEventBehavior",
-      "Summary": "<p sourcefile=\"api/Avalonia.Xaml.Interactions.Events.ScrollGestureEventBehavior.yml\" sourcestartlinenumber=\"1\">Behavior that handles the <xref href=\"Avalonia.Input.Gestures.ScrollGestureEvent\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
+      "Summary": "<p sourcefile=\"api/Avalonia.Xaml.Interactions.Events.ScrollGestureEventBehavior.yml\" sourcestartlinenumber=\"1\">Behavior that handles the <xref href=\"Avalonia.Input.InputElement.ScrollGestureEvent\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
     },
     {
       "type": "ManagedReference",
@@ -6538,7 +6552,7 @@
       "Uid": null,
       "IsMRef": true,
       "Title": "Avalonia.Xaml.Interactions.Events.ScrollGestureEventTrigger",
-      "Summary": "<p sourcefile=\"api/Avalonia.Xaml.Interactions.Events.ScrollGestureEventTrigger.yml\" sourcestartlinenumber=\"1\">Trigger that listens for the <xref href=\"Avalonia.Input.Gestures.ScrollGestureEvent\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
+      "Summary": "<p sourcefile=\"api/Avalonia.Xaml.Interactions.Events.ScrollGestureEventTrigger.yml\" sourcestartlinenumber=\"1\">Trigger that listens for the <xref href=\"Avalonia.Input.InputElement.ScrollGestureEvent\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
     },
     {
       "type": "ManagedReference",
@@ -6552,7 +6566,7 @@
       "Uid": null,
       "IsMRef": true,
       "Title": "Avalonia.Xaml.Interactions.Events.TappedEventBehavior",
-      "Summary": "<p sourcefile=\"api/Avalonia.Xaml.Interactions.Events.TappedEventBehavior.yml\" sourcestartlinenumber=\"1\">Behavior that handles the <xref href=\"Avalonia.Input.Gestures.TappedEvent\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
+      "Summary": "<p sourcefile=\"api/Avalonia.Xaml.Interactions.Events.TappedEventBehavior.yml\" sourcestartlinenumber=\"1\">Behavior that handles the <xref href=\"Avalonia.Input.InputElement.TappedEvent\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
     },
     {
       "type": "ManagedReference",
@@ -6566,7 +6580,7 @@
       "Uid": null,
       "IsMRef": true,
       "Title": "Avalonia.Xaml.Interactions.Events.TappedEventTrigger",
-      "Summary": "<p sourcefile=\"api/Avalonia.Xaml.Interactions.Events.TappedEventTrigger.yml\" sourcestartlinenumber=\"1\">Trigger that listens for the <xref href=\"Avalonia.Input.Gestures.TappedEvent\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
+      "Summary": "<p sourcefile=\"api/Avalonia.Xaml.Interactions.Events.TappedEventTrigger.yml\" sourcestartlinenumber=\"1\">Trigger that listens for the <xref href=\"Avalonia.Input.InputElement.TappedEvent\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
     },
     {
       "type": "ManagedReference",
@@ -7563,6 +7577,16 @@
       "output": {
         ".html": {
           "relative_path": "articles/architecture.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/avalonia-v12-migration.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/avalonia-v12-migration.html"
         }
       },
       "version": ""

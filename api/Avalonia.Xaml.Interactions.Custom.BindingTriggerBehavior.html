@@ -98,7 +98,8 @@ Class BindingTriggerBehavior  <a class="header-action link-secondary" title="Vie
   <div class="markdown conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public class BindingTriggerBehavior : StyledElementTrigger, INotifyPropertyChanged, IDataContextProvider, ILogical, IThemeVariantHost, IResourceHost, IResourceNode, IStyleHost, ISetLogicalParent, ISetInheritanceParent, ISupportInitialize, IStyleable, INamed, IBehaviorEventsHandler, ITrigger, IBehavior</code></pre>
+    <pre><code class="lang-csharp hljs">[RequiresUnreferencedCode(&quot;This functionality is not compatible with trimming.&quot;)]
+public class BindingTriggerBehavior : StyledElementTrigger, INotifyPropertyChanged, IDataContextProvider, ILogical, IThemeVariantHost, IResourceHost, IResourceNode, IStyleHost, ISetLogicalParent, ISetInheritanceParent, ISupportInitialize, INamed, IBehaviorEventsHandler, ITrigger, IBehavior</code></pre>
   </div>
 
 
@@ -130,7 +131,6 @@ Class BindingTriggerBehavior  <a class="header-action link-secondary" title="Vie
       <div><span class="xref">ISetLogicalParent</span></div>
       <div><span class="xref">ISetInheritanceParent</span></div>
       <div><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.componentmodel.isupportinitialize">ISupportInitialize</a></div>
-      <div><span class="xref">IStyleable</span></div>
       <div><span class="xref">INamed</span></div>
       <div><a class="xref" href="Avalonia.Xaml.Interactivity.IBehaviorEventsHandler.html">IBehaviorEventsHandler</a></div>
       <div><a class="xref" href="Avalonia.Xaml.Interactivity.ITrigger.html">ITrigger</a></div>
@@ -374,7 +374,7 @@ Class BindingTriggerBehavior  <a class="header-action link-secondary" title="Vie
       <span class="xref">AvaloniaObject.SetCurrentValue&lt;T&gt;(StyledProperty&lt;T&gt;, T)</span>
     </div>
     <div>
-      <span class="xref">AvaloniaObject.Bind(AvaloniaProperty, IBinding)</span>
+      <span class="xref">AvaloniaObject.Bind(AvaloniaProperty, BindingBase)</span>
     </div>
     <div>
       <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.iobservable-1">AvaloniaObject.Bind(AvaloniaProperty, IObservable&lt;object&gt;, BindingPriority)</a>
@@ -419,6 +419,9 @@ Class BindingTriggerBehavior  <a class="header-action link-secondary" title="Vie
       <span class="xref">AvaloniaObject.this[IndexerDescriptor]</span>
     </div>
     <div>
+      <span class="xref">AvaloniaObject.Dispatcher</span>
+    </div>
+    <div>
       <span class="xref">AvaloniaObject.PropertyChanged</span>
     </div>
     <div>
@@ -458,7 +461,7 @@ Class BindingTriggerBehavior  <a class="header-action link-secondary" title="Vie
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static readonly StyledProperty&lt;IBinding?&gt; BindingProperty</code></pre>
+    <pre><code class="lang-csharp hljs">public static readonly StyledProperty&lt;BindingBase?&gt; BindingProperty</code></pre>
   </div>
 
 
@@ -466,7 +469,7 @@ Class BindingTriggerBehavior  <a class="header-action link-secondary" title="Vie
 
   <h4 class="section">Field Value</h4>
   <dl class="parameters">
-    <dt><span class="xref">StyledProperty</span>&lt;<span class="xref">IBinding</span>&gt;</dt>
+    <dt><span class="xref">StyledProperty</span>&lt;<span class="xref">BindingBase</span>&gt;</dt>
     <dd></dd>
   </dl>
 
@@ -557,7 +560,7 @@ Class BindingTriggerBehavior  <a class="header-action link-secondary" title="Vie
 
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">[AssignBinding]
-public IBinding? Binding { get; set; }</code></pre>
+public BindingBase? Binding { get; set; }</code></pre>
   </div>
 
 
@@ -566,7 +569,7 @@ public IBinding? Binding { get; set; }</code></pre>
 
   <h4 class="section">Property Value</h4>
   <dl class="parameters">
-    <dt><span class="xref">IBinding</span></dt>
+    <dt><span class="xref">BindingBase</span></dt>
     <dd></dd>
   </dl>
 

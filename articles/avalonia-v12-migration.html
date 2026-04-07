@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+      <title>Avalonia 12.0.0 Migration | XAML Behaviors for Avalonia </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="Avalonia 12.0.0 Migration | XAML Behaviors for Avalonia ">
+      
+      
+      <link rel="icon" href="../favicon.ico">
+      <link rel="stylesheet" href="../public/docfx.min.css">
+      <link rel="stylesheet" href="../public/main.css">
+      <meta name="docfx:navrel" content="../toc.html">
+      <meta name="docfx:tocrel" content="toc.html">
+      
+      
+      
+      
+      <meta name="docfx:docurl" content="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/docfx/articles/avalonia-v12-migration.md/#L1">
+      <meta name="loc:inThisArticle" content="In this article">
+      <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
+      <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
+      <meta name="loc:tocFilter" content="Filter by title">
+      <meta name="loc:nextArticle" content="Next">
+      <meta name="loc:prevArticle" content="Previous">
+      <meta name="loc:themeLight" content="Light">
+      <meta name="loc:themeDark" content="Dark">
+      <meta name="loc:themeAuto" content="Auto">
+      <meta name="loc:changeTheme" content="Change theme">
+      <meta name="loc:copy" content="Copy">
+      <meta name="loc:downloadPdf" content="Download PDF">
+
+      <script type="module" src="./../public/docfx.min.js"></script>
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
+  </head>
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../index.html">
+            <img id="logo" class="svg" src="../images/logo.svg" alt="">
+            
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <nav class="toc" id="toc"></nav>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
+            <i class="bi bi-list"></i>
+          </button>
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article data-uid="">
+<h1 id="avalonia-1200-migration">Avalonia 12.0.0 Migration</h1>
+
+<p>This branch migrates <code>Avalonia.Xaml.Behaviors</code> to stable Avalonia 12.0.0 packages.</p>
+<h2 id="baseline">Baseline</h2>
+<ul>
+<li>Branch: <code>avalonia-v12</code></li>
+<li>Avalonia package line: <code>12.0.0</code></li>
+<li>Avalonia DataGrid package: <code>12.0.0</code></li>
+<li>ReactiveUI.Avalonia package: <code>11.4.12</code></li>
+<li>Minimum Avalonia target framework in this repository: <code>net8.0</code></li>
+</ul>
+<h2 id="official-references">Official references</h2>
+<ul>
+<li>Avalonia breaking changes and migration notes for v12</li>
+<li>Avalonia <code>12.0.0</code> release notes</li>
+<li>Avalonia headless testing guidance for renderer-backed screenshots</li>
+</ul>
+<h2 id="migration-plan">Migration plan</h2>
+<ol>
+<li>Move all Avalonia-consuming projects to <code>net8.0+</code>.</li>
+<li>Upgrade central package versions to the stable Avalonia 12.0.0 set supported by the current ecosystem.</li>
+<li>Apply source-level API migrations from the Avalonia v12 breaking changes.</li>
+<li>Fix sample applications and unit tests for Avalonia 12 runtime and headless-test changes.</li>
+<li>Rebuild the full solution and re-run focused test coverage.</li>
+</ol>
+<h2 id="applied-changes">Applied changes</h2>
+<ul>
+<li>Removed legacy <code>netstandard2.0</code> targets from Avalonia-dependent projects.</li>
+<li>Updated package management to stable Avalonia 12.0.0 packages and added <code>Avalonia.Skia</code> where renderer-backed headless tests require it.</li>
+<li>Migrated <code>IBinding</code> usages to <code>BindingBase</code>.</li>
+<li>Replaced <code>Gestures.*</code> routed events with <code>InputElement.*</code>.</li>
+<li>Replaced <code>SystemDecorations</code> with <code>WindowDecorations</code>.</li>
+<li>Replaced <code>Watermark</code> with <code>PlaceholderText</code>.</li>
+<li>Replaced <code>GetVisualRoot()</code> usages with <code>TopLevel.GetTopLevel(...)</code>.</li>
+<li>Updated clipboard and drag/drop code to Avalonia 12 data-transfer APIs.</li>
+<li>Updated headless test app builders to use <code>UseSkia().UseHarfBuzz().UseHeadless(new AvaloniaHeadlessPlatformOptions { UseHeadlessDrawing = false })</code>.</li>
+<li>Updated sample startup code for the new <code>UseReactiveUI(...)</code> signature.</li>
+<li>Updated xUnit package references to v3-compatible packages already used by the repository test setup.</li>
+</ul>
+<h2 id="verification">Verification</h2>
+<ul>
+<li><code>dotnet build AvaloniaBehaviors.slnx -c Debug</code></li>
+<li><code>dotnet test tests/Xaml.Behaviors.Interactivity.UnitTests/Xaml.Behaviors.Interactivity.UnitTests.csproj -c Debug</code></li>
+<li><code>dotnet test tests/Xaml.Behaviors.Interactions.UnitTests/Xaml.Behaviors.Interactions.UnitTests.csproj -c Debug</code></li>
+<li><code>dotnet test tests/Xaml.Behaviors.SourceGenerators.UnitTests/Xaml.Behaviors.SourceGenerators.UnitTests.csproj -c Debug</code></li>
+</ul>
+<h2 id="known-limitation">Known limitation</h2>
+<p><code>tests/Xaml.Behaviors.SourceGenerators.IntegrationTests</code> currently hangs under the xUnit v3 VSTest adapter on macOS with .NET 10 before entering the test bodies. The two package-reference smoke tests remain in the project but are temporarily skipped, and their scenarios were validated manually during this migration by packing the local <code>Xaml.Behaviors</code> and <code>Xaml.Behaviors.SourceGenerators</code> packages and building/running equivalent sample projects against those packages.</p>
+
+</article>
+
+        <div class="contribution d-print-none">
+          <a href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/docfx/articles/avalonia-v12-migration.md/#L1" class="edit-link">Edit this page</a>
+        </div>
+
+        <div class="next-article d-print-none border-top" id="nextArticle"></div>
+
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          <span>Made with <a href="https://dotnet.github.io/docfx">docfx</a></span>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>
