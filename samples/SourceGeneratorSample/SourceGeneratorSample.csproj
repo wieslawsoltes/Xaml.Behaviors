@@ -18,6 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Tmds.DBus.Protocol" />
     <ProjectReference Include="..\..\src\Xaml.Behaviors\Xaml.Behaviors.csproj" />
     <ProjectReference Include="..\..\src\Xaml.Behaviors.SourceGenerators\Xaml.Behaviors.SourceGenerators.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
   </ItemGroup>

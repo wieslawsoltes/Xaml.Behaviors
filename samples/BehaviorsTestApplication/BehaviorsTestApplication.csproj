@@ -50,6 +50,7 @@
   <!--<Import Project="..\..\build\SignAssembly.props" />-->
 
   <ItemGroup>
+    <PackageReference Include="Tmds.DBus.Protocol" />
     <ProjectReference Include="..\..\src\Xaml.Behaviors.Interactions.Scripting\Xaml.Behaviors.Interactions.Scripting.csproj" />
     <ProjectReference Include="..\..\src\Xaml.Behaviors.Interactions\Xaml.Behaviors.Interactions.csproj" />
     <ProjectReference Include="..\..\src\Xaml.Behaviors.Interactions.Custom\Xaml.Behaviors.Interactions.Custom.csproj" />

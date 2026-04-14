@@ -35,6 +35,7 @@
   </Target>
 
   <ItemGroup>
+    <PackageReference Include="Tmds.DBus.Protocol" />
     <ProjectReference Include="..\..\src\Xaml.Behaviors.Interactivity\Xaml.Behaviors.Interactivity.csproj" />
     <!-- Consume the generator for both compilation (to access the type) and analyzer execution, without flowing transitively -->
     <ProjectReference Include="..\..\src\Xaml.Behaviors.SourceGenerators\Xaml.Behaviors.SourceGenerators.csproj"
