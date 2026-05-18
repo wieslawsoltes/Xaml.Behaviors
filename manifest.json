@@ -7562,11 +7562,11 @@
       "type": "Toc",
       "source_relative_path": "api/toc.yml",
       "output": {
-        ".html": {
-          "relative_path": "api/toc.html"
-        },
         ".json": {
           "relative_path": "api/toc.json"
+        },
+        ".html": {
+          "relative_path": "api/toc.html"
         }
       },
       "version": ""
@@ -7605,11 +7605,11 @@
       "type": "Toc",
       "source_relative_path": "articles/drag-and-drop-datagrid/toc.yml",
       "output": {
-        ".html": {
-          "relative_path": "articles/drag-and-drop-datagrid/toc.html"
-        },
         ".json": {
           "relative_path": "articles/drag-and-drop-datagrid/toc.json"
+        },
+        ".html": {
+          "relative_path": "articles/drag-and-drop-datagrid/toc.html"
         }
       },
       "version": ""
@@ -7738,11 +7738,11 @@
       "type": "Toc",
       "source_relative_path": "articles/drag-and-drop/toc.yml",
       "output": {
-        ".html": {
-          "relative_path": "articles/drag-and-drop/toc.html"
-        },
         ".json": {
           "relative_path": "articles/drag-and-drop/toc.json"
+        },
+        ".html": {
+          "relative_path": "articles/drag-and-drop/toc.html"
         }
       },
       "version": ""
@@ -7821,11 +7821,11 @@
       "type": "Toc",
       "source_relative_path": "articles/draggable/toc.yml",
       "output": {
-        ".html": {
-          "relative_path": "articles/draggable/toc.html"
-        },
         ".json": {
           "relative_path": "articles/draggable/toc.json"
+        },
+        ".html": {
+          "relative_path": "articles/draggable/toc.html"
         }
       },
       "version": ""
@@ -7884,11 +7884,11 @@
       "type": "Toc",
       "source_relative_path": "articles/events/drag-and-drop/toc.yml",
       "output": {
-        ".html": {
-          "relative_path": "articles/events/drag-and-drop/toc.html"
-        },
         ".json": {
           "relative_path": "articles/events/drag-and-drop/toc.json"
+        },
+        ".html": {
+          "relative_path": "articles/events/drag-and-drop/toc.html"
         }
       },
       "version": ""
@@ -7957,11 +7957,11 @@
       "type": "Toc",
       "source_relative_path": "articles/events/focus/toc.yml",
       "output": {
-        ".html": {
-          "relative_path": "articles/events/focus/toc.html"
-        },
         ".json": {
           "relative_path": "articles/events/focus/toc.json"
+        },
+        ".html": {
+          "relative_path": "articles/events/focus/toc.html"
         }
       },
       "version": ""
@@ -8080,11 +8080,11 @@
       "type": "Toc",
       "source_relative_path": "articles/events/gestures/toc.yml",
       "output": {
-        ".html": {
-          "relative_path": "articles/events/gestures/toc.html"
-        },
         ".json": {
           "relative_path": "articles/events/gestures/toc.json"
+        },
+        ".html": {
+          "relative_path": "articles/events/gestures/toc.html"
         }
       },
       "version": ""
@@ -8183,11 +8183,11 @@
       "type": "Toc",
       "source_relative_path": "articles/events/keyboard/toc.yml",
       "output": {
-        ".html": {
-          "relative_path": "articles/events/keyboard/toc.html"
-        },
         ".json": {
           "relative_path": "articles/events/keyboard/toc.json"
+        },
+        ".html": {
+          "relative_path": "articles/events/keyboard/toc.html"
         }
       },
       "version": ""
@@ -8366,11 +8366,11 @@
       "type": "Toc",
       "source_relative_path": "articles/events/pointer/toc.yml",
       "output": {
-        ".html": {
-          "relative_path": "articles/events/pointer/toc.html"
-        },
         ".json": {
           "relative_path": "articles/events/pointer/toc.json"
+        },
+        ".html": {
+          "relative_path": "articles/events/pointer/toc.html"
         }
       },
       "version": ""
@@ -8379,11 +8379,11 @@
       "type": "Toc",
       "source_relative_path": "articles/events/toc.yml",
       "output": {
-        ".html": {
-          "relative_path": "articles/events/toc.html"
-        },
         ".json": {
           "relative_path": "articles/events/toc.json"
+        },
+        ".html": {
+          "relative_path": "articles/events/toc.html"
         }
       },
       "version": ""
@@ -8442,11 +8442,11 @@
       "type": "Toc",
       "source_relative_path": "articles/filesystem/toc.yml",
       "output": {
-        ".html": {
-          "relative_path": "articles/filesystem/toc.html"
-        },
         ".json": {
           "relative_path": "articles/filesystem/toc.json"
+        },
+        ".html": {
+          "relative_path": "articles/filesystem/toc.html"
         }
       },
       "version": ""
@@ -8685,11 +8685,11 @@
       "type": "Toc",
       "source_relative_path": "articles/interactions-custom/actions/toc.yml",
       "output": {
-        ".html": {
-          "relative_path": "articles/interactions-custom/actions/toc.html"
-        },
         ".json": {
           "relative_path": "articles/interactions-custom/actions/toc.json"
+        },
+        ".html": {
+          "relative_path": "articles/interactions-custom/actions/toc.html"
         }
       },
       "version": ""
@@ -8808,11 +8808,11 @@
       "type": "Toc",
       "source_relative_path": "articles/interactions-custom/animations/toc.yml",
       "output": {
-        ".html": {
-          "relative_path": "articles/interactions-custom/animations/toc.html"
-        },
         ".json": {
           "relative_path": "articles/interactions-custom/animations/toc.json"
+        },
+        ".html": {
+          "relative_path": "articles/interactions-custom/animations/toc.html"
         }
       },
       "version": ""
@@ -8871,11 +8871,11 @@
       "type": "Toc",
       "source_relative_path": "articles/interactions-custom/autocompletebox/toc.yml",
       "output": {
-        ".html": {
-          "relative_path": "articles/interactions-custom/autocompletebox/toc.html"
-        },
         ".json": {
           "relative_path": "articles/interactions-custom/autocompletebox/toc.json"
+        },
+        ".html": {
+          "relative_path": "articles/interactions-custom/autocompletebox/toc.html"
         }
       },
       "version": ""
@@ -8934,11 +8934,11 @@
       "type": "Toc",
       "source_relative_path": "articles/interactions-custom/automation/toc.yml",
       "output": {
-        ".html": {
-          "relative_path": "articles/interactions-custom/automation/toc.html"
-        },
         ".json": {
           "relative_path": "articles/interactions-custom/automation/toc.json"
+        },
+        ".html": {
+          "relative_path": "articles/interactions-custom/automation/toc.html"
         }
       },
       "version": ""
@@ -8957,11 +8957,11 @@
       "type": "Toc",
       "source_relative_path": "articles/interactions-custom/behaviors/toc.yml",
       "output": {
-        ".html": {
-          "relative_path": "articles/interactions-custom/behaviors/toc.html"
-        },
         ".json": {
           "relative_path": "articles/interactions-custom/behaviors/toc.json"
+        },
+        ".html": {
+          "relative_path": "articles/interactions-custom/behaviors/toc.html"
         }
       },
       "version": ""
@@ -9040,11 +9040,11 @@
       "type": "Toc",
       "source_relative_path": "articles/interactions-custom/button/toc.yml",
       "output": {
-        ".html": {
-          "relative_path": "articles/interactions-custom/button/toc.html"
-        },
         ".json": {
           "relative_path": "articles/interactions-custom/button/toc.json"
+        },
+        ".html": {
+          "relative_path": "articles/interactions-custom/button/toc.html"
         }
       },
       "version": ""
@@ -9103,11 +9103,11 @@
       "type": "Toc",
       "source_relative_path": "articles/interactions-custom/carousel/toc.yml",
       "output": {
-        ".html": {
-          "relative_path": "articles/interactions-custom/carousel/toc.html"
-        },
         ".json": {
           "relative_path": "articles/interactions-custom/carousel/toc.json"
+        },
+        ".html": {
+          "relative_path": "articles/interactions-custom/carousel/toc.html"
         }
       },
       "version": ""
@@ -9176,11 +9176,11 @@
       "type": "Toc",
       "source_relative_path": "articles/interactions-custom/collections/toc.yml",
       "output": {
-        ".html": {
-          "relative_path": "articles/interactions-custom/collections/toc.html"
-        },
         ".json": {
           "relative_path": "articles/interactions-custom/collections/toc.json"
+        },
+        ".html": {
+          "relative_path": "articles/interactions-custom/collections/toc.html"
         }
       },
       "version": ""
@@ -9349,11 +9349,11 @@
       "type": "Toc",
       "source_relative_path": "articles/interactions-custom/composition/toc.yml",
       "output": {
-        ".html": {
-          "relative_path": "articles/interactions-custom/composition/toc.html"
-        },
         ".json": {
           "relative_path": "articles/interactions-custom/composition/toc.json"
+        },
+        ".html": {
+          "relative_path": "articles/interactions-custom/composition/toc.html"
         }
       },
       "version": ""
@@ -9422,11 +9422,11 @@
       "type": "Toc",
       "source_relative_path": "articles/interactions-custom/context-dialogs/toc.yml",
       "output": {
-        ".html": {
-          "relative_path": "articles/interactions-custom/context-dialogs/toc.html"
-        },
         ".json": {
           "relative_path": "articles/interactions-custom/context-dialogs/toc.json"
+        },
+        ".html": {
+          "relative_path": "articles/interactions-custom/context-dialogs/toc.html"
         }
       },
       "version": ""
@@ -9545,11 +9545,11 @@
       "type": "Toc",
       "source_relative_path": "articles/interactions-custom/control/toc.yml",
       "output": {
-        ".html": {
-          "relative_path": "articles/interactions-custom/control/toc.html"
-        },
         ".json": {
           "relative_path": "articles/interactions-custom/control/toc.json"
+        },
+        ".html": {
+          "relative_path": "articles/interactions-custom/control/toc.html"
         }
       },
       "version": ""
@@ -9578,11 +9578,11 @@
       "type": "Toc",
       "source_relative_path": "articles/interactions-custom/converters/toc.yml",
       "output": {
-        ".html": {
-          "relative_path": "articles/interactions-custom/converters/toc.html"
-        },
         ".json": {
           "relative_path": "articles/interactions-custom/converters/toc.json"
+        },
+        ".html": {
+          "relative_path": "articles/interactions-custom/converters/toc.html"
         }
       },
       "version": ""
@@ -9911,11 +9911,11 @@
       "type": "Toc",
       "source_relative_path": "articles/interactions-custom/core/toc.yml",
       "output": {
-        ".html": {
-          "relative_path": "articles/interactions-custom/core/toc.html"
-        },
         ".json": {
           "relative_path": "articles/interactions-custom/core/toc.json"
+        },
+        ".html": {
+          "relative_path": "articles/interactions-custom/core/toc.html"
         }
       },
       "version": ""
@@ -10014,11 +10014,11 @@
       "type": "Toc",
       "source_relative_path": "articles/interactions-custom/cursor/toc.yml",
       "output": {
-        ".html": {
-          "relative_path": "articles/interactions-custom/cursor/toc.html"
-        },
         ".json": {
           "relative_path": "articles/interactions-custom/cursor/toc.json"
+        },
+        ".html": {
+          "relative_path": "articles/interactions-custom/cursor/toc.html"
         }
       },
       "version": ""
@@ -10047,11 +10047,11 @@
       "type": "Toc",
       "source_relative_path": "articles/interactions-custom/debugging/toc.yml",
       "output": {
-        ".html": {
-          "relative_path": "articles/interactions-custom/debugging/toc.html"
-        },
         ".json": {
           "relative_path": "articles/interactions-custom/debugging/toc.json"
+        },
+        ".html": {
+          "relative_path": "articles/interactions-custom/debugging/toc.html"
         }
       },
       "version": ""
@@ -10110,11 +10110,11 @@
       "type": "Toc",
       "source_relative_path": "articles/interactions-custom/dialog/toc.yml",
       "output": {
-        ".html": {
-          "relative_path": "articles/interactions-custom/dialog/toc.html"
-        },
         ".json": {
           "relative_path": "articles/interactions-custom/dialog/toc.json"
+        },
+        ".html": {
+          "relative_path": "articles/interactions-custom/dialog/toc.html"
         }
       },
       "version": ""
@@ -10443,11 +10443,11 @@
       "type": "Toc",
       "source_relative_path": "articles/interactions-custom/execute-command/toc.yml",
       "output": {
-        ".html": {
-          "relative_path": "articles/interactions-custom/execute-command/toc.html"
-        },
         ".json": {
           "relative_path": "articles/interactions-custom/execute-command/toc.json"
+        },
+        ".html": {
+          "relative_path": "articles/interactions-custom/execute-command/toc.html"
         }
       },
       "version": ""
@@ -10476,11 +10476,11 @@
       "type": "Toc",
       "source_relative_path": "articles/interactions-custom/file-upload/toc.yml",
       "output": {
-        ".html": {
-          "relative_path": "articles/interactions-custom/file-upload/toc.html"
-        },
         ".json": {
           "relative_path": "articles/interactions-custom/file-upload/toc.json"
+        },
+        ".html": {
+          "relative_path": "articles/interactions-custom/file-upload/toc.html"
         }
       },
       "version": ""
@@ -10639,11 +10639,11 @@
       "type": "Toc",
       "source_relative_path": "articles/interactions-custom/focus/toc.yml",
       "output": {
-        ".html": {
-          "relative_path": "articles/interactions-custom/focus/toc.html"
-        },
         ".json": {
           "relative_path": "articles/interactions-custom/focus/toc.json"
+        },
+        ".html": {
+          "relative_path": "articles/interactions-custom/focus/toc.html"
         }
       },
       "version": ""
@@ -10802,11 +10802,11 @@
       "type": "Toc",
       "source_relative_path": "articles/interactions-custom/gestures/toc.yml",
       "output": {
-        ".html": {
-          "relative_path": "articles/interactions-custom/gestures/toc.html"
-        },
         ".json": {
           "relative_path": "articles/interactions-custom/gestures/toc.json"
+        },
+        ".html": {
+          "relative_path": "articles/interactions-custom/gestures/toc.html"
         }
       },
       "version": ""
@@ -10855,11 +10855,11 @@
       "type": "Toc",
       "source_relative_path": "articles/interactions-custom/icon/toc.yml",
       "output": {
-        ".html": {
-          "relative_path": "articles/interactions-custom/icon/toc.html"
-        },
         ".json": {
           "relative_path": "articles/interactions-custom/icon/toc.json"
+        },
+        ".html": {
+          "relative_path": "articles/interactions-custom/icon/toc.html"
         }
       },
       "version": ""
@@ -11088,11 +11088,11 @@
       "type": "Toc",
       "source_relative_path": "articles/interactions-custom/input-element/toc.yml",
       "output": {
-        ".html": {
-          "relative_path": "articles/interactions-custom/input-element/toc.html"
-        },
         ".json": {
           "relative_path": "articles/interactions-custom/input-element/toc.json"
+        },
+        ".html": {
+          "relative_path": "articles/interactions-custom/input-element/toc.html"
         }
       },
       "version": ""
@@ -11141,11 +11141,11 @@
       "type": "Toc",
       "source_relative_path": "articles/interactions-custom/input/toc.yml",
       "output": {
-        ".html": {
-          "relative_path": "articles/interactions-custom/input/toc.html"
-        },
         ".json": {
           "relative_path": "articles/interactions-custom/input/toc.json"
+        },
+        ".html": {
+          "relative_path": "articles/interactions-custom/input/toc.html"
         }
       },
       "version": ""
@@ -11304,11 +11304,11 @@
       "type": "Toc",
       "source_relative_path": "articles/interactions-custom/items-control/toc.yml",
       "output": {
-        ".html": {
-          "relative_path": "articles/interactions-custom/items-control/toc.html"
-        },
         ".json": {
           "relative_path": "articles/interactions-custom/items-control/toc.json"
+        },
+        ".html": {
+          "relative_path": "articles/interactions-custom/items-control/toc.html"
         }
       },
       "version": ""
@@ -11347,11 +11347,11 @@
       "type": "Toc",
       "source_relative_path": "articles/interactions-custom/layout/toc.yml",
       "output": {
-        ".html": {
-          "relative_path": "articles/interactions-custom/layout/toc.html"
-        },
         ".json": {
           "relative_path": "articles/interactions-custom/layout/toc.json"
+        },
+        ".html": {
+          "relative_path": "articles/interactions-custom/layout/toc.html"
         }
       },
       "version": ""
@@ -11400,11 +11400,11 @@
       "type": "Toc",
       "source_relative_path": "articles/interactions-custom/list-box/toc.yml",
       "output": {
-        ".html": {
-          "relative_path": "articles/interactions-custom/list-box/toc.html"
-        },
         ".json": {
           "relative_path": "articles/interactions-custom/list-box/toc.json"
+        },
+        ".html": {
+          "relative_path": "articles/interactions-custom/list-box/toc.html"
         }
       },
       "version": ""
@@ -11433,11 +11433,11 @@
       "type": "Toc",
       "source_relative_path": "articles/interactions-custom/listbox-item/toc.yml",
       "output": {
-        ".html": {
-          "relative_path": "articles/interactions-custom/listbox-item/toc.html"
-        },
         ".json": {
           "relative_path": "articles/interactions-custom/listbox-item/toc.json"
+        },
+        ".html": {
+          "relative_path": "articles/interactions-custom/listbox-item/toc.html"
         }
       },
       "version": ""
@@ -11486,11 +11486,11 @@
       "type": "Toc",
       "source_relative_path": "articles/interactions-custom/logic/toc.yml",
       "output": {
-        ".html": {
-          "relative_path": "articles/interactions-custom/logic/toc.html"
-        },
         ".json": {
           "relative_path": "articles/interactions-custom/logic/toc.json"
+        },
+        ".html": {
+          "relative_path": "articles/interactions-custom/logic/toc.html"
         }
       },
       "version": ""
@@ -11519,11 +11519,11 @@
       "type": "Toc",
       "source_relative_path": "articles/interactions-custom/multimedia/toc.yml",
       "output": {
-        ".html": {
-          "relative_path": "articles/interactions-custom/multimedia/toc.html"
-        },
         ".json": {
           "relative_path": "articles/interactions-custom/multimedia/toc.json"
+        },
+        ".html": {
+          "relative_path": "articles/interactions-custom/multimedia/toc.html"
         }
       },
       "version": ""
@@ -11612,11 +11612,11 @@
       "type": "Toc",
       "source_relative_path": "articles/interactions-custom/notifications/toc.yml",
       "output": {
-        ".html": {
-          "relative_path": "articles/interactions-custom/notifications/toc.html"
-        },
         ".json": {
           "relative_path": "articles/interactions-custom/notifications/toc.json"
+        },
+        ".html": {
+          "relative_path": "articles/interactions-custom/notifications/toc.html"
         }
       },
       "version": ""
@@ -11665,11 +11665,11 @@
       "type": "Toc",
       "source_relative_path": "articles/interactions-custom/popup/toc.yml",
       "output": {
-        ".html": {
-          "relative_path": "articles/interactions-custom/popup/toc.html"
-        },
         ".json": {
           "relative_path": "articles/interactions-custom/popup/toc.json"
+        },
+        ".html": {
+          "relative_path": "articles/interactions-custom/popup/toc.html"
         }
       },
       "version": ""
@@ -11758,11 +11758,11 @@
       "type": "Toc",
       "source_relative_path": "articles/interactions-custom/render-target/toc.yml",
       "output": {
-        ".html": {
-          "relative_path": "articles/interactions-custom/render-target/toc.html"
-        },
         ".json": {
           "relative_path": "articles/interactions-custom/render-target/toc.json"
+        },
+        ".html": {
+          "relative_path": "articles/interactions-custom/render-target/toc.html"
         }
       },
       "version": ""
@@ -11811,11 +11811,11 @@
       "type": "Toc",
       "source_relative_path": "articles/interactions-custom/screen/toc.yml",
       "output": {
-        ".html": {
-          "relative_path": "articles/interactions-custom/screen/toc.html"
-        },
         ".json": {
           "relative_path": "articles/interactions-custom/screen/toc.json"
+        },
+        ".html": {
+          "relative_path": "articles/interactions-custom/screen/toc.html"
         }
       },
       "version": ""
@@ -11874,11 +11874,11 @@
       "type": "Toc",
       "source_relative_path": "articles/interactions-custom/scroll-viewer/toc.yml",
       "output": {
-        ".html": {
-          "relative_path": "articles/interactions-custom/scroll-viewer/toc.html"
-        },
         ".json": {
           "relative_path": "articles/interactions-custom/scroll-viewer/toc.json"
+        },
+        ".html": {
+          "relative_path": "articles/interactions-custom/scroll-viewer/toc.html"
         }
       },
       "version": ""
@@ -11927,11 +11927,11 @@
       "type": "Toc",
       "source_relative_path": "articles/interactions-custom/selecting-items-control/toc.yml",
       "output": {
-        ".html": {
-          "relative_path": "articles/interactions-custom/selecting-items-control/toc.html"
-        },
         ".json": {
           "relative_path": "articles/interactions-custom/selecting-items-control/toc.json"
+        },
+        ".html": {
+          "relative_path": "articles/interactions-custom/selecting-items-control/toc.html"
         }
       },
       "version": ""
@@ -11990,11 +11990,11 @@
       "type": "Toc",
       "source_relative_path": "articles/interactions-custom/show/toc.yml",
       "output": {
-        ".html": {
-          "relative_path": "articles/interactions-custom/show/toc.html"
-        },
         ".json": {
           "relative_path": "articles/interactions-custom/show/toc.json"
+        },
+        ".html": {
+          "relative_path": "articles/interactions-custom/show/toc.html"
         }
       },
       "version": ""
@@ -12083,11 +12083,11 @@
       "type": "Toc",
       "source_relative_path": "articles/interactions-custom/split-view/toc.yml",
       "output": {
-        ".html": {
-          "relative_path": "articles/interactions-custom/split-view/toc.html"
-        },
         ".json": {
           "relative_path": "articles/interactions-custom/split-view/toc.json"
+        },
+        ".html": {
+          "relative_path": "articles/interactions-custom/split-view/toc.html"
         }
       },
       "version": ""
@@ -12116,11 +12116,11 @@
       "type": "Toc",
       "source_relative_path": "articles/interactions-custom/system/toc.yml",
       "output": {
-        ".html": {
-          "relative_path": "articles/interactions-custom/system/toc.html"
-        },
         ".json": {
           "relative_path": "articles/interactions-custom/system/toc.json"
+        },
+        ".html": {
+          "relative_path": "articles/interactions-custom/system/toc.html"
         }
       },
       "version": ""
@@ -12179,11 +12179,11 @@
       "type": "Toc",
       "source_relative_path": "articles/interactions-custom/tab-control/toc.yml",
       "output": {
-        ".html": {
-          "relative_path": "articles/interactions-custom/tab-control/toc.html"
-        },
         ".json": {
           "relative_path": "articles/interactions-custom/tab-control/toc.json"
+        },
+        ".html": {
+          "relative_path": "articles/interactions-custom/tab-control/toc.html"
         }
       },
       "version": ""
@@ -12232,11 +12232,11 @@
       "type": "Toc",
       "source_relative_path": "articles/interactions-custom/text-box/toc.yml",
       "output": {
-        ".html": {
-          "relative_path": "articles/interactions-custom/text-box/toc.html"
-        },
         ".json": {
           "relative_path": "articles/interactions-custom/text-box/toc.json"
+        },
+        ".html": {
+          "relative_path": "articles/interactions-custom/text-box/toc.html"
         }
       },
       "version": ""
@@ -12275,11 +12275,11 @@
       "type": "Toc",
       "source_relative_path": "articles/interactions-custom/theme-variant/toc.yml",
       "output": {
-        ".html": {
-          "relative_path": "articles/interactions-custom/theme-variant/toc.html"
-        },
         ".json": {
           "relative_path": "articles/interactions-custom/theme-variant/toc.json"
+        },
+        ".html": {
+          "relative_path": "articles/interactions-custom/theme-variant/toc.html"
         }
       },
       "version": ""
@@ -12288,11 +12288,11 @@
       "type": "Toc",
       "source_relative_path": "articles/interactions-custom/toc.yml",
       "output": {
-        ".html": {
-          "relative_path": "articles/interactions-custom/toc.html"
-        },
         ".json": {
           "relative_path": "articles/interactions-custom/toc.json"
+        },
+        ".html": {
+          "relative_path": "articles/interactions-custom/toc.html"
         }
       },
       "version": ""
@@ -12341,11 +12341,11 @@
       "type": "Toc",
       "source_relative_path": "articles/interactions-custom/tool-tips/toc.yml",
       "output": {
-        ".html": {
-          "relative_path": "articles/interactions-custom/tool-tips/toc.html"
-        },
         ".json": {
           "relative_path": "articles/interactions-custom/tool-tips/toc.json"
+        },
+        ".html": {
+          "relative_path": "articles/interactions-custom/tool-tips/toc.html"
         }
       },
       "version": ""
@@ -12414,11 +12414,11 @@
       "type": "Toc",
       "source_relative_path": "articles/interactions-custom/transitions/toc.yml",
       "output": {
-        ".html": {
-          "relative_path": "articles/interactions-custom/transitions/toc.html"
-        },
         ".json": {
           "relative_path": "articles/interactions-custom/transitions/toc.json"
+        },
+        ".html": {
+          "relative_path": "articles/interactions-custom/transitions/toc.html"
         }
       },
       "version": ""
@@ -12467,11 +12467,11 @@
       "type": "Toc",
       "source_relative_path": "articles/interactions-custom/tree-view/toc.yml",
       "output": {
-        ".html": {
-          "relative_path": "articles/interactions-custom/tree-view/toc.html"
-        },
         ".json": {
           "relative_path": "articles/interactions-custom/tree-view/toc.json"
+        },
+        ".html": {
+          "relative_path": "articles/interactions-custom/tree-view/toc.html"
         }
       },
       "version": ""
@@ -12520,11 +12520,11 @@
       "type": "Toc",
       "source_relative_path": "articles/interactions-custom/treeview-item/toc.yml",
       "output": {
-        ".html": {
-          "relative_path": "articles/interactions-custom/treeview-item/toc.html"
-        },
         ".json": {
           "relative_path": "articles/interactions-custom/treeview-item/toc.json"
+        },
+        ".html": {
+          "relative_path": "articles/interactions-custom/treeview-item/toc.html"
         }
       },
       "version": ""
@@ -12713,11 +12713,11 @@
       "type": "Toc",
       "source_relative_path": "articles/interactions-custom/validation/toc.yml",
       "output": {
-        ".html": {
-          "relative_path": "articles/interactions-custom/validation/toc.html"
-        },
         ".json": {
           "relative_path": "articles/interactions-custom/validation/toc.json"
+        },
+        ".html": {
+          "relative_path": "articles/interactions-custom/validation/toc.html"
         }
       },
       "version": ""
@@ -12766,11 +12766,11 @@
       "type": "Toc",
       "source_relative_path": "articles/interactions-custom/view-model/toc.yml",
       "output": {
-        ".html": {
-          "relative_path": "articles/interactions-custom/view-model/toc.html"
-        },
         ".json": {
           "relative_path": "articles/interactions-custom/view-model/toc.json"
+        },
+        ".html": {
+          "relative_path": "articles/interactions-custom/view-model/toc.html"
         }
       },
       "version": ""
@@ -12839,11 +12839,11 @@
       "type": "Toc",
       "source_relative_path": "articles/interactions-custom/window/toc.yml",
       "output": {
-        ".html": {
-          "relative_path": "articles/interactions-custom/window/toc.html"
-        },
         ".json": {
           "relative_path": "articles/interactions-custom/window/toc.json"
+        },
+        ".html": {
+          "relative_path": "articles/interactions-custom/window/toc.html"
         }
       },
       "version": ""
@@ -12902,11 +12902,11 @@
       "type": "Toc",
       "source_relative_path": "articles/interactions-custom/writeable-bitmap/toc.yml",
       "output": {
-        ".html": {
-          "relative_path": "articles/interactions-custom/writeable-bitmap/toc.html"
-        },
         ".json": {
           "relative_path": "articles/interactions-custom/writeable-bitmap/toc.json"
+        },
+        ".html": {
+          "relative_path": "articles/interactions-custom/writeable-bitmap/toc.html"
         }
       },
       "version": ""
@@ -13115,11 +13115,11 @@
       "type": "Toc",
       "source_relative_path": "articles/interactions/toc.yml",
       "output": {
-        ".html": {
-          "relative_path": "articles/interactions/toc.html"
-        },
         ".json": {
           "relative_path": "articles/interactions/toc.json"
+        },
+        ".html": {
+          "relative_path": "articles/interactions/toc.html"
         }
       },
       "version": ""
@@ -13258,11 +13258,11 @@
       "type": "Toc",
       "source_relative_path": "articles/interactivity/toc.yml",
       "output": {
-        ".html": {
-          "relative_path": "articles/interactivity/toc.html"
-        },
         ".json": {
           "relative_path": "articles/interactivity/toc.json"
+        },
+        ".html": {
+          "relative_path": "articles/interactivity/toc.html"
         }
       },
       "version": ""
@@ -13341,11 +13341,11 @@
       "type": "Toc",
       "source_relative_path": "articles/network/toc.yml",
       "output": {
-        ".html": {
-          "relative_path": "articles/network/toc.html"
-        },
         ".json": {
           "relative_path": "articles/network/toc.json"
+        },
+        ".html": {
+          "relative_path": "articles/network/toc.html"
         }
       },
       "version": ""
@@ -13404,11 +13404,11 @@
       "type": "Toc",
       "source_relative_path": "articles/reactiveui/toc.yml",
       "output": {
-        ".html": {
-          "relative_path": "articles/reactiveui/toc.html"
-        },
         ".json": {
           "relative_path": "articles/reactiveui/toc.json"
+        },
+        ".html": {
+          "relative_path": "articles/reactiveui/toc.html"
         }
       },
       "version": ""
@@ -13447,11 +13447,11 @@
       "type": "Toc",
       "source_relative_path": "articles/responsive/toc.yml",
       "output": {
-        ".html": {
-          "relative_path": "articles/responsive/toc.html"
-        },
         ".json": {
           "relative_path": "articles/responsive/toc.json"
+        },
+        ".html": {
+          "relative_path": "articles/responsive/toc.html"
         }
       },
       "version": ""
@@ -13480,11 +13480,11 @@
       "type": "Toc",
       "source_relative_path": "articles/scripting/toc.yml",
       "output": {
-        ".html": {
-          "relative_path": "articles/scripting/toc.html"
-        },
         ".json": {
           "relative_path": "articles/scripting/toc.json"
+        },
+        ".html": {
+          "relative_path": "articles/scripting/toc.html"
         }
       },
       "version": ""
@@ -13523,11 +13523,11 @@
       "type": "Toc",
       "source_relative_path": "articles/source-generators/toc.yml",
       "output": {
-        ".html": {
-          "relative_path": "articles/source-generators/toc.html"
-        },
         ".json": {
           "relative_path": "articles/source-generators/toc.json"
+        },
+        ".html": {
+          "relative_path": "articles/source-generators/toc.html"
         }
       },
       "version": ""
@@ -13646,11 +13646,11 @@
       "type": "Toc",
       "source_relative_path": "articles/toc.yml",
       "output": {
-        ".html": {
-          "relative_path": "articles/toc.html"
-        },
         ".json": {
           "relative_path": "articles/toc.json"
+        },
+        ".html": {
+          "relative_path": "articles/toc.html"
         }
       },
       "version": ""
@@ -13679,11 +13679,11 @@
       "type": "Toc",
       "source_relative_path": "toc.yml",
       "output": {
-        ".html": {
-          "relative_path": "toc.html"
-        },
         ".json": {
           "relative_path": "toc.json"
+        },
+        ".html": {
+          "relative_path": "toc.html"
         }
       },
       "version": ""

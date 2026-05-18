@@ -22532,6 +22532,19 @@ references:
   isSpec: "True"
   fullName: Avalonia.Xaml.Interactions.DragAndDrop.ManagedContextDropBehavior.OnDetachedFromVisualTree
   nameWithType: ManagedContextDropBehavior.OnDetachedFromVisualTree
+- uid: Avalonia.Xaml.Interactions.DragAndDrop.ManagedContextDropBehavior.OnDetaching
+  name: OnDetaching()
+  href: api/Avalonia.Xaml.Interactions.DragAndDrop.ManagedContextDropBehavior.html#Avalonia_Xaml_Interactions_DragAndDrop_ManagedContextDropBehavior_OnDetaching
+  commentId: M:Avalonia.Xaml.Interactions.DragAndDrop.ManagedContextDropBehavior.OnDetaching
+  fullName: Avalonia.Xaml.Interactions.DragAndDrop.ManagedContextDropBehavior.OnDetaching()
+  nameWithType: ManagedContextDropBehavior.OnDetaching()
+- uid: Avalonia.Xaml.Interactions.DragAndDrop.ManagedContextDropBehavior.OnDetaching*
+  name: OnDetaching
+  href: api/Avalonia.Xaml.Interactions.DragAndDrop.ManagedContextDropBehavior.html#Avalonia_Xaml_Interactions_DragAndDrop_ManagedContextDropBehavior_OnDetaching_
+  commentId: Overload:Avalonia.Xaml.Interactions.DragAndDrop.ManagedContextDropBehavior.OnDetaching
+  isSpec: "True"
+  fullName: Avalonia.Xaml.Interactions.DragAndDrop.ManagedContextDropBehavior.OnDetaching
+  nameWithType: ManagedContextDropBehavior.OnDetaching
 - uid: Avalonia.Xaml.Interactions.DragAndDrop.ManagedContextDropBehavior.OverClass
   name: OverClass
   href: api/Avalonia.Xaml.Interactions.DragAndDrop.ManagedContextDropBehavior.html#Avalonia_Xaml_Interactions_DragAndDrop_ManagedContextDropBehavior_OverClass
