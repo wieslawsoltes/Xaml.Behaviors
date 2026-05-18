@@ -129,23 +129,38 @@ public class ManagedContextDropBehavior : StyledElementBehavior<Control>
 
     private bool _isOver;
     private bool _wantsDrop; // tracks whether pseudo class is applied
+    private DragDropServiceSubscription? _dragDropSubscription;
     private const string DropTargetPseudoClass = "droptarget";
     private const string DragOverPseudoClass = "dragover";
 
     /// <inheritdoc />
     protected override void OnAttachedToVisualTree()
     {
-        ManagedDragDropService.Instance.DragStarted += OnDragStarted;
-        ManagedDragDropService.Instance.DragMoved += OnDragMoved;
-        ManagedDragDropService.Instance.DragEnded += OnDragEnded;
+        base.OnAttachedToVisualTree();
+
+        _dragDropSubscription ??= new DragDropServiceSubscription(this);
     }
 
     /// <inheritdoc />
     protected override void OnDetachedFromVisualTree()
     {
-        ManagedDragDropService.Instance.DragStarted -= OnDragStarted;
-        ManagedDragDropService.Instance.DragMoved -= OnDragMoved;
-        ManagedDragDropService.Instance.DragEnded -= OnDragEnded;
+        DetachManagedDragEvents();
+
+        base.OnDetachedFromVisualTree();
+    }
+
+    /// <inheritdoc />
+    protected override void OnDetaching()
+    {
+        DetachManagedDragEvents();
+
+        base.OnDetaching();
+    }
+
+    private void DetachManagedDragEvents()
+    {
+        _dragDropSubscription?.Dispose();
+        _dragDropSubscription = null;
         UpdateOver(false);
         UpdateWantsDrop(false);
     }
@@ -393,5 +408,72 @@ public class ManagedContextDropBehavior : StyledElementBehavior<Control>
         var target = AssociatedObject;
         if (handler is null || target is null) return;
         handler.Leave(target, new RoutedEventArgs());
+    }
+
+    private sealed class DragDropServiceSubscription : IDisposable
+    {
+        private readonly WeakReference<ManagedContextDropBehavior> _owner;
+        private bool _disposed;
+
+        public DragDropServiceSubscription(ManagedContextDropBehavior owner)
+        {
+            _owner = new WeakReference<ManagedContextDropBehavior>(owner);
+
+            var service = ManagedDragDropService.Instance;
+            service.DragStarted += OnDragStarted;
+            service.DragMoved += OnDragMoved;
+            service.DragEnded += OnDragEnded;
+        }
+
+        public void Dispose()
+        {
+            if (_disposed)
+            {
+                return;
+            }
+
+            _disposed = true;
+
+            var service = ManagedDragDropService.Instance;
+            service.DragStarted -= OnDragStarted;
+            service.DragMoved -= OnDragMoved;
+            service.DragEnded -= OnDragEnded;
+        }
+
+        private void OnDragStarted()
+        {
+            if (_owner.TryGetTarget(out var owner))
+            {
+                owner.OnDragStarted();
+            }
+            else
+            {
+                Dispose();
+            }
+        }
+
+        private void OnDragMoved()
+        {
+            if (_owner.TryGetTarget(out var owner))
+            {
+                owner.OnDragMoved();
+            }
+            else
+            {
+                Dispose();
+            }
+        }
+
+        private void OnDragEnded()
+        {
+            if (_owner.TryGetTarget(out var owner))
+            {
+                owner.OnDragEnded();
+            }
+            else
+            {
+                Dispose();
+            }
+        }
     }
 }
