@@ -100,9 +100,19 @@
 <td>Gets or sets the command invoked on drag enter.</td>
 </tr>
 <tr>
+<td>CanExecuteDragEnterCommand</td>
+<td><code>bool</code></td>
+<td>Read-only value that observes whether DragEnterCommand can execute without an event-specific parameter.</td>
+</tr>
+<tr>
 <td>DragOverCommand</td>
 <td><code>ICommand</code></td>
 <td>Gets or sets the command invoked on drag over.</td>
+</tr>
+<tr>
+<td>CanExecuteDragOverCommand</td>
+<td><code>bool</code></td>
+<td>Read-only value that observes whether DragOverCommand can execute without an event-specific parameter.</td>
 </tr>
 <tr>
 <td>DragLeaveCommand</td>
@@ -110,9 +120,24 @@
 <td>Gets or sets the command invoked on drag leave.</td>
 </tr>
 <tr>
+<td>CanExecuteDragLeaveCommand</td>
+<td><code>bool</code></td>
+<td>Read-only value that observes whether DragLeaveCommand can execute without an event-specific parameter.</td>
+</tr>
+<tr>
 <td>DropCommand</td>
 <td><code>ICommand</code></td>
 <td>Gets or sets the command invoked on drop.</td>
+</tr>
+<tr>
+<td>CanExecuteDropCommand</td>
+<td><code>bool</code></td>
+<td>Read-only value that observes whether DropCommand can execute without an event-specific parameter.</td>
+</tr>
+<tr>
+<td>CanExecuteCommandParameter</td>
+<td><code>object</code></td>
+<td>Optional parameter used to evaluate all drag-and-drop commands before event-specific parameters are available.</td>
 </tr>
 <tr>
 <td>PassEventArgsToCommand</td>
@@ -121,23 +146,17 @@
 </tr>
 </tbody>
 </table>
+<p>When <code>PassEventArgsToCommand</code> is <code>true</code> and <code>CanExecuteCommandParameter</code> is not set, the <code>CanExecute*Command</code> properties report <code>true</code> without calling <code>CanExecute(null)</code> because the real <code>DragEventArgs</code> parameter is not available yet.
+Set <code>CanExecuteCommandParameter</code> when command availability should still be observed before a drag event exists.
+When <code>PassEventArgsToCommand</code> is <code>true</code>, execution still checks and executes the command with the current <code>DragEventArgs</code>.</p>
 <h2 id="usage">Usage</h2>
-<pre><code class="lang-xml">&lt;Border Background=&quot;LightGray&quot; Height=&quot;100&quot; Width=&quot;100&quot;&gt;
+<pre><code class="lang-xml">&lt;Border Background=&quot;LightGray&quot;
+        Height=&quot;100&quot;
+        Width=&quot;100&quot;
+        IsEnabled=&quot;{Binding #DropCommands.CanExecuteDropCommand}&quot;&gt;
     &lt;Interaction.Behaviors&gt;
-        &lt;DragDropCommandsBehavior DropCommand=&quot;{Binding DropCommand}&quot; /&gt;
-    &lt;/Interaction.Behaviors&gt;
-&lt;/Border&gt;
-</code></pre>
-<ul>
-<li><strong><code>EnterCommand</code></strong></li>
-<li><strong><code>LeaveCommand</code></strong></li>
-<li><strong><code>OverCommand</code></strong></li>
-<li><strong><code>DropCommand</code></strong></li>
-</ul>
-<h2 id="usage-1">Usage</h2>
-<pre><code class="lang-xml">&lt;Border&gt;
-    &lt;Interaction.Behaviors&gt;
-        &lt;DragDropCommandsBehavior EnterCommand=&quot;{Binding EnterCommand}&quot;
+        &lt;DragDropCommandsBehavior x:Name=&quot;DropCommands&quot;
+                                  CanExecuteCommandParameter=&quot;{Binding CurrentDropTarget}&quot;
                                   DropCommand=&quot;{Binding DropCommand}&quot; /&gt;
     &lt;/Interaction.Behaviors&gt;
 &lt;/Border&gt;

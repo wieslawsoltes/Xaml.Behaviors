@@ -100,6 +100,32 @@
     &lt;/Interaction.Behaviors&gt;
 &lt;/Button&gt;
 </code></pre>
+<p>Picker actions inherit <code>CanExecuteCommand</code>, which observes command availability.
+This is useful when the picker is opened from a non-button surface such as a panel click trigger:</p>
+<pre><code class="lang-xml">&lt;Border IsEnabled=&quot;{Binding #OpenPanelPicker.CanExecuteCommand}&quot;&gt;
+    &lt;Interaction.Behaviors&gt;
+        &lt;ClickEventTrigger&gt;
+            &lt;OpenFilePickerAction x:Name=&quot;OpenPanelPicker&quot;
+                                  Title=&quot;Select a file&quot;
+                                  Command=&quot;{Binding OpenFilesCommand}&quot;
+                                  CanExecuteCommandParameter=&quot;OpenFiles&quot; /&gt;
+        &lt;/ClickEventTrigger&gt;
+    &lt;/Interaction.Behaviors&gt;
+&lt;/Border&gt;
+</code></pre>
+<p>Picker actions normally execute the command with the picker result. Set <code>CanExecuteCommandParameter</code> when the command has a global availability state that should be observed before a picker result exists.</p>
+<p>Use <code>UseCommandCanExecuteForIsEnabled</code> when the action should automatically bind the trigger's associated control to <code>CanExecuteCommand</code>:</p>
+<pre><code class="lang-xml">&lt;Border&gt;
+    &lt;Interaction.Behaviors&gt;
+        &lt;ClickEventTrigger&gt;
+            &lt;OpenFilePickerAction Title=&quot;Select a file&quot;
+                                  Command=&quot;{Binding OpenFilesCommand}&quot;
+                                  CanExecuteCommandParameter=&quot;OpenFiles&quot;
+                                  UseCommandCanExecuteForIsEnabled=&quot;True&quot; /&gt;
+        &lt;/ClickEventTrigger&gt;
+    &lt;/Interaction.Behaviors&gt;
+&lt;/Border&gt;
+</code></pre>
 <h2 id="behaviors">Behaviors</h2>
 <p>For convenience, specialized behaviors are provided for common controls like <code>Button</code> and <code>MenuItem</code>. These behaviors automatically handle the <code>Click</code> event.</p>
 <h3 id="button-behaviors">Button Behaviors</h3>
@@ -114,6 +140,29 @@
     &lt;/Interaction.Behaviors&gt;
 &lt;/Button&gt;
 </code></pre>
+<p>Picker behaviors inherit <code>CanExecuteCommand</code>, which observes command availability.
+Bind the associated control's enabled state to it when you want command availability to drive the control:</p>
+<pre><code class="lang-xml">&lt;Button Content=&quot;Open File&quot;
+        IsEnabled=&quot;{Binding #OpenFilePicker.CanExecuteCommand}&quot;&gt;
+    &lt;Interaction.Behaviors&gt;
+        &lt;ButtonOpenFilePickerBehavior x:Name=&quot;OpenFilePicker&quot;
+                                      Title=&quot;Select a file&quot;
+                                      Command=&quot;{Binding OpenFilesCommand}&quot;
+                                      CanExecuteCommandParameter=&quot;OpenFiles&quot; /&gt;
+    &lt;/Interaction.Behaviors&gt;
+&lt;/Button&gt;
+</code></pre>
+<p>Use <code>UseCommandCanExecuteForIsEnabled</code> when the behavior should create that binding for the associated control:</p>
+<pre><code class="lang-xml">&lt;Button Content=&quot;Open File&quot;&gt;
+    &lt;Interaction.Behaviors&gt;
+        &lt;ButtonOpenFilePickerBehavior Title=&quot;Select a file&quot;
+                                      Command=&quot;{Binding OpenFilesCommand}&quot;
+                                      CanExecuteCommandParameter=&quot;OpenFiles&quot;
+                                      UseCommandCanExecuteForIsEnabled=&quot;True&quot; /&gt;
+    &lt;/Interaction.Behaviors&gt;
+&lt;/Button&gt;
+</code></pre>
+<p>The sample application includes a <code>Picker CanExecuteCommand</code> page that shows all six picker behaviors and a panel-hosted picker action using command <code>CanExecute</code> state.</p>
 <h3 id="menuitem-behaviors">MenuItem Behaviors</h3>
 <ul>
 <li><strong><code>MenuItemOpenFilePickerBehavior</code></strong></li>
@@ -133,6 +182,9 @@
 <li><strong><code>AllowMultiple</code></strong>: (Open File only) Whether to allow selecting multiple files.</li>
 <li><strong><code>FileTypeFilter</code></strong>: A collection of file types to filter by.</li>
 <li><strong><code>SuggestedStartLocation</code></strong>: The initial location for the picker.</li>
+<li><strong><code>CanExecuteCommand</code></strong>: (Actions and behaviors) Whether the configured command can execute with the current can-execute parameter.</li>
+<li><strong><code>CanExecuteCommandParameter</code></strong>: (Actions and behaviors) Optional parameter used only for <code>Command.CanExecute</code>. Use this when command execution should still receive the picker result.</li>
+<li><strong><code>UseCommandCanExecuteForIsEnabled</code></strong>: (Actions and behaviors) Whether the associated control should automatically follow <code>CanExecuteCommand</code> through <code>IsEnabled</code>.</li>
 </ul>
 
 </article>

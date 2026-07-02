@@ -84,15 +84,20 @@
 <h1 id="invokecommandactionbase">InvokeCommandActionBase</h1>
 
 <p><code>InvokeCommandActionBase</code> is an abstract base class for actions that invoke an <code>ICommand</code>. It provides a standard set of properties for binding commands and command parameters, making it easier to create actions that interact with ViewModels.</p>
+<p><code>CanExecuteCommand</code> is implemented with the public <code>CommandCanExecuteObserver</code> helper, which custom actions can also use through this base class.</p>
 <h2 id="properties">Properties</h2>
 <ul>
 <li><strong><code>Command</code></strong>: The <code>ICommand</code> to execute.</li>
+<li><strong><code>CanExecuteCommand</code></strong>: A read-only value that observes command availability.</li>
+<li><strong><code>CanExecuteCommandParameter</code></strong>: An optional parameter used only for <code>Command.CanExecute</code>.</li>
+<li><strong><code>UseCommandCanExecuteForIsEnabled</code></strong>: When <code>true</code>, the control associated with the hosting trigger has <code>IsEnabled</code> follow <code>CanExecuteCommand</code>.</li>
 <li><strong><code>CommandParameter</code></strong>: An optional parameter to pass to the command's <code>Execute</code> method.</li>
 <li><strong><code>InputConverter</code></strong>: An optional <code>IValueConverter</code> to convert the parameter before passing it to the command.</li>
 <li><strong><code>InputConverterParameter</code></strong>: An optional parameter to pass to the <code>InputConverter</code>.</li>
 <li><strong><code>InputConverterLanguage</code></strong>: An optional language string to pass to the <code>InputConverter</code>.</li>
 <li><strong><code>PassEventArgsToCommand</code></strong>: A boolean property. If <code>true</code>, the event arguments (or the parameter passed to <code>Execute</code>) are passed to the command. If <code>false</code> (default), <code>CommandParameter</code> is used if set; otherwise, the parameter passed to <code>Execute</code> is used.</li>
 </ul>
+<p><code>CanExecuteCommand</code> uses <code>CanExecuteCommandParameter</code> when it is set. Otherwise it uses <code>CommandParameter</code> when that is set. If neither value is set and the action will execute with event args, converted input, picker results, or another runtime parameter, <code>CanExecuteCommand</code> stays <code>true</code> instead of probing <code>CanExecute(null)</code>.</p>
 <h2 id="usage">Usage</h2>
 <p>This class is typically used as a base for actions like <code>InvokeCommandAction</code> (in the Interactions package).</p>
 <pre><code class="lang-csharp">public class MyCommandAction : InvokeCommandActionBase
@@ -106,6 +111,28 @@
         return null;
     }
 }
+</code></pre>
+<p>Use <code>CanExecuteCommand</code> when an action is hosted by a trigger and the associated control should reflect command availability:</p>
+<pre><code class="lang-xml">&lt;Border IsEnabled=&quot;{Binding #OpenAction.CanExecuteCommand}&quot;&gt;
+    &lt;Interaction.Behaviors&gt;
+        &lt;ClickEventTrigger&gt;
+            &lt;OpenFilePickerAction x:Name=&quot;OpenAction&quot;
+                                  Command=&quot;{Binding OpenFilesCommand}&quot;
+                                  CanExecuteCommandParameter=&quot;OpenFiles&quot; /&gt;
+        &lt;/ClickEventTrigger&gt;
+    &lt;/Interaction.Behaviors&gt;
+&lt;/Border&gt;
+</code></pre>
+<p>Set <code>UseCommandCanExecuteForIsEnabled</code> on the action when it should create that binding for the trigger's associated control:</p>
+<pre><code class="lang-xml">&lt;Border&gt;
+    &lt;Interaction.Behaviors&gt;
+        &lt;ClickEventTrigger&gt;
+            &lt;OpenFilePickerAction Command=&quot;{Binding OpenFilesCommand}&quot;
+                                  CanExecuteCommandParameter=&quot;OpenFiles&quot;
+                                  UseCommandCanExecuteForIsEnabled=&quot;True&quot; /&gt;
+        &lt;/ClickEventTrigger&gt;
+    &lt;/Interaction.Behaviors&gt;
+&lt;/Border&gt;
 </code></pre>
 
 </article>

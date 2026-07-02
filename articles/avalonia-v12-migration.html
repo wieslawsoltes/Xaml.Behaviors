@@ -2,9 +2,9 @@
 <html>
   <head>
     <meta charset="utf-8">
-      <title>Avalonia 12.0.0 Migration | XAML Behaviors for Avalonia </title>
+      <title>Avalonia 12 Migration | XAML Behaviors for Avalonia </title>
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <meta name="title" content="Avalonia 12.0.0 Migration | XAML Behaviors for Avalonia ">
+      <meta name="title" content="Avalonia 12 Migration | XAML Behaviors for Avalonia ">
       
       
       <link rel="icon" href="../favicon.ico">
@@ -81,27 +81,28 @@
         </div>
 
         <article data-uid="">
-<h1 id="avalonia-1200-migration">Avalonia 12.0.0 Migration</h1>
+<h1 id="avalonia-12-migration">Avalonia 12 Migration</h1>
 
-<p>This branch migrates <code>Avalonia.Xaml.Behaviors</code> to stable Avalonia 12.0.0 packages.</p>
+<p>This branch migrates <code>Avalonia.Xaml.Behaviors</code> to stable Avalonia 12 packages.</p>
 <h2 id="baseline">Baseline</h2>
 <ul>
 <li>Branch: <code>avalonia-v12</code></li>
-<li>Avalonia package line: <code>12.0.0</code></li>
-<li>Avalonia DataGrid package: <code>12.0.0</code></li>
-<li>ReactiveUI.Avalonia package: <code>11.4.12</code></li>
+<li>Xaml.Behaviors package line: <code>12.0.5</code></li>
+<li>Avalonia package line: <code>12.0.5</code></li>
+<li>Avalonia DataGrid package: <code>12.0.1</code></li>
+<li>ReactiveUI.Avalonia package: <code>12.0.3</code></li>
 <li>Minimum Avalonia target framework in this repository: <code>net8.0</code></li>
 </ul>
 <h2 id="official-references">Official references</h2>
 <ul>
 <li>Avalonia breaking changes and migration notes for v12</li>
-<li>Avalonia <code>12.0.0</code> release notes</li>
+<li>Avalonia 12 release notes</li>
 <li>Avalonia headless testing guidance for renderer-backed screenshots</li>
 </ul>
 <h2 id="migration-plan">Migration plan</h2>
 <ol>
 <li>Move all Avalonia-consuming projects to <code>net8.0+</code>.</li>
-<li>Upgrade central package versions to the stable Avalonia 12.0.0 set supported by the current ecosystem.</li>
+<li>Upgrade central package versions to the stable Avalonia 12 set supported by the current ecosystem.</li>
 <li>Apply source-level API migrations from the Avalonia v12 breaking changes.</li>
 <li>Fix sample applications and unit tests for Avalonia 12 runtime and headless-test changes.</li>
 <li>Rebuild the full solution and re-run focused test coverage.</li>
@@ -109,7 +110,7 @@
 <h2 id="applied-changes">Applied changes</h2>
 <ul>
 <li>Removed legacy <code>netstandard2.0</code> targets from Avalonia-dependent projects.</li>
-<li>Updated package management to stable Avalonia 12.0.0 packages and added <code>Avalonia.Skia</code> where renderer-backed headless tests require it.</li>
+<li>Updated package management to stable Avalonia 12 packages and added <code>Avalonia.Skia</code> where renderer-backed headless tests require it.</li>
 <li>Migrated <code>IBinding</code> usages to <code>BindingBase</code>.</li>
 <li>Replaced <code>Gestures.*</code> routed events with <code>InputElement.*</code>.</li>
 <li>Replaced <code>SystemDecorations</code> with <code>WindowDecorations</code>.</li>

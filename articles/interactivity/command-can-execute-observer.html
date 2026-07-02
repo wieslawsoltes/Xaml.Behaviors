@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+      <title>CommandCanExecuteObserver | XAML Behaviors for Avalonia </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="CommandCanExecuteObserver | XAML Behaviors for Avalonia ">
+      
+      
+      <link rel="icon" href="../../favicon.ico">
+      <link rel="stylesheet" href="../../public/docfx.min.css">
+      <link rel="stylesheet" href="../../public/main.css">
+      <meta name="docfx:navrel" content="../../toc.html">
+      <meta name="docfx:tocrel" content="../toc.html">
+      
+      
+      
+      
+      <meta name="docfx:docurl" content="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/docfx/articles/interactivity/command-can-execute-observer.md/#L1">
+      <meta name="loc:inThisArticle" content="In this article">
+      <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
+      <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
+      <meta name="loc:tocFilter" content="Filter by title">
+      <meta name="loc:nextArticle" content="Next">
+      <meta name="loc:prevArticle" content="Previous">
+      <meta name="loc:themeLight" content="Light">
+      <meta name="loc:themeDark" content="Dark">
+      <meta name="loc:themeAuto" content="Auto">
+      <meta name="loc:changeTheme" content="Change theme">
+      <meta name="loc:copy" content="Copy">
+      <meta name="loc:downloadPdf" content="Download PDF">
+
+      <script type="module" src="./../../public/docfx.min.js"></script>
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
+  </head>
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../../index.html">
+            <img id="logo" class="svg" src="../../images/logo.svg" alt="">
+            
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <nav class="toc" id="toc"></nav>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
+            <i class="bi bi-list"></i>
+          </button>
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article data-uid="">
+<h1 id="commandcanexecuteobserver">CommandCanExecuteObserver</h1>
+
+<p><code>CommandCanExecuteObserver</code> is a public helper for command-backed behaviors that need to expose a bindable command availability state.</p>
+<p>It observes <code>ICommand.CanExecute(parameter)</code>, listens to <code>CanExecuteChanged</code>, and reports the current value through a callback. If the command is <code>null</code>, it reports <code>true</code>.
+When the command parameter is not available until execution time, use the overloads that accept <code>isParameterKnown: false</code>; the observer reports <code>true</code> without calling <code>CanExecute</code> until a real parameter is supplied.</p>
+<p>The observer uses a weak event target for <code>CanExecuteChanged</code>, so a long-lived command cannot keep the observer or owning behavior alive if cleanup is missed. You should still call <code>Stop()</code> or <code>Dispose()</code> when the behavior is detached so the command subscription is removed immediately.</p>
+<h2 id="behavior-lifecycle">Behavior lifecycle</h2>
+<p>Use one observer per command state property:</p>
+<ul>
+<li>Call <code>Start(command, parameter)</code> when the behavior is attached.</li>
+<li>Call <code>Update(command, parameter)</code> when the command or command parameter changes.</li>
+<li>Call <code>Stop()</code> or <code>Dispose()</code> when the behavior is detached.</li>
+</ul>
+<p>Use <code>Start(command, parameter, isParameterKnown: false)</code> and <code>Update(command, parameter, isParameterKnown: false)</code> for event-driven behaviors where the command will later execute with event args, picker results, or other values that do not exist at attach time. This prevents commands that reject <code>null</code> from being probed with a placeholder parameter.</p>
+<h2 id="custom-behavior-example">Custom behavior example</h2>
+<pre><code class="lang-csharp">using System.Windows.Input;
+using Avalonia;
+using Avalonia.Controls;
+using Avalonia.Xaml.Interactivity;
+
+public sealed class MyCommandBehavior : StyledElementBehavior&lt;Control&gt;
+{
+    private readonly CommandCanExecuteObserver _canExecuteObserver;
+    private bool _canExecuteCommand = true;
+
+    public static readonly StyledProperty&lt;ICommand?&gt; CommandProperty =
+        AvaloniaProperty.Register&lt;MyCommandBehavior, ICommand?&gt;(nameof(Command));
+
+    public static readonly StyledProperty&lt;object?&gt; CommandParameterProperty =
+        AvaloniaProperty.Register&lt;MyCommandBehavior, object?&gt;(nameof(CommandParameter));
+
+    public static readonly DirectProperty&lt;MyCommandBehavior, bool&gt; CanExecuteCommandProperty =
+        AvaloniaProperty.RegisterDirect&lt;MyCommandBehavior, bool&gt;(
+            nameof(CanExecuteCommand),
+            behavior =&gt; behavior.CanExecuteCommand);
+
+    public MyCommandBehavior()
+    {
+        _canExecuteObserver = new CommandCanExecuteObserver(value =&gt; CanExecuteCommand = value);
+    }
+
+    public ICommand? Command
+    {
+        get =&gt; GetValue(CommandProperty);
+        set =&gt; SetValue(CommandProperty, value);
+    }
+
+    public object? CommandParameter
+    {
+        get =&gt; GetValue(CommandParameterProperty);
+        set =&gt; SetValue(CommandParameterProperty, value);
+    }
+
+    public bool CanExecuteCommand
+    {
+        get =&gt; _canExecuteCommand;
+        private set =&gt; SetAndRaise(CanExecuteCommandProperty, ref _canExecuteCommand, value);
+    }
+
+    protected override void OnAttached()
+    {
+        base.OnAttached();
+        _canExecuteObserver.Start(Command, CommandParameter);
+    }
+
+    protected override void OnDetaching()
+    {
+        _canExecuteObserver.Stop();
+        base.OnDetaching();
+    }
+
+    protected override void OnPropertyChanged(AvaloniaPropertyChangedEventArgs change)
+    {
+        base.OnPropertyChanged(change);
+
+        if (change.Property == CommandProperty || change.Property == CommandParameterProperty)
+        {
+            _canExecuteObserver.Update(Command, CommandParameter);
+        }
+    }
+}
+</code></pre>
+<p>Bind the associated control to the exposed state:</p>
+<pre><code class="lang-xml">&lt;Button Content=&quot;Run&quot;
+        IsEnabled=&quot;{Binding #CommandBehavior.CanExecuteCommand}&quot;&gt;
+    &lt;Interaction.Behaviors&gt;
+        &lt;local:MyCommandBehavior x:Name=&quot;CommandBehavior&quot;
+                                 Command=&quot;{Binding RunCommand}&quot; /&gt;
+    &lt;/Interaction.Behaviors&gt;
+&lt;/Button&gt;
+</code></pre>
+
+</article>
+
+        <div class="contribution d-print-none">
+          <a href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/docfx/articles/interactivity/command-can-execute-observer.md/#L1" class="edit-link">Edit this page</a>
+        </div>
+
+        <div class="next-article d-print-none border-top" id="nextArticle"></div>
+
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          <span>Made with <a href="https://dotnet.github.io/docfx">docfx</a></span>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

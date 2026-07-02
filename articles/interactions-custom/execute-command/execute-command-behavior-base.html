@@ -105,6 +105,11 @@
 <td>The command to execute.</td>
 </tr>
 <tr>
+<td>CanExecuteCommand</td>
+<td>bool</td>
+<td>Read-only value that observes whether Command can execute with the current command parameter.</td>
+</tr>
+<tr>
 <td>CommandParameter</td>
 <td>object</td>
 <td>The command parameter.</td>
@@ -126,6 +131,15 @@
 </tr>
 </tbody>
 </table>
+<p>Bind the associated control's <code>IsEnabled</code> property to <code>CanExecuteCommand</code> when the behavior, rather than the control itself, owns the command:</p>
+<pre><code class="lang-xml">&lt;Border IsEnabled=&quot;{Binding #TapCommand.CanExecuteCommand}&quot;&gt;
+    &lt;Interaction.Behaviors&gt;
+        &lt;ExecuteCommandOnTappedBehavior x:Name=&quot;TapCommand&quot;
+                                        Command=&quot;{Binding OpenCommand}&quot;
+                                        CommandParameter=&quot;{Binding SelectedItem}&quot; /&gt;
+    &lt;/Interaction.Behaviors&gt;
+&lt;/Border&gt;
+</code></pre>
 
 </article>
 

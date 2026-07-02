@@ -1865,6 +1865,35 @@ references:
   commentId: F:Avalonia.Xaml.Interactions.Core.PickerActionBase.TitleProperty
   fullName: Avalonia.Xaml.Interactions.Core.PickerActionBase.TitleProperty
   nameWithType: PickerActionBase.TitleProperty
+- uid: Avalonia.Xaml.Interactions.Core.PickerActionBase.TrackDispatchedPickerOperation(System.Func{System.Threading.Tasks.Task})
+  name: TrackDispatchedPickerOperation(Func<Task>)
+  href: api/Avalonia.Xaml.Interactions.Core.PickerActionBase.html#Avalonia_Xaml_Interactions_Core_PickerActionBase_TrackDispatchedPickerOperation_System_Func_System_Threading_Tasks_Task__
+  commentId: M:Avalonia.Xaml.Interactions.Core.PickerActionBase.TrackDispatchedPickerOperation(System.Func{System.Threading.Tasks.Task})
+  name.vb: TrackDispatchedPickerOperation(Func(Of Task))
+  fullName: Avalonia.Xaml.Interactions.Core.PickerActionBase.TrackDispatchedPickerOperation(System.Func<System.Threading.Tasks.Task>)
+  fullName.vb: Avalonia.Xaml.Interactions.Core.PickerActionBase.TrackDispatchedPickerOperation(System.Func(Of System.Threading.Tasks.Task))
+  nameWithType: PickerActionBase.TrackDispatchedPickerOperation(Func<Task>)
+  nameWithType.vb: PickerActionBase.TrackDispatchedPickerOperation(Func(Of Task))
+- uid: Avalonia.Xaml.Interactions.Core.PickerActionBase.TrackDispatchedPickerOperation*
+  name: TrackDispatchedPickerOperation
+  href: api/Avalonia.Xaml.Interactions.Core.PickerActionBase.html#Avalonia_Xaml_Interactions_Core_PickerActionBase_TrackDispatchedPickerOperation_
+  commentId: Overload:Avalonia.Xaml.Interactions.Core.PickerActionBase.TrackDispatchedPickerOperation
+  isSpec: "True"
+  fullName: Avalonia.Xaml.Interactions.Core.PickerActionBase.TrackDispatchedPickerOperation
+  nameWithType: PickerActionBase.TrackDispatchedPickerOperation
+- uid: Avalonia.Xaml.Interactions.Core.PickerActionBase.TrackPickerOperation(System.Threading.Tasks.Task)
+  name: TrackPickerOperation(Task)
+  href: api/Avalonia.Xaml.Interactions.Core.PickerActionBase.html#Avalonia_Xaml_Interactions_Core_PickerActionBase_TrackPickerOperation_System_Threading_Tasks_Task_
+  commentId: M:Avalonia.Xaml.Interactions.Core.PickerActionBase.TrackPickerOperation(System.Threading.Tasks.Task)
+  fullName: Avalonia.Xaml.Interactions.Core.PickerActionBase.TrackPickerOperation(System.Threading.Tasks.Task)
+  nameWithType: PickerActionBase.TrackPickerOperation(Task)
+- uid: Avalonia.Xaml.Interactions.Core.PickerActionBase.TrackPickerOperation*
+  name: TrackPickerOperation
+  href: api/Avalonia.Xaml.Interactions.Core.PickerActionBase.html#Avalonia_Xaml_Interactions_Core_PickerActionBase_TrackPickerOperation_
+  commentId: Overload:Avalonia.Xaml.Interactions.Core.PickerActionBase.TrackPickerOperation
+  isSpec: "True"
+  fullName: Avalonia.Xaml.Interactions.Core.PickerActionBase.TrackPickerOperation
+  nameWithType: PickerActionBase.TrackPickerOperation
 - uid: Avalonia.Xaml.Interactions.Core.PickerBehaviorBase
   name: PickerBehaviorBase
   href: api/Avalonia.Xaml.Interactions.Core.PickerBehaviorBase.html
@@ -7577,6 +7606,44 @@ references:
   commentId: T:Avalonia.Xaml.Interactions.Custom.ExecuteCommandBehaviorBase
   fullName: Avalonia.Xaml.Interactions.Custom.ExecuteCommandBehaviorBase
   nameWithType: ExecuteCommandBehaviorBase
+- uid: Avalonia.Xaml.Interactions.Custom.ExecuteCommandBehaviorBase.#ctor
+  name: ExecuteCommandBehaviorBase()
+  href: api/Avalonia.Xaml.Interactions.Custom.ExecuteCommandBehaviorBase.html#Avalonia_Xaml_Interactions_Custom_ExecuteCommandBehaviorBase__ctor
+  commentId: M:Avalonia.Xaml.Interactions.Custom.ExecuteCommandBehaviorBase.#ctor
+  name.vb: New()
+  fullName: Avalonia.Xaml.Interactions.Custom.ExecuteCommandBehaviorBase.ExecuteCommandBehaviorBase()
+  fullName.vb: Avalonia.Xaml.Interactions.Custom.ExecuteCommandBehaviorBase.New()
+  nameWithType: ExecuteCommandBehaviorBase.ExecuteCommandBehaviorBase()
+  nameWithType.vb: ExecuteCommandBehaviorBase.New()
+- uid: Avalonia.Xaml.Interactions.Custom.ExecuteCommandBehaviorBase.#ctor*
+  name: ExecuteCommandBehaviorBase
+  href: api/Avalonia.Xaml.Interactions.Custom.ExecuteCommandBehaviorBase.html#Avalonia_Xaml_Interactions_Custom_ExecuteCommandBehaviorBase__ctor_
+  commentId: Overload:Avalonia.Xaml.Interactions.Custom.ExecuteCommandBehaviorBase.#ctor
+  isSpec: "True"
+  name.vb: New
+  fullName: Avalonia.Xaml.Interactions.Custom.ExecuteCommandBehaviorBase.ExecuteCommandBehaviorBase
+  fullName.vb: Avalonia.Xaml.Interactions.Custom.ExecuteCommandBehaviorBase.New
+  nameWithType: ExecuteCommandBehaviorBase.ExecuteCommandBehaviorBase
+  nameWithType.vb: ExecuteCommandBehaviorBase.New
+- uid: Avalonia.Xaml.Interactions.Custom.ExecuteCommandBehaviorBase.CanExecuteCommand
+  name: CanExecuteCommand
+  href: api/Avalonia.Xaml.Interactions.Custom.ExecuteCommandBehaviorBase.html#Avalonia_Xaml_Interactions_Custom_ExecuteCommandBehaviorBase_CanExecuteCommand
+  commentId: P:Avalonia.Xaml.Interactions.Custom.ExecuteCommandBehaviorBase.CanExecuteCommand
+  fullName: Avalonia.Xaml.Interactions.Custom.ExecuteCommandBehaviorBase.CanExecuteCommand
+  nameWithType: ExecuteCommandBehaviorBase.CanExecuteCommand
+- uid: Avalonia.Xaml.Interactions.Custom.ExecuteCommandBehaviorBase.CanExecuteCommand*
+  name: CanExecuteCommand
+  href: api/Avalonia.Xaml.Interactions.Custom.ExecuteCommandBehaviorBase.html#Avalonia_Xaml_Interactions_Custom_ExecuteCommandBehaviorBase_CanExecuteCommand_
+  commentId: Overload:Avalonia.Xaml.Interactions.Custom.ExecuteCommandBehaviorBase.CanExecuteCommand
+  isSpec: "True"
+  fullName: Avalonia.Xaml.Interactions.Custom.ExecuteCommandBehaviorBase.CanExecuteCommand
+  nameWithType: ExecuteCommandBehaviorBase.CanExecuteCommand
+- uid: Avalonia.Xaml.Interactions.Custom.ExecuteCommandBehaviorBase.CanExecuteCommandProperty
+  name: CanExecuteCommandProperty
+  href: api/Avalonia.Xaml.Interactions.Custom.ExecuteCommandBehaviorBase.html#Avalonia_Xaml_Interactions_Custom_ExecuteCommandBehaviorBase_CanExecuteCommandProperty
+  commentId: F:Avalonia.Xaml.Interactions.Custom.ExecuteCommandBehaviorBase.CanExecuteCommandProperty
+  fullName: Avalonia.Xaml.Interactions.Custom.ExecuteCommandBehaviorBase.CanExecuteCommandProperty
+  nameWithType: ExecuteCommandBehaviorBase.CanExecuteCommandProperty
 - uid: Avalonia.Xaml.Interactions.Custom.ExecuteCommandBehaviorBase.Command
   name: Command
   href: api/Avalonia.Xaml.Interactions.Custom.ExecuteCommandBehaviorBase.html#Avalonia_Xaml_Interactions_Custom_ExecuteCommandBehaviorBase_Command
@@ -7666,6 +7733,45 @@ references:
   commentId: F:Avalonia.Xaml.Interactions.Custom.ExecuteCommandBehaviorBase.FocusTopLevelProperty
   fullName: Avalonia.Xaml.Interactions.Custom.ExecuteCommandBehaviorBase.FocusTopLevelProperty
   nameWithType: ExecuteCommandBehaviorBase.FocusTopLevelProperty
+- uid: Avalonia.Xaml.Interactions.Custom.ExecuteCommandBehaviorBase.OnAttached
+  name: OnAttached()
+  href: api/Avalonia.Xaml.Interactions.Custom.ExecuteCommandBehaviorBase.html#Avalonia_Xaml_Interactions_Custom_ExecuteCommandBehaviorBase_OnAttached
+  commentId: M:Avalonia.Xaml.Interactions.Custom.ExecuteCommandBehaviorBase.OnAttached
+  fullName: Avalonia.Xaml.Interactions.Custom.ExecuteCommandBehaviorBase.OnAttached()
+  nameWithType: ExecuteCommandBehaviorBase.OnAttached()
+- uid: Avalonia.Xaml.Interactions.Custom.ExecuteCommandBehaviorBase.OnAttached*
+  name: OnAttached
+  href: api/Avalonia.Xaml.Interactions.Custom.ExecuteCommandBehaviorBase.html#Avalonia_Xaml_Interactions_Custom_ExecuteCommandBehaviorBase_OnAttached_
+  commentId: Overload:Avalonia.Xaml.Interactions.Custom.ExecuteCommandBehaviorBase.OnAttached
+  isSpec: "True"
+  fullName: Avalonia.Xaml.Interactions.Custom.ExecuteCommandBehaviorBase.OnAttached
+  nameWithType: ExecuteCommandBehaviorBase.OnAttached
+- uid: Avalonia.Xaml.Interactions.Custom.ExecuteCommandBehaviorBase.OnDetaching
+  name: OnDetaching()
+  href: api/Avalonia.Xaml.Interactions.Custom.ExecuteCommandBehaviorBase.html#Avalonia_Xaml_Interactions_Custom_ExecuteCommandBehaviorBase_OnDetaching
+  commentId: M:Avalonia.Xaml.Interactions.Custom.ExecuteCommandBehaviorBase.OnDetaching
+  fullName: Avalonia.Xaml.Interactions.Custom.ExecuteCommandBehaviorBase.OnDetaching()
+  nameWithType: ExecuteCommandBehaviorBase.OnDetaching()
+- uid: Avalonia.Xaml.Interactions.Custom.ExecuteCommandBehaviorBase.OnDetaching*
+  name: OnDetaching
+  href: api/Avalonia.Xaml.Interactions.Custom.ExecuteCommandBehaviorBase.html#Avalonia_Xaml_Interactions_Custom_ExecuteCommandBehaviorBase_OnDetaching_
+  commentId: Overload:Avalonia.Xaml.Interactions.Custom.ExecuteCommandBehaviorBase.OnDetaching
+  isSpec: "True"
+  fullName: Avalonia.Xaml.Interactions.Custom.ExecuteCommandBehaviorBase.OnDetaching
+  nameWithType: ExecuteCommandBehaviorBase.OnDetaching
+- uid: Avalonia.Xaml.Interactions.Custom.ExecuteCommandBehaviorBase.OnPropertyChanged(Avalonia.AvaloniaPropertyChangedEventArgs)
+  name: OnPropertyChanged(AvaloniaPropertyChangedEventArgs)
+  href: api/Avalonia.Xaml.Interactions.Custom.ExecuteCommandBehaviorBase.html#Avalonia_Xaml_Interactions_Custom_ExecuteCommandBehaviorBase_OnPropertyChanged_Avalonia_AvaloniaPropertyChangedEventArgs_
+  commentId: M:Avalonia.Xaml.Interactions.Custom.ExecuteCommandBehaviorBase.OnPropertyChanged(Avalonia.AvaloniaPropertyChangedEventArgs)
+  fullName: Avalonia.Xaml.Interactions.Custom.ExecuteCommandBehaviorBase.OnPropertyChanged(Avalonia.AvaloniaPropertyChangedEventArgs)
+  nameWithType: ExecuteCommandBehaviorBase.OnPropertyChanged(AvaloniaPropertyChangedEventArgs)
+- uid: Avalonia.Xaml.Interactions.Custom.ExecuteCommandBehaviorBase.OnPropertyChanged*
+  name: OnPropertyChanged
+  href: api/Avalonia.Xaml.Interactions.Custom.ExecuteCommandBehaviorBase.html#Avalonia_Xaml_Interactions_Custom_ExecuteCommandBehaviorBase_OnPropertyChanged_
+  commentId: Overload:Avalonia.Xaml.Interactions.Custom.ExecuteCommandBehaviorBase.OnPropertyChanged
+  isSpec: "True"
+  fullName: Avalonia.Xaml.Interactions.Custom.ExecuteCommandBehaviorBase.OnPropertyChanged
+  nameWithType: ExecuteCommandBehaviorBase.OnPropertyChanged
 - uid: Avalonia.Xaml.Interactions.Custom.ExecuteCommandBehaviorBase.SourceControl
   name: SourceControl
   href: api/Avalonia.Xaml.Interactions.Custom.ExecuteCommandBehaviorBase.html#Avalonia_Xaml_Interactions_Custom_ExecuteCommandBehaviorBase_SourceControl
@@ -21440,6 +21546,120 @@ references:
   commentId: T:Avalonia.Xaml.Interactions.DragAndDrop.DragDropCommandsBehavior
   fullName: Avalonia.Xaml.Interactions.DragAndDrop.DragDropCommandsBehavior
   nameWithType: DragDropCommandsBehavior
+- uid: Avalonia.Xaml.Interactions.DragAndDrop.DragDropCommandsBehavior.#ctor
+  name: DragDropCommandsBehavior()
+  href: api/Avalonia.Xaml.Interactions.DragAndDrop.DragDropCommandsBehavior.html#Avalonia_Xaml_Interactions_DragAndDrop_DragDropCommandsBehavior__ctor
+  commentId: M:Avalonia.Xaml.Interactions.DragAndDrop.DragDropCommandsBehavior.#ctor
+  name.vb: New()
+  fullName: Avalonia.Xaml.Interactions.DragAndDrop.DragDropCommandsBehavior.DragDropCommandsBehavior()
+  fullName.vb: Avalonia.Xaml.Interactions.DragAndDrop.DragDropCommandsBehavior.New()
+  nameWithType: DragDropCommandsBehavior.DragDropCommandsBehavior()
+  nameWithType.vb: DragDropCommandsBehavior.New()
+- uid: Avalonia.Xaml.Interactions.DragAndDrop.DragDropCommandsBehavior.#ctor*
+  name: DragDropCommandsBehavior
+  href: api/Avalonia.Xaml.Interactions.DragAndDrop.DragDropCommandsBehavior.html#Avalonia_Xaml_Interactions_DragAndDrop_DragDropCommandsBehavior__ctor_
+  commentId: Overload:Avalonia.Xaml.Interactions.DragAndDrop.DragDropCommandsBehavior.#ctor
+  isSpec: "True"
+  name.vb: New
+  fullName: Avalonia.Xaml.Interactions.DragAndDrop.DragDropCommandsBehavior.DragDropCommandsBehavior
+  fullName.vb: Avalonia.Xaml.Interactions.DragAndDrop.DragDropCommandsBehavior.New
+  nameWithType: DragDropCommandsBehavior.DragDropCommandsBehavior
+  nameWithType.vb: DragDropCommandsBehavior.New
+- uid: Avalonia.Xaml.Interactions.DragAndDrop.DragDropCommandsBehavior.CanExecuteCommandParameter
+  name: CanExecuteCommandParameter
+  href: api/Avalonia.Xaml.Interactions.DragAndDrop.DragDropCommandsBehavior.html#Avalonia_Xaml_Interactions_DragAndDrop_DragDropCommandsBehavior_CanExecuteCommandParameter
+  commentId: P:Avalonia.Xaml.Interactions.DragAndDrop.DragDropCommandsBehavior.CanExecuteCommandParameter
+  fullName: Avalonia.Xaml.Interactions.DragAndDrop.DragDropCommandsBehavior.CanExecuteCommandParameter
+  nameWithType: DragDropCommandsBehavior.CanExecuteCommandParameter
+- uid: Avalonia.Xaml.Interactions.DragAndDrop.DragDropCommandsBehavior.CanExecuteCommandParameter*
+  name: CanExecuteCommandParameter
+  href: api/Avalonia.Xaml.Interactions.DragAndDrop.DragDropCommandsBehavior.html#Avalonia_Xaml_Interactions_DragAndDrop_DragDropCommandsBehavior_CanExecuteCommandParameter_
+  commentId: Overload:Avalonia.Xaml.Interactions.DragAndDrop.DragDropCommandsBehavior.CanExecuteCommandParameter
+  isSpec: "True"
+  fullName: Avalonia.Xaml.Interactions.DragAndDrop.DragDropCommandsBehavior.CanExecuteCommandParameter
+  nameWithType: DragDropCommandsBehavior.CanExecuteCommandParameter
+- uid: Avalonia.Xaml.Interactions.DragAndDrop.DragDropCommandsBehavior.CanExecuteCommandParameterProperty
+  name: CanExecuteCommandParameterProperty
+  href: api/Avalonia.Xaml.Interactions.DragAndDrop.DragDropCommandsBehavior.html#Avalonia_Xaml_Interactions_DragAndDrop_DragDropCommandsBehavior_CanExecuteCommandParameterProperty
+  commentId: F:Avalonia.Xaml.Interactions.DragAndDrop.DragDropCommandsBehavior.CanExecuteCommandParameterProperty
+  fullName: Avalonia.Xaml.Interactions.DragAndDrop.DragDropCommandsBehavior.CanExecuteCommandParameterProperty
+  nameWithType: DragDropCommandsBehavior.CanExecuteCommandParameterProperty
+- uid: Avalonia.Xaml.Interactions.DragAndDrop.DragDropCommandsBehavior.CanExecuteDragEnterCommand
+  name: CanExecuteDragEnterCommand
+  href: api/Avalonia.Xaml.Interactions.DragAndDrop.DragDropCommandsBehavior.html#Avalonia_Xaml_Interactions_DragAndDrop_DragDropCommandsBehavior_CanExecuteDragEnterCommand
+  commentId: P:Avalonia.Xaml.Interactions.DragAndDrop.DragDropCommandsBehavior.CanExecuteDragEnterCommand
+  fullName: Avalonia.Xaml.Interactions.DragAndDrop.DragDropCommandsBehavior.CanExecuteDragEnterCommand
+  nameWithType: DragDropCommandsBehavior.CanExecuteDragEnterCommand
+- uid: Avalonia.Xaml.Interactions.DragAndDrop.DragDropCommandsBehavior.CanExecuteDragEnterCommand*
+  name: CanExecuteDragEnterCommand
+  href: api/Avalonia.Xaml.Interactions.DragAndDrop.DragDropCommandsBehavior.html#Avalonia_Xaml_Interactions_DragAndDrop_DragDropCommandsBehavior_CanExecuteDragEnterCommand_
+  commentId: Overload:Avalonia.Xaml.Interactions.DragAndDrop.DragDropCommandsBehavior.CanExecuteDragEnterCommand
+  isSpec: "True"
+  fullName: Avalonia.Xaml.Interactions.DragAndDrop.DragDropCommandsBehavior.CanExecuteDragEnterCommand
+  nameWithType: DragDropCommandsBehavior.CanExecuteDragEnterCommand
+- uid: Avalonia.Xaml.Interactions.DragAndDrop.DragDropCommandsBehavior.CanExecuteDragEnterCommandProperty
+  name: CanExecuteDragEnterCommandProperty
+  href: api/Avalonia.Xaml.Interactions.DragAndDrop.DragDropCommandsBehavior.html#Avalonia_Xaml_Interactions_DragAndDrop_DragDropCommandsBehavior_CanExecuteDragEnterCommandProperty
+  commentId: F:Avalonia.Xaml.Interactions.DragAndDrop.DragDropCommandsBehavior.CanExecuteDragEnterCommandProperty
+  fullName: Avalonia.Xaml.Interactions.DragAndDrop.DragDropCommandsBehavior.CanExecuteDragEnterCommandProperty
+  nameWithType: DragDropCommandsBehavior.CanExecuteDragEnterCommandProperty
+- uid: Avalonia.Xaml.Interactions.DragAndDrop.DragDropCommandsBehavior.CanExecuteDragLeaveCommand
+  name: CanExecuteDragLeaveCommand
+  href: api/Avalonia.Xaml.Interactions.DragAndDrop.DragDropCommandsBehavior.html#Avalonia_Xaml_Interactions_DragAndDrop_DragDropCommandsBehavior_CanExecuteDragLeaveCommand
+  commentId: P:Avalonia.Xaml.Interactions.DragAndDrop.DragDropCommandsBehavior.CanExecuteDragLeaveCommand
+  fullName: Avalonia.Xaml.Interactions.DragAndDrop.DragDropCommandsBehavior.CanExecuteDragLeaveCommand
+  nameWithType: DragDropCommandsBehavior.CanExecuteDragLeaveCommand
+- uid: Avalonia.Xaml.Interactions.DragAndDrop.DragDropCommandsBehavior.CanExecuteDragLeaveCommand*
+  name: CanExecuteDragLeaveCommand
+  href: api/Avalonia.Xaml.Interactions.DragAndDrop.DragDropCommandsBehavior.html#Avalonia_Xaml_Interactions_DragAndDrop_DragDropCommandsBehavior_CanExecuteDragLeaveCommand_
+  commentId: Overload:Avalonia.Xaml.Interactions.DragAndDrop.DragDropCommandsBehavior.CanExecuteDragLeaveCommand
+  isSpec: "True"
+  fullName: Avalonia.Xaml.Interactions.DragAndDrop.DragDropCommandsBehavior.CanExecuteDragLeaveCommand
+  nameWithType: DragDropCommandsBehavior.CanExecuteDragLeaveCommand
+- uid: Avalonia.Xaml.Interactions.DragAndDrop.DragDropCommandsBehavior.CanExecuteDragLeaveCommandProperty
+  name: CanExecuteDragLeaveCommandProperty
+  href: api/Avalonia.Xaml.Interactions.DragAndDrop.DragDropCommandsBehavior.html#Avalonia_Xaml_Interactions_DragAndDrop_DragDropCommandsBehavior_CanExecuteDragLeaveCommandProperty
+  commentId: F:Avalonia.Xaml.Interactions.DragAndDrop.DragDropCommandsBehavior.CanExecuteDragLeaveCommandProperty
+  fullName: Avalonia.Xaml.Interactions.DragAndDrop.DragDropCommandsBehavior.CanExecuteDragLeaveCommandProperty
+  nameWithType: DragDropCommandsBehavior.CanExecuteDragLeaveCommandProperty
+- uid: Avalonia.Xaml.Interactions.DragAndDrop.DragDropCommandsBehavior.CanExecuteDragOverCommand
+  name: CanExecuteDragOverCommand
+  href: api/Avalonia.Xaml.Interactions.DragAndDrop.DragDropCommandsBehavior.html#Avalonia_Xaml_Interactions_DragAndDrop_DragDropCommandsBehavior_CanExecuteDragOverCommand
+  commentId: P:Avalonia.Xaml.Interactions.DragAndDrop.DragDropCommandsBehavior.CanExecuteDragOverCommand
+  fullName: Avalonia.Xaml.Interactions.DragAndDrop.DragDropCommandsBehavior.CanExecuteDragOverCommand
+  nameWithType: DragDropCommandsBehavior.CanExecuteDragOverCommand
+- uid: Avalonia.Xaml.Interactions.DragAndDrop.DragDropCommandsBehavior.CanExecuteDragOverCommand*
+  name: CanExecuteDragOverCommand
+  href: api/Avalonia.Xaml.Interactions.DragAndDrop.DragDropCommandsBehavior.html#Avalonia_Xaml_Interactions_DragAndDrop_DragDropCommandsBehavior_CanExecuteDragOverCommand_
+  commentId: Overload:Avalonia.Xaml.Interactions.DragAndDrop.DragDropCommandsBehavior.CanExecuteDragOverCommand
+  isSpec: "True"
+  fullName: Avalonia.Xaml.Interactions.DragAndDrop.DragDropCommandsBehavior.CanExecuteDragOverCommand
+  nameWithType: DragDropCommandsBehavior.CanExecuteDragOverCommand
+- uid: Avalonia.Xaml.Interactions.DragAndDrop.DragDropCommandsBehavior.CanExecuteDragOverCommandProperty
+  name: CanExecuteDragOverCommandProperty
+  href: api/Avalonia.Xaml.Interactions.DragAndDrop.DragDropCommandsBehavior.html#Avalonia_Xaml_Interactions_DragAndDrop_DragDropCommandsBehavior_CanExecuteDragOverCommandProperty
+  commentId: F:Avalonia.Xaml.Interactions.DragAndDrop.DragDropCommandsBehavior.CanExecuteDragOverCommandProperty
+  fullName: Avalonia.Xaml.Interactions.DragAndDrop.DragDropCommandsBehavior.CanExecuteDragOverCommandProperty
+  nameWithType: DragDropCommandsBehavior.CanExecuteDragOverCommandProperty
+- uid: Avalonia.Xaml.Interactions.DragAndDrop.DragDropCommandsBehavior.CanExecuteDropCommand
+  name: CanExecuteDropCommand
+  href: api/Avalonia.Xaml.Interactions.DragAndDrop.DragDropCommandsBehavior.html#Avalonia_Xaml_Interactions_DragAndDrop_DragDropCommandsBehavior_CanExecuteDropCommand
+  commentId: P:Avalonia.Xaml.Interactions.DragAndDrop.DragDropCommandsBehavior.CanExecuteDropCommand
+  fullName: Avalonia.Xaml.Interactions.DragAndDrop.DragDropCommandsBehavior.CanExecuteDropCommand
+  nameWithType: DragDropCommandsBehavior.CanExecuteDropCommand
+- uid: Avalonia.Xaml.Interactions.DragAndDrop.DragDropCommandsBehavior.CanExecuteDropCommand*
+  name: CanExecuteDropCommand
+  href: api/Avalonia.Xaml.Interactions.DragAndDrop.DragDropCommandsBehavior.html#Avalonia_Xaml_Interactions_DragAndDrop_DragDropCommandsBehavior_CanExecuteDropCommand_
+  commentId: Overload:Avalonia.Xaml.Interactions.DragAndDrop.DragDropCommandsBehavior.CanExecuteDropCommand
+  isSpec: "True"
+  fullName: Avalonia.Xaml.Interactions.DragAndDrop.DragDropCommandsBehavior.CanExecuteDropCommand
+  nameWithType: DragDropCommandsBehavior.CanExecuteDropCommand
+- uid: Avalonia.Xaml.Interactions.DragAndDrop.DragDropCommandsBehavior.CanExecuteDropCommandProperty
+  name: CanExecuteDropCommandProperty
+  href: api/Avalonia.Xaml.Interactions.DragAndDrop.DragDropCommandsBehavior.html#Avalonia_Xaml_Interactions_DragAndDrop_DragDropCommandsBehavior_CanExecuteDropCommandProperty
+  commentId: F:Avalonia.Xaml.Interactions.DragAndDrop.DragDropCommandsBehavior.CanExecuteDropCommandProperty
+  fullName: Avalonia.Xaml.Interactions.DragAndDrop.DragDropCommandsBehavior.CanExecuteDropCommandProperty
+  nameWithType: DragDropCommandsBehavior.CanExecuteDropCommandProperty
 - uid: Avalonia.Xaml.Interactions.DragAndDrop.DragDropCommandsBehavior.DragEnterCommand
   name: DragEnterCommand
   href: api/Avalonia.Xaml.Interactions.DragAndDrop.DragDropCommandsBehavior.html#Avalonia_Xaml_Interactions_DragAndDrop_DragDropCommandsBehavior_DragEnterCommand
@@ -21516,6 +21736,32 @@ references:
   commentId: F:Avalonia.Xaml.Interactions.DragAndDrop.DragDropCommandsBehavior.DropCommandProperty
   fullName: Avalonia.Xaml.Interactions.DragAndDrop.DragDropCommandsBehavior.DropCommandProperty
   nameWithType: DragDropCommandsBehavior.DropCommandProperty
+- uid: Avalonia.Xaml.Interactions.DragAndDrop.DragDropCommandsBehavior.OnAttached
+  name: OnAttached()
+  href: api/Avalonia.Xaml.Interactions.DragAndDrop.DragDropCommandsBehavior.html#Avalonia_Xaml_Interactions_DragAndDrop_DragDropCommandsBehavior_OnAttached
+  commentId: M:Avalonia.Xaml.Interactions.DragAndDrop.DragDropCommandsBehavior.OnAttached
+  fullName: Avalonia.Xaml.Interactions.DragAndDrop.DragDropCommandsBehavior.OnAttached()
+  nameWithType: DragDropCommandsBehavior.OnAttached()
+- uid: Avalonia.Xaml.Interactions.DragAndDrop.DragDropCommandsBehavior.OnAttached*
+  name: OnAttached
+  href: api/Avalonia.Xaml.Interactions.DragAndDrop.DragDropCommandsBehavior.html#Avalonia_Xaml_Interactions_DragAndDrop_DragDropCommandsBehavior_OnAttached_
+  commentId: Overload:Avalonia.Xaml.Interactions.DragAndDrop.DragDropCommandsBehavior.OnAttached
+  isSpec: "True"
+  fullName: Avalonia.Xaml.Interactions.DragAndDrop.DragDropCommandsBehavior.OnAttached
+  nameWithType: DragDropCommandsBehavior.OnAttached
+- uid: Avalonia.Xaml.Interactions.DragAndDrop.DragDropCommandsBehavior.OnDetaching
+  name: OnDetaching()
+  href: api/Avalonia.Xaml.Interactions.DragAndDrop.DragDropCommandsBehavior.html#Avalonia_Xaml_Interactions_DragAndDrop_DragDropCommandsBehavior_OnDetaching
+  commentId: M:Avalonia.Xaml.Interactions.DragAndDrop.DragDropCommandsBehavior.OnDetaching
+  fullName: Avalonia.Xaml.Interactions.DragAndDrop.DragDropCommandsBehavior.OnDetaching()
+  nameWithType: DragDropCommandsBehavior.OnDetaching()
+- uid: Avalonia.Xaml.Interactions.DragAndDrop.DragDropCommandsBehavior.OnDetaching*
+  name: OnDetaching
+  href: api/Avalonia.Xaml.Interactions.DragAndDrop.DragDropCommandsBehavior.html#Avalonia_Xaml_Interactions_DragAndDrop_DragDropCommandsBehavior_OnDetaching_
+  commentId: Overload:Avalonia.Xaml.Interactions.DragAndDrop.DragDropCommandsBehavior.OnDetaching
+  isSpec: "True"
+  fullName: Avalonia.Xaml.Interactions.DragAndDrop.DragDropCommandsBehavior.OnDetaching
+  nameWithType: DragDropCommandsBehavior.OnDetaching
 - uid: Avalonia.Xaml.Interactions.DragAndDrop.DragDropCommandsBehavior.OnDragEnter(System.Object,Avalonia.Input.DragEventArgs)
   name: OnDragEnter(object?, DragEventArgs)
   href: api/Avalonia.Xaml.Interactions.DragAndDrop.DragDropCommandsBehavior.html#Avalonia_Xaml_Interactions_DragAndDrop_DragDropCommandsBehavior_OnDragEnter_System_Object_Avalonia_Input_DragEventArgs_
@@ -21580,6 +21826,19 @@ references:
   isSpec: "True"
   fullName: Avalonia.Xaml.Interactions.DragAndDrop.DragDropCommandsBehavior.OnDrop
   nameWithType: DragDropCommandsBehavior.OnDrop
+- uid: Avalonia.Xaml.Interactions.DragAndDrop.DragDropCommandsBehavior.OnPropertyChanged(Avalonia.AvaloniaPropertyChangedEventArgs)
+  name: OnPropertyChanged(AvaloniaPropertyChangedEventArgs)
+  href: api/Avalonia.Xaml.Interactions.DragAndDrop.DragDropCommandsBehavior.html#Avalonia_Xaml_Interactions_DragAndDrop_DragDropCommandsBehavior_OnPropertyChanged_Avalonia_AvaloniaPropertyChangedEventArgs_
+  commentId: M:Avalonia.Xaml.Interactions.DragAndDrop.DragDropCommandsBehavior.OnPropertyChanged(Avalonia.AvaloniaPropertyChangedEventArgs)
+  fullName: Avalonia.Xaml.Interactions.DragAndDrop.DragDropCommandsBehavior.OnPropertyChanged(Avalonia.AvaloniaPropertyChangedEventArgs)
+  nameWithType: DragDropCommandsBehavior.OnPropertyChanged(AvaloniaPropertyChangedEventArgs)
+- uid: Avalonia.Xaml.Interactions.DragAndDrop.DragDropCommandsBehavior.OnPropertyChanged*
+  name: OnPropertyChanged
+  href: api/Avalonia.Xaml.Interactions.DragAndDrop.DragDropCommandsBehavior.html#Avalonia_Xaml_Interactions_DragAndDrop_DragDropCommandsBehavior_OnPropertyChanged_
+  commentId: Overload:Avalonia.Xaml.Interactions.DragAndDrop.DragDropCommandsBehavior.OnPropertyChanged
+  isSpec: "True"
+  fullName: Avalonia.Xaml.Interactions.DragAndDrop.DragDropCommandsBehavior.OnPropertyChanged
+  nameWithType: DragDropCommandsBehavior.OnPropertyChanged
 - uid: Avalonia.Xaml.Interactions.DragAndDrop.DragDropCommandsBehavior.PassEventArgsToCommand
   name: PassEventArgsToCommand
   href: api/Avalonia.Xaml.Interactions.DragAndDrop.DragDropCommandsBehavior.html#Avalonia_Xaml_Interactions_DragAndDrop_DragDropCommandsBehavior_PassEventArgsToCommand
@@ -27253,6 +27512,107 @@ references:
   fullName.vb: Avalonia.Xaml.Interactivity.Behavior(Of T).OnAttached
   nameWithType: Behavior<T>.OnAttached
   nameWithType.vb: Behavior(Of T).OnAttached
+- uid: Avalonia.Xaml.Interactivity.CommandCanExecuteObserver
+  name: CommandCanExecuteObserver
+  href: api/Avalonia.Xaml.Interactivity.CommandCanExecuteObserver.html
+  commentId: T:Avalonia.Xaml.Interactivity.CommandCanExecuteObserver
+  fullName: Avalonia.Xaml.Interactivity.CommandCanExecuteObserver
+  nameWithType: CommandCanExecuteObserver
+- uid: Avalonia.Xaml.Interactivity.CommandCanExecuteObserver.#ctor(System.Action{System.Boolean})
+  name: CommandCanExecuteObserver(Action<bool>)
+  href: api/Avalonia.Xaml.Interactivity.CommandCanExecuteObserver.html#Avalonia_Xaml_Interactivity_CommandCanExecuteObserver__ctor_System_Action_System_Boolean__
+  commentId: M:Avalonia.Xaml.Interactivity.CommandCanExecuteObserver.#ctor(System.Action{System.Boolean})
+  name.vb: New(Action(Of Boolean))
+  fullName: Avalonia.Xaml.Interactivity.CommandCanExecuteObserver.CommandCanExecuteObserver(System.Action<bool>)
+  fullName.vb: Avalonia.Xaml.Interactivity.CommandCanExecuteObserver.New(System.Action(Of Boolean))
+  nameWithType: CommandCanExecuteObserver.CommandCanExecuteObserver(Action<bool>)
+  nameWithType.vb: CommandCanExecuteObserver.New(Action(Of Boolean))
+- uid: Avalonia.Xaml.Interactivity.CommandCanExecuteObserver.#ctor*
+  name: CommandCanExecuteObserver
+  href: api/Avalonia.Xaml.Interactivity.CommandCanExecuteObserver.html#Avalonia_Xaml_Interactivity_CommandCanExecuteObserver__ctor_
+  commentId: Overload:Avalonia.Xaml.Interactivity.CommandCanExecuteObserver.#ctor
+  isSpec: "True"
+  name.vb: New
+  fullName: Avalonia.Xaml.Interactivity.CommandCanExecuteObserver.CommandCanExecuteObserver
+  fullName.vb: Avalonia.Xaml.Interactivity.CommandCanExecuteObserver.New
+  nameWithType: CommandCanExecuteObserver.CommandCanExecuteObserver
+  nameWithType.vb: CommandCanExecuteObserver.New
+- uid: Avalonia.Xaml.Interactivity.CommandCanExecuteObserver.Dispose
+  name: Dispose()
+  href: api/Avalonia.Xaml.Interactivity.CommandCanExecuteObserver.html#Avalonia_Xaml_Interactivity_CommandCanExecuteObserver_Dispose
+  commentId: M:Avalonia.Xaml.Interactivity.CommandCanExecuteObserver.Dispose
+  fullName: Avalonia.Xaml.Interactivity.CommandCanExecuteObserver.Dispose()
+  nameWithType: CommandCanExecuteObserver.Dispose()
+- uid: Avalonia.Xaml.Interactivity.CommandCanExecuteObserver.Dispose*
+  name: Dispose
+  href: api/Avalonia.Xaml.Interactivity.CommandCanExecuteObserver.html#Avalonia_Xaml_Interactivity_CommandCanExecuteObserver_Dispose_
+  commentId: Overload:Avalonia.Xaml.Interactivity.CommandCanExecuteObserver.Dispose
+  isSpec: "True"
+  fullName: Avalonia.Xaml.Interactivity.CommandCanExecuteObserver.Dispose
+  nameWithType: CommandCanExecuteObserver.Dispose
+- uid: Avalonia.Xaml.Interactivity.CommandCanExecuteObserver.Start(System.Windows.Input.ICommand,System.Object)
+  name: Start(ICommand?, object?)
+  href: api/Avalonia.Xaml.Interactivity.CommandCanExecuteObserver.html#Avalonia_Xaml_Interactivity_CommandCanExecuteObserver_Start_System_Windows_Input_ICommand_System_Object_
+  commentId: M:Avalonia.Xaml.Interactivity.CommandCanExecuteObserver.Start(System.Windows.Input.ICommand,System.Object)
+  name.vb: Start(ICommand, Object)
+  fullName: Avalonia.Xaml.Interactivity.CommandCanExecuteObserver.Start(System.Windows.Input.ICommand?, object?)
+  fullName.vb: Avalonia.Xaml.Interactivity.CommandCanExecuteObserver.Start(System.Windows.Input.ICommand, Object)
+  nameWithType: CommandCanExecuteObserver.Start(ICommand?, object?)
+  nameWithType.vb: CommandCanExecuteObserver.Start(ICommand, Object)
+- uid: Avalonia.Xaml.Interactivity.CommandCanExecuteObserver.Start(System.Windows.Input.ICommand,System.Object,System.Boolean)
+  name: Start(ICommand?, object?, bool)
+  href: api/Avalonia.Xaml.Interactivity.CommandCanExecuteObserver.html#Avalonia_Xaml_Interactivity_CommandCanExecuteObserver_Start_System_Windows_Input_ICommand_System_Object_System_Boolean_
+  commentId: M:Avalonia.Xaml.Interactivity.CommandCanExecuteObserver.Start(System.Windows.Input.ICommand,System.Object,System.Boolean)
+  name.vb: Start(ICommand, Object, Boolean)
+  fullName: Avalonia.Xaml.Interactivity.CommandCanExecuteObserver.Start(System.Windows.Input.ICommand?, object?, bool)
+  fullName.vb: Avalonia.Xaml.Interactivity.CommandCanExecuteObserver.Start(System.Windows.Input.ICommand, Object, Boolean)
+  nameWithType: CommandCanExecuteObserver.Start(ICommand?, object?, bool)
+  nameWithType.vb: CommandCanExecuteObserver.Start(ICommand, Object, Boolean)
+- uid: Avalonia.Xaml.Interactivity.CommandCanExecuteObserver.Start*
+  name: Start
+  href: api/Avalonia.Xaml.Interactivity.CommandCanExecuteObserver.html#Avalonia_Xaml_Interactivity_CommandCanExecuteObserver_Start_
+  commentId: Overload:Avalonia.Xaml.Interactivity.CommandCanExecuteObserver.Start
+  isSpec: "True"
+  fullName: Avalonia.Xaml.Interactivity.CommandCanExecuteObserver.Start
+  nameWithType: CommandCanExecuteObserver.Start
+- uid: Avalonia.Xaml.Interactivity.CommandCanExecuteObserver.Stop
+  name: Stop()
+  href: api/Avalonia.Xaml.Interactivity.CommandCanExecuteObserver.html#Avalonia_Xaml_Interactivity_CommandCanExecuteObserver_Stop
+  commentId: M:Avalonia.Xaml.Interactivity.CommandCanExecuteObserver.Stop
+  fullName: Avalonia.Xaml.Interactivity.CommandCanExecuteObserver.Stop()
+  nameWithType: CommandCanExecuteObserver.Stop()
+- uid: Avalonia.Xaml.Interactivity.CommandCanExecuteObserver.Stop*
+  name: Stop
+  href: api/Avalonia.Xaml.Interactivity.CommandCanExecuteObserver.html#Avalonia_Xaml_Interactivity_CommandCanExecuteObserver_Stop_
+  commentId: Overload:Avalonia.Xaml.Interactivity.CommandCanExecuteObserver.Stop
+  isSpec: "True"
+  fullName: Avalonia.Xaml.Interactivity.CommandCanExecuteObserver.Stop
+  nameWithType: CommandCanExecuteObserver.Stop
+- uid: Avalonia.Xaml.Interactivity.CommandCanExecuteObserver.Update(System.Windows.Input.ICommand,System.Object)
+  name: Update(ICommand?, object?)
+  href: api/Avalonia.Xaml.Interactivity.CommandCanExecuteObserver.html#Avalonia_Xaml_Interactivity_CommandCanExecuteObserver_Update_System_Windows_Input_ICommand_System_Object_
+  commentId: M:Avalonia.Xaml.Interactivity.CommandCanExecuteObserver.Update(System.Windows.Input.ICommand,System.Object)
+  name.vb: Update(ICommand, Object)
+  fullName: Avalonia.Xaml.Interactivity.CommandCanExecuteObserver.Update(System.Windows.Input.ICommand?, object?)
+  fullName.vb: Avalonia.Xaml.Interactivity.CommandCanExecuteObserver.Update(System.Windows.Input.ICommand, Object)
+  nameWithType: CommandCanExecuteObserver.Update(ICommand?, object?)
+  nameWithType.vb: CommandCanExecuteObserver.Update(ICommand, Object)
+- uid: Avalonia.Xaml.Interactivity.CommandCanExecuteObserver.Update(System.Windows.Input.ICommand,System.Object,System.Boolean)
+  name: Update(ICommand?, object?, bool)
+  href: api/Avalonia.Xaml.Interactivity.CommandCanExecuteObserver.html#Avalonia_Xaml_Interactivity_CommandCanExecuteObserver_Update_System_Windows_Input_ICommand_System_Object_System_Boolean_
+  commentId: M:Avalonia.Xaml.Interactivity.CommandCanExecuteObserver.Update(System.Windows.Input.ICommand,System.Object,System.Boolean)
+  name.vb: Update(ICommand, Object, Boolean)
+  fullName: Avalonia.Xaml.Interactivity.CommandCanExecuteObserver.Update(System.Windows.Input.ICommand?, object?, bool)
+  fullName.vb: Avalonia.Xaml.Interactivity.CommandCanExecuteObserver.Update(System.Windows.Input.ICommand, Object, Boolean)
+  nameWithType: CommandCanExecuteObserver.Update(ICommand?, object?, bool)
+  nameWithType.vb: CommandCanExecuteObserver.Update(ICommand, Object, Boolean)
+- uid: Avalonia.Xaml.Interactivity.CommandCanExecuteObserver.Update*
+  name: Update
+  href: api/Avalonia.Xaml.Interactivity.CommandCanExecuteObserver.html#Avalonia_Xaml_Interactivity_CommandCanExecuteObserver_Update_
+  commentId: Overload:Avalonia.Xaml.Interactivity.CommandCanExecuteObserver.Update
+  isSpec: "True"
+  fullName: Avalonia.Xaml.Interactivity.CommandCanExecuteObserver.Update
+  nameWithType: CommandCanExecuteObserver.Update
 - uid: Avalonia.Xaml.Interactivity.ComparisonConditionType
   name: ComparisonConditionType
   href: api/Avalonia.Xaml.Interactivity.ComparisonConditionType.html
@@ -28150,6 +28510,63 @@ references:
   commentId: T:Avalonia.Xaml.Interactivity.InvokeCommandActionBase
   fullName: Avalonia.Xaml.Interactivity.InvokeCommandActionBase
   nameWithType: InvokeCommandActionBase
+- uid: Avalonia.Xaml.Interactivity.InvokeCommandActionBase.#ctor
+  name: InvokeCommandActionBase()
+  href: api/Avalonia.Xaml.Interactivity.InvokeCommandActionBase.html#Avalonia_Xaml_Interactivity_InvokeCommandActionBase__ctor
+  commentId: M:Avalonia.Xaml.Interactivity.InvokeCommandActionBase.#ctor
+  name.vb: New()
+  fullName: Avalonia.Xaml.Interactivity.InvokeCommandActionBase.InvokeCommandActionBase()
+  fullName.vb: Avalonia.Xaml.Interactivity.InvokeCommandActionBase.New()
+  nameWithType: InvokeCommandActionBase.InvokeCommandActionBase()
+  nameWithType.vb: InvokeCommandActionBase.New()
+- uid: Avalonia.Xaml.Interactivity.InvokeCommandActionBase.#ctor*
+  name: InvokeCommandActionBase
+  href: api/Avalonia.Xaml.Interactivity.InvokeCommandActionBase.html#Avalonia_Xaml_Interactivity_InvokeCommandActionBase__ctor_
+  commentId: Overload:Avalonia.Xaml.Interactivity.InvokeCommandActionBase.#ctor
+  isSpec: "True"
+  name.vb: New
+  fullName: Avalonia.Xaml.Interactivity.InvokeCommandActionBase.InvokeCommandActionBase
+  fullName.vb: Avalonia.Xaml.Interactivity.InvokeCommandActionBase.New
+  nameWithType: InvokeCommandActionBase.InvokeCommandActionBase
+  nameWithType.vb: InvokeCommandActionBase.New
+- uid: Avalonia.Xaml.Interactivity.InvokeCommandActionBase.CanExecuteCommand
+  name: CanExecuteCommand
+  href: api/Avalonia.Xaml.Interactivity.InvokeCommandActionBase.html#Avalonia_Xaml_Interactivity_InvokeCommandActionBase_CanExecuteCommand
+  commentId: P:Avalonia.Xaml.Interactivity.InvokeCommandActionBase.CanExecuteCommand
+  fullName: Avalonia.Xaml.Interactivity.InvokeCommandActionBase.CanExecuteCommand
+  nameWithType: InvokeCommandActionBase.CanExecuteCommand
+- uid: Avalonia.Xaml.Interactivity.InvokeCommandActionBase.CanExecuteCommand*
+  name: CanExecuteCommand
+  href: api/Avalonia.Xaml.Interactivity.InvokeCommandActionBase.html#Avalonia_Xaml_Interactivity_InvokeCommandActionBase_CanExecuteCommand_
+  commentId: Overload:Avalonia.Xaml.Interactivity.InvokeCommandActionBase.CanExecuteCommand
+  isSpec: "True"
+  fullName: Avalonia.Xaml.Interactivity.InvokeCommandActionBase.CanExecuteCommand
+  nameWithType: InvokeCommandActionBase.CanExecuteCommand
+- uid: Avalonia.Xaml.Interactivity.InvokeCommandActionBase.CanExecuteCommandParameter
+  name: CanExecuteCommandParameter
+  href: api/Avalonia.Xaml.Interactivity.InvokeCommandActionBase.html#Avalonia_Xaml_Interactivity_InvokeCommandActionBase_CanExecuteCommandParameter
+  commentId: P:Avalonia.Xaml.Interactivity.InvokeCommandActionBase.CanExecuteCommandParameter
+  fullName: Avalonia.Xaml.Interactivity.InvokeCommandActionBase.CanExecuteCommandParameter
+  nameWithType: InvokeCommandActionBase.CanExecuteCommandParameter
+- uid: Avalonia.Xaml.Interactivity.InvokeCommandActionBase.CanExecuteCommandParameter*
+  name: CanExecuteCommandParameter
+  href: api/Avalonia.Xaml.Interactivity.InvokeCommandActionBase.html#Avalonia_Xaml_Interactivity_InvokeCommandActionBase_CanExecuteCommandParameter_
+  commentId: Overload:Avalonia.Xaml.Interactivity.InvokeCommandActionBase.CanExecuteCommandParameter
+  isSpec: "True"
+  fullName: Avalonia.Xaml.Interactivity.InvokeCommandActionBase.CanExecuteCommandParameter
+  nameWithType: InvokeCommandActionBase.CanExecuteCommandParameter
+- uid: Avalonia.Xaml.Interactivity.InvokeCommandActionBase.CanExecuteCommandParameterProperty
+  name: CanExecuteCommandParameterProperty
+  href: api/Avalonia.Xaml.Interactivity.InvokeCommandActionBase.html#Avalonia_Xaml_Interactivity_InvokeCommandActionBase_CanExecuteCommandParameterProperty
+  commentId: F:Avalonia.Xaml.Interactivity.InvokeCommandActionBase.CanExecuteCommandParameterProperty
+  fullName: Avalonia.Xaml.Interactivity.InvokeCommandActionBase.CanExecuteCommandParameterProperty
+  nameWithType: InvokeCommandActionBase.CanExecuteCommandParameterProperty
+- uid: Avalonia.Xaml.Interactivity.InvokeCommandActionBase.CanExecuteCommandProperty
+  name: CanExecuteCommandProperty
+  href: api/Avalonia.Xaml.Interactivity.InvokeCommandActionBase.html#Avalonia_Xaml_Interactivity_InvokeCommandActionBase_CanExecuteCommandProperty
+  commentId: F:Avalonia.Xaml.Interactivity.InvokeCommandActionBase.CanExecuteCommandProperty
+  fullName: Avalonia.Xaml.Interactivity.InvokeCommandActionBase.CanExecuteCommandProperty
+  nameWithType: InvokeCommandActionBase.CanExecuteCommandProperty
 - uid: Avalonia.Xaml.Interactivity.InvokeCommandActionBase.Command
   name: Command
   href: api/Avalonia.Xaml.Interactivity.InvokeCommandActionBase.html#Avalonia_Xaml_Interactivity_InvokeCommandActionBase_Command
@@ -28245,6 +28662,19 @@ references:
   commentId: F:Avalonia.Xaml.Interactivity.InvokeCommandActionBase.InputConverterProperty
   fullName: Avalonia.Xaml.Interactivity.InvokeCommandActionBase.InputConverterProperty
   nameWithType: InvokeCommandActionBase.InputConverterProperty
+- uid: Avalonia.Xaml.Interactivity.InvokeCommandActionBase.OnPropertyChanged(Avalonia.AvaloniaPropertyChangedEventArgs)
+  name: OnPropertyChanged(AvaloniaPropertyChangedEventArgs)
+  href: api/Avalonia.Xaml.Interactivity.InvokeCommandActionBase.html#Avalonia_Xaml_Interactivity_InvokeCommandActionBase_OnPropertyChanged_Avalonia_AvaloniaPropertyChangedEventArgs_
+  commentId: M:Avalonia.Xaml.Interactivity.InvokeCommandActionBase.OnPropertyChanged(Avalonia.AvaloniaPropertyChangedEventArgs)
+  fullName: Avalonia.Xaml.Interactivity.InvokeCommandActionBase.OnPropertyChanged(Avalonia.AvaloniaPropertyChangedEventArgs)
+  nameWithType: InvokeCommandActionBase.OnPropertyChanged(AvaloniaPropertyChangedEventArgs)
+- uid: Avalonia.Xaml.Interactivity.InvokeCommandActionBase.OnPropertyChanged*
+  name: OnPropertyChanged
+  href: api/Avalonia.Xaml.Interactivity.InvokeCommandActionBase.html#Avalonia_Xaml_Interactivity_InvokeCommandActionBase_OnPropertyChanged_
+  commentId: Overload:Avalonia.Xaml.Interactivity.InvokeCommandActionBase.OnPropertyChanged
+  isSpec: "True"
+  fullName: Avalonia.Xaml.Interactivity.InvokeCommandActionBase.OnPropertyChanged
+  nameWithType: InvokeCommandActionBase.OnPropertyChanged
 - uid: Avalonia.Xaml.Interactivity.InvokeCommandActionBase.PassEventArgsToCommand
   name: PassEventArgsToCommand
   href: api/Avalonia.Xaml.Interactivity.InvokeCommandActionBase.html#Avalonia_Xaml_Interactivity_InvokeCommandActionBase_PassEventArgsToCommand
@@ -28274,12 +28704,88 @@ references:
   isSpec: "True"
   fullName: Avalonia.Xaml.Interactivity.InvokeCommandActionBase.ResolveParameter
   nameWithType: InvokeCommandActionBase.ResolveParameter
+- uid: Avalonia.Xaml.Interactivity.InvokeCommandActionBase.UseCommandCanExecuteForIsEnabled
+  name: UseCommandCanExecuteForIsEnabled
+  href: api/Avalonia.Xaml.Interactivity.InvokeCommandActionBase.html#Avalonia_Xaml_Interactivity_InvokeCommandActionBase_UseCommandCanExecuteForIsEnabled
+  commentId: P:Avalonia.Xaml.Interactivity.InvokeCommandActionBase.UseCommandCanExecuteForIsEnabled
+  fullName: Avalonia.Xaml.Interactivity.InvokeCommandActionBase.UseCommandCanExecuteForIsEnabled
+  nameWithType: InvokeCommandActionBase.UseCommandCanExecuteForIsEnabled
+- uid: Avalonia.Xaml.Interactivity.InvokeCommandActionBase.UseCommandCanExecuteForIsEnabled*
+  name: UseCommandCanExecuteForIsEnabled
+  href: api/Avalonia.Xaml.Interactivity.InvokeCommandActionBase.html#Avalonia_Xaml_Interactivity_InvokeCommandActionBase_UseCommandCanExecuteForIsEnabled_
+  commentId: Overload:Avalonia.Xaml.Interactivity.InvokeCommandActionBase.UseCommandCanExecuteForIsEnabled
+  isSpec: "True"
+  fullName: Avalonia.Xaml.Interactivity.InvokeCommandActionBase.UseCommandCanExecuteForIsEnabled
+  nameWithType: InvokeCommandActionBase.UseCommandCanExecuteForIsEnabled
+- uid: Avalonia.Xaml.Interactivity.InvokeCommandActionBase.UseCommandCanExecuteForIsEnabledProperty
+  name: UseCommandCanExecuteForIsEnabledProperty
+  href: api/Avalonia.Xaml.Interactivity.InvokeCommandActionBase.html#Avalonia_Xaml_Interactivity_InvokeCommandActionBase_UseCommandCanExecuteForIsEnabledProperty
+  commentId: F:Avalonia.Xaml.Interactivity.InvokeCommandActionBase.UseCommandCanExecuteForIsEnabledProperty
+  fullName: Avalonia.Xaml.Interactivity.InvokeCommandActionBase.UseCommandCanExecuteForIsEnabledProperty
+  nameWithType: InvokeCommandActionBase.UseCommandCanExecuteForIsEnabledProperty
 - uid: Avalonia.Xaml.Interactivity.InvokeCommandBehaviorBase
   name: InvokeCommandBehaviorBase
   href: api/Avalonia.Xaml.Interactivity.InvokeCommandBehaviorBase.html
   commentId: T:Avalonia.Xaml.Interactivity.InvokeCommandBehaviorBase
   fullName: Avalonia.Xaml.Interactivity.InvokeCommandBehaviorBase
   nameWithType: InvokeCommandBehaviorBase
+- uid: Avalonia.Xaml.Interactivity.InvokeCommandBehaviorBase.#ctor
+  name: InvokeCommandBehaviorBase()
+  href: api/Avalonia.Xaml.Interactivity.InvokeCommandBehaviorBase.html#Avalonia_Xaml_Interactivity_InvokeCommandBehaviorBase__ctor
+  commentId: M:Avalonia.Xaml.Interactivity.InvokeCommandBehaviorBase.#ctor
+  name.vb: New()
+  fullName: Avalonia.Xaml.Interactivity.InvokeCommandBehaviorBase.InvokeCommandBehaviorBase()
+  fullName.vb: Avalonia.Xaml.Interactivity.InvokeCommandBehaviorBase.New()
+  nameWithType: InvokeCommandBehaviorBase.InvokeCommandBehaviorBase()
+  nameWithType.vb: InvokeCommandBehaviorBase.New()
+- uid: Avalonia.Xaml.Interactivity.InvokeCommandBehaviorBase.#ctor*
+  name: InvokeCommandBehaviorBase
+  href: api/Avalonia.Xaml.Interactivity.InvokeCommandBehaviorBase.html#Avalonia_Xaml_Interactivity_InvokeCommandBehaviorBase__ctor_
+  commentId: Overload:Avalonia.Xaml.Interactivity.InvokeCommandBehaviorBase.#ctor
+  isSpec: "True"
+  name.vb: New
+  fullName: Avalonia.Xaml.Interactivity.InvokeCommandBehaviorBase.InvokeCommandBehaviorBase
+  fullName.vb: Avalonia.Xaml.Interactivity.InvokeCommandBehaviorBase.New
+  nameWithType: InvokeCommandBehaviorBase.InvokeCommandBehaviorBase
+  nameWithType.vb: InvokeCommandBehaviorBase.New
+- uid: Avalonia.Xaml.Interactivity.InvokeCommandBehaviorBase.CanExecuteCommand
+  name: CanExecuteCommand
+  href: api/Avalonia.Xaml.Interactivity.InvokeCommandBehaviorBase.html#Avalonia_Xaml_Interactivity_InvokeCommandBehaviorBase_CanExecuteCommand
+  commentId: P:Avalonia.Xaml.Interactivity.InvokeCommandBehaviorBase.CanExecuteCommand
+  fullName: Avalonia.Xaml.Interactivity.InvokeCommandBehaviorBase.CanExecuteCommand
+  nameWithType: InvokeCommandBehaviorBase.CanExecuteCommand
+- uid: Avalonia.Xaml.Interactivity.InvokeCommandBehaviorBase.CanExecuteCommand*
+  name: CanExecuteCommand
+  href: api/Avalonia.Xaml.Interactivity.InvokeCommandBehaviorBase.html#Avalonia_Xaml_Interactivity_InvokeCommandBehaviorBase_CanExecuteCommand_
+  commentId: Overload:Avalonia.Xaml.Interactivity.InvokeCommandBehaviorBase.CanExecuteCommand
+  isSpec: "True"
+  fullName: Avalonia.Xaml.Interactivity.InvokeCommandBehaviorBase.CanExecuteCommand
+  nameWithType: InvokeCommandBehaviorBase.CanExecuteCommand
+- uid: Avalonia.Xaml.Interactivity.InvokeCommandBehaviorBase.CanExecuteCommandParameter
+  name: CanExecuteCommandParameter
+  href: api/Avalonia.Xaml.Interactivity.InvokeCommandBehaviorBase.html#Avalonia_Xaml_Interactivity_InvokeCommandBehaviorBase_CanExecuteCommandParameter
+  commentId: P:Avalonia.Xaml.Interactivity.InvokeCommandBehaviorBase.CanExecuteCommandParameter
+  fullName: Avalonia.Xaml.Interactivity.InvokeCommandBehaviorBase.CanExecuteCommandParameter
+  nameWithType: InvokeCommandBehaviorBase.CanExecuteCommandParameter
+- uid: Avalonia.Xaml.Interactivity.InvokeCommandBehaviorBase.CanExecuteCommandParameter*
+  name: CanExecuteCommandParameter
+  href: api/Avalonia.Xaml.Interactivity.InvokeCommandBehaviorBase.html#Avalonia_Xaml_Interactivity_InvokeCommandBehaviorBase_CanExecuteCommandParameter_
+  commentId: Overload:Avalonia.Xaml.Interactivity.InvokeCommandBehaviorBase.CanExecuteCommandParameter
+  isSpec: "True"
+  fullName: Avalonia.Xaml.Interactivity.InvokeCommandBehaviorBase.CanExecuteCommandParameter
+  nameWithType: InvokeCommandBehaviorBase.CanExecuteCommandParameter
+- uid: Avalonia.Xaml.Interactivity.InvokeCommandBehaviorBase.CanExecuteCommandParameterProperty
+  name: CanExecuteCommandParameterProperty
+  href: api/Avalonia.Xaml.Interactivity.InvokeCommandBehaviorBase.html#Avalonia_Xaml_Interactivity_InvokeCommandBehaviorBase_CanExecuteCommandParameterProperty
+  commentId: F:Avalonia.Xaml.Interactivity.InvokeCommandBehaviorBase.CanExecuteCommandParameterProperty
+  fullName: Avalonia.Xaml.Interactivity.InvokeCommandBehaviorBase.CanExecuteCommandParameterProperty
+  nameWithType: InvokeCommandBehaviorBase.CanExecuteCommandParameterProperty
+- uid: Avalonia.Xaml.Interactivity.InvokeCommandBehaviorBase.CanExecuteCommandProperty
+  name: CanExecuteCommandProperty
+  href: api/Avalonia.Xaml.Interactivity.InvokeCommandBehaviorBase.html#Avalonia_Xaml_Interactivity_InvokeCommandBehaviorBase_CanExecuteCommandProperty
+  commentId: F:Avalonia.Xaml.Interactivity.InvokeCommandBehaviorBase.CanExecuteCommandProperty
+  fullName: Avalonia.Xaml.Interactivity.InvokeCommandBehaviorBase.CanExecuteCommandProperty
+  nameWithType: InvokeCommandBehaviorBase.CanExecuteCommandProperty
 - uid: Avalonia.Xaml.Interactivity.InvokeCommandBehaviorBase.Command
   name: Command
   href: api/Avalonia.Xaml.Interactivity.InvokeCommandBehaviorBase.html#Avalonia_Xaml_Interactivity_InvokeCommandBehaviorBase_Command
@@ -28375,6 +28881,45 @@ references:
   commentId: F:Avalonia.Xaml.Interactivity.InvokeCommandBehaviorBase.InputConverterProperty
   fullName: Avalonia.Xaml.Interactivity.InvokeCommandBehaviorBase.InputConverterProperty
   nameWithType: InvokeCommandBehaviorBase.InputConverterProperty
+- uid: Avalonia.Xaml.Interactivity.InvokeCommandBehaviorBase.OnAttached
+  name: OnAttached()
+  href: api/Avalonia.Xaml.Interactivity.InvokeCommandBehaviorBase.html#Avalonia_Xaml_Interactivity_InvokeCommandBehaviorBase_OnAttached
+  commentId: M:Avalonia.Xaml.Interactivity.InvokeCommandBehaviorBase.OnAttached
+  fullName: Avalonia.Xaml.Interactivity.InvokeCommandBehaviorBase.OnAttached()
+  nameWithType: InvokeCommandBehaviorBase.OnAttached()
+- uid: Avalonia.Xaml.Interactivity.InvokeCommandBehaviorBase.OnAttached*
+  name: OnAttached
+  href: api/Avalonia.Xaml.Interactivity.InvokeCommandBehaviorBase.html#Avalonia_Xaml_Interactivity_InvokeCommandBehaviorBase_OnAttached_
+  commentId: Overload:Avalonia.Xaml.Interactivity.InvokeCommandBehaviorBase.OnAttached
+  isSpec: "True"
+  fullName: Avalonia.Xaml.Interactivity.InvokeCommandBehaviorBase.OnAttached
+  nameWithType: InvokeCommandBehaviorBase.OnAttached
+- uid: Avalonia.Xaml.Interactivity.InvokeCommandBehaviorBase.OnDetaching
+  name: OnDetaching()
+  href: api/Avalonia.Xaml.Interactivity.InvokeCommandBehaviorBase.html#Avalonia_Xaml_Interactivity_InvokeCommandBehaviorBase_OnDetaching
+  commentId: M:Avalonia.Xaml.Interactivity.InvokeCommandBehaviorBase.OnDetaching
+  fullName: Avalonia.Xaml.Interactivity.InvokeCommandBehaviorBase.OnDetaching()
+  nameWithType: InvokeCommandBehaviorBase.OnDetaching()
+- uid: Avalonia.Xaml.Interactivity.InvokeCommandBehaviorBase.OnDetaching*
+  name: OnDetaching
+  href: api/Avalonia.Xaml.Interactivity.InvokeCommandBehaviorBase.html#Avalonia_Xaml_Interactivity_InvokeCommandBehaviorBase_OnDetaching_
+  commentId: Overload:Avalonia.Xaml.Interactivity.InvokeCommandBehaviorBase.OnDetaching
+  isSpec: "True"
+  fullName: Avalonia.Xaml.Interactivity.InvokeCommandBehaviorBase.OnDetaching
+  nameWithType: InvokeCommandBehaviorBase.OnDetaching
+- uid: Avalonia.Xaml.Interactivity.InvokeCommandBehaviorBase.OnPropertyChanged(Avalonia.AvaloniaPropertyChangedEventArgs)
+  name: OnPropertyChanged(AvaloniaPropertyChangedEventArgs)
+  href: api/Avalonia.Xaml.Interactivity.InvokeCommandBehaviorBase.html#Avalonia_Xaml_Interactivity_InvokeCommandBehaviorBase_OnPropertyChanged_Avalonia_AvaloniaPropertyChangedEventArgs_
+  commentId: M:Avalonia.Xaml.Interactivity.InvokeCommandBehaviorBase.OnPropertyChanged(Avalonia.AvaloniaPropertyChangedEventArgs)
+  fullName: Avalonia.Xaml.Interactivity.InvokeCommandBehaviorBase.OnPropertyChanged(Avalonia.AvaloniaPropertyChangedEventArgs)
+  nameWithType: InvokeCommandBehaviorBase.OnPropertyChanged(AvaloniaPropertyChangedEventArgs)
+- uid: Avalonia.Xaml.Interactivity.InvokeCommandBehaviorBase.OnPropertyChanged*
+  name: OnPropertyChanged
+  href: api/Avalonia.Xaml.Interactivity.InvokeCommandBehaviorBase.html#Avalonia_Xaml_Interactivity_InvokeCommandBehaviorBase_OnPropertyChanged_
+  commentId: Overload:Avalonia.Xaml.Interactivity.InvokeCommandBehaviorBase.OnPropertyChanged
+  isSpec: "True"
+  fullName: Avalonia.Xaml.Interactivity.InvokeCommandBehaviorBase.OnPropertyChanged
+  nameWithType: InvokeCommandBehaviorBase.OnPropertyChanged
 - uid: Avalonia.Xaml.Interactivity.InvokeCommandBehaviorBase.PassEventArgsToCommand
   name: PassEventArgsToCommand
   href: api/Avalonia.Xaml.Interactivity.InvokeCommandBehaviorBase.html#Avalonia_Xaml_Interactivity_InvokeCommandBehaviorBase_PassEventArgsToCommand
@@ -28404,6 +28949,25 @@ references:
   isSpec: "True"
   fullName: Avalonia.Xaml.Interactivity.InvokeCommandBehaviorBase.ResolveParameter
   nameWithType: InvokeCommandBehaviorBase.ResolveParameter
+- uid: Avalonia.Xaml.Interactivity.InvokeCommandBehaviorBase.UseCommandCanExecuteForIsEnabled
+  name: UseCommandCanExecuteForIsEnabled
+  href: api/Avalonia.Xaml.Interactivity.InvokeCommandBehaviorBase.html#Avalonia_Xaml_Interactivity_InvokeCommandBehaviorBase_UseCommandCanExecuteForIsEnabled
+  commentId: P:Avalonia.Xaml.Interactivity.InvokeCommandBehaviorBase.UseCommandCanExecuteForIsEnabled
+  fullName: Avalonia.Xaml.Interactivity.InvokeCommandBehaviorBase.UseCommandCanExecuteForIsEnabled
+  nameWithType: InvokeCommandBehaviorBase.UseCommandCanExecuteForIsEnabled
+- uid: Avalonia.Xaml.Interactivity.InvokeCommandBehaviorBase.UseCommandCanExecuteForIsEnabled*
+  name: UseCommandCanExecuteForIsEnabled
+  href: api/Avalonia.Xaml.Interactivity.InvokeCommandBehaviorBase.html#Avalonia_Xaml_Interactivity_InvokeCommandBehaviorBase_UseCommandCanExecuteForIsEnabled_
+  commentId: Overload:Avalonia.Xaml.Interactivity.InvokeCommandBehaviorBase.UseCommandCanExecuteForIsEnabled
+  isSpec: "True"
+  fullName: Avalonia.Xaml.Interactivity.InvokeCommandBehaviorBase.UseCommandCanExecuteForIsEnabled
+  nameWithType: InvokeCommandBehaviorBase.UseCommandCanExecuteForIsEnabled
+- uid: Avalonia.Xaml.Interactivity.InvokeCommandBehaviorBase.UseCommandCanExecuteForIsEnabledProperty
+  name: UseCommandCanExecuteForIsEnabledProperty
+  href: api/Avalonia.Xaml.Interactivity.InvokeCommandBehaviorBase.html#Avalonia_Xaml_Interactivity_InvokeCommandBehaviorBase_UseCommandCanExecuteForIsEnabledProperty
+  commentId: F:Avalonia.Xaml.Interactivity.InvokeCommandBehaviorBase.UseCommandCanExecuteForIsEnabledProperty
+  fullName: Avalonia.Xaml.Interactivity.InvokeCommandBehaviorBase.UseCommandCanExecuteForIsEnabledProperty
+  nameWithType: InvokeCommandBehaviorBase.UseCommandCanExecuteForIsEnabledProperty
 - uid: Avalonia.Xaml.Interactivity.NotificationTemplate
   name: NotificationTemplate
   href: api/Avalonia.Xaml.Interactivity.NotificationTemplate.html

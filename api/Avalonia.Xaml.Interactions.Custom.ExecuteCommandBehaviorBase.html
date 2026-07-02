@@ -85,7 +85,7 @@
 
 
   <h1 id="Avalonia_Xaml_Interactions_Custom_ExecuteCommandBehaviorBase" data-uid="Avalonia.Xaml.Interactions.Custom.ExecuteCommandBehaviorBase" class="text-break">
-Class ExecuteCommandBehaviorBase  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactions.Custom/ExecuteCommand/Core/ExecuteCommandBehaviorBase.cs/#L14"><i class="bi bi-code-slash"></i></a>
+Class ExecuteCommandBehaviorBase  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactions.Custom/ExecuteCommand/Core/ExecuteCommandBehaviorBase.cs/#L15"><i class="bi bi-code-slash"></i></a>
   </h1>
 
   <div class="facts text-secondary">
@@ -156,12 +156,6 @@ Class ExecuteCommandBehaviorBase  <a class="header-action link-secondary" title=
     </div>
     <div>
       <a class="xref" href="Avalonia.Xaml.Interactions.Custom.AttachedToVisualTreeBehavior-1.html#Avalonia_Xaml_Interactions_Custom_AttachedToVisualTreeBehavior_1_OnAttachedToVisualTreeOverride">AttachedToVisualTreeBehavior&lt;Control&gt;.OnAttachedToVisualTreeOverride()</a>
-    </div>
-    <div>
-      <a class="xref" href="Avalonia.Xaml.Interactivity.DisposingBehavior-1.html#Avalonia_Xaml_Interactivity_DisposingBehavior_1_OnAttached">DisposingBehavior&lt;Control&gt;.OnAttached()</a>
-    </div>
-    <div>
-      <a class="xref" href="Avalonia.Xaml.Interactivity.DisposingBehavior-1.html#Avalonia_Xaml_Interactivity_DisposingBehavior_1_OnDetaching">DisposingBehavior&lt;Control&gt;.OnDetaching()</a>
     </div>
     <div>
       <a class="xref" href="Avalonia.Xaml.Interactivity.StyledElementBehavior-1.html#Avalonia_Xaml_Interactivity_StyledElementBehavior_1_AssociatedObject">StyledElementBehavior&lt;Control&gt;.AssociatedObject</a>
@@ -258,9 +252,6 @@ Class ExecuteCommandBehaviorBase  <a class="header-action link-secondary" title=
     </div>
     <div>
       <span class="xref">StyledElement.OnInitialized()</span>
-    </div>
-    <div>
-      <span class="xref">StyledElement.OnPropertyChanged(AvaloniaPropertyChangedEventArgs)</span>
     </div>
     <div>
       <span class="xref">StyledElement.Name</span>
@@ -461,14 +452,76 @@ Class ExecuteCommandBehaviorBase  <a class="header-action link-secondary" title=
 
 
 
+  <h2 class="section" id="constructors">Constructors
+</h2>
+
+
+  <a id="Avalonia_Xaml_Interactions_Custom_ExecuteCommandBehaviorBase__ctor_" data-uid="Avalonia.Xaml.Interactions.Custom.ExecuteCommandBehaviorBase.#ctor*"></a>
+
+  <h3 id="Avalonia_Xaml_Interactions_Custom_ExecuteCommandBehaviorBase__ctor" data-uid="Avalonia.Xaml.Interactions.Custom.ExecuteCommandBehaviorBase.#ctor">
+  ExecuteCommandBehaviorBase()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactions.Custom/ExecuteCommand/Core/ExecuteCommandBehaviorBase.cs/#L65"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Initializes a new instance of the <a class="xref" href="Avalonia.Xaml.Interactions.Custom.ExecuteCommandBehaviorBase.html">ExecuteCommandBehaviorBase</a> class.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected ExecuteCommandBehaviorBase()</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
   <h2 class="section" id="fields">Fields
 </h2>
 
 
 
+  <h3 id="Avalonia_Xaml_Interactions_Custom_ExecuteCommandBehaviorBase_CanExecuteCommandProperty" data-uid="Avalonia.Xaml.Interactions.Custom.ExecuteCommandBehaviorBase.CanExecuteCommandProperty">
+  CanExecuteCommandProperty
+  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactions.Custom/ExecuteCommand/Core/ExecuteCommandBehaviorBase.cs/#L35"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Identifies the <a class="xref" href="Avalonia.Xaml.Interactions.Custom.ExecuteCommandBehaviorBase.html#Avalonia_Xaml_Interactions_Custom_ExecuteCommandBehaviorBase_CanExecuteCommand">CanExecuteCommand</a> avalonia property.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static readonly DirectProperty&lt;ExecuteCommandBehaviorBase, bool&gt; CanExecuteCommandProperty</code></pre>
+  </div>
+
+
+
+
+  <h4 class="section">Field Value</h4>
+  <dl class="parameters">
+    <dt><span class="xref">DirectProperty</span>&lt;<a class="xref" href="Avalonia.Xaml.Interactions.Custom.ExecuteCommandBehaviorBase.html">ExecuteCommandBehaviorBase</a>, <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a>&gt;</dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
   <h3 id="Avalonia_Xaml_Interactions_Custom_ExecuteCommandBehaviorBase_CommandParameterProperty" data-uid="Avalonia.Xaml.Interactions.Custom.ExecuteCommandBehaviorBase.CommandParameterProperty">
   CommandParameterProperty
-  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactions.Custom/ExecuteCommand/Core/ExecuteCommandBehaviorBase.cs/#L31"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactions.Custom/ExecuteCommand/Core/ExecuteCommandBehaviorBase.cs/#L41"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
@@ -498,7 +551,7 @@ Class ExecuteCommandBehaviorBase  <a class="header-action link-secondary" title=
 
   <h3 id="Avalonia_Xaml_Interactions_Custom_ExecuteCommandBehaviorBase_CommandProperty" data-uid="Avalonia.Xaml.Interactions.Custom.ExecuteCommandBehaviorBase.CommandProperty">
   CommandProperty
-  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactions.Custom/ExecuteCommand/Core/ExecuteCommandBehaviorBase.cs/#L25"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactions.Custom/ExecuteCommand/Core/ExecuteCommandBehaviorBase.cs/#L29"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
@@ -528,7 +581,7 @@ Class ExecuteCommandBehaviorBase  <a class="header-action link-secondary" title=
 
   <h3 id="Avalonia_Xaml_Interactions_Custom_ExecuteCommandBehaviorBase_FocusControlProperty" data-uid="Avalonia.Xaml.Interactions.Custom.ExecuteCommandBehaviorBase.FocusControlProperty">
   FocusControlProperty
-  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactions.Custom/ExecuteCommand/Core/ExecuteCommandBehaviorBase.cs/#L43"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactions.Custom/ExecuteCommand/Core/ExecuteCommandBehaviorBase.cs/#L53"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
@@ -558,7 +611,7 @@ Class ExecuteCommandBehaviorBase  <a class="header-action link-secondary" title=
 
   <h3 id="Avalonia_Xaml_Interactions_Custom_ExecuteCommandBehaviorBase_FocusTopLevelProperty" data-uid="Avalonia.Xaml.Interactions.Custom.ExecuteCommandBehaviorBase.FocusTopLevelProperty">
   FocusTopLevelProperty
-  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactions.Custom/ExecuteCommand/Core/ExecuteCommandBehaviorBase.cs/#L37"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactions.Custom/ExecuteCommand/Core/ExecuteCommandBehaviorBase.cs/#L47"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
@@ -588,7 +641,7 @@ Class ExecuteCommandBehaviorBase  <a class="header-action link-secondary" title=
 
   <h3 id="Avalonia_Xaml_Interactions_Custom_ExecuteCommandBehaviorBase_SourceControlProperty" data-uid="Avalonia.Xaml.Interactions.Custom.ExecuteCommandBehaviorBase.SourceControlProperty">
   SourceControlProperty
-  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactions.Custom/ExecuteCommand/Core/ExecuteCommandBehaviorBase.cs/#L49"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactions.Custom/ExecuteCommand/Core/ExecuteCommandBehaviorBase.cs/#L59"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
@@ -618,7 +671,7 @@ Class ExecuteCommandBehaviorBase  <a class="header-action link-secondary" title=
 
   <h3 id="Avalonia_Xaml_Interactions_Custom_ExecuteCommandBehaviorBase_TopLevelProperty" data-uid="Avalonia.Xaml.Interactions.Custom.ExecuteCommandBehaviorBase.TopLevelProperty">
   TopLevelProperty
-  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactions.Custom/ExecuteCommand/Core/ExecuteCommandBehaviorBase.cs/#L19"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactions.Custom/ExecuteCommand/Core/ExecuteCommandBehaviorBase.cs/#L23"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
@@ -649,11 +702,43 @@ Class ExecuteCommandBehaviorBase  <a class="header-action link-secondary" title=
 </h2>
 
 
+  <a id="Avalonia_Xaml_Interactions_Custom_ExecuteCommandBehaviorBase_CanExecuteCommand_" data-uid="Avalonia.Xaml.Interactions.Custom.ExecuteCommandBehaviorBase.CanExecuteCommand*"></a>
+
+  <h3 id="Avalonia_Xaml_Interactions_Custom_ExecuteCommandBehaviorBase_CanExecuteCommand" data-uid="Avalonia.Xaml.Interactions.Custom.ExecuteCommandBehaviorBase.CanExecuteCommand">
+  CanExecuteCommand
+  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactions.Custom/ExecuteCommand/Core/ExecuteCommandBehaviorBase.cs/#L91"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Gets a value indicating whether <a class="xref" href="Avalonia.Xaml.Interactions.Custom.ExecuteCommandBehaviorBase.html#Avalonia_Xaml_Interactions_Custom_ExecuteCommandBehaviorBase_Command">Command</a> can execute with the current <a class="xref" href="Avalonia.Xaml.Interactions.Custom.ExecuteCommandBehaviorBase.html#Avalonia_Xaml_Interactions_Custom_ExecuteCommandBehaviorBase_CommandParameter">CommandParameter</a>.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool CanExecuteCommand { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
   <a id="Avalonia_Xaml_Interactions_Custom_ExecuteCommandBehaviorBase_Command_" data-uid="Avalonia.Xaml.Interactions.Custom.ExecuteCommandBehaviorBase.Command*"></a>
 
   <h3 id="Avalonia_Xaml_Interactions_Custom_ExecuteCommandBehaviorBase_Command" data-uid="Avalonia.Xaml.Interactions.Custom.ExecuteCommandBehaviorBase.Command">
   Command
-  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactions.Custom/ExecuteCommand/Core/ExecuteCommandBehaviorBase.cs/#L64"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactions.Custom/ExecuteCommand/Core/ExecuteCommandBehaviorBase.cs/#L82"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
@@ -684,7 +769,7 @@ Class ExecuteCommandBehaviorBase  <a class="header-action link-secondary" title=
 
   <h3 id="Avalonia_Xaml_Interactions_Custom_ExecuteCommandBehaviorBase_CommandParameter" data-uid="Avalonia.Xaml.Interactions.Custom.ExecuteCommandBehaviorBase.CommandParameter">
   CommandParameter
-  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactions.Custom/ExecuteCommand/Core/ExecuteCommandBehaviorBase.cs/#L73"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactions.Custom/ExecuteCommand/Core/ExecuteCommandBehaviorBase.cs/#L100"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
@@ -715,7 +800,7 @@ Class ExecuteCommandBehaviorBase  <a class="header-action link-secondary" title=
 
   <h3 id="Avalonia_Xaml_Interactions_Custom_ExecuteCommandBehaviorBase_FocusControl" data-uid="Avalonia.Xaml.Interactions.Custom.ExecuteCommandBehaviorBase.FocusControl">
   FocusControl
-  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactions.Custom/ExecuteCommand/Core/ExecuteCommandBehaviorBase.cs/#L91"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactions.Custom/ExecuteCommand/Core/ExecuteCommandBehaviorBase.cs/#L118"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
@@ -747,7 +832,7 @@ public Control? FocusControl { get; set; }</code></pre>
 
   <h3 id="Avalonia_Xaml_Interactions_Custom_ExecuteCommandBehaviorBase_FocusTopLevel" data-uid="Avalonia.Xaml.Interactions.Custom.ExecuteCommandBehaviorBase.FocusTopLevel">
   FocusTopLevel
-  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactions.Custom/ExecuteCommand/Core/ExecuteCommandBehaviorBase.cs/#L82"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactions.Custom/ExecuteCommand/Core/ExecuteCommandBehaviorBase.cs/#L109"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
@@ -778,7 +863,7 @@ public Control? FocusControl { get; set; }</code></pre>
 
   <h3 id="Avalonia_Xaml_Interactions_Custom_ExecuteCommandBehaviorBase_SourceControl" data-uid="Avalonia.Xaml.Interactions.Custom.ExecuteCommandBehaviorBase.SourceControl">
   SourceControl
-  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactions.Custom/ExecuteCommand/Core/ExecuteCommandBehaviorBase.cs/#L101"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactions.Custom/ExecuteCommand/Core/ExecuteCommandBehaviorBase.cs/#L128"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
@@ -810,7 +895,7 @@ public Control? SourceControl { get; set; }</code></pre>
 
   <h3 id="Avalonia_Xaml_Interactions_Custom_ExecuteCommandBehaviorBase_TopLevel" data-uid="Avalonia.Xaml.Interactions.Custom.ExecuteCommandBehaviorBase.TopLevel">
   TopLevel
-  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactions.Custom/ExecuteCommand/Core/ExecuteCommandBehaviorBase.cs/#L55"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactions.Custom/ExecuteCommand/Core/ExecuteCommandBehaviorBase.cs/#L73"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
@@ -845,7 +930,7 @@ public Control? SourceControl { get; set; }</code></pre>
 
   <h3 id="Avalonia_Xaml_Interactions_Custom_ExecuteCommandBehaviorBase_ExecuteCommand" data-uid="Avalonia.Xaml.Interactions.Custom.ExecuteCommandBehaviorBase.ExecuteCommand">
   ExecuteCommand()
-  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactions.Custom/ExecuteCommand/Core/ExecuteCommandBehaviorBase.cs/#L113"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactions.Custom/ExecuteCommand/Core/ExecuteCommandBehaviorBase.cs/#L166"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Executes the associated command.</p>
@@ -874,11 +959,104 @@ public Control? SourceControl { get; set; }</code></pre>
 
 
 
+  <a id="Avalonia_Xaml_Interactions_Custom_ExecuteCommandBehaviorBase_OnAttached_" data-uid="Avalonia.Xaml.Interactions.Custom.ExecuteCommandBehaviorBase.OnAttached*"></a>
+
+  <h3 id="Avalonia_Xaml_Interactions_Custom_ExecuteCommandBehaviorBase_OnAttached" data-uid="Avalonia.Xaml.Interactions.Custom.ExecuteCommandBehaviorBase.OnAttached">
+  OnAttached()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactions.Custom/ExecuteCommand/Core/ExecuteCommandBehaviorBase.cs/#L136"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Called after the behavior is attached to the <a class="xref" href="Avalonia.Xaml.Interactivity.StyledElementBehavior.html#Avalonia_Xaml_Interactivity_StyledElementBehavior_AssociatedObject">AssociatedObject</a>.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected override void OnAttached()</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+  <h4 class="section" id="Avalonia_Xaml_Interactions_Custom_ExecuteCommandBehaviorBase_OnAttached_remarks">Remarks</h4>
+  <div class="markdown level1 remarks"><p>Override this to hook up functionality to the <a class="xref" href="Avalonia.Xaml.Interactivity.StyledElementBehavior.html#Avalonia_Xaml_Interactivity_StyledElementBehavior_AssociatedObject">AssociatedObject</a></p>
+</div>
+
+
+
+
+  <a id="Avalonia_Xaml_Interactions_Custom_ExecuteCommandBehaviorBase_OnDetaching_" data-uid="Avalonia.Xaml.Interactions.Custom.ExecuteCommandBehaviorBase.OnDetaching*"></a>
+
+  <h3 id="Avalonia_Xaml_Interactions_Custom_ExecuteCommandBehaviorBase_OnDetaching" data-uid="Avalonia.Xaml.Interactions.Custom.ExecuteCommandBehaviorBase.OnDetaching">
+  OnDetaching()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactions.Custom/ExecuteCommand/Core/ExecuteCommandBehaviorBase.cs/#L144"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Called when the behavior is being detached from its <a class="xref" href="Avalonia.Xaml.Interactivity.StyledElementBehavior.html#Avalonia_Xaml_Interactivity_StyledElementBehavior_AssociatedObject">AssociatedObject</a>.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected override void OnDetaching()</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+  <h4 class="section" id="Avalonia_Xaml_Interactions_Custom_ExecuteCommandBehaviorBase_OnDetaching_remarks">Remarks</h4>
+  <div class="markdown level1 remarks"><p>Override this to unhook functionality from the <a class="xref" href="Avalonia.Xaml.Interactivity.StyledElementBehavior.html#Avalonia_Xaml_Interactivity_StyledElementBehavior_AssociatedObject">AssociatedObject</a></p>
+</div>
+
+
+
+
+  <a id="Avalonia_Xaml_Interactions_Custom_ExecuteCommandBehaviorBase_OnPropertyChanged_" data-uid="Avalonia.Xaml.Interactions.Custom.ExecuteCommandBehaviorBase.OnPropertyChanged*"></a>
+
+  <h3 id="Avalonia_Xaml_Interactions_Custom_ExecuteCommandBehaviorBase_OnPropertyChanged_Avalonia_AvaloniaPropertyChangedEventArgs_" data-uid="Avalonia.Xaml.Interactions.Custom.ExecuteCommandBehaviorBase.OnPropertyChanged(Avalonia.AvaloniaPropertyChangedEventArgs)">
+  OnPropertyChanged(AvaloniaPropertyChangedEventArgs)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactions.Custom/ExecuteCommand/Core/ExecuteCommandBehaviorBase.cs/#L152"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Called when a avalonia property changes on the object.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected override void OnPropertyChanged(AvaloniaPropertyChangedEventArgs change)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>change</code> <span class="xref">AvaloniaPropertyChangedEventArgs</span></dt>
+    <dd><p>The property change details.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
 
 </article>
 
         <div class="contribution d-print-none">
-          <a href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactions.Custom/ExecuteCommand/Core/ExecuteCommandBehaviorBase.cs/#L14" class="edit-link">Edit this page</a>
+          <a href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactions.Custom/ExecuteCommand/Core/ExecuteCommandBehaviorBase.cs/#L15" class="edit-link">Edit this page</a>
         </div>
 
 

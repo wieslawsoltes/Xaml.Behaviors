@@ -85,7 +85,7 @@
 
 
   <h1 id="Avalonia_Xaml_Interactivity_InvokeCommandActionBase" data-uid="Avalonia.Xaml.Interactivity.InvokeCommandActionBase" class="text-break">
-Class InvokeCommandActionBase  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactivity/Actions/InvokeCommandActionBase.cs/#L11"><i class="bi bi-code-slash"></i></a>
+Class InvokeCommandActionBase  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactivity/Actions/InvokeCommandActionBase.cs/#L14"><i class="bi bi-code-slash"></i></a>
   </h1>
 
   <div class="facts text-secondary">
@@ -208,9 +208,6 @@ Class InvokeCommandActionBase  <a class="header-action link-secondary" title="Vi
     </div>
     <div>
       <span class="xref">StyledElement.OnInitialized()</span>
-    </div>
-    <div>
-      <span class="xref">StyledElement.OnPropertyChanged(AvaloniaPropertyChangedEventArgs)</span>
     </div>
     <div>
       <span class="xref">StyledElement.Name</span>
@@ -411,14 +408,107 @@ Class InvokeCommandActionBase  <a class="header-action link-secondary" title="Vi
 
 
 
+  <h2 class="section" id="constructors">Constructors
+</h2>
+
+
+  <a id="Avalonia_Xaml_Interactivity_InvokeCommandActionBase__ctor_" data-uid="Avalonia.Xaml.Interactivity.InvokeCommandActionBase.#ctor*"></a>
+
+  <h3 id="Avalonia_Xaml_Interactivity_InvokeCommandActionBase__ctor" data-uid="Avalonia.Xaml.Interactivity.InvokeCommandActionBase.#ctor">
+  InvokeCommandActionBase()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactivity/Actions/InvokeCommandActionBase.cs/#L73"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Initializes a new instance of the <a class="xref" href="Avalonia.Xaml.Interactivity.InvokeCommandActionBase.html">InvokeCommandActionBase</a> class.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected InvokeCommandActionBase()</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
   <h2 class="section" id="fields">Fields
 </h2>
 
 
 
+  <h3 id="Avalonia_Xaml_Interactivity_InvokeCommandActionBase_CanExecuteCommandParameterProperty" data-uid="Avalonia.Xaml.Interactivity.InvokeCommandActionBase.CanExecuteCommandParameterProperty">
+  CanExecuteCommandParameterProperty
+  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactivity/Actions/InvokeCommandActionBase.cs/#L36"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Identifies the <a class="xref" href="Avalonia.Xaml.Interactivity.InvokeCommandActionBase.html#Avalonia_Xaml_Interactivity_InvokeCommandActionBase_CanExecuteCommandParameter">CanExecuteCommandParameter</a> avalonia property.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static readonly StyledProperty&lt;object?&gt; CanExecuteCommandParameterProperty</code></pre>
+  </div>
+
+
+
+
+  <h4 class="section">Field Value</h4>
+  <dl class="parameters">
+    <dt><span class="xref">StyledProperty</span>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a>&gt;</dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Avalonia_Xaml_Interactivity_InvokeCommandActionBase_CanExecuteCommandProperty" data-uid="Avalonia.Xaml.Interactivity.InvokeCommandActionBase.CanExecuteCommandProperty">
+  CanExecuteCommandProperty
+  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactivity/Actions/InvokeCommandActionBase.cs/#L30"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Identifies the <a class="xref" href="Avalonia.Xaml.Interactivity.InvokeCommandActionBase.html#Avalonia_Xaml_Interactivity_InvokeCommandActionBase_CanExecuteCommand">CanExecuteCommand</a> avalonia property.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static readonly DirectProperty&lt;InvokeCommandActionBase, bool&gt; CanExecuteCommandProperty</code></pre>
+  </div>
+
+
+
+
+  <h4 class="section">Field Value</h4>
+  <dl class="parameters">
+    <dt><span class="xref">DirectProperty</span>&lt;<a class="xref" href="Avalonia.Xaml.Interactivity.InvokeCommandActionBase.html">InvokeCommandActionBase</a>, <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a>&gt;</dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
   <h3 id="Avalonia_Xaml_Interactivity_InvokeCommandActionBase_CommandParameterProperty" data-uid="Avalonia.Xaml.Interactivity.InvokeCommandActionBase.CommandParameterProperty">
   CommandParameterProperty
-  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactivity/Actions/InvokeCommandActionBase.cs/#L22"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactivity/Actions/InvokeCommandActionBase.cs/#L48"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Identifies the <a class="xref" href="Avalonia.Xaml.Interactivity.InvokeCommandActionBase.html#Avalonia_Xaml_Interactivity_InvokeCommandActionBase_CommandParameter">CommandParameter</a> avalonia property.</p>
@@ -449,7 +539,7 @@ Class InvokeCommandActionBase  <a class="header-action link-secondary" title="Vi
 
   <h3 id="Avalonia_Xaml_Interactivity_InvokeCommandActionBase_CommandProperty" data-uid="Avalonia.Xaml.Interactivity.InvokeCommandActionBase.CommandProperty">
   CommandProperty
-  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactivity/Actions/InvokeCommandActionBase.cs/#L16"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactivity/Actions/InvokeCommandActionBase.cs/#L24"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Identifies the <a class="xref" href="Avalonia.Xaml.Interactivity.InvokeCommandActionBase.html#Avalonia_Xaml_Interactivity_InvokeCommandActionBase_Command">Command</a> avalonia property.</p>
@@ -480,7 +570,7 @@ Class InvokeCommandActionBase  <a class="header-action link-secondary" title="Vi
 
   <h3 id="Avalonia_Xaml_Interactivity_InvokeCommandActionBase_InputConverterLanguageProperty" data-uid="Avalonia.Xaml.Interactivity.InvokeCommandActionBase.InputConverterLanguageProperty">
   InputConverterLanguageProperty
-  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactivity/Actions/InvokeCommandActionBase.cs/#L41"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactivity/Actions/InvokeCommandActionBase.cs/#L67"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Identifies the <a class="xref" href="Avalonia.Xaml.Interactivity.InvokeCommandActionBase.html#Avalonia_Xaml_Interactivity_InvokeCommandActionBase_InputConverterLanguage">InputConverterLanguage</a> avalonia property.</p>
@@ -514,7 +604,7 @@ Class InvokeCommandActionBase  <a class="header-action link-secondary" title="Vi
 
   <h3 id="Avalonia_Xaml_Interactivity_InvokeCommandActionBase_InputConverterParameterProperty" data-uid="Avalonia.Xaml.Interactivity.InvokeCommandActionBase.InputConverterParameterProperty">
   InputConverterParameterProperty
-  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactivity/Actions/InvokeCommandActionBase.cs/#L34"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactivity/Actions/InvokeCommandActionBase.cs/#L60"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Identifies the <a class="xref" href="Avalonia.Xaml.Interactivity.InvokeCommandActionBase.html#Avalonia_Xaml_Interactivity_InvokeCommandActionBase_InputConverterParameter">InputConverterParameter</a> avalonia property.</p>
@@ -545,7 +635,7 @@ Class InvokeCommandActionBase  <a class="header-action link-secondary" title="Vi
 
   <h3 id="Avalonia_Xaml_Interactivity_InvokeCommandActionBase_InputConverterProperty" data-uid="Avalonia.Xaml.Interactivity.InvokeCommandActionBase.InputConverterProperty">
   InputConverterProperty
-  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactivity/Actions/InvokeCommandActionBase.cs/#L28"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactivity/Actions/InvokeCommandActionBase.cs/#L54"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Identifies the <a class="xref" href="Avalonia.Xaml.Interactivity.InvokeCommandActionBase.html#Avalonia_Xaml_Interactivity_InvokeCommandActionBase_InputConverter">InputConverter</a> avalonia property.</p>
@@ -573,15 +663,112 @@ Class InvokeCommandActionBase  <a class="header-action link-secondary" title="Vi
 
 
 
+
+  <h3 id="Avalonia_Xaml_Interactivity_InvokeCommandActionBase_UseCommandCanExecuteForIsEnabledProperty" data-uid="Avalonia.Xaml.Interactivity.InvokeCommandActionBase.UseCommandCanExecuteForIsEnabledProperty">
+  UseCommandCanExecuteForIsEnabledProperty
+  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactivity/Actions/InvokeCommandActionBase.cs/#L42"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Identifies the <a class="xref" href="Avalonia.Xaml.Interactivity.InvokeCommandActionBase.html#Avalonia_Xaml_Interactivity_InvokeCommandActionBase_UseCommandCanExecuteForIsEnabled">UseCommandCanExecuteForIsEnabled</a> avalonia property.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static readonly StyledProperty&lt;bool&gt; UseCommandCanExecuteForIsEnabledProperty</code></pre>
+  </div>
+
+
+
+
+  <h4 class="section">Field Value</h4>
+  <dl class="parameters">
+    <dt><span class="xref">StyledProperty</span>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a>&gt;</dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
   <h2 class="section" id="properties">Properties
 </h2>
+
+
+  <a id="Avalonia_Xaml_Interactivity_InvokeCommandActionBase_CanExecuteCommand_" data-uid="Avalonia.Xaml.Interactivity.InvokeCommandActionBase.CanExecuteCommand*"></a>
+
+  <h3 id="Avalonia_Xaml_Interactivity_InvokeCommandActionBase_CanExecuteCommand" data-uid="Avalonia.Xaml.Interactivity.InvokeCommandActionBase.CanExecuteCommand">
+  CanExecuteCommand
+  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactivity/Actions/InvokeCommandActionBase.cs/#L91"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Gets a value indicating whether <a class="xref" href="Avalonia.Xaml.Interactivity.InvokeCommandActionBase.html#Avalonia_Xaml_Interactivity_InvokeCommandActionBase_Command">Command</a> can execute with the current can-execute parameter.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool CanExecuteCommand { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="Avalonia_Xaml_Interactivity_InvokeCommandActionBase_CanExecuteCommandParameter_" data-uid="Avalonia.Xaml.Interactivity.InvokeCommandActionBase.CanExecuteCommandParameter*"></a>
+
+  <h3 id="Avalonia_Xaml_Interactivity_InvokeCommandActionBase_CanExecuteCommandParameter" data-uid="Avalonia.Xaml.Interactivity.InvokeCommandActionBase.CanExecuteCommandParameter">
+  CanExecuteCommandParameter
+  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactivity/Actions/InvokeCommandActionBase.cs/#L102"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Gets or sets the parameter that is passed to <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.windows.input.icommand.canexecute">CanExecute(object)</a>.
+When this property is not set, <a class="xref" href="Avalonia.Xaml.Interactivity.InvokeCommandActionBase.html#Avalonia_Xaml_Interactivity_InvokeCommandActionBase_CommandParameter">CommandParameter</a> is used if it is set.
+This property does not change the parameter passed to <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.windows.input.icommand.execute">Execute(object)</a>.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public object? CanExecuteCommandParameter { get; set; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
 
 
   <a id="Avalonia_Xaml_Interactivity_InvokeCommandActionBase_Command_" data-uid="Avalonia.Xaml.Interactivity.InvokeCommandActionBase.Command*"></a>
 
   <h3 id="Avalonia_Xaml_Interactivity_InvokeCommandActionBase_Command" data-uid="Avalonia.Xaml.Interactivity.InvokeCommandActionBase.Command">
   Command
-  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactivity/Actions/InvokeCommandActionBase.cs/#L47"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactivity/Actions/InvokeCommandActionBase.cs/#L82"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Gets or sets the command this action should invoke. This is an avalonia property.</p>
@@ -613,7 +800,7 @@ Class InvokeCommandActionBase  <a class="header-action link-secondary" title="Vi
 
   <h3 id="Avalonia_Xaml_Interactivity_InvokeCommandActionBase_CommandParameter" data-uid="Avalonia.Xaml.Interactivity.InvokeCommandActionBase.CommandParameter">
   CommandParameter
-  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactivity/Actions/InvokeCommandActionBase.cs/#L58"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactivity/Actions/InvokeCommandActionBase.cs/#L123"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Gets or sets the parameter that is passed to <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.windows.input.icommand.execute">Execute(object)</a>.
@@ -647,7 +834,7 @@ This is an optional avalonia property.</p>
 
   <h3 id="Avalonia_Xaml_Interactivity_InvokeCommandActionBase_InputConverter" data-uid="Avalonia.Xaml.Interactivity.InvokeCommandActionBase.InputConverter">
   InputConverter
-  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactivity/Actions/InvokeCommandActionBase.cs/#L68"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactivity/Actions/InvokeCommandActionBase.cs/#L133"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Gets or sets the converter that is run on the parameter from the <a class="xref" href="Avalonia.Xaml.Interactivity.IAction.html#Avalonia_Xaml_Interactivity_IAction_Execute_System_Object_System_Object_">Execute(object?, object?)</a> method.
@@ -680,7 +867,7 @@ This is an optional avalonia property.</p>
 
   <h3 id="Avalonia_Xaml_Interactivity_InvokeCommandActionBase_InputConverterLanguage" data-uid="Avalonia.Xaml.Interactivity.InvokeCommandActionBase.InputConverterLanguage">
   InputConverterLanguage
-  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactivity/Actions/InvokeCommandActionBase.cs/#L90"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactivity/Actions/InvokeCommandActionBase.cs/#L155"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Gets or sets the language that is passed to the <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">Convert(object, Type, object, CultureInfo)</a>
@@ -714,7 +901,7 @@ This is an optional avalonia property.</p>
 
   <h3 id="Avalonia_Xaml_Interactivity_InvokeCommandActionBase_InputConverterParameter" data-uid="Avalonia.Xaml.Interactivity.InvokeCommandActionBase.InputConverterParameter">
   InputConverterParameter
-  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactivity/Actions/InvokeCommandActionBase.cs/#L79"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactivity/Actions/InvokeCommandActionBase.cs/#L144"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Gets or sets the parameter that is passed to the <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">Convert(object, Type, object, CultureInfo)</a>
@@ -748,7 +935,7 @@ This is an optional avalonia property.</p>
 
   <h3 id="Avalonia_Xaml_Interactivity_InvokeCommandActionBase_PassEventArgsToCommand" data-uid="Avalonia.Xaml.Interactivity.InvokeCommandActionBase.PassEventArgsToCommand">
   PassEventArgsToCommand
-  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactivity/Actions/InvokeCommandActionBase.cs/#L99"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactivity/Actions/InvokeCommandActionBase.cs/#L164"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Specifies whether the EventArgs of the event that triggered this action should be passed to the Command as a parameter.</p>
@@ -776,15 +963,81 @@ This is an optional avalonia property.</p>
 
 
 
+  <a id="Avalonia_Xaml_Interactivity_InvokeCommandActionBase_UseCommandCanExecuteForIsEnabled_" data-uid="Avalonia.Xaml.Interactivity.InvokeCommandActionBase.UseCommandCanExecuteForIsEnabled*"></a>
+
+  <h3 id="Avalonia_Xaml_Interactivity_InvokeCommandActionBase_UseCommandCanExecuteForIsEnabled" data-uid="Avalonia.Xaml.Interactivity.InvokeCommandActionBase.UseCommandCanExecuteForIsEnabled">
+  UseCommandCanExecuteForIsEnabled
+  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactivity/Actions/InvokeCommandActionBase.cs/#L112"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Gets or sets a value indicating whether the control associated with the hosting trigger should have its
+<span class="xref">Avalonia.Input.InputElement.IsEnabled</span> property follow <a class="xref" href="Avalonia.Xaml.Interactivity.InvokeCommandActionBase.html#Avalonia_Xaml_Interactivity_InvokeCommandActionBase_CanExecuteCommand">CanExecuteCommand</a>.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool UseCommandCanExecuteForIsEnabled { get; set; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
   <h2 class="section" id="methods">Methods
 </h2>
+
+
+  <a id="Avalonia_Xaml_Interactivity_InvokeCommandActionBase_OnPropertyChanged_" data-uid="Avalonia.Xaml.Interactivity.InvokeCommandActionBase.OnPropertyChanged*"></a>
+
+  <h3 id="Avalonia_Xaml_Interactivity_InvokeCommandActionBase_OnPropertyChanged_Avalonia_AvaloniaPropertyChangedEventArgs_" data-uid="Avalonia.Xaml.Interactivity.InvokeCommandActionBase.OnPropertyChanged(Avalonia.AvaloniaPropertyChangedEventArgs)">
+  OnPropertyChanged(AvaloniaPropertyChangedEventArgs)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactivity/Actions/InvokeCommandActionBase.cs/#L192"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Called when a avalonia property changes on the object.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected override void OnPropertyChanged(AvaloniaPropertyChangedEventArgs change)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>change</code> <span class="xref">AvaloniaPropertyChangedEventArgs</span></dt>
+    <dd><p>The property change details.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
 
 
   <a id="Avalonia_Xaml_Interactivity_InvokeCommandActionBase_ResolveParameter_" data-uid="Avalonia.Xaml.Interactivity.InvokeCommandActionBase.ResolveParameter*"></a>
 
   <h3 id="Avalonia_Xaml_Interactivity_InvokeCommandActionBase_ResolveParameter_System_Object_" data-uid="Avalonia.Xaml.Interactivity.InvokeCommandActionBase.ResolveParameter(System.Object)">
   ResolveParameter(object?)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactivity/Actions/InvokeCommandActionBase.cs/#L107"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactivity/Actions/InvokeCommandActionBase.cs/#L215"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Resolves the command parameter that will be passed to the
@@ -824,7 +1077,7 @@ associated <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.w
 </article>
 
         <div class="contribution d-print-none">
-          <a href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactivity/Actions/InvokeCommandActionBase.cs/#L11" class="edit-link">Edit this page</a>
+          <a href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactivity/Actions/InvokeCommandActionBase.cs/#L14" class="edit-link">Edit this page</a>
         </div>
 
 
