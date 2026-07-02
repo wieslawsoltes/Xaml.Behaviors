@@ -51,10 +51,20 @@ public abstract class StyledElementAction : StyledElement, IAction
         {
             TemplatedParentHelper.SetTemplatedParent(this, templatedParent);
         }
+
+        if (this is IActionLogicalTreeLifecycle lifecycle)
+        {
+            lifecycle.AttachedToActionLogicalTree();
+        }
     }
 
     internal void DetachActionFromLogicalTree(StyledElement parent)
     {
+        if (this is IActionLogicalTreeLifecycle lifecycle)
+        {
+            lifecycle.DetachedFromActionLogicalTree();
+        }
+
 #if false
         Dispatcher.UIThread.Post(() =>
         {
@@ -67,4 +77,11 @@ public abstract class StyledElementAction : StyledElement, IAction
         });
 #endif
     }
+}
+
+internal interface IActionLogicalTreeLifecycle
+{
+    void AttachedToActionLogicalTree();
+
+    void DetachedFromActionLogicalTree();
 }

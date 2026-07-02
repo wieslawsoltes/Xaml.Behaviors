@@ -2,9 +2,12 @@
 
 `InvokeCommandActionBase` is an abstract base class for actions that invoke an `ICommand`. It provides a standard set of properties for binding commands and command parameters, making it easier to create actions that interact with ViewModels.
 
+`CanExecuteCommand` is implemented with the public `CommandCanExecuteObserver` helper, which custom actions can also use through this base class.
+
 ## Properties
 
 *   **`Command`**: The `ICommand` to execute.
+*   **`CanExecuteCommand`**: A read-only value that observes `Command.CanExecute(CommandParameter)`.
 *   **`CommandParameter`**: An optional parameter to pass to the command's `Execute` method.
 *   **`InputConverter`**: An optional `IValueConverter` to convert the parameter before passing it to the command.
 *   **`InputConverterParameter`**: An optional parameter to pass to the `InputConverter`.
@@ -27,4 +30,17 @@ public class MyCommandAction : InvokeCommandActionBase
         return null;
     }
 }
+```
+
+Use `CanExecuteCommand` when an action is hosted by a trigger and the associated control should reflect command availability:
+
+```xml
+<Border IsEnabled="{Binding #OpenAction.CanExecuteCommand}">
+    <Interaction.Behaviors>
+        <ClickEventTrigger>
+            <OpenFilePickerAction x:Name="OpenAction"
+                                  Command="{Binding OpenFilesCommand}" />
+        </ClickEventTrigger>
+    </Interaction.Behaviors>
+</Border>
 ```

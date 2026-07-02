@@ -11,11 +11,20 @@ namespace Avalonia.Xaml.Interactivity;
 /// </summary>
 public abstract class InvokeCommandBehaviorBase : StyledElementBehavior<Control>
 {
+    private readonly CommandCanExecuteObserver _commandCanExecuteObserver;
+    private bool _canExecuteCommand = true;
+
     /// <summary>
     /// Identifies the <seealso cref="Command"/> avalonia property.
     /// </summary>
     public static readonly StyledProperty<ICommand?> CommandProperty =
         AvaloniaProperty.Register<InvokeCommandBehaviorBase, ICommand?>(nameof(Command));
+
+    /// <summary>
+    /// Identifies the <seealso cref="CanExecuteCommand"/> avalonia property.
+    /// </summary>
+    public static readonly DirectProperty<InvokeCommandBehaviorBase, bool> CanExecuteCommandProperty =
+        AvaloniaProperty.RegisterDirect<InvokeCommandBehaviorBase, bool>(nameof(CanExecuteCommand), behavior => behavior.CanExecuteCommand);
 
     /// <summary>
     /// Identifies the <seealso cref="CommandParameter"/> avalonia property.
@@ -43,12 +52,29 @@ public abstract class InvokeCommandBehaviorBase : StyledElementBehavior<Control>
         AvaloniaProperty.Register<InvokeCommandBehaviorBase, string?>(nameof(InputConverterLanguage), string.Empty);
 
     /// <summary>
+    /// Initializes a new instance of the <see cref="InvokeCommandBehaviorBase"/> class.
+    /// </summary>
+    protected InvokeCommandBehaviorBase()
+    {
+        _commandCanExecuteObserver = new CommandCanExecuteObserver(SetCanExecuteCommand);
+    }
+
+    /// <summary>
     /// Gets or sets the command this action should invoke. This is an avalonia property.
     /// </summary>
     public ICommand? Command
     {
         get => GetValue(CommandProperty);
         set => SetValue(CommandProperty, value);
+    }
+
+    /// <summary>
+    /// Gets a value indicating whether <see cref="Command"/> can execute with the current <see cref="CommandParameter"/>.
+    /// </summary>
+    public bool CanExecuteCommand
+    {
+        get => _canExecuteCommand;
+        private set => SetAndRaise(CanExecuteCommandProperty, ref _canExecuteCommand, value);
     }
   
     /// <summary>
@@ -99,6 +125,33 @@ public abstract class InvokeCommandBehaviorBase : StyledElementBehavior<Control>
     /// </summary>
     public bool PassEventArgsToCommand { get; set; }
 
+    /// <inheritdoc />
+    protected override void OnAttached()
+    {
+        base.OnAttached();
+
+        _commandCanExecuteObserver.Start(Command, CommandParameter);
+    }
+
+    /// <inheritdoc />
+    protected override void OnDetaching()
+    {
+        _commandCanExecuteObserver.Stop();
+
+        base.OnDetaching();
+    }
+
+    /// <inheritdoc />
+    protected override void OnPropertyChanged(AvaloniaPropertyChangedEventArgs change)
+    {
+        base.OnPropertyChanged(change);
+
+        if (change.Property == CommandProperty || change.Property == CommandParameterProperty)
+        {
+            _commandCanExecuteObserver.Update(Command, CommandParameter);
+        }
+    }
+
     /// <summary>
     /// Resolves the command parameter that will be supplied to the
     /// <see cref="System.Windows.Input.ICommand"/> implementation.
@@ -132,5 +185,10 @@ public abstract class InvokeCommandBehaviorBase : StyledElementBehavior<Control>
         }
 
         return resolvedParameter;
+    }
+
+    private void SetCanExecuteCommand(bool value)
+    {
+        CanExecuteCommand = value;
     }
 }
