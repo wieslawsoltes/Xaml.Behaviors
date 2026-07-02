@@ -24,6 +24,8 @@
   href: interactive-behavior-base.md
 - name: InvokeCommandBehaviorBase
   href: invoke-command-behavior-base.md
+- name: CommandCanExecuteObserver
+  href: command-can-execute-observer.md
 - name: EventTriggerBase
   href: event-trigger-base.md
 - name: InteractiveTriggerBase

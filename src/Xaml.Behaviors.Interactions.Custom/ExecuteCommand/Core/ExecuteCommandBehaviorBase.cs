@@ -5,6 +5,7 @@ using System.Windows.Input;
 using Avalonia.Controls;
 using Avalonia.LogicalTree;
 using Avalonia.Threading;
+using Avalonia.Xaml.Interactivity;
 
 namespace Avalonia.Xaml.Interactions.Custom;
 
@@ -13,6 +14,9 @@ namespace Avalonia.Xaml.Interactions.Custom;
 /// </summary>
 public abstract class ExecuteCommandBehaviorBase : AttachedToVisualTreeBehavior<Control>
 {
+    private readonly CommandCanExecuteObserver _commandCanExecuteObserver;
+    private bool _canExecuteCommand = true;
+
     /// <summary>
     /// 
     /// </summary>
@@ -24,6 +28,12 @@ public abstract class ExecuteCommandBehaviorBase : AttachedToVisualTreeBehavior<
     /// </summary>
     public static readonly StyledProperty<ICommand?> CommandProperty =
         AvaloniaProperty.Register<ExecuteCommandBehaviorBase, ICommand?>(nameof(Command));
+
+    /// <summary>
+    /// Identifies the <seealso cref="CanExecuteCommand"/> avalonia property.
+    /// </summary>
+    public static readonly DirectProperty<ExecuteCommandBehaviorBase, bool> CanExecuteCommandProperty =
+        AvaloniaProperty.RegisterDirect<ExecuteCommandBehaviorBase, bool>(nameof(CanExecuteCommand), behavior => behavior.CanExecuteCommand);
 
     /// <summary>
     /// 
@@ -50,6 +60,14 @@ public abstract class ExecuteCommandBehaviorBase : AttachedToVisualTreeBehavior<
         AvaloniaProperty.Register<ExecuteCommandBehaviorBase, Control?>(nameof(SourceControl));
 
     /// <summary>
+    /// Initializes a new instance of the <see cref="ExecuteCommandBehaviorBase"/> class.
+    /// </summary>
+    protected ExecuteCommandBehaviorBase()
+    {
+        _commandCanExecuteObserver = new CommandCanExecuteObserver(SetCanExecuteCommand);
+    }
+
+    /// <summary>
     /// 
     /// </summary>
     public TopLevel? TopLevel
@@ -65,6 +83,15 @@ public abstract class ExecuteCommandBehaviorBase : AttachedToVisualTreeBehavior<
     {
         get => GetValue(CommandProperty);
         set => SetValue(CommandProperty, value);
+    }
+
+    /// <summary>
+    /// Gets a value indicating whether <see cref="Command"/> can execute with the current <see cref="CommandParameter"/>.
+    /// </summary>
+    public bool CanExecuteCommand
+    {
+        get => _canExecuteCommand;
+        private set => SetAndRaise(CanExecuteCommandProperty, ref _canExecuteCommand, value);
     }
 
     /// <summary>
@@ -105,6 +132,32 @@ public abstract class ExecuteCommandBehaviorBase : AttachedToVisualTreeBehavior<
         set => SetValue(SourceControlProperty, value);
     }
 
+    /// <inheritdoc />
+    protected override void OnAttached()
+    {
+        base.OnAttached();
+
+        _commandCanExecuteObserver.Start(Command, CommandParameter);
+    }
+
+    /// <inheritdoc />
+    protected override void OnDetaching()
+    {
+        _commandCanExecuteObserver.Stop();
+
+        base.OnDetaching();
+    }
+
+    /// <inheritdoc />
+    protected override void OnPropertyChanged(AvaloniaPropertyChangedEventArgs change)
+    {
+        base.OnPropertyChanged(change);
+
+        if (change.Property == CommandProperty || change.Property == CommandParameterProperty)
+        {
+            _commandCanExecuteObserver.Update(Command, CommandParameter);
+        }
+    }
 
     /// <summary>
     /// Executes the associated command.
@@ -139,5 +192,10 @@ public abstract class ExecuteCommandBehaviorBase : AttachedToVisualTreeBehavior<
 
         Command.Execute(CommandParameter);
         return true;
+    }
+
+    private void SetCanExecuteCommand(bool value)
+    {
+        CanExecuteCommand = value;
     }
 }

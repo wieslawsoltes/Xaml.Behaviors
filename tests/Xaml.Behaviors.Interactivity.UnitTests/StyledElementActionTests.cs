@@ -73,4 +73,19 @@ public class StyledElementActionTests
         Assert.Equal(parent, action.Parent);
         Assert.Equal(templatedParent, action.TemplatedParent);
     }
+
+    [AvaloniaFact]
+    public void DetachActionFromLogicalTree_ClearsParentAndTemplatedParent()
+    {
+        var action = new StubAction();
+        var parent = new Button();
+        var templatedParent = new ContentControl();
+        TemplatedParentHelper.SetTemplatedParent(parent, templatedParent);
+
+        action.AttachActionToLogicalTree(parent);
+        action.DetachActionFromLogicalTree(parent);
+
+        Assert.Null(action.Parent);
+        Assert.Null(action.TemplatedParent);
+    }
 }

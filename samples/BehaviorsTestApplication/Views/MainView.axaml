@@ -363,6 +363,9 @@
       <TabItem Header="Storage Provider">
         <pages:StorageProviderView />
       </TabItem>
+      <TabItem Header="Picker CanExecuteCommand">
+        <pages:PickerCanExecuteCommandView />
+      </TabItem>
       <TabItem Header="Clipboard">
         <pages:ClipboardView />
       </TabItem>
