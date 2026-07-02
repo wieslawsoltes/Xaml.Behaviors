@@ -84,6 +84,72 @@ public class InvokeCommandActionBaseTests
     }
 
     [AvaloniaFact]
+    public void UseCommandCanExecuteForIsEnabled_PreservesExistingDisabledParentState()
+    {
+        var command = new ObservableCommand { CanExecuteResult = false };
+        var action = new TestInvokeCommandAction
+        {
+            Command = command,
+            UseCommandCanExecuteForIsEnabled = true
+        };
+        var parent = new Border
+        {
+            IsEnabled = false
+        };
+
+        action.AttachActionToLogicalTree(parent);
+
+        Assert.False(parent.IsEnabled);
+
+        command.CanExecuteResult = true;
+        command.RaiseCanExecuteChanged();
+
+        Assert.False(parent.IsEnabled);
+
+        parent.IsEnabled = true;
+
+        Assert.True(parent.IsEnabled);
+
+        action.DetachActionFromLogicalTree(parent);
+    }
+
+    [AvaloniaFact]
+    public void UseCommandCanExecuteForIsEnabled_ComposesMultipleActionBlockers()
+    {
+        var firstCommand = new ObservableCommand { CanExecuteResult = false };
+        var secondCommand = new ObservableCommand { CanExecuteResult = false };
+        var firstAction = new TestInvokeCommandAction
+        {
+            Command = firstCommand,
+            UseCommandCanExecuteForIsEnabled = true
+        };
+        var secondAction = new TestInvokeCommandAction
+        {
+            Command = secondCommand,
+            UseCommandCanExecuteForIsEnabled = true
+        };
+        var parent = new Border();
+
+        firstAction.AttachActionToLogicalTree(parent);
+        secondAction.AttachActionToLogicalTree(parent);
+
+        Assert.False(parent.IsEnabled);
+
+        firstCommand.CanExecuteResult = true;
+        firstCommand.RaiseCanExecuteChanged();
+
+        Assert.False(parent.IsEnabled);
+
+        secondCommand.CanExecuteResult = true;
+        secondCommand.RaiseCanExecuteChanged();
+
+        Assert.True(parent.IsEnabled);
+
+        firstAction.DetachActionFromLogicalTree(parent);
+        secondAction.DetachActionFromLogicalTree(parent);
+    }
+
+    [AvaloniaFact]
     public void UseCommandCanExecuteForIsEnabled_PropertyChange_AttachesAndDetachesBinding()
     {
         var command = new ObservableCommand { CanExecuteResult = false };

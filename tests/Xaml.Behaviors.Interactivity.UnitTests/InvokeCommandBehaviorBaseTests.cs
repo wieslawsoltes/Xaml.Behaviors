@@ -2,6 +2,7 @@ using System;
 using System.Windows.Input;
 using Avalonia.Controls;
 using Avalonia.Headless.XUnit;
+using Avalonia.Input;
 using Xunit;
 
 namespace Avalonia.Xaml.Interactivity.UnitTests;
@@ -79,6 +80,83 @@ public class InvokeCommandBehaviorBaseTests
         command.RaiseCanExecuteChanged();
 
         Assert.True(button.IsEnabled);
+
+        behavior.Detach();
+    }
+
+    [AvaloniaFact]
+    public void UseCommandCanExecuteForIsEnabled_PreservesExistingDisabledState()
+    {
+        var command = new ObservableCommand { CanExecuteResult = false };
+        var behavior = new TestInvokeCommandBehavior
+        {
+            Command = command,
+            UseCommandCanExecuteForIsEnabled = true
+        };
+        var button = new Button
+        {
+            IsEnabled = false
+        };
+
+        behavior.Attach(button);
+
+        Assert.False(button.IsEnabled);
+
+        command.CanExecuteResult = true;
+        command.RaiseCanExecuteChanged();
+
+        Assert.False(button.IsEnabled);
+
+        button.IsEnabled = true;
+
+        Assert.True(button.IsEnabled);
+
+        behavior.Detach();
+    }
+
+    [AvaloniaFact]
+    public void UseCommandCanExecuteForIsEnabled_ComposesWithExistingIsEnabledBinding()
+    {
+        var command = new ObservableCommand { CanExecuteResult = false };
+        var behavior = new TestInvokeCommandBehavior
+        {
+            Command = command,
+            UseCommandCanExecuteForIsEnabled = true
+        };
+        var isEnabled = new BooleanObservable(true);
+        var button = new Button();
+        button.Bind(InputElement.IsEnabledProperty, isEnabled);
+
+        behavior.Attach(button);
+
+        Assert.False(button.IsEnabled);
+
+        isEnabled.Value = false;
+
+        Assert.False(button.IsEnabled);
+
+        isEnabled.Value = true;
+
+        Assert.False(button.IsEnabled);
+
+        command.CanExecuteResult = true;
+        command.RaiseCanExecuteChanged();
+
+        Assert.True(button.IsEnabled);
+
+        isEnabled.Value = false;
+
+        Assert.False(button.IsEnabled);
+
+        command.CanExecuteResult = false;
+        command.RaiseCanExecuteChanged();
+
+        Assert.False(button.IsEnabled);
+
+        command.CanExecuteResult = true;
+        command.RaiseCanExecuteChanged();
+
+        Assert.False(button.IsEnabled);
 
         behavior.Detach();
     }
@@ -311,6 +389,72 @@ public class InvokeCommandBehaviorBaseTests
         public void RaiseCanExecuteChanged()
         {
             _canExecuteChanged?.Invoke(this, EventArgs.Empty);
+        }
+    }
+
+    private sealed class BooleanObservable : IObservable<bool>
+    {
+        private IObserver<bool>? _observer;
+        private bool _value;
+
+        public BooleanObservable(bool value)
+        {
+            _value = value;
+        }
+
+        public bool Value
+        {
+            get => _value;
+            set
+            {
+                if (_value == value)
+                {
+                    return;
+                }
+
+                _value = value;
+                _observer?.OnNext(value);
+            }
+        }
+
+        public IDisposable Subscribe(IObserver<bool> observer)
+        {
+            _observer = observer;
+            observer.OnNext(_value);
+
+            return new Subscription(this, observer);
+        }
+
+        private void Unsubscribe(IObserver<bool> observer)
+        {
+            if (ReferenceEquals(_observer, observer))
+            {
+                _observer = null;
+            }
+        }
+
+        private sealed class Subscription : IDisposable
+        {
+            private readonly BooleanObservable _owner;
+            private readonly IObserver<bool> _observer;
+            private bool _disposed;
+
+            public Subscription(BooleanObservable owner, IObserver<bool> observer)
+            {
+                _owner = owner;
+                _observer = observer;
+            }
+
+            public void Dispose()
+            {
+                if (_disposed)
+                {
+                    return;
+                }
+
+                _disposed = true;
+                _owner.Unsubscribe(_observer);
+            }
         }
     }
 }
