@@ -138,6 +138,50 @@ public class ClickEventTriggerTests
     }
 
     [AvaloniaFact]
+    public void ClickEventTrigger_AsyncActionGroup_DetachesChildCommandObservers()
+    {
+        var command = new ObservableCommand();
+
+        var window = new Window
+        {
+            Width = 200,
+            Height = 120,
+        };
+
+        var target = new Border
+        {
+            Width = 160,
+            Height = 60,
+            Focusable = true,
+        };
+
+        var trigger = new ClickEventTrigger();
+        var group = new AsyncActionGroup();
+        var action = new InvokeCommandAction
+        {
+            Command = command,
+        };
+
+        group.Actions ??= [];
+        group.Actions.Add(action);
+
+        trigger.Actions ??= [];
+        trigger.Actions.Add(group);
+        Avalonia.Xaml.Interactivity.Interaction.GetBehaviors(target).Add(trigger);
+
+        window.Content = target;
+        window.Show();
+
+        Assert.Equal(1, command.SubscriptionCount);
+
+        Avalonia.Xaml.Interactivity.Interaction.GetBehaviors(target).Remove(trigger);
+
+        Assert.Equal(0, command.SubscriptionCount);
+        Assert.Null(group.Parent);
+        Assert.Null(action.Parent);
+    }
+
+    [AvaloniaFact]
     public async Task ClickEventTrigger_RoutingStrategies_PropertyChange_RewiresHandlers()
     {
         var nativeCommandCalls = 0;

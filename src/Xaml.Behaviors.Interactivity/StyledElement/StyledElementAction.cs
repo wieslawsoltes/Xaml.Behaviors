@@ -1,7 +1,6 @@
 // Copyright (c) Wiesław Šoltés. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for details.
 using Avalonia.Controls;
-using Avalonia.Threading;
 
 namespace Avalonia.Xaml.Interactivity;
 
@@ -65,17 +64,12 @@ public abstract class StyledElementAction : StyledElement, IAction
             lifecycle.DetachedFromActionLogicalTree();
         }
 
-#if false
-        Dispatcher.UIThread.Post(() =>
-        {
-            ((ISetLogicalParent)this).SetParent(null);
+        ((ISetLogicalParent)this).SetParent(null);
 
-            if (parent is { TemplatedParent: not null })
-            {
-                TemplatedParentHelper.SetTemplatedParent(this, null);
-            }
-        });
-#endif
+        if (TemplatedParent is not null || parent.TemplatedParent is not null)
+        {
+            TemplatedParentHelper.SetTemplatedParent(this, null);
+        }
     }
 }
 
