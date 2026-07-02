@@ -3,6 +3,7 @@
 using System.Windows.Input;
 using Avalonia.Controls;
 using Avalonia.Data.Converters;
+using Avalonia.Reactive;
 
 namespace Avalonia.Xaml.Interactivity;
 
@@ -12,6 +13,7 @@ namespace Avalonia.Xaml.Interactivity;
 public abstract class InvokeCommandBehaviorBase : StyledElementBehavior<Control>
 {
     private readonly CommandCanExecuteObserver _commandCanExecuteObserver;
+    private readonly CommandCanExecuteIsEnabledBinder _commandCanExecuteIsEnabledBinder;
     private bool _canExecuteCommand = true;
 
     /// <summary>
@@ -25,6 +27,12 @@ public abstract class InvokeCommandBehaviorBase : StyledElementBehavior<Control>
     /// </summary>
     public static readonly DirectProperty<InvokeCommandBehaviorBase, bool> CanExecuteCommandProperty =
         AvaloniaProperty.RegisterDirect<InvokeCommandBehaviorBase, bool>(nameof(CanExecuteCommand), behavior => behavior.CanExecuteCommand);
+
+    /// <summary>
+    /// Identifies the <seealso cref="UseCommandCanExecuteForIsEnabled"/> avalonia property.
+    /// </summary>
+    public static readonly StyledProperty<bool> UseCommandCanExecuteForIsEnabledProperty =
+        AvaloniaProperty.Register<InvokeCommandBehaviorBase, bool>(nameof(UseCommandCanExecuteForIsEnabled));
 
     /// <summary>
     /// Identifies the <seealso cref="CommandParameter"/> avalonia property.
@@ -57,6 +65,7 @@ public abstract class InvokeCommandBehaviorBase : StyledElementBehavior<Control>
     protected InvokeCommandBehaviorBase()
     {
         _commandCanExecuteObserver = new CommandCanExecuteObserver(SetCanExecuteCommand);
+        _commandCanExecuteIsEnabledBinder = new CommandCanExecuteIsEnabledBinder();
     }
 
     /// <summary>
@@ -75,6 +84,16 @@ public abstract class InvokeCommandBehaviorBase : StyledElementBehavior<Control>
     {
         get => _canExecuteCommand;
         private set => SetAndRaise(CanExecuteCommandProperty, ref _canExecuteCommand, value);
+    }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether the associated control's
+    /// <see cref="Avalonia.Input.InputElement.IsEnabled"/> property should follow <see cref="CanExecuteCommand"/>.
+    /// </summary>
+    public bool UseCommandCanExecuteForIsEnabled
+    {
+        get => GetValue(UseCommandCanExecuteForIsEnabledProperty);
+        set => SetValue(UseCommandCanExecuteForIsEnabledProperty, value);
     }
   
     /// <summary>
@@ -131,11 +150,13 @@ public abstract class InvokeCommandBehaviorBase : StyledElementBehavior<Control>
         base.OnAttached();
 
         _commandCanExecuteObserver.Start(Command, CommandParameter);
+        UpdateCommandCanExecuteIsEnabledBinding();
     }
 
     /// <inheritdoc />
     protected override void OnDetaching()
     {
+        _commandCanExecuteIsEnabledBinder.Stop();
         _commandCanExecuteObserver.Stop();
 
         base.OnDetaching();
@@ -149,6 +170,10 @@ public abstract class InvokeCommandBehaviorBase : StyledElementBehavior<Control>
         if (change.Property == CommandProperty || change.Property == CommandParameterProperty)
         {
             _commandCanExecuteObserver.Update(Command, CommandParameter);
+        }
+        else if (change.Property == UseCommandCanExecuteForIsEnabledProperty)
+        {
+            UpdateCommandCanExecuteIsEnabledBinding();
         }
     }
 
@@ -190,5 +215,13 @@ public abstract class InvokeCommandBehaviorBase : StyledElementBehavior<Control>
     private void SetCanExecuteCommand(bool value)
     {
         CanExecuteCommand = value;
+    }
+
+    private void UpdateCommandCanExecuteIsEnabledBinding()
+    {
+        _commandCanExecuteIsEnabledBinder.Update(
+            AssociatedObject,
+            UseCommandCanExecuteForIsEnabled,
+            AvaloniaObjectExtensions.GetObservable(this, CanExecuteCommandProperty));
     }
 }

@@ -2,6 +2,9 @@
 // Licensed under the MIT license. See LICENSE file in the project root for details.
 using System.Windows.Input;
 using Avalonia.Data.Converters;
+using Avalonia.Input;
+using Avalonia.LogicalTree;
+using Avalonia.Reactive;
 
 namespace Avalonia.Xaml.Interactivity;
 
@@ -11,6 +14,7 @@ namespace Avalonia.Xaml.Interactivity;
 public abstract class InvokeCommandActionBase : StyledElementAction, IActionLogicalTreeLifecycle
 {
     private readonly CommandCanExecuteObserver _commandCanExecuteObserver;
+    private readonly CommandCanExecuteIsEnabledBinder _commandCanExecuteIsEnabledBinder;
     private bool _canExecuteCommand = true;
 
     /// <summary>
@@ -24,6 +28,12 @@ public abstract class InvokeCommandActionBase : StyledElementAction, IActionLogi
     /// </summary>
     public static readonly DirectProperty<InvokeCommandActionBase, bool> CanExecuteCommandProperty =
         AvaloniaProperty.RegisterDirect<InvokeCommandActionBase, bool>(nameof(CanExecuteCommand), action => action.CanExecuteCommand);
+
+    /// <summary>
+    /// Identifies the <seealso cref="UseCommandCanExecuteForIsEnabled"/> avalonia property.
+    /// </summary>
+    public static readonly StyledProperty<bool> UseCommandCanExecuteForIsEnabledProperty =
+        AvaloniaProperty.Register<InvokeCommandActionBase, bool>(nameof(UseCommandCanExecuteForIsEnabled));
 
     /// <summary>
     /// Identifies the <seealso cref="CommandParameter"/> avalonia property.
@@ -56,6 +66,7 @@ public abstract class InvokeCommandActionBase : StyledElementAction, IActionLogi
     protected InvokeCommandActionBase()
     {
         _commandCanExecuteObserver = new CommandCanExecuteObserver(SetCanExecuteCommand);
+        _commandCanExecuteIsEnabledBinder = new CommandCanExecuteIsEnabledBinder();
     }
 
     /// <summary>
@@ -74,6 +85,16 @@ public abstract class InvokeCommandActionBase : StyledElementAction, IActionLogi
     {
         get => _canExecuteCommand;
         private set => SetAndRaise(CanExecuteCommandProperty, ref _canExecuteCommand, value);
+    }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether the control associated with the hosting trigger should have its
+    /// <see cref="InputElement.IsEnabled"/> property follow <see cref="CanExecuteCommand"/>.
+    /// </summary>
+    public bool UseCommandCanExecuteForIsEnabled
+    {
+        get => GetValue(UseCommandCanExecuteForIsEnabledProperty);
+        set => SetValue(UseCommandCanExecuteForIsEnabledProperty, value);
     }
   
     /// <summary>
@@ -127,10 +148,12 @@ public abstract class InvokeCommandActionBase : StyledElementAction, IActionLogi
     void IActionLogicalTreeLifecycle.AttachedToActionLogicalTree()
     {
         _commandCanExecuteObserver.Start(Command, CommandParameter);
+        UpdateCommandCanExecuteIsEnabledBinding();
     }
 
     void IActionLogicalTreeLifecycle.DetachedFromActionLogicalTree()
     {
+        _commandCanExecuteIsEnabledBinder.Stop();
         _commandCanExecuteObserver.Stop();
     }
 
@@ -142,6 +165,10 @@ public abstract class InvokeCommandActionBase : StyledElementAction, IActionLogi
         if (change.Property == CommandProperty || change.Property == CommandParameterProperty)
         {
             _commandCanExecuteObserver.Update(Command, CommandParameter);
+        }
+        else if (change.Property == UseCommandCanExecuteForIsEnabledProperty)
+        {
+            UpdateCommandCanExecuteIsEnabledBinding();
         }
     }
 
@@ -183,5 +210,31 @@ public abstract class InvokeCommandActionBase : StyledElementAction, IActionLogi
     private void SetCanExecuteCommand(bool value)
     {
         CanExecuteCommand = value;
+    }
+
+    private void UpdateCommandCanExecuteIsEnabledBinding()
+    {
+        _commandCanExecuteIsEnabledBinder.Update(
+            ResolveCommandCanExecuteIsEnabledTarget(),
+            UseCommandCanExecuteForIsEnabled,
+            AvaloniaObjectExtensions.GetObservable(this, CanExecuteCommandProperty));
+    }
+
+    private InputElement? ResolveCommandCanExecuteIsEnabledTarget()
+    {
+        foreach (var logical in this.GetSelfAndLogicalAncestors())
+        {
+            if (logical is IBehavior { AssociatedObject: InputElement associatedInputElement })
+            {
+                return associatedInputElement;
+            }
+
+            if (logical is InputElement inputElement)
+            {
+                return inputElement;
+            }
+        }
+
+        return null;
     }
 }
