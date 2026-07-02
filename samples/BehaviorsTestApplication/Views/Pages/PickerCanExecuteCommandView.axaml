@@ -24,32 +24,32 @@
 
     <Menu Grid.Row="1" Margin="0,0,0,8">
       <MenuItem Header="File">
-        <MenuItem Header="Open files"
-                  IsEnabled="{Binding #MenuOpenFilePicker.CanExecuteCommand}">
+        <MenuItem Header="Open files">
           <Interaction.Behaviors>
             <MenuItemOpenFilePickerBehavior x:Name="MenuOpenFilePicker"
                                             Command="{Binding MenuPickerCanExecuteCommand}"
+                                            UseCommandCanExecuteForIsEnabled="True"
                                             Title="Open Files"
                                             SuggestedFileName="MyFile"
                                             AllowMultiple="True"
                                             FileTypeFilter="Text Files|*.txt|Markdown Files|*.md|All Files|*.*" />
           </Interaction.Behaviors>
         </MenuItem>
-        <MenuItem Header="Open folders"
-                  IsEnabled="{Binding #MenuOpenFolderPicker.CanExecuteCommand}">
+        <MenuItem Header="Open folders">
           <Interaction.Behaviors>
             <MenuItemOpenFolderPickerBehavior x:Name="MenuOpenFolderPicker"
                                               Command="{Binding MenuPickerCanExecuteCommand}"
+                                              UseCommandCanExecuteForIsEnabled="True"
                                               Title="Open Folders"
                                               AllowMultiple="True"
                                               StorageProvider="{Binding $parent[TopLevel].StorageProvider}" />
           </Interaction.Behaviors>
         </MenuItem>
-        <MenuItem Header="Save file"
-                  IsEnabled="{Binding #MenuSaveFilePicker.CanExecuteCommand}">
+        <MenuItem Header="Save file">
           <Interaction.Behaviors>
             <MenuItemSaveFilePickerBehavior x:Name="MenuSaveFilePicker"
                                             Command="{Binding MenuPickerCanExecuteCommand}"
+                                            UseCommandCanExecuteForIsEnabled="True"
                                             InputConverter="{x:Static StorageItemToPathConverter.Instance}"
                                             Title="Save File"
                                             SuggestedFileName="MyFile"
@@ -76,11 +76,11 @@
           RowDefinitions="Auto,Auto">
       <Button Grid.Row="0"
               Grid.Column="0"
-              Content="Open files"
-              IsEnabled="{Binding #ButtonOpenFilePicker.CanExecuteCommand}">
+              Content="Open files">
         <Interaction.Behaviors>
           <ButtonOpenFilePickerBehavior x:Name="ButtonOpenFilePicker"
                                         Command="{Binding ButtonPickerCanExecuteCommand}"
+                                        UseCommandCanExecuteForIsEnabled="True"
                                         Title="Open Files"
                                         SuggestedFileName="MyFile"
                                         AllowMultiple="True"
@@ -89,11 +89,11 @@
       </Button>
       <Button Grid.Row="0"
               Grid.Column="2"
-              Content="Open folders"
-              IsEnabled="{Binding #ButtonOpenFolderPicker.CanExecuteCommand}">
+              Content="Open folders">
         <Interaction.Behaviors>
           <ButtonOpenFolderPickerBehavior x:Name="ButtonOpenFolderPicker"
                                           Command="{Binding ButtonPickerCanExecuteCommand}"
+                                          UseCommandCanExecuteForIsEnabled="True"
                                           Title="Open Folders"
                                           AllowMultiple="True"
                                           SuggestedStartLocationPath="{Binding DocumentsFolderPath}" />
@@ -101,11 +101,11 @@
       </Button>
       <Button Grid.Row="0"
               Grid.Column="4"
-              Content="Save file"
-              IsEnabled="{Binding #ButtonSaveFilePicker.CanExecuteCommand}">
+              Content="Save file">
         <Interaction.Behaviors>
           <ButtonSaveFilePickerBehavior x:Name="ButtonSaveFilePicker"
                                         Command="{Binding ButtonPickerCanExecuteCommand}"
+                                        UseCommandCanExecuteForIsEnabled="True"
                                         InputConverter="{x:Static StorageItemToPathConverter.Instance}"
                                         Title="Save File"
                                         SuggestedFileName="MyFile"
@@ -135,12 +135,12 @@
               Height="64"
               Background="LightGreen"
               CornerRadius="4"
-              Focusable="True"
-              IsEnabled="{Binding #PanelOpenFilePickerAction.CanExecuteCommand}">
+              Focusable="True">
         <Interaction.Behaviors>
           <ClickEventTrigger>
             <OpenFilePickerAction x:Name="PanelOpenFilePickerAction"
                                   Command="{Binding PanelPickerActionCanExecuteCommand}"
+                                  UseCommandCanExecuteForIsEnabled="True"
                                   Title="Open Files from Panel Click"
                                   SuggestedFileName="PanelSample"
                                   AllowMultiple="True"

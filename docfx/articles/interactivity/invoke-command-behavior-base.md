@@ -8,6 +8,7 @@
 
 *   **`Command`**: The `ICommand` to execute.
 *   **`CanExecuteCommand`**: A read-only value that observes `Command.CanExecute(CommandParameter)`.
+*   **`UseCommandCanExecuteForIsEnabled`**: When `true`, the associated control's `IsEnabled` property follows `CanExecuteCommand`.
 *   **`CommandParameter`**: An optional parameter to pass to the command's `Execute` method.
 *   **`InputConverter`**: An optional `IValueConverter` to convert the parameter before passing it to the command.
 *   **`InputConverterParameter`**: An optional parameter to pass to the `InputConverter`.
@@ -33,6 +34,18 @@ Use `CanExecuteCommand` when a behavior is attached to a control that does not h
         <FilesDropBehavior x:Name="DropBehavior"
                            Command="{Binding DropFilesCommand}"
                            CommandParameter="{Binding CurrentFolder}" />
+    </Interaction.Behaviors>
+</Border>
+```
+
+Set `UseCommandCanExecuteForIsEnabled` when the behavior should create that binding for the associated control:
+
+```xml
+<Border>
+    <Interaction.Behaviors>
+        <FilesDropBehavior Command="{Binding DropFilesCommand}"
+                           CommandParameter="{Binding CurrentFolder}"
+                           UseCommandCanExecuteForIsEnabled="True" />
     </Interaction.Behaviors>
 </Border>
 ```

@@ -8,6 +8,7 @@
 
 *   **`Command`**: The `ICommand` to execute.
 *   **`CanExecuteCommand`**: A read-only value that observes `Command.CanExecute(CommandParameter)`.
+*   **`UseCommandCanExecuteForIsEnabled`**: When `true`, the control associated with the hosting trigger has `IsEnabled` follow `CanExecuteCommand`.
 *   **`CommandParameter`**: An optional parameter to pass to the command's `Execute` method.
 *   **`InputConverter`**: An optional `IValueConverter` to convert the parameter before passing it to the command.
 *   **`InputConverterParameter`**: An optional parameter to pass to the `InputConverter`.
@@ -40,6 +41,19 @@ Use `CanExecuteCommand` when an action is hosted by a trigger and the associated
         <ClickEventTrigger>
             <OpenFilePickerAction x:Name="OpenAction"
                                   Command="{Binding OpenFilesCommand}" />
+        </ClickEventTrigger>
+    </Interaction.Behaviors>
+</Border>
+```
+
+Set `UseCommandCanExecuteForIsEnabled` on the action when it should create that binding for the trigger's associated control:
+
+```xml
+<Border>
+    <Interaction.Behaviors>
+        <ClickEventTrigger>
+            <OpenFilePickerAction Command="{Binding OpenFilesCommand}"
+                                  UseCommandCanExecuteForIsEnabled="True" />
         </ClickEventTrigger>
     </Interaction.Behaviors>
 </Border>

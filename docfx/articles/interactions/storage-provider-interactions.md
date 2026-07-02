@@ -37,6 +37,20 @@ This is useful when the picker is opened from a non-button surface such as a pan
 </Border>
 ```
 
+Use `UseCommandCanExecuteForIsEnabled` when the action should automatically bind the trigger's associated control to `CanExecuteCommand`:
+
+```xml
+<Border>
+    <Interaction.Behaviors>
+        <ClickEventTrigger>
+            <OpenFilePickerAction Title="Select a file"
+                                  Command="{Binding OpenFilesCommand}"
+                                  UseCommandCanExecuteForIsEnabled="True" />
+        </ClickEventTrigger>
+    </Interaction.Behaviors>
+</Border>
+```
+
 ## Behaviors
 
 For convenience, specialized behaviors are provided for common controls like `Button` and `MenuItem`. These behaviors automatically handle the `Click` event.
@@ -69,7 +83,19 @@ Bind the associated control's enabled state to it when you want command availabi
 </Button>
 ```
 
-The sample application includes a `Picker CanExecuteCommand` page that shows all six picker behaviors and a panel-hosted picker action with their associated controls bound to `CanExecuteCommand`.
+Use `UseCommandCanExecuteForIsEnabled` when the behavior should create that binding for the associated control:
+
+```xml
+<Button Content="Open File">
+    <Interaction.Behaviors>
+        <ButtonOpenFilePickerBehavior Title="Select a file"
+                                      Command="{Binding OpenFilesCommand}"
+                                      UseCommandCanExecuteForIsEnabled="True" />
+    </Interaction.Behaviors>
+</Button>
+```
+
+The sample application includes a `Picker CanExecuteCommand` page that shows all six picker behaviors and a panel-hosted picker action using command `CanExecute` state.
 
 ### MenuItem Behaviors
 
@@ -94,3 +120,4 @@ Common properties available on these actions and behaviors include:
 *   **`FileTypeFilter`**: A collection of file types to filter by.
 *   **`SuggestedStartLocation`**: The initial location for the picker.
 *   **`CanExecuteCommand`**: (Actions and behaviors) Whether the configured command can execute with the current command parameter.
+*   **`UseCommandCanExecuteForIsEnabled`**: (Actions and behaviors) Whether the associated control should automatically follow `CanExecuteCommand` through `IsEnabled`.
