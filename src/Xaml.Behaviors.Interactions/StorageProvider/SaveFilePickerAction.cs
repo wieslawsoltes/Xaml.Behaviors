@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using Avalonia.Controls;
 using Avalonia.LogicalTree;
 using Avalonia.Platform.Storage;
-using Avalonia.Threading;
 
 namespace Avalonia.Xaml.Interactions.Core;
 
@@ -78,17 +77,15 @@ public class SaveFilePickerAction : PickerActionBase
     /// </summary>
     /// <param name="sender">The <see cref="object"/> that is passed to the action by the behavior. Generally this is <seealso cref="Avalonia.Xaml.Interactivity.IBehavior.AssociatedObject"/> or a target object.</param>
     /// <param name="parameter">The value of this parameter is determined by the caller.</param>
-    /// <returns>True if the command is successfully executed; else false.</returns>
+    /// <returns>The started picker task; otherwise false when the sender is not a visual.</returns>
     public override object Execute(object? sender, object? parameter)
     {
         if (sender is not Visual visual)
         {
             return false;
         }
-        
-        Dispatcher.UIThread.InvokeAsync(async () => await SaveFilePickerAsync(visual));
 
-        return true; 
+        return TrackPickerOperation(SaveFilePickerAsync(visual));
     }
 
     private async Task SaveFilePickerAsync(Visual visual)
