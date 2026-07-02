@@ -1,0 +1,164 @@
+﻿<UserControl x:Class="BehaviorsTestApplication.Views.Pages.PickerCanExecuteCommandView"
+             xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:BehaviorsTestApplication.ViewModels"
+             x:DataType="vm:MainWindowViewModel"
+             mc:Ignorable="d" d:DesignWidth="780" d:DesignHeight="520">
+  <Design.DataContext>
+    <vm:MainWindowViewModel />
+  </Design.DataContext>
+  <Grid Margin="8" RowDefinitions="Auto,Auto,Auto,Auto,Auto,*">
+    <StackPanel Grid.Row="0"
+                Orientation="Horizontal"
+                Spacing="16"
+                Margin="0,0,0,8">
+      <CheckBox Content="Button picker commands"
+                IsChecked="{Binding CanUseButtonPickerCommands, Mode=TwoWay}" />
+      <CheckBox Content="Menu picker commands"
+                IsChecked="{Binding CanUseMenuPickerCommands, Mode=TwoWay}" />
+      <CheckBox Content="Panel picker action command"
+                IsChecked="{Binding CanUsePanelPickerActionCommand, Mode=TwoWay}" />
+    </StackPanel>
+
+    <Menu Grid.Row="1" Margin="0,0,0,8">
+      <MenuItem Header="File">
+        <MenuItem Header="Open files"
+                  IsEnabled="{Binding #MenuOpenFilePicker.CanExecuteCommand}">
+          <Interaction.Behaviors>
+            <MenuItemOpenFilePickerBehavior x:Name="MenuOpenFilePicker"
+                                            Command="{Binding MenuPickerCanExecuteCommand}"
+                                            Title="Open Files"
+                                            SuggestedFileName="MyFile"
+                                            AllowMultiple="True"
+                                            FileTypeFilter="Text Files|*.txt|Markdown Files|*.md|All Files|*.*" />
+          </Interaction.Behaviors>
+        </MenuItem>
+        <MenuItem Header="Open folders"
+                  IsEnabled="{Binding #MenuOpenFolderPicker.CanExecuteCommand}">
+          <Interaction.Behaviors>
+            <MenuItemOpenFolderPickerBehavior x:Name="MenuOpenFolderPicker"
+                                              Command="{Binding MenuPickerCanExecuteCommand}"
+                                              Title="Open Folders"
+                                              AllowMultiple="True"
+                                              StorageProvider="{Binding $parent[TopLevel].StorageProvider}" />
+          </Interaction.Behaviors>
+        </MenuItem>
+        <MenuItem Header="Save file"
+                  IsEnabled="{Binding #MenuSaveFilePicker.CanExecuteCommand}">
+          <Interaction.Behaviors>
+            <MenuItemSaveFilePickerBehavior x:Name="MenuSaveFilePicker"
+                                            Command="{Binding MenuPickerCanExecuteCommand}"
+                                            InputConverter="{x:Static StorageItemToPathConverter.Instance}"
+                                            Title="Save File"
+                                            SuggestedFileName="MyFile"
+                                            DefaultExtension="txt"
+                                            FileTypeChoices="Text Files (*.txt)|*.txt|Markdown Files (*.md)|*.md|All Files (*.*)|*.*" />
+          </Interaction.Behaviors>
+        </MenuItem>
+      </MenuItem>
+    </Menu>
+
+    <Grid Grid.Row="2"
+          Margin="0,0,0,10"
+          ColumnDefinitions="*,8,*,8,*">
+      <TextBlock Grid.Column="0"
+                 Text="{Binding #MenuOpenFilePicker.CanExecuteCommand, StringFormat='Menu open files: {0}'}" />
+      <TextBlock Grid.Column="2"
+                 Text="{Binding #MenuOpenFolderPicker.CanExecuteCommand, StringFormat='Menu open folders: {0}'}" />
+      <TextBlock Grid.Column="4"
+                 Text="{Binding #MenuSaveFilePicker.CanExecuteCommand, StringFormat='Menu save file: {0}'}" />
+    </Grid>
+
+    <Grid Grid.Row="3"
+          ColumnDefinitions="*,8,*,8,*"
+          RowDefinitions="Auto,Auto">
+      <Button Grid.Row="0"
+              Grid.Column="0"
+              Content="Open files"
+              IsEnabled="{Binding #ButtonOpenFilePicker.CanExecuteCommand}">
+        <Interaction.Behaviors>
+          <ButtonOpenFilePickerBehavior x:Name="ButtonOpenFilePicker"
+                                        Command="{Binding ButtonPickerCanExecuteCommand}"
+                                        Title="Open Files"
+                                        SuggestedFileName="MyFile"
+                                        AllowMultiple="True"
+                                        FileTypeFilter="Text Files|*.txt|Markdown Files|*.md|All Files|*.*" />
+        </Interaction.Behaviors>
+      </Button>
+      <Button Grid.Row="0"
+              Grid.Column="2"
+              Content="Open folders"
+              IsEnabled="{Binding #ButtonOpenFolderPicker.CanExecuteCommand}">
+        <Interaction.Behaviors>
+          <ButtonOpenFolderPickerBehavior x:Name="ButtonOpenFolderPicker"
+                                          Command="{Binding ButtonPickerCanExecuteCommand}"
+                                          Title="Open Folders"
+                                          AllowMultiple="True"
+                                          SuggestedStartLocationPath="{Binding DocumentsFolderPath}" />
+        </Interaction.Behaviors>
+      </Button>
+      <Button Grid.Row="0"
+              Grid.Column="4"
+              Content="Save file"
+              IsEnabled="{Binding #ButtonSaveFilePicker.CanExecuteCommand}">
+        <Interaction.Behaviors>
+          <ButtonSaveFilePickerBehavior x:Name="ButtonSaveFilePicker"
+                                        Command="{Binding ButtonPickerCanExecuteCommand}"
+                                        InputConverter="{x:Static StorageItemToPathConverter.Instance}"
+                                        Title="Save File"
+                                        SuggestedFileName="MyFile"
+                                        DefaultExtension="txt"
+                                        FileTypeChoices="Text Files (*.txt)|*.txt|Markdown Files (*.md)|*.md|All Files (*.*)|*.*" />
+        </Interaction.Behaviors>
+      </Button>
+
+      <TextBlock Grid.Row="1"
+                 Grid.Column="0"
+                 Margin="0,4,0,0"
+                 Text="{Binding #ButtonOpenFilePicker.CanExecuteCommand, StringFormat='Button open files: {0}'}" />
+      <TextBlock Grid.Row="1"
+                 Grid.Column="2"
+                 Margin="0,4,0,0"
+                 Text="{Binding #ButtonOpenFolderPicker.CanExecuteCommand, StringFormat='Button open folders: {0}'}" />
+      <TextBlock Grid.Row="1"
+                 Grid.Column="4"
+                 Margin="0,4,0,0"
+                 Text="{Binding #ButtonSaveFilePicker.CanExecuteCommand, StringFormat='Button save file: {0}'}" />
+    </Grid>
+
+    <Grid Grid.Row="4"
+          Margin="0,12,0,0"
+          ColumnDefinitions="2*,8,*">
+      <Border Grid.Column="0"
+              Height="64"
+              Background="LightGreen"
+              CornerRadius="4"
+              Focusable="True"
+              IsEnabled="{Binding #PanelOpenFilePickerAction.CanExecuteCommand}">
+        <Interaction.Behaviors>
+          <ClickEventTrigger>
+            <OpenFilePickerAction x:Name="PanelOpenFilePickerAction"
+                                  Command="{Binding PanelPickerActionCanExecuteCommand}"
+                                  Title="Open Files from Panel Click"
+                                  SuggestedFileName="PanelSample"
+                                  AllowMultiple="True"
+                                  FileTypeFilter="Text Files|*.txt|Markdown Files|*.md|All Files|*.*" />
+          </ClickEventTrigger>
+        </Interaction.Behaviors>
+        <TextBlock HorizontalAlignment="Center"
+                   VerticalAlignment="Center"
+                   Text="Open files from panel click" />
+      </Border>
+
+      <TextBlock Grid.Column="2"
+                 VerticalAlignment="Center"
+                 Text="{Binding #PanelOpenFilePickerAction.CanExecuteCommand, StringFormat='Panel action open files: {0}'}" />
+    </Grid>
+
+    <ListBox Grid.Row="5"
+             Margin="0,12,0,0"
+             ItemsSource="{Binding FileItems}" />
+  </Grid>
+</UserControl>

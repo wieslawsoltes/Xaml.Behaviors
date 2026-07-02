@@ -106,6 +106,9 @@ public partial class MainWindowViewModel : ViewModelBase
         ];
 
         FileItems = new ObservableCollection<Uri>();
+        CanUseButtonPickerCommands = true;
+        CanUseMenuPickerCommands = true;
+        CanUsePanelPickerActionCommand = true;
 
         EmitNextCommand = ReactiveCommand.Create(EmitNext);
         EmitErrorCommand = ReactiveCommand.Create(EmitError);
@@ -144,6 +147,12 @@ public partial class MainWindowViewModel : ViewModelBase
         OpenFilesCommand = ReactiveCommand.Create<IEnumerable<IStorageItem>>(OpenFiles);
         SaveFileCommand = ReactiveCommand.Create<Uri>(SaveFile);
         OpenFoldersCommand = ReactiveCommand.Create<IEnumerable<IStorageFolder>>(OpenFolders);
+        var canUseButtonPickerCommands = this.WhenAnyValue(x => x.CanUseButtonPickerCommands);
+        var canUseMenuPickerCommands = this.WhenAnyValue(x => x.CanUseMenuPickerCommands);
+        var canUsePanelPickerActionCommand = this.WhenAnyValue(x => x.CanUsePanelPickerActionCommand);
+        ButtonPickerCanExecuteCommand = ReactiveCommand.Create<object?>(HandlePickerCanExecuteResult, canUseButtonPickerCommands);
+        MenuPickerCanExecuteCommand = ReactiveCommand.Create<object?>(HandlePickerCanExecuteResult, canUseMenuPickerCommands);
+        PanelPickerActionCanExecuteCommand = ReactiveCommand.Create<object?>(HandlePickerCanExecuteResult, canUsePanelPickerActionCommand);
 
         GetClipboardTextCommand = ReactiveCommand.Create<string?>(GetClipboardText);
         GetClipboardDataCommand = ReactiveCommand.Create<object?>(GetClipboardData);
@@ -289,6 +298,15 @@ public partial class MainWindowViewModel : ViewModelBase
 
     [Reactive]
     public partial IStorageFolder? DocumentsFolder { get; set; }
+
+    [Reactive]
+    public partial bool CanUseButtonPickerCommands { get; set; }
+
+    [Reactive]
+    public partial bool CanUseMenuPickerCommands { get; set; }
+
+    [Reactive]
+    public partial bool CanUsePanelPickerActionCommand { get; set; }
 
     private string _uploadFilePath = string.Empty;
     public string UploadFilePath
@@ -447,6 +465,12 @@ public partial class MainWindowViewModel : ViewModelBase
 
     public ICommand OpenFoldersCommand { get; set; }
 
+    public ICommand ButtonPickerCanExecuteCommand { get; }
+
+    public ICommand MenuPickerCanExecuteCommand { get; }
+
+    public ICommand PanelPickerActionCanExecuteCommand { get; }
+
     public ICommand GetClipboardTextCommand { get; set; }
 
     public ICommand GetClipboardDataCommand { get; set; }
@@ -522,6 +546,25 @@ public partial class MainWindowViewModel : ViewModelBase
             {
                 DocumentsFolder = folder;
             }
+        }
+    }
+
+    private void HandlePickerCanExecuteResult(object? result)
+    {
+        switch (result)
+        {
+            case IEnumerable<IStorageFolder> folders:
+                OpenFolders(folders);
+                break;
+            case IEnumerable<IStorageItem> items:
+                OpenFiles(items);
+                break;
+            case Uri uri:
+                SaveFile(uri);
+                break;
+            case IStorageItem { Path: { } path }:
+                FileItems?.Add(path);
+                break;
         }
     }
 
