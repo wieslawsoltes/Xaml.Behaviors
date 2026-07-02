@@ -1,6 +1,9 @@
 using System;
 using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 using System.Windows.Input;
+using Avalonia.Headless.XUnit;
+using Avalonia.Threading;
 using Xunit;
 
 namespace Avalonia.Xaml.Interactivity.UnitTests;
@@ -126,6 +129,33 @@ public class CommandCanExecuteObserverTests
         observer.Dispose();
 
         Assert.Equal(0, command.SubscriptionCount);
+    }
+
+    [AvaloniaFact]
+    public async Task CanExecuteChanged_FromBackgroundThread_UpdatesCallbackOnUiThread()
+    {
+        var callbackCount = 0;
+        var canExecuteChangedCallbackUsedUiThread = false;
+        var command = new ObservableCommand { CanExecuteResult = false };
+        var observer = new CommandCanExecuteObserver(_ =>
+        {
+            callbackCount++;
+            if (callbackCount == 2)
+            {
+                canExecuteChangedCallbackUsedUiThread = Dispatcher.UIThread.CheckAccess();
+            }
+        });
+
+        observer.Start(command, null);
+
+        command.CanExecuteResult = true;
+        await Task.Run(command.RaiseCanExecuteChanged);
+        await Dispatcher.UIThread.InvokeAsync(() => { }, DispatcherPriority.Background);
+
+        Assert.Equal(2, callbackCount);
+        Assert.True(canExecuteChangedCallbackUsedUiThread);
+
+        observer.Dispose();
     }
 
     [Fact]

@@ -2,6 +2,7 @@
 // Licensed under the MIT license. See LICENSE file in the project root for details.
 using System;
 using System.Windows.Input;
+using Avalonia.Threading;
 
 namespace Avalonia.Xaml.Interactivity;
 
@@ -13,6 +14,7 @@ namespace Avalonia.Xaml.Interactivity;
 /// Avalonia direct property. Call <see cref="Start(ICommand?, object?)"/> when the behavior is attached,
 /// <see cref="Update(ICommand?, object?)"/> when the command or command parameter changes, and <see cref="Stop"/>
 /// when the behavior is detached.
+/// The callback supplied to the constructor is invoked on <see cref="Dispatcher.UIThread"/>.
 /// The command event subscription uses a weak reference to this observer so a long-lived command does not
 /// keep the observer or owning behavior alive if cleanup is missed.
 /// </remarks>
@@ -175,6 +177,22 @@ public sealed class CommandCanExecuteObserver : IDisposable
 
     private void UpdateCanExecute()
     {
+        if (!Dispatcher.UIThread.CheckAccess())
+        {
+            Dispatcher.UIThread.Post(UpdateCanExecuteCore);
+            return;
+        }
+
+        UpdateCanExecuteCore();
+    }
+
+    private void UpdateCanExecuteCore()
+    {
+        if (!_isObserving)
+        {
+            return;
+        }
+
         if (_command is null || !_isParameterKnown)
         {
             _setCanExecute(true);
