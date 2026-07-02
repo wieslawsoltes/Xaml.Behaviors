@@ -17,6 +17,7 @@ public sealed class DragDropCommandsBehavior : DragAndDropEventsBehavior
     private bool _canExecuteDragOverCommand = true;
     private bool _canExecuteDragLeaveCommand = true;
     private bool _canExecuteDropCommand = true;
+    private bool _passEventArgsToCommand = true;
 
     /// <summary>
     /// Identifies the <see cref="DragEnterCommand"/> avalonia property.
@@ -41,6 +42,12 @@ public sealed class DragDropCommandsBehavior : DragAndDropEventsBehavior
     /// </summary>
     public static readonly StyledProperty<ICommand?> DropCommandProperty =
         AvaloniaProperty.Register<DragDropCommandsBehavior, ICommand?>(nameof(DropCommand));
+
+    /// <summary>
+    /// Identifies the <see cref="CanExecuteCommandParameter"/> avalonia property.
+    /// </summary>
+    public static readonly StyledProperty<object?> CanExecuteCommandParameterProperty =
+        AvaloniaProperty.Register<DragDropCommandsBehavior, object?>(nameof(CanExecuteCommandParameter));
 
     /// <summary>
     /// Identifies the <see cref="CanExecuteDragEnterCommand"/> avalonia property.
@@ -122,7 +129,17 @@ public sealed class DragDropCommandsBehavior : DragAndDropEventsBehavior
     }
 
     /// <summary>
-    /// Gets a value indicating whether <see cref="DragEnterCommand"/> can execute without an event-specific parameter.
+    /// Gets or sets the parameter used to evaluate the drag-and-drop commands before event-specific parameters are available.
+    /// This property does not change the parameter passed to command execution.
+    /// </summary>
+    public object? CanExecuteCommandParameter
+    {
+        get => GetValue(CanExecuteCommandParameterProperty);
+        set => SetValue(CanExecuteCommandParameterProperty, value);
+    }
+
+    /// <summary>
+    /// Gets a value indicating whether <see cref="DragEnterCommand"/> can execute with the current can-execute parameter.
     /// </summary>
     public bool CanExecuteDragEnterCommand
     {
@@ -131,7 +148,7 @@ public sealed class DragDropCommandsBehavior : DragAndDropEventsBehavior
     }
 
     /// <summary>
-    /// Gets a value indicating whether <see cref="DragOverCommand"/> can execute without an event-specific parameter.
+    /// Gets a value indicating whether <see cref="DragOverCommand"/> can execute with the current can-execute parameter.
     /// </summary>
     public bool CanExecuteDragOverCommand
     {
@@ -140,7 +157,7 @@ public sealed class DragDropCommandsBehavior : DragAndDropEventsBehavior
     }
 
     /// <summary>
-    /// Gets a value indicating whether <see cref="DragLeaveCommand"/> can execute without an event-specific parameter.
+    /// Gets a value indicating whether <see cref="DragLeaveCommand"/> can execute with the current can-execute parameter.
     /// </summary>
     public bool CanExecuteDragLeaveCommand
     {
@@ -149,7 +166,7 @@ public sealed class DragDropCommandsBehavior : DragAndDropEventsBehavior
     }
 
     /// <summary>
-    /// Gets a value indicating whether <see cref="DropCommand"/> can execute without an event-specific parameter.
+    /// Gets a value indicating whether <see cref="DropCommand"/> can execute with the current can-execute parameter.
     /// </summary>
     public bool CanExecuteDropCommand
     {
@@ -160,17 +177,27 @@ public sealed class DragDropCommandsBehavior : DragAndDropEventsBehavior
     /// <summary>
     /// Specifies whether the event args should be passed to the command.
     /// </summary>
-    public bool PassEventArgsToCommand { get; set; } = true;
+    public bool PassEventArgsToCommand
+    {
+        get => _passEventArgsToCommand;
+        set
+        {
+            if (_passEventArgsToCommand == value)
+            {
+                return;
+            }
+
+            _passEventArgsToCommand = value;
+            UpdateCanExecuteObservers();
+        }
+    }
 
     /// <inheritdoc />
     protected override void OnAttached()
     {
         base.OnAttached();
 
-        _dragEnterCommandCanExecuteObserver.Start(DragEnterCommand, null);
-        _dragOverCommandCanExecuteObserver.Start(DragOverCommand, null);
-        _dragLeaveCommandCanExecuteObserver.Start(DragLeaveCommand, null);
-        _dropCommandCanExecuteObserver.Start(DropCommand, null);
+        StartCanExecuteObservers();
     }
 
     /// <inheritdoc />
@@ -191,19 +218,35 @@ public sealed class DragDropCommandsBehavior : DragAndDropEventsBehavior
 
         if (change.Property == DragEnterCommandProperty)
         {
-            _dragEnterCommandCanExecuteObserver.Update(DragEnterCommand, null);
+            _dragEnterCommandCanExecuteObserver.Update(
+                DragEnterCommand,
+                ResolveCanExecuteParameter(),
+                IsCanExecuteParameterKnown());
         }
         else if (change.Property == DragOverCommandProperty)
         {
-            _dragOverCommandCanExecuteObserver.Update(DragOverCommand, null);
+            _dragOverCommandCanExecuteObserver.Update(
+                DragOverCommand,
+                ResolveCanExecuteParameter(),
+                IsCanExecuteParameterKnown());
         }
         else if (change.Property == DragLeaveCommandProperty)
         {
-            _dragLeaveCommandCanExecuteObserver.Update(DragLeaveCommand, null);
+            _dragLeaveCommandCanExecuteObserver.Update(
+                DragLeaveCommand,
+                ResolveCanExecuteParameter(),
+                IsCanExecuteParameterKnown());
         }
         else if (change.Property == DropCommandProperty)
         {
-            _dropCommandCanExecuteObserver.Update(DropCommand, null);
+            _dropCommandCanExecuteObserver.Update(
+                DropCommand,
+                ResolveCanExecuteParameter(),
+                IsCanExecuteParameterKnown());
+        }
+        else if (change.Property == CanExecuteCommandParameterProperty)
+        {
+            UpdateCanExecuteObservers();
         }
     }
 
@@ -233,6 +276,38 @@ public sealed class DragDropCommandsBehavior : DragAndDropEventsBehavior
 
     /// <inheritdoc />
     protected override void OnDrop(object? sender, DragEventArgs e) => ExecuteCommand(DropCommand, e);
+
+    private void StartCanExecuteObservers()
+    {
+        var parameter = ResolveCanExecuteParameter();
+        var isParameterKnown = IsCanExecuteParameterKnown();
+
+        _dragEnterCommandCanExecuteObserver.Start(DragEnterCommand, parameter, isParameterKnown);
+        _dragOverCommandCanExecuteObserver.Start(DragOverCommand, parameter, isParameterKnown);
+        _dragLeaveCommandCanExecuteObserver.Start(DragLeaveCommand, parameter, isParameterKnown);
+        _dropCommandCanExecuteObserver.Start(DropCommand, parameter, isParameterKnown);
+    }
+
+    private void UpdateCanExecuteObservers()
+    {
+        var parameter = ResolveCanExecuteParameter();
+        var isParameterKnown = IsCanExecuteParameterKnown();
+
+        _dragEnterCommandCanExecuteObserver.Update(DragEnterCommand, parameter, isParameterKnown);
+        _dragOverCommandCanExecuteObserver.Update(DragOverCommand, parameter, isParameterKnown);
+        _dragLeaveCommandCanExecuteObserver.Update(DragLeaveCommand, parameter, isParameterKnown);
+        _dropCommandCanExecuteObserver.Update(DropCommand, parameter, isParameterKnown);
+    }
+
+    private object? ResolveCanExecuteParameter()
+    {
+        return IsSet(CanExecuteCommandParameterProperty) ? CanExecuteCommandParameter : null;
+    }
+
+    private bool IsCanExecuteParameterKnown()
+    {
+        return IsSet(CanExecuteCommandParameterProperty) || !PassEventArgsToCommand;
+    }
 
     private void SetCanExecuteDragEnterCommand(bool value)
     {

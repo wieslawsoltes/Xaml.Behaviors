@@ -44,6 +44,57 @@ public class CommandCanExecuteObserverTests
     }
 
     [Fact]
+    public void Start_WithUnknownParameter_ReportsTrueWithoutCallingCanExecute()
+    {
+        var canExecute = false;
+        var command = new ObservableCommand
+        {
+            CanExecuteCallback = _ => throw new InvalidOperationException("The parameter is not available yet.")
+        };
+        var observer = new CommandCanExecuteObserver(value => canExecute = value);
+
+        observer.Start(command, null, false);
+
+        Assert.True(canExecute);
+        Assert.Equal(0, command.CanExecuteCallCount);
+    }
+
+    [Fact]
+    public void CanExecuteChanged_WithUnknownParameter_DoesNotCallCanExecute()
+    {
+        var canExecute = false;
+        var command = new ObservableCommand
+        {
+            CanExecuteCallback = _ => throw new InvalidOperationException("The parameter is not available yet.")
+        };
+        var observer = new CommandCanExecuteObserver(value => canExecute = value);
+
+        observer.Start(command, null, false);
+        command.RaiseCanExecuteChanged();
+
+        Assert.True(canExecute);
+        Assert.Equal(0, command.CanExecuteCallCount);
+    }
+
+    [Fact]
+    public void Update_FromUnknownToKnownParameter_ProbesCurrentParameter()
+    {
+        var canExecute = false;
+        var command = new ObservableCommand
+        {
+            CanExecuteCallback = parameter => Equals(parameter, "enabled")
+        };
+        var observer = new CommandCanExecuteObserver(value => canExecute = value);
+
+        observer.Start(command, null, false);
+        observer.Update(command, "enabled", true);
+
+        Assert.True(canExecute);
+        Assert.Equal("enabled", command.LastCanExecuteParameter);
+        Assert.Equal(1, command.CanExecuteCallCount);
+    }
+
+    [Fact]
     public void Update_RewiresCommandSubscriptions()
     {
         var canExecute = false;
@@ -143,6 +194,8 @@ public class CommandCanExecuteObserverTests
 
         public object? LastCanExecuteParameter { get; private set; }
 
+        public int CanExecuteCallCount { get; private set; }
+
         public event EventHandler? CanExecuteChanged
         {
             add
@@ -159,6 +212,7 @@ public class CommandCanExecuteObserverTests
 
         public bool CanExecute(object? parameter)
         {
+            CanExecuteCallCount++;
             LastCanExecuteParameter = parameter;
             return CanExecuteCallback?.Invoke(parameter) ?? CanExecuteResult;
         }

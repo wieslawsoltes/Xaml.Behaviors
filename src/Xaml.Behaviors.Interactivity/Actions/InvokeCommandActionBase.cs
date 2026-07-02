@@ -16,6 +16,7 @@ public abstract class InvokeCommandActionBase : StyledElementAction, IActionLogi
     private readonly CommandCanExecuteObserver _commandCanExecuteObserver;
     private readonly CommandCanExecuteIsEnabledBinder _commandCanExecuteIsEnabledBinder;
     private bool _canExecuteCommand = true;
+    private bool _passEventArgsToCommand;
 
     /// <summary>
     /// Identifies the <seealso cref="Command"/> avalonia property.
@@ -28,6 +29,12 @@ public abstract class InvokeCommandActionBase : StyledElementAction, IActionLogi
     /// </summary>
     public static readonly DirectProperty<InvokeCommandActionBase, bool> CanExecuteCommandProperty =
         AvaloniaProperty.RegisterDirect<InvokeCommandActionBase, bool>(nameof(CanExecuteCommand), action => action.CanExecuteCommand);
+
+    /// <summary>
+    /// Identifies the <seealso cref="CanExecuteCommandParameter"/> avalonia property.
+    /// </summary>
+    public static readonly StyledProperty<object?> CanExecuteCommandParameterProperty =
+        AvaloniaProperty.Register<InvokeCommandActionBase, object?>(nameof(CanExecuteCommandParameter));
 
     /// <summary>
     /// Identifies the <seealso cref="UseCommandCanExecuteForIsEnabled"/> avalonia property.
@@ -79,12 +86,23 @@ public abstract class InvokeCommandActionBase : StyledElementAction, IActionLogi
     }
 
     /// <summary>
-    /// Gets a value indicating whether <see cref="Command"/> can execute with the current <see cref="CommandParameter"/>.
+    /// Gets a value indicating whether <see cref="Command"/> can execute with the current can-execute parameter.
     /// </summary>
     public bool CanExecuteCommand
     {
         get => _canExecuteCommand;
         private set => SetAndRaise(CanExecuteCommandProperty, ref _canExecuteCommand, value);
+    }
+
+    /// <summary>
+    /// Gets or sets the parameter that is passed to <see cref="ICommand.CanExecute(object)"/>.
+    /// When this property is not set, <see cref="CommandParameter"/> is used if it is set.
+    /// This property does not change the parameter passed to <see cref="ICommand.Execute(object)"/>.
+    /// </summary>
+    public object? CanExecuteCommandParameter
+    {
+        get => GetValue(CanExecuteCommandParameterProperty);
+        set => SetValue(CanExecuteCommandParameterProperty, value);
     }
 
     /// <summary>
@@ -143,11 +161,24 @@ public abstract class InvokeCommandActionBase : StyledElementAction, IActionLogi
     /// <summary>
     /// Specifies whether the EventArgs of the event that triggered this action should be passed to the Command as a parameter.
     /// </summary>
-    public bool PassEventArgsToCommand { get; set; }
+    public bool PassEventArgsToCommand
+    {
+        get => _passEventArgsToCommand;
+        set
+        {
+            if (_passEventArgsToCommand == value)
+            {
+                return;
+            }
+
+            _passEventArgsToCommand = value;
+            _commandCanExecuteObserver.Update(Command, ResolveCanExecuteParameter(), IsCanExecuteParameterKnown());
+        }
+    }
 
     void IActionLogicalTreeLifecycle.AttachedToActionLogicalTree()
     {
-        _commandCanExecuteObserver.Start(Command, CommandParameter);
+        _commandCanExecuteObserver.Start(Command, ResolveCanExecuteParameter(), IsCanExecuteParameterKnown());
         UpdateCommandCanExecuteIsEnabledBinding();
     }
 
@@ -162,9 +193,12 @@ public abstract class InvokeCommandActionBase : StyledElementAction, IActionLogi
     {
         base.OnPropertyChanged(change);
 
-        if (change.Property == CommandProperty || change.Property == CommandParameterProperty)
+        if (change.Property == CommandProperty ||
+            change.Property == CommandParameterProperty ||
+            change.Property == CanExecuteCommandParameterProperty ||
+            change.Property == InputConverterProperty)
         {
-            _commandCanExecuteObserver.Update(Command, CommandParameter);
+            _commandCanExecuteObserver.Update(Command, ResolveCanExecuteParameter(), IsCanExecuteParameterKnown());
         }
         else if (change.Property == UseCommandCanExecuteForIsEnabledProperty)
         {
@@ -205,6 +239,23 @@ public abstract class InvokeCommandActionBase : StyledElementAction, IActionLogi
         }
 
         return resolvedParameter;
+    }
+
+    private object? ResolveCanExecuteParameter()
+    {
+        if (IsSet(CanExecuteCommandParameterProperty))
+        {
+            return CanExecuteCommandParameter;
+        }
+
+        return IsSet(CommandParameterProperty) ? CommandParameter : null;
+    }
+
+    private bool IsCanExecuteParameterKnown()
+    {
+        return IsSet(CanExecuteCommandParameterProperty) ||
+               IsSet(CommandParameterProperty) ||
+               (InputConverter is null && !PassEventArgsToCommand);
     }
 
     private void SetCanExecuteCommand(bool value)

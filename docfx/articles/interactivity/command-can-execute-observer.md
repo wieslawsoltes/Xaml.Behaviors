@@ -3,6 +3,7 @@
 `CommandCanExecuteObserver` is a public helper for command-backed behaviors that need to expose a bindable command availability state.
 
 It observes `ICommand.CanExecute(parameter)`, listens to `CanExecuteChanged`, and reports the current value through a callback. If the command is `null`, it reports `true`.
+When the command parameter is not available until execution time, use the overloads that accept `isParameterKnown: false`; the observer reports `true` without calling `CanExecute` until a real parameter is supplied.
 
 The observer uses a weak event target for `CanExecuteChanged`, so a long-lived command cannot keep the observer or owning behavior alive if cleanup is missed. You should still call `Stop()` or `Dispose()` when the behavior is detached so the command subscription is removed immediately.
 
@@ -13,6 +14,8 @@ Use one observer per command state property:
 * Call `Start(command, parameter)` when the behavior is attached.
 * Call `Update(command, parameter)` when the command or command parameter changes.
 * Call `Stop()` or `Dispose()` when the behavior is detached.
+
+Use `Start(command, parameter, isParameterKnown: false)` and `Update(command, parameter, isParameterKnown: false)` for event-driven behaviors where the command will later execute with event args, picker results, or other values that do not exist at attach time. This prevents commands that reject `null` from being probed with a placeholder parameter.
 
 ## Custom behavior example
 

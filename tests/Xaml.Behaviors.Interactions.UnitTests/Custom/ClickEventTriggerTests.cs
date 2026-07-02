@@ -118,6 +118,7 @@ public class ClickEventTriggerTests
         var action = new OpenFilePickerAction
         {
             Command = command,
+            CanExecuteCommandParameter = "probe",
             UseCommandCanExecuteForIsEnabled = true,
         };
 

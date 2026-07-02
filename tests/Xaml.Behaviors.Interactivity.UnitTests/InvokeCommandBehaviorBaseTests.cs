@@ -155,6 +155,86 @@ public class InvokeCommandBehaviorBaseTests
     }
 
     [AvaloniaFact]
+    public void CanExecuteCommand_DefersWhenEventParameterIsUnavailable()
+    {
+        var command = new ObservableCommand
+        {
+            CanExecuteCallback = _ => throw new InvalidOperationException("The event parameter is not available yet.")
+        };
+        var behavior = new TestInvokeCommandBehavior
+        {
+            Command = command,
+            PassEventArgsToCommand = true,
+            UseCommandCanExecuteForIsEnabled = true
+        };
+        var button = new Button();
+
+        behavior.Attach(button);
+
+        Assert.True(behavior.CanExecuteCommand);
+        Assert.True(button.IsEnabled);
+        Assert.Equal(0, command.CanExecuteCallCount);
+
+        command.RaiseCanExecuteChanged();
+
+        Assert.True(behavior.CanExecuteCommand);
+        Assert.True(button.IsEnabled);
+        Assert.Equal(0, command.CanExecuteCallCount);
+
+        behavior.Detach();
+    }
+
+    [AvaloniaFact]
+    public void CanExecuteCommand_UsesSeparateCanExecuteCommandParameter()
+    {
+        var command = new ObservableCommand
+        {
+            CanExecuteCallback = parameter => Equals(parameter, "enabled")
+        };
+        var behavior = new TestInvokeCommandBehavior
+        {
+            Command = command,
+            PassEventArgsToCommand = true,
+            CanExecuteCommandParameter = "disabled"
+        };
+        var button = new Button();
+
+        behavior.Attach(button);
+        Assert.False(behavior.CanExecuteCommand);
+        Assert.Equal("disabled", command.LastCanExecuteParameter);
+
+        behavior.CanExecuteCommandParameter = "enabled";
+
+        Assert.True(behavior.CanExecuteCommand);
+        Assert.Equal("enabled", command.LastCanExecuteParameter);
+        Assert.Equal("event parameter", behavior.ResolveParameterForTest("event parameter"));
+
+        behavior.Detach();
+    }
+
+    [AvaloniaFact]
+    public void PassEventArgsToCommand_UpdatesCanExecuteParameterAvailability()
+    {
+        var command = new ObservableCommand { CanExecuteResult = false };
+        var behavior = new TestInvokeCommandBehavior
+        {
+            Command = command
+        };
+        var button = new Button();
+
+        behavior.Attach(button);
+        Assert.False(behavior.CanExecuteCommand);
+        Assert.Equal(1, command.CanExecuteCallCount);
+
+        behavior.PassEventArgsToCommand = true;
+
+        Assert.True(behavior.CanExecuteCommand);
+        Assert.Equal(1, command.CanExecuteCallCount);
+
+        behavior.Detach();
+    }
+
+    [AvaloniaFact]
     public void CanExecuteCommand_RewiresSubscriptionsWhenCommandChangesAndDetaches()
     {
         var firstCommand = new ObservableCommand { CanExecuteResult = false };
@@ -181,7 +261,13 @@ public class InvokeCommandBehaviorBaseTests
         Assert.Equal(0, secondCommand.SubscriptionCount);
     }
 
-    private sealed class TestInvokeCommandBehavior : InvokeCommandBehaviorBase;
+    private sealed class TestInvokeCommandBehavior : InvokeCommandBehaviorBase
+    {
+        public object? ResolveParameterForTest(object? parameter)
+        {
+            return ResolveParameter(parameter);
+        }
+    }
 
     private sealed class ObservableCommand : ICommand
     {
@@ -194,6 +280,8 @@ public class InvokeCommandBehaviorBaseTests
         public int SubscriptionCount { get; private set; }
 
         public object? LastCanExecuteParameter { get; private set; }
+
+        public int CanExecuteCallCount { get; private set; }
 
         public event EventHandler? CanExecuteChanged
         {
@@ -211,6 +299,7 @@ public class InvokeCommandBehaviorBaseTests
 
         public bool CanExecute(object? parameter)
         {
+            CanExecuteCallCount++;
             LastCanExecuteParameter = parameter;
             return CanExecuteCallback?.Invoke(parameter) ?? CanExecuteResult;
         }

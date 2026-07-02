@@ -20,7 +20,8 @@ public class DragDropCommandsBehaviorTests
             DragEnterCommand = dragEnterCommand,
             DragOverCommand = dragOverCommand,
             DragLeaveCommand = dragLeaveCommand,
-            DropCommand = dropCommand
+            DropCommand = dropCommand,
+            PassEventArgsToCommand = false
         };
         var border = new Border();
 
@@ -55,7 +56,8 @@ public class DragDropCommandsBehaviorTests
         var secondDropCommand = new ObservableCommand { CanExecuteResult = true };
         var behavior = new DragDropCommandsBehavior
         {
-            DropCommand = firstDropCommand
+            DropCommand = firstDropCommand,
+            PassEventArgsToCommand = false
         };
         var border = new Border();
 
@@ -76,11 +78,33 @@ public class DragDropCommandsBehaviorTests
     }
 
     [AvaloniaFact]
-    public void CanExecuteCommandProperties_UseNullBeforeDragEventArgsAreAvailable()
+    public void CanExecuteCommandProperties_UseNullWhenEventArgsAreNotPassed()
     {
         var command = new ObservableCommand
         {
             CanExecuteCallback = parameter => parameter is null
+        };
+        var behavior = new DragDropCommandsBehavior
+        {
+            DropCommand = command,
+            PassEventArgsToCommand = false
+        };
+        var border = new Border();
+
+        behavior.Attach(border);
+
+        Assert.True(behavior.CanExecuteDropCommand);
+        Assert.Null(command.LastCanExecuteParameter);
+
+        behavior.Detach();
+    }
+
+    [AvaloniaFact]
+    public void CanExecuteCommandProperties_DeferWhenDragEventArgsAreUnavailable()
+    {
+        var command = new ObservableCommand
+        {
+            CanExecuteCallback = _ => throw new System.InvalidOperationException("The drag event args are not available yet.")
         };
         var behavior = new DragDropCommandsBehavior
         {
@@ -91,7 +115,60 @@ public class DragDropCommandsBehaviorTests
         behavior.Attach(border);
 
         Assert.True(behavior.CanExecuteDropCommand);
-        Assert.Null(command.LastCanExecuteParameter);
+        Assert.Equal(0, command.CanExecuteCallCount);
+
+        command.RaiseCanExecuteChanged();
+
+        Assert.True(behavior.CanExecuteDropCommand);
+        Assert.Equal(0, command.CanExecuteCallCount);
+
+        behavior.Detach();
+    }
+
+    [AvaloniaFact]
+    public void CanExecuteCommandProperties_UseCanExecuteCommandParameterWhenEventArgsArePassed()
+    {
+        var command = new ObservableCommand
+        {
+            CanExecuteCallback = parameter => Equals(parameter, "enabled")
+        };
+        var behavior = new DragDropCommandsBehavior
+        {
+            DropCommand = command,
+            CanExecuteCommandParameter = "disabled"
+        };
+        var border = new Border();
+
+        behavior.Attach(border);
+        Assert.False(behavior.CanExecuteDropCommand);
+        Assert.Equal("disabled", command.LastCanExecuteParameter);
+
+        behavior.CanExecuteCommandParameter = "enabled";
+
+        Assert.True(behavior.CanExecuteDropCommand);
+        Assert.Equal("enabled", command.LastCanExecuteParameter);
+
+        behavior.Detach();
+    }
+
+    [AvaloniaFact]
+    public void PassEventArgsToCommand_UpdatesCanExecuteParameterAvailability()
+    {
+        var command = new ObservableCommand { CanExecuteResult = false };
+        var behavior = new DragDropCommandsBehavior
+        {
+            DropCommand = command
+        };
+        var border = new Border();
+
+        behavior.Attach(border);
+        Assert.True(behavior.CanExecuteDropCommand);
+        Assert.Equal(0, command.CanExecuteCallCount);
+
+        behavior.PassEventArgsToCommand = false;
+
+        Assert.False(behavior.CanExecuteDropCommand);
+        Assert.Equal(1, command.CanExecuteCallCount);
 
         behavior.Detach();
     }

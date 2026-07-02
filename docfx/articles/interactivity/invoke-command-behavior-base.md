@@ -7,13 +7,16 @@
 ## Properties
 
 *   **`Command`**: The `ICommand` to execute.
-*   **`CanExecuteCommand`**: A read-only value that observes `Command.CanExecute(CommandParameter)`.
+*   **`CanExecuteCommand`**: A read-only value that observes command availability.
+*   **`CanExecuteCommandParameter`**: An optional parameter used only for `Command.CanExecute`.
 *   **`UseCommandCanExecuteForIsEnabled`**: When `true`, the associated control's `IsEnabled` property follows `CanExecuteCommand`.
 *   **`CommandParameter`**: An optional parameter to pass to the command's `Execute` method.
 *   **`InputConverter`**: An optional `IValueConverter` to convert the parameter before passing it to the command.
 *   **`InputConverterParameter`**: An optional parameter to pass to the `InputConverter`.
 *   **`InputConverterLanguage`**: An optional language string to pass to the `InputConverter`.
 *   **`PassEventArgsToCommand`**: A boolean property. If `true`, the event arguments are passed to the command.
+
+`CanExecuteCommand` uses `CanExecuteCommandParameter` when it is set. Otherwise it uses `CommandParameter` when that is set. If neither value is set and the behavior will execute with event args, converted input, picker results, or another runtime parameter, `CanExecuteCommand` stays `true` instead of probing `CanExecute(null)`.
 
 ## Usage
 
@@ -33,6 +36,7 @@ Use `CanExecuteCommand` when a behavior is attached to a control that does not h
     <Interaction.Behaviors>
         <FilesDropBehavior x:Name="DropBehavior"
                            Command="{Binding DropFilesCommand}"
+                           CanExecuteCommandParameter="{Binding CurrentFolder}"
                            CommandParameter="{Binding CurrentFolder}" />
     </Interaction.Behaviors>
 </Border>
@@ -44,6 +48,7 @@ Set `UseCommandCanExecuteForIsEnabled` when the behavior should create that bind
 <Border>
     <Interaction.Behaviors>
         <FilesDropBehavior Command="{Binding DropFilesCommand}"
+                           CanExecuteCommandParameter="{Binding CurrentFolder}"
                            CommandParameter="{Binding CurrentFolder}"
                            UseCommandCanExecuteForIsEnabled="True" />
     </Interaction.Behaviors>

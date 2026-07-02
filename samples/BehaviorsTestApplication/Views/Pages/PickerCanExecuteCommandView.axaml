@@ -28,6 +28,7 @@
           <Interaction.Behaviors>
             <MenuItemOpenFilePickerBehavior x:Name="MenuOpenFilePicker"
                                             Command="{Binding MenuPickerCanExecuteCommand}"
+                                            CanExecuteCommandParameter="MenuOpenFiles"
                                             UseCommandCanExecuteForIsEnabled="True"
                                             Title="Open Files"
                                             SuggestedFileName="MyFile"
@@ -39,6 +40,7 @@
           <Interaction.Behaviors>
             <MenuItemOpenFolderPickerBehavior x:Name="MenuOpenFolderPicker"
                                               Command="{Binding MenuPickerCanExecuteCommand}"
+                                              CanExecuteCommandParameter="MenuOpenFolders"
                                               UseCommandCanExecuteForIsEnabled="True"
                                               Title="Open Folders"
                                               AllowMultiple="True"
@@ -49,6 +51,7 @@
           <Interaction.Behaviors>
             <MenuItemSaveFilePickerBehavior x:Name="MenuSaveFilePicker"
                                             Command="{Binding MenuPickerCanExecuteCommand}"
+                                            CanExecuteCommandParameter="MenuSaveFile"
                                             UseCommandCanExecuteForIsEnabled="True"
                                             InputConverter="{x:Static StorageItemToPathConverter.Instance}"
                                             Title="Save File"
@@ -80,6 +83,7 @@
         <Interaction.Behaviors>
           <ButtonOpenFilePickerBehavior x:Name="ButtonOpenFilePicker"
                                         Command="{Binding ButtonPickerCanExecuteCommand}"
+                                        CanExecuteCommandParameter="ButtonOpenFiles"
                                         UseCommandCanExecuteForIsEnabled="True"
                                         Title="Open Files"
                                         SuggestedFileName="MyFile"
@@ -93,6 +97,7 @@
         <Interaction.Behaviors>
           <ButtonOpenFolderPickerBehavior x:Name="ButtonOpenFolderPicker"
                                           Command="{Binding ButtonPickerCanExecuteCommand}"
+                                          CanExecuteCommandParameter="ButtonOpenFolders"
                                           UseCommandCanExecuteForIsEnabled="True"
                                           Title="Open Folders"
                                           AllowMultiple="True"
@@ -105,6 +110,7 @@
         <Interaction.Behaviors>
           <ButtonSaveFilePickerBehavior x:Name="ButtonSaveFilePicker"
                                         Command="{Binding ButtonPickerCanExecuteCommand}"
+                                        CanExecuteCommandParameter="ButtonSaveFile"
                                         UseCommandCanExecuteForIsEnabled="True"
                                         InputConverter="{x:Static StorageItemToPathConverter.Instance}"
                                         Title="Save File"
@@ -140,6 +146,7 @@
           <ClickEventTrigger>
             <OpenFilePickerAction x:Name="PanelOpenFilePickerAction"
                                   Command="{Binding PanelPickerActionCanExecuteCommand}"
+                                  CanExecuteCommandParameter="PanelOpenFiles"
                                   UseCommandCanExecuteForIsEnabled="True"
                                   Title="Open Files from Panel Click"
                                   SuggestedFileName="PanelSample"

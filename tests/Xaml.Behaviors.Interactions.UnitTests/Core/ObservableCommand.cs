@@ -15,6 +15,8 @@ internal sealed class ObservableCommand : ICommand
 
     public object? LastCanExecuteParameter { get; private set; }
 
+    public int CanExecuteCallCount { get; private set; }
+
     public event EventHandler? CanExecuteChanged
     {
         add
@@ -31,6 +33,7 @@ internal sealed class ObservableCommand : ICommand
 
     public bool CanExecute(object? parameter)
     {
+        CanExecuteCallCount++;
         LastCanExecuteParameter = parameter;
         return CanExecuteCallback?.Invoke(parameter) ?? CanExecuteResult;
     }

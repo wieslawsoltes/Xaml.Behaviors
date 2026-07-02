@@ -14,10 +14,11 @@
 | CanExecuteDragLeaveCommand | `bool` | Read-only value that observes whether DragLeaveCommand can execute without an event-specific parameter. |
 | DropCommand | `ICommand` | Gets or sets the command invoked on drop. |
 | CanExecuteDropCommand | `bool` | Read-only value that observes whether DropCommand can execute without an event-specific parameter. |
+| CanExecuteCommandParameter | `object` | Optional parameter used to evaluate all drag-and-drop commands before event-specific parameters are available. |
 | PassEventArgsToCommand | `bool` | Specifies whether the event args should be passed to the command. Default is true. |
 
-The `CanExecute*Command` properties are evaluated before a specific drag event is available, so they call `CanExecute(null)`.
-If a command's `CanExecute` requires `DragEventArgs`, keep the control enabled independently or make `CanExecute` tolerate `null`.
+When `PassEventArgsToCommand` is `true` and `CanExecuteCommandParameter` is not set, the `CanExecute*Command` properties report `true` without calling `CanExecute(null)` because the real `DragEventArgs` parameter is not available yet.
+Set `CanExecuteCommandParameter` when command availability should still be observed before a drag event exists.
 When `PassEventArgsToCommand` is `true`, execution still checks and executes the command with the current `DragEventArgs`.
 
 ## Usage
@@ -29,7 +30,7 @@ When `PassEventArgsToCommand` is `true`, execution still checks and executes the
         IsEnabled="{Binding #DropCommands.CanExecuteDropCommand}">
     <Interaction.Behaviors>
         <DragDropCommandsBehavior x:Name="DropCommands"
-                                  PassEventArgsToCommand="False"
+                                  CanExecuteCommandParameter="{Binding CurrentDropTarget}"
                                   DropCommand="{Binding DropCommand}" />
     </Interaction.Behaviors>
 </Border>

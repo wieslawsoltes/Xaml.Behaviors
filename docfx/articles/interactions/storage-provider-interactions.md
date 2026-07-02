@@ -22,7 +22,7 @@ These actions can be attached to any event trigger and will open the correspondi
 </Button>
 ```
 
-Picker actions inherit `CanExecuteCommand`, which observes `Command.CanExecute(CommandParameter)`.
+Picker actions inherit `CanExecuteCommand`, which observes command availability.
 This is useful when the picker is opened from a non-button surface such as a panel click trigger:
 
 ```xml
@@ -31,11 +31,14 @@ This is useful when the picker is opened from a non-button surface such as a pan
         <ClickEventTrigger>
             <OpenFilePickerAction x:Name="OpenPanelPicker"
                                   Title="Select a file"
-                                  Command="{Binding OpenFilesCommand}" />
+                                  Command="{Binding OpenFilesCommand}"
+                                  CanExecuteCommandParameter="OpenFiles" />
         </ClickEventTrigger>
     </Interaction.Behaviors>
 </Border>
 ```
+
+Picker actions normally execute the command with the picker result. Set `CanExecuteCommandParameter` when the command has a global availability state that should be observed before a picker result exists.
 
 Use `UseCommandCanExecuteForIsEnabled` when the action should automatically bind the trigger's associated control to `CanExecuteCommand`:
 
@@ -45,6 +48,7 @@ Use `UseCommandCanExecuteForIsEnabled` when the action should automatically bind
         <ClickEventTrigger>
             <OpenFilePickerAction Title="Select a file"
                                   Command="{Binding OpenFilesCommand}"
+                                  CanExecuteCommandParameter="OpenFiles"
                                   UseCommandCanExecuteForIsEnabled="True" />
         </ClickEventTrigger>
     </Interaction.Behaviors>
@@ -69,7 +73,7 @@ For convenience, specialized behaviors are provided for common controls like `Bu
 </Button>
 ```
 
-Picker behaviors inherit `CanExecuteCommand`, which observes `Command.CanExecute(CommandParameter)`.
+Picker behaviors inherit `CanExecuteCommand`, which observes command availability.
 Bind the associated control's enabled state to it when you want command availability to drive the control:
 
 ```xml
@@ -78,7 +82,8 @@ Bind the associated control's enabled state to it when you want command availabi
     <Interaction.Behaviors>
         <ButtonOpenFilePickerBehavior x:Name="OpenFilePicker"
                                       Title="Select a file"
-                                      Command="{Binding OpenFilesCommand}" />
+                                      Command="{Binding OpenFilesCommand}"
+                                      CanExecuteCommandParameter="OpenFiles" />
     </Interaction.Behaviors>
 </Button>
 ```
@@ -90,6 +95,7 @@ Use `UseCommandCanExecuteForIsEnabled` when the behavior should create that bind
     <Interaction.Behaviors>
         <ButtonOpenFilePickerBehavior Title="Select a file"
                                       Command="{Binding OpenFilesCommand}"
+                                      CanExecuteCommandParameter="OpenFiles"
                                       UseCommandCanExecuteForIsEnabled="True" />
     </Interaction.Behaviors>
 </Button>
@@ -119,5 +125,6 @@ Common properties available on these actions and behaviors include:
 *   **`AllowMultiple`**: (Open File only) Whether to allow selecting multiple files.
 *   **`FileTypeFilter`**: A collection of file types to filter by.
 *   **`SuggestedStartLocation`**: The initial location for the picker.
-*   **`CanExecuteCommand`**: (Actions and behaviors) Whether the configured command can execute with the current command parameter.
+*   **`CanExecuteCommand`**: (Actions and behaviors) Whether the configured command can execute with the current can-execute parameter.
+*   **`CanExecuteCommandParameter`**: (Actions and behaviors) Optional parameter used only for `Command.CanExecute`. Use this when command execution should still receive the picker result.
 *   **`UseCommandCanExecuteForIsEnabled`**: (Actions and behaviors) Whether the associated control should automatically follow `CanExecuteCommand` through `IsEnabled`.

@@ -25,7 +25,8 @@ public class PickerBehaviorBaseTests
     {
         var behavior = new ButtonOpenFilePickerBehavior
         {
-            Command = new ObservableCommand { CanExecuteResult = false }
+            Command = new ObservableCommand { CanExecuteResult = false },
+            CanExecuteCommandParameter = "probe"
         };
         var button = new Button();
 
@@ -37,12 +38,42 @@ public class PickerBehaviorBaseTests
     }
 
     [AvaloniaFact]
+    public void CanExecuteCommand_DefersWhenPickerResultParameterIsUnavailable()
+    {
+        var command = new ObservableCommand
+        {
+            CanExecuteCallback = _ => throw new System.InvalidOperationException("The picker result is not available yet.")
+        };
+        var behavior = new ButtonOpenFilePickerBehavior
+        {
+            Command = command,
+            UseCommandCanExecuteForIsEnabled = true
+        };
+        var button = new Button();
+
+        behavior.Attach(button);
+
+        Assert.True(behavior.CanExecuteCommand);
+        Assert.True(button.IsEnabled);
+        Assert.Equal(0, command.CanExecuteCallCount);
+
+        command.RaiseCanExecuteChanged();
+
+        Assert.True(behavior.CanExecuteCommand);
+        Assert.True(button.IsEnabled);
+        Assert.Equal(0, command.CanExecuteCallCount);
+
+        behavior.Detach();
+    }
+
+    [AvaloniaFact]
     public void UseCommandCanExecuteForIsEnabled_UpdatesButtonPickerAssociatedObject()
     {
         var command = new ObservableCommand { CanExecuteResult = false };
         var behavior = new ButtonOpenFilePickerBehavior
         {
             Command = command,
+            CanExecuteCommandParameter = "probe",
             UseCommandCanExecuteForIsEnabled = true
         };
         var button = new Button();
@@ -66,6 +97,7 @@ public class PickerBehaviorBaseTests
         var behavior = new MenuItemSaveFilePickerBehavior
         {
             Command = command,
+            CanExecuteCommandParameter = "probe",
             UseCommandCanExecuteForIsEnabled = true
         };
         var menuItem = new MenuItem();
@@ -88,7 +120,8 @@ public class PickerBehaviorBaseTests
         var command = new ObservableCommand { CanExecuteResult = false };
         var behavior = new ButtonOpenFilePickerBehavior
         {
-            Command = command
+            Command = command,
+            CanExecuteCommandParameter = "probe"
         };
         var button = new Button();
 
@@ -135,7 +168,8 @@ public class PickerBehaviorBaseTests
         var secondCommand = new ObservableCommand { CanExecuteResult = true };
         var behavior = new ButtonSaveFilePickerBehavior
         {
-            Command = firstCommand
+            Command = firstCommand,
+            CanExecuteCommandParameter = "probe"
         };
         var button = new Button();
 
