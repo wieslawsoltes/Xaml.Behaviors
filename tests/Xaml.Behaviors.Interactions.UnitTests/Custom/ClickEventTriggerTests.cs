@@ -97,6 +97,46 @@ public class ClickEventTriggerTests
     }
 
     [AvaloniaFact]
+    public void ClickEventTrigger_PickerAction_UseCommandCanExecuteForIsEnabled_DisablesAssociatedPanel()
+    {
+        var command = new ObservableCommand { CanExecuteResult = false };
+
+        var window = new Window
+        {
+            Width = 200,
+            Height = 120,
+        };
+
+        var target = new Border
+        {
+            Width = 160,
+            Height = 60,
+            Focusable = true,
+        };
+
+        var trigger = new ClickEventTrigger();
+        var action = new OpenFilePickerAction
+        {
+            Command = command,
+            UseCommandCanExecuteForIsEnabled = true,
+        };
+
+        trigger.Actions ??= [];
+        trigger.Actions.Add(action);
+        Avalonia.Xaml.Interactivity.Interaction.GetBehaviors(target).Add(trigger);
+
+        window.Content = target;
+        window.Show();
+
+        Assert.False(target.IsEnabled);
+
+        command.CanExecuteResult = true;
+        command.RaiseCanExecuteChanged();
+
+        Assert.True(target.IsEnabled);
+    }
+
+    [AvaloniaFact]
     public async Task ClickEventTrigger_RoutingStrategies_PropertyChange_RewiresHandlers()
     {
         var nativeCommandCalls = 0;

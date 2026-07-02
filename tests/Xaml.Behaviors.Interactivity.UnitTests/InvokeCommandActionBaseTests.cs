@@ -43,6 +43,72 @@ public class InvokeCommandActionBaseTests
     }
 
     [AvaloniaFact]
+    public void UseCommandCanExecuteForIsEnabled_DefaultFalse_DoesNotUpdateParentIsEnabled()
+    {
+        var command = new ObservableCommand { CanExecuteResult = false };
+        var action = new TestInvokeCommandAction
+        {
+            Command = command
+        };
+        var parent = new Border();
+
+        action.AttachActionToLogicalTree(parent);
+
+        Assert.False(action.CanExecuteCommand);
+        Assert.True(parent.IsEnabled);
+
+        action.DetachActionFromLogicalTree(parent);
+    }
+
+    [AvaloniaFact]
+    public void UseCommandCanExecuteForIsEnabled_UpdatesParentIsEnabled()
+    {
+        var command = new ObservableCommand { CanExecuteResult = false };
+        var action = new TestInvokeCommandAction
+        {
+            Command = command,
+            UseCommandCanExecuteForIsEnabled = true
+        };
+        var parent = new Border();
+
+        action.AttachActionToLogicalTree(parent);
+
+        Assert.False(parent.IsEnabled);
+
+        command.CanExecuteResult = true;
+        command.RaiseCanExecuteChanged();
+
+        Assert.True(parent.IsEnabled);
+
+        action.DetachActionFromLogicalTree(parent);
+    }
+
+    [AvaloniaFact]
+    public void UseCommandCanExecuteForIsEnabled_PropertyChange_AttachesAndDetachesBinding()
+    {
+        var command = new ObservableCommand { CanExecuteResult = false };
+        var action = new TestInvokeCommandAction
+        {
+            Command = command
+        };
+        var parent = new Border();
+
+        action.AttachActionToLogicalTree(parent);
+
+        Assert.True(parent.IsEnabled);
+
+        action.UseCommandCanExecuteForIsEnabled = true;
+
+        Assert.False(parent.IsEnabled);
+
+        action.UseCommandCanExecuteForIsEnabled = false;
+
+        Assert.True(parent.IsEnabled);
+
+        action.DetachActionFromLogicalTree(parent);
+    }
+
+    [AvaloniaFact]
     public void CanExecuteCommand_UsesCurrentCommandParameter()
     {
         var command = new ObservableCommand

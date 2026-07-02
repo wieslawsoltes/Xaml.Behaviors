@@ -43,6 +43,72 @@ public class InvokeCommandBehaviorBaseTests
     }
 
     [AvaloniaFact]
+    public void UseCommandCanExecuteForIsEnabled_DefaultFalse_DoesNotUpdateAssociatedObjectIsEnabled()
+    {
+        var command = new ObservableCommand { CanExecuteResult = false };
+        var behavior = new TestInvokeCommandBehavior
+        {
+            Command = command
+        };
+        var button = new Button();
+
+        behavior.Attach(button);
+
+        Assert.False(behavior.CanExecuteCommand);
+        Assert.True(button.IsEnabled);
+
+        behavior.Detach();
+    }
+
+    [AvaloniaFact]
+    public void UseCommandCanExecuteForIsEnabled_UpdatesAssociatedObjectIsEnabled()
+    {
+        var command = new ObservableCommand { CanExecuteResult = false };
+        var behavior = new TestInvokeCommandBehavior
+        {
+            Command = command,
+            UseCommandCanExecuteForIsEnabled = true
+        };
+        var button = new Button();
+
+        behavior.Attach(button);
+
+        Assert.False(button.IsEnabled);
+
+        command.CanExecuteResult = true;
+        command.RaiseCanExecuteChanged();
+
+        Assert.True(button.IsEnabled);
+
+        behavior.Detach();
+    }
+
+    [AvaloniaFact]
+    public void UseCommandCanExecuteForIsEnabled_PropertyChange_AttachesAndDetachesBinding()
+    {
+        var command = new ObservableCommand { CanExecuteResult = false };
+        var behavior = new TestInvokeCommandBehavior
+        {
+            Command = command
+        };
+        var button = new Button();
+
+        behavior.Attach(button);
+
+        Assert.True(button.IsEnabled);
+
+        behavior.UseCommandCanExecuteForIsEnabled = true;
+
+        Assert.False(button.IsEnabled);
+
+        behavior.UseCommandCanExecuteForIsEnabled = false;
+
+        Assert.True(button.IsEnabled);
+
+        behavior.Detach();
+    }
+
+    [AvaloniaFact]
     public void CanExecuteCommand_UsesCurrentCommandParameter()
     {
         var command = new ObservableCommand

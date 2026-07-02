@@ -37,6 +37,52 @@ public class PickerBehaviorBaseTests
     }
 
     [AvaloniaFact]
+    public void UseCommandCanExecuteForIsEnabled_UpdatesButtonPickerAssociatedObject()
+    {
+        var command = new ObservableCommand { CanExecuteResult = false };
+        var behavior = new ButtonOpenFilePickerBehavior
+        {
+            Command = command,
+            UseCommandCanExecuteForIsEnabled = true
+        };
+        var button = new Button();
+
+        behavior.Attach(button);
+
+        Assert.False(button.IsEnabled);
+
+        command.CanExecuteResult = true;
+        command.RaiseCanExecuteChanged();
+
+        Assert.True(button.IsEnabled);
+
+        behavior.Detach();
+    }
+
+    [AvaloniaFact]
+    public void UseCommandCanExecuteForIsEnabled_UpdatesMenuItemPickerAssociatedObject()
+    {
+        var command = new ObservableCommand { CanExecuteResult = false };
+        var behavior = new MenuItemSaveFilePickerBehavior
+        {
+            Command = command,
+            UseCommandCanExecuteForIsEnabled = true
+        };
+        var menuItem = new MenuItem();
+
+        behavior.Attach(menuItem);
+
+        Assert.False(menuItem.IsEnabled);
+
+        command.CanExecuteResult = true;
+        command.RaiseCanExecuteChanged();
+
+        Assert.True(menuItem.IsEnabled);
+
+        behavior.Detach();
+    }
+
+    [AvaloniaFact]
     public void CanExecuteCommand_UpdatesWhenCommandRaisesCanExecuteChanged()
     {
         var command = new ObservableCommand { CanExecuteResult = false };
