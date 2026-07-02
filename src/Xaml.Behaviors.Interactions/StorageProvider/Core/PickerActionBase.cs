@@ -8,6 +8,7 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.LogicalTree;
 using Avalonia.Platform.Storage;
+using Avalonia.Threading;
 using Avalonia.VisualTree;
 using Avalonia.Xaml.Interactivity;
 
@@ -162,6 +163,18 @@ public abstract class PickerActionBase : InvokeCommandActionBase
 
         _ = RemoveCompletedPickerOperationAsync(operation);
         return operation;
+    }
+
+    /// <summary>
+    /// Runs and tracks an asynchronous picker operation on the UI thread.
+    /// </summary>
+    /// <param name="operation">The picker operation to run.</param>
+    /// <returns>The tracked dispatcher operation.</returns>
+    protected Task TrackDispatchedPickerOperation(Func<Task> operation)
+    {
+        ArgumentNullException.ThrowIfNull(operation);
+
+        return TrackPickerOperation(Dispatcher.UIThread.InvokeAsync(operation));
     }
 
     internal int ActivePickerOperationCount

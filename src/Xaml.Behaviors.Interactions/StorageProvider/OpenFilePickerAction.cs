@@ -70,7 +70,7 @@ public class OpenFilePickerAction : PickerActionBase
             return false;
         }
 
-        return TrackPickerOperation(OpenFilePickerAsync(visual));
+        return TrackDispatchedPickerOperation(() => OpenFilePickerAsync(visual));
     }
 
     private async Task OpenFilePickerAsync(Visual visual)

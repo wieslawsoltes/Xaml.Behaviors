@@ -2,6 +2,7 @@ using System;
 using System.Threading.Tasks;
 using Avalonia.Controls;
 using Avalonia.Headless.XUnit;
+using Avalonia.Threading;
 using Avalonia.Xaml.Interactions.Core;
 using Xunit;
 
@@ -56,6 +57,28 @@ public class PickerActionBaseTests
     }
 
     [AvaloniaFact]
+    public async Task TrackDispatchedPickerOperation_RunsOperationOnUiThread()
+    {
+        var action = new TestPickerAction();
+        var operationWasOnUiThread = false;
+        Task? task = null;
+
+        await Task.Run(() =>
+        {
+            task = action.TrackDispatched(() =>
+            {
+                operationWasOnUiThread = Dispatcher.UIThread.CheckAccess();
+                return Task.CompletedTask;
+            });
+        });
+
+        await Assert.IsAssignableFrom<Task>(task);
+
+        Assert.True(operationWasOnUiThread);
+        await WaitForNoActiveOperations(action);
+    }
+
+    [AvaloniaFact]
     public async Task OpenFolderPickerAction_ReturnsTaskWhenSenderIsVisual()
     {
         var action = new OpenFolderPickerAction
@@ -103,6 +126,11 @@ public class PickerActionBaseTests
         public Task Track(Task task)
         {
             return TrackPickerOperation(task);
+        }
+
+        public Task TrackDispatched(Func<Task> operation)
+        {
+            return TrackDispatchedPickerOperation(operation);
         }
 
         public override object? Execute(object? sender, object? parameter)

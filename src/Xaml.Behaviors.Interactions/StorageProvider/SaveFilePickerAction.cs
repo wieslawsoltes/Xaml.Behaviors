@@ -85,7 +85,7 @@ public class SaveFilePickerAction : PickerActionBase
             return false;
         }
 
-        return TrackPickerOperation(SaveFilePickerAsync(visual));
+        return TrackDispatchedPickerOperation(() => SaveFilePickerAsync(visual));
     }
 
     private async Task SaveFilePickerAsync(Visual visual)

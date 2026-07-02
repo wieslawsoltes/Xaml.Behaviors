@@ -55,7 +55,7 @@ public class OpenFolderPickerAction : PickerActionBase
             return false;
         }
 
-        return TrackPickerOperation(OpenFolderPickerAsync(visual));
+        return TrackDispatchedPickerOperation(() => OpenFolderPickerAsync(visual));
     }
 
     private async Task OpenFolderPickerAsync(Visual visual)
