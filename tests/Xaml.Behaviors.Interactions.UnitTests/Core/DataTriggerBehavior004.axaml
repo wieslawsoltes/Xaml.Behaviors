@@ -26,5 +26,15 @@
         </DataTriggerBehavior>
       </Interaction.Behaviors>
     </TextBlock>
+
+    <TextBlock x:Name="RelationalTextBlock" Text="Unchanged">
+      <Interaction.Behaviors>
+        <DataTriggerBehavior Binding="{Binding TestProperty}"
+                             ComparisonCondition="GreaterThan"
+                             Value="z">
+          <ChangePropertyAction PropertyName="Text" Value="Incorrectly executed" />
+        </DataTriggerBehavior>
+      </Interaction.Behaviors>
+    </TextBlock>
   </StackPanel>
 </Window>

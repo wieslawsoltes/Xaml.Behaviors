@@ -23,7 +23,7 @@
 </TextBlock>
 ```
 
-For equality comparisons, `null` is a valid bound value. An omitted `Binding` is not treated as a bound `null` value.
+For `Equal` and `NotEqual` comparisons, `null` is a valid bound value. Relational comparisons with `null` remain inactive, and an omitted `Binding` is not treated as a bound `null` value.
 
 ```xml
 <DataTriggerBehavior Binding="{Binding SelectedItem}"

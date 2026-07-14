@@ -117,6 +117,13 @@ public class DataTriggerBehavior : StyledElementTrigger
             return;
         }
 
+        if (binding is null &&
+            ComparisonCondition is not ComparisonConditionType.Equal and
+            not ComparisonConditionType.NotEqual)
+        {
+            return;
+        }
+
         // Some value has changed--either the binding value, reference value, or the comparison condition. Re-evaluate the equation.
         if (ComparisonConditionTypeHelper.Compare(binding, ComparisonCondition, Value))
         {

@@ -83,12 +83,14 @@ public class DataTriggerBehaviorTests
 
         Assert.Equal("Not empty", window.TargetTextBlock.Text);
         Assert.Equal("Unchanged", window.UnconfiguredTextBlock.Text);
+        Assert.Equal("Unchanged", window.RelationalTextBlock.Text);
 
         source.TestProperty = null;
         Dispatcher.UIThread.RunJobs();
 
         Assert.Equal("Empty", window.TargetTextBlock.Text);
         Assert.Equal("Unchanged", window.UnconfiguredTextBlock.Text);
+        Assert.Equal("Unchanged", window.RelationalTextBlock.Text);
     }
 
     [AvaloniaFact]
@@ -103,5 +105,6 @@ public class DataTriggerBehaviorTests
 
         Assert.Equal("Empty", window.TargetTextBlock.Text);
         Assert.Equal("Unchanged", window.UnconfiguredTextBlock.Text);
+        Assert.Equal("Unchanged", window.RelationalTextBlock.Text);
     }
 }
