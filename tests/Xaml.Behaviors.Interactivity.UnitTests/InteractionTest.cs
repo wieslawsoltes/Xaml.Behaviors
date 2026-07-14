@@ -36,6 +36,34 @@ public class InteractionTest
         }
     }
 
+    private sealed class TopLevelLoadedTrigger : StyledElementTrigger<TopLevel>
+    {
+        public int InitializedCount { get; private set; }
+        public int LogicalAttachCount { get; private set; }
+        public int VisualAttachCount { get; private set; }
+        public int LoadedCount { get; private set; }
+
+        protected override void OnInitializedEvent()
+        {
+            InitializedCount++;
+        }
+
+        protected override void OnAttachedToLogicalTree()
+        {
+            LogicalAttachCount++;
+        }
+
+        protected override void OnAttachedToVisualTree()
+        {
+            VisualAttachCount++;
+        }
+
+        protected override void OnLoaded()
+        {
+            LoadedCount++;
+        }
+    }
+
     private static void AssertCurrentLifecycle(LoadedTrigger trigger, Button button)
     {
         Assert.Equal(1, trigger.InitializedCount);
@@ -231,5 +259,25 @@ public class InteractionTest
         behaviors.Add(trigger);
 
         AssertCurrentLifecycle(trigger, button);
+    }
+
+    [AvaloniaFact]
+    public void AddBehaviorToOpenTopLevel_NotifiesCurrentLifecycleOnce()
+    {
+        var window = new Window();
+        var behaviors = Interaction.GetBehaviors(window);
+        window.Show();
+        Dispatcher.UIThread.RunJobs();
+        var trigger = new TopLevelLoadedTrigger();
+
+        behaviors.Add(trigger);
+
+        Assert.Equal(1, trigger.InitializedCount);
+        Assert.Equal(1, trigger.LogicalAttachCount);
+        Assert.Equal(1, trigger.VisualAttachCount);
+        Assert.Equal(1, trigger.LoadedCount);
+        Assert.Same(window, trigger.Parent);
+
+        window.Close();
     }
 }
