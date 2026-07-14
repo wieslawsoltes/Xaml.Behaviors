@@ -92,7 +92,7 @@ public abstract class StyledElementTrigger : StyledElementBehavior, ITrigger
         }
         else
         {
-            if (AssociatedObject is not StyledElement styledElement || styledElement.Parent is null)
+            if (Parent is null)
             {
                 return;
             }

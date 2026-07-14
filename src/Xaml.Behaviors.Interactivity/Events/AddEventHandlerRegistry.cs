@@ -28,6 +28,8 @@ public static class AddEventHandlerRegistry
             nameof(MenuItem.Click), 
             (o, h) => o.Click += h, 
             (o, h) => o.Click -= h));
+
+        Register(new FlyoutEventHandler());
     }
 
     /// <summary>

@@ -1,0 +1,27 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:local="using:Avalonia.Xaml.Interactions.UnitTests.Core"
+        x:Class="Avalonia.Xaml.Interactions.UnitTests.Core.EventTriggerBehavior005"
+        x:DataType="local:FlyoutEventBindingSource">
+  <Window.DataContext>
+    <local:FlyoutEventBindingSource />
+  </Window.DataContext>
+
+  <Button x:Name="TargetButton" Content="Open flyout">
+    <Button.Flyout>
+      <Flyout>
+        <Interaction.Behaviors>
+          <EventTriggerBehavior EventName="Opened">
+            <InvokeCommandAction Command="{Binding OpenedCommand}"
+                                 PassEventArgsToCommand="True" />
+          </EventTriggerBehavior>
+          <EventTriggerBehavior EventName="Closed">
+            <InvokeCommandAction Command="{Binding ClosedCommand}"
+                                 PassEventArgsToCommand="True" />
+          </EventTriggerBehavior>
+        </Interaction.Behaviors>
+        <TextBlock Text="Flyout content" />
+      </Flyout>
+    </Button.Flyout>
+  </Button>
+</Window>

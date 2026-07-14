@@ -1,3 +1,5 @@
+using System;
+using Avalonia.Controls;
 using Avalonia.Headless;
 using Avalonia.Headless.XUnit;
 using Xunit;
@@ -61,5 +63,25 @@ public class EventTriggerBehaviorTests
         window.CaptureRenderedFrame()?.Save("EventTriggerBehavior_004_0.png");
 
         Assert.Equal("Loaded Text", window.TargetTextBox.Text);
+    }
+
+    [AvaloniaFact]
+    public void EventTriggerBehavior_005_FlyoutEventsExecuteBoundCommands()
+    {
+        var window = new EventTriggerBehavior005();
+        var source = Assert.IsType<FlyoutEventBindingSource>(window.DataContext);
+        var flyout = Assert.IsType<Flyout>(window.TargetButton.Flyout);
+
+        window.Show();
+        flyout.ShowAt(window.TargetButton);
+
+        Assert.Equal(1, source.OpenedCount);
+        Assert.Same(EventArgs.Empty, source.OpenedParameter);
+        Assert.Equal(0, source.ClosedCount);
+
+        flyout.Hide();
+
+        Assert.Equal(1, source.ClosedCount);
+        Assert.Same(EventArgs.Empty, source.ClosedParameter);
     }
 }
