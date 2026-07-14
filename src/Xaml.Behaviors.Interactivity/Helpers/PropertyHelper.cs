@@ -26,6 +26,90 @@ internal static class PropertyHelper
         return false;
     }
 
+    private static AvaloniaProperty? InitializeOwnerAndFindAttachedProperty(
+        Type targetType,
+        string ownerTypeName,
+        string propertyName)
+    {
+        var assemblies = AppDomain.CurrentDomain.GetAssemblies();
+        foreach (var assembly in assemblies)
+        {
+            if (ownerTypeName.Contains('.'))
+            {
+                var ownerType = assembly.GetType(ownerTypeName, throwOnError: false, ignoreCase: false);
+                var exactMatch = TryInitializeAttachedProperty(targetType, ownerType, propertyName);
+                if (exactMatch is not null)
+                {
+                    return exactMatch;
+                }
+
+                continue;
+            }
+
+            Type?[] types;
+            try
+            {
+                types = assembly.GetTypes();
+            }
+            catch (ReflectionTypeLoadException exception)
+            {
+                types = exception.Types;
+            }
+
+            foreach (var ownerType in types)
+            {
+                if (ownerType?.Name != ownerTypeName)
+                {
+                    continue;
+                }
+
+                var match = TryInitializeAttachedProperty(targetType, ownerType, propertyName);
+                if (match is not null)
+                {
+                    return match;
+                }
+            }
+        }
+
+        return null;
+    }
+
+    private static AvaloniaProperty? TryInitializeAttachedProperty(
+        Type targetType,
+        Type? ownerType,
+        string propertyName)
+    {
+        if (ownerType is null)
+        {
+            return null;
+        }
+
+        var field = ownerType.GetTypeInfo().GetDeclaredField($"{propertyName}Property");
+        if (field is null ||
+            !field.IsStatic ||
+            !typeof(AvaloniaProperty).GetTypeInfo().IsAssignableFrom(field.FieldType.GetTypeInfo()))
+        {
+            return null;
+        }
+
+        if (field.GetValue(null) is not AvaloniaProperty candidate ||
+            candidate.OwnerType != ownerType)
+        {
+            return null;
+        }
+
+        var registeredAttached = AvaloniaPropertyRegistry.Instance.GetRegisteredAttached(targetType);
+        foreach (var avaloniaProperty in registeredAttached)
+        {
+            if (ReferenceEquals(avaloniaProperty, candidate))
+            {
+                return candidate;
+            }
+        }
+
+        return null;
+    }
+
     private static AvaloniaProperty? FindAvaloniaAttachedProperty(object? targetObject, string propertyName)
     {
         if (targetObject is null)
@@ -50,6 +134,15 @@ internal static class PropertyHelper
             {
                 return avaloniaProperty;
             }
+        }
+
+        var initializedAttachedProperty = InitializeOwnerAndFindAttachedProperty(
+            targetType,
+            targetPropertyTypeName,
+            targetPropertyName);
+        if (initializedAttachedProperty is not null)
+        {
+            return initializedAttachedProperty;
         }
 
         var registeredInherited = AvaloniaPropertyRegistry.Instance.GetRegisteredInherited(targetType);

@@ -18,6 +18,10 @@ public class ChangePropertyActionTests
     {
         public static readonly AttachedProperty<int> ValueProperty =
             AvaloniaProperty.RegisterAttached<AttachedPropertyOwner, Border, int>("Value");
+
+        static AttachedPropertyOwner()
+        {
+        }
     }
 
     private sealed class SomeOwner
@@ -86,7 +90,6 @@ public class ChangePropertyActionTests
     [UnconditionalSuppressMessage("Trimming", "IL2026", Justification = "Validates the reflection-based compatibility action.")]
     public void ChangePropertyAction_FindsAttachedPropertyRegisteredForTargetType()
     {
-        _ = AttachedPropertyOwner.ValueProperty;
         var target = new Border();
         var action = new ChangePropertyAction
         {
