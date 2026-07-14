@@ -285,15 +285,7 @@ public class Interaction
 
         if (d is TopLevel topLevel)
         {
-            Dispatcher.UIThread.Post(() =>
-            {
-                if (!topLevel.IsAttachedToVisualTree() &&
-                    ReferenceEquals(d.GetValue(BehaviorsProperty), behaviors) &&
-                    behaviors.AssociatedObject is not null)
-                {
-                    behaviors.Detach();
-                }
-            });
+            ScheduleTopLevelBehaviorDetach(topLevel, behaviors);
         }
         else
         {
@@ -318,7 +310,28 @@ public class Interaction
             return;
         }
 
-        GetBehaviors(d).DetachedFromVisualTree();
+        var behaviors = GetBehaviors(d);
+        behaviors.DetachedFromVisualTree();
+
+        if (d is TopLevel topLevel)
+        {
+            ScheduleTopLevelBehaviorDetach(topLevel, behaviors);
+        }
+    }
+
+    private static void ScheduleTopLevelBehaviorDetach(
+        TopLevel topLevel,
+        BehaviorCollection behaviors)
+    {
+        Dispatcher.UIThread.Post(() =>
+        {
+            if (!topLevel.IsAttachedToVisualTree() &&
+                ReferenceEquals(topLevel.GetValue(BehaviorsProperty), behaviors) &&
+                behaviors.AssociatedObject is not null)
+            {
+                behaviors.Detach();
+            }
+        });
     }
 
     // AttachedToLogicalTree / DetachedFromLogicalTree
