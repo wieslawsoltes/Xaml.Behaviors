@@ -13,6 +13,19 @@ internal static class PropertyHelper
     private static readonly char[] s_trimChars = ['(', ')'];
     private static readonly char[] s_separator = ['.'];
 
+    private static bool IsTypeNameInHierarchy(Type targetType, string typeName)
+    {
+        for (Type? currentType = targetType; currentType is not null; currentType = currentType.BaseType)
+        {
+            if (currentType.Name == typeName)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     private static AvaloniaProperty? FindAvaloniaAttachedProperty(object? targetObject, string propertyName)
     {
         if (targetObject is null)
@@ -43,7 +56,9 @@ internal static class PropertyHelper
 
         foreach (var avaloniaProperty in registeredInherited)
         {
-            if (avaloniaProperty.Name == targetPropertyName)
+            if ((avaloniaProperty.OwnerType.Name == targetPropertyTypeName ||
+                 IsTypeNameInHierarchy(targetType, targetPropertyTypeName)) &&
+                avaloniaProperty.Name == targetPropertyName)
             {
                 return avaloniaProperty;
             }

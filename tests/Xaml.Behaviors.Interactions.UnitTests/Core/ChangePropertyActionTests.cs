@@ -20,6 +20,10 @@ public class ChangePropertyActionTests
             AvaloniaProperty.RegisterAttached<AttachedPropertyOwner, Border, int>("Value");
     }
 
+    private sealed class SomeOwner
+    {
+    }
+
     /// <summary>
     /// Regular property.
     /// </summary>
@@ -94,5 +98,41 @@ public class ChangePropertyActionTests
 
         Assert.Equal(true, result);
         Assert.Equal(42, target.GetValue(AttachedPropertyOwner.ValueProperty));
+    }
+
+    [AvaloniaFact]
+    [UnconditionalSuppressMessage("Trimming", "IL2026", Justification = "Validates the reflection-based compatibility action.")]
+    public void ChangePropertyAction_DoesNotMatchInheritedPropertyFromWrongOwner()
+    {
+        var originalDataContext = new object();
+        var target = new Border { DataContext = originalDataContext };
+        var action = new ChangePropertyAction
+        {
+            PropertyName = "(SomeOwner.DataContext)",
+            Value = new object(),
+        };
+
+        var result = action.Execute(target, null);
+
+        Assert.Equal(false, result);
+        Assert.Same(originalDataContext, target.DataContext);
+    }
+
+    [AvaloniaFact]
+    [UnconditionalSuppressMessage("Trimming", "IL2026", Justification = "Validates the reflection-based compatibility action.")]
+    public void ChangePropertyAction_MatchesInheritedPropertyFromRequestedOwner()
+    {
+        var updatedDataContext = new object();
+        var target = new Border();
+        var action = new ChangePropertyAction
+        {
+            PropertyName = "(StyledElement.DataContext)",
+            Value = updatedDataContext,
+        };
+
+        var result = action.Execute(target, null);
+
+        Assert.Equal(true, result);
+        Assert.Same(updatedDataContext, target.DataContext);
     }
 }
