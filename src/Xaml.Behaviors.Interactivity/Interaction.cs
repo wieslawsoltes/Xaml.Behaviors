@@ -6,6 +6,7 @@ using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.LogicalTree;
 using Avalonia.Reactive;
+using Avalonia.VisualTree;
 
 namespace Avalonia.Xaml.Interactivity;
 
@@ -106,8 +107,15 @@ public class Interaction
             return;
         }
 
+        var isAttachedToVisualTree = e.Sender is Visual visual && visual.IsAttachedToVisualTree();
+
         if (oldCollection is { AssociatedObject: not null })
         {
+            if (isAttachedToVisualTree)
+            {
+                oldCollection.DetachedFromVisualTree();
+            }
+
             oldCollection.Detach();
         }
 
@@ -115,6 +123,11 @@ public class Interaction
         {
             newCollection.Attach(e.Sender);
             SetVisualTreeEventHandlersFromChangedEvent(e.Sender);
+
+            if (isAttachedToVisualTree)
+            {
+                newCollection.AttachedToVisualTree();
+            }
         }
     }
 
