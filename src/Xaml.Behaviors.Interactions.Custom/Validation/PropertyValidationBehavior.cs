@@ -2,6 +2,7 @@
 // Licensed under the MIT license. See LICENSE file in the project root for details.
 using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Diagnostics.CodeAnalysis;
 using Avalonia.Collections;
 using Avalonia.Controls;
@@ -93,6 +94,40 @@ public class PropertyValidationBehavior<TControl, TValue> : DisposingBehavior<TC
             return DisposableAction.Empty;
         }
 
+        var associatedObject = AssociatedObject;
+        var rules = Rules;
+        var subscribedRules = new HashSet<AvaloniaObject>();
+
+        void RulePropertyChanged(object? sender, AvaloniaPropertyChangedEventArgs e)
+        {
+            Validate();
+        }
+
+        void AttachRule(IValidationRule<TValue> rule)
+        {
+            if (rule is AvaloniaObject avaloniaObject && subscribedRules.Add(avaloniaObject))
+            {
+                avaloniaObject.PropertyChanged += RulePropertyChanged;
+            }
+        }
+
+        void RulesCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
+        {
+            foreach (var subscribedRule in subscribedRules)
+            {
+                subscribedRule.PropertyChanged -= RulePropertyChanged;
+            }
+
+            subscribedRules.Clear();
+
+            foreach (var rule in rules)
+            {
+                AttachRule(rule);
+            }
+
+            Validate();
+        }
+
         void Handler(object? sender, AvaloniaPropertyChangedEventArgs e)
         {
             if (e.Property == property)
@@ -101,9 +136,26 @@ public class PropertyValidationBehavior<TControl, TValue> : DisposingBehavior<TC
             }
         }
 
-        AssociatedObject.PropertyChanged += Handler;
+        associatedObject.PropertyChanged += Handler;
+        rules.CollectionChanged += RulesCollectionChanged;
 
-        return DisposableAction.Create(() => AssociatedObject.PropertyChanged -= Handler);
+        foreach (var rule in rules)
+        {
+            AttachRule(rule);
+        }
+
+        return DisposableAction.Create(() =>
+        {
+            associatedObject.PropertyChanged -= Handler;
+            rules.CollectionChanged -= RulesCollectionChanged;
+
+            foreach (var subscribedRule in subscribedRules)
+            {
+                subscribedRule.PropertyChanged -= RulePropertyChanged;
+            }
+
+            subscribedRules.Clear();
+        });
     }
 
     /// <inheritdoc />

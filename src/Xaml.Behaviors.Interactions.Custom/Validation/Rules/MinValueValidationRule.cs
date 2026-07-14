@@ -1,6 +1,8 @@
 // Copyright (c) Wiesław Šoltés. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for details.
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
+using Avalonia;
 
 namespace Avalonia.Xaml.Interactions.Custom;
 
@@ -8,15 +10,38 @@ namespace Avalonia.Xaml.Interactions.Custom;
 /// Validation rule that checks that a numeric value is greater than or equal to a minimum value.
 /// </summary>
 /// <typeparam name="T">Type of value to validate.</typeparam>
-public class MinValueValidationRule<T> : IValidationRule<T>
+[SuppressMessage("AvaloniaProperty", "AVP1002:AvaloniaProperty objects should not be owned by a generic type")]
+public class MinValueValidationRule<T> : AvaloniaObject, IValidationRule<T>
 {
+    /// <summary>
+    /// Identifies the <see cref="MinValue"/> avalonia property.
+    /// </summary>
+    public static readonly StyledProperty<T?> MinValueProperty =
+        AvaloniaProperty.Register<MinValueValidationRule<T>, T?>(nameof(MinValue));
+
+    /// <summary>
+    /// Identifies the <see cref="ErrorMessage"/> avalonia property.
+    /// </summary>
+    public static readonly StyledProperty<string?> ErrorMessageProperty =
+        AvaloniaProperty.Register<MinValueValidationRule<T>, string?>(
+            nameof(ErrorMessage),
+            defaultValue: "Value is below minimum.");
+
     /// <summary>
     /// Gets or sets the minimum value.
     /// </summary>
-    public T? MinValue { get; set; }
+    public T? MinValue
+    {
+        get => GetValue(MinValueProperty);
+        set => SetValue(MinValueProperty, value);
+    }
 
     /// <inheritdoc />
-    public string? ErrorMessage { get; set; } = "Value is below minimum.";
+    public string? ErrorMessage
+    {
+        get => GetValue(ErrorMessageProperty);
+        set => SetValue(ErrorMessageProperty, value);
+    }
 
     /// <inheritdoc />
     public bool Validate(T? value)

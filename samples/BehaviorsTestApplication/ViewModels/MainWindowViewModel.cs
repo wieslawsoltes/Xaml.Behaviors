@@ -127,6 +127,8 @@ public partial class MainWindowViewModel : ViewModelBase
         ValidatedNumber = 0m;
         SelectedItem = null;
         ValidatedSlider = 0.0;
+        SliderValidationMinimum = 0.0;
+        SliderValidationMaximum = 100.0;
         ValidatedDate = DateTimeOffset.Now;
         ValidatedItem = null;
 
@@ -434,6 +436,10 @@ public partial class MainWindowViewModel : ViewModelBase
     [Reactive] public partial double ValidatedSlider { get; set; }
 
     [Reactive] public partial bool IsSliderValid { get; set; }
+
+    [Reactive] public partial double SliderValidationMinimum { get; set; }
+
+    [Reactive] public partial double SliderValidationMaximum { get; set; }
 
     [Reactive] public partial DateTimeOffset? ValidatedDate { get; set; }
 
