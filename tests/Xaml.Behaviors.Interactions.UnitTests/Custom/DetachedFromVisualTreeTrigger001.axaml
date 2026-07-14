@@ -1,0 +1,24 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:local="using:Avalonia.Xaml.Interactions.UnitTests.Custom"
+        x:Class="Avalonia.Xaml.Interactions.UnitTests.Custom.DetachedFromVisualTreeTrigger001"
+        x:DataType="local:DetachedTriggerBindingSource">
+  <Window.DataContext>
+    <local:DetachedTriggerBindingSource />
+  </Window.DataContext>
+
+  <TabControl x:Name="TargetTabs">
+    <TabItem Header="Tab 1">
+      <TextBlock Text="Tab 1">
+        <Interaction.Behaviors>
+          <DetachedFromVisualTreeTrigger>
+            <InvokeCommandAction Command="{Binding DetachedCommand}" />
+          </DetachedFromVisualTreeTrigger>
+        </Interaction.Behaviors>
+      </TextBlock>
+    </TabItem>
+    <TabItem Header="Tab 2">
+      <TextBlock Text="Tab 2" />
+    </TabItem>
+  </TabControl>
+</Window>

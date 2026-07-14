@@ -118,9 +118,14 @@ public abstract class StyledElementBehavior : StyledElement, IBehavior, IBehavio
 
     void IBehaviorEventsHandler.DetachedFromVisualTreeEventHandler()
     {
-        DetachBehaviorFromLogicalTree();
-
-        OnDetachedFromVisualTree();
+        try
+        {
+            OnDetachedFromVisualTree();
+        }
+        finally
+        {
+            DetachBehaviorFromLogicalTree();
+        }
     }
 
     void IBehaviorEventsHandler.AttachedToLogicalTreeEventHandler()
@@ -132,9 +137,14 @@ public abstract class StyledElementBehavior : StyledElement, IBehavior, IBehavio
 
     void IBehaviorEventsHandler.DetachedFromLogicalTreeEventHandler()
     {
-        DetachBehaviorFromLogicalTree();
-
-        OnDetachedFromLogicalTree();
+        try
+        {
+            OnDetachedFromLogicalTree();
+        }
+        finally
+        {
+            DetachBehaviorFromLogicalTree();
+        }
     }
 
     void IBehaviorEventsHandler.LoadedEventHandler() => OnLoaded();
