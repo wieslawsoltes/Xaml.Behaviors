@@ -169,6 +169,9 @@ public abstract class ContextDragBehaviorBase : StyledElementBehavior<Control>
                 _lock = true;
                 _captured = true;
 
+                // Drag detection must not consume the initial press. Selection and
+                // interactive content still need to observe it before a drag starts.
+                e.Handled = false;
                 return;
             }
         }
