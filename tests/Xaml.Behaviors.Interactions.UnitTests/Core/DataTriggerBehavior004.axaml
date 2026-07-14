@@ -1,0 +1,30 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:local="using:Avalonia.Xaml.Interactions.UnitTests.Core"
+        x:Class="Avalonia.Xaml.Interactions.UnitTests.Core.DataTriggerBehavior004"
+        x:DataType="local:DataTriggerBehavior004BindingSource"
+        Title="DataTriggerBehavior004">
+  <Window.DataContext>
+    <local:DataTriggerBehavior004BindingSource TestProperty="Initial value" />
+  </Window.DataContext>
+
+  <StackPanel>
+    <TextBlock x:Name="TargetTextBlock" Text="Not empty">
+      <Interaction.Behaviors>
+        <DataTriggerBehavior Binding="{Binding TestProperty}"
+                             ComparisonCondition="Equal"
+                             Value="{x:Null}">
+          <ChangePropertyAction PropertyName="Text" Value="Empty" />
+        </DataTriggerBehavior>
+      </Interaction.Behaviors>
+    </TextBlock>
+
+    <TextBlock x:Name="UnconfiguredTextBlock" Text="Unchanged">
+      <Interaction.Behaviors>
+        <DataTriggerBehavior ComparisonCondition="Equal" Value="{x:Null}">
+          <ChangePropertyAction PropertyName="Text" Value="Incorrectly executed" />
+        </DataTriggerBehavior>
+      </Interaction.Behaviors>
+    </TextBlock>
+  </StackPanel>
+</Window>

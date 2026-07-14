@@ -111,15 +111,16 @@ public class DataTriggerBehavior : StyledElementTrigger
             return;
         }
 
-        // NOTE: In UWP version binding null check is not present but Avalonia throws exception as Bindings are null when first initialized.
         var binding = Binding;
-        if (binding is not null)
+        if (!IsSet(BindingProperty) || Equals(binding, AvaloniaProperty.UnsetValue))
         {
-            // Some value has changed--either the binding value, reference value, or the comparison condition. Re-evaluate the equation.
-            if (ComparisonConditionTypeHelper.Compare(Binding, ComparisonCondition, Value))
-            {
-                Interaction.ExecuteActions(AssociatedObject, Actions, parameter);
-            }
+            return;
+        }
+
+        // Some value has changed--either the binding value, reference value, or the comparison condition. Re-evaluate the equation.
+        if (ComparisonConditionTypeHelper.Compare(binding, ComparisonCondition, Value))
+        {
+            Interaction.ExecuteActions(AssociatedObject, Actions, parameter);
         }
     }
 }
