@@ -3,7 +3,6 @@
 using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
-using System.Linq;
 using System.Reflection;
 
 namespace Avalonia.Xaml.Interactivity;
@@ -13,24 +12,6 @@ internal static class PropertyHelper
 {
     private static readonly char[] s_trimChars = ['(', ')'];
     private static readonly char[] s_separator = ['.'];
-
-    private static Type? GetTypeByName(string name)
-    {
-        var assemblies = AppDomain.CurrentDomain.GetAssemblies();
-
-        return
-            assemblies
-                .AsEnumerable()
-                .Reverse()
-                .Select(assembly => assembly.GetType(name))
-                .FirstOrDefault(t => t is not null)
-            ??
-            assemblies
-                .AsEnumerable()
-                .Reverse()
-                .SelectMany(assembly => assembly.GetTypes())
-                .FirstOrDefault(t => t.Name == name);
-    }
 
     private static AvaloniaProperty? FindAvaloniaAttachedProperty(object? targetObject, string propertyName)
     {
@@ -46,7 +27,7 @@ internal static class PropertyHelper
         }
         var targetPropertyTypeName = propertyNames[0];
         var targetPropertyName = propertyNames[1];
-        var targetType = GetTypeByName(targetPropertyTypeName) ?? targetObject.GetType();
+        var targetType = targetObject.GetType();
 
         var registeredAttached = AvaloniaPropertyRegistry.Instance.GetRegisteredAttached(targetType);
 

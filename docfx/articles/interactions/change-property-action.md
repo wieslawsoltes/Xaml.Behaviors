@@ -8,6 +8,8 @@
 *   **`PropertyName`**: The name of the property to change.
 *   **`Value`**: The new value to set.
 
+Attached properties use the `(Owner.Property)` form. Resolution is based on the target object's registered Avalonia properties, so owner type names are not affected by unrelated types with the same short name in other assemblies.
+
 ## Usage
 
 ```xml
@@ -21,4 +23,12 @@
         </EventTriggerBehavior>
     </Interaction.Behaviors>
 </Button>
+```
+
+For example, the following action assigns the target to the first grid column:
+
+```xml
+<ChangePropertyAction TargetObject="{Binding #ContentPresenter}"
+                      PropertyName="(Grid.Column)"
+                      Value="0" />
 ```
