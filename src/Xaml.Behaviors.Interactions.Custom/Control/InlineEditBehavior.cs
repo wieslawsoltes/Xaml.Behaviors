@@ -109,13 +109,13 @@ public class InlineEditBehavior : StyledElementBehavior<Control>
     {
         if (DisplayControl is not null)
         {
-            DisplayControl.AddHandler(InputElement.DoubleTappedEvent, OnDisplayActivate, RoutingStrategies.Tunnel);
+            DisplayControl.AddHandler(InputElement.DoubleTappedEvent, OnDisplayActivate, RoutingStrategies.Bubble);
             DisplayControl.AddHandler(InputElement.KeyDownEvent, OnDisplayKeyDown, RoutingStrategies.Tunnel);
         }
 
         if (EditOnAssociatedObjectDoubleTapped && AssociatedObject is not null)
         {
-            AssociatedObject.AddHandler(InputElement.DoubleTappedEvent, OnAssociatedObjectActivate, RoutingStrategies.Tunnel);
+            AssociatedObject.AddHandler(InputElement.DoubleTappedEvent, OnAssociatedObjectActivate, RoutingStrategies.Bubble);
         }
 
         if (EditControl is not null)
