@@ -98,6 +98,26 @@ public class InteractionTest
     }
 
     [AvaloniaFact]
+    public void LifecycleEvents_DoNotCreateCollectionAfterBehaviorsAreRemoved()
+    {
+        var behavior = new TestBehavior();
+        var collection = new BehaviorCollection { behavior };
+        var button = new Button();
+        var panel = new Panel { Children = { button } };
+        var window = new Window { Content = panel };
+        Interaction.SetBehaviors(button, collection);
+
+        window.Show();
+        Interaction.SetBehaviors(button, null);
+        panel.Children.Remove(button);
+
+        Assert.Null(button.GetValue(Interaction.BehaviorsProperty));
+        Assert.Null(collection.AssociatedObject);
+        Assert.Null(behavior.AssociatedObject);
+        Assert.Equal(1, behavior.DetachingCalled);
+    }
+
+    [AvaloniaFact]
     public void ExecuteActions_NullParameters_ReturnsEmptyEnumerable()
     {
         // Mostly just want to test that this doesn't throw any exceptions.
