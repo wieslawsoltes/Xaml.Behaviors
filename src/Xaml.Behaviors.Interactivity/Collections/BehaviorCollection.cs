@@ -6,6 +6,9 @@ using System.Collections.Specialized;
 using System.Diagnostics;
 using System.Linq;
 using Avalonia.Collections;
+using Avalonia.Controls;
+using Avalonia.LogicalTree;
+using Avalonia.VisualTree;
 
 namespace Avalonia.Xaml.Interactivity;
 
@@ -61,6 +64,7 @@ public class BehaviorCollection : AvaloniaList<AvaloniaObject>
             if (item is IBehavior behavior)
             {
                 behavior.Attach(AssociatedObject);
+                SynchronizeBehaviorEvents(behavior);
             }
         }
     }
@@ -287,9 +291,40 @@ public class BehaviorCollection : AvaloniaList<AvaloniaObject>
         if (AssociatedObject is not null)
         {
             behavior.Attach(AssociatedObject);
+            SynchronizeBehaviorEvents(behavior);
         }
 
         return behavior;
+    }
+
+    private static void SynchronizeBehaviorEvents(IBehavior behavior)
+    {
+        if (behavior is not IBehaviorEventsHandler eventsHandler)
+        {
+            return;
+        }
+
+        var associatedObject = behavior.AssociatedObject;
+        if (associatedObject is StyledElement { IsInitialized: true })
+        {
+            eventsHandler.InitializedEventHandler();
+        }
+
+        if (associatedObject is StyledElement styledElement
+            && ((ILogical)styledElement).IsAttachedToLogicalTree)
+        {
+            eventsHandler.AttachedToLogicalTreeEventHandler();
+        }
+
+        if (associatedObject is Visual visual && visual.IsAttachedToVisualTree())
+        {
+            eventsHandler.AttachedToVisualTreeEventHandler();
+        }
+
+        if (associatedObject is Control { IsLoaded: true })
+        {
+            eventsHandler.LoadedEventHandler();
+        }
     }
 
     [Conditional("DEBUG")]

@@ -1,12 +1,50 @@
 ﻿using System.Linq;
 using Avalonia.Controls;
 using Avalonia.Headless.XUnit;
+using Avalonia.Threading;
 using Xunit;
 
 namespace Avalonia.Xaml.Interactivity.UnitTests;
 
 public class InteractionTest
 {
+    private sealed class LoadedTrigger : StyledElementTrigger<Button>
+    {
+        public int InitializedCount { get; private set; }
+        public int LogicalAttachCount { get; private set; }
+        public int VisualAttachCount { get; private set; }
+        public int LoadedCount { get; private set; }
+
+        protected override void OnInitializedEvent()
+        {
+            InitializedCount++;
+        }
+
+        protected override void OnAttachedToLogicalTree()
+        {
+            LogicalAttachCount++;
+        }
+
+        protected override void OnAttachedToVisualTree()
+        {
+            VisualAttachCount++;
+        }
+
+        protected override void OnLoaded()
+        {
+            LoadedCount++;
+        }
+    }
+
+    private static void AssertCurrentLifecycle(LoadedTrigger trigger, Button button)
+    {
+        Assert.Equal(1, trigger.InitializedCount);
+        Assert.Equal(1, trigger.LogicalAttachCount);
+        Assert.Equal(1, trigger.VisualAttachCount);
+        Assert.Equal(1, trigger.LoadedCount);
+        Assert.Same(button, trigger.Parent);
+    }
+
     [AvaloniaFact]
     public void SetBehaviors_MultipleBehaviors_AllAttached()
     {
@@ -150,5 +188,48 @@ public class InteractionTest
         {
             Assert.Equal(expectedReturnValues[resultIndex], results[resultIndex]); // "Results should be returned in the order of the actions in the ActionCollection."
         }
+    }
+
+    [AvaloniaFact]
+    public void SetBehaviorsBeforeShow_NotifiesLoadedOnce()
+    {
+        var trigger = new LoadedTrigger();
+        var button = new Button();
+        Interaction.SetBehaviors(button, new BehaviorCollection { trigger });
+        var window = new Window { Content = button };
+
+        window.Show();
+        Dispatcher.UIThread.RunJobs();
+
+        AssertCurrentLifecycle(trigger, button);
+    }
+
+    [AvaloniaFact]
+    public void SetBehaviorsAfterShow_NotifiesLoadedOnce()
+    {
+        var trigger = new LoadedTrigger();
+        var button = new Button();
+        var window = new Window { Content = button };
+        window.Show();
+        Dispatcher.UIThread.RunJobs();
+
+        Interaction.SetBehaviors(button, new BehaviorCollection { trigger });
+
+        AssertCurrentLifecycle(trigger, button);
+    }
+
+    [AvaloniaFact]
+    public void AddBehaviorAfterShow_NotifiesLoadedOnce()
+    {
+        var button = new Button();
+        var behaviors = Interaction.GetBehaviors(button);
+        var window = new Window { Content = button };
+        window.Show();
+        Dispatcher.UIThread.RunJobs();
+        var trigger = new LoadedTrigger();
+
+        behaviors.Add(trigger);
+
+        AssertCurrentLifecycle(trigger, button);
     }
 }
