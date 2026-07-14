@@ -1,6 +1,11 @@
+using System.Diagnostics.CodeAnalysis;
+using Avalonia.Controls;
 using Avalonia.Headless;
 using Avalonia.Headless.XUnit;
 using Avalonia.Input;
+using Avalonia.Threading;
+using Avalonia.Xaml.Interactions.Core;
+using Avalonia.Xaml.Interactivity;
 using Xunit;
 
 namespace Avalonia.Xaml.Interactions.UnitTests.Core;
@@ -69,5 +74,33 @@ public class DataTriggerBehaviorTests
 
         Assert.Equal("50 or more", window.TargetTextBlock.Text);
         Assert.Equal(50d, window.TargetSlider.Value);
+    }
+
+    [AvaloniaFact]
+    [UnconditionalSuppressMessage("Trimming", "IL2026", Justification = "Validates the reflection-based compatibility trigger.")]
+    public void DataTriggerBehavior_NonConvertibleValue_DoesNotThrowOrExecuteActions()
+    {
+        var commandCalls = 0;
+        var target = new Border();
+        var trigger = new DataTriggerBehavior
+        {
+            Binding = 42,
+            ComparisonCondition = ComparisonConditionType.Equal,
+            Value = "not-an-integer",
+        };
+        var action = new InvokeCommandAction
+        {
+            Command = new Command(_ => commandCalls++),
+        };
+        trigger.Actions ??= [];
+        trigger.Actions.Add(action);
+        Interaction.GetBehaviors(target).Add(trigger);
+        var window = new Window { Content = target };
+        window.Show();
+
+        var exception = Record.Exception(() => Dispatcher.UIThread.RunJobs());
+
+        Assert.Null(exception);
+        Assert.Equal(0, commandCalls);
     }
 }

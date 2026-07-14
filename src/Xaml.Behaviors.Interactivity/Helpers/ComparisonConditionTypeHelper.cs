@@ -16,7 +16,16 @@ internal static class ComparisonConditionTypeHelper
             if (rightOperand is string rightOperandString)
             {
                 var leftOperandType = leftOperand.GetType();
-                var convertedRightOperand = TypeConverterHelper.Convert(rightOperandString, leftOperandType);
+                object? convertedRightOperand = null;
+                try
+                {
+                    convertedRightOperand = TypeConverterHelper.Convert(rightOperandString, leftOperandType);
+                }
+                catch (Exception exception) when (IsConversionException(exception))
+                {
+                    // Keep the original operand so comparable evaluation can use non-equal semantics.
+                }
+
                 if (convertedRightOperand is not null)
                 {
                     rightOperand = convertedRightOperand;
@@ -74,21 +83,26 @@ internal static class ComparisonConditionTypeHelper
         {
             convertedOperand = Convert.ChangeType(rightOperand, leftOperand.GetType(), CultureInfo.CurrentCulture);
         }
-        catch (FormatException)
+        catch (Exception exception) when (IsConversionException(exception))
         {
-            // FormatException: Convert.ChangeType("hello", typeof(double), ...);
-        }
-        catch (InvalidCastException)
-        {
-            // InvalidCastException: Convert.ChangeType(4.0d, typeof(Rectangle), ...);
+            // The operands cannot be converted to a common comparable type.
         }
 
         if (convertedOperand is null)
         {
-            return operatorType == ComparisonConditionType.NotEqual;
+            return IsNonEqualResult(operatorType);
         }
 
-        var comparison = leftOperand.CompareTo((IComparable)convertedOperand);
+        int comparison;
+        try
+        {
+            comparison = leftOperand.CompareTo((IComparable)convertedOperand);
+        }
+        catch (Exception exception) when (exception is ArgumentException or InvalidCastException)
+        {
+            return IsNonEqualResult(operatorType);
+        }
+
         return operatorType switch
         {
             ComparisonConditionType.Equal => comparison == 0,
@@ -99,5 +113,18 @@ internal static class ComparisonConditionTypeHelper
             ComparisonConditionType.GreaterThanOrEqual => comparison >= 0,
             _ => false
         };
+    }
+
+    private static bool IsConversionException(Exception exception)
+    {
+        return exception is FormatException
+            or InvalidCastException
+            or NotSupportedException
+            or OverflowException;
+    }
+
+    private static bool IsNonEqualResult(ComparisonConditionType operatorType)
+    {
+        return operatorType == ComparisonConditionType.NotEqual;
     }
 }
