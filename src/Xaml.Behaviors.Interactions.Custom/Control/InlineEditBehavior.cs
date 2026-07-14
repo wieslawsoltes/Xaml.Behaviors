@@ -172,7 +172,7 @@ public class InlineEditBehavior : StyledElementBehavior<Control>
 
     private void BeginEdit()
     {
-        if (EditControl is null || DisplayControl is null)
+        if (EditControl is null || DisplayControl is null || EditControl.IsVisible)
             return;
 
         DisplayControl.IsVisible = false;
