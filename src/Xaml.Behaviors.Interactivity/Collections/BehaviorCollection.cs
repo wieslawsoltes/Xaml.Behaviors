@@ -64,6 +64,13 @@ public class BehaviorCollection : AvaloniaList<AvaloniaObject>
             if (item is IBehavior behavior)
             {
                 behavior.Attach(AssociatedObject);
+            }
+        }
+
+        foreach (var item in this)
+        {
+            if (item is IBehavior behavior)
+            {
                 SynchronizeBehaviorEvents(behavior);
             }
         }

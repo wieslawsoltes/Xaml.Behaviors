@@ -64,6 +64,16 @@ public class InteractionTest
         }
     }
 
+    private sealed class SiblingAwareLoadedTrigger(IBehavior sibling) : StyledElementTrigger<Button>
+    {
+        public bool SiblingWasAttachedWhenLoaded { get; private set; }
+
+        protected override void OnLoaded()
+        {
+            SiblingWasAttachedWhenLoaded = ReferenceEquals(AssociatedObject, sibling.AssociatedObject);
+        }
+    }
+
     private static void AssertCurrentLifecycle(LoadedTrigger trigger, Button button)
     {
         Assert.Equal(1, trigger.InitializedCount);
@@ -244,6 +254,23 @@ public class InteractionTest
         Interaction.SetBehaviors(button, new BehaviorCollection { trigger });
 
         AssertCurrentLifecycle(trigger, button);
+    }
+
+    [AvaloniaFact]
+    public void SetBehaviorsAfterShow_AttachesAllSiblingsBeforeLoadedCallbacks()
+    {
+        var button = new Button();
+        var window = new Window { Content = button };
+        window.Show();
+        Dispatcher.UIThread.RunJobs();
+        var sibling = new StubBehavior();
+        var trigger = new SiblingAwareLoadedTrigger(sibling);
+
+        Interaction.SetBehaviors(button, new BehaviorCollection { trigger, sibling });
+
+        Assert.True(trigger.SiblingWasAttachedWhenLoaded);
+        Assert.Same(button, sibling.AssociatedObject);
+        window.Close();
     }
 
     [AvaloniaFact]
