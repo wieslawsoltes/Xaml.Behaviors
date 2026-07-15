@@ -392,23 +392,57 @@ public class BehaviorCollection : AvaloniaList<AvaloniaObject>
 
     private void DrainPendingSynchronizations(List<IBehavior> currentBatch, int currentPhase)
     {
-        while (_pendingSynchronizations.Count > 0)
+        var catchUpBatch = new List<(IBehavior Behavior, int NextPhase)>();
+        while (true)
         {
-            var pending = _pendingSynchronizations.ToList();
-            _pendingSynchronizations.Clear();
-
-            foreach (var behavior in pending)
+            if (_pendingSynchronizations.Count > 0)
             {
-                if (!currentBatch.Contains(behavior))
+                var pending = _pendingSynchronizations.ToList();
+                _pendingSynchronizations.Clear();
+                foreach (var behavior in pending)
                 {
-                    currentBatch.Add(behavior);
-                }
+                    if (!currentBatch.Contains(behavior))
+                    {
+                        currentBatch.Add(behavior);
+                    }
 
-                for (var phase = 0; phase <= currentPhase; phase++)
-                {
-                    SynchronizePhase(behavior, phase);
+                    var isAlreadyQueued = false;
+                    for (var index = 0; index < catchUpBatch.Count; index++)
+                    {
+                        if (ReferenceEquals(catchUpBatch[index].Behavior, behavior))
+                        {
+                            isAlreadyQueued = true;
+                            break;
+                        }
+                    }
+
+                    if (!isAlreadyQueued)
+                    {
+                        catchUpBatch.Add((behavior, 0));
+                    }
                 }
             }
+
+            var nextIndex = -1;
+            var nextPhase = int.MaxValue;
+            for (var index = 0; index < catchUpBatch.Count; index++)
+            {
+                var candidatePhase = catchUpBatch[index].NextPhase;
+                if (candidatePhase <= currentPhase && candidatePhase < nextPhase)
+                {
+                    nextIndex = index;
+                    nextPhase = candidatePhase;
+                }
+            }
+
+            if (nextIndex < 0)
+            {
+                return;
+            }
+
+            var next = catchUpBatch[nextIndex];
+            SynchronizePhase(next.Behavior, next.NextPhase);
+            catchUpBatch[nextIndex] = (next.Behavior, next.NextPhase + 1);
         }
     }
 

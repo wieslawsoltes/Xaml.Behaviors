@@ -174,6 +174,48 @@ public class InteractionTest
         }
     }
 
+    private sealed class SiblingAddingVisualTrigger(AvaloniaObject sibling) : StyledElementTrigger<Button>
+    {
+        protected override void OnAttachedToVisualTree()
+        {
+            if (AssociatedObject is not null)
+            {
+                Interaction.GetBehaviors(AssociatedObject).Add(sibling);
+            }
+        }
+    }
+
+    private sealed class NestedSiblingAddingInitializedTrigger(LoadedTrigger sibling) : StyledElementTrigger<Button>
+    {
+        public bool SiblingCompletedEachEarlierPhase { get; private set; } = true;
+        public int LogicalCheckCount { get; private set; }
+        public int VisualCheckCount { get; private set; }
+
+        protected override void OnInitializedEvent()
+        {
+            if (AssociatedObject is not null)
+            {
+                Interaction.GetBehaviors(AssociatedObject).Add(sibling);
+            }
+        }
+
+        protected override void OnAttachedToLogicalTree()
+        {
+            LogicalCheckCount++;
+            SiblingCompletedEachEarlierPhase &=
+                sibling.InitializedCount == 1 && sibling.LogicalAttachCount == 0;
+        }
+
+        protected override void OnAttachedToVisualTree()
+        {
+            VisualCheckCount++;
+            SiblingCompletedEachEarlierPhase &=
+                sibling.InitializedCount == 1 &&
+                sibling.LogicalAttachCount == 1 &&
+                sibling.VisualAttachCount == 0;
+        }
+    }
+
     private sealed class SiblingRemovingLoadedTrigger(AvaloniaObject sibling) : StyledElementTrigger<Button>
     {
         protected override void OnLoaded()
@@ -434,6 +476,29 @@ public class InteractionTest
         Assert.Contains(added, behaviors);
         Assert.True(observer.SiblingCompletedEarlierPhasesWhenLoaded);
         Assert.Equal(1, added.LoadedCount);
+        window.Close();
+    }
+
+    [AvaloniaFact]
+    public void SetBehaviorsAfterShow_Catches_Up_Nested_Additions_Between_Replayed_Phases()
+    {
+        var button = new Button();
+        var window = new Window { Content = button };
+        window.Show();
+        Dispatcher.UIThread.RunJobs();
+        var nested = new LoadedTrigger();
+        var firstAddition = new NestedSiblingAddingInitializedTrigger(nested);
+        var visualAdder = new SiblingAddingVisualTrigger(firstAddition);
+        var behaviors = new BehaviorCollection { visualAdder };
+
+        Interaction.SetBehaviors(button, behaviors);
+
+        Assert.Contains(firstAddition, behaviors);
+        Assert.Contains(nested, behaviors);
+        Assert.True(firstAddition.SiblingCompletedEachEarlierPhase);
+        Assert.Equal(1, firstAddition.LogicalCheckCount);
+        Assert.Equal(1, firstAddition.VisualCheckCount);
+        AssertCurrentLifecycle(nested, button);
         window.Close();
     }
 
