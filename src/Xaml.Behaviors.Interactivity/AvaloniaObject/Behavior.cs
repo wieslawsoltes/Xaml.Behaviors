@@ -12,6 +12,8 @@ namespace Avalonia.Xaml.Interactivity;
 /// </summary>
 public abstract class Behavior : AvaloniaObject, IBehavior, IBehaviorEventsHandler
 {
+    private bool _isLoaded;
+
     /// <summary>
     /// Identifies the <seealso cref="IsEnabled"/> avalonia property.
     /// </summary>
@@ -64,6 +66,7 @@ public abstract class Behavior : AvaloniaObject, IBehavior, IBehaviorEventsHandl
     public void Detach()
     {
         OnDetaching();
+        _isLoaded = false;
         AssociatedObject = null;
     }
 
@@ -95,9 +98,27 @@ public abstract class Behavior : AvaloniaObject, IBehavior, IBehaviorEventsHandl
 
     void IBehaviorEventsHandler.DetachedFromLogicalTreeEventHandler() => OnDetachedFromLogicalTree();
 
-    void IBehaviorEventsHandler.LoadedEventHandler() => OnLoaded();
+    void IBehaviorEventsHandler.LoadedEventHandler()
+    {
+        if (_isLoaded)
+        {
+            return;
+        }
 
-    void IBehaviorEventsHandler.UnloadedEventHandler() => OnUnloaded();
+        _isLoaded = true;
+        OnLoaded();
+    }
+
+    void IBehaviorEventsHandler.UnloadedEventHandler()
+    {
+        if (!_isLoaded)
+        {
+            return;
+        }
+
+        _isLoaded = false;
+        OnUnloaded();
+    }
 
     void IBehaviorEventsHandler.InitializedEventHandler() => OnInitializedEvent();
 

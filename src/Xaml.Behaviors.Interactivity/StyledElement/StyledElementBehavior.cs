@@ -14,6 +14,7 @@ namespace Avalonia.Xaml.Interactivity;
 public abstract class StyledElementBehavior : StyledElement, IBehavior, IBehaviorEventsHandler
 {
     private IDisposable? _dataContextDisposable;
+    private bool _isLoaded;
 
     /// <summary>
     /// Identifies the <seealso cref="IsEnabled"/> avalonia property.
@@ -86,6 +87,7 @@ public abstract class StyledElementBehavior : StyledElement, IBehavior, IBehavio
         }
 
         _dataContextDisposable?.Dispose();
+        _isLoaded = false;
         AssociatedObject = null;
     }
 
@@ -137,9 +139,27 @@ public abstract class StyledElementBehavior : StyledElement, IBehavior, IBehavio
         OnDetachedFromLogicalTree();
     }
 
-    void IBehaviorEventsHandler.LoadedEventHandler() => OnLoaded();
+    void IBehaviorEventsHandler.LoadedEventHandler()
+    {
+        if (_isLoaded)
+        {
+            return;
+        }
 
-    void IBehaviorEventsHandler.UnloadedEventHandler() => OnUnloaded();
+        _isLoaded = true;
+        OnLoaded();
+    }
+
+    void IBehaviorEventsHandler.UnloadedEventHandler()
+    {
+        if (!_isLoaded)
+        {
+            return;
+        }
+
+        _isLoaded = false;
+        OnUnloaded();
+    }
 
     void IBehaviorEventsHandler.InitializedEventHandler()
     {
