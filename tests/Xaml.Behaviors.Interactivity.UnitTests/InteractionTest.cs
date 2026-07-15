@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using Avalonia.Controls;
 using Avalonia.Headless.XUnit;
 using Avalonia.Threading;
@@ -223,6 +224,21 @@ public class InteractionTest
             if (AssociatedObject is not null)
             {
                 Interaction.GetBehaviors(AssociatedObject).Remove(sibling);
+            }
+        }
+    }
+
+    private sealed class RecordingLoadedTrigger(
+        string name,
+        List<string> eventOrder,
+        AvaloniaObject? siblingToAdd = null) : StyledElementTrigger<Button>
+    {
+        protected override void OnLoaded()
+        {
+            eventOrder.Add(name);
+            if (siblingToAdd is not null && AssociatedObject is not null)
+            {
+                Interaction.GetBehaviors(AssociatedObject).Add(siblingToAdd);
             }
         }
     }
@@ -571,6 +587,26 @@ public class InteractionTest
         Dispatcher.UIThread.RunJobs();
 
         AssertCurrentLifecycle(trigger, button);
+        window.Close();
+    }
+
+    [AvaloniaFact]
+    public void LoadedDispatch_Replays_Additions_After_Existing_Siblings()
+    {
+        var eventOrder = new List<string>();
+        var added = new RecordingLoadedTrigger("B", eventOrder);
+        var first = new RecordingLoadedTrigger("A", eventOrder, added);
+        var laterExisting = new RecordingLoadedTrigger("C", eventOrder);
+        var button = new Button();
+        var behaviors = new BehaviorCollection { first, laterExisting };
+        Interaction.SetBehaviors(button, behaviors);
+        var window = new Window { Content = button };
+
+        window.Show();
+        Dispatcher.UIThread.RunJobs();
+
+        Assert.Equal(["A", "C", "B"], eventOrder);
+        Assert.Contains(added, behaviors);
         window.Close();
     }
 

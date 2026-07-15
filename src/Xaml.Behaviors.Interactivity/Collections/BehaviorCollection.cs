@@ -108,114 +108,81 @@ public class BehaviorCollection : AvaloniaList<AvaloniaObject>
 
     internal void AttachedToVisualTree()
     {
-        foreach (var item in this.ToList())
-        {
-            if (item is IBehaviorEventsHandler behaviorEventsHandler and IBehavior { AssociatedObject: not null })
-            {
-                behaviorEventsHandler.AttachedToVisualTreeEventHandler();
-            }
-        }
+        DispatchBehaviorEvent(static handler => handler.AttachedToVisualTreeEventHandler());
     }
 
     internal void DetachedFromVisualTree()
     {
-        foreach (var item in this.ToList())
-        {
-            if (item is IBehaviorEventsHandler behaviorEventsHandler and IBehavior { AssociatedObject: not null })
-            {
-                behaviorEventsHandler.DetachedFromVisualTreeEventHandler();
-            }
-        }
+        DispatchBehaviorEvent(static handler => handler.DetachedFromVisualTreeEventHandler());
     }
 
     internal void AttachedToLogicalTree()
     {
-        foreach (var item in this.ToList())
-        {
-            if (item is IBehaviorEventsHandler behaviorEventsHandler and IBehavior { AssociatedObject: not null })
-            {
-                behaviorEventsHandler.AttachedToLogicalTreeEventHandler();
-            }
-        }
+        DispatchBehaviorEvent(static handler => handler.AttachedToLogicalTreeEventHandler());
     }
 
     internal void DetachedFromLogicalTree()
     {
-        foreach (var item in this.ToList())
-        {
-            if (item is IBehaviorEventsHandler behaviorEventsHandler and IBehavior { AssociatedObject: not null })
-            {
-                behaviorEventsHandler.DetachedFromLogicalTreeEventHandler();
-            }
-        }
+        DispatchBehaviorEvent(static handler => handler.DetachedFromLogicalTreeEventHandler());
     }
 
     internal void Loaded()
     {
-        foreach (var item in this.ToList())
-        {
-            if (item is IBehaviorEventsHandler behaviorEventsHandler and IBehavior { AssociatedObject: not null })
-            {
-                behaviorEventsHandler.LoadedEventHandler();
-            }
-        }
+        DispatchBehaviorEvent(static handler => handler.LoadedEventHandler());
     }
 
     internal void Unloaded()
     {
-        foreach (var item in this.ToList())
-        {
-            if (item is IBehaviorEventsHandler behaviorEventsHandler and IBehavior { AssociatedObject: not null })
-            {
-                behaviorEventsHandler.UnloadedEventHandler();
-            }
-        }
+        DispatchBehaviorEvent(static handler => handler.UnloadedEventHandler());
     }
 
     internal void Initialized()
     {
-        foreach (var item in this.ToList())
-        {
-            if (item is IBehaviorEventsHandler behaviorEventsHandler and IBehavior { AssociatedObject: not null })
-            {
-                behaviorEventsHandler.InitializedEventHandler();
-            }
-        }
+        DispatchBehaviorEvent(static handler => handler.InitializedEventHandler());
     }
 
     internal void DataContextChanged()
     {
-        foreach (var item in this.ToList())
-        {
-            if (item is IBehaviorEventsHandler behaviorEventsHandler and IBehavior { AssociatedObject: not null })
-            {
-                behaviorEventsHandler.DataContextChangedEventHandler();
-            }
-        }
+        DispatchBehaviorEvent(static handler => handler.DataContextChangedEventHandler());
     }
 
     internal void ResourcesChanged()
     {
-        foreach (var item in this.ToList())
-        {
-            if (item is IBehaviorEventsHandler behaviorEventsHandler and IBehavior { AssociatedObject: not null })
-            {
-                behaviorEventsHandler.ResourcesChangedEventHandler();
-            }
-        }
+        DispatchBehaviorEvent(static handler => handler.ResourcesChangedEventHandler());
     }
 
     internal void ActualThemeVariantChanged()
     {
-        foreach (var item in this.ToList())
+        DispatchBehaviorEvent(static handler => handler.ActualThemeVariantChangedEventHandler());
+    }
+
+    private void DispatchBehaviorEvent(Action<IBehaviorEventsHandler> dispatch)
+    {
+        var wasSynchronizingCollection = _isSynchronizingCollection;
+        _isSynchronizingCollection = true;
+        try
         {
-            if (item is IBehaviorEventsHandler behaviorEventsHandler and IBehavior { AssociatedObject: not null })
+            foreach (var item in this.ToList())
             {
-                behaviorEventsHandler.ActualThemeVariantChangedEventHandler();
+                if (item is IBehaviorEventsHandler behaviorEventsHandler and
+                    IBehavior { AssociatedObject: not null })
+                {
+                    dispatch(behaviorEventsHandler);
+                }
+            }
+        }
+        finally
+        {
+            _isSynchronizingCollection = wasSynchronizingCollection;
+            if (!wasSynchronizingCollection && _pendingSynchronizations.Count > 0)
+            {
+                var pending = _pendingSynchronizations.ToList();
+                _pendingSynchronizations.Clear();
+                SynchronizeBehaviorEvents(pending);
             }
         }
     }
-    
+
     private void BehaviorCollection_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs eventArgs)
     {
         if (eventArgs.Action == NotifyCollectionChangedAction.Reset)
