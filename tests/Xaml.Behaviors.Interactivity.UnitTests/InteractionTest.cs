@@ -163,6 +163,17 @@ public class InteractionTest
         }
     }
 
+    private sealed class SiblingAddingInitializedTrigger(AvaloniaObject sibling) : StyledElementTrigger<Button>
+    {
+        protected override void OnInitializedEvent()
+        {
+            if (AssociatedObject is not null)
+            {
+                Interaction.GetBehaviors(AssociatedObject).Add(sibling);
+            }
+        }
+    }
+
     private sealed class SiblingRemovingLoadedTrigger(AvaloniaObject sibling) : StyledElementTrigger<Button>
     {
         protected override void OnLoaded()
@@ -403,6 +414,26 @@ public class InteractionTest
 
         Assert.True(observer.SiblingCompletedEarlierPhasesWhenLoaded);
         Assert.Equal(1, sibling.LoadedCount);
+        window.Close();
+    }
+
+    [AvaloniaFact]
+    public void SetBehaviorsAfterShow_Catches_Up_Reentrant_Additions_Before_Later_Phases()
+    {
+        var button = new Button();
+        var window = new Window { Content = button };
+        window.Show();
+        Dispatcher.UIThread.RunJobs();
+        var added = new LoadedTrigger();
+        var adder = new SiblingAddingInitializedTrigger(added);
+        var observer = new LifecycleAwareLoadedTrigger(added);
+        var behaviors = new BehaviorCollection { adder, observer };
+
+        Interaction.SetBehaviors(button, behaviors);
+
+        Assert.Contains(added, behaviors);
+        Assert.True(observer.SiblingCompletedEarlierPhasesWhenLoaded);
+        Assert.Equal(1, added.LoadedCount);
         window.Close();
     }
 

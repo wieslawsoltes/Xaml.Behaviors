@@ -373,42 +373,61 @@ public class BehaviorCollection : AvaloniaList<AvaloniaObject>
         _isSynchronizingCollection = true;
         try
         {
-            var currentBatch = behaviors;
-            while (currentBatch.Count > 0)
+            var currentBatch = behaviors.ToList();
+            for (var phase = 0; phase < 4; phase++)
             {
-                foreach (var behavior in currentBatch)
+                for (var index = 0; index < currentBatch.Count; index++)
                 {
-                    SynchronizeInitialized(behavior);
+                    SynchronizePhase(currentBatch[index], phase);
+                    DrainPendingSynchronizations(currentBatch, phase);
                 }
-
-                foreach (var behavior in currentBatch)
-                {
-                    SynchronizeLogicalAttachment(behavior);
-                }
-
-                foreach (var behavior in currentBatch)
-                {
-                    SynchronizeVisualAttachment(behavior);
-                }
-
-                foreach (var behavior in currentBatch)
-                {
-                    SynchronizeLoaded(behavior);
-                }
-
-                if (_pendingSynchronizations.Count == 0)
-                {
-                    break;
-                }
-
-                currentBatch = _pendingSynchronizations.ToList();
-                _pendingSynchronizations.Clear();
             }
         }
         finally
         {
             _isSynchronizingCollection = false;
             _pendingSynchronizations.Clear();
+        }
+    }
+
+    private void DrainPendingSynchronizations(List<IBehavior> currentBatch, int currentPhase)
+    {
+        while (_pendingSynchronizations.Count > 0)
+        {
+            var pending = _pendingSynchronizations.ToList();
+            _pendingSynchronizations.Clear();
+
+            foreach (var behavior in pending)
+            {
+                if (!currentBatch.Contains(behavior))
+                {
+                    currentBatch.Add(behavior);
+                }
+
+                for (var phase = 0; phase <= currentPhase; phase++)
+                {
+                    SynchronizePhase(behavior, phase);
+                }
+            }
+        }
+    }
+
+    private static void SynchronizePhase(IBehavior behavior, int phase)
+    {
+        switch (phase)
+        {
+            case 0:
+                SynchronizeInitialized(behavior);
+                break;
+            case 1:
+                SynchronizeLogicalAttachment(behavior);
+                break;
+            case 2:
+                SynchronizeVisualAttachment(behavior);
+                break;
+            case 3:
+                SynchronizeLoaded(behavior);
+                break;
         }
     }
 
