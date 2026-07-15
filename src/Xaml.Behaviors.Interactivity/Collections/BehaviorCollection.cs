@@ -114,7 +114,7 @@ public class BehaviorCollection : AvaloniaList<AvaloniaObject>
     {
         foreach (var item in this.ToList())
         {
-            if (item is IBehaviorEventsHandler behaviorEventsHandler)
+            if (item is IBehaviorEventsHandler behaviorEventsHandler and IBehavior { AssociatedObject: not null })
             {
                 behaviorEventsHandler.AttachedToVisualTreeEventHandler();
             }
@@ -136,7 +136,7 @@ public class BehaviorCollection : AvaloniaList<AvaloniaObject>
     {
         foreach (var item in this.ToList())
         {
-            if (item is IBehaviorEventsHandler behaviorEventsHandler)
+            if (item is IBehaviorEventsHandler behaviorEventsHandler and IBehavior { AssociatedObject: not null })
             {
                 behaviorEventsHandler.AttachedToLogicalTreeEventHandler();
             }
@@ -158,7 +158,7 @@ public class BehaviorCollection : AvaloniaList<AvaloniaObject>
     {
         foreach (var item in this.ToList())
         {
-            if (item is IBehaviorEventsHandler behaviorEventsHandler)
+            if (item is IBehaviorEventsHandler behaviorEventsHandler and IBehavior { AssociatedObject: not null })
             {
                 behaviorEventsHandler.LoadedEventHandler();
             }

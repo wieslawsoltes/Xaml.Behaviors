@@ -149,6 +149,17 @@ public class InteractionTest
         }
     }
 
+    private sealed class SiblingRemovingLoadedTrigger(AvaloniaObject sibling) : StyledElementTrigger<Button>
+    {
+        protected override void OnLoaded()
+        {
+            if (AssociatedObject is not null)
+            {
+                Interaction.GetBehaviors(AssociatedObject).Remove(sibling);
+            }
+        }
+    }
+
     private static void AssertCurrentLifecycle(LoadedTrigger trigger, Button button)
     {
         Assert.Equal(1, trigger.InitializedCount);
@@ -433,6 +444,29 @@ public class InteractionTest
         Dispatcher.UIThread.RunJobs();
 
         AssertCurrentLifecycle(trigger, button);
+        window.Close();
+    }
+
+    [AvaloniaFact]
+    public void LoadedDispatch_Does_Not_Notify_Removed_Sibling_After_Detach()
+    {
+        var button = new Button();
+        var removedTrigger = new LoadedTrigger();
+        var remover = new SiblingRemovingLoadedTrigger(removedTrigger);
+        var behaviors = new BehaviorCollection { remover, removedTrigger };
+        Interaction.SetBehaviors(button, behaviors);
+        var window = new Window { Content = button };
+
+        window.Show();
+        Dispatcher.UIThread.RunJobs();
+
+        Assert.Equal(0, removedTrigger.LoadedCount);
+        Assert.Null(removedTrigger.AssociatedObject);
+
+        behaviors.Add(removedTrigger);
+
+        Assert.Equal(1, removedTrigger.LoadedCount);
+        Assert.Same(button, removedTrigger.AssociatedObject);
         window.Close();
     }
 
