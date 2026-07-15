@@ -484,8 +484,7 @@ public class Interaction
         }
 
         GetBehaviors(d).Attach(d);
-        GetBehaviors(d).AttachedToVisualTree();
-        GetBehaviors(d).AttachedToLogicalTree();
+        GetBehaviors(d).Opened();
     }
 
     private static void TopLevel_Opened_FromChangedEvent(object? sender, EventArgs e)
@@ -495,7 +494,6 @@ public class Interaction
             return;
         }
 
-        GetBehaviors(d).AttachedToVisualTree();
-        GetBehaviors(d).AttachedToLogicalTree();
+        GetBehaviors(d).Opened();
     }
 }

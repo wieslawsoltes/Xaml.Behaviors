@@ -261,6 +261,39 @@ public class InteractionTest
         }
     }
 
+    private sealed class RecordingTopLevelPhaseTrigger(
+        string name,
+        List<string> eventOrder,
+        AvaloniaObject? siblingToAdd = null) : StyledElementTrigger<TopLevel>
+    {
+        private bool _addSiblingOnNextVisual;
+
+        public void ArmVisualAddition()
+        {
+            _addSiblingOnNextVisual = true;
+        }
+
+        protected override void OnAttachedToLogicalTree()
+        {
+            eventOrder.Add($"{name}-Logical");
+        }
+
+        protected override void OnAttachedToVisualTree()
+        {
+            eventOrder.Add($"{name}-Visual");
+            if (_addSiblingOnNextVisual && siblingToAdd is not null && AssociatedObject is not null)
+            {
+                _addSiblingOnNextVisual = false;
+                Interaction.GetBehaviors(AssociatedObject).Add(siblingToAdd);
+            }
+        }
+
+        protected override void OnLoaded()
+        {
+            eventOrder.Add($"{name}-Loaded");
+        }
+    }
+
     private static void AssertCurrentLifecycle(LoadedTrigger trigger, Button button)
     {
         Assert.Equal(1, trigger.InitializedCount);
@@ -667,6 +700,33 @@ public class InteractionTest
         Dispatcher.UIThread.RunJobs();
 
         Assert.Equal(["A", "C", "B"], eventOrder);
+        Assert.Contains(added, behaviors);
+        window.Close();
+    }
+
+    [AvaloniaFact]
+    public void TopLevelOpened_Replays_Visual_Addition_After_Existing_Logical_Phase()
+    {
+        var eventOrder = new List<string>();
+        var window = new Window();
+        var added = new RecordingTopLevelPhaseTrigger("B", eventOrder);
+        var first = new RecordingTopLevelPhaseTrigger("A", eventOrder, added);
+        var laterExisting = new RecordingTopLevelPhaseTrigger("C", eventOrder);
+        var behaviors = new BehaviorCollection { first, laterExisting };
+        Interaction.SetBehaviors(window, behaviors);
+        window.Show();
+        Dispatcher.UIThread.RunJobs();
+
+        eventOrder.Clear();
+        behaviors.DetachedFromVisualTree();
+        behaviors.DetachedFromLogicalTree();
+        first.ArmVisualAddition();
+
+        behaviors.Opened();
+
+        Assert.Equal(
+            ["A-Visual", "C-Visual", "A-Logical", "C-Logical", "B-Logical", "B-Visual", "B-Loaded"],
+            eventOrder);
         Assert.Contains(added, behaviors);
         window.Close();
     }

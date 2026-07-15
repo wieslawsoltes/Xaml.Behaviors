@@ -173,6 +173,27 @@ public class BehaviorCollection : AvaloniaList<AvaloniaObject>
         DispatchBehaviorEvent(static handler => handler.ActualThemeVariantChangedEventHandler());
     }
 
+    internal void Opened()
+    {
+        var wasSynchronizingCollection = _isSynchronizingCollection;
+        _isSynchronizingCollection = true;
+        try
+        {
+            AttachedToVisualTree();
+            AttachedToLogicalTree();
+        }
+        finally
+        {
+            _isSynchronizingCollection = wasSynchronizingCollection;
+            if (!wasSynchronizingCollection && _pendingSynchronizations.Count > 0)
+            {
+                var pending = _pendingSynchronizations.ToList();
+                _pendingSynchronizations.Clear();
+                SynchronizeBehaviorEvents(pending);
+            }
+        }
+    }
+
     private void DispatchBehaviorEvent(Action<IBehaviorEventsHandler> dispatch)
     {
         var wasSynchronizingCollection = _isSynchronizingCollection;
