@@ -328,18 +328,30 @@ public class BehaviorCollection : AvaloniaList<AvaloniaObject>
         if (associatedObject is StyledElement { IsInitialized: true })
         {
             eventsHandler.InitializedEventHandler();
+            if (!ReferenceEquals(behavior.AssociatedObject, associatedObject))
+            {
+                return;
+            }
         }
 
         if (associatedObject is StyledElement styledElement
             && (((ILogical)styledElement).IsAttachedToLogicalTree || isOpenTopLevel))
         {
             eventsHandler.AttachedToLogicalTreeEventHandler();
+            if (!ReferenceEquals(behavior.AssociatedObject, associatedObject))
+            {
+                return;
+            }
         }
 
         if (associatedObject is Visual visual
             && (visual.IsAttachedToVisualTree() || isOpenTopLevel))
         {
             eventsHandler.AttachedToVisualTreeEventHandler();
+            if (!ReferenceEquals(behavior.AssociatedObject, associatedObject))
+            {
+                return;
+            }
         }
 
         if (associatedObject is Control { IsLoaded: true })

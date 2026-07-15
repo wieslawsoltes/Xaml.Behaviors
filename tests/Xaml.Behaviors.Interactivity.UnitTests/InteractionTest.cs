@@ -88,6 +88,43 @@ public class InteractionTest
         }
     }
 
+    private sealed class SelfRemovingInitializedTrigger : StyledElementTrigger<Button>
+    {
+        public int InitializedCount { get; private set; }
+        public int LogicalAttachCount { get; private set; }
+        public int VisualAttachCount { get; private set; }
+        public int LoadedCount { get; private set; }
+
+        protected override void OnInitializedEvent()
+        {
+            InitializedCount++;
+            if (AssociatedObject is not null)
+            {
+                Interaction.GetBehaviors(AssociatedObject).Remove(this);
+            }
+        }
+
+        protected override void OnAttachedToLogicalTree() => LogicalAttachCount++;
+
+        protected override void OnAttachedToVisualTree() => VisualAttachCount++;
+
+        protected override void OnLoaded() => LoadedCount++;
+    }
+
+    private sealed class RemovingLoadedTrigger(Panel parent) : StyledElementTrigger<Button>
+    {
+        public int LoadedCount { get; private set; }
+
+        protected override void OnLoaded()
+        {
+            LoadedCount++;
+            if (LoadedCount == 1 && AssociatedObject is not null)
+            {
+                parent.Children.Remove(AssociatedObject);
+            }
+        }
+    }
+
     private static void AssertCurrentLifecycle(LoadedTrigger trigger, Button button)
     {
         Assert.Equal(1, trigger.InitializedCount);
@@ -389,6 +426,46 @@ public class InteractionTest
         Assert.DoesNotContain(trigger, behaviors);
         Assert.Null(trigger.AssociatedObject);
         Assert.Empty(behaviors);
+        window.Close();
+    }
+
+    [AvaloniaFact]
+    public void AddBehaviorAfterShow_StopsReplayWhenInitializedRemovesBehavior()
+    {
+        var button = new Button();
+        var behaviors = Interaction.GetBehaviors(button);
+        var window = new Window { Content = button };
+        window.Show();
+        Dispatcher.UIThread.RunJobs();
+        var trigger = new SelfRemovingInitializedTrigger();
+
+        behaviors.Add(trigger);
+
+        Assert.Equal(1, trigger.InitializedCount);
+        Assert.Equal(0, trigger.LogicalAttachCount);
+        Assert.Equal(0, trigger.VisualAttachCount);
+        Assert.Equal(0, trigger.LoadedCount);
+        Assert.Null(trigger.AssociatedObject);
+        window.Close();
+    }
+
+    [AvaloniaFact]
+    public void SetBehaviorsAfterShow_SubscribesHostEventsBeforeLoadedReplay()
+    {
+        var button = new Button();
+        var panel = new StackPanel { Children = { button } };
+        var window = new Window { Content = panel };
+        window.Show();
+        Dispatcher.UIThread.RunJobs();
+        var trigger = new RemovingLoadedTrigger(panel);
+
+        Interaction.SetBehaviors(button, new BehaviorCollection { trigger });
+        Assert.DoesNotContain(button, panel.Children);
+
+        panel.Children.Add(button);
+        Dispatcher.UIThread.RunJobs();
+
+        Assert.Equal(2, trigger.LoadedCount);
         window.Close();
     }
 

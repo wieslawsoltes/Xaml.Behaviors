@@ -113,8 +113,8 @@ public class Interaction
 
         if (newCollection is not null)
         {
-            newCollection.Attach(e.Sender);
             SetVisualTreeEventHandlersFromChangedEvent(e.Sender);
+            newCollection.Attach(e.Sender);
         }
     }
 
