@@ -137,6 +137,18 @@ public class InteractionTest
         }
     }
 
+    private sealed class SiblingAddingBehavior(AvaloniaObject sibling) : Behavior<Button>
+    {
+        protected override void OnAttached()
+        {
+            base.OnAttached();
+            if (AssociatedObject is not null)
+            {
+                Interaction.GetBehaviors(AssociatedObject).Add(sibling);
+            }
+        }
+    }
+
     private static void AssertCurrentLifecycle(LoadedTrigger trigger, Button button)
     {
         Assert.Equal(1, trigger.InitializedCount);
@@ -347,6 +359,26 @@ public class InteractionTest
 
         Interaction.SetBehaviors(button, new BehaviorCollection { trigger, sibling });
 
+        Assert.True(trigger.SiblingWasAttachedWhenLoaded);
+        Assert.Same(button, sibling.AssociatedObject);
+        window.Close();
+    }
+
+    [AvaloniaFact]
+    public void SetBehaviorsAfterShow_Defers_Reentrant_Add_Replay_Until_All_Siblings_Attach()
+    {
+        var button = new Button();
+        var window = new Window { Content = button };
+        window.Show();
+        Dispatcher.UIThread.RunJobs();
+        var sibling = new StubBehavior();
+        var trigger = new SiblingAwareLoadedTrigger(sibling);
+        var adder = new SiblingAddingBehavior(trigger);
+        var behaviors = new BehaviorCollection { adder, sibling };
+
+        Interaction.SetBehaviors(button, behaviors);
+
+        Assert.Contains(trigger, behaviors);
         Assert.True(trigger.SiblingWasAttachedWhenLoaded);
         Assert.Same(button, sibling.AssociatedObject);
         window.Close();
