@@ -20,7 +20,9 @@ public class BehaviorCollection : AvaloniaList<AvaloniaObject>
     // After a VectorChanged event we need to compare the current state of the collection
     // with the old collection so that we can call Detach on all removed items.
     private readonly List<IBehavior> _oldCollection = [];
+    private readonly List<IBehavior> _pendingSynchronizations = [];
     private bool _isAttachingCollection;
+    private bool _isSynchronizingCollection;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="BehaviorCollection"/> class.
@@ -84,13 +86,7 @@ public class BehaviorCollection : AvaloniaList<AvaloniaObject>
             _isAttachingCollection = false;
         }
 
-        foreach (var behavior in this.OfType<IBehavior>().ToList())
-        {
-            if (behavior.AssociatedObject is not null)
-            {
-                SynchronizeBehaviorEvents(behavior);
-            }
-        }
+        SynchronizeBehaviorEvents(this.OfType<IBehavior>().ToList());
     }
 
     /// <summary>
@@ -244,13 +240,7 @@ public class BehaviorCollection : AvaloniaList<AvaloniaObject>
 
             if (!_isAttachingCollection)
             {
-                foreach (var behavior in attachedBehaviors)
-                {
-                    if (behavior.AssociatedObject is not null)
-                    {
-                        SynchronizeBehaviorEvents(behavior);
-                    }
-                }
+                QueueOrSynchronizeBehaviorEvents(attachedBehaviors);
             }
 #if DEBUG
             VerifyOldCollectionIntegrity();
@@ -268,7 +258,7 @@ public class BehaviorCollection : AvaloniaList<AvaloniaObject>
                 _oldCollection.Insert(eventIndex, behavior);
                 if (!_isAttachingCollection)
                 {
-                    SynchronizeBehaviorEvents(behavior);
+                    QueueOrSynchronizeBehaviorEvents(behavior);
                 }
                 break;
             }
@@ -290,7 +280,7 @@ public class BehaviorCollection : AvaloniaList<AvaloniaObject>
                 _oldCollection[eventIndex] = behavior;
                 if (!_isAttachingCollection)
                 {
-                    SynchronizeBehaviorEvents(behavior);
+                    QueueOrSynchronizeBehaviorEvents(behavior);
                 }
                 break;
             }
@@ -344,45 +334,121 @@ public class BehaviorCollection : AvaloniaList<AvaloniaObject>
         return behavior;
     }
 
-    private static void SynchronizeBehaviorEvents(IBehavior behavior)
+    private void QueueOrSynchronizeBehaviorEvents(IBehavior behavior)
     {
-        if (behavior is not IBehaviorEventsHandler eventsHandler)
+        if (_isSynchronizingCollection)
         {
+            QueuePendingSynchronization(behavior);
             return;
         }
 
-        var associatedObject = behavior.AssociatedObject;
-        var isOpenTopLevel = associatedObject is TopLevel { IsLoaded: true };
-        if (associatedObject is StyledElement { IsInitialized: true })
+        SynchronizeBehaviorEvents([behavior]);
+    }
+
+    private void QueueOrSynchronizeBehaviorEvents(IReadOnlyList<IBehavior> behaviors)
+    {
+        if (_isSynchronizingCollection)
+        {
+            foreach (var behavior in behaviors)
+            {
+                QueuePendingSynchronization(behavior);
+            }
+
+            return;
+        }
+
+        SynchronizeBehaviorEvents(behaviors);
+    }
+
+    private void QueuePendingSynchronization(IBehavior behavior)
+    {
+        if (!_pendingSynchronizations.Contains(behavior))
+        {
+            _pendingSynchronizations.Add(behavior);
+        }
+    }
+
+    private void SynchronizeBehaviorEvents(IReadOnlyList<IBehavior> behaviors)
+    {
+        _isSynchronizingCollection = true;
+        try
+        {
+            var currentBatch = behaviors;
+            while (currentBatch.Count > 0)
+            {
+                foreach (var behavior in currentBatch)
+                {
+                    SynchronizeInitialized(behavior);
+                }
+
+                foreach (var behavior in currentBatch)
+                {
+                    SynchronizeLogicalAttachment(behavior);
+                }
+
+                foreach (var behavior in currentBatch)
+                {
+                    SynchronizeVisualAttachment(behavior);
+                }
+
+                foreach (var behavior in currentBatch)
+                {
+                    SynchronizeLoaded(behavior);
+                }
+
+                if (_pendingSynchronizations.Count == 0)
+                {
+                    break;
+                }
+
+                currentBatch = _pendingSynchronizations.ToList();
+                _pendingSynchronizations.Clear();
+            }
+        }
+        finally
+        {
+            _isSynchronizingCollection = false;
+            _pendingSynchronizations.Clear();
+        }
+    }
+
+    private static void SynchronizeInitialized(IBehavior behavior)
+    {
+        if (behavior is IBehaviorEventsHandler eventsHandler &&
+            behavior.AssociatedObject is StyledElement { IsInitialized: true })
         {
             eventsHandler.InitializedEventHandler();
-            if (!ReferenceEquals(behavior.AssociatedObject, associatedObject))
-            {
-                return;
-            }
         }
+    }
 
-        if (associatedObject is StyledElement styledElement
-            && (((ILogical)styledElement).IsAttachedToLogicalTree || isOpenTopLevel))
+    private static void SynchronizeLogicalAttachment(IBehavior behavior)
+    {
+        var associatedObject = behavior.AssociatedObject;
+        var isOpenTopLevel = associatedObject is TopLevel { IsLoaded: true };
+        if (behavior is IBehaviorEventsHandler eventsHandler &&
+            associatedObject is StyledElement styledElement &&
+            (((ILogical)styledElement).IsAttachedToLogicalTree || isOpenTopLevel))
         {
             eventsHandler.AttachedToLogicalTreeEventHandler();
-            if (!ReferenceEquals(behavior.AssociatedObject, associatedObject))
-            {
-                return;
-            }
         }
+    }
 
-        if (associatedObject is Visual visual
-            && (visual.IsAttachedToVisualTree() || isOpenTopLevel))
+    private static void SynchronizeVisualAttachment(IBehavior behavior)
+    {
+        var associatedObject = behavior.AssociatedObject;
+        var isOpenTopLevel = associatedObject is TopLevel { IsLoaded: true };
+        if (behavior is IBehaviorEventsHandler eventsHandler &&
+            associatedObject is Visual visual &&
+            (visual.IsAttachedToVisualTree() || isOpenTopLevel))
         {
             eventsHandler.AttachedToVisualTreeEventHandler();
-            if (!ReferenceEquals(behavior.AssociatedObject, associatedObject))
-            {
-                return;
-            }
         }
+    }
 
-        if (associatedObject is Control { IsLoaded: true })
+    private static void SynchronizeLoaded(IBehavior behavior)
+    {
+        if (behavior is IBehaviorEventsHandler eventsHandler &&
+            behavior.AssociatedObject is Control { IsLoaded: true })
         {
             eventsHandler.LoadedEventHandler();
         }

@@ -74,6 +74,20 @@ public class InteractionTest
         }
     }
 
+    private sealed class LifecycleAwareLoadedTrigger(LoadedTrigger sibling) : StyledElementTrigger<Button>
+    {
+        public bool SiblingCompletedEarlierPhasesWhenLoaded { get; private set; }
+
+        protected override void OnLoaded()
+        {
+            SiblingCompletedEarlierPhasesWhenLoaded =
+                sibling.InitializedCount == 1 &&
+                sibling.LogicalAttachCount == 1 &&
+                sibling.VisualAttachCount == 1 &&
+                sibling.LoadedCount == 0;
+        }
+    }
+
     private sealed class SelfRemovingLoadedTrigger : StyledElementTrigger<Button>
     {
         public int LoadedCount { get; private set; }
@@ -372,6 +386,23 @@ public class InteractionTest
 
         Assert.True(trigger.SiblingWasAttachedWhenLoaded);
         Assert.Same(button, sibling.AssociatedObject);
+        window.Close();
+    }
+
+    [AvaloniaFact]
+    public void SetBehaviorsAfterShow_Replays_Lifecycle_In_Collection_Phases()
+    {
+        var button = new Button();
+        var window = new Window { Content = button };
+        window.Show();
+        Dispatcher.UIThread.RunJobs();
+        var sibling = new LoadedTrigger();
+        var observer = new LifecycleAwareLoadedTrigger(sibling);
+
+        Interaction.SetBehaviors(button, new BehaviorCollection { observer, sibling });
+
+        Assert.True(observer.SiblingCompletedEarlierPhasesWhenLoaded);
+        Assert.Equal(1, sibling.LoadedCount);
         window.Close();
     }
 
