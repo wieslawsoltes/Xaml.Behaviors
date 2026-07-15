@@ -14,6 +14,7 @@ public abstract class Behavior : AvaloniaObject, IBehavior, IBehaviorEventsHandl
 {
     private bool _isAttachedToLogicalTree;
     private bool _isAttachedToVisualTree;
+    private bool _isInitializedNotified;
     private bool _isLoaded;
 
     /// <summary>
@@ -70,6 +71,7 @@ public abstract class Behavior : AvaloniaObject, IBehavior, IBehaviorEventsHandl
         OnDetaching();
         _isAttachedToLogicalTree = false;
         _isAttachedToVisualTree = false;
+        _isInitializedNotified = false;
         _isLoaded = false;
         AssociatedObject = null;
     }
@@ -160,7 +162,16 @@ public abstract class Behavior : AvaloniaObject, IBehavior, IBehaviorEventsHandl
         OnUnloaded();
     }
 
-    void IBehaviorEventsHandler.InitializedEventHandler() => OnInitializedEvent();
+    void IBehaviorEventsHandler.InitializedEventHandler()
+    {
+        if (_isInitializedNotified)
+        {
+            return;
+        }
+
+        _isInitializedNotified = true;
+        OnInitializedEvent();
+    }
 
     void IBehaviorEventsHandler.DataContextChangedEventHandler() => OnDataContextChangedEvent();
 

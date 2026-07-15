@@ -357,6 +357,23 @@ public class InteractionTest
     }
 
     [AvaloniaFact]
+    public void AddBehaviorFromEarlierInitializedHandler_NotifiesLifecycleOnce()
+    {
+        var button = new Button();
+        BehaviorCollection? behaviors = null;
+        var trigger = new LoadedTrigger();
+        button.Initialized += (_, _) => behaviors!.Add(trigger);
+        behaviors = Interaction.GetBehaviors(button);
+        var window = new Window { Content = button };
+
+        window.Show();
+        Dispatcher.UIThread.RunJobs();
+
+        AssertCurrentLifecycle(trigger, button);
+        window.Close();
+    }
+
+    [AvaloniaFact]
     public void AddBehaviorAfterShow_AllowsBehaviorToRemoveItselfDuringLoaded()
     {
         var button = new Button();

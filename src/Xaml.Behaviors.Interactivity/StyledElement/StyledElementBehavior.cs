@@ -16,6 +16,7 @@ public abstract class StyledElementBehavior : StyledElement, IBehavior, IBehavio
     private IDisposable? _dataContextDisposable;
     private bool _isAttachedToLogicalTree;
     private bool _isAttachedToVisualTree;
+    private bool _isInitializedNotified;
     private bool _isLoaded;
 
     /// <summary>
@@ -91,6 +92,7 @@ public abstract class StyledElementBehavior : StyledElement, IBehavior, IBehavio
         _dataContextDisposable?.Dispose();
         _isAttachedToLogicalTree = false;
         _isAttachedToVisualTree = false;
+        _isInitializedNotified = false;
         _isLoaded = false;
         AssociatedObject = null;
     }
@@ -191,6 +193,12 @@ public abstract class StyledElementBehavior : StyledElement, IBehavior, IBehavio
 
     void IBehaviorEventsHandler.InitializedEventHandler()
     {
+        if (_isInitializedNotified)
+        {
+            return;
+        }
+
+        _isInitializedNotified = true;
         Initialize();
 
         OnInitializedEvent();
