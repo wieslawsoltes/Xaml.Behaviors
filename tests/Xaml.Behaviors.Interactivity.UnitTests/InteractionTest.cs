@@ -243,6 +243,24 @@ public class InteractionTest
         }
     }
 
+    private sealed class RecordingVisualTrigger(string name, List<string> eventOrder)
+        : StyledElementTrigger<Button>
+    {
+        protected override void OnAttachedToVisualTree()
+        {
+            eventOrder.Add(name);
+        }
+    }
+
+    private sealed class RecordingInitializedTrigger(string name, List<string> eventOrder)
+        : StyledElementTrigger<Button>
+    {
+        protected override void OnInitializedEvent()
+        {
+            eventOrder.Add(name);
+        }
+    }
+
     private static void AssertCurrentLifecycle(LoadedTrigger trigger, Button button)
     {
         Assert.Equal(1, trigger.InitializedCount);
@@ -587,6 +605,69 @@ public class InteractionTest
         Dispatcher.UIThread.RunJobs();
 
         AssertCurrentLifecycle(trigger, button);
+        window.Close();
+    }
+
+    [AvaloniaFact]
+    public void EarlierLoadedHandler_Replays_Addition_After_Existing_Behaviors()
+    {
+        var eventOrder = new List<string>();
+        var button = new Button();
+        var added = new RecordingLoadedTrigger("B", eventOrder);
+        button.Loaded += (_, _) => Interaction.GetBehaviors(button).Add(added);
+        var first = new RecordingLoadedTrigger("A", eventOrder);
+        var laterExisting = new RecordingLoadedTrigger("C", eventOrder);
+        var behaviors = new BehaviorCollection { first, laterExisting };
+        Interaction.SetBehaviors(button, behaviors);
+        var window = new Window { Content = button };
+
+        window.Show();
+        Dispatcher.UIThread.RunJobs();
+
+        Assert.Equal(["A", "C", "B"], eventOrder);
+        Assert.Contains(added, behaviors);
+        window.Close();
+    }
+
+    [AvaloniaFact]
+    public void EarlierVisualHandler_Replays_Addition_After_Existing_Behaviors()
+    {
+        var eventOrder = new List<string>();
+        var button = new Button();
+        var added = new RecordingVisualTrigger("B", eventOrder);
+        button.AttachedToVisualTree += (_, _) => Interaction.GetBehaviors(button).Add(added);
+        var first = new RecordingVisualTrigger("A", eventOrder);
+        var laterExisting = new RecordingVisualTrigger("C", eventOrder);
+        var behaviors = new BehaviorCollection { first, laterExisting };
+        Interaction.SetBehaviors(button, behaviors);
+        var window = new Window { Content = button };
+
+        window.Show();
+        Dispatcher.UIThread.RunJobs();
+
+        Assert.Equal(["A", "C", "B"], eventOrder);
+        Assert.Contains(added, behaviors);
+        window.Close();
+    }
+
+    [AvaloniaFact]
+    public void EarlierInitializedHandler_Replays_Addition_After_Existing_Behaviors()
+    {
+        var eventOrder = new List<string>();
+        var button = new Button();
+        var added = new RecordingInitializedTrigger("B", eventOrder);
+        button.Initialized += (_, _) => Interaction.GetBehaviors(button).Add(added);
+        var first = new RecordingInitializedTrigger("A", eventOrder);
+        var laterExisting = new RecordingInitializedTrigger("C", eventOrder);
+        var behaviors = new BehaviorCollection { first, laterExisting };
+        Interaction.SetBehaviors(button, behaviors);
+        var window = new Window { Content = button };
+
+        window.Show();
+        Dispatcher.UIThread.RunJobs();
+
+        Assert.Equal(["A", "C", "B"], eventOrder);
+        Assert.Contains(added, behaviors);
         window.Close();
     }
 

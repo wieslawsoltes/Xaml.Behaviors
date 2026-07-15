@@ -23,6 +23,10 @@ public class BehaviorCollection : AvaloniaList<AvaloniaObject>
     private readonly List<IBehavior> _pendingSynchronizations = [];
     private bool _isAttachingCollection;
     private bool _isSynchronizingCollection;
+    private bool _hasObservedInitialized;
+    private bool _hasObservedLogicalAttachment;
+    private bool _hasObservedVisualAttachment;
+    private bool _hasObservedLoaded;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="BehaviorCollection"/> class.
@@ -87,6 +91,7 @@ public class BehaviorCollection : AvaloniaList<AvaloniaObject>
         }
 
         SynchronizeBehaviorEvents(this.OfType<IBehavior>().ToList());
+        CaptureCurrentLifecycleState();
     }
 
     /// <summary>
@@ -104,40 +109,52 @@ public class BehaviorCollection : AvaloniaList<AvaloniaObject>
 
         AssociatedObject = null;
         _oldCollection.Clear();
+        _pendingSynchronizations.Clear();
+        _hasObservedInitialized = false;
+        _hasObservedLogicalAttachment = false;
+        _hasObservedVisualAttachment = false;
+        _hasObservedLoaded = false;
     }
 
     internal void AttachedToVisualTree()
     {
+        _hasObservedVisualAttachment = true;
         DispatchBehaviorEvent(static handler => handler.AttachedToVisualTreeEventHandler());
     }
 
     internal void DetachedFromVisualTree()
     {
+        _hasObservedVisualAttachment = false;
         DispatchBehaviorEvent(static handler => handler.DetachedFromVisualTreeEventHandler());
     }
 
     internal void AttachedToLogicalTree()
     {
+        _hasObservedLogicalAttachment = true;
         DispatchBehaviorEvent(static handler => handler.AttachedToLogicalTreeEventHandler());
     }
 
     internal void DetachedFromLogicalTree()
     {
+        _hasObservedLogicalAttachment = false;
         DispatchBehaviorEvent(static handler => handler.DetachedFromLogicalTreeEventHandler());
     }
 
     internal void Loaded()
     {
+        _hasObservedLoaded = true;
         DispatchBehaviorEvent(static handler => handler.LoadedEventHandler());
     }
 
     internal void Unloaded()
     {
+        _hasObservedLoaded = false;
         DispatchBehaviorEvent(static handler => handler.UnloadedEventHandler());
     }
 
     internal void Initialized()
     {
+        _hasObservedInitialized = true;
         DispatchBehaviorEvent(static handler => handler.InitializedEventHandler());
     }
 
@@ -165,7 +182,8 @@ public class BehaviorCollection : AvaloniaList<AvaloniaObject>
             foreach (var item in this.ToList())
             {
                 if (item is IBehaviorEventsHandler behaviorEventsHandler and
-                    IBehavior { AssociatedObject: not null })
+                    IBehavior { AssociatedObject: not null } behavior &&
+                    !_pendingSynchronizations.Contains(behavior))
                 {
                     dispatch(behaviorEventsHandler);
                 }
@@ -303,7 +321,7 @@ public class BehaviorCollection : AvaloniaList<AvaloniaObject>
 
     private void QueueOrSynchronizeBehaviorEvents(IBehavior behavior)
     {
-        if (_isSynchronizingCollection)
+        if (_isSynchronizingCollection || HasPendingHostLifecycleEvent())
         {
             QueuePendingSynchronization(behavior);
             return;
@@ -314,7 +332,7 @@ public class BehaviorCollection : AvaloniaList<AvaloniaObject>
 
     private void QueueOrSynchronizeBehaviorEvents(IReadOnlyList<IBehavior> behaviors)
     {
-        if (_isSynchronizingCollection)
+        if (_isSynchronizingCollection || HasPendingHostLifecycleEvent())
         {
             foreach (var behavior in behaviors)
             {
@@ -333,6 +351,50 @@ public class BehaviorCollection : AvaloniaList<AvaloniaObject>
         {
             _pendingSynchronizations.Add(behavior);
         }
+    }
+
+    private bool HasPendingHostLifecycleEvent()
+    {
+        var associatedObject = AssociatedObject;
+        if (associatedObject is null)
+        {
+            return false;
+        }
+
+        if (!_hasObservedInitialized &&
+            associatedObject is StyledElement { IsInitialized: true })
+        {
+            return true;
+        }
+
+        var isOpenTopLevel = associatedObject is TopLevel { IsLoaded: true };
+        if (!_hasObservedLogicalAttachment &&
+            associatedObject is StyledElement styledElement &&
+            (((ILogical)styledElement).IsAttachedToLogicalTree || isOpenTopLevel))
+        {
+            return true;
+        }
+
+        if (!_hasObservedVisualAttachment &&
+            associatedObject is Visual visual &&
+            (visual.IsAttachedToVisualTree() || isOpenTopLevel))
+        {
+            return true;
+        }
+
+        return !_hasObservedLoaded && associatedObject is Control { IsLoaded: true };
+    }
+
+    private void CaptureCurrentLifecycleState()
+    {
+        var associatedObject = AssociatedObject;
+        var isOpenTopLevel = associatedObject is TopLevel { IsLoaded: true };
+        _hasObservedInitialized = associatedObject is StyledElement { IsInitialized: true };
+        _hasObservedLogicalAttachment = associatedObject is StyledElement styledElement &&
+                                        (((ILogical)styledElement).IsAttachedToLogicalTree || isOpenTopLevel);
+        _hasObservedVisualAttachment = associatedObject is Visual visual &&
+                                       (visual.IsAttachedToVisualTree() || isOpenTopLevel);
+        _hasObservedLoaded = associatedObject is Control { IsLoaded: true };
     }
 
     private void SynchronizeBehaviorEvents(IReadOnlyList<IBehavior> behaviors)
