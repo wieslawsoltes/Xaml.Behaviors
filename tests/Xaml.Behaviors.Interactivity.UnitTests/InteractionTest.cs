@@ -125,6 +125,18 @@ public class InteractionTest
         }
     }
 
+    private sealed class SiblingRemovingBehavior(AvaloniaObject sibling) : Behavior<Button>
+    {
+        protected override void OnAttached()
+        {
+            base.OnAttached();
+            if (AssociatedObject is not null)
+            {
+                Interaction.GetBehaviors(AssociatedObject).Remove(sibling);
+            }
+        }
+    }
+
     private static void AssertCurrentLifecycle(LoadedTrigger trigger, Button button)
     {
         Assert.Equal(1, trigger.InitializedCount);
@@ -153,6 +165,22 @@ public class InteractionTest
             Assert.Equal(0, behavior.DetachCount); // "Should not have called Detach."
             Assert.Equal(button, behavior.AssociatedObject); // "Should be attached to the host of the BehaviorCollection."
         }
+    }
+
+    [AvaloniaFact]
+    public void SetBehaviors_OnAttachedRemoval_DoesNotAttachRemovedSibling()
+    {
+        var sibling = new StubBehavior();
+        var remover = new SiblingRemovingBehavior(sibling);
+        var behaviors = new BehaviorCollection { remover, sibling };
+        var button = new Button();
+
+        Interaction.SetBehaviors(button, behaviors);
+
+        Assert.DoesNotContain(sibling, behaviors);
+        Assert.Equal(0, sibling.AttachCount);
+        Assert.Null(sibling.AssociatedObject);
+        Assert.Same(button, remover.AssociatedObject);
     }
 
     [AvaloniaFact]

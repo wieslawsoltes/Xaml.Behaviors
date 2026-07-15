@@ -62,7 +62,18 @@ public class BehaviorCollection : AvaloniaList<AvaloniaObject>
 
         foreach (var behavior in behaviors)
         {
-            behavior.Attach(AssociatedObject);
+            var associatedObjectForAttach = AssociatedObject;
+            if (associatedObjectForAttach is null)
+            {
+                break;
+            }
+
+            if (behavior is not AvaloniaObject behaviorObject || !Contains(behaviorObject))
+            {
+                continue;
+            }
+
+            behavior.Attach(associatedObjectForAttach);
         }
 
         foreach (var behavior in behaviors)
