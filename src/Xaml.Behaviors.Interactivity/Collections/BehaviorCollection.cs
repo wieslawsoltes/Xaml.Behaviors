@@ -58,18 +58,16 @@ public class BehaviorCollection : AvaloniaList<AvaloniaObject>
 
         Debug.Assert(associatedObject is not null, "The previous checks should keep us from ever setting null here.");
         AssociatedObject = associatedObject;
+        var behaviors = this.OfType<IBehavior>().ToList();
 
-        foreach (var item in this)
+        foreach (var behavior in behaviors)
         {
-            if (item is IBehavior behavior)
-            {
-                behavior.Attach(AssociatedObject);
-            }
+            behavior.Attach(AssociatedObject);
         }
 
-        foreach (var item in this)
+        foreach (var behavior in behaviors)
         {
-            if (item is IBehavior behavior)
+            if (behavior.AssociatedObject is not null)
             {
                 SynchronizeBehaviorEvents(behavior);
             }
@@ -217,9 +215,20 @@ public class BehaviorCollection : AvaloniaList<AvaloniaObject>
 
             _oldCollection.Clear();
 
-            foreach (var newItem in this)
+            var attachedBehaviors = new List<IBehavior>(Count);
+            foreach (var newItem in this.ToList())
             {
-                _oldCollection.Add(VerifiedAttach(newItem));
+                var behavior = VerifiedAttach(newItem);
+                _oldCollection.Add(behavior);
+                attachedBehaviors.Add(behavior);
+            }
+
+            foreach (var behavior in attachedBehaviors)
+            {
+                if (behavior.AssociatedObject is not null)
+                {
+                    SynchronizeBehaviorEvents(behavior);
+                }
             }
 #if DEBUG
             VerifyOldCollectionIntegrity();
@@ -233,7 +242,9 @@ public class BehaviorCollection : AvaloniaList<AvaloniaObject>
             {
                 var eventIndex = eventArgs.NewStartingIndex;
                 var changedItem = eventArgs.NewItems?[0] as AvaloniaObject;
-                _oldCollection.Insert(eventIndex, VerifiedAttach(changedItem));
+                var behavior = VerifiedAttach(changedItem);
+                _oldCollection.Insert(eventIndex, behavior);
+                SynchronizeBehaviorEvents(behavior);
                 break;
             }
 
@@ -250,7 +261,9 @@ public class BehaviorCollection : AvaloniaList<AvaloniaObject>
                     oldItem.Detach();
                 }
 
-                _oldCollection[eventIndex] = VerifiedAttach(changedItem);
+                var behavior = VerifiedAttach(changedItem);
+                _oldCollection[eventIndex] = behavior;
+                SynchronizeBehaviorEvents(behavior);
                 break;
             }
 
@@ -298,7 +311,6 @@ public class BehaviorCollection : AvaloniaList<AvaloniaObject>
         if (AssociatedObject is not null)
         {
             behavior.Attach(AssociatedObject);
-            SynchronizeBehaviorEvents(behavior);
         }
 
         return behavior;

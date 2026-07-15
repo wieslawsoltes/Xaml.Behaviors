@@ -74,6 +74,20 @@ public class InteractionTest
         }
     }
 
+    private sealed class SelfRemovingLoadedTrigger : StyledElementTrigger<Button>
+    {
+        public int LoadedCount { get; private set; }
+
+        protected override void OnLoaded()
+        {
+            LoadedCount++;
+            if (AssociatedObject is not null)
+            {
+                Interaction.GetBehaviors(AssociatedObject).Remove(this);
+            }
+        }
+    }
+
     private static void AssertCurrentLifecycle(LoadedTrigger trigger, Button button)
     {
         Assert.Equal(1, trigger.InitializedCount);
@@ -274,6 +288,26 @@ public class InteractionTest
     }
 
     [AvaloniaFact]
+    public void SetBehaviorsAfterShow_AllowsLifecycleCallbackToRemoveBehavior()
+    {
+        var button = new Button();
+        var window = new Window { Content = button };
+        window.Show();
+        Dispatcher.UIThread.RunJobs();
+        var trigger = new SelfRemovingLoadedTrigger();
+        var sibling = new StubBehavior();
+        var behaviors = new BehaviorCollection { trigger, sibling };
+
+        Interaction.SetBehaviors(button, behaviors);
+
+        Assert.Equal(1, trigger.LoadedCount);
+        Assert.DoesNotContain(trigger, behaviors);
+        Assert.Null(trigger.AssociatedObject);
+        Assert.Same(button, sibling.AssociatedObject);
+        window.Close();
+    }
+
+    [AvaloniaFact]
     public void AddBehaviorAfterShow_NotifiesLoadedOnce()
     {
         var button = new Button();
@@ -286,6 +320,25 @@ public class InteractionTest
         behaviors.Add(trigger);
 
         AssertCurrentLifecycle(trigger, button);
+    }
+
+    [AvaloniaFact]
+    public void AddBehaviorAfterShow_AllowsBehaviorToRemoveItselfDuringLoaded()
+    {
+        var button = new Button();
+        var behaviors = Interaction.GetBehaviors(button);
+        var window = new Window { Content = button };
+        window.Show();
+        Dispatcher.UIThread.RunJobs();
+        var trigger = new SelfRemovingLoadedTrigger();
+
+        behaviors.Add(trigger);
+
+        Assert.Equal(1, trigger.LoadedCount);
+        Assert.DoesNotContain(trigger, behaviors);
+        Assert.Null(trigger.AssociatedObject);
+        Assert.Empty(behaviors);
+        window.Close();
     }
 
     [AvaloniaFact]
