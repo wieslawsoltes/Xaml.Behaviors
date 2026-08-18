@@ -11,19 +11,11 @@ namespace Avalonia.Xaml.Interactions.Custom;
 /// </summary>
 public abstract class RoutedEventTrigger : RoutedEventTriggerBase
 {
-    private IDisposable? _disposable;
-    
     /// <summary>
     /// 
     /// </summary>
     protected abstract RoutedEvent RoutedEvent { get; }
 
-    /// <inheritdoc />
-    protected override IDisposable OnAttachedOverride()
-    {
-        return new DisposableAction(OnDelayedDispose);
-    }
-    
     /// <summary>
     /// 
     /// </summary>
@@ -66,12 +58,6 @@ public abstract class RoutedEventTrigger : RoutedEventTriggerBase
     {
         e.Handled = MarkAsHandled;
         Interaction.ExecuteActions(AssociatedObject, Actions, e);
-    }
-
-    private void OnDelayedDispose()
-    {
-        _disposable?.Dispose();
-        _disposable = null;
     }
 
     private static IDisposable AddDisposableHandler(
