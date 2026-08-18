@@ -83,14 +83,16 @@
         <article data-uid="">
 <h1 id="invokebuttonclickaction">InvokeButtonClickAction</h1>
 
-<p>This action programmatically raises the <code>Click</code> event on a target <code>Button</code>. This is useful if you want to simulate a button click from another event or trigger.</p>
+<p>This action programmatically invokes a target <code>Button</code>. It follows Avalonia's normal button activation path, including the <code>Click</code> event, flyout handling, and command execution. Disabled buttons are not invoked.</p>
 <h3 id="properties">Properties</h3>
 <ul>
 <li><code>TargetButton</code>: The button to click. If not set, it attempts to use the <code>sender</code> if it is a button.</li>
 </ul>
 <h3 id="example">Example</h3>
 <pre><code class="lang-xml">&lt;StackPanel&gt;
-    &lt;Button Name=&quot;SubmitButton&quot; Content=&quot;Submit&quot; Click=&quot;SubmitButton_Click&quot; /&gt;
+    &lt;Button Name=&quot;SubmitButton&quot;
+            Content=&quot;Submit&quot;
+            Command=&quot;{Binding SubmitCommand}&quot; /&gt;
 
     &lt;TextBox&gt;
         &lt;Interaction.Behaviors&gt;
@@ -102,6 +104,7 @@
     &lt;/TextBox&gt;
 &lt;/StackPanel&gt;
 </code></pre>
+<p>If a <code>Click</code> handler marks the event as handled, the button command is not executed, matching Avalonia's native button behavior.</p>
 
 </article>
 

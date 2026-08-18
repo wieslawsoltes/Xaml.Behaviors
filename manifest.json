@@ -2842,7 +2842,7 @@
       "Uid": null,
       "IsMRef": true,
       "Title": "Avalonia.Xaml.Interactions.Custom.InvokeButtonClickAction",
-      "Summary": "<p sourcefile=\"api/Avalonia.Xaml.Interactions.Custom.InvokeButtonClickAction.yml\" sourcestartlinenumber=\"1\">Raises <xref href=\"Avalonia.Controls.Button.ClickEvent\" data-throw-if-not-resolved=\"false\"></xref> on the target button when executed.</p>\n"
+      "Summary": "<p sourcefile=\"api/Avalonia.Xaml.Interactions.Custom.InvokeButtonClickAction.yml\" sourcestartlinenumber=\"1\">Invokes the target button when executed.</p>\n"
     },
     {
       "type": "ManagedReference",
