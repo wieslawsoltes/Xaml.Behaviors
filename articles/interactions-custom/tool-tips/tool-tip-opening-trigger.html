@@ -84,6 +84,7 @@
 <h1 id="tooltipopeningtrigger">ToolTipOpeningTrigger</h1>
 
 <p>Trigger that listens for the <code>ToolTip.ToolTipOpeningEvent</code>.</p>
+<p><code>ToolTipOpeningEvent</code> uses direct routing. The trigger subscribes with the matching routing strategy and passes the <code>CancelRoutedEventArgs</code> instance to its actions.</p>
 <h2 id="usage">Usage</h2>
 <pre><code class="lang-xml">&lt;Button Content=&quot;Hover Me&quot; ToolTip.Tip=&quot;I am a tooltip!&quot;&gt;
     &lt;Interaction.Behaviors&gt;
@@ -93,6 +94,7 @@
     &lt;/Interaction.Behaviors&gt;
 &lt;/Button&gt;
 </code></pre>
+<p>The same event can be handled by <code>EventTriggerBehavior</code> with <code>EventName=&quot;ToolTipOpening&quot;</code>. Prefer <code>ToolTipOpeningTrigger</code> when trimming or native AOT compatibility is required.</p>
 
 </article>
 
