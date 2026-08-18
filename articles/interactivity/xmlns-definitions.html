@@ -125,6 +125,23 @@
 <pre><code class="lang-csharp">[assembly: XmlnsDefinition(&quot;https://github.com/avaloniaui&quot;, &quot;Avalonia.Xaml.Interactivity&quot;)]
 </code></pre>
 <p>When the XAML compiler or loader encounters the <code>https://github.com/avaloniaui</code> namespace, it looks into all referenced assemblies that have this attribute and includes the specified CLR namespaces in the lookup scope.</p>
+<h2 id="previewer-and-runtime-xaml-loader-fallback">Previewer and runtime XAML loader fallback</h2>
+<p>Compiled application XAML discovers the package mappings automatically. Avalonia's previewer uses the runtime XAML compiler, whose namespace map is built from assemblies already loaded in the previewer process. If that map is initialized before the behavior assemblies are loaded, the previewer can report errors such as <code>Unable to resolve type Interaction</code> even though the project builds and runs correctly.</p>
+<p>For a view affected by this previewer-only loading order, declare the behavior assemblies explicitly and use the prefixes in that view:</p>
+<pre><code class="lang-xml">&lt;UserControl xmlns=&quot;https://github.com/avaloniaui&quot;
+             xmlns:x=&quot;http://schemas.microsoft.com/winfx/2006/xaml&quot;
+             xmlns:i=&quot;clr-namespace:Avalonia.Xaml.Interactivity;assembly=Xaml.Behaviors.Interactivity&quot;
+             xmlns:core=&quot;clr-namespace:Avalonia.Xaml.Interactions.Core;assembly=Xaml.Behaviors.Interactions&quot;&gt;
+    &lt;Button&gt;
+        &lt;i:Interaction.Behaviors&gt;
+            &lt;core:EventTriggerBehavior EventName=&quot;Click&quot;&gt;
+                &lt;core:InvokeCommandAction Command=&quot;{Binding SaveCommand}&quot; /&gt;
+            &lt;/core:EventTriggerBehavior&gt;
+        &lt;/i:Interaction.Behaviors&gt;
+    &lt;/Button&gt;
+&lt;/UserControl&gt;
+</code></pre>
+<p>Use the assembly that owns each focused package namespace. For example, custom interactions use <code>assembly=Xaml.Behaviors.Interactions.Custom</code>. This explicit form forces the runtime compiler to resolve the required assembly and can coexist with application-defined <code>XmlnsDefinition</code> attributes. It is a previewer/runtime-loading compatibility fallback; the shorter default-namespace form remains recommended for normal compiled XAML.</p>
 
 </article>
 
