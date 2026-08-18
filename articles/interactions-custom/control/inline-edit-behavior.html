@@ -93,6 +93,7 @@
 <li><code>CancelKey</code>: The key to cancel changes and switch back (default: Escape).</li>
 <li><code>EditOnAssociatedObjectDoubleTapped</code>: If true, double-tapping the container triggers edit mode.</li>
 </ul>
+<p>Double-tap activation follows Avalonia's bubble-routed <code>DoubleTapped</code> event, so taps on content inside the display control or associated container also begin editing.</p>
 <h3 id="example">Example</h3>
 <pre><code class="lang-xml">&lt;StackPanel Orientation=&quot;Horizontal&quot;&gt;
     &lt;Interaction.Behaviors&gt;
