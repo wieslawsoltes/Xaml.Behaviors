@@ -15,6 +15,8 @@ Base behavior that validates a property value using a set of rules.
 
 This behavior is intended to be subclassed for specific controls and properties.
 
+Validation-rule configuration, including each rule's error message, is exposed through Avalonia styled properties and supports compiled bindings. The behavior observes rule property and collection changes and revalidates the associated property immediately.
+
 
 ## Properties
 
