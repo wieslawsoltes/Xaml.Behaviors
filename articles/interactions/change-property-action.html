@@ -90,6 +90,7 @@
 <li><strong><code>PropertyName</code></strong>: The name of the property to change.</li>
 <li><strong><code>Value</code></strong>: The new value to set.</li>
 </ul>
+<p>Attached properties use the <code>(Owner.Property)</code> form. Resolution is based on the target object's registered Avalonia properties, so owner type names are not affected by unrelated types with the same short name in other assemblies.</p>
 <h2 id="usage">Usage</h2>
 <pre><code class="lang-xml">&lt;Button Content=&quot;Hover Me&quot;&gt;
     &lt;Interaction.Behaviors&gt;
@@ -101,6 +102,11 @@
         &lt;/EventTriggerBehavior&gt;
     &lt;/Interaction.Behaviors&gt;
 &lt;/Button&gt;
+</code></pre>
+<p>For example, the following action assigns the target to the first grid column:</p>
+<pre><code class="lang-xml">&lt;ChangePropertyAction TargetObject=&quot;{Binding #ContentPresenter}&quot;
+                      PropertyName=&quot;(Grid.Column)&quot;
+                      Value=&quot;0&quot; /&gt;
 </code></pre>
 
 </article>
