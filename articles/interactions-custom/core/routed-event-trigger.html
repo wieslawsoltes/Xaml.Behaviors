@@ -89,6 +89,15 @@
 <li><code>RoutedEvent</code>: The routed event to listen for (e.g., <code>Button.ClickEvent</code>).</li>
 <li><code>RoutingStrategies</code>: The routing strategy to use (Tunnel, Bubble, Direct).</li>
 </ul>
+<p>When a <code>RoutedEventTriggerBehavior</code> is attached directly to a <code>TopLevel</code>, its routed-event subscription and action bindings remain active through the top-level's closed event. They are released when the behavior is actually detached. Other controls continue to subscribe only while attached to the visual tree.</p>
+<pre><code class="lang-xml">&lt;Window&gt;
+  &lt;Interaction.Behaviors&gt;
+    &lt;RoutedEventTriggerBehavior RoutedEvent=&quot;{x:Static Window.WindowClosedEvent}&quot;&gt;
+      &lt;InvokeCommandAction Command=&quot;{Binding WindowClosedCommand}&quot; /&gt;
+    &lt;/RoutedEventTriggerBehavior&gt;
+  &lt;/Interaction.Behaviors&gt;
+&lt;/Window&gt;
+</code></pre>
 
 </article>
 

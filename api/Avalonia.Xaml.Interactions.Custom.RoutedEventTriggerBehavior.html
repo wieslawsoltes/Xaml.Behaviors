@@ -170,9 +170,6 @@ Class RoutedEventTriggerBehavior  <a class="header-action link-secondary" title=
       <a class="xref" href="Avalonia.Xaml.Interactivity.StyledElementBehavior.html#Avalonia_Xaml_Interactivity_StyledElementBehavior_Detach">StyledElementBehavior.Detach()</a>
     </div>
     <div>
-      <a class="xref" href="Avalonia.Xaml.Interactivity.StyledElementBehavior.html#Avalonia_Xaml_Interactivity_StyledElementBehavior_OnDetaching">StyledElementBehavior.OnDetaching()</a>
-    </div>
-    <div>
       <a class="xref" href="Avalonia.Xaml.Interactivity.StyledElementBehavior.html#Avalonia_Xaml_Interactivity_StyledElementBehavior_OnAttachedToLogicalTree">StyledElementBehavior.OnAttachedToLogicalTree()</a>
     </div>
     <div>
@@ -704,6 +701,36 @@ public Interactive? SourceInteractive { get; set; }</code></pre>
 
   <h4 class="section" id="Avalonia_Xaml_Interactions_Custom_RoutedEventTriggerBehavior_OnDetachedFromVisualTree_remarks">Remarks</h4>
   <div class="markdown level1 remarks"><p>Invoked only when the <a class="xref" href="Avalonia.Xaml.Interactivity.StyledElementBehavior.html#Avalonia_Xaml_Interactivity_StyledElementBehavior_AssociatedObject">AssociatedObject</a> is of type <span class="xref">Avalonia.Visual</span>.</p>
+</div>
+
+
+
+
+  <a id="Avalonia_Xaml_Interactions_Custom_RoutedEventTriggerBehavior_OnDetaching_" data-uid="Avalonia.Xaml.Interactions.Custom.RoutedEventTriggerBehavior.OnDetaching*"></a>
+
+  <h3 id="Avalonia_Xaml_Interactions_Custom_RoutedEventTriggerBehavior_OnDetaching" data-uid="Avalonia.Xaml.Interactions.Custom.RoutedEventTriggerBehavior.OnDetaching">
+  OnDetaching()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactions.Custom/Core/RoutedEventTriggerBehavior.cs/#L119"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Called when the behavior is being detached from its <a class="xref" href="Avalonia.Xaml.Interactivity.StyledElementBehavior.html#Avalonia_Xaml_Interactivity_StyledElementBehavior_AssociatedObject">AssociatedObject</a>.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected override void OnDetaching()</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+  <h4 class="section" id="Avalonia_Xaml_Interactions_Custom_RoutedEventTriggerBehavior_OnDetaching_remarks">Remarks</h4>
+  <div class="markdown level1 remarks"><p>Override this to unhook functionality from the <a class="xref" href="Avalonia.Xaml.Interactivity.StyledElementBehavior.html#Avalonia_Xaml_Interactivity_StyledElementBehavior_AssociatedObject">AssociatedObject</a></p>
 </div>
 
 

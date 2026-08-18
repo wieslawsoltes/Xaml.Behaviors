@@ -15139,6 +15139,19 @@ references:
   isSpec: "True"
   fullName: Avalonia.Xaml.Interactions.Custom.RoutedEventTriggerBehavior.OnDetachedFromVisualTree
   nameWithType: RoutedEventTriggerBehavior.OnDetachedFromVisualTree
+- uid: Avalonia.Xaml.Interactions.Custom.RoutedEventTriggerBehavior.OnDetaching
+  name: OnDetaching()
+  href: api/Avalonia.Xaml.Interactions.Custom.RoutedEventTriggerBehavior.html#Avalonia_Xaml_Interactions_Custom_RoutedEventTriggerBehavior_OnDetaching
+  commentId: M:Avalonia.Xaml.Interactions.Custom.RoutedEventTriggerBehavior.OnDetaching
+  fullName: Avalonia.Xaml.Interactions.Custom.RoutedEventTriggerBehavior.OnDetaching()
+  nameWithType: RoutedEventTriggerBehavior.OnDetaching()
+- uid: Avalonia.Xaml.Interactions.Custom.RoutedEventTriggerBehavior.OnDetaching*
+  name: OnDetaching
+  href: api/Avalonia.Xaml.Interactions.Custom.RoutedEventTriggerBehavior.html#Avalonia_Xaml_Interactions_Custom_RoutedEventTriggerBehavior_OnDetaching_
+  commentId: Overload:Avalonia.Xaml.Interactions.Custom.RoutedEventTriggerBehavior.OnDetaching
+  isSpec: "True"
+  fullName: Avalonia.Xaml.Interactions.Custom.RoutedEventTriggerBehavior.OnDetaching
+  nameWithType: RoutedEventTriggerBehavior.OnDetaching
 - uid: Avalonia.Xaml.Interactions.Custom.RoutedEventTriggerBehavior.OnPropertyChanged(Avalonia.AvaloniaPropertyChangedEventArgs)
   name: OnPropertyChanged(AvaloniaPropertyChangedEventArgs)
   href: api/Avalonia.Xaml.Interactions.Custom.RoutedEventTriggerBehavior.html#Avalonia_Xaml_Interactions_Custom_RoutedEventTriggerBehavior_OnPropertyChanged_Avalonia_AvaloniaPropertyChangedEventArgs_
