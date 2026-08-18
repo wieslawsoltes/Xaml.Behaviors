@@ -203,9 +203,6 @@ Class AttachedToVisualTreeBehavior&lt;T&gt;  <a class="header-action link-second
       <a class="xref" href="Avalonia.Xaml.Interactivity.StyledElementBehavior.html#Avalonia_Xaml_Interactivity_StyledElementBehavior_Detach">StyledElementBehavior.Detach()</a>
     </div>
     <div>
-      <a class="xref" href="Avalonia.Xaml.Interactivity.StyledElementBehavior.html#Avalonia_Xaml_Interactivity_StyledElementBehavior_OnDetachedFromVisualTree">StyledElementBehavior.OnDetachedFromVisualTree()</a>
-    </div>
-    <div>
       <a class="xref" href="Avalonia.Xaml.Interactivity.StyledElementBehavior.html#Avalonia_Xaml_Interactivity_StyledElementBehavior_OnAttachedToLogicalTree">StyledElementBehavior.OnAttachedToLogicalTree()</a>
     </div>
     <div>
@@ -553,7 +550,7 @@ Class AttachedToVisualTreeBehavior&lt;T&gt;  <a class="header-action link-second
 
   <h3 id="Avalonia_Xaml_Interactions_Custom_AttachedToVisualTreeBehavior_1_OnAttachedToVisualTreeOverride" data-uid="Avalonia.Xaml.Interactions.Custom.AttachedToVisualTreeBehavior`1.OnAttachedToVisualTreeOverride">
   OnAttachedToVisualTreeOverride()
-  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactions.Custom/Core/AttachedToVisualTreeBehavior.cs/#L32"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactions.Custom/Core/AttachedToVisualTreeBehavior.cs/#L39"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Called after the <a class="xref" href="Avalonia.Xaml.Interactivity.StyledElementBehavior-1.html#Avalonia_Xaml_Interactivity_StyledElementBehavior_1_AssociatedObject">AssociatedObject</a> is attached to the visual tree.</p>
@@ -568,7 +565,7 @@ Class AttachedToVisualTreeBehavior&lt;T&gt;  <a class="header-action link-second
   <h4 class="section">Returns</h4>
   <dl class="parameters">
     <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.idisposable">IDisposable</a></dt>
-    <dd><p>A disposable resource to be disposed when the behavior is detached.</p>
+    <dd><p>A resource disposed when the associated object leaves the visual tree or the behavior is detached.</p>
 </dd>
   </dl>
 
@@ -578,6 +575,36 @@ Class AttachedToVisualTreeBehavior&lt;T&gt;  <a class="header-action link-second
 
 
 
+
+
+
+
+  <a id="Avalonia_Xaml_Interactions_Custom_AttachedToVisualTreeBehavior_1_OnDetachedFromVisualTree_" data-uid="Avalonia.Xaml.Interactions.Custom.AttachedToVisualTreeBehavior`1.OnDetachedFromVisualTree*"></a>
+
+  <h3 id="Avalonia_Xaml_Interactions_Custom_AttachedToVisualTreeBehavior_1_OnDetachedFromVisualTree" data-uid="Avalonia.Xaml.Interactions.Custom.AttachedToVisualTreeBehavior`1.OnDetachedFromVisualTree">
+  OnDetachedFromVisualTree()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactions.Custom/Core/AttachedToVisualTreeBehavior.cs/#L30"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Called when the <a class="xref" href="Avalonia.Xaml.Interactivity.StyledElementBehavior.html#Avalonia_Xaml_Interactivity_StyledElementBehavior_AssociatedObject">AssociatedObject</a> is being detached from the visual tree.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected override void OnDetachedFromVisualTree()</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+  <h4 class="section" id="Avalonia_Xaml_Interactions_Custom_AttachedToVisualTreeBehavior_1_OnDetachedFromVisualTree_remarks">Remarks</h4>
+  <div class="markdown level1 remarks"><p>Invoked only when the <a class="xref" href="Avalonia.Xaml.Interactivity.StyledElementBehavior.html#Avalonia_Xaml_Interactivity_StyledElementBehavior_AssociatedObject">AssociatedObject</a> is of type <span class="xref">Avalonia.Visual</span>.</p>
+</div>
 
 
 

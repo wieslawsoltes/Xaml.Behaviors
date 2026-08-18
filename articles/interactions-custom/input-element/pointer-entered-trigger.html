@@ -83,6 +83,7 @@
         <article data-uid="">
 <h1 id="pointerenteredtrigger">PointerEnteredTrigger</h1>
 
+<p>The trigger owns its routed-event subscription for exactly one visual-tree lifetime. Removing and re-adding the associated control does not accumulate handlers or execute actions more than once per pointer entry.</p>
 <p>A trigger that executes when the pointer enters the bounds of the associated <code>InputElement</code>.</p>
 <h2 id="usage">Usage</h2>
 <pre><code class="lang-xml">&lt;Border Background=&quot;LightGray&quot; Height=&quot;100&quot; Width=&quot;100&quot;&gt;

@@ -149,6 +149,9 @@ Class TransitionsBehavior  <a class="header-action link-secondary" title="View s
       <a class="xref" href="Avalonia.Xaml.Interactions.Custom.AttachedToVisualTreeBehavior-1.html#Avalonia_Xaml_Interactions_Custom_AttachedToVisualTreeBehavior_1_OnAttachedToVisualTree">AttachedToVisualTreeBehavior&lt;Control&gt;.OnAttachedToVisualTree()</a>
     </div>
     <div>
+      <a class="xref" href="Avalonia.Xaml.Interactions.Custom.AttachedToVisualTreeBehavior-1.html#Avalonia_Xaml_Interactions_Custom_AttachedToVisualTreeBehavior_1_OnDetachedFromVisualTree">AttachedToVisualTreeBehavior&lt;Control&gt;.OnDetachedFromVisualTree()</a>
+    </div>
+    <div>
       <a class="xref" href="Avalonia.Xaml.Interactivity.DisposingBehavior-1.html#Avalonia_Xaml_Interactivity_DisposingBehavior_1_OnAttached">DisposingBehavior&lt;Control&gt;.OnAttached()</a>
     </div>
     <div>
@@ -171,9 +174,6 @@ Class TransitionsBehavior  <a class="header-action link-secondary" title="View s
     </div>
     <div>
       <a class="xref" href="Avalonia.Xaml.Interactivity.StyledElementBehavior.html#Avalonia_Xaml_Interactivity_StyledElementBehavior_Detach">StyledElementBehavior.Detach()</a>
-    </div>
-    <div>
-      <a class="xref" href="Avalonia.Xaml.Interactivity.StyledElementBehavior.html#Avalonia_Xaml_Interactivity_StyledElementBehavior_OnDetachedFromVisualTree">StyledElementBehavior.OnDetachedFromVisualTree()</a>
     </div>
     <div>
       <a class="xref" href="Avalonia.Xaml.Interactivity.StyledElementBehavior.html#Avalonia_Xaml_Interactivity_StyledElementBehavior_OnAttachedToLogicalTree">StyledElementBehavior.OnAttachedToLogicalTree()</a>
@@ -546,7 +546,7 @@ Class TransitionsBehavior  <a class="header-action link-secondary" title="View s
   <h4 class="section">Returns</h4>
   <dl class="parameters">
     <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.idisposable">IDisposable</a></dt>
-    <dd><p>A disposable resource to be disposed when the behavior is detached.</p>
+    <dd><p>A resource disposed when the associated object leaves the visual tree or the behavior is detached.</p>
 </dd>
   </dl>
 

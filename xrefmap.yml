@@ -3671,6 +3671,23 @@ references:
   fullName.vb: Avalonia.Xaml.Interactions.Custom.AttachedToVisualTreeBehavior(Of T).OnAttachedToVisualTreeOverride
   nameWithType: AttachedToVisualTreeBehavior<T>.OnAttachedToVisualTreeOverride
   nameWithType.vb: AttachedToVisualTreeBehavior(Of T).OnAttachedToVisualTreeOverride
+- uid: Avalonia.Xaml.Interactions.Custom.AttachedToVisualTreeBehavior`1.OnDetachedFromVisualTree
+  name: OnDetachedFromVisualTree()
+  href: api/Avalonia.Xaml.Interactions.Custom.AttachedToVisualTreeBehavior-1.html#Avalonia_Xaml_Interactions_Custom_AttachedToVisualTreeBehavior_1_OnDetachedFromVisualTree
+  commentId: M:Avalonia.Xaml.Interactions.Custom.AttachedToVisualTreeBehavior`1.OnDetachedFromVisualTree
+  fullName: Avalonia.Xaml.Interactions.Custom.AttachedToVisualTreeBehavior<T>.OnDetachedFromVisualTree()
+  fullName.vb: Avalonia.Xaml.Interactions.Custom.AttachedToVisualTreeBehavior(Of T).OnDetachedFromVisualTree()
+  nameWithType: AttachedToVisualTreeBehavior<T>.OnDetachedFromVisualTree()
+  nameWithType.vb: AttachedToVisualTreeBehavior(Of T).OnDetachedFromVisualTree()
+- uid: Avalonia.Xaml.Interactions.Custom.AttachedToVisualTreeBehavior`1.OnDetachedFromVisualTree*
+  name: OnDetachedFromVisualTree
+  href: api/Avalonia.Xaml.Interactions.Custom.AttachedToVisualTreeBehavior-1.html#Avalonia_Xaml_Interactions_Custom_AttachedToVisualTreeBehavior_1_OnDetachedFromVisualTree_
+  commentId: Overload:Avalonia.Xaml.Interactions.Custom.AttachedToVisualTreeBehavior`1.OnDetachedFromVisualTree
+  isSpec: "True"
+  fullName: Avalonia.Xaml.Interactions.Custom.AttachedToVisualTreeBehavior<T>.OnDetachedFromVisualTree
+  fullName.vb: Avalonia.Xaml.Interactions.Custom.AttachedToVisualTreeBehavior(Of T).OnDetachedFromVisualTree
+  nameWithType: AttachedToVisualTreeBehavior<T>.OnDetachedFromVisualTree
+  nameWithType.vb: AttachedToVisualTreeBehavior(Of T).OnDetachedFromVisualTree
 - uid: Avalonia.Xaml.Interactions.Custom.AttachedToVisualTreeTrigger
   name: AttachedToVisualTreeTrigger
   href: api/Avalonia.Xaml.Interactions.Custom.AttachedToVisualTreeTrigger.html
@@ -3750,6 +3767,23 @@ references:
   fullName.vb: Avalonia.Xaml.Interactions.Custom.AttachedToVisualTreeTriggerBase(Of T).OnAttachedToVisualTreeOverride
   nameWithType: AttachedToVisualTreeTriggerBase<T>.OnAttachedToVisualTreeOverride
   nameWithType.vb: AttachedToVisualTreeTriggerBase(Of T).OnAttachedToVisualTreeOverride
+- uid: Avalonia.Xaml.Interactions.Custom.AttachedToVisualTreeTriggerBase`1.OnDetachedFromVisualTree
+  name: OnDetachedFromVisualTree()
+  href: api/Avalonia.Xaml.Interactions.Custom.AttachedToVisualTreeTriggerBase-1.html#Avalonia_Xaml_Interactions_Custom_AttachedToVisualTreeTriggerBase_1_OnDetachedFromVisualTree
+  commentId: M:Avalonia.Xaml.Interactions.Custom.AttachedToVisualTreeTriggerBase`1.OnDetachedFromVisualTree
+  fullName: Avalonia.Xaml.Interactions.Custom.AttachedToVisualTreeTriggerBase<T>.OnDetachedFromVisualTree()
+  fullName.vb: Avalonia.Xaml.Interactions.Custom.AttachedToVisualTreeTriggerBase(Of T).OnDetachedFromVisualTree()
+  nameWithType: AttachedToVisualTreeTriggerBase<T>.OnDetachedFromVisualTree()
+  nameWithType.vb: AttachedToVisualTreeTriggerBase(Of T).OnDetachedFromVisualTree()
+- uid: Avalonia.Xaml.Interactions.Custom.AttachedToVisualTreeTriggerBase`1.OnDetachedFromVisualTree*
+  name: OnDetachedFromVisualTree
+  href: api/Avalonia.Xaml.Interactions.Custom.AttachedToVisualTreeTriggerBase-1.html#Avalonia_Xaml_Interactions_Custom_AttachedToVisualTreeTriggerBase_1_OnDetachedFromVisualTree_
+  commentId: Overload:Avalonia.Xaml.Interactions.Custom.AttachedToVisualTreeTriggerBase`1.OnDetachedFromVisualTree
+  isSpec: "True"
+  fullName: Avalonia.Xaml.Interactions.Custom.AttachedToVisualTreeTriggerBase<T>.OnDetachedFromVisualTree
+  fullName.vb: Avalonia.Xaml.Interactions.Custom.AttachedToVisualTreeTriggerBase(Of T).OnDetachedFromVisualTree
+  nameWithType: AttachedToVisualTreeTriggerBase<T>.OnDetachedFromVisualTree
+  nameWithType.vb: AttachedToVisualTreeTriggerBase(Of T).OnDetachedFromVisualTree
 - uid: Avalonia.Xaml.Interactions.Custom.AttentionAnimations
   name: AttentionAnimations
   href: api/Avalonia.Xaml.Interactions.Custom.AttentionAnimations.html
@@ -14931,19 +14965,6 @@ references:
   isSpec: "True"
   fullName: Avalonia.Xaml.Interactions.Custom.RoutedEventTrigger.Handler
   nameWithType: RoutedEventTrigger.Handler
-- uid: Avalonia.Xaml.Interactions.Custom.RoutedEventTrigger.OnAttachedOverride
-  name: OnAttachedOverride()
-  href: api/Avalonia.Xaml.Interactions.Custom.RoutedEventTrigger.html#Avalonia_Xaml_Interactions_Custom_RoutedEventTrigger_OnAttachedOverride
-  commentId: M:Avalonia.Xaml.Interactions.Custom.RoutedEventTrigger.OnAttachedOverride
-  fullName: Avalonia.Xaml.Interactions.Custom.RoutedEventTrigger.OnAttachedOverride()
-  nameWithType: RoutedEventTrigger.OnAttachedOverride()
-- uid: Avalonia.Xaml.Interactions.Custom.RoutedEventTrigger.OnAttachedOverride*
-  name: OnAttachedOverride
-  href: api/Avalonia.Xaml.Interactions.Custom.RoutedEventTrigger.html#Avalonia_Xaml_Interactions_Custom_RoutedEventTrigger_OnAttachedOverride_
-  commentId: Overload:Avalonia.Xaml.Interactions.Custom.RoutedEventTrigger.OnAttachedOverride
-  isSpec: "True"
-  fullName: Avalonia.Xaml.Interactions.Custom.RoutedEventTrigger.OnAttachedOverride
-  nameWithType: RoutedEventTrigger.OnAttachedOverride
 - uid: Avalonia.Xaml.Interactions.Custom.RoutedEventTrigger.OnAttachedToVisualTreeOverride
   name: OnAttachedToVisualTreeOverride()
   href: api/Avalonia.Xaml.Interactions.Custom.RoutedEventTrigger.html#Avalonia_Xaml_Interactions_Custom_RoutedEventTrigger_OnAttachedToVisualTreeOverride
@@ -15052,23 +15073,6 @@ references:
   fullName.vb: Avalonia.Xaml.Interactions.Custom.RoutedEventTriggerBase(Of T).Handler
   nameWithType: RoutedEventTriggerBase<T>.Handler
   nameWithType.vb: RoutedEventTriggerBase(Of T).Handler
-- uid: Avalonia.Xaml.Interactions.Custom.RoutedEventTriggerBase`1.OnAttachedOverride
-  name: OnAttachedOverride()
-  href: api/Avalonia.Xaml.Interactions.Custom.RoutedEventTriggerBase-1.html#Avalonia_Xaml_Interactions_Custom_RoutedEventTriggerBase_1_OnAttachedOverride
-  commentId: M:Avalonia.Xaml.Interactions.Custom.RoutedEventTriggerBase`1.OnAttachedOverride
-  fullName: Avalonia.Xaml.Interactions.Custom.RoutedEventTriggerBase<T>.OnAttachedOverride()
-  fullName.vb: Avalonia.Xaml.Interactions.Custom.RoutedEventTriggerBase(Of T).OnAttachedOverride()
-  nameWithType: RoutedEventTriggerBase<T>.OnAttachedOverride()
-  nameWithType.vb: RoutedEventTriggerBase(Of T).OnAttachedOverride()
-- uid: Avalonia.Xaml.Interactions.Custom.RoutedEventTriggerBase`1.OnAttachedOverride*
-  name: OnAttachedOverride
-  href: api/Avalonia.Xaml.Interactions.Custom.RoutedEventTriggerBase-1.html#Avalonia_Xaml_Interactions_Custom_RoutedEventTriggerBase_1_OnAttachedOverride_
-  commentId: Overload:Avalonia.Xaml.Interactions.Custom.RoutedEventTriggerBase`1.OnAttachedOverride
-  isSpec: "True"
-  fullName: Avalonia.Xaml.Interactions.Custom.RoutedEventTriggerBase<T>.OnAttachedOverride
-  fullName.vb: Avalonia.Xaml.Interactions.Custom.RoutedEventTriggerBase(Of T).OnAttachedOverride
-  nameWithType: RoutedEventTriggerBase<T>.OnAttachedOverride
-  nameWithType.vb: RoutedEventTriggerBase(Of T).OnAttachedOverride
 - uid: Avalonia.Xaml.Interactions.Custom.RoutedEventTriggerBase`1.OnAttachedToVisualTreeOverride
   name: OnAttachedToVisualTreeOverride()
   href: api/Avalonia.Xaml.Interactions.Custom.RoutedEventTriggerBase-1.html#Avalonia_Xaml_Interactions_Custom_RoutedEventTriggerBase_1_OnAttachedToVisualTreeOverride
