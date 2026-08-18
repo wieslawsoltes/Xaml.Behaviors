@@ -12312,6 +12312,14 @@ references:
   fullName.vb: Avalonia.Xaml.Interactions.Custom.MaxValueValidationRule(Of T).ErrorMessage
   nameWithType: MaxValueValidationRule<T>.ErrorMessage
   nameWithType.vb: MaxValueValidationRule(Of T).ErrorMessage
+- uid: Avalonia.Xaml.Interactions.Custom.MaxValueValidationRule`1.ErrorMessageProperty
+  name: ErrorMessageProperty
+  href: api/Avalonia.Xaml.Interactions.Custom.MaxValueValidationRule-1.html#Avalonia_Xaml_Interactions_Custom_MaxValueValidationRule_1_ErrorMessageProperty
+  commentId: F:Avalonia.Xaml.Interactions.Custom.MaxValueValidationRule`1.ErrorMessageProperty
+  fullName: Avalonia.Xaml.Interactions.Custom.MaxValueValidationRule<T>.ErrorMessageProperty
+  fullName.vb: Avalonia.Xaml.Interactions.Custom.MaxValueValidationRule(Of T).ErrorMessageProperty
+  nameWithType: MaxValueValidationRule<T>.ErrorMessageProperty
+  nameWithType.vb: MaxValueValidationRule(Of T).ErrorMessageProperty
 - uid: Avalonia.Xaml.Interactions.Custom.MaxValueValidationRule`1.MaxValue
   name: MaxValue
   href: api/Avalonia.Xaml.Interactions.Custom.MaxValueValidationRule-1.html#Avalonia_Xaml_Interactions_Custom_MaxValueValidationRule_1_MaxValue
@@ -12329,6 +12337,14 @@ references:
   fullName.vb: Avalonia.Xaml.Interactions.Custom.MaxValueValidationRule(Of T).MaxValue
   nameWithType: MaxValueValidationRule<T>.MaxValue
   nameWithType.vb: MaxValueValidationRule(Of T).MaxValue
+- uid: Avalonia.Xaml.Interactions.Custom.MaxValueValidationRule`1.MaxValueProperty
+  name: MaxValueProperty
+  href: api/Avalonia.Xaml.Interactions.Custom.MaxValueValidationRule-1.html#Avalonia_Xaml_Interactions_Custom_MaxValueValidationRule_1_MaxValueProperty
+  commentId: F:Avalonia.Xaml.Interactions.Custom.MaxValueValidationRule`1.MaxValueProperty
+  fullName: Avalonia.Xaml.Interactions.Custom.MaxValueValidationRule<T>.MaxValueProperty
+  fullName.vb: Avalonia.Xaml.Interactions.Custom.MaxValueValidationRule(Of T).MaxValueProperty
+  nameWithType: MaxValueValidationRule<T>.MaxValueProperty
+  nameWithType.vb: MaxValueValidationRule(Of T).MaxValueProperty
 - uid: Avalonia.Xaml.Interactions.Custom.MaxValueValidationRule`1.Validate(`0)
   name: Validate(T?)
   href: api/Avalonia.Xaml.Interactions.Custom.MaxValueValidationRule-1.html#Avalonia_Xaml_Interactions_Custom_MaxValueValidationRule_1_Validate__0_
@@ -12366,6 +12382,12 @@ references:
   isSpec: "True"
   fullName: Avalonia.Xaml.Interactions.Custom.MinLengthValidationRule.ErrorMessage
   nameWithType: MinLengthValidationRule.ErrorMessage
+- uid: Avalonia.Xaml.Interactions.Custom.MinLengthValidationRule.ErrorMessageProperty
+  name: ErrorMessageProperty
+  href: api/Avalonia.Xaml.Interactions.Custom.MinLengthValidationRule.html#Avalonia_Xaml_Interactions_Custom_MinLengthValidationRule_ErrorMessageProperty
+  commentId: F:Avalonia.Xaml.Interactions.Custom.MinLengthValidationRule.ErrorMessageProperty
+  fullName: Avalonia.Xaml.Interactions.Custom.MinLengthValidationRule.ErrorMessageProperty
+  nameWithType: MinLengthValidationRule.ErrorMessageProperty
 - uid: Avalonia.Xaml.Interactions.Custom.MinLengthValidationRule.Length
   name: Length
   href: api/Avalonia.Xaml.Interactions.Custom.MinLengthValidationRule.html#Avalonia_Xaml_Interactions_Custom_MinLengthValidationRule_Length
@@ -12379,6 +12401,12 @@ references:
   isSpec: "True"
   fullName: Avalonia.Xaml.Interactions.Custom.MinLengthValidationRule.Length
   nameWithType: MinLengthValidationRule.Length
+- uid: Avalonia.Xaml.Interactions.Custom.MinLengthValidationRule.LengthProperty
+  name: LengthProperty
+  href: api/Avalonia.Xaml.Interactions.Custom.MinLengthValidationRule.html#Avalonia_Xaml_Interactions_Custom_MinLengthValidationRule_LengthProperty
+  commentId: F:Avalonia.Xaml.Interactions.Custom.MinLengthValidationRule.LengthProperty
+  fullName: Avalonia.Xaml.Interactions.Custom.MinLengthValidationRule.LengthProperty
+  nameWithType: MinLengthValidationRule.LengthProperty
 - uid: Avalonia.Xaml.Interactions.Custom.MinLengthValidationRule.Validate(System.String)
   name: Validate(string?)
   href: api/Avalonia.Xaml.Interactions.Custom.MinLengthValidationRule.html#Avalonia_Xaml_Interactions_Custom_MinLengthValidationRule_Validate_System_String_
@@ -12421,6 +12449,14 @@ references:
   fullName.vb: Avalonia.Xaml.Interactions.Custom.MinValueValidationRule(Of T).ErrorMessage
   nameWithType: MinValueValidationRule<T>.ErrorMessage
   nameWithType.vb: MinValueValidationRule(Of T).ErrorMessage
+- uid: Avalonia.Xaml.Interactions.Custom.MinValueValidationRule`1.ErrorMessageProperty
+  name: ErrorMessageProperty
+  href: api/Avalonia.Xaml.Interactions.Custom.MinValueValidationRule-1.html#Avalonia_Xaml_Interactions_Custom_MinValueValidationRule_1_ErrorMessageProperty
+  commentId: F:Avalonia.Xaml.Interactions.Custom.MinValueValidationRule`1.ErrorMessageProperty
+  fullName: Avalonia.Xaml.Interactions.Custom.MinValueValidationRule<T>.ErrorMessageProperty
+  fullName.vb: Avalonia.Xaml.Interactions.Custom.MinValueValidationRule(Of T).ErrorMessageProperty
+  nameWithType: MinValueValidationRule<T>.ErrorMessageProperty
+  nameWithType.vb: MinValueValidationRule(Of T).ErrorMessageProperty
 - uid: Avalonia.Xaml.Interactions.Custom.MinValueValidationRule`1.MinValue
   name: MinValue
   href: api/Avalonia.Xaml.Interactions.Custom.MinValueValidationRule-1.html#Avalonia_Xaml_Interactions_Custom_MinValueValidationRule_1_MinValue
@@ -12438,6 +12474,14 @@ references:
   fullName.vb: Avalonia.Xaml.Interactions.Custom.MinValueValidationRule(Of T).MinValue
   nameWithType: MinValueValidationRule<T>.MinValue
   nameWithType.vb: MinValueValidationRule(Of T).MinValue
+- uid: Avalonia.Xaml.Interactions.Custom.MinValueValidationRule`1.MinValueProperty
+  name: MinValueProperty
+  href: api/Avalonia.Xaml.Interactions.Custom.MinValueValidationRule-1.html#Avalonia_Xaml_Interactions_Custom_MinValueValidationRule_1_MinValueProperty
+  commentId: F:Avalonia.Xaml.Interactions.Custom.MinValueValidationRule`1.MinValueProperty
+  fullName: Avalonia.Xaml.Interactions.Custom.MinValueValidationRule<T>.MinValueProperty
+  fullName.vb: Avalonia.Xaml.Interactions.Custom.MinValueValidationRule(Of T).MinValueProperty
+  nameWithType: MinValueValidationRule<T>.MinValueProperty
+  nameWithType.vb: MinValueValidationRule(Of T).MinValueProperty
 - uid: Avalonia.Xaml.Interactions.Custom.MinValueValidationRule`1.Validate(`0)
   name: Validate(T?)
   href: api/Avalonia.Xaml.Interactions.Custom.MinValueValidationRule-1.html#Avalonia_Xaml_Interactions_Custom_MinValueValidationRule_1_Validate__0_
@@ -12677,6 +12721,14 @@ references:
   fullName.vb: Avalonia.Xaml.Interactions.Custom.NotNullValidationRule(Of T).ErrorMessage
   nameWithType: NotNullValidationRule<T>.ErrorMessage
   nameWithType.vb: NotNullValidationRule(Of T).ErrorMessage
+- uid: Avalonia.Xaml.Interactions.Custom.NotNullValidationRule`1.ErrorMessageProperty
+  name: ErrorMessageProperty
+  href: api/Avalonia.Xaml.Interactions.Custom.NotNullValidationRule-1.html#Avalonia_Xaml_Interactions_Custom_NotNullValidationRule_1_ErrorMessageProperty
+  commentId: F:Avalonia.Xaml.Interactions.Custom.NotNullValidationRule`1.ErrorMessageProperty
+  fullName: Avalonia.Xaml.Interactions.Custom.NotNullValidationRule<T>.ErrorMessageProperty
+  fullName.vb: Avalonia.Xaml.Interactions.Custom.NotNullValidationRule(Of T).ErrorMessageProperty
+  nameWithType: NotNullValidationRule<T>.ErrorMessageProperty
+  nameWithType.vb: NotNullValidationRule(Of T).ErrorMessageProperty
 - uid: Avalonia.Xaml.Interactions.Custom.NotNullValidationRule`1.Validate(`0)
   name: Validate(T?)
   href: api/Avalonia.Xaml.Interactions.Custom.NotNullValidationRule-1.html#Avalonia_Xaml_Interactions_Custom_NotNullValidationRule_1_Validate__0_
@@ -13752,6 +13804,14 @@ references:
   fullName.vb: Avalonia.Xaml.Interactions.Custom.RangeValidationRule(Of T).ErrorMessage
   nameWithType: RangeValidationRule<T>.ErrorMessage
   nameWithType.vb: RangeValidationRule(Of T).ErrorMessage
+- uid: Avalonia.Xaml.Interactions.Custom.RangeValidationRule`1.ErrorMessageProperty
+  name: ErrorMessageProperty
+  href: api/Avalonia.Xaml.Interactions.Custom.RangeValidationRule-1.html#Avalonia_Xaml_Interactions_Custom_RangeValidationRule_1_ErrorMessageProperty
+  commentId: F:Avalonia.Xaml.Interactions.Custom.RangeValidationRule`1.ErrorMessageProperty
+  fullName: Avalonia.Xaml.Interactions.Custom.RangeValidationRule<T>.ErrorMessageProperty
+  fullName.vb: Avalonia.Xaml.Interactions.Custom.RangeValidationRule(Of T).ErrorMessageProperty
+  nameWithType: RangeValidationRule<T>.ErrorMessageProperty
+  nameWithType.vb: RangeValidationRule(Of T).ErrorMessageProperty
 - uid: Avalonia.Xaml.Interactions.Custom.RangeValidationRule`1.Maximum
   name: Maximum
   href: api/Avalonia.Xaml.Interactions.Custom.RangeValidationRule-1.html#Avalonia_Xaml_Interactions_Custom_RangeValidationRule_1_Maximum
@@ -13769,6 +13829,14 @@ references:
   fullName.vb: Avalonia.Xaml.Interactions.Custom.RangeValidationRule(Of T).Maximum
   nameWithType: RangeValidationRule<T>.Maximum
   nameWithType.vb: RangeValidationRule(Of T).Maximum
+- uid: Avalonia.Xaml.Interactions.Custom.RangeValidationRule`1.MaximumProperty
+  name: MaximumProperty
+  href: api/Avalonia.Xaml.Interactions.Custom.RangeValidationRule-1.html#Avalonia_Xaml_Interactions_Custom_RangeValidationRule_1_MaximumProperty
+  commentId: F:Avalonia.Xaml.Interactions.Custom.RangeValidationRule`1.MaximumProperty
+  fullName: Avalonia.Xaml.Interactions.Custom.RangeValidationRule<T>.MaximumProperty
+  fullName.vb: Avalonia.Xaml.Interactions.Custom.RangeValidationRule(Of T).MaximumProperty
+  nameWithType: RangeValidationRule<T>.MaximumProperty
+  nameWithType.vb: RangeValidationRule(Of T).MaximumProperty
 - uid: Avalonia.Xaml.Interactions.Custom.RangeValidationRule`1.Minimum
   name: Minimum
   href: api/Avalonia.Xaml.Interactions.Custom.RangeValidationRule-1.html#Avalonia_Xaml_Interactions_Custom_RangeValidationRule_1_Minimum
@@ -13786,6 +13854,14 @@ references:
   fullName.vb: Avalonia.Xaml.Interactions.Custom.RangeValidationRule(Of T).Minimum
   nameWithType: RangeValidationRule<T>.Minimum
   nameWithType.vb: RangeValidationRule(Of T).Minimum
+- uid: Avalonia.Xaml.Interactions.Custom.RangeValidationRule`1.MinimumProperty
+  name: MinimumProperty
+  href: api/Avalonia.Xaml.Interactions.Custom.RangeValidationRule-1.html#Avalonia_Xaml_Interactions_Custom_RangeValidationRule_1_MinimumProperty
+  commentId: F:Avalonia.Xaml.Interactions.Custom.RangeValidationRule`1.MinimumProperty
+  fullName: Avalonia.Xaml.Interactions.Custom.RangeValidationRule<T>.MinimumProperty
+  fullName.vb: Avalonia.Xaml.Interactions.Custom.RangeValidationRule(Of T).MinimumProperty
+  nameWithType: RangeValidationRule<T>.MinimumProperty
+  nameWithType.vb: RangeValidationRule(Of T).MinimumProperty
 - uid: Avalonia.Xaml.Interactions.Custom.RangeValidationRule`1.Validate(`0)
   name: Validate(T?)
   href: api/Avalonia.Xaml.Interactions.Custom.RangeValidationRule-1.html#Avalonia_Xaml_Interactions_Custom_RangeValidationRule_1_Validate__0_
@@ -13823,6 +13899,12 @@ references:
   isSpec: "True"
   fullName: Avalonia.Xaml.Interactions.Custom.RegexValidationRule.ErrorMessage
   nameWithType: RegexValidationRule.ErrorMessage
+- uid: Avalonia.Xaml.Interactions.Custom.RegexValidationRule.ErrorMessageProperty
+  name: ErrorMessageProperty
+  href: api/Avalonia.Xaml.Interactions.Custom.RegexValidationRule.html#Avalonia_Xaml_Interactions_Custom_RegexValidationRule_ErrorMessageProperty
+  commentId: F:Avalonia.Xaml.Interactions.Custom.RegexValidationRule.ErrorMessageProperty
+  fullName: Avalonia.Xaml.Interactions.Custom.RegexValidationRule.ErrorMessageProperty
+  nameWithType: RegexValidationRule.ErrorMessageProperty
 - uid: Avalonia.Xaml.Interactions.Custom.RegexValidationRule.Pattern
   name: Pattern
   href: api/Avalonia.Xaml.Interactions.Custom.RegexValidationRule.html#Avalonia_Xaml_Interactions_Custom_RegexValidationRule_Pattern
@@ -13836,6 +13918,12 @@ references:
   isSpec: "True"
   fullName: Avalonia.Xaml.Interactions.Custom.RegexValidationRule.Pattern
   nameWithType: RegexValidationRule.Pattern
+- uid: Avalonia.Xaml.Interactions.Custom.RegexValidationRule.PatternProperty
+  name: PatternProperty
+  href: api/Avalonia.Xaml.Interactions.Custom.RegexValidationRule.html#Avalonia_Xaml_Interactions_Custom_RegexValidationRule_PatternProperty
+  commentId: F:Avalonia.Xaml.Interactions.Custom.RegexValidationRule.PatternProperty
+  fullName: Avalonia.Xaml.Interactions.Custom.RegexValidationRule.PatternProperty
+  nameWithType: RegexValidationRule.PatternProperty
 - uid: Avalonia.Xaml.Interactions.Custom.RegexValidationRule.Validate(System.String)
   name: Validate(string?)
   href: api/Avalonia.Xaml.Interactions.Custom.RegexValidationRule.html#Avalonia_Xaml_Interactions_Custom_RegexValidationRule_Validate_System_String_
@@ -14491,6 +14579,12 @@ references:
   isSpec: "True"
   fullName: Avalonia.Xaml.Interactions.Custom.RequiredDateValidationRule.ErrorMessage
   nameWithType: RequiredDateValidationRule.ErrorMessage
+- uid: Avalonia.Xaml.Interactions.Custom.RequiredDateValidationRule.ErrorMessageProperty
+  name: ErrorMessageProperty
+  href: api/Avalonia.Xaml.Interactions.Custom.RequiredDateValidationRule.html#Avalonia_Xaml_Interactions_Custom_RequiredDateValidationRule_ErrorMessageProperty
+  commentId: F:Avalonia.Xaml.Interactions.Custom.RequiredDateValidationRule.ErrorMessageProperty
+  fullName: Avalonia.Xaml.Interactions.Custom.RequiredDateValidationRule.ErrorMessageProperty
+  nameWithType: RequiredDateValidationRule.ErrorMessageProperty
 - uid: Avalonia.Xaml.Interactions.Custom.RequiredDateValidationRule.Validate(System.Nullable{System.DateTimeOffset})
   name: Validate(DateTimeOffset?)
   href: api/Avalonia.Xaml.Interactions.Custom.RequiredDateValidationRule.html#Avalonia_Xaml_Interactions_Custom_RequiredDateValidationRule_Validate_System_Nullable_System_DateTimeOffset__
@@ -14523,6 +14617,12 @@ references:
   isSpec: "True"
   fullName: Avalonia.Xaml.Interactions.Custom.RequiredDecimalValidationRule.ErrorMessage
   nameWithType: RequiredDecimalValidationRule.ErrorMessage
+- uid: Avalonia.Xaml.Interactions.Custom.RequiredDecimalValidationRule.ErrorMessageProperty
+  name: ErrorMessageProperty
+  href: api/Avalonia.Xaml.Interactions.Custom.RequiredDecimalValidationRule.html#Avalonia_Xaml_Interactions_Custom_RequiredDecimalValidationRule_ErrorMessageProperty
+  commentId: F:Avalonia.Xaml.Interactions.Custom.RequiredDecimalValidationRule.ErrorMessageProperty
+  fullName: Avalonia.Xaml.Interactions.Custom.RequiredDecimalValidationRule.ErrorMessageProperty
+  nameWithType: RequiredDecimalValidationRule.ErrorMessageProperty
 - uid: Avalonia.Xaml.Interactions.Custom.RequiredDecimalValidationRule.Validate(System.Nullable{System.Decimal})
   name: Validate(decimal?)
   href: api/Avalonia.Xaml.Interactions.Custom.RequiredDecimalValidationRule.html#Avalonia_Xaml_Interactions_Custom_RequiredDecimalValidationRule_Validate_System_Nullable_System_Decimal__
@@ -14558,6 +14658,12 @@ references:
   isSpec: "True"
   fullName: Avalonia.Xaml.Interactions.Custom.RequiredTextValidationRule.ErrorMessage
   nameWithType: RequiredTextValidationRule.ErrorMessage
+- uid: Avalonia.Xaml.Interactions.Custom.RequiredTextValidationRule.ErrorMessageProperty
+  name: ErrorMessageProperty
+  href: api/Avalonia.Xaml.Interactions.Custom.RequiredTextValidationRule.html#Avalonia_Xaml_Interactions_Custom_RequiredTextValidationRule_ErrorMessageProperty
+  commentId: F:Avalonia.Xaml.Interactions.Custom.RequiredTextValidationRule.ErrorMessageProperty
+  fullName: Avalonia.Xaml.Interactions.Custom.RequiredTextValidationRule.ErrorMessageProperty
+  nameWithType: RequiredTextValidationRule.ErrorMessageProperty
 - uid: Avalonia.Xaml.Interactions.Custom.RequiredTextValidationRule.Validate(System.String)
   name: Validate(string?)
   href: api/Avalonia.Xaml.Interactions.Custom.RequiredTextValidationRule.html#Avalonia_Xaml_Interactions_Custom_RequiredTextValidationRule_Validate_System_String_

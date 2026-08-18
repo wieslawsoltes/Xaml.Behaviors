@@ -114,6 +114,14 @@
 <h2 id="usage">Usage</h2>
 <pre><code class="lang-xml">&lt;RangeValidationRule Minimum=&quot;0&quot; Maximum=&quot;100&quot; ErrorMessage=&quot;Value must be between 0 and 100.&quot; /&gt;
 </code></pre>
+<p>All rule configuration properties are Avalonia styled properties, so they can use compiled bindings. When a bound rule property changes, the associated validation behavior immediately validates its current value again.</p>
+<pre><code class="lang-xml">&lt;SliderValidationBehavior IsValid=&quot;{Binding IsValid, Mode=OneWayToSource}&quot;&gt;
+  &lt;RangeValidationRule x:TypeArguments=&quot;x:Double&quot;
+                       Minimum=&quot;{Binding Minimum}&quot;
+                       Maximum=&quot;{Binding Maximum}&quot;
+                       ErrorMessage=&quot;{Binding RangeErrorMessage}&quot; /&gt;
+&lt;/SliderValidationBehavior&gt;
+</code></pre>
 
 </article>
 
