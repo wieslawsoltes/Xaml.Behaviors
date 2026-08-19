@@ -12,6 +12,11 @@ namespace Avalonia.Xaml.Interactivity;
 /// </summary>
 public abstract class Behavior : AvaloniaObject, IBehavior, IBehaviorEventsHandler
 {
+    private bool _isAttachedToLogicalTree;
+    private bool _isAttachedToVisualTree;
+    private bool _isInitializedNotified;
+    private bool _isLoaded;
+
     /// <summary>
     /// Identifies the <seealso cref="IsEnabled"/> avalonia property.
     /// </summary>
@@ -64,6 +69,10 @@ public abstract class Behavior : AvaloniaObject, IBehavior, IBehaviorEventsHandl
     public void Detach()
     {
         OnDetaching();
+        _isAttachedToLogicalTree = false;
+        _isAttachedToVisualTree = false;
+        _isInitializedNotified = false;
+        _isLoaded = false;
         AssociatedObject = null;
     }
 
@@ -87,19 +96,82 @@ public abstract class Behavior : AvaloniaObject, IBehavior, IBehaviorEventsHandl
     {
     }
 
-    void IBehaviorEventsHandler.AttachedToVisualTreeEventHandler() => OnAttachedToVisualTree();
+    void IBehaviorEventsHandler.AttachedToVisualTreeEventHandler()
+    {
+        if (_isAttachedToVisualTree)
+        {
+            return;
+        }
 
-    void IBehaviorEventsHandler.DetachedFromVisualTreeEventHandler() => OnDetachedFromVisualTree();
+        _isAttachedToVisualTree = true;
+        OnAttachedToVisualTree();
+    }
 
-    void IBehaviorEventsHandler.AttachedToLogicalTreeEventHandler() => OnAttachedToLogicalTree();
+    void IBehaviorEventsHandler.DetachedFromVisualTreeEventHandler()
+    {
+        if (!_isAttachedToVisualTree)
+        {
+            return;
+        }
 
-    void IBehaviorEventsHandler.DetachedFromLogicalTreeEventHandler() => OnDetachedFromLogicalTree();
+        _isAttachedToVisualTree = false;
+        OnDetachedFromVisualTree();
+    }
 
-    void IBehaviorEventsHandler.LoadedEventHandler() => OnLoaded();
+    void IBehaviorEventsHandler.AttachedToLogicalTreeEventHandler()
+    {
+        if (_isAttachedToLogicalTree)
+        {
+            return;
+        }
 
-    void IBehaviorEventsHandler.UnloadedEventHandler() => OnUnloaded();
+        _isAttachedToLogicalTree = true;
+        OnAttachedToLogicalTree();
+    }
 
-    void IBehaviorEventsHandler.InitializedEventHandler() => OnInitializedEvent();
+    void IBehaviorEventsHandler.DetachedFromLogicalTreeEventHandler()
+    {
+        if (!_isAttachedToLogicalTree)
+        {
+            return;
+        }
+
+        _isAttachedToLogicalTree = false;
+        OnDetachedFromLogicalTree();
+    }
+
+    void IBehaviorEventsHandler.LoadedEventHandler()
+    {
+        if (_isLoaded)
+        {
+            return;
+        }
+
+        _isLoaded = true;
+        OnLoaded();
+    }
+
+    void IBehaviorEventsHandler.UnloadedEventHandler()
+    {
+        if (!_isLoaded)
+        {
+            return;
+        }
+
+        _isLoaded = false;
+        OnUnloaded();
+    }
+
+    void IBehaviorEventsHandler.InitializedEventHandler()
+    {
+        if (_isInitializedNotified)
+        {
+            return;
+        }
+
+        _isInitializedNotified = true;
+        OnInitializedEvent();
+    }
 
     void IBehaviorEventsHandler.DataContextChangedEventHandler() => OnDataContextChangedEvent();
 

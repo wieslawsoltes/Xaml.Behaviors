@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using Avalonia.Controls;
 using Avalonia.Headless.XUnit;
 using Avalonia.Threading;
@@ -8,6 +9,300 @@ namespace Avalonia.Xaml.Interactivity.UnitTests;
 
 public class InteractionTest
 {
+    private sealed class LoadedTrigger : StyledElementTrigger<Button>
+    {
+        public int InitializedCount { get; private set; }
+        public int LogicalAttachCount { get; private set; }
+        public int VisualAttachCount { get; private set; }
+        public int LoadedCount { get; private set; }
+
+        protected override void OnInitializedEvent()
+        {
+            InitializedCount++;
+        }
+
+        protected override void OnAttachedToLogicalTree()
+        {
+            LogicalAttachCount++;
+        }
+
+        protected override void OnAttachedToVisualTree()
+        {
+            VisualAttachCount++;
+        }
+
+        protected override void OnLoaded()
+        {
+            LoadedCount++;
+        }
+    }
+
+    private sealed class TopLevelLoadedTrigger : StyledElementTrigger<TopLevel>
+    {
+        public int InitializedCount { get; private set; }
+        public int LogicalAttachCount { get; private set; }
+        public int VisualAttachCount { get; private set; }
+        public int LoadedCount { get; private set; }
+
+        protected override void OnInitializedEvent()
+        {
+            InitializedCount++;
+        }
+
+        protected override void OnAttachedToLogicalTree()
+        {
+            LogicalAttachCount++;
+        }
+
+        protected override void OnAttachedToVisualTree()
+        {
+            VisualAttachCount++;
+        }
+
+        protected override void OnLoaded()
+        {
+            LoadedCount++;
+        }
+    }
+
+    private sealed class SiblingAwareLoadedTrigger(IBehavior sibling) : StyledElementTrigger<Button>
+    {
+        public bool SiblingWasAttachedWhenLoaded { get; private set; }
+
+        protected override void OnLoaded()
+        {
+            SiblingWasAttachedWhenLoaded = ReferenceEquals(AssociatedObject, sibling.AssociatedObject);
+        }
+    }
+
+    private sealed class LifecycleAwareLoadedTrigger(LoadedTrigger sibling) : StyledElementTrigger<Button>
+    {
+        public bool SiblingCompletedEarlierPhasesWhenLoaded { get; private set; }
+
+        protected override void OnLoaded()
+        {
+            SiblingCompletedEarlierPhasesWhenLoaded =
+                sibling.InitializedCount == 1 &&
+                sibling.LogicalAttachCount == 1 &&
+                sibling.VisualAttachCount == 1 &&
+                sibling.LoadedCount == 0;
+        }
+    }
+
+    private sealed class SelfRemovingLoadedTrigger : StyledElementTrigger<Button>
+    {
+        public int LoadedCount { get; private set; }
+
+        protected override void OnLoaded()
+        {
+            LoadedCount++;
+            if (AssociatedObject is not null)
+            {
+                Interaction.GetBehaviors(AssociatedObject).Remove(this);
+            }
+        }
+    }
+
+    private sealed class SelfRemovingInitializedTrigger : StyledElementTrigger<Button>
+    {
+        public int InitializedCount { get; private set; }
+        public int LogicalAttachCount { get; private set; }
+        public int VisualAttachCount { get; private set; }
+        public int LoadedCount { get; private set; }
+
+        protected override void OnInitializedEvent()
+        {
+            InitializedCount++;
+            if (AssociatedObject is not null)
+            {
+                Interaction.GetBehaviors(AssociatedObject).Remove(this);
+            }
+        }
+
+        protected override void OnAttachedToLogicalTree() => LogicalAttachCount++;
+
+        protected override void OnAttachedToVisualTree() => VisualAttachCount++;
+
+        protected override void OnLoaded() => LoadedCount++;
+    }
+
+    private sealed class RemovingLoadedTrigger(Panel parent) : StyledElementTrigger<Button>
+    {
+        public int LoadedCount { get; private set; }
+
+        protected override void OnLoaded()
+        {
+            LoadedCount++;
+            if (LoadedCount == 1 && AssociatedObject is not null)
+            {
+                parent.Children.Remove(AssociatedObject);
+            }
+        }
+    }
+
+    private sealed class SiblingRemovingBehavior(AvaloniaObject sibling) : Behavior<Button>
+    {
+        protected override void OnAttached()
+        {
+            base.OnAttached();
+            if (AssociatedObject is not null)
+            {
+                Interaction.GetBehaviors(AssociatedObject).Remove(sibling);
+            }
+        }
+    }
+
+    private sealed class SiblingAddingBehavior(AvaloniaObject sibling) : Behavior<Button>
+    {
+        protected override void OnAttached()
+        {
+            base.OnAttached();
+            if (AssociatedObject is not null)
+            {
+                Interaction.GetBehaviors(AssociatedObject).Add(sibling);
+            }
+        }
+    }
+
+    private sealed class SiblingAddingInitializedTrigger(AvaloniaObject sibling) : StyledElementTrigger<Button>
+    {
+        protected override void OnInitializedEvent()
+        {
+            if (AssociatedObject is not null)
+            {
+                Interaction.GetBehaviors(AssociatedObject).Add(sibling);
+            }
+        }
+    }
+
+    private sealed class SiblingAddingVisualTrigger(AvaloniaObject sibling) : StyledElementTrigger<Button>
+    {
+        protected override void OnAttachedToVisualTree()
+        {
+            if (AssociatedObject is not null)
+            {
+                Interaction.GetBehaviors(AssociatedObject).Add(sibling);
+            }
+        }
+    }
+
+    private sealed class NestedSiblingAddingInitializedTrigger(LoadedTrigger sibling) : StyledElementTrigger<Button>
+    {
+        public bool SiblingCompletedEachEarlierPhase { get; private set; } = true;
+        public int LogicalCheckCount { get; private set; }
+        public int VisualCheckCount { get; private set; }
+
+        protected override void OnInitializedEvent()
+        {
+            if (AssociatedObject is not null)
+            {
+                Interaction.GetBehaviors(AssociatedObject).Add(sibling);
+            }
+        }
+
+        protected override void OnAttachedToLogicalTree()
+        {
+            LogicalCheckCount++;
+            SiblingCompletedEachEarlierPhase &=
+                sibling.InitializedCount == 1 && sibling.LogicalAttachCount == 0;
+        }
+
+        protected override void OnAttachedToVisualTree()
+        {
+            VisualCheckCount++;
+            SiblingCompletedEachEarlierPhase &=
+                sibling.InitializedCount == 1 &&
+                sibling.LogicalAttachCount == 1 &&
+                sibling.VisualAttachCount == 0;
+        }
+    }
+
+    private sealed class SiblingRemovingLoadedTrigger(AvaloniaObject sibling) : StyledElementTrigger<Button>
+    {
+        protected override void OnLoaded()
+        {
+            if (AssociatedObject is not null)
+            {
+                Interaction.GetBehaviors(AssociatedObject).Remove(sibling);
+            }
+        }
+    }
+
+    private sealed class RecordingLoadedTrigger(
+        string name,
+        List<string> eventOrder,
+        AvaloniaObject? siblingToAdd = null) : StyledElementTrigger<Button>
+    {
+        protected override void OnLoaded()
+        {
+            eventOrder.Add(name);
+            if (siblingToAdd is not null && AssociatedObject is not null)
+            {
+                Interaction.GetBehaviors(AssociatedObject).Add(siblingToAdd);
+            }
+        }
+    }
+
+    private sealed class RecordingVisualTrigger(string name, List<string> eventOrder)
+        : StyledElementTrigger<Button>
+    {
+        protected override void OnAttachedToVisualTree()
+        {
+            eventOrder.Add(name);
+        }
+    }
+
+    private sealed class RecordingInitializedTrigger(string name, List<string> eventOrder)
+        : StyledElementTrigger<Button>
+    {
+        protected override void OnInitializedEvent()
+        {
+            eventOrder.Add(name);
+        }
+    }
+
+    private sealed class RecordingTopLevelPhaseTrigger(
+        string name,
+        List<string> eventOrder,
+        AvaloniaObject? siblingToAdd = null) : StyledElementTrigger<TopLevel>
+    {
+        private bool _addSiblingOnNextVisual;
+
+        public void ArmVisualAddition()
+        {
+            _addSiblingOnNextVisual = true;
+        }
+
+        protected override void OnAttachedToLogicalTree()
+        {
+            eventOrder.Add($"{name}-Logical");
+        }
+
+        protected override void OnAttachedToVisualTree()
+        {
+            eventOrder.Add($"{name}-Visual");
+            if (_addSiblingOnNextVisual && siblingToAdd is not null && AssociatedObject is not null)
+            {
+                _addSiblingOnNextVisual = false;
+                Interaction.GetBehaviors(AssociatedObject).Add(siblingToAdd);
+            }
+        }
+
+        protected override void OnLoaded()
+        {
+            eventOrder.Add($"{name}-Loaded");
+        }
+    }
+
+    private static void AssertCurrentLifecycle(LoadedTrigger trigger, Button button)
+    {
+        Assert.Equal(1, trigger.InitializedCount);
+        Assert.Equal(1, trigger.LogicalAttachCount);
+        Assert.Equal(1, trigger.VisualAttachCount);
+        Assert.Equal(1, trigger.LoadedCount);
+        Assert.Same(button, trigger.Parent);
+    }
+
     [AvaloniaFact]
     public void SetBehaviors_MultipleBehaviors_AllAttached()
     {
@@ -27,6 +322,22 @@ public class InteractionTest
             Assert.Equal(0, behavior.DetachCount); // "Should not have called Detach."
             Assert.Equal(button, behavior.AssociatedObject); // "Should be attached to the host of the BehaviorCollection."
         }
+    }
+
+    [AvaloniaFact]
+    public void SetBehaviors_OnAttachedRemoval_DoesNotAttachRemovedSibling()
+    {
+        var sibling = new StubBehavior();
+        var remover = new SiblingRemovingBehavior(sibling);
+        var behaviors = new BehaviorCollection { remover, sibling };
+        var button = new Button();
+
+        Interaction.SetBehaviors(button, behaviors);
+
+        Assert.DoesNotContain(sibling, behaviors);
+        Assert.Equal(0, sibling.AttachCount);
+        Assert.Null(sibling.AssociatedObject);
+        Assert.Same(button, remover.AssociatedObject);
     }
 
     [AvaloniaFact]
@@ -220,5 +531,428 @@ public class InteractionTest
         {
             Assert.Equal(expectedReturnValues[resultIndex], results[resultIndex]); // "Results should be returned in the order of the actions in the ActionCollection."
         }
+    }
+
+    [AvaloniaFact]
+    public void SetBehaviorsBeforeShow_NotifiesLoadedOnce()
+    {
+        var trigger = new LoadedTrigger();
+        var button = new Button();
+        Interaction.SetBehaviors(button, new BehaviorCollection { trigger });
+        var window = new Window { Content = button };
+
+        window.Show();
+        Dispatcher.UIThread.RunJobs();
+
+        AssertCurrentLifecycle(trigger, button);
+    }
+
+    [AvaloniaFact]
+    public void SetBehaviorsAfterShow_NotifiesLoadedOnce()
+    {
+        var trigger = new LoadedTrigger();
+        var button = new Button();
+        var window = new Window { Content = button };
+        window.Show();
+        Dispatcher.UIThread.RunJobs();
+
+        Interaction.SetBehaviors(button, new BehaviorCollection { trigger });
+
+        AssertCurrentLifecycle(trigger, button);
+    }
+
+    [AvaloniaFact]
+    public void SetBehaviorsAfterShow_AttachesAllSiblingsBeforeLoadedCallbacks()
+    {
+        var button = new Button();
+        var window = new Window { Content = button };
+        window.Show();
+        Dispatcher.UIThread.RunJobs();
+        var sibling = new StubBehavior();
+        var trigger = new SiblingAwareLoadedTrigger(sibling);
+
+        Interaction.SetBehaviors(button, new BehaviorCollection { trigger, sibling });
+
+        Assert.True(trigger.SiblingWasAttachedWhenLoaded);
+        Assert.Same(button, sibling.AssociatedObject);
+        window.Close();
+    }
+
+    [AvaloniaFact]
+    public void SetBehaviorsAfterShow_Replays_Lifecycle_In_Collection_Phases()
+    {
+        var button = new Button();
+        var window = new Window { Content = button };
+        window.Show();
+        Dispatcher.UIThread.RunJobs();
+        var sibling = new LoadedTrigger();
+        var observer = new LifecycleAwareLoadedTrigger(sibling);
+
+        Interaction.SetBehaviors(button, new BehaviorCollection { observer, sibling });
+
+        Assert.True(observer.SiblingCompletedEarlierPhasesWhenLoaded);
+        Assert.Equal(1, sibling.LoadedCount);
+        window.Close();
+    }
+
+    [AvaloniaFact]
+    public void SetBehaviorsAfterShow_Catches_Up_Reentrant_Additions_Before_Later_Phases()
+    {
+        var button = new Button();
+        var window = new Window { Content = button };
+        window.Show();
+        Dispatcher.UIThread.RunJobs();
+        var added = new LoadedTrigger();
+        var adder = new SiblingAddingInitializedTrigger(added);
+        var observer = new LifecycleAwareLoadedTrigger(added);
+        var behaviors = new BehaviorCollection { adder, observer };
+
+        Interaction.SetBehaviors(button, behaviors);
+
+        Assert.Contains(added, behaviors);
+        Assert.True(observer.SiblingCompletedEarlierPhasesWhenLoaded);
+        Assert.Equal(1, added.LoadedCount);
+        window.Close();
+    }
+
+    [AvaloniaFact]
+    public void SetBehaviorsAfterShow_Catches_Up_Nested_Additions_Between_Replayed_Phases()
+    {
+        var button = new Button();
+        var window = new Window { Content = button };
+        window.Show();
+        Dispatcher.UIThread.RunJobs();
+        var nested = new LoadedTrigger();
+        var firstAddition = new NestedSiblingAddingInitializedTrigger(nested);
+        var visualAdder = new SiblingAddingVisualTrigger(firstAddition);
+        var behaviors = new BehaviorCollection { visualAdder };
+
+        Interaction.SetBehaviors(button, behaviors);
+
+        Assert.Contains(firstAddition, behaviors);
+        Assert.Contains(nested, behaviors);
+        Assert.True(firstAddition.SiblingCompletedEachEarlierPhase);
+        Assert.Equal(1, firstAddition.LogicalCheckCount);
+        Assert.Equal(1, firstAddition.VisualCheckCount);
+        AssertCurrentLifecycle(nested, button);
+        window.Close();
+    }
+
+    [AvaloniaFact]
+    public void SetBehaviorsAfterShow_Defers_Reentrant_Add_Replay_Until_All_Siblings_Attach()
+    {
+        var button = new Button();
+        var window = new Window { Content = button };
+        window.Show();
+        Dispatcher.UIThread.RunJobs();
+        var sibling = new StubBehavior();
+        var trigger = new SiblingAwareLoadedTrigger(sibling);
+        var adder = new SiblingAddingBehavior(trigger);
+        var behaviors = new BehaviorCollection { adder, sibling };
+
+        Interaction.SetBehaviors(button, behaviors);
+
+        Assert.Contains(trigger, behaviors);
+        Assert.True(trigger.SiblingWasAttachedWhenLoaded);
+        Assert.Same(button, sibling.AssociatedObject);
+        window.Close();
+    }
+
+    [AvaloniaFact]
+    public void SetBehaviorsAfterShow_AllowsLifecycleCallbackToRemoveBehavior()
+    {
+        var button = new Button();
+        var window = new Window { Content = button };
+        window.Show();
+        Dispatcher.UIThread.RunJobs();
+        var trigger = new SelfRemovingLoadedTrigger();
+        var sibling = new StubBehavior();
+        var behaviors = new BehaviorCollection { trigger, sibling };
+
+        Interaction.SetBehaviors(button, behaviors);
+
+        Assert.Equal(1, trigger.LoadedCount);
+        Assert.DoesNotContain(trigger, behaviors);
+        Assert.Null(trigger.AssociatedObject);
+        Assert.Same(button, sibling.AssociatedObject);
+        window.Close();
+    }
+
+    [AvaloniaFact]
+    public void AddBehaviorAfterShow_NotifiesLoadedOnce()
+    {
+        var button = new Button();
+        var behaviors = Interaction.GetBehaviors(button);
+        var window = new Window { Content = button };
+        window.Show();
+        Dispatcher.UIThread.RunJobs();
+        var trigger = new LoadedTrigger();
+
+        behaviors.Add(trigger);
+
+        AssertCurrentLifecycle(trigger, button);
+    }
+
+    [AvaloniaFact]
+    public void AddBehaviorFromEarlierLoadedHandler_NotifiesLoadedOnce()
+    {
+        var button = new Button();
+        BehaviorCollection? behaviors = null;
+        var trigger = new LoadedTrigger();
+        button.Loaded += (_, _) => behaviors!.Add(trigger);
+        behaviors = Interaction.GetBehaviors(button);
+        var window = new Window { Content = button };
+
+        window.Show();
+        Dispatcher.UIThread.RunJobs();
+
+        AssertCurrentLifecycle(trigger, button);
+        window.Close();
+    }
+
+    [AvaloniaFact]
+    public void EarlierLoadedHandler_Replays_Addition_After_Existing_Behaviors()
+    {
+        var eventOrder = new List<string>();
+        var button = new Button();
+        var added = new RecordingLoadedTrigger("B", eventOrder);
+        button.Loaded += (_, _) => Interaction.GetBehaviors(button).Add(added);
+        var first = new RecordingLoadedTrigger("A", eventOrder);
+        var laterExisting = new RecordingLoadedTrigger("C", eventOrder);
+        var behaviors = new BehaviorCollection { first, laterExisting };
+        Interaction.SetBehaviors(button, behaviors);
+        var window = new Window { Content = button };
+
+        window.Show();
+        Dispatcher.UIThread.RunJobs();
+
+        Assert.Equal(["A", "C", "B"], eventOrder);
+        Assert.Contains(added, behaviors);
+        window.Close();
+    }
+
+    [AvaloniaFact]
+    public void EarlierVisualHandler_Replays_Addition_After_Existing_Behaviors()
+    {
+        var eventOrder = new List<string>();
+        var button = new Button();
+        var added = new RecordingVisualTrigger("B", eventOrder);
+        button.AttachedToVisualTree += (_, _) => Interaction.GetBehaviors(button).Add(added);
+        var first = new RecordingVisualTrigger("A", eventOrder);
+        var laterExisting = new RecordingVisualTrigger("C", eventOrder);
+        var behaviors = new BehaviorCollection { first, laterExisting };
+        Interaction.SetBehaviors(button, behaviors);
+        var window = new Window { Content = button };
+
+        window.Show();
+        Dispatcher.UIThread.RunJobs();
+
+        Assert.Equal(["A", "C", "B"], eventOrder);
+        Assert.Contains(added, behaviors);
+        window.Close();
+    }
+
+    [AvaloniaFact]
+    public void EarlierInitializedHandler_Replays_Addition_After_Existing_Behaviors()
+    {
+        var eventOrder = new List<string>();
+        var button = new Button();
+        var added = new RecordingInitializedTrigger("B", eventOrder);
+        button.Initialized += (_, _) => Interaction.GetBehaviors(button).Add(added);
+        var first = new RecordingInitializedTrigger("A", eventOrder);
+        var laterExisting = new RecordingInitializedTrigger("C", eventOrder);
+        var behaviors = new BehaviorCollection { first, laterExisting };
+        Interaction.SetBehaviors(button, behaviors);
+        var window = new Window { Content = button };
+
+        window.Show();
+        Dispatcher.UIThread.RunJobs();
+
+        Assert.Equal(["A", "C", "B"], eventOrder);
+        Assert.Contains(added, behaviors);
+        window.Close();
+    }
+
+    [AvaloniaFact]
+    public void TopLevelOpened_Replays_Visual_Addition_After_Existing_Logical_Phase()
+    {
+        var eventOrder = new List<string>();
+        var window = new Window();
+        var added = new RecordingTopLevelPhaseTrigger("B", eventOrder);
+        var first = new RecordingTopLevelPhaseTrigger("A", eventOrder, added);
+        var laterExisting = new RecordingTopLevelPhaseTrigger("C", eventOrder);
+        var behaviors = new BehaviorCollection { first, laterExisting };
+        Interaction.SetBehaviors(window, behaviors);
+        window.Show();
+        Dispatcher.UIThread.RunJobs();
+
+        eventOrder.Clear();
+        behaviors.DetachedFromVisualTree();
+        behaviors.DetachedFromLogicalTree();
+        first.ArmVisualAddition();
+
+        behaviors.Opened();
+
+        Assert.Equal(
+            ["A-Visual", "C-Visual", "A-Logical", "C-Logical", "B-Logical", "B-Visual", "B-Loaded"],
+            eventOrder);
+        Assert.Contains(added, behaviors);
+        window.Close();
+    }
+
+    [AvaloniaFact]
+    public void LoadedDispatch_Replays_Additions_After_Existing_Siblings()
+    {
+        var eventOrder = new List<string>();
+        var added = new RecordingLoadedTrigger("B", eventOrder);
+        var first = new RecordingLoadedTrigger("A", eventOrder, added);
+        var laterExisting = new RecordingLoadedTrigger("C", eventOrder);
+        var button = new Button();
+        var behaviors = new BehaviorCollection { first, laterExisting };
+        Interaction.SetBehaviors(button, behaviors);
+        var window = new Window { Content = button };
+
+        window.Show();
+        Dispatcher.UIThread.RunJobs();
+
+        Assert.Equal(["A", "C", "B"], eventOrder);
+        Assert.Contains(added, behaviors);
+        window.Close();
+    }
+
+    [AvaloniaFact]
+    public void LoadedDispatch_Does_Not_Notify_Removed_Sibling_After_Detach()
+    {
+        var button = new Button();
+        var removedTrigger = new LoadedTrigger();
+        var remover = new SiblingRemovingLoadedTrigger(removedTrigger);
+        var behaviors = new BehaviorCollection { remover, removedTrigger };
+        Interaction.SetBehaviors(button, behaviors);
+        var window = new Window { Content = button };
+
+        window.Show();
+        Dispatcher.UIThread.RunJobs();
+
+        Assert.Equal(0, removedTrigger.LoadedCount);
+        Assert.Null(removedTrigger.AssociatedObject);
+
+        behaviors.Add(removedTrigger);
+
+        Assert.Equal(1, removedTrigger.LoadedCount);
+        Assert.Same(button, removedTrigger.AssociatedObject);
+        window.Close();
+    }
+
+    [AvaloniaFact]
+    public void AddBehaviorFromEarlierVisualAttachHandler_NotifiesLifecycleOnce()
+    {
+        var button = new Button();
+        BehaviorCollection? behaviors = null;
+        var trigger = new LoadedTrigger();
+        button.AttachedToVisualTree += (_, _) => behaviors!.Add(trigger);
+        behaviors = Interaction.GetBehaviors(button);
+        var window = new Window { Content = button };
+
+        window.Show();
+        Dispatcher.UIThread.RunJobs();
+
+        AssertCurrentLifecycle(trigger, button);
+        window.Close();
+    }
+
+    [AvaloniaFact]
+    public void AddBehaviorFromEarlierInitializedHandler_NotifiesLifecycleOnce()
+    {
+        var button = new Button();
+        BehaviorCollection? behaviors = null;
+        var trigger = new LoadedTrigger();
+        button.Initialized += (_, _) => behaviors!.Add(trigger);
+        behaviors = Interaction.GetBehaviors(button);
+        var window = new Window { Content = button };
+
+        window.Show();
+        Dispatcher.UIThread.RunJobs();
+
+        AssertCurrentLifecycle(trigger, button);
+        window.Close();
+    }
+
+    [AvaloniaFact]
+    public void AddBehaviorAfterShow_AllowsBehaviorToRemoveItselfDuringLoaded()
+    {
+        var button = new Button();
+        var behaviors = Interaction.GetBehaviors(button);
+        var window = new Window { Content = button };
+        window.Show();
+        Dispatcher.UIThread.RunJobs();
+        var trigger = new SelfRemovingLoadedTrigger();
+
+        behaviors.Add(trigger);
+
+        Assert.Equal(1, trigger.LoadedCount);
+        Assert.DoesNotContain(trigger, behaviors);
+        Assert.Null(trigger.AssociatedObject);
+        Assert.Empty(behaviors);
+        window.Close();
+    }
+
+    [AvaloniaFact]
+    public void AddBehaviorAfterShow_StopsReplayWhenInitializedRemovesBehavior()
+    {
+        var button = new Button();
+        var behaviors = Interaction.GetBehaviors(button);
+        var window = new Window { Content = button };
+        window.Show();
+        Dispatcher.UIThread.RunJobs();
+        var trigger = new SelfRemovingInitializedTrigger();
+
+        behaviors.Add(trigger);
+
+        Assert.Equal(1, trigger.InitializedCount);
+        Assert.Equal(0, trigger.LogicalAttachCount);
+        Assert.Equal(0, trigger.VisualAttachCount);
+        Assert.Equal(0, trigger.LoadedCount);
+        Assert.Null(trigger.AssociatedObject);
+        window.Close();
+    }
+
+    [AvaloniaFact]
+    public void SetBehaviorsAfterShow_SubscribesHostEventsBeforeLoadedReplay()
+    {
+        var button = new Button();
+        var panel = new StackPanel { Children = { button } };
+        var window = new Window { Content = panel };
+        window.Show();
+        Dispatcher.UIThread.RunJobs();
+        var trigger = new RemovingLoadedTrigger(panel);
+
+        Interaction.SetBehaviors(button, new BehaviorCollection { trigger });
+        Assert.DoesNotContain(button, panel.Children);
+
+        panel.Children.Add(button);
+        Dispatcher.UIThread.RunJobs();
+
+        Assert.Equal(2, trigger.LoadedCount);
+        window.Close();
+    }
+
+    [AvaloniaFact]
+    public void AddBehaviorToOpenTopLevel_NotifiesCurrentLifecycleOnce()
+    {
+        var window = new Window();
+        var behaviors = Interaction.GetBehaviors(window);
+        window.Show();
+        Dispatcher.UIThread.RunJobs();
+        var trigger = new TopLevelLoadedTrigger();
+
+        behaviors.Add(trigger);
+
+        Assert.Equal(1, trigger.InitializedCount);
+        Assert.Equal(1, trigger.LogicalAttachCount);
+        Assert.Equal(1, trigger.VisualAttachCount);
+        Assert.Equal(1, trigger.LoadedCount);
+        Assert.Same(window, trigger.Parent);
+
+        window.Close();
     }
 }

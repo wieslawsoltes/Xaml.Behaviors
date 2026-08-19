@@ -93,6 +93,8 @@ In many cases, a behavior needs to perform actions not just when it is attached,
 
 When you attach a behavior collection to a control, the `Interaction` class subscribes to relevant events on that control (like `AttachedToVisualTree`, `DetachedFromVisualTree`, `Loaded`, `Unloaded`, etc.). When these events fire, `Interaction` iterates through the behaviors in the collection and calls the corresponding lifecycle method on each behavior.
 
+If a collection or an individual behavior is attached after the control is already initialized, rooted, or loaded, the current lifecycle state is synchronized immediately. In particular, `OnLoaded` runs once for that current loaded lifetime instead of waiting for the control to unload and load again.
+
 *   **`OnAttached`**: Called when the behavior is attached to an object. Use this method to subscribe to events or initialize the behavior.
 *   **`OnDetaching`**: Called when the behavior is detached from an object. Use this method to unsubscribe from events and clean up resources.
 

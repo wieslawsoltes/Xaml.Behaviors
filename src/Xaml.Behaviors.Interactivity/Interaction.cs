@@ -127,8 +127,8 @@ public class Interaction
 
         if (newCollection is not null)
         {
-            newCollection.Attach(e.Sender);
             SetVisualTreeEventHandlersFromChangedEvent(e.Sender);
+            newCollection.Attach(e.Sender);
 
             if (isAttachedToVisualTree)
             {
@@ -545,8 +545,7 @@ public class Interaction
 
         var behaviors = GetExistingBehaviors(d);
         behaviors?.Attach(d);
-        behaviors?.AttachedToVisualTree();
-        behaviors?.AttachedToLogicalTree();
+        behaviors?.Opened();
     }
 
     private static void TopLevel_Opened_FromChangedEvent(object? sender, EventArgs e)
@@ -556,8 +555,6 @@ public class Interaction
             return;
         }
 
-        var behaviors = GetExistingBehaviors(d);
-        behaviors?.AttachedToVisualTree();
-        behaviors?.AttachedToLogicalTree();
+        GetExistingBehaviors(d)?.Opened();
     }
 }
