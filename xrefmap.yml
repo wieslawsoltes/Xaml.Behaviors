@@ -334,6 +334,22 @@ references:
   isSpec: "True"
   fullName: Avalonia.Xaml.Interactions.Core.ChangePropertyAction.Execute
   nameWithType: ChangePropertyAction.Execute
+- uid: Avalonia.Xaml.Interactions.Core.ChangePropertyAction.ExecuteReversibly(System.Object,System.Object)
+  name: ExecuteReversibly(object?, object?)
+  href: api/Avalonia.Xaml.Interactions.Core.ChangePropertyAction.html#Avalonia_Xaml_Interactions_Core_ChangePropertyAction_ExecuteReversibly_System_Object_System_Object_
+  commentId: M:Avalonia.Xaml.Interactions.Core.ChangePropertyAction.ExecuteReversibly(System.Object,System.Object)
+  name.vb: ExecuteReversibly(Object, Object)
+  fullName: Avalonia.Xaml.Interactions.Core.ChangePropertyAction.ExecuteReversibly(object?, object?)
+  fullName.vb: Avalonia.Xaml.Interactions.Core.ChangePropertyAction.ExecuteReversibly(Object, Object)
+  nameWithType: ChangePropertyAction.ExecuteReversibly(object?, object?)
+  nameWithType.vb: ChangePropertyAction.ExecuteReversibly(Object, Object)
+- uid: Avalonia.Xaml.Interactions.Core.ChangePropertyAction.ExecuteReversibly*
+  name: ExecuteReversibly
+  href: api/Avalonia.Xaml.Interactions.Core.ChangePropertyAction.html#Avalonia_Xaml_Interactions_Core_ChangePropertyAction_ExecuteReversibly_
+  commentId: Overload:Avalonia.Xaml.Interactions.Core.ChangePropertyAction.ExecuteReversibly
+  isSpec: "True"
+  fullName: Avalonia.Xaml.Interactions.Core.ChangePropertyAction.ExecuteReversibly
+  nameWithType: ChangePropertyAction.ExecuteReversibly
 - uid: Avalonia.Xaml.Interactions.Core.ChangePropertyAction.PropertyName
   name: PropertyName
   href: api/Avalonia.Xaml.Interactions.Core.ChangePropertyAction.html#Avalonia_Xaml_Interactions_Core_ChangePropertyAction_PropertyName
@@ -353,6 +369,22 @@ references:
   commentId: F:Avalonia.Xaml.Interactions.Core.ChangePropertyAction.PropertyNameProperty
   fullName: Avalonia.Xaml.Interactions.Core.ChangePropertyAction.PropertyNameProperty
   nameWithType: ChangePropertyAction.PropertyNameProperty
+- uid: Avalonia.Xaml.Interactions.Core.ChangePropertyAction.Revert(System.Object,System.Object)
+  name: Revert(object?, object?)
+  href: api/Avalonia.Xaml.Interactions.Core.ChangePropertyAction.html#Avalonia_Xaml_Interactions_Core_ChangePropertyAction_Revert_System_Object_System_Object_
+  commentId: M:Avalonia.Xaml.Interactions.Core.ChangePropertyAction.Revert(System.Object,System.Object)
+  name.vb: Revert(Object, Object)
+  fullName: Avalonia.Xaml.Interactions.Core.ChangePropertyAction.Revert(object?, object?)
+  fullName.vb: Avalonia.Xaml.Interactions.Core.ChangePropertyAction.Revert(Object, Object)
+  nameWithType: ChangePropertyAction.Revert(object?, object?)
+  nameWithType.vb: ChangePropertyAction.Revert(Object, Object)
+- uid: Avalonia.Xaml.Interactions.Core.ChangePropertyAction.Revert*
+  name: Revert
+  href: api/Avalonia.Xaml.Interactions.Core.ChangePropertyAction.html#Avalonia_Xaml_Interactions_Core_ChangePropertyAction_Revert_
+  commentId: Overload:Avalonia.Xaml.Interactions.Core.ChangePropertyAction.Revert
+  isSpec: "True"
+  fullName: Avalonia.Xaml.Interactions.Core.ChangePropertyAction.Revert
+  nameWithType: ChangePropertyAction.Revert
 - uid: Avalonia.Xaml.Interactions.Core.ChangePropertyAction.TargetObject
   name: TargetObject
   href: api/Avalonia.Xaml.Interactions.Core.ChangePropertyAction.html#Avalonia_Xaml_Interactions_Core_ChangePropertyAction_TargetObject
@@ -482,6 +514,32 @@ references:
   commentId: F:Avalonia.Xaml.Interactions.Core.DataTriggerBehavior.ComparisonConditionProperty
   fullName: Avalonia.Xaml.Interactions.Core.DataTriggerBehavior.ComparisonConditionProperty
   nameWithType: DataTriggerBehavior.ComparisonConditionProperty
+- uid: Avalonia.Xaml.Interactions.Core.DataTriggerBehavior.OnAttached
+  name: OnAttached()
+  href: api/Avalonia.Xaml.Interactions.Core.DataTriggerBehavior.html#Avalonia_Xaml_Interactions_Core_DataTriggerBehavior_OnAttached
+  commentId: M:Avalonia.Xaml.Interactions.Core.DataTriggerBehavior.OnAttached
+  fullName: Avalonia.Xaml.Interactions.Core.DataTriggerBehavior.OnAttached()
+  nameWithType: DataTriggerBehavior.OnAttached()
+- uid: Avalonia.Xaml.Interactions.Core.DataTriggerBehavior.OnAttached*
+  name: OnAttached
+  href: api/Avalonia.Xaml.Interactions.Core.DataTriggerBehavior.html#Avalonia_Xaml_Interactions_Core_DataTriggerBehavior_OnAttached_
+  commentId: Overload:Avalonia.Xaml.Interactions.Core.DataTriggerBehavior.OnAttached
+  isSpec: "True"
+  fullName: Avalonia.Xaml.Interactions.Core.DataTriggerBehavior.OnAttached
+  nameWithType: DataTriggerBehavior.OnAttached
+- uid: Avalonia.Xaml.Interactions.Core.DataTriggerBehavior.OnDetaching
+  name: OnDetaching()
+  href: api/Avalonia.Xaml.Interactions.Core.DataTriggerBehavior.html#Avalonia_Xaml_Interactions_Core_DataTriggerBehavior_OnDetaching
+  commentId: M:Avalonia.Xaml.Interactions.Core.DataTriggerBehavior.OnDetaching
+  fullName: Avalonia.Xaml.Interactions.Core.DataTriggerBehavior.OnDetaching()
+  nameWithType: DataTriggerBehavior.OnDetaching()
+- uid: Avalonia.Xaml.Interactions.Core.DataTriggerBehavior.OnDetaching*
+  name: OnDetaching
+  href: api/Avalonia.Xaml.Interactions.Core.DataTriggerBehavior.html#Avalonia_Xaml_Interactions_Core_DataTriggerBehavior_OnDetaching_
+  commentId: Overload:Avalonia.Xaml.Interactions.Core.DataTriggerBehavior.OnDetaching
+  isSpec: "True"
+  fullName: Avalonia.Xaml.Interactions.Core.DataTriggerBehavior.OnDetaching
+  nameWithType: DataTriggerBehavior.OnDetaching
 - uid: Avalonia.Xaml.Interactions.Core.DataTriggerBehavior.OnInitializedEvent
   name: OnInitializedEvent()
   href: api/Avalonia.Xaml.Interactions.Core.DataTriggerBehavior.html#Avalonia_Xaml_Interactions_Core_DataTriggerBehavior_OnInitializedEvent
@@ -508,6 +566,25 @@ references:
   isSpec: "True"
   fullName: Avalonia.Xaml.Interactions.Core.DataTriggerBehavior.OnPropertyChanged
   nameWithType: DataTriggerBehavior.OnPropertyChanged
+- uid: Avalonia.Xaml.Interactions.Core.DataTriggerBehavior.RevertOnFalse
+  name: RevertOnFalse
+  href: api/Avalonia.Xaml.Interactions.Core.DataTriggerBehavior.html#Avalonia_Xaml_Interactions_Core_DataTriggerBehavior_RevertOnFalse
+  commentId: P:Avalonia.Xaml.Interactions.Core.DataTriggerBehavior.RevertOnFalse
+  fullName: Avalonia.Xaml.Interactions.Core.DataTriggerBehavior.RevertOnFalse
+  nameWithType: DataTriggerBehavior.RevertOnFalse
+- uid: Avalonia.Xaml.Interactions.Core.DataTriggerBehavior.RevertOnFalse*
+  name: RevertOnFalse
+  href: api/Avalonia.Xaml.Interactions.Core.DataTriggerBehavior.html#Avalonia_Xaml_Interactions_Core_DataTriggerBehavior_RevertOnFalse_
+  commentId: Overload:Avalonia.Xaml.Interactions.Core.DataTriggerBehavior.RevertOnFalse
+  isSpec: "True"
+  fullName: Avalonia.Xaml.Interactions.Core.DataTriggerBehavior.RevertOnFalse
+  nameWithType: DataTriggerBehavior.RevertOnFalse
+- uid: Avalonia.Xaml.Interactions.Core.DataTriggerBehavior.RevertOnFalseProperty
+  name: RevertOnFalseProperty
+  href: api/Avalonia.Xaml.Interactions.Core.DataTriggerBehavior.html#Avalonia_Xaml_Interactions_Core_DataTriggerBehavior_RevertOnFalseProperty
+  commentId: F:Avalonia.Xaml.Interactions.Core.DataTriggerBehavior.RevertOnFalseProperty
+  fullName: Avalonia.Xaml.Interactions.Core.DataTriggerBehavior.RevertOnFalseProperty
+  nameWithType: DataTriggerBehavior.RevertOnFalseProperty
 - uid: Avalonia.Xaml.Interactions.Core.DataTriggerBehavior.Value
   name: Value
   href: api/Avalonia.Xaml.Interactions.Core.DataTriggerBehavior.html#Avalonia_Xaml_Interactions_Core_DataTriggerBehavior_Value
@@ -1167,6 +1244,19 @@ references:
   commentId: F:Avalonia.Xaml.Interactions.Core.MultiDataTriggerBehavior.ConditionsProperty
   fullName: Avalonia.Xaml.Interactions.Core.MultiDataTriggerBehavior.ConditionsProperty
   nameWithType: MultiDataTriggerBehavior.ConditionsProperty
+- uid: Avalonia.Xaml.Interactions.Core.MultiDataTriggerBehavior.OnAttached
+  name: OnAttached()
+  href: api/Avalonia.Xaml.Interactions.Core.MultiDataTriggerBehavior.html#Avalonia_Xaml_Interactions_Core_MultiDataTriggerBehavior_OnAttached
+  commentId: M:Avalonia.Xaml.Interactions.Core.MultiDataTriggerBehavior.OnAttached
+  fullName: Avalonia.Xaml.Interactions.Core.MultiDataTriggerBehavior.OnAttached()
+  nameWithType: MultiDataTriggerBehavior.OnAttached()
+- uid: Avalonia.Xaml.Interactions.Core.MultiDataTriggerBehavior.OnAttached*
+  name: OnAttached
+  href: api/Avalonia.Xaml.Interactions.Core.MultiDataTriggerBehavior.html#Avalonia_Xaml_Interactions_Core_MultiDataTriggerBehavior_OnAttached_
+  commentId: Overload:Avalonia.Xaml.Interactions.Core.MultiDataTriggerBehavior.OnAttached
+  isSpec: "True"
+  fullName: Avalonia.Xaml.Interactions.Core.MultiDataTriggerBehavior.OnAttached
+  nameWithType: MultiDataTriggerBehavior.OnAttached
 - uid: Avalonia.Xaml.Interactions.Core.MultiDataTriggerBehavior.OnAttachedToLogicalTree
   name: OnAttachedToLogicalTree()
   href: api/Avalonia.Xaml.Interactions.Core.MultiDataTriggerBehavior.html#Avalonia_Xaml_Interactions_Core_MultiDataTriggerBehavior_OnAttachedToLogicalTree
@@ -1180,6 +1270,19 @@ references:
   isSpec: "True"
   fullName: Avalonia.Xaml.Interactions.Core.MultiDataTriggerBehavior.OnAttachedToLogicalTree
   nameWithType: MultiDataTriggerBehavior.OnAttachedToLogicalTree
+- uid: Avalonia.Xaml.Interactions.Core.MultiDataTriggerBehavior.OnDetaching
+  name: OnDetaching()
+  href: api/Avalonia.Xaml.Interactions.Core.MultiDataTriggerBehavior.html#Avalonia_Xaml_Interactions_Core_MultiDataTriggerBehavior_OnDetaching
+  commentId: M:Avalonia.Xaml.Interactions.Core.MultiDataTriggerBehavior.OnDetaching
+  fullName: Avalonia.Xaml.Interactions.Core.MultiDataTriggerBehavior.OnDetaching()
+  nameWithType: MultiDataTriggerBehavior.OnDetaching()
+- uid: Avalonia.Xaml.Interactions.Core.MultiDataTriggerBehavior.OnDetaching*
+  name: OnDetaching
+  href: api/Avalonia.Xaml.Interactions.Core.MultiDataTriggerBehavior.html#Avalonia_Xaml_Interactions_Core_MultiDataTriggerBehavior_OnDetaching_
+  commentId: Overload:Avalonia.Xaml.Interactions.Core.MultiDataTriggerBehavior.OnDetaching
+  isSpec: "True"
+  fullName: Avalonia.Xaml.Interactions.Core.MultiDataTriggerBehavior.OnDetaching
+  nameWithType: MultiDataTriggerBehavior.OnDetaching
 - uid: Avalonia.Xaml.Interactions.Core.MultiDataTriggerBehavior.OnInitializedEvent
   name: OnInitializedEvent()
   href: api/Avalonia.Xaml.Interactions.Core.MultiDataTriggerBehavior.html#Avalonia_Xaml_Interactions_Core_MultiDataTriggerBehavior_OnInitializedEvent
@@ -1219,6 +1322,25 @@ references:
   isSpec: "True"
   fullName: Avalonia.Xaml.Interactions.Core.MultiDataTriggerBehavior.OnPropertyChanged
   nameWithType: MultiDataTriggerBehavior.OnPropertyChanged
+- uid: Avalonia.Xaml.Interactions.Core.MultiDataTriggerBehavior.RevertOnFalse
+  name: RevertOnFalse
+  href: api/Avalonia.Xaml.Interactions.Core.MultiDataTriggerBehavior.html#Avalonia_Xaml_Interactions_Core_MultiDataTriggerBehavior_RevertOnFalse
+  commentId: P:Avalonia.Xaml.Interactions.Core.MultiDataTriggerBehavior.RevertOnFalse
+  fullName: Avalonia.Xaml.Interactions.Core.MultiDataTriggerBehavior.RevertOnFalse
+  nameWithType: MultiDataTriggerBehavior.RevertOnFalse
+- uid: Avalonia.Xaml.Interactions.Core.MultiDataTriggerBehavior.RevertOnFalse*
+  name: RevertOnFalse
+  href: api/Avalonia.Xaml.Interactions.Core.MultiDataTriggerBehavior.html#Avalonia_Xaml_Interactions_Core_MultiDataTriggerBehavior_RevertOnFalse_
+  commentId: Overload:Avalonia.Xaml.Interactions.Core.MultiDataTriggerBehavior.RevertOnFalse
+  isSpec: "True"
+  fullName: Avalonia.Xaml.Interactions.Core.MultiDataTriggerBehavior.RevertOnFalse
+  nameWithType: MultiDataTriggerBehavior.RevertOnFalse
+- uid: Avalonia.Xaml.Interactions.Core.MultiDataTriggerBehavior.RevertOnFalseProperty
+  name: RevertOnFalseProperty
+  href: api/Avalonia.Xaml.Interactions.Core.MultiDataTriggerBehavior.html#Avalonia_Xaml_Interactions_Core_MultiDataTriggerBehavior_RevertOnFalseProperty
+  commentId: F:Avalonia.Xaml.Interactions.Core.MultiDataTriggerBehavior.RevertOnFalseProperty
+  fullName: Avalonia.Xaml.Interactions.Core.MultiDataTriggerBehavior.RevertOnFalseProperty
+  nameWithType: MultiDataTriggerBehavior.RevertOnFalseProperty
 - uid: Avalonia.Xaml.Interactions.Core.ObservableStreamBehavior
   name: ObservableStreamBehavior
   href: api/Avalonia.Xaml.Interactions.Core.ObservableStreamBehavior.html
@@ -28485,6 +28607,44 @@ references:
   isSpec: "True"
   fullName: Avalonia.Xaml.Interactivity.IBehaviorEventsHandler.UnloadedEventHandler
   nameWithType: IBehaviorEventsHandler.UnloadedEventHandler
+- uid: Avalonia.Xaml.Interactivity.IReversibleAction
+  name: IReversibleAction
+  href: api/Avalonia.Xaml.Interactivity.IReversibleAction.html
+  commentId: T:Avalonia.Xaml.Interactivity.IReversibleAction
+  fullName: Avalonia.Xaml.Interactivity.IReversibleAction
+  nameWithType: IReversibleAction
+- uid: Avalonia.Xaml.Interactivity.IReversibleAction.ExecuteReversibly(System.Object,System.Object)
+  name: ExecuteReversibly(object?, object?)
+  href: api/Avalonia.Xaml.Interactivity.IReversibleAction.html#Avalonia_Xaml_Interactivity_IReversibleAction_ExecuteReversibly_System_Object_System_Object_
+  commentId: M:Avalonia.Xaml.Interactivity.IReversibleAction.ExecuteReversibly(System.Object,System.Object)
+  name.vb: ExecuteReversibly(Object, Object)
+  fullName: Avalonia.Xaml.Interactivity.IReversibleAction.ExecuteReversibly(object?, object?)
+  fullName.vb: Avalonia.Xaml.Interactivity.IReversibleAction.ExecuteReversibly(Object, Object)
+  nameWithType: IReversibleAction.ExecuteReversibly(object?, object?)
+  nameWithType.vb: IReversibleAction.ExecuteReversibly(Object, Object)
+- uid: Avalonia.Xaml.Interactivity.IReversibleAction.ExecuteReversibly*
+  name: ExecuteReversibly
+  href: api/Avalonia.Xaml.Interactivity.IReversibleAction.html#Avalonia_Xaml_Interactivity_IReversibleAction_ExecuteReversibly_
+  commentId: Overload:Avalonia.Xaml.Interactivity.IReversibleAction.ExecuteReversibly
+  isSpec: "True"
+  fullName: Avalonia.Xaml.Interactivity.IReversibleAction.ExecuteReversibly
+  nameWithType: IReversibleAction.ExecuteReversibly
+- uid: Avalonia.Xaml.Interactivity.IReversibleAction.Revert(System.Object,System.Object)
+  name: Revert(object?, object?)
+  href: api/Avalonia.Xaml.Interactivity.IReversibleAction.html#Avalonia_Xaml_Interactivity_IReversibleAction_Revert_System_Object_System_Object_
+  commentId: M:Avalonia.Xaml.Interactivity.IReversibleAction.Revert(System.Object,System.Object)
+  name.vb: Revert(Object, Object)
+  fullName: Avalonia.Xaml.Interactivity.IReversibleAction.Revert(object?, object?)
+  fullName.vb: Avalonia.Xaml.Interactivity.IReversibleAction.Revert(Object, Object)
+  nameWithType: IReversibleAction.Revert(object?, object?)
+  nameWithType.vb: IReversibleAction.Revert(Object, Object)
+- uid: Avalonia.Xaml.Interactivity.IReversibleAction.Revert*
+  name: Revert
+  href: api/Avalonia.Xaml.Interactivity.IReversibleAction.html#Avalonia_Xaml_Interactivity_IReversibleAction_Revert_
+  commentId: Overload:Avalonia.Xaml.Interactivity.IReversibleAction.Revert
+  isSpec: "True"
+  fullName: Avalonia.Xaml.Interactivity.IReversibleAction.Revert
+  nameWithType: IReversibleAction.Revert
 - uid: Avalonia.Xaml.Interactivity.ITrigger
   name: ITrigger
   href: api/Avalonia.Xaml.Interactivity.ITrigger.html
@@ -29129,6 +29289,70 @@ references:
   isSpec: "True"
   fullName: Avalonia.Xaml.Interactivity.ObjectTemplate.Content
   nameWithType: ObjectTemplate.Content
+- uid: Avalonia.Xaml.Interactivity.ReversiblePropertyChange`2
+  name: ReversiblePropertyChange<TTarget, TValue>
+  href: api/Avalonia.Xaml.Interactivity.ReversiblePropertyChange-2.html
+  commentId: T:Avalonia.Xaml.Interactivity.ReversiblePropertyChange`2
+  name.vb: ReversiblePropertyChange(Of TTarget, TValue)
+  fullName: Avalonia.Xaml.Interactivity.ReversiblePropertyChange<TTarget, TValue>
+  fullName.vb: Avalonia.Xaml.Interactivity.ReversiblePropertyChange(Of TTarget, TValue)
+  nameWithType: ReversiblePropertyChange<TTarget, TValue>
+  nameWithType.vb: ReversiblePropertyChange(Of TTarget, TValue)
+- uid: Avalonia.Xaml.Interactivity.ReversiblePropertyChange`2.#ctor(System.String)
+  name: ReversiblePropertyChange(string)
+  href: api/Avalonia.Xaml.Interactivity.ReversiblePropertyChange-2.html#Avalonia_Xaml_Interactivity_ReversiblePropertyChange_2__ctor_System_String_
+  commentId: M:Avalonia.Xaml.Interactivity.ReversiblePropertyChange`2.#ctor(System.String)
+  name.vb: New(String)
+  fullName: Avalonia.Xaml.Interactivity.ReversiblePropertyChange<TTarget, TValue>.ReversiblePropertyChange(string)
+  fullName.vb: Avalonia.Xaml.Interactivity.ReversiblePropertyChange(Of TTarget, TValue).New(String)
+  nameWithType: ReversiblePropertyChange<TTarget, TValue>.ReversiblePropertyChange(string)
+  nameWithType.vb: ReversiblePropertyChange(Of TTarget, TValue).New(String)
+- uid: Avalonia.Xaml.Interactivity.ReversiblePropertyChange`2.#ctor*
+  name: ReversiblePropertyChange
+  href: api/Avalonia.Xaml.Interactivity.ReversiblePropertyChange-2.html#Avalonia_Xaml_Interactivity_ReversiblePropertyChange_2__ctor_
+  commentId: Overload:Avalonia.Xaml.Interactivity.ReversiblePropertyChange`2.#ctor
+  isSpec: "True"
+  name.vb: New
+  fullName: Avalonia.Xaml.Interactivity.ReversiblePropertyChange<TTarget, TValue>.ReversiblePropertyChange
+  fullName.vb: Avalonia.Xaml.Interactivity.ReversiblePropertyChange(Of TTarget, TValue).New
+  nameWithType: ReversiblePropertyChange<TTarget, TValue>.ReversiblePropertyChange
+  nameWithType.vb: ReversiblePropertyChange(Of TTarget, TValue).New
+- uid: Avalonia.Xaml.Interactivity.ReversiblePropertyChange`2.Apply(`0,`1,System.Func{`0,`1},System.Action{`0,`1})
+  name: Apply(TTarget, TValue, Func<TTarget, TValue>, Action<TTarget, TValue>)
+  href: api/Avalonia.Xaml.Interactivity.ReversiblePropertyChange-2.html#Avalonia_Xaml_Interactivity_ReversiblePropertyChange_2_Apply__0__1_System_Func__0__1__System_Action__0__1__
+  commentId: M:Avalonia.Xaml.Interactivity.ReversiblePropertyChange`2.Apply(`0,`1,System.Func{`0,`1},System.Action{`0,`1})
+  name.vb: Apply(TTarget, TValue, Func(Of TTarget, TValue), Action(Of TTarget, TValue))
+  fullName: Avalonia.Xaml.Interactivity.ReversiblePropertyChange<TTarget, TValue>.Apply(TTarget, TValue, System.Func<TTarget, TValue>, System.Action<TTarget, TValue>)
+  fullName.vb: Avalonia.Xaml.Interactivity.ReversiblePropertyChange(Of TTarget, TValue).Apply(TTarget, TValue, System.Func(Of TTarget, TValue), System.Action(Of TTarget, TValue))
+  nameWithType: ReversiblePropertyChange<TTarget, TValue>.Apply(TTarget, TValue, Func<TTarget, TValue>, Action<TTarget, TValue>)
+  nameWithType.vb: ReversiblePropertyChange(Of TTarget, TValue).Apply(TTarget, TValue, Func(Of TTarget, TValue), Action(Of TTarget, TValue))
+- uid: Avalonia.Xaml.Interactivity.ReversiblePropertyChange`2.Apply*
+  name: Apply
+  href: api/Avalonia.Xaml.Interactivity.ReversiblePropertyChange-2.html#Avalonia_Xaml_Interactivity_ReversiblePropertyChange_2_Apply_
+  commentId: Overload:Avalonia.Xaml.Interactivity.ReversiblePropertyChange`2.Apply
+  isSpec: "True"
+  fullName: Avalonia.Xaml.Interactivity.ReversiblePropertyChange<TTarget, TValue>.Apply
+  fullName.vb: Avalonia.Xaml.Interactivity.ReversiblePropertyChange(Of TTarget, TValue).Apply
+  nameWithType: ReversiblePropertyChange<TTarget, TValue>.Apply
+  nameWithType.vb: ReversiblePropertyChange(Of TTarget, TValue).Apply
+- uid: Avalonia.Xaml.Interactivity.ReversiblePropertyChange`2.Revert(System.Action{`0,`1})
+  name: Revert(Action<TTarget, TValue>)
+  href: api/Avalonia.Xaml.Interactivity.ReversiblePropertyChange-2.html#Avalonia_Xaml_Interactivity_ReversiblePropertyChange_2_Revert_System_Action__0__1__
+  commentId: M:Avalonia.Xaml.Interactivity.ReversiblePropertyChange`2.Revert(System.Action{`0,`1})
+  name.vb: Revert(Action(Of TTarget, TValue))
+  fullName: Avalonia.Xaml.Interactivity.ReversiblePropertyChange<TTarget, TValue>.Revert(System.Action<TTarget, TValue>)
+  fullName.vb: Avalonia.Xaml.Interactivity.ReversiblePropertyChange(Of TTarget, TValue).Revert(System.Action(Of TTarget, TValue))
+  nameWithType: ReversiblePropertyChange<TTarget, TValue>.Revert(Action<TTarget, TValue>)
+  nameWithType.vb: ReversiblePropertyChange(Of TTarget, TValue).Revert(Action(Of TTarget, TValue))
+- uid: Avalonia.Xaml.Interactivity.ReversiblePropertyChange`2.Revert*
+  name: Revert
+  href: api/Avalonia.Xaml.Interactivity.ReversiblePropertyChange-2.html#Avalonia_Xaml_Interactivity_ReversiblePropertyChange_2_Revert_
+  commentId: Overload:Avalonia.Xaml.Interactivity.ReversiblePropertyChange`2.Revert
+  isSpec: "True"
+  fullName: Avalonia.Xaml.Interactivity.ReversiblePropertyChange<TTarget, TValue>.Revert
+  fullName.vb: Avalonia.Xaml.Interactivity.ReversiblePropertyChange(Of TTarget, TValue).Revert
+  nameWithType: ReversiblePropertyChange<TTarget, TValue>.Revert
+  nameWithType.vb: ReversiblePropertyChange(Of TTarget, TValue).Revert
 - uid: Avalonia.Xaml.Interactivity.StyledElementAction
   name: StyledElementAction
   href: api/Avalonia.Xaml.Interactivity.StyledElementAction.html

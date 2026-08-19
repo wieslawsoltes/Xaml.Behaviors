@@ -7312,6 +7312,20 @@
     },
     {
       "type": "ManagedReference",
+      "source_relative_path": "api/Avalonia.Xaml.Interactivity.IReversibleAction.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Avalonia.Xaml.Interactivity.IReversibleAction.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Avalonia.Xaml.Interactivity.IReversibleAction",
+      "Summary": "<p sourcefile=\"api/Avalonia.Xaml.Interactivity.IReversibleAction.yml\" sourcestartlinenumber=\"1\">Interface for actions that can revert the effect of a previous <xref href=\"Avalonia.Xaml.Interactivity.IAction.Execute(System.Object%2cSystem.Object)\" data-throw-if-not-resolved=\"false\"></xref> call.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
       "source_relative_path": "api/Avalonia.Xaml.Interactivity.ITrigger.yml",
       "output": {
         ".html": {
@@ -7421,6 +7435,20 @@
       "IsMRef": true,
       "Title": "Avalonia.Xaml.Interactivity.ObjectTemplate",
       "Summary": "<p sourcefile=\"api/Avalonia.Xaml.Interactivity.ObjectTemplate.yml\" sourcestartlinenumber=\"1\">A template for creating custom objects.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Avalonia.Xaml.Interactivity.ReversiblePropertyChange-2.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Avalonia.Xaml.Interactivity.ReversiblePropertyChange-2.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Avalonia.Xaml.Interactivity.ReversiblePropertyChange<TTarget, TValue>",
+      "Summary": "<p sourcefile=\"api/Avalonia.Xaml.Interactivity.ReversiblePropertyChange-2.yml\" sourcestartlinenumber=\"1\">Coordinates reversible, typed property changes across action instances.</p>\n"
     },
     {
       "type": "ManagedReference",

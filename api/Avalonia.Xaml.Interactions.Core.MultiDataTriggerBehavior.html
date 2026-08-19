@@ -173,12 +173,6 @@ public class MultiDataTriggerBehavior : StyledElementTrigger, INotifyPropertyCha
       <a class="xref" href="Avalonia.Xaml.Interactivity.StyledElementBehavior.html#Avalonia_Xaml_Interactivity_StyledElementBehavior_Detach">StyledElementBehavior.Detach()</a>
     </div>
     <div>
-      <a class="xref" href="Avalonia.Xaml.Interactivity.StyledElementBehavior.html#Avalonia_Xaml_Interactivity_StyledElementBehavior_OnAttached">StyledElementBehavior.OnAttached()</a>
-    </div>
-    <div>
-      <a class="xref" href="Avalonia.Xaml.Interactivity.StyledElementBehavior.html#Avalonia_Xaml_Interactivity_StyledElementBehavior_OnDetaching">StyledElementBehavior.OnDetaching()</a>
-    </div>
-    <div>
       <a class="xref" href="Avalonia.Xaml.Interactivity.StyledElementBehavior.html#Avalonia_Xaml_Interactivity_StyledElementBehavior_OnAttachedToVisualTree">StyledElementBehavior.OnAttachedToVisualTree()</a>
     </div>
     <div>
@@ -457,7 +451,7 @@ public class MultiDataTriggerBehavior : StyledElementTrigger, INotifyPropertyCha
 
   <h3 id="Avalonia_Xaml_Interactions_Core_MultiDataTriggerBehavior__ctor" data-uid="Avalonia.Xaml.Interactions.Core.MultiDataTriggerBehavior.#ctor">
   MultiDataTriggerBehavior()
-  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactions/Core/MultiDataTriggerBehavior.cs/#L34"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactions/Core/MultiDataTriggerBehavior.cs/#L44"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Initializes a new instance of the <a class="xref" href="Avalonia.Xaml.Interactions.Core.MultiDataTriggerBehavior.html">MultiDataTriggerBehavior</a> class.</p>
@@ -487,7 +481,7 @@ public class MultiDataTriggerBehavior : StyledElementTrigger, INotifyPropertyCha
 
   <h3 id="Avalonia_Xaml_Interactions_Core_MultiDataTriggerBehavior_ConditionsProperty" data-uid="Avalonia.Xaml.Interactions.Core.MultiDataTriggerBehavior.ConditionsProperty">
   ConditionsProperty
-  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactions/Core/MultiDataTriggerBehavior.cs/#L25"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactions/Core/MultiDataTriggerBehavior.cs/#L31"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Identifies the <a class="xref" href="Avalonia.Xaml.Interactions.Core.MultiDataTriggerBehavior.html#Avalonia_Xaml_Interactions_Core_MultiDataTriggerBehavior_Conditions">Conditions</a> avalonia property.</p>
@@ -515,6 +509,37 @@ public class MultiDataTriggerBehavior : StyledElementTrigger, INotifyPropertyCha
 
 
 
+
+  <h3 id="Avalonia_Xaml_Interactions_Core_MultiDataTriggerBehavior_RevertOnFalseProperty" data-uid="Avalonia.Xaml.Interactions.Core.MultiDataTriggerBehavior.RevertOnFalseProperty">
+  RevertOnFalseProperty
+  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactions/Core/MultiDataTriggerBehavior.cs/#L25"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Identifies the <a class="xref" href="Avalonia.Xaml.Interactions.Core.MultiDataTriggerBehavior.html#Avalonia_Xaml_Interactions_Core_MultiDataTriggerBehavior_RevertOnFalse">RevertOnFalse</a> avalonia property.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static readonly StyledProperty&lt;bool&gt; RevertOnFalseProperty</code></pre>
+  </div>
+
+
+
+
+  <h4 class="section">Field Value</h4>
+  <dl class="parameters">
+    <dt><span class="xref">StyledProperty</span>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a>&gt;</dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
   <h2 class="section" id="properties">Properties
 </h2>
 
@@ -523,7 +548,7 @@ public class MultiDataTriggerBehavior : StyledElementTrigger, INotifyPropertyCha
 
   <h3 id="Avalonia_Xaml_Interactions_Core_MultiDataTriggerBehavior_Conditions" data-uid="Avalonia.Xaml.Interactions.Core.MultiDataTriggerBehavior.Conditions">
   Conditions
-  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactions/Core/MultiDataTriggerBehavior.cs/#L44"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactions/Core/MultiDataTriggerBehavior.cs/#L54"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Gets or sets the collection of conditions that must all be satisfied before actions are executed. This is an avalonia property.</p>
@@ -551,15 +576,78 @@ public class MultiDataTriggerBehavior : StyledElementTrigger, INotifyPropertyCha
 
 
 
+  <a id="Avalonia_Xaml_Interactions_Core_MultiDataTriggerBehavior_RevertOnFalse_" data-uid="Avalonia.Xaml.Interactions.Core.MultiDataTriggerBehavior.RevertOnFalse*"></a>
+
+  <h3 id="Avalonia_Xaml_Interactions_Core_MultiDataTriggerBehavior_RevertOnFalse" data-uid="Avalonia.Xaml.Interactions.Core.MultiDataTriggerBehavior.RevertOnFalse">
+  RevertOnFalse
+  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactions/Core/MultiDataTriggerBehavior.cs/#L64"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Gets or sets a value indicating whether reversible actions should be reverted when conditions become false.
+When false, behavior matches legacy semantics and only executes actions when all conditions are true.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool RevertOnFalse { get; set; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
   <h2 class="section" id="methods">Methods
 </h2>
+
+
+  <a id="Avalonia_Xaml_Interactions_Core_MultiDataTriggerBehavior_OnAttached_" data-uid="Avalonia.Xaml.Interactions.Core.MultiDataTriggerBehavior.OnAttached*"></a>
+
+  <h3 id="Avalonia_Xaml_Interactions_Core_MultiDataTriggerBehavior_OnAttached" data-uid="Avalonia.Xaml.Interactions.Core.MultiDataTriggerBehavior.OnAttached">
+  OnAttached()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactions/Core/MultiDataTriggerBehavior.cs/#L138"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Called after the behavior is attached to the <a class="xref" href="Avalonia.Xaml.Interactivity.StyledElementBehavior.html#Avalonia_Xaml_Interactivity_StyledElementBehavior_AssociatedObject">AssociatedObject</a>.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected override void OnAttached()</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+  <h4 class="section" id="Avalonia_Xaml_Interactions_Core_MultiDataTriggerBehavior_OnAttached_remarks">Remarks</h4>
+  <div class="markdown level1 remarks"><p>Override this to hook up functionality to the <a class="xref" href="Avalonia.Xaml.Interactivity.StyledElementBehavior.html#Avalonia_Xaml_Interactivity_StyledElementBehavior_AssociatedObject">AssociatedObject</a></p>
+</div>
+
+
 
 
   <a id="Avalonia_Xaml_Interactions_Core_MultiDataTriggerBehavior_OnAttachedToLogicalTree_" data-uid="Avalonia.Xaml.Interactions.Core.MultiDataTriggerBehavior.OnAttachedToLogicalTree*"></a>
 
   <h3 id="Avalonia_Xaml_Interactions_Core_MultiDataTriggerBehavior_OnAttachedToLogicalTree" data-uid="Avalonia.Xaml.Interactions.Core.MultiDataTriggerBehavior.OnAttachedToLogicalTree">
   OnAttachedToLogicalTree()
-  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactions/Core/MultiDataTriggerBehavior.cs/#L81"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactions/Core/MultiDataTriggerBehavior.cs/#L158"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Called after the <a class="xref" href="Avalonia.Xaml.Interactivity.StyledElementBehavior.html#Avalonia_Xaml_Interactivity_StyledElementBehavior_AssociatedObject">AssociatedObject</a> is attached to the logical tree.</p>
@@ -585,11 +673,41 @@ public class MultiDataTriggerBehavior : StyledElementTrigger, INotifyPropertyCha
 
 
 
+  <a id="Avalonia_Xaml_Interactions_Core_MultiDataTriggerBehavior_OnDetaching_" data-uid="Avalonia.Xaml.Interactions.Core.MultiDataTriggerBehavior.OnDetaching*"></a>
+
+  <h3 id="Avalonia_Xaml_Interactions_Core_MultiDataTriggerBehavior_OnDetaching" data-uid="Avalonia.Xaml.Interactions.Core.MultiDataTriggerBehavior.OnDetaching">
+  OnDetaching()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactions/Core/MultiDataTriggerBehavior.cs/#L145"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Called when the behavior is being detached from its <a class="xref" href="Avalonia.Xaml.Interactivity.StyledElementBehavior.html#Avalonia_Xaml_Interactivity_StyledElementBehavior_AssociatedObject">AssociatedObject</a>.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected override void OnDetaching()</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+  <h4 class="section" id="Avalonia_Xaml_Interactions_Core_MultiDataTriggerBehavior_OnDetaching_remarks">Remarks</h4>
+  <div class="markdown level1 remarks"><p>Override this to unhook functionality from the <a class="xref" href="Avalonia.Xaml.Interactivity.StyledElementBehavior.html#Avalonia_Xaml_Interactivity_StyledElementBehavior_AssociatedObject">AssociatedObject</a></p>
+</div>
+
+
+
+
   <a id="Avalonia_Xaml_Interactions_Core_MultiDataTriggerBehavior_OnInitializedEvent_" data-uid="Avalonia.Xaml.Interactions.Core.MultiDataTriggerBehavior.OnInitializedEvent*"></a>
 
   <h3 id="Avalonia_Xaml_Interactions_Core_MultiDataTriggerBehavior_OnInitializedEvent" data-uid="Avalonia.Xaml.Interactions.Core.MultiDataTriggerBehavior.OnInitializedEvent">
   OnInitializedEvent()
-  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactions/Core/MultiDataTriggerBehavior.cs/#L72"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactions/Core/MultiDataTriggerBehavior.cs/#L129"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Called when the <a class="xref" href="Avalonia.Xaml.Interactivity.StyledElementBehavior.html#Avalonia_Xaml_Interactivity_StyledElementBehavior_AssociatedObject">AssociatedObject</a> is initialized.</p>
@@ -619,7 +737,7 @@ public class MultiDataTriggerBehavior : StyledElementTrigger, INotifyPropertyCha
 
   <h3 id="Avalonia_Xaml_Interactions_Core_MultiDataTriggerBehavior_OnLoaded" data-uid="Avalonia.Xaml.Interactions.Core.MultiDataTriggerBehavior.OnLoaded">
   OnLoaded()
-  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactions/Core/MultiDataTriggerBehavior.cs/#L89"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactions/Core/MultiDataTriggerBehavior.cs/#L166"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Called after the <a class="xref" href="Avalonia.Xaml.Interactivity.StyledElementBehavior.html#Avalonia_Xaml_Interactivity_StyledElementBehavior_AssociatedObject">AssociatedObject</a> is loaded.</p>
@@ -649,7 +767,7 @@ public class MultiDataTriggerBehavior : StyledElementTrigger, INotifyPropertyCha
 
   <h3 id="Avalonia_Xaml_Interactions_Core_MultiDataTriggerBehavior_OnPropertyChanged_Avalonia_AvaloniaPropertyChangedEventArgs_" data-uid="Avalonia.Xaml.Interactions.Core.MultiDataTriggerBehavior.OnPropertyChanged(Avalonia.AvaloniaPropertyChangedEventArgs)">
   OnPropertyChanged(AvaloniaPropertyChangedEventArgs)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactions/Core/MultiDataTriggerBehavior.cs/#L51"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/wieslawsoltes/Xaml.Behaviors/blob/master/src/Xaml.Behaviors.Interactions/Core/MultiDataTriggerBehavior.cs/#L71"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Called when a avalonia property changes on the object.</p>
