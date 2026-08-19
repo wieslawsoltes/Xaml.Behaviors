@@ -1,11 +1,14 @@
 // Copyright (c) Wiesław Šoltés. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for details.
 using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.LogicalTree;
 using Avalonia.Platform.Storage;
+using Avalonia.Threading;
 using Avalonia.VisualTree;
 using Avalonia.Xaml.Interactivity;
 
@@ -16,6 +19,8 @@ namespace Avalonia.Xaml.Interactions.Core;
 /// </summary>
 public abstract class PickerActionBase : InvokeCommandActionBase
 {
+    private readonly List<Task> _activePickerOperations = [];
+
     /// <summary>
     /// Identifies the <seealso cref="StorageProvider"/> avalonia property.
     /// </summary>
@@ -142,6 +147,64 @@ public abstract class PickerActionBase : InvokeCommandActionBase
             SuggestedStartLocationPath,
             CreateSuggestedStartLocationDirectory,
             provider);
+    }
+
+    /// <summary>
+    /// Keeps an asynchronous picker operation rooted until it completes.
+    /// </summary>
+    /// <param name="operation">The picker operation to track.</param>
+    /// <returns>The tracked operation.</returns>
+    protected Task TrackPickerOperation(Task operation)
+    {
+        lock (_activePickerOperations)
+        {
+            _activePickerOperations.Add(operation);
+        }
+
+        _ = RemoveCompletedPickerOperationAsync(operation);
+        return operation;
+    }
+
+    /// <summary>
+    /// Runs and tracks an asynchronous picker operation on the UI thread.
+    /// </summary>
+    /// <param name="operation">The picker operation to run.</param>
+    /// <returns>The tracked dispatcher operation.</returns>
+    protected Task TrackDispatchedPickerOperation(Func<Task> operation)
+    {
+        ArgumentNullException.ThrowIfNull(operation);
+
+        return TrackPickerOperation(Dispatcher.UIThread.InvokeAsync(operation));
+    }
+
+    internal int ActivePickerOperationCount
+    {
+        get
+        {
+            lock (_activePickerOperations)
+            {
+                return _activePickerOperations.Count;
+            }
+        }
+    }
+
+    private async Task RemoveCompletedPickerOperationAsync(Task operation)
+    {
+        try
+        {
+            await operation.ConfigureAwait(false);
+        }
+        catch
+        {
+            // The caller receives the original task; this continuation only owns lifetime cleanup.
+        }
+        finally
+        {
+            lock (_activePickerOperations)
+            {
+                _activePickerOperations.Remove(operation);
+            }
+        }
     }
 
     private static IStorageProvider? ResolveFromObject(object? target)

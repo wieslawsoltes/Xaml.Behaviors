@@ -192,11 +192,22 @@ public class DataTriggerBehavior : StyledElementTrigger
         }
 
         var binding = Binding;
+        if (!IsSet(BindingProperty) || Equals(binding, AvaloniaProperty.UnsetValue))
+        {
+            return;
+        }
+
+        if (binding is null &&
+            ComparisonCondition is not ComparisonConditionType.Equal and
+            not ComparisonConditionType.NotEqual)
+        {
+            return;
+        }
 
         if (!RevertOnFalse)
         {
             // Preserve legacy behavior: execute whenever condition evaluates true.
-            if (binding is not null && ComparisonConditionTypeHelper.Compare(binding, ComparisonCondition, Value))
+            if (ComparisonConditionTypeHelper.Compare(binding, ComparisonCondition, Value))
             {
                 Interaction.ExecuteActions(AssociatedObject, Actions, parameter);
             }
@@ -204,9 +215,7 @@ public class DataTriggerBehavior : StyledElementTrigger
             return;
         }
 
-        var isConditionMet = binding is not null &&
-                             !Equals(binding, AvaloniaProperty.UnsetValue) &&
-                             ComparisonConditionTypeHelper.Compare(binding, ComparisonCondition, Value);
+        var isConditionMet = ComparisonConditionTypeHelper.Compare(binding, ComparisonCondition, Value);
 
         if (!_hasConditionState)
         {

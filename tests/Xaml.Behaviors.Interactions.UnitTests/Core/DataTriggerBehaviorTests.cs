@@ -239,4 +239,40 @@ public class DataTriggerBehaviorTests
         Assert.Equal("Red", window.TargetTextBlock.Text);
         window.Close();
     }
+
+    [AvaloniaFact]
+    public void DataTriggerBehavior_ExecutesWhenBoundValueBecomesNull()
+    {
+        var window = new DataTriggerBehavior004();
+        var source = Assert.IsType<DataTriggerBehavior004BindingSource>(window.DataContext);
+
+        window.Show();
+        Dispatcher.UIThread.RunJobs();
+
+        Assert.Equal("Not empty", window.NullTargetTextBlock.Text);
+        Assert.Equal("Unchanged", window.UnconfiguredTextBlock.Text);
+        Assert.Equal("Unchanged", window.RelationalTextBlock.Text);
+
+        source.TestProperty = null;
+        Dispatcher.UIThread.RunJobs();
+
+        Assert.Equal("Empty", window.NullTargetTextBlock.Text);
+        Assert.Equal("Unchanged", window.UnconfiguredTextBlock.Text);
+        Assert.Equal("Unchanged", window.RelationalTextBlock.Text);
+    }
+
+    [AvaloniaFact]
+    public void DataTriggerBehavior_ExecutesWhenInitialBoundValueIsNull()
+    {
+        var window = new DataTriggerBehavior004();
+        var source = Assert.IsType<DataTriggerBehavior004BindingSource>(window.DataContext);
+        source.TestProperty = null;
+
+        window.Show();
+        Dispatcher.UIThread.RunJobs();
+
+        Assert.Equal("Empty", window.NullTargetTextBlock.Text);
+        Assert.Equal("Unchanged", window.UnconfiguredTextBlock.Text);
+        Assert.Equal("Unchanged", window.RelationalTextBlock.Text);
+    }
 }

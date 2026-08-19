@@ -2,19 +2,45 @@
 // Licensed under the MIT license. See LICENSE file in the project root for details.
 using System.Windows.Input;
 using Avalonia.Data.Converters;
+using Avalonia.Input;
+using Avalonia.LogicalTree;
+using Avalonia.Reactive;
 
 namespace Avalonia.Xaml.Interactivity;
 
 /// <summary>
 /// Command action base class.
 /// </summary>
-public abstract class InvokeCommandActionBase : StyledElementAction
+public abstract class InvokeCommandActionBase : StyledElementAction, IActionLogicalTreeLifecycle
 {
+    private readonly CommandCanExecuteObserver _commandCanExecuteObserver;
+    private readonly CommandCanExecuteIsEnabledBinder _commandCanExecuteIsEnabledBinder;
+    private bool _canExecuteCommand = true;
+    private bool _passEventArgsToCommand;
+
     /// <summary>
     /// Identifies the <seealso cref="Command"/> avalonia property.
     /// </summary>
     public static readonly StyledProperty<ICommand?> CommandProperty =
         AvaloniaProperty.Register<InvokeCommandActionBase, ICommand?>(nameof(Command));
+
+    /// <summary>
+    /// Identifies the <seealso cref="CanExecuteCommand"/> avalonia property.
+    /// </summary>
+    public static readonly DirectProperty<InvokeCommandActionBase, bool> CanExecuteCommandProperty =
+        AvaloniaProperty.RegisterDirect<InvokeCommandActionBase, bool>(nameof(CanExecuteCommand), action => action.CanExecuteCommand);
+
+    /// <summary>
+    /// Identifies the <seealso cref="CanExecuteCommandParameter"/> avalonia property.
+    /// </summary>
+    public static readonly StyledProperty<object?> CanExecuteCommandParameterProperty =
+        AvaloniaProperty.Register<InvokeCommandActionBase, object?>(nameof(CanExecuteCommandParameter));
+
+    /// <summary>
+    /// Identifies the <seealso cref="UseCommandCanExecuteForIsEnabled"/> avalonia property.
+    /// </summary>
+    public static readonly StyledProperty<bool> UseCommandCanExecuteForIsEnabledProperty =
+        AvaloniaProperty.Register<InvokeCommandActionBase, bool>(nameof(UseCommandCanExecuteForIsEnabled));
 
     /// <summary>
     /// Identifies the <seealso cref="CommandParameter"/> avalonia property.
@@ -42,12 +68,51 @@ public abstract class InvokeCommandActionBase : StyledElementAction
         AvaloniaProperty.Register<InvokeCommandActionBase, string?>(nameof(InputConverterLanguage), string.Empty);
 
     /// <summary>
+    /// Initializes a new instance of the <see cref="InvokeCommandActionBase"/> class.
+    /// </summary>
+    protected InvokeCommandActionBase()
+    {
+        _commandCanExecuteObserver = new CommandCanExecuteObserver(SetCanExecuteCommand);
+        _commandCanExecuteIsEnabledBinder = new CommandCanExecuteIsEnabledBinder();
+    }
+
+    /// <summary>
     /// Gets or sets the command this action should invoke. This is an avalonia property.
     /// </summary>
     public ICommand? Command
     {
         get => GetValue(CommandProperty);
         set => SetValue(CommandProperty, value);
+    }
+
+    /// <summary>
+    /// Gets a value indicating whether <see cref="Command"/> can execute with the current can-execute parameter.
+    /// </summary>
+    public bool CanExecuteCommand
+    {
+        get => _canExecuteCommand;
+        private set => SetAndRaise(CanExecuteCommandProperty, ref _canExecuteCommand, value);
+    }
+
+    /// <summary>
+    /// Gets or sets the parameter that is passed to <see cref="ICommand.CanExecute(object)"/>.
+    /// When this property is not set, <see cref="CommandParameter"/> is used if it is set.
+    /// This property does not change the parameter passed to <see cref="ICommand.Execute(object)"/>.
+    /// </summary>
+    public object? CanExecuteCommandParameter
+    {
+        get => GetValue(CanExecuteCommandParameterProperty);
+        set => SetValue(CanExecuteCommandParameterProperty, value);
+    }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether the control associated with the hosting trigger should have its
+    /// <see cref="InputElement.IsEnabled"/> property follow <see cref="CanExecuteCommand"/>.
+    /// </summary>
+    public bool UseCommandCanExecuteForIsEnabled
+    {
+        get => GetValue(UseCommandCanExecuteForIsEnabledProperty);
+        set => SetValue(UseCommandCanExecuteForIsEnabledProperty, value);
     }
   
     /// <summary>
@@ -96,7 +161,50 @@ public abstract class InvokeCommandActionBase : StyledElementAction
     /// <summary>
     /// Specifies whether the EventArgs of the event that triggered this action should be passed to the Command as a parameter.
     /// </summary>
-    public bool PassEventArgsToCommand { get; set; }
+    public bool PassEventArgsToCommand
+    {
+        get => _passEventArgsToCommand;
+        set
+        {
+            if (_passEventArgsToCommand == value)
+            {
+                return;
+            }
+
+            _passEventArgsToCommand = value;
+            _commandCanExecuteObserver.Update(Command, ResolveCanExecuteParameter(), IsCanExecuteParameterKnown());
+        }
+    }
+
+    void IActionLogicalTreeLifecycle.AttachedToActionLogicalTree()
+    {
+        _commandCanExecuteObserver.Start(Command, ResolveCanExecuteParameter(), IsCanExecuteParameterKnown());
+        UpdateCommandCanExecuteIsEnabledBinding();
+    }
+
+    void IActionLogicalTreeLifecycle.DetachedFromActionLogicalTree()
+    {
+        _commandCanExecuteIsEnabledBinder.Stop();
+        _commandCanExecuteObserver.Stop();
+    }
+
+    /// <inheritdoc />
+    protected override void OnPropertyChanged(AvaloniaPropertyChangedEventArgs change)
+    {
+        base.OnPropertyChanged(change);
+
+        if (change.Property == CommandProperty ||
+            change.Property == CommandParameterProperty ||
+            change.Property == CanExecuteCommandParameterProperty ||
+            change.Property == InputConverterProperty)
+        {
+            _commandCanExecuteObserver.Update(Command, ResolveCanExecuteParameter(), IsCanExecuteParameterKnown());
+        }
+        else if (change.Property == UseCommandCanExecuteForIsEnabledProperty)
+        {
+            UpdateCommandCanExecuteIsEnabledBinding();
+        }
+    }
 
     /// <summary>
     /// Resolves the command parameter that will be passed to the
@@ -131,5 +239,53 @@ public abstract class InvokeCommandActionBase : StyledElementAction
         }
 
         return resolvedParameter;
+    }
+
+    private object? ResolveCanExecuteParameter()
+    {
+        if (IsSet(CanExecuteCommandParameterProperty))
+        {
+            return CanExecuteCommandParameter;
+        }
+
+        return IsSet(CommandParameterProperty) ? CommandParameter : null;
+    }
+
+    private bool IsCanExecuteParameterKnown()
+    {
+        return IsSet(CanExecuteCommandParameterProperty) ||
+               IsSet(CommandParameterProperty) ||
+               (InputConverter is null && !PassEventArgsToCommand);
+    }
+
+    private void SetCanExecuteCommand(bool value)
+    {
+        CanExecuteCommand = value;
+    }
+
+    private void UpdateCommandCanExecuteIsEnabledBinding()
+    {
+        _commandCanExecuteIsEnabledBinder.Update(
+            ResolveCommandCanExecuteIsEnabledTarget(),
+            UseCommandCanExecuteForIsEnabled,
+            AvaloniaObjectExtensions.GetObservable(this, CanExecuteCommandProperty));
+    }
+
+    private InputElement? ResolveCommandCanExecuteIsEnabledTarget()
+    {
+        foreach (var logical in this.GetSelfAndLogicalAncestors())
+        {
+            if (logical is IBehavior { AssociatedObject: InputElement associatedInputElement })
+            {
+                return associatedInputElement;
+            }
+
+            if (logical is InputElement inputElement)
+            {
+                return inputElement;
+            }
+        }
+
+        return null;
     }
 }

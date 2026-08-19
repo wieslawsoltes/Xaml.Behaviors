@@ -1,6 +1,6 @@
 # InvokeButtonClickAction
 
-This action programmatically raises the `Click` event on a target `Button`. This is useful if you want to simulate a button click from another event or trigger.
+This action programmatically invokes a target `Button`. It follows Avalonia's normal button activation path, including the `Click` event, flyout handling, and command execution. Disabled buttons are not invoked.
 
 ### Properties
 *   `TargetButton`: The button to click. If not set, it attempts to use the `sender` if it is a button.
@@ -9,7 +9,9 @@ This action programmatically raises the `Click` event on a target `Button`. This
 
 ```xml
 <StackPanel>
-    <Button Name="SubmitButton" Content="Submit" Click="SubmitButton_Click" />
+    <Button Name="SubmitButton"
+            Content="Submit"
+            Command="{Binding SubmitCommand}" />
 
     <TextBox>
         <Interaction.Behaviors>
@@ -21,3 +23,5 @@ This action programmatically raises the `Click` event on a target `Button`. This
     </TextBox>
 </StackPanel>
 ```
+
+If a `Click` handler marks the event as handled, the button command is not executed, matching Avalonia's native button behavior.

@@ -5,7 +5,6 @@ using System.Diagnostics;
 using System.Globalization;
 using Avalonia.Controls;
 using Avalonia.Reactive;
-using Avalonia.Threading;
 
 namespace Avalonia.Xaml.Interactivity;
 
@@ -80,6 +79,12 @@ public abstract class StyledElementBehavior : StyledElement, IBehavior, IBehavio
     public void Detach()
     {
         OnDetaching();
+
+        if (Parent is not null || TemplatedParent is not null)
+        {
+            DetachBehaviorFromLogicalTree();
+        }
+
         _dataContextDisposable?.Dispose();
         AssociatedObject = null;
     }
@@ -113,7 +118,10 @@ public abstract class StyledElementBehavior : StyledElement, IBehavior, IBehavio
 
     void IBehaviorEventsHandler.DetachedFromVisualTreeEventHandler()
     {
-        DetachBehaviorFromLogicalTree();
+        if (AssociatedObject is not TopLevel)
+        {
+            DetachBehaviorFromLogicalTree();
+        }
 
         OnDetachedFromVisualTree();
     }
@@ -127,7 +135,10 @@ public abstract class StyledElementBehavior : StyledElement, IBehavior, IBehavio
 
     void IBehaviorEventsHandler.DetachedFromLogicalTreeEventHandler()
     {
-        DetachBehaviorFromLogicalTree();
+        if (AssociatedObject is not TopLevel)
+        {
+            DetachBehaviorFromLogicalTree();
+        }
 
         OnDetachedFromLogicalTree();
     }
@@ -288,17 +299,12 @@ public abstract class StyledElementBehavior : StyledElement, IBehavior, IBehavio
 
     internal virtual void DetachBehaviorFromLogicalTree()
     {
-#if false
-        Dispatcher.UIThread.Post(() =>
-        {
-            ((ISetLogicalParent)this).SetParent(null);
+        ((ISetLogicalParent)this).SetParent(null);
 
-            if (AssociatedObject is StyledElement { TemplatedParent: not null } or TopLevel)
-            {
-                TemplatedParentHelper.SetTemplatedParent(this, null);
-            }
-        });
-#endif
+        if (TemplatedParent is not null)
+        {
+            TemplatedParentHelper.SetTemplatedParent(this, null);
+        }
     }
 
     private IDisposable? SynchronizeDataContext(AvaloniaObject associatedObject)

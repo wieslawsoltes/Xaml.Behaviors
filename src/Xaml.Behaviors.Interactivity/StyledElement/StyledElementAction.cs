@@ -1,7 +1,6 @@
 // Copyright (c) Wiesław Šoltés. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for details.
 using Avalonia.Controls;
-using Avalonia.Threading;
 
 namespace Avalonia.Xaml.Interactivity;
 
@@ -51,20 +50,32 @@ public abstract class StyledElementAction : StyledElement, IAction
         {
             TemplatedParentHelper.SetTemplatedParent(this, templatedParent);
         }
+
+        if (this is IActionLogicalTreeLifecycle lifecycle)
+        {
+            lifecycle.AttachedToActionLogicalTree();
+        }
     }
 
     internal void DetachActionFromLogicalTree(StyledElement parent)
     {
-#if false
-        Dispatcher.UIThread.Post(() =>
+        if (this is IActionLogicalTreeLifecycle lifecycle)
         {
-            ((ISetLogicalParent)this).SetParent(null);
+            lifecycle.DetachedFromActionLogicalTree();
+        }
 
-            if (parent is { TemplatedParent: not null })
-            {
-                TemplatedParentHelper.SetTemplatedParent(this, null);
-            }
-        });
-#endif
+        ((ISetLogicalParent)this).SetParent(null);
+
+        if (TemplatedParent is not null || parent.TemplatedParent is not null)
+        {
+            TemplatedParentHelper.SetTemplatedParent(this, null);
+        }
     }
+}
+
+internal interface IActionLogicalTreeLifecycle
+{
+    void AttachedToActionLogicalTree();
+
+    void DetachedFromActionLogicalTree();
 }

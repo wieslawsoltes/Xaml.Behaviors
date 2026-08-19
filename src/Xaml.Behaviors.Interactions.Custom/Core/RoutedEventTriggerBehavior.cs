@@ -108,11 +108,28 @@ public class RoutedEventTriggerBehavior : StyledElementTrigger<Interactive>
     protected override void OnDetachedFromVisualTree()
     {
         _isAttached = false;
+
+        if (AssociatedObject is not TopLevel || ComputeResolvedSourceInteractive() is not TopLevel)
+        {
+            RemoveHandler();
+        }
+    }
+
+    /// <inheritdoc />
+    protected override void OnDetaching()
+    {
+        _isAttached = false;
         RemoveHandler();
+        base.OnDetaching();
     }
 
     private void AddHandler()
     {
+        if (_isInitialized)
+        {
+            return;
+        }
+
         var interactive = ComputeResolvedSourceInteractive();
         if (interactive is not null && RoutedEvent is not null)
         {
@@ -139,6 +156,11 @@ public class RoutedEventTriggerBehavior : StyledElementTrigger<Interactive>
     private void Handler(object? sender, RoutedEventArgs e)
     {
         Execute(e);
+
+        if (!_isAttached)
+        {
+            RemoveHandler();
+        }
     }
 
     private void Execute(object? parameter)

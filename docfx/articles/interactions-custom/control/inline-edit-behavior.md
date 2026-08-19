@@ -10,6 +10,8 @@ This behavior facilitates an "inline edit" pattern where a control switches betw
 *   `CancelKey`: The key to cancel changes and switch back (default: Escape).
 *   `EditOnAssociatedObjectDoubleTapped`: If true, double-tapping the container triggers edit mode.
 
+Double-tap activation follows Avalonia's bubble-routed `DoubleTapped` event, so taps on content inside the display control or associated container also begin editing.
+
 ### Example
 
 ```xml
