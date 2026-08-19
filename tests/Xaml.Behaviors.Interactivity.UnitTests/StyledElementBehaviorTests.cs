@@ -1,6 +1,7 @@
 using System;
 using Avalonia.Controls;
 using Avalonia.Headless.XUnit;
+using Avalonia.Threading;
 using Xunit;
 
 namespace Avalonia.Xaml.Interactivity.UnitTests;
@@ -54,6 +55,29 @@ public class StyledElementBehaviorTests
         behavior.Detach();
         Interaction.SetBehaviors(button, null);
         window.Close();
+    }
+
+    [AvaloniaFact]
+    public void TopLevelClose_PreservesLogicalParentUntilDeferredDetach()
+    {
+        var behavior = new TestStyledElementBehavior();
+        var window = new Window();
+        Interaction.GetBehaviors(window).Add(behavior);
+
+        window.Show();
+
+        Assert.Same(window, behavior.AssociatedObject);
+        Assert.Same(window, behavior.Parent);
+
+        window.Close();
+
+        Assert.Same(window, behavior.AssociatedObject);
+        Assert.Same(window, behavior.Parent);
+
+        Dispatcher.UIThread.RunJobs();
+
+        Assert.Null(behavior.AssociatedObject);
+        Assert.Null(behavior.Parent);
     }
 
     private sealed class TestStyledElementBehavior : StyledElementBehavior;

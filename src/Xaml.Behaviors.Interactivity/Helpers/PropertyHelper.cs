@@ -3,7 +3,6 @@
 using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
-using System.Linq;
 using System.Reflection;
 
 namespace Avalonia.Xaml.Interactivity;
@@ -14,22 +13,101 @@ internal static class PropertyHelper
     private static readonly char[] s_trimChars = ['(', ')'];
     private static readonly char[] s_separator = ['.'];
 
-    private static Type? GetTypeByName(string name)
+    private static bool IsTypeNameInHierarchy(Type targetType, string typeName)
+    {
+        for (Type? currentType = targetType; currentType is not null; currentType = currentType.BaseType)
+        {
+            if (currentType.Name == typeName)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private static AvaloniaProperty? InitializeOwnerAndFindAttachedProperty(
+        Type targetType,
+        string ownerTypeName,
+        string propertyName)
     {
         var assemblies = AppDomain.CurrentDomain.GetAssemblies();
+        foreach (var assembly in assemblies)
+        {
+            if (ownerTypeName.Contains('.'))
+            {
+                var ownerType = assembly.GetType(ownerTypeName, throwOnError: false, ignoreCase: false);
+                var exactMatch = TryInitializeAttachedProperty(targetType, ownerType, propertyName);
+                if (exactMatch is not null)
+                {
+                    return exactMatch;
+                }
 
-        return
-            assemblies
-                .AsEnumerable()
-                .Reverse()
-                .Select(assembly => assembly.GetType(name))
-                .FirstOrDefault(t => t is not null)
-            ??
-            assemblies
-                .AsEnumerable()
-                .Reverse()
-                .SelectMany(assembly => assembly.GetTypes())
-                .FirstOrDefault(t => t.Name == name);
+                continue;
+            }
+
+            Type?[] types;
+            try
+            {
+                types = assembly.GetTypes();
+            }
+            catch (ReflectionTypeLoadException exception)
+            {
+                types = exception.Types;
+            }
+
+            foreach (var ownerType in types)
+            {
+                if (ownerType?.Name != ownerTypeName)
+                {
+                    continue;
+                }
+
+                var match = TryInitializeAttachedProperty(targetType, ownerType, propertyName);
+                if (match is not null)
+                {
+                    return match;
+                }
+            }
+        }
+
+        return null;
+    }
+
+    private static AvaloniaProperty? TryInitializeAttachedProperty(
+        Type targetType,
+        Type? ownerType,
+        string propertyName)
+    {
+        if (ownerType is null)
+        {
+            return null;
+        }
+
+        var field = ownerType.GetTypeInfo().GetDeclaredField($"{propertyName}Property");
+        if (field is null ||
+            !field.IsStatic ||
+            !typeof(AvaloniaProperty).GetTypeInfo().IsAssignableFrom(field.FieldType.GetTypeInfo()))
+        {
+            return null;
+        }
+
+        if (field.GetValue(null) is not AvaloniaProperty candidate ||
+            candidate.OwnerType != ownerType)
+        {
+            return null;
+        }
+
+        var registeredAttached = AvaloniaPropertyRegistry.Instance.GetRegisteredAttached(targetType);
+        foreach (var avaloniaProperty in registeredAttached)
+        {
+            if (ReferenceEquals(avaloniaProperty, candidate))
+            {
+                return candidate;
+            }
+        }
+
+        return null;
     }
 
     private static AvaloniaProperty? FindAvaloniaAttachedProperty(object? targetObject, string propertyName)
@@ -46,7 +124,7 @@ internal static class PropertyHelper
         }
         var targetPropertyTypeName = propertyNames[0];
         var targetPropertyName = propertyNames[1];
-        var targetType = GetTypeByName(targetPropertyTypeName) ?? targetObject.GetType();
+        var targetType = targetObject.GetType();
 
         var registeredAttached = AvaloniaPropertyRegistry.Instance.GetRegisteredAttached(targetType);
 
@@ -58,11 +136,22 @@ internal static class PropertyHelper
             }
         }
 
+        var initializedAttachedProperty = InitializeOwnerAndFindAttachedProperty(
+            targetType,
+            targetPropertyTypeName,
+            targetPropertyName);
+        if (initializedAttachedProperty is not null)
+        {
+            return initializedAttachedProperty;
+        }
+
         var registeredInherited = AvaloniaPropertyRegistry.Instance.GetRegisteredInherited(targetType);
 
         foreach (var avaloniaProperty in registeredInherited)
         {
-            if (avaloniaProperty.Name == targetPropertyName)
+            if ((avaloniaProperty.OwnerType.Name == targetPropertyTypeName ||
+                 IsTypeNameInHierarchy(targetType, targetPropertyTypeName)) &&
+                avaloniaProperty.Name == targetPropertyName)
             {
                 return avaloniaProperty;
             }

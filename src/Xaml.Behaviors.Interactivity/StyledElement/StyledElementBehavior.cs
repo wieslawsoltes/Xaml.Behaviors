@@ -124,7 +124,10 @@ public abstract class StyledElementBehavior : StyledElement, IBehavior, IBehavio
         }
         finally
         {
-            DetachBehaviorFromLogicalTree();
+            if (AssociatedObject is not TopLevel)
+            {
+                DetachBehaviorFromLogicalTree();
+            }
         }
     }
 
@@ -143,7 +146,10 @@ public abstract class StyledElementBehavior : StyledElement, IBehavior, IBehavio
         }
         finally
         {
-            DetachBehaviorFromLogicalTree();
+            if (AssociatedObject is not TopLevel)
+            {
+                DetachBehaviorFromLogicalTree();
+            }
         }
     }
 

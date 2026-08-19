@@ -10,6 +10,19 @@ namespace Avalonia.Xaml.Interactions.UnitTests.DragAndDrop;
 public class ContextDragBehaviorTests
 {
     [AvaloniaFact]
+    public void PointerPressed_Is_Not_Handled_For_Selected_Item_Content()
+    {
+        var window = new ContextDragEscapeWindow();
+        var pointerPressed = false;
+        window.SelectedItemContent.PointerPressed += (_, _) => pointerPressed = true;
+
+        window.Show();
+        window.MouseDown(window.SelectedItemContent, new Point(5, 5), MouseButton.Left);
+
+        Assert.True(pointerPressed);
+    }
+
+    [AvaloniaFact]
     public void Escape_Cancels_Drag()
     {
         var window = new ContextDragEscapeWindow();
