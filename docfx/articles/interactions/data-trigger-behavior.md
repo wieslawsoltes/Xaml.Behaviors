@@ -1,5 +1,7 @@
 # DataTriggerBehavior
 
+When a string `Value` cannot be converted to the runtime type of `Binding`, the comparison uses non-equal semantics instead of throwing: `NotEqual` evaluates to `true`, while the other comparison operators evaluate to `false`.
+
 `DataTriggerBehavior` is a behavior that listens for changes to a bound value and invokes actions when the value meets a specified condition.
 
 ## Properties
