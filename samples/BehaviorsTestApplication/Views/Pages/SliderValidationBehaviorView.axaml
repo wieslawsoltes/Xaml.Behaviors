@@ -18,13 +18,26 @@
             Value="{Binding ValidatedSlider}">
       <Interaction.Behaviors>
         <SliderValidationBehavior IsValid="{Binding IsSliderValid, Mode=OneWayToSource}">
-          <RangeValidationRule x:TypeArguments="x:Double" Minimum="0" Maximum="100" ErrorMessage="Range 0-100" />
+          <RangeValidationRule x:TypeArguments="x:Double"
+                               Minimum="{Binding SliderValidationMinimum}"
+                               Maximum="{Binding SliderValidationMaximum}"
+                               ErrorMessage="Value is outside the configured range." />
         </SliderValidationBehavior>
       </Interaction.Behaviors>
     </Slider>
     <CheckBox IsEnabled="False"
               Content="IsSliderValid "
               IsChecked="{Binding IsSliderValid}" />
+    <StackPanel Orientation="Horizontal" Spacing="8">
+      <Slider Width="90"
+              Minimum="0"
+              Maximum="200"
+              Value="{Binding SliderValidationMinimum}" />
+      <Slider Width="90"
+              Minimum="0"
+              Maximum="200"
+              Value="{Binding SliderValidationMaximum}" />
+    </StackPanel>
     <TextBlock Text="{Binding ValidatedSlider}" />
   </StackPanel>
 </UserControl>

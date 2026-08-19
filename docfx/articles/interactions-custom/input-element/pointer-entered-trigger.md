@@ -1,5 +1,7 @@
 # PointerEnteredTrigger
 
+The trigger owns its routed-event subscription for exactly one visual-tree lifetime. Removing and re-adding the associated control does not accumulate handlers or execute actions more than once per pointer entry.
+
 A trigger that executes when the pointer enters the bounds of the associated `InputElement`.
 
 ## Usage

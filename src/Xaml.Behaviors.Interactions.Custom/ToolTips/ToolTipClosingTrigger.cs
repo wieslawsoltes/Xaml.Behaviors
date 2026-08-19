@@ -18,6 +18,6 @@ public class ToolTipClosingTrigger : RoutedEventTrigger
     {
         EventRoutingStrategyProperty.OverrideMetadata<ToolTipClosingTrigger>(
             new StyledPropertyMetadata<RoutingStrategies>(
-                defaultValue: RoutingStrategies.Bubble));
+                defaultValue: RoutingStrategies.Direct));
     }
 }
