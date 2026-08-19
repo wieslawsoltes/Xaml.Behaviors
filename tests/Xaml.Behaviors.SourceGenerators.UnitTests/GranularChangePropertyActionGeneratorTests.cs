@@ -26,6 +26,9 @@ namespace TestNamespace
         Assert.NotNull(generated);
         Assert.Contains("namespace TestNamespace", generated);
         Assert.Contains("public static readonly StyledProperty<string", generated);
+        Assert.Contains("Avalonia.Xaml.Interactivity.IReversibleAction", generated);
+        Assert.Contains("public object? ExecuteReversibly", generated);
+        Assert.Contains("public object? Revert", generated);
         Assert.Contains("typedTarget.TestProperty = Value;", generated);
     }
 
@@ -240,6 +243,46 @@ namespace TestNamespace
         var (diagnostics, _) = GeneratorTestHelper.RunGenerator(source);
 
         Assert.Contains(diagnostics, d => d.Id == "XBG015");
+    }
+
+    [Fact]
+    public void Should_Report_Error_For_SetOnly_Property()
+    {
+        var source = @"
+using Xaml.Behaviors.SourceGenerators;
+
+namespace TestNamespace
+{
+    public partial class TestClass
+    {
+        [GenerateTypedChangePropertyAction]
+        public string TestProperty { set { } }
+    }
+}";
+        var (diagnostics, sources) = GeneratorTestHelper.RunGenerator(source);
+
+        Assert.Contains(diagnostics, d => d.Id == "XBG035");
+        Assert.DoesNotContain(sources, sourceText => sourceText.Contains("SetTestPropertyAction"));
+    }
+
+    [Fact]
+    public void Should_Report_Error_For_Inaccessible_Getter()
+    {
+        var source = @"
+using Xaml.Behaviors.SourceGenerators;
+
+namespace TestNamespace
+{
+    public partial class TestClass
+    {
+        [GenerateTypedChangePropertyAction]
+        public string TestProperty { private get; set; } = string.Empty;
+    }
+}";
+        var (diagnostics, sources) = GeneratorTestHelper.RunGenerator(source);
+
+        Assert.Contains(diagnostics, d => d.Id == "XBG035");
+        Assert.DoesNotContain(sources, sourceText => sourceText.Contains("SetTestPropertyAction"));
     }
 
     [Fact]

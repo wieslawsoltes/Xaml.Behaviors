@@ -1,7 +1,10 @@
 using System;
 using System.Linq;
 using System.Text.RegularExpressions;
+using Avalonia;
+using Avalonia.Controls;
 using Avalonia.Headless.XUnit;
+using Avalonia.Xaml.Interactivity;
 using Xunit;
 
 namespace Avalonia.Xaml.Behaviors.SourceGenerators.UnitTests;
@@ -18,6 +21,68 @@ public class ChangePropertyActionGeneratorTests
         action.Execute(control, null);
         
         Assert.Equal("TagValue", control.Tag);
+    }
+
+    [AvaloniaFact]
+    public void SetTagAction_Should_Revert_Property()
+    {
+        var control = new TestControl { Tag = "Original" };
+        var action = Assert.IsAssignableFrom<IReversibleAction>(
+            GeneratedTypeHelper.CreateInstance(
+                "TestControlSetTagAction",
+                "Avalonia.Xaml.Behaviors.SourceGenerators.UnitTests"));
+        ((dynamic)action).Value = "Applied";
+
+        Assert.True((bool)action.ExecuteReversibly(control, null)!);
+        Assert.Equal("Applied", control.Tag);
+        Assert.True((bool)action.Revert(control, null)!);
+        Assert.Equal("Original", control.Tag);
+    }
+
+    [AvaloniaFact]
+    public void SetTagAction_Should_Preserve_Overlapping_Reversible_Actions()
+    {
+        var control = new TestControl { Tag = "Original" };
+        var first = Assert.IsAssignableFrom<IReversibleAction>(
+            GeneratedTypeHelper.CreateInstance(
+                "TestControlSetTagAction",
+                "Avalonia.Xaml.Behaviors.SourceGenerators.UnitTests"));
+        var second = Assert.IsAssignableFrom<IReversibleAction>(
+            GeneratedTypeHelper.CreateInstance(
+                "TestControlSetTagAction",
+                "Avalonia.Xaml.Behaviors.SourceGenerators.UnitTests"));
+        ((dynamic)first).Value = "First";
+        ((dynamic)second).Value = "Second";
+
+        Assert.True((bool)first.ExecuteReversibly(control, null)!);
+        Assert.True((bool)second.ExecuteReversibly(control, null)!);
+        Assert.Equal("Second", control.Tag);
+
+        Assert.True((bool)first.Revert(control, null)!);
+        Assert.Equal("Second", control.Tag);
+        Assert.True((bool)second.Revert(control, null)!);
+        Assert.Equal("Original", control.Tag);
+    }
+
+    [AvaloniaFact]
+    public void SetTagAction_Should_Restore_Latest_Avalonia_Source_Value()
+    {
+        var source = new TagSource { Value = "Original" };
+        var control = new TestControl();
+        using var binding = control.Bind(
+            Control.TagProperty,
+            source.GetObservable(TagSource.ValueProperty));
+        var action = Assert.IsAssignableFrom<IReversibleAction>(
+            GeneratedTypeHelper.CreateInstance(
+                "TestControlSetTagAction",
+                "Avalonia.Xaml.Behaviors.SourceGenerators.UnitTests"));
+        ((dynamic)action).Value = "Applied";
+
+        Assert.True((bool)action.ExecuteReversibly(control, null)!);
+        source.Value = "Latest";
+        Assert.Equal("Applied", control.Tag);
+        Assert.True((bool)action.Revert(control, null)!);
+        Assert.Equal("Latest", control.Tag);
     }
 
     [Fact]
@@ -62,5 +127,27 @@ public class Host
             .ToList();
 
         Assert.Equal(2, classNames.Count);
+        var actionSources = sources
+            .Where(sourceText => sourceText.Contains("NameAction", StringComparison.Ordinal))
+            .ToList();
+        Assert.Equal(2, actionSources.Count);
+        Assert.All(actionSources, sourceText =>
+        {
+            Assert.Contains("ReversiblePropertyChange<global::Host, string>", sourceText);
+            Assert.Contains("new(nameof(global::Host.Name))", sourceText);
+        });
+    }
+
+
+    private sealed class TagSource : AvaloniaObject
+    {
+        public static readonly StyledProperty<object?> ValueProperty =
+            AvaloniaProperty.Register<TagSource, object?>(nameof(Value));
+
+        public object? Value
+        {
+            get => GetValue(ValueProperty);
+            set => SetValue(ValueProperty, value);
+        }
     }
 }
