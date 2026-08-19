@@ -1,3 +1,4 @@
+using System;
 using Avalonia.Controls;
 using Avalonia.Headless.XUnit;
 using Avalonia.Threading;
@@ -34,6 +35,29 @@ public class StyledElementBehaviorTests
     }
 
     [AvaloniaFact]
+    public void DetachVisualTree_ClearsLogicalScopeWhenCallbackThrows()
+    {
+        var behavior = new ThrowingDetachBehavior();
+        var button = new Button();
+        var templatedParent = new ContentControl();
+        var window = new Window { Content = button };
+
+        TemplatedParentHelper.SetTemplatedParent(button, templatedParent);
+        Interaction.GetBehaviors(button).Add(behavior);
+        window.Show();
+
+        Assert.Throws<InvalidOperationException>(() =>
+            ((IBehaviorEventsHandler)behavior).DetachedFromVisualTreeEventHandler());
+
+        Assert.Null(behavior.Parent);
+        Assert.Null(behavior.TemplatedParent);
+
+        behavior.Detach();
+        Interaction.SetBehaviors(button, null);
+        window.Close();
+    }
+
+    [AvaloniaFact]
     public void TopLevelClose_PreservesLogicalParentUntilDeferredDetach()
     {
         var behavior = new TestStyledElementBehavior();
@@ -57,4 +81,12 @@ public class StyledElementBehaviorTests
     }
 
     private sealed class TestStyledElementBehavior : StyledElementBehavior;
+
+    private sealed class ThrowingDetachBehavior : StyledElementBehavior
+    {
+        protected override void OnDetachedFromVisualTree()
+        {
+            throw new InvalidOperationException("Expected test exception.");
+        }
+    }
 }

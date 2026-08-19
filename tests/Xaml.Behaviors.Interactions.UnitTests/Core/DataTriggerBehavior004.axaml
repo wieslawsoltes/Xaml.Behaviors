@@ -9,7 +9,25 @@
   </Window.DataContext>
 
   <StackPanel>
-    <TextBlock x:Name="TargetTextBlock" Text="Not empty">
+    <TextBlock Name="TargetTextBlock"
+               Text="Red">
+      <Interaction.Behaviors>
+        <DataTriggerBehavior Binding="{Binding #TargetCheckBox.IsChecked}"
+                             RevertOnFalse="True"
+                             ComparisonCondition="Equal"
+                             Value="True">
+          <ChangePropertyAction PropertyName="Text"
+                                Value="Blue" />
+          <ChangePropertyAction PropertyName="Text"
+                                Value="Green" />
+        </DataTriggerBehavior>
+      </Interaction.Behaviors>
+    </TextBlock>
+    <CheckBox Name="TargetCheckBox"
+              Content="Check"
+              IsChecked="False" />
+
+    <TextBlock x:Name="NullTargetTextBlock" Text="Not empty">
       <Interaction.Behaviors>
         <DataTriggerBehavior Binding="{Binding TestProperty}"
                              ComparisonCondition="Equal"

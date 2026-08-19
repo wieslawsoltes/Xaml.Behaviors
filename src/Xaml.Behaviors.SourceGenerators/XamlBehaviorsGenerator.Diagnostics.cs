@@ -278,5 +278,13 @@ namespace Xaml.Behaviors.SourceGenerators
             category: "Usage",
             DiagnosticSeverity.Error,
             isEnabledByDefault: true);
+
+        private static readonly DiagnosticDescriptor PropertyGetterNotAccessibleDiagnostic = new(
+            id: "XBG035",
+            title: "Property getter not accessible",
+            messageFormat: "Property '{0}' on type '{1}' must have an accessible getter for reversible change property generation",
+            category: "Usage",
+            DiagnosticSeverity.Error,
+            isEnabledByDefault: true);
     }
 }

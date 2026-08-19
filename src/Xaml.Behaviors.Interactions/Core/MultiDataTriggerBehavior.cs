@@ -20,13 +20,23 @@ namespace Avalonia.Xaml.Interactions.Core;
 public class MultiDataTriggerBehavior : StyledElementTrigger
 {
     /// <summary>
+    /// Identifies the <seealso cref="RevertOnFalse"/> avalonia property.
+    /// </summary>
+    public static readonly StyledProperty<bool> RevertOnFalseProperty =
+        AvaloniaProperty.Register<MultiDataTriggerBehavior, bool>(nameof(RevertOnFalse), defaultValue: false);
+
+    /// <summary>
     /// Identifies the <seealso cref="Conditions"/> avalonia property.
     /// </summary>
     public static readonly StyledProperty<ConditionCollection?> ConditionsProperty =
         AvaloniaProperty.Register<MultiDataTriggerBehavior, ConditionCollection?>(nameof(Conditions));
 
+    private bool _isConditionMet;
+    private bool _hasConditionState;
+    private readonly List<IReversibleAction> _appliedActions = [];
     private readonly HashSet<Condition> _subscribedConditions = [];
     private readonly Dictionary<Condition, IDisposable?> _propertySubscriptions = [];
+    private ActionCollection? _subscribedActions;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="MultiDataTriggerBehavior"/> class.
@@ -45,6 +55,16 @@ public class MultiDataTriggerBehavior : StyledElementTrigger
     {
         get => GetValue(ConditionsProperty);
         set => SetValue(ConditionsProperty, value);
+    }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether reversible actions should be reverted when conditions become false.
+    /// When false, behavior matches legacy semantics and only executes actions when all conditions are true.
+    /// </summary>
+    public bool RevertOnFalse
+    {
+        get => GetValue(RevertOnFalseProperty);
+        set => SetValue(RevertOnFalseProperty, value);
     }
 
     /// <inheritdoc />
@@ -66,6 +86,43 @@ public class MultiDataTriggerBehavior : StyledElementTrigger
 
             ScheduleExecute(change);
         }
+
+        if (change.Property == RevertOnFalseProperty)
+        {
+            if (change.GetOldValue<bool>() && !change.GetNewValue<bool>())
+            {
+                RevertActions(change);
+            }
+
+            _hasConditionState = false;
+            ScheduleExecute(change);
+        }
+
+        if (change.Property == IsEnabledProperty && RevertOnFalse)
+        {
+            var isEnabled = change.GetNewValue<bool>();
+            if (!isEnabled)
+            {
+                RevertActions(change);
+            }
+
+            _hasConditionState = false;
+            if (isEnabled)
+            {
+                ScheduleExecute(change);
+            }
+        }
+
+        if (change.Property == ActionsProperty && AssociatedObject is not null)
+        {
+            UpdateActionSubscription(change.GetNewValue<ActionCollection?>());
+            if (RevertOnFalse)
+            {
+                RevertActions(change);
+                _hasConditionState = false;
+                ScheduleExecute(change);
+            }
+        }
     }
 
     /// <inheritdoc />
@@ -75,6 +132,26 @@ public class MultiDataTriggerBehavior : StyledElementTrigger
 
         Execute(parameter: null);
         RefreshConditionSubscriptions();
+    }
+
+    /// <inheritdoc />
+    protected override void OnAttached()
+    {
+        base.OnAttached();
+        UpdateActionSubscription(Actions);
+    }
+
+    /// <inheritdoc />
+    protected override void OnDetaching()
+    {
+        if (RevertOnFalse)
+        {
+            RevertActions(parameter: null);
+        }
+
+        _hasConditionState = false;
+        UpdateActionSubscription(actions: null);
+        base.OnDetaching();
     }
 
     /// <inheritdoc />
@@ -339,26 +416,116 @@ public class MultiDataTriggerBehavior : StyledElementTrigger
             return;
         }
 
+        var isConditionMet = IsConditionMet();
+
+        if (!RevertOnFalse)
+        {
+            if (isConditionMet)
+            {
+                Interaction.ExecuteActions(AssociatedObject, Actions, parameter);
+            }
+
+            return;
+        }
+
+        if (!_hasConditionState)
+        {
+            _hasConditionState = true;
+            _isConditionMet = isConditionMet;
+
+            if (isConditionMet)
+            {
+                ApplyActions(parameter);
+            }
+
+            return;
+        }
+
+        if (_isConditionMet == isConditionMet)
+        {
+            return;
+        }
+
+        _isConditionMet = isConditionMet;
+
+        if (isConditionMet)
+        {
+            ApplyActions(parameter);
+            return;
+        }
+
+        RevertActions(parameter);
+    }
+
+    private bool IsConditionMet()
+    {
         var conditions = Conditions;
         if (conditions is null || conditions.Count == 0)
         {
-            return;
+            return false;
         }
 
         foreach (var condition in conditions)
         {
             if (!TryGetConditionValue(condition, out var value))
             {
-                return;
+                return false;
             }
 
             if (!ComparisonConditionTypeHelper.Compare(value, condition.ComparisonCondition, condition.Value))
             {
-                return;
+                return false;
             }
         }
 
-        Interaction.ExecuteActions(AssociatedObject, Actions, parameter);
+        return true;
+    }
+
+    private void RevertActions(object? parameter)
+    {
+        if (AssociatedObject is null)
+        {
+            return;
+        }
+
+        for (var index = _appliedActions.Count - 1; index >= 0; index--)
+        {
+            _appliedActions[index].Revert(AssociatedObject, parameter);
+        }
+
+        _appliedActions.Clear();
+    }
+
+    private void ApplyActions(object? parameter)
+    {
+        _appliedActions.Clear();
+        _appliedActions.AddRange(ReversibleActionExecution.Execute(AssociatedObject, Actions, parameter));
+    }
+
+    private void UpdateActionSubscription(ActionCollection? actions)
+    {
+        if (_subscribedActions is not null)
+        {
+            _subscribedActions.CollectionChanged -= ActionsCollectionChanged;
+        }
+
+        _subscribedActions = actions;
+        if (_subscribedActions is not null)
+        {
+            _subscribedActions.CollectionChanged += ActionsCollectionChanged;
+        }
+    }
+
+    private void ActionsCollectionChanged(object? sender, NotifyCollectionChangedEventArgs eventArgs)
+    {
+        if (!RevertOnFalse || AssociatedObject is null)
+        {
+            return;
+        }
+
+        RevertActions(eventArgs);
+        _hasConditionState = false;
+        Dispatcher.UIThread.Post(() => Execute(eventArgs));
     }
 
     private bool TryGetConditionValue(Condition condition, out object? value)

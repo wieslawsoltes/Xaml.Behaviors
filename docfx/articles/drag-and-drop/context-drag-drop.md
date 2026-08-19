@@ -91,10 +91,12 @@ public class ListBoxDropHandler : DropHandlerBase
         <ListBox.Styles>
             <Style Selector="ListBoxItem">
                 <Setter Property="(Interaction.Behaviors)">
-                    <BehaviorCollection>
-                        <!-- Make items draggable -->
-                        <ContextDragBehavior />
-                    </BehaviorCollection>
+                    <BehaviorCollectionTemplate>
+                        <BehaviorCollection>
+                            <!-- Make items draggable -->
+                            <ContextDragBehavior />
+                        </BehaviorCollection>
+                    </BehaviorCollectionTemplate>
                 </Setter>
             </Style>
         </ListBox.Styles>
@@ -106,3 +108,5 @@ public class ListBoxDropHandler : DropHandlerBase
     </ListBox>
 </UserControl>
 ```
+
+`BehaviorCollectionTemplate` creates an independent behavior collection for each item container. It is safe to use with virtualized item controls: when Avalonia replaces a template-created collection on an attached recycled container, the old collection receives its visual-detach lifecycle and the new collection receives its visual-attach lifecycle.

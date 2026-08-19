@@ -1,0 +1,20 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:local="using:Avalonia.Xaml.Interactions.UnitTests.DragAndDrop"
+        x:Class="Avalonia.Xaml.Interactions.UnitTests.DragAndDrop.VirtualizedContextDragWindow"
+        Width="400"
+        Height="210">
+  <ListBox x:Name="TargetListBox">
+    <ListBox.Styles>
+      <Style Selector="ListBoxItem">
+        <Setter Property="(Interaction.Behaviors)">
+          <BehaviorCollectionTemplate>
+            <BehaviorCollection>
+              <local:TestContextDragBehavior />
+            </BehaviorCollection>
+          </BehaviorCollectionTemplate>
+        </Setter>
+      </Style>
+    </ListBox.Styles>
+  </ListBox>
+</Window>

@@ -120,6 +120,56 @@ public class DispatcherGeneratorRuntimeTests
     }
 
     [AvaloniaFact]
+    public async Task ChangePropertyAction_UseDispatcher_Reverts_And_Cancels_Pending_Apply()
+    {
+        var host = new DispatcherHost { Message = "Original" };
+        var action = Assert.IsAssignableFrom<IReversibleAction>(
+            GeneratedTypeHelper.CreateInstance(
+                "DispatcherHostSetMessageAction",
+                "Avalonia.Xaml.Behaviors.SourceGenerators.UnitTests"));
+        ((dynamic)action).Value = "Applied";
+
+        Assert.True((bool)action.ExecuteReversibly(host, null)!);
+        await FlushDispatcherAsync();
+        Assert.Equal("Applied", host.Message);
+        Assert.True((bool)action.Revert(host, null)!);
+        await FlushDispatcherAsync();
+        Assert.Equal("Original", host.Message);
+
+        Assert.True((bool)action.ExecuteReversibly(host, null)!);
+        Assert.True((bool)action.Revert(host, null)!);
+        await FlushDispatcherAsync();
+        Assert.Equal("Original", host.Message);
+    }
+
+    [AvaloniaFact]
+    public async Task ChangePropertyAction_UseDispatcher_Preserves_Reversible_Action_Order()
+    {
+        var host = new DispatcherHost { Message = "Original" };
+        var dispatcherAction = Assert.IsAssignableFrom<IReversibleAction>(
+            GeneratedTypeHelper.CreateInstance(
+                "DispatcherHostSetMessageAction",
+                "Avalonia.Xaml.Behaviors.SourceGenerators.UnitTests"));
+        ((dynamic)dispatcherAction).Value = "Dispatcher";
+        var synchronousChange = new ReversiblePropertyChange<DispatcherHost, string?>(
+            nameof(DispatcherHost.Message));
+
+        Assert.True((bool)dispatcherAction.ExecuteReversibly(host, null)!);
+        Assert.True(synchronousChange.Apply(
+            host,
+            "Synchronous",
+            static target => target.Message,
+            static (target, value) => target.Message = value));
+        await FlushDispatcherAsync();
+
+        Assert.Equal("Synchronous", host.Message);
+        Assert.True(synchronousChange.Revert(static (target, value) => target.Message = value));
+        Assert.Equal("Dispatcher", host.Message);
+        Assert.True((bool)dispatcherAction.Revert(host, null)!);
+        Assert.Equal("Original", host.Message);
+    }
+
+    [AvaloniaFact]
     public async Task InvokeCommandAction_UseDispatcher_ExecutesCommand()
     {
         var host = new DispatcherHost();
