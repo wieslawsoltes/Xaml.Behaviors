@@ -1,0 +1,15 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:local="using:Avalonia.Xaml.Interactions.UnitTests.Custom"
+        x:Class="Avalonia.Xaml.Interactions.UnitTests.Custom.WindowClosedRoutedEventWindow"
+        x:DataType="local:WindowClosedBindingSource">
+  <Window.DataContext>
+    <local:WindowClosedBindingSource />
+  </Window.DataContext>
+
+  <Interaction.Behaviors>
+    <RoutedEventTriggerBehavior RoutedEvent="{x:Static Window.WindowClosedEvent}">
+      <InvokeCommandAction Command="{Binding CloseCommand}" />
+    </RoutedEventTriggerBehavior>
+  </Interaction.Behaviors>
+</Window>

@@ -1,13 +1,13 @@
 // Copyright (c) Wiesław Šoltés. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for details.
+using Avalonia.Automation.Peers;
 using Avalonia.Controls;
-using Avalonia.Interactivity;
 using Avalonia.Xaml.Interactivity;
 
 namespace Avalonia.Xaml.Interactions.Custom;
 
 /// <summary>
-/// Raises <see cref="Button.ClickEvent"/> on the target button when executed.
+/// Invokes the target button when executed.
 /// </summary>
 public class InvokeButtonClickAction : StyledElementAction
 {
@@ -36,12 +36,13 @@ public class InvokeButtonClickAction : StyledElementAction
         }
 
         var button = TargetButton ?? sender as Button;
-        if (button is null)
+        if (button is null || !button.IsEffectivelyEnabled)
         {
             return false;
         }
 
-        button.RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
+        var automationPeer = new ButtonAutomationPeer(button);
+        automationPeer.Invoke();
         return true;
     }
 }

@@ -18,6 +18,6 @@ public class ToolTipOpeningTrigger : RoutedEventTriggerBase<CancelRoutedEventArg
     {
         EventRoutingStrategyProperty.OverrideMetadata<ToolTipOpeningTrigger>(
             new StyledPropertyMetadata<RoutingStrategies>(
-                defaultValue: RoutingStrategies.Bubble));
+                defaultValue: RoutingStrategies.Direct));
     }
 }

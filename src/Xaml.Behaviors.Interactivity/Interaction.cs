@@ -6,6 +6,8 @@ using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.LogicalTree;
 using Avalonia.Reactive;
+using Avalonia.Threading;
+using Avalonia.VisualTree;
 
 namespace Avalonia.Xaml.Interactivity;
 
@@ -285,8 +287,21 @@ public class Interaction
         }
 
         var behaviors = GetExistingBehaviors(d);
-        behaviors?.DetachedFromVisualTree();
-        behaviors?.Detach();
+        if (behaviors is null)
+        {
+            return;
+        }
+
+        behaviors.DetachedFromVisualTree();
+
+        if (d is TopLevel topLevel)
+        {
+            ScheduleTopLevelBehaviorDetach(topLevel, behaviors);
+        }
+        else
+        {
+            behaviors.Detach();
+        }
     }
  
     private static void Visual_AttachedToVisualTree_FromChangedEvent(object? sender, VisualTreeAttachmentEventArgs e)
@@ -306,7 +321,33 @@ public class Interaction
             return;
         }
 
-        GetExistingBehaviors(d)?.DetachedFromVisualTree();
+        var behaviors = GetExistingBehaviors(d);
+        if (behaviors is null)
+        {
+            return;
+        }
+
+        behaviors.DetachedFromVisualTree();
+
+        if (d is TopLevel topLevel)
+        {
+            ScheduleTopLevelBehaviorDetach(topLevel, behaviors);
+        }
+    }
+
+    private static void ScheduleTopLevelBehaviorDetach(
+        TopLevel topLevel,
+        BehaviorCollection behaviors)
+    {
+        Dispatcher.UIThread.Post(() =>
+        {
+            if (!topLevel.IsAttachedToVisualTree() &&
+                ReferenceEquals(topLevel.GetValue(BehaviorsProperty), behaviors) &&
+                behaviors.AssociatedObject is not null)
+            {
+                behaviors.Detach();
+            }
+        });
     }
 
     // AttachedToLogicalTree / DetachedFromLogicalTree
