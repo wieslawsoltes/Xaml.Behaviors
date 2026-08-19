@@ -98,6 +98,25 @@
     &lt;/Interaction.Behaviors&gt;
 &lt;/Button&gt;
 </code></pre>
+<h3 id="flyout-lifecycle-events">Flyout lifecycle events</h3>
+<p>Behaviors can be attached directly to a <code>Flyout</code> to observe its <code>Opened</code> and <code>Closed</code> events. When the flyout is shown, the behavior and its actions inherit the placement target's data context, so command bindings resolve normally.</p>
+<pre><code class="lang-xml">&lt;Button Content=&quot;Open menu&quot;&gt;
+    &lt;Button.Flyout&gt;
+        &lt;Flyout&gt;
+            &lt;Interaction.Behaviors&gt;
+                &lt;EventTriggerBehavior EventName=&quot;Opened&quot;&gt;
+                    &lt;InvokeCommandAction Command=&quot;{Binding FlyoutOpenedCommand}&quot; /&gt;
+                &lt;/EventTriggerBehavior&gt;
+                &lt;EventTriggerBehavior EventName=&quot;Closed&quot;&gt;
+                    &lt;InvokeCommandAction Command=&quot;{Binding FlyoutClosedCommand}&quot; /&gt;
+                &lt;/EventTriggerBehavior&gt;
+            &lt;/Interaction.Behaviors&gt;
+
+            &lt;TextBlock Text=&quot;Flyout content&quot; /&gt;
+        &lt;/Flyout&gt;
+    &lt;/Button.Flyout&gt;
+&lt;/Button&gt;
+</code></pre>
 <h2 id="eventtrigger">EventTrigger</h2>
 <p><code>EventTrigger</code> is a deprecated class that functions similarly to <code>EventTriggerBehavior</code> but inherits from <code>Trigger</code>. It is recommended to use <code>EventTriggerBehavior</code> instead.</p>
 
