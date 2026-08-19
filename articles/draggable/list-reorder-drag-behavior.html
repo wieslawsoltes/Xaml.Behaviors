@@ -130,6 +130,7 @@
 </code></pre>
 <h2 id="itemdragbehavior">ItemDragBehavior</h2>
 <p><code>ItemDragBehavior</code> is the base class for <code>ListReorderDragBehavior</code>. It provides the fundamental logic for tracking drag operations within an <code>ItemsControl</code> but does not implement the reordering logic itself. Use <code>ListReorderDragBehavior</code> for standard reordering scenarios.</p>
+<p>The style-based pattern above supports virtualized item panels. Recycled containers receive a fresh template-created behavior collection, so an item can be dragged again after it moves or after its containing view leaves and re-enters the visual tree.</p>
 
 </article>
 
