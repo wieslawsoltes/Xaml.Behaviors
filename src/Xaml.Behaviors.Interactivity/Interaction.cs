@@ -51,6 +51,11 @@ public class Interaction
         return behaviorCollection;
     }
 
+    private static BehaviorCollection? GetExistingBehaviors(AvaloniaObject obj)
+    {
+        return obj.GetValue(BehaviorsProperty);
+    }
+
     /// <summary>
     /// Sets the <see cref="BehaviorCollection"/> associated with a specified object.
     /// </summary>
@@ -281,8 +286,9 @@ public class Interaction
             return;
         }
 
-        GetBehaviors(d).Attach(d);
-        GetBehaviors(d).AttachedToVisualTree();
+        var behaviors = GetExistingBehaviors(d);
+        behaviors?.Attach(d);
+        behaviors?.AttachedToVisualTree();
     }
 
     private static void Visual_DetachedFromVisualTree_FromGetter(object? sender, VisualTreeAttachmentEventArgs e)
@@ -292,7 +298,12 @@ public class Interaction
             return;
         }
 
-        var behaviors = GetBehaviors(d);
+        var behaviors = GetExistingBehaviors(d);
+        if (behaviors is null)
+        {
+            return;
+        }
+
         behaviors.DetachedFromVisualTree();
 
         if (d is TopLevel topLevel)
@@ -312,7 +323,7 @@ public class Interaction
             return;
         }
 
-        GetBehaviors(d).AttachedToVisualTree();
+        GetExistingBehaviors(d)?.AttachedToVisualTree();
     }
 
     private static void Visual_DetachedFromVisualTree_FromChangedEvent(object? sender, VisualTreeAttachmentEventArgs e)
@@ -322,7 +333,12 @@ public class Interaction
             return;
         }
 
-        var behaviors = GetBehaviors(d);
+        var behaviors = GetExistingBehaviors(d);
+        if (behaviors is null)
+        {
+            return;
+        }
+
         behaviors.DetachedFromVisualTree();
 
         if (d is TopLevel topLevel)
@@ -355,7 +371,7 @@ public class Interaction
             return;
         }
 
-        GetBehaviors(d).AttachedToLogicalTree();
+        GetExistingBehaviors(d)?.AttachedToLogicalTree();
     }
 
     private static void StyledElement_DetachedFromLogicalTree_FromGetter(object? sender, LogicalTreeAttachmentEventArgs e)
@@ -365,7 +381,7 @@ public class Interaction
             return;
         }
 
-        GetBehaviors(d).DetachedFromLogicalTree();
+        GetExistingBehaviors(d)?.DetachedFromLogicalTree();
     }
  
     private static void StyledElement_AttachedToLogicalTree_FromChangedEvent(object? sender, LogicalTreeAttachmentEventArgs e)
@@ -375,7 +391,7 @@ public class Interaction
             return;
         }
 
-        GetBehaviors(d).AttachedToLogicalTree();
+        GetExistingBehaviors(d)?.AttachedToLogicalTree();
     }
 
     private static void StyledElement_DetachedFromLogicalTree_FromChangedEvent(object? sender, LogicalTreeAttachmentEventArgs e)
@@ -385,7 +401,7 @@ public class Interaction
             return;
         }
 
-        GetBehaviors(d).DetachedFromLogicalTree();
+        GetExistingBehaviors(d)?.DetachedFromLogicalTree();
     }
 
     // Loaded / Unloaded
@@ -397,7 +413,7 @@ public class Interaction
             return;
         }
 
-        GetBehaviors(d).Loaded();
+        GetExistingBehaviors(d)?.Loaded();
     }
 
     private static void Control_Unloaded_FromGetter(object? sender, RoutedEventArgs e)
@@ -407,7 +423,7 @@ public class Interaction
             return;
         }
 
-        GetBehaviors(d).Unloaded();
+        GetExistingBehaviors(d)?.Unloaded();
     }
  
     private static void Control_Loaded_FromChangedEvent(object? sender, RoutedEventArgs e)
@@ -417,7 +433,7 @@ public class Interaction
             return;
         }
 
-        GetBehaviors(d).Loaded();
+        GetExistingBehaviors(d)?.Loaded();
     }
 
     private static void Control_Unloaded_FromChangedEvent(object? sender, RoutedEventArgs e)
@@ -427,7 +443,7 @@ public class Interaction
             return;
         }
 
-        GetBehaviors(d).Unloaded();
+        GetExistingBehaviors(d)?.Unloaded();
     }
 
     // Initialized
@@ -439,7 +455,7 @@ public class Interaction
             return;
         }
 
-        GetBehaviors(d).Initialized();
+        GetExistingBehaviors(d)?.Initialized();
     }
 
     private static void StyledElement_Initialized_FromChangedEvent(object? sender, EventArgs e)
@@ -449,7 +465,7 @@ public class Interaction
             return;
         }
 
-        GetBehaviors(d).Initialized();
+        GetExistingBehaviors(d)?.Initialized();
     }
 
     // DataContextChanged
@@ -461,7 +477,7 @@ public class Interaction
             return;
         }
 
-        GetBehaviors(d).DataContextChanged();
+        GetExistingBehaviors(d)?.DataContextChanged();
     }
 
     private static void StyledElement_DataContextChanged_FromChangedEvent(object? sender, EventArgs e)
@@ -471,7 +487,7 @@ public class Interaction
             return;
         }
 
-        GetBehaviors(d).DataContextChanged();
+        GetExistingBehaviors(d)?.DataContextChanged();
     }
 
     // ResourcesChanged
@@ -483,7 +499,7 @@ public class Interaction
             return;
         }
 
-        GetBehaviors(d).ResourcesChanged();
+        GetExistingBehaviors(d)?.ResourcesChanged();
     }
 
     private static void StyledElement_ResourcesChanged_FromChangedEvent(object? sender, ResourcesChangedEventArgs e)
@@ -493,7 +509,7 @@ public class Interaction
             return;
         }
 
-        GetBehaviors(d).ResourcesChanged();
+        GetExistingBehaviors(d)?.ResourcesChanged();
     }
 
     // ActualThemeVariantChanged
@@ -505,7 +521,7 @@ public class Interaction
             return;
         }
 
-        GetBehaviors(d).ActualThemeVariantChanged();
+        GetExistingBehaviors(d)?.ActualThemeVariantChanged();
     }
 
     private static void StyledElement_ActualThemeVariantChanged_FromChangedEvent(object? sender, EventArgs e)
@@ -515,7 +531,7 @@ public class Interaction
             return;
         }
 
-        GetBehaviors(d).ActualThemeVariantChanged();
+        GetExistingBehaviors(d)?.ActualThemeVariantChanged();
     }
 
     // TopLevel Opened
@@ -527,9 +543,10 @@ public class Interaction
             return;
         }
 
-        GetBehaviors(d).Attach(d);
-        GetBehaviors(d).AttachedToVisualTree();
-        GetBehaviors(d).AttachedToLogicalTree();
+        var behaviors = GetExistingBehaviors(d);
+        behaviors?.Attach(d);
+        behaviors?.AttachedToVisualTree();
+        behaviors?.AttachedToLogicalTree();
     }
 
     private static void TopLevel_Opened_FromChangedEvent(object? sender, EventArgs e)
@@ -539,7 +556,8 @@ public class Interaction
             return;
         }
 
-        GetBehaviors(d).AttachedToVisualTree();
-        GetBehaviors(d).AttachedToLogicalTree();
+        var behaviors = GetExistingBehaviors(d);
+        behaviors?.AttachedToVisualTree();
+        behaviors?.AttachedToLogicalTree();
     }
 }
