@@ -158,10 +158,12 @@
         &lt;ListBox.Styles&gt;
             &lt;Style Selector=&quot;ListBoxItem&quot;&gt;
                 &lt;Setter Property=&quot;(Interaction.Behaviors)&quot;&gt;
-                    &lt;BehaviorCollection&gt;
-                        &lt;!-- Make items draggable --&gt;
-                        &lt;ContextDragBehavior /&gt;
-                    &lt;/BehaviorCollection&gt;
+                    &lt;BehaviorCollectionTemplate&gt;
+                        &lt;BehaviorCollection&gt;
+                            &lt;!-- Make items draggable --&gt;
+                            &lt;ContextDragBehavior /&gt;
+                        &lt;/BehaviorCollection&gt;
+                    &lt;/BehaviorCollectionTemplate&gt;
                 &lt;/Setter&gt;
             &lt;/Style&gt;
         &lt;/ListBox.Styles&gt;
@@ -173,6 +175,7 @@
     &lt;/ListBox&gt;
 &lt;/UserControl&gt;
 </code></pre>
+<p><code>BehaviorCollectionTemplate</code> creates an independent behavior collection for each item container. It is safe to use with virtualized item controls: when Avalonia replaces a template-created collection on an attached recycled container, the old collection receives its visual-detach lifecycle and the new collection receives its visual-attach lifecycle.</p>
 
 </article>
 
