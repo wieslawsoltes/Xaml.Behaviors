@@ -1,0 +1,25 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:local="using:Avalonia.Xaml.Interactions.UnitTests.Custom"
+        x:Class="Avalonia.Xaml.Interactions.UnitTests.Custom.BindableValidationRule001"
+        x:DataType="local:ValidationRuleBindingSource">
+  <Window.DataContext>
+    <local:ValidationRuleBindingSource Minimum="0"
+                                       Maximum="100"
+                                       ErrorMessage="Value must be within the current bounds." />
+  </Window.DataContext>
+
+  <Slider x:Name="TargetSlider"
+          Minimum="0"
+          Maximum="200"
+          Value="50">
+    <Interaction.Behaviors>
+      <SliderValidationBehavior>
+        <RangeValidationRule x:TypeArguments="x:Double"
+                             Minimum="{Binding Minimum}"
+                             Maximum="{Binding Maximum}"
+                             ErrorMessage="{Binding ErrorMessage}" />
+      </SliderValidationBehavior>
+    </Interaction.Behaviors>
+  </Slider>
+</Window>

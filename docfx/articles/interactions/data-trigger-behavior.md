@@ -23,6 +23,16 @@
 </TextBlock>
 ```
 
+For `Equal` and `NotEqual` comparisons, `null` is a valid bound value. Relational comparisons with `null` remain inactive, and an omitted `Binding` is not treated as a bound `null` value.
+
+```xml
+<DataTriggerBehavior Binding="{Binding SelectedItem}"
+                     ComparisonCondition="Equal"
+                     Value="{x:Null}">
+    <ChangePropertyAction PropertyName="Text" Value="No item selected" />
+</DataTriggerBehavior>
+```
+
 ## DataTrigger
 
 `DataTrigger` is a deprecated class that functions similarly to `DataTriggerBehavior` but inherits from `Trigger`. It is recommended to use `DataTriggerBehavior` instead.

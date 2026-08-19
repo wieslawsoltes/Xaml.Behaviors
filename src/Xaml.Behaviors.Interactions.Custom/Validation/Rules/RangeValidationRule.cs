@@ -1,6 +1,8 @@
 // Copyright (c) Wiesław Šoltés. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for details.
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
+using Avalonia;
 
 namespace Avalonia.Xaml.Interactions.Custom;
 
@@ -8,22 +10,53 @@ namespace Avalonia.Xaml.Interactions.Custom;
 /// Validation rule that checks whether a value is within a specified range.
 /// </summary>
 /// <typeparam name="T">Type of value to validate.</typeparam>
-public class RangeValidationRule<T> : IValidationRule<T>
+[SuppressMessage("AvaloniaProperty", "AVP1002:AvaloniaProperty objects should not be owned by a generic type")]
+public class RangeValidationRule<T> : AvaloniaObject, IValidationRule<T>
 {
+    /// <summary>
+    /// Identifies the <see cref="Minimum"/> avalonia property.
+    /// </summary>
+    public static readonly StyledProperty<T?> MinimumProperty =
+        AvaloniaProperty.Register<RangeValidationRule<T>, T?>(nameof(Minimum));
+
+    /// <summary>
+    /// Identifies the <see cref="Maximum"/> avalonia property.
+    /// </summary>
+    public static readonly StyledProperty<T?> MaximumProperty =
+        AvaloniaProperty.Register<RangeValidationRule<T>, T?>(nameof(Maximum));
+
+    /// <summary>
+    /// Identifies the <see cref="ErrorMessage"/> avalonia property.
+    /// </summary>
+    public static readonly StyledProperty<string?> ErrorMessageProperty =
+        AvaloniaProperty.Register<RangeValidationRule<T>, string?>(
+            nameof(ErrorMessage),
+            defaultValue: "Value is out of range.");
+
     /// <summary>
     /// Gets or sets the minimum allowed value.
     /// </summary>
-    // ReSharper disable once UnusedAutoPropertyAccessor.Global
-    public T? Minimum { get; set; }
+    public T? Minimum
+    {
+        get => GetValue(MinimumProperty);
+        set => SetValue(MinimumProperty, value);
+    }
 
     /// <summary>
     /// Gets or sets the maximum allowed value.
     /// </summary>
-    // ReSharper disable once UnusedAutoPropertyAccessor.Global
-    public T? Maximum { get; set; }
+    public T? Maximum
+    {
+        get => GetValue(MaximumProperty);
+        set => SetValue(MaximumProperty, value);
+    }
 
     /// <inheritdoc />
-    public string? ErrorMessage { get; set; } = "Value is out of range.";
+    public string? ErrorMessage
+    {
+        get => GetValue(ErrorMessageProperty);
+        set => SetValue(ErrorMessageProperty, value);
+    }
 
     /// <inheritdoc />
     public bool Validate(T? value)
