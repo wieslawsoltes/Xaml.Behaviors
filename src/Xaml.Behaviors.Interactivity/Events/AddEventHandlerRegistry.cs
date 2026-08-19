@@ -29,6 +29,8 @@ public static class AddEventHandlerRegistry
             (o, h) => o.Click += h, 
             (o, h) => o.Click -= h));
 
+        Register(new FlyoutEventHandler());
+
         Register(new FuncAddEventHandler<Control, CancelRoutedEventArgs>(
             "ToolTipOpening",
             ToolTip.AddToolTipOpeningHandler,

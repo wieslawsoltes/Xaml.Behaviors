@@ -4,6 +4,7 @@ using System;
 using System.Diagnostics;
 using System.Globalization;
 using Avalonia.Controls;
+using Avalonia.Controls.Primitives;
 using Avalonia.Reactive;
 
 namespace Avalonia.Xaml.Interactivity;
@@ -341,16 +342,20 @@ public abstract class StyledElementBehavior : StyledElement, IBehavior, IBehavio
             parent = topLevel;
             templatedParent = topLevel.TemplatedParent;
         }
+        else if (AssociatedObject is FlyoutBase { Target: { } target })
+        {
+            parent = target;
+            templatedParent = target.TemplatedParent;
+        }
+        else if (AssociatedObject is StyledElement styledElement && styledElement.Parent is not null)
+        {
+            parent = styledElement;
+            templatedParent = styledElement.TemplatedParent;
+        }
 
         if (parent is null)
         {
-            if (AssociatedObject is not StyledElement styledElement || styledElement.Parent is null)
-            {
-                return;
-            }
-
-            parent = styledElement;
-            templatedParent = styledElement.TemplatedParent;
+            return;
         }
 
         // Required for $parent binding in XAML
@@ -389,6 +394,46 @@ public abstract class StyledElementBehavior : StyledElement, IBehavior, IBehavio
                 {
                     SetCurrentValue(DataContextProperty, x);
                 }));
+        }
+
+        if (associatedObject is FlyoutBase flyout)
+        {
+            IDisposable? targetDataContextSubscription = null;
+
+            void TargetChanged(Control? target)
+            {
+                targetDataContextSubscription?.Dispose();
+                targetDataContextSubscription = null;
+
+                if (Parent is not null || TemplatedParent is not null)
+                {
+                    DetachBehaviorFromLogicalTree();
+                }
+
+                if (target is null)
+                {
+                    SetCurrentValue(DataContextProperty, null);
+                    return;
+                }
+
+                AttachBehaviorToLogicalTree();
+                targetDataContextSubscription = target
+                    .GetObservable(DataContextProperty)
+                    .Subscribe(new AnonymousObserver<object?>(x =>
+                    {
+                        SetCurrentValue(DataContextProperty, x);
+                    }));
+            }
+
+            var targetSubscription = flyout
+                .GetObservable(FlyoutBase.TargetProperty)
+                .Subscribe(new AnonymousObserver<Control?>(TargetChanged));
+
+            return DisposableAction.Create(() =>
+            {
+                targetSubscription.Dispose();
+                targetDataContextSubscription?.Dispose();
+            });
         }
 
         return default;

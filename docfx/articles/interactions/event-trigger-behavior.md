@@ -19,6 +19,29 @@
 </Button>
 ```
 
+### Flyout lifecycle events
+
+Behaviors can be attached directly to a `Flyout` to observe its `Opened` and `Closed` events. When the flyout is shown, the behavior and its actions inherit the placement target's data context, so command bindings resolve normally.
+
+```xml
+<Button Content="Open menu">
+    <Button.Flyout>
+        <Flyout>
+            <Interaction.Behaviors>
+                <EventTriggerBehavior EventName="Opened">
+                    <InvokeCommandAction Command="{Binding FlyoutOpenedCommand}" />
+                </EventTriggerBehavior>
+                <EventTriggerBehavior EventName="Closed">
+                    <InvokeCommandAction Command="{Binding FlyoutClosedCommand}" />
+                </EventTriggerBehavior>
+            </Interaction.Behaviors>
+
+            <TextBlock Text="Flyout content" />
+        </Flyout>
+    </Button.Flyout>
+</Button>
+```
+
 ## EventTrigger
 
 `EventTrigger` is a deprecated class that functions similarly to `EventTriggerBehavior` but inherits from `Trigger`. It is recommended to use `EventTriggerBehavior` instead.
