@@ -87,14 +87,23 @@ namespace Xaml.Behaviors.SourceGenerators
             sb.AppendLine("using Avalonia.Xaml.Interactivity;");
             sb.AppendLine("using Avalonia.Controls;");
             sb.AppendLine("using Avalonia.Threading;");
+            sb.AppendLine("using System.Threading;");
             sb.AppendLine();
             if (!string.IsNullOrEmpty(info.Namespace))
             {
                 sb.AppendLine($"namespace {info.Namespace}");
                 sb.AppendLine("{");
             }
-            sb.AppendLine($"    {info.Accessibility} partial class {info.ClassName} : Avalonia.Xaml.Interactivity.StyledElementAction");
+            sb.AppendLine($"    {info.Accessibility} partial class {info.ClassName} : Avalonia.Xaml.Interactivity.StyledElementAction, Avalonia.Xaml.Interactivity.IReversibleAction");
             sb.AppendLine("    {");
+            sb.AppendLine($"        private readonly ReversiblePropertyChange<{info.TargetTypeName}, {info.PropertyType}> _reversibleChange =");
+            sb.AppendLine($"            new(nameof({info.TargetTypeName}.{info.PropertyName}));");
+            if (info.UseDispatcher)
+            {
+                sb.AppendLine("        private int _reversibleState;");
+                sb.AppendLine("        private int _reversibleVersion;");
+            }
+            sb.AppendLine();
             sb.AppendLine($"        public static readonly StyledProperty<object?> TargetObjectProperty =");
             sb.AppendLine($"            AvaloniaProperty.Register<{info.ClassName}, object?>(nameof(TargetObject));");
             sb.AppendLine();
@@ -130,6 +139,74 @@ namespace Xaml.Behaviors.SourceGenerators
             sb.AppendLine("            }");
             sb.AppendLine("            return false;");
             sb.AppendLine("        }");
+            sb.AppendLine();
+            sb.AppendLine("        public object? ExecuteReversibly(object? sender, object? parameter)");
+            sb.AppendLine("        {");
+            sb.AppendLine("            var target = TargetObject ?? sender;");
+            sb.AppendLine($"            if (target is {info.TargetTypeName} typedTarget)");
+            sb.AppendLine("            {");
+            if (info.UseDispatcher)
+            {
+                sb.AppendLine("                var version = Interlocked.Increment(ref _reversibleVersion);");
+                sb.AppendLine("                Volatile.Write(ref _reversibleState, 1);");
+                sb.AppendLine("                var applied = Avalonia.Threading.Dispatcher.UIThread.CheckAccess()");
+                sb.AppendLine("                    ? ApplyReversibleCore(typedTarget)");
+                sb.AppendLine("                    : Avalonia.Threading.Dispatcher.UIThread.Invoke(() =>");
+                sb.AppendLine("                        Volatile.Read(ref _reversibleVersion) == version &&");
+                sb.AppendLine("                        ApplyReversibleCore(typedTarget));");
+                sb.AppendLine("                if (!applied && Volatile.Read(ref _reversibleVersion) == version)");
+                sb.AppendLine("                {");
+                sb.AppendLine("                    Volatile.Write(ref _reversibleState, 0);");
+                sb.AppendLine("                }");
+                sb.AppendLine("                return applied;");
+            }
+            else
+            {
+                sb.AppendLine("                return ApplyReversibleCore(typedTarget);");
+            }
+            sb.AppendLine("            }");
+            sb.AppendLine("            return false;");
+            sb.AppendLine("        }");
+            sb.AppendLine();
+            sb.AppendLine("        public object? Revert(object? sender, object? parameter)");
+            sb.AppendLine("        {");
+            if (info.UseDispatcher)
+            {
+                sb.AppendLine("            if (Interlocked.CompareExchange(ref _reversibleState, 2, 1) != 1)");
+                sb.AppendLine("            {");
+                sb.AppendLine("                return false;");
+                sb.AppendLine("            }");
+                sb.AppendLine();
+                sb.AppendLine("            var version = Interlocked.Increment(ref _reversibleVersion);");
+                sb.AppendLine("            var reverted = Avalonia.Threading.Dispatcher.UIThread.CheckAccess()");
+                sb.AppendLine("                ? RevertCore()");
+                sb.AppendLine("                : Avalonia.Threading.Dispatcher.UIThread.Invoke(() =>");
+                sb.AppendLine("                    Volatile.Read(ref _reversibleVersion) == version && RevertCore());");
+                sb.AppendLine("            if (Volatile.Read(ref _reversibleVersion) == version)");
+                sb.AppendLine("            {");
+                sb.AppendLine("                Volatile.Write(ref _reversibleState, 0);");
+                sb.AppendLine("            }");
+                sb.AppendLine("            return reverted;");
+            }
+            else
+            {
+                sb.AppendLine("            return RevertCore();");
+            }
+            sb.AppendLine("        }");
+            sb.AppendLine();
+            sb.AppendLine($"        private bool ApplyReversibleCore({info.TargetTypeName} typedTarget)");
+            sb.AppendLine("        {");
+            sb.AppendLine("            return _reversibleChange.Apply(");
+            sb.AppendLine("                typedTarget,");
+            sb.AppendLine("                Value,");
+            sb.AppendLine($"                static target => target.{info.PropertyName},");
+            sb.AppendLine($"                static (target, value) => target.{info.PropertyName} = value);");
+            sb.AppendLine("        }");
+            sb.AppendLine();
+            sb.AppendLine("        private bool RevertCore()");
+            sb.AppendLine("        {");
+            sb.AppendLine($"            return _reversibleChange.Revert(static (target, value) => target.{info.PropertyName} = value);");
+            sb.AppendLine("        }");
             sb.AppendLine("    }");
             if (!string.IsNullOrEmpty(info.Namespace))
             {
@@ -157,6 +234,12 @@ namespace Xaml.Behaviors.SourceGenerators
             if (!HasAccessibleSetter(propertySymbol, compilation))
             {
                 return Diagnostic.Create(PropertySetterNotAccessibleDiagnostic, location, propertySymbol.Name, propertySymbol.ContainingType.ToDisplayString());
+            }
+
+            if (propertySymbol.GetMethod is null ||
+                !IsAccessibleToGenerator(propertySymbol.GetMethod, compilation))
+            {
+                return Diagnostic.Create(PropertyGetterNotAccessibleDiagnostic, location, propertySymbol.Name, propertySymbol.ContainingType.ToDisplayString());
             }
 
             if (propertySymbol.SetMethod?.IsInitOnly == true)

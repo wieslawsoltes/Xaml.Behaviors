@@ -4,6 +4,7 @@ using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Reflection;
+using Avalonia.Data;
 
 namespace Avalonia.Xaml.Interactivity;
 
@@ -238,6 +239,31 @@ internal static class PropertyHelper
         }
     }
 
+    private static bool TryGetClrPropertyValue(object targetObject, string propertyName, out object? value)
+    {
+        var targetType = targetObject.GetType();
+        var targetTypeName = targetType.Name;
+        var propertyInfo = targetType.GetRuntimeProperty(propertyName);
+
+        if (propertyInfo is null)
+        {
+            throw new ArgumentException(string.Format(
+                CultureInfo.CurrentCulture,
+                "Cannot find a property named {0} on type {1}.",
+                propertyName,
+                targetTypeName));
+        }
+
+        if (!propertyInfo.CanRead)
+        {
+            value = null;
+            return false;
+        }
+
+        value = propertyInfo.GetValue(targetObject, []);
+        return true;
+    }
+
     private static void ValidateAvaloniaProperty(AvaloniaProperty? property, string propertyName)
     {
         if (property is null)
@@ -256,43 +282,28 @@ internal static class PropertyHelper
         }
     }
 
-    private static void UpdateAvaloniaPropertyValue(AvaloniaObject avaloniaObject, AvaloniaProperty property, string propertyName, object? value)
+    private static void UpdateAvaloniaPropertyValue(
+        AvaloniaObject avaloniaObject,
+        AvaloniaProperty property,
+        string propertyName,
+        object? value,
+        bool preserveValueSource)
     {
         ValidateAvaloniaProperty(property, propertyName);
 
         Exception? innerException = null;
         try
         {
-            object? result = null;
-            var propertyType = property.PropertyType;
-            var propertyTypeInfo = propertyType.GetTypeInfo();
-            if (value is null)
+            var result = ConvertAvaloniaPropertyValue(property, value);
+
+            if (preserveValueSource)
             {
-                // The result can be null if the type is generic (nullable), or the default value of the type in question
-                result = propertyTypeInfo.IsValueType ? Activator.CreateInstance(propertyType) : null;
-            }
-            else if (propertyTypeInfo.IsAssignableFrom(value.GetType().GetTypeInfo()))
-            {
-                result = value;
+                avaloniaObject.SetCurrentValue(property, result);
             }
             else
             {
-                var valueAsString = value.ToString();
-                if (valueAsString is not null)
-                {
-                    if (propertyTypeInfo.IsEnum)
-                    {
-                        result = Enum.Parse(propertyType, valueAsString, false);
-                    }
-                    else
-                    {
-                        var convert = TypeConverterHelper.Convert(valueAsString, propertyType);
-                        result = convert ?? value;
-                    }
-                }
+                avaloniaObject.SetValue(property, result);
             }
-
-            avaloniaObject.SetValue(property, result);
         }
         catch (FormatException e)
         {
@@ -315,7 +326,105 @@ internal static class PropertyHelper
         }
     }
 
-    public static bool UpdatePropertyValue(object targetObject, string propertyName, object? value)
+    public static bool TrySetTemporaryAvaloniaPropertyValue(
+        object targetObject,
+        string propertyName,
+        object? value,
+        out IDisposable? reversion)
+    {
+        reversion = null;
+        if (targetObject is not AvaloniaObject avaloniaObject)
+        {
+            return false;
+        }
+
+        var property = propertyName.Contains('.')
+            ? FindAvaloniaAttachedProperty(targetObject, propertyName)
+            : AvaloniaPropertyRegistry.Instance.FindRegistered(avaloniaObject, propertyName);
+        if (property is null || property.IsDirect)
+        {
+            return false;
+        }
+
+        ValidateAvaloniaProperty(property, propertyName);
+        try
+        {
+            var result = ConvertAvaloniaPropertyValue(property, value);
+            reversion = avaloniaObject.SetValue(property, result, BindingPriority.Animation);
+            return reversion is not null;
+        }
+        catch (FormatException e)
+        {
+            throw CreateInvalidAssignmentException(avaloniaObject, propertyName, value, e);
+        }
+        catch (ArgumentException e)
+        {
+            throw CreateInvalidAssignmentException(avaloniaObject, propertyName, value, e);
+        }
+    }
+
+    public static bool IsDirectAvaloniaProperty(object targetObject, string propertyName)
+    {
+        if (targetObject is not AvaloniaObject avaloniaObject)
+        {
+            return false;
+        }
+
+        var property = propertyName.Contains('.')
+            ? FindAvaloniaAttachedProperty(targetObject, propertyName)
+            : AvaloniaPropertyRegistry.Instance.FindRegistered(avaloniaObject, propertyName);
+        return property?.IsDirect == true;
+    }
+
+    private static object? ConvertAvaloniaPropertyValue(AvaloniaProperty property, object? value)
+    {
+        var propertyType = property.PropertyType;
+        var propertyTypeInfo = propertyType.GetTypeInfo();
+        if (value is null)
+        {
+            return propertyTypeInfo.IsValueType ? Activator.CreateInstance(propertyType) : null;
+        }
+
+        if (propertyTypeInfo.IsAssignableFrom(value.GetType().GetTypeInfo()))
+        {
+            return value;
+        }
+
+        var valueAsString = value.ToString();
+        if (valueAsString is null)
+        {
+            return null;
+        }
+
+        if (propertyTypeInfo.IsEnum)
+        {
+            return Enum.Parse(propertyType, valueAsString, false);
+        }
+
+        var converted = TypeConverterHelper.Convert(valueAsString, propertyType);
+        return converted ?? value;
+    }
+
+    private static ArgumentException CreateInvalidAssignmentException(
+        AvaloniaObject avaloniaObject,
+        string propertyName,
+        object? value,
+        Exception innerException)
+    {
+        return new ArgumentException(string.Format(
+                CultureInfo.CurrentCulture,
+                "Cannot assign value of type {0} to property {1} of type {2}. The {1} property can be assigned only values of type {2}.",
+                value?.GetType().Name ?? "null",
+                propertyName,
+                avaloniaObject.GetType().Name),
+            innerException);
+    }
+
+    public static bool UpdatePropertyValue(
+        object targetObject,
+        string propertyName,
+        object? value,
+        bool preserveValueSource = false)
     {
         if (targetObject is AvaloniaObject avaloniaObject)
         {
@@ -324,7 +433,12 @@ internal static class PropertyHelper
                 var avaloniaProperty = FindAvaloniaAttachedProperty(targetObject, propertyName);
                 if (avaloniaProperty is not null)
                 {
-                    UpdateAvaloniaPropertyValue(avaloniaObject, avaloniaProperty, propertyName, value);
+                    UpdateAvaloniaPropertyValue(
+                        avaloniaObject,
+                        avaloniaProperty,
+                        propertyName,
+                        value,
+                        preserveValueSource);
                     return true;
                 }
 
@@ -335,7 +449,12 @@ internal static class PropertyHelper
                 var avaloniaProperty = AvaloniaPropertyRegistry.Instance.FindRegistered(avaloniaObject, propertyName);
                 if (avaloniaProperty is not null)
                 {
-                    UpdateAvaloniaPropertyValue(avaloniaObject, avaloniaProperty, propertyName, value);
+                    UpdateAvaloniaPropertyValue(
+                        avaloniaObject,
+                        avaloniaProperty,
+                        propertyName,
+                        value,
+                        preserveValueSource);
                     return true;
                 }
             }
@@ -343,5 +462,41 @@ internal static class PropertyHelper
 
         UpdateClrPropertyValue(targetObject, propertyName, value);
         return true;
+    }
+
+    public static bool TryGetPropertyValue(
+        object targetObject,
+        string propertyName,
+        out object? value,
+        out bool preserveValueSource)
+    {
+        preserveValueSource = false;
+
+        if (targetObject is AvaloniaObject avaloniaObject)
+        {
+            if (propertyName.Contains('.'))
+            {
+                var avaloniaProperty = FindAvaloniaAttachedProperty(targetObject, propertyName);
+                if (avaloniaProperty is not null)
+                {
+                    value = avaloniaObject.GetValue(avaloniaProperty);
+                    preserveValueSource = true;
+                    return true;
+                }
+
+                value = null;
+                return false;
+            }
+
+            var registeredProperty = AvaloniaPropertyRegistry.Instance.FindRegistered(avaloniaObject, propertyName);
+            if (registeredProperty is not null)
+            {
+                value = avaloniaObject.GetValue(registeredProperty);
+                preserveValueSource = true;
+                return true;
+            }
+        }
+
+        return TryGetClrPropertyValue(targetObject, propertyName, out value);
     }
 }

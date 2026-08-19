@@ -41,3 +41,5 @@ Attach the behavior to individual items of the `ItemsControl`.
 ## ItemDragBehavior
 
 `ItemDragBehavior` is the base class for `ListReorderDragBehavior`. It provides the fundamental logic for tracking drag operations within an `ItemsControl` but does not implement the reordering logic itself. Use `ListReorderDragBehavior` for standard reordering scenarios.
+
+The style-based pattern above supports virtualized item panels. Recycled containers receive a fresh template-created behavior collection, so an item can be dragged again after it moves or after its containing view leaves and re-enters the visual tree.

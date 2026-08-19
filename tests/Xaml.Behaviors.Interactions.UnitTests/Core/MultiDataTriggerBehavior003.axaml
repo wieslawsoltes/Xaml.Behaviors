@@ -1,0 +1,37 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        x:Class="Avalonia.Xaml.Interactions.UnitTests.Core.MultiDataTriggerBehavior003"
+        Title="MultiDataTriggerBehavior003"
+        Width="320">
+  <StackPanel Margin="16">
+    <TextBlock Name="TargetTextBlock"
+               Text="Red">
+      <Interaction.Behaviors>
+        <MultiDataTriggerBehavior RevertOnFalse="True">
+          <MultiDataTriggerBehavior.Conditions>
+            <Condition Binding="{Binding #TargetCheckBox.IsChecked}"
+                       Value="True" />
+            <Condition Binding="{Binding #TargetSlider.Value}"
+                       ComparisonCondition="GreaterThanOrEqual"
+                       Value="50" />
+          </MultiDataTriggerBehavior.Conditions>
+          <ChangePropertyAction PropertyName="Text"
+                                Value="Blue" />
+          <ChangePropertyAction PropertyName="Text"
+                                Value="Green" />
+        </MultiDataTriggerBehavior>
+      </Interaction.Behaviors>
+    </TextBlock>
+
+    <CheckBox Name="TargetCheckBox"
+              Content="Enabled"
+              IsChecked="False"
+              Margin="0,8,0,0" />
+    <Slider Name="TargetSlider"
+            Minimum="0"
+            Maximum="100"
+            SmallChange="25"
+            Value="0"
+            Margin="0,8,0,0" />
+  </StackPanel>
+</Window>

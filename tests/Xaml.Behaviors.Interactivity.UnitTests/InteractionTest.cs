@@ -410,6 +410,54 @@ public class InteractionTest
     }
 
     [AvaloniaFact]
+    public void LifecycleEvents_DoNotCreateCollectionAfterBehaviorsAreRemoved()
+    {
+        var behavior = new TestBehavior();
+        var collection = new BehaviorCollection { behavior };
+        var button = new Button();
+        var panel = new Panel { Children = { button } };
+        var window = new Window { Content = panel };
+        Interaction.SetBehaviors(button, collection);
+
+        window.Show();
+        Interaction.SetBehaviors(button, null);
+        panel.Children.Remove(button);
+
+        Assert.Null(button.GetValue(Interaction.BehaviorsProperty));
+        Assert.Null(collection.AssociatedObject);
+        Assert.Null(behavior.AssociatedObject);
+        Assert.Equal(1, behavior.DetachingCalled);
+    }
+
+    [AvaloniaFact]
+    public void SetBehaviors_OnAttachedVisual_TransfersVisualTreeLifecycle()
+    {
+        var oldBehavior = new TestBehavior();
+        var oldCollection = new BehaviorCollection { oldBehavior };
+        var button = new Button();
+        var window = new Window { Content = button };
+        Interaction.SetBehaviors(button, oldCollection);
+
+        window.Show();
+
+        Assert.Equal(1, oldBehavior.VisualAttachCalled);
+        Assert.Equal(0, oldBehavior.VisualDetachCalled);
+
+        var newBehavior = new TestBehavior();
+        var newCollection = new BehaviorCollection { newBehavior };
+
+        Interaction.SetBehaviors(button, newCollection);
+
+        Assert.Equal(1, oldBehavior.VisualDetachCalled);
+        Assert.Equal(1, oldBehavior.DetachingCalled);
+        Assert.Null(oldBehavior.AssociatedObject);
+        Assert.Equal(1, newBehavior.AttachedCalled);
+        Assert.Equal(1, newBehavior.VisualAttachCalled);
+        Assert.Equal(0, newBehavior.VisualDetachCalled);
+        Assert.Same(button, newBehavior.AssociatedObject);
+    }
+
+    [AvaloniaFact]
     public void SetBehaviors_TopLevelClose_DefersThenDetachesCollection()
     {
         var behavior = new StubBehavior();

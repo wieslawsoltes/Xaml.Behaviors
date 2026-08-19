@@ -1,0 +1,20 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:draggable="using:Avalonia.Xaml.Interactions.Draggable"
+        x:Class="Avalonia.Xaml.Interactions.UnitTests.Core.ListReorderDragBehaviorWindow"
+        Width="400"
+        Height="210">
+  <ListBox x:Name="TargetListBox">
+    <ListBox.Styles>
+      <Style Selector="ListBoxItem">
+        <Setter Property="(Interaction.Behaviors)">
+          <BehaviorCollectionTemplate>
+            <BehaviorCollection>
+              <draggable:ListReorderDragBehavior Orientation="Vertical" />
+            </BehaviorCollection>
+          </BehaviorCollectionTemplate>
+        </Setter>
+      </Style>
+    </ListBox.Styles>
+  </ListBox>
+</Window>
