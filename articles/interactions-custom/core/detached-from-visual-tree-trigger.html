@@ -84,6 +84,7 @@
 <h1 id="detachedfromvisualtreetrigger">DetachedFromVisualTreeTrigger</h1>
 
 <p>Executes when the associated object is detached from the visual tree.</p>
+<p>The trigger executes before its behavior/action logical scope is released. Bound actions therefore retain their data context for the detach callback, including when content leaves the visual tree because a <code>TabControl</code> selection changes.</p>
 
 </article>
 
