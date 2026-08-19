@@ -1,6 +1,7 @@
 using Avalonia.Headless;
 using Avalonia.Headless.XUnit;
 using Avalonia.Input;
+using Avalonia.Threading;
 using Xunit;
 
 namespace Avalonia.Xaml.Interactions.UnitTests.Core;
@@ -69,5 +70,41 @@ public class DataTriggerBehaviorTests
 
         Assert.Equal("50 or more", window.TargetTextBlock.Text);
         Assert.Equal(50d, window.TargetSlider.Value);
+    }
+
+    [AvaloniaFact]
+    public void DataTriggerBehavior_ExecutesWhenBoundValueBecomesNull()
+    {
+        var window = new DataTriggerBehavior004();
+        var source = Assert.IsType<DataTriggerBehavior004BindingSource>(window.DataContext);
+
+        window.Show();
+        Dispatcher.UIThread.RunJobs();
+
+        Assert.Equal("Not empty", window.TargetTextBlock.Text);
+        Assert.Equal("Unchanged", window.UnconfiguredTextBlock.Text);
+        Assert.Equal("Unchanged", window.RelationalTextBlock.Text);
+
+        source.TestProperty = null;
+        Dispatcher.UIThread.RunJobs();
+
+        Assert.Equal("Empty", window.TargetTextBlock.Text);
+        Assert.Equal("Unchanged", window.UnconfiguredTextBlock.Text);
+        Assert.Equal("Unchanged", window.RelationalTextBlock.Text);
+    }
+
+    [AvaloniaFact]
+    public void DataTriggerBehavior_ExecutesWhenInitialBoundValueIsNull()
+    {
+        var window = new DataTriggerBehavior004();
+        var source = Assert.IsType<DataTriggerBehavior004BindingSource>(window.DataContext);
+        source.TestProperty = null;
+
+        window.Show();
+        Dispatcher.UIThread.RunJobs();
+
+        Assert.Equal("Empty", window.TargetTextBlock.Text);
+        Assert.Equal("Unchanged", window.UnconfiguredTextBlock.Text);
+        Assert.Equal("Unchanged", window.RelationalTextBlock.Text);
     }
 }

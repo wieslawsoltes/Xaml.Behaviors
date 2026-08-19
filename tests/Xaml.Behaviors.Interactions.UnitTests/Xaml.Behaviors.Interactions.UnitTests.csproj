@@ -16,6 +16,7 @@
     <PackageReference Include="Avalonia.HarfBuzz" />
     <PackageReference Include="Avalonia.Themes.Fluent" />
     <PackageReference Include="Avalonia.Headless.XUnit" />
+    <PackageReference Include="Avalonia.Markup.Xaml.Loader" />
   </ItemGroup>
 
   <ItemGroup>
