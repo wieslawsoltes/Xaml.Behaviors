@@ -138,7 +138,10 @@ public abstract class StyledElementBehavior : StyledElement, IBehavior, IBehavio
         }
 
         _isAttachedToVisualTree = false;
-        DetachBehaviorFromLogicalTree();
+        if (AssociatedObject is not TopLevel)
+        {
+            DetachBehaviorFromLogicalTree();
+        }
 
         OnDetachedFromVisualTree();
     }
@@ -164,7 +167,10 @@ public abstract class StyledElementBehavior : StyledElement, IBehavior, IBehavio
         }
 
         _isAttachedToLogicalTree = false;
-        DetachBehaviorFromLogicalTree();
+        if (AssociatedObject is not TopLevel)
+        {
+            DetachBehaviorFromLogicalTree();
+        }
 
         OnDetachedFromLogicalTree();
     }

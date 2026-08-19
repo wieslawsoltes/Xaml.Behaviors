@@ -410,6 +410,27 @@ public class InteractionTest
     }
 
     [AvaloniaFact]
+    public void SetBehaviors_TopLevelClose_DefersThenDetachesCollection()
+    {
+        var behavior = new StubBehavior();
+        var behaviors = new BehaviorCollection { behavior };
+        var window = new Window();
+        Interaction.SetBehaviors(window, behaviors);
+
+        window.Show();
+        window.Close();
+
+        Assert.Same(window, behaviors.AssociatedObject);
+        Assert.Same(window, behavior.AssociatedObject);
+
+        Dispatcher.UIThread.RunJobs();
+
+        Assert.Null(behaviors.AssociatedObject);
+        Assert.Null(behavior.AssociatedObject);
+        Assert.Equal(1, behavior.DetachCount);
+    }
+
+    [AvaloniaFact]
     public void ExecuteActions_NullParameters_ReturnsEmptyEnumerable()
     {
         // Mostly just want to test that this doesn't throw any exceptions.

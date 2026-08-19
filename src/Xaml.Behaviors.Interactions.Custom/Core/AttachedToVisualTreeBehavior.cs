@@ -22,13 +22,20 @@ public abstract class AttachedToVisualTreeBehavior<T> : DisposingBehavior<T> whe
     /// <inheritdoc />
     protected override void OnAttachedToVisualTree()
     {
+        OnDelayedDispose();
         _disposable = OnAttachedToVisualTreeOverride();
+    }
+
+    /// <inheritdoc />
+    protected override void OnDetachedFromVisualTree()
+    {
+        OnDelayedDispose();
     }
 
     /// <summary>
     /// Called after the <see cref="StyledElementBehavior{T}.AssociatedObject"/> is attached to the visual tree.
     /// </summary>
-    /// <returns>A disposable resource to be disposed when the behavior is detached.</returns>
+    /// <returns>A resource disposed when the associated object leaves the visual tree or the behavior is detached.</returns>
 	protected abstract IDisposable OnAttachedToVisualTreeOverride();
 
     private void OnDelayedDispose()

@@ -176,7 +176,10 @@ public class AutoScrollToBottomBehavior : StyledElementBehavior<Control>
         {
             Dispatcher.UIThread.Post(() => 
             {
-                _scrollViewer.ScrollToEnd();
+                if(_scrollViewer is not null)
+                {
+                    _scrollViewer.ScrollToEnd();
+                }
             });
         }
     }
