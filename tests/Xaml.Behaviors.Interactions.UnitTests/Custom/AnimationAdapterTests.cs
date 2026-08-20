@@ -37,7 +37,9 @@ public class AnimationAdapterTests
         var replacement = new Transitions();
         var target = new Border { Transitions = original };
         var panel = new Panel { Children = { target } };
-        var behavior = new TransitionsBehavior { TransitionsSource = replacement };
+        var behavior = new TransitionsBehavior();
+        behavior.SetValue(TransitionsBehavior.TransitionsSourceProperty, replacement);
+        Assert.Same(replacement, behavior.TransitionsSource);
         Interaction.GetBehaviors(target).Add(behavior);
         var window = new Window { Content = panel };
 

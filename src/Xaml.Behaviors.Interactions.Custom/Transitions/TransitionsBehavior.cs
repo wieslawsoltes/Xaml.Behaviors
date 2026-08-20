@@ -24,8 +24,8 @@ public class TransitionsBehavior : AttachedToVisualTreeBehavior<Control>
     /// </summary>
     public Transitions? TransitionsSource
     {
-        get => GetValue(TransitionsProperty);
-        set => SetValue(TransitionsProperty, value);
+        get => GetValue(TransitionsSourceProperty);
+        set => SetValue(TransitionsSourceProperty, value);
     }
 
     /// <inheritdoc />
