@@ -1,7 +1,9 @@
 // Copyright (c) Wiesław Šoltés. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for details.
 
+using System;
 using System.Numerics;
+using System.Threading.Tasks;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Headless.XUnit;
@@ -124,5 +126,82 @@ public class CompositionAnimationTests
         Assert.False(TiltAnimation.Apply(null, default, 5d));
         Assert.False(TiltAnimation.Reset(null));
         Assert.Equal(Quaternion.Identity, orbit.Orientation);
+    }
+
+    [AvaloniaFact]
+    public async Task AttentionAnimation_StartsFromPositionedControlLayoutOffset()
+    {
+        await AssertCompositionOffsetAsync(
+            target => AttentionAnimations.SetBounce(target, 10_000d),
+            new Vector3(30f, 40f, 0f));
+    }
+
+    [AvaloniaFact]
+    public async Task EntranceAnimation_StartsFromLayoutRelativeOffset()
+    {
+        await AssertCompositionOffsetAsync(
+            target => EntranceAnimations.SetSlideInLeft(target, 10_000d),
+            new Vector3(-210f, 40f, 0f));
+    }
+
+    [AvaloniaFact]
+    public async Task ExitAnimation_StartsFromPositionedControlLayoutOffset()
+    {
+        await AssertCompositionOffsetAsync(
+            target => ExitAnimations.SetSlideOutDown(target, 10_000d),
+            new Vector3(30f, 40f, 0f));
+    }
+
+    [AvaloniaFact]
+    public async Task FramerMotionAnimation_StartsFromLayoutRelativeOffset()
+    {
+        await AssertCompositionOffsetAsync(
+            target => FramerMotionAnimations.SetSlideInFromLeft(target, 10_000d),
+            new Vector3(-90f, 40f, 0f));
+    }
+
+    [AvaloniaFact]
+    public async Task SlidingAnimation_DoesNotOverwritePositionedControlLayoutOffset()
+    {
+        await AssertCompositionOffsetAsync(
+            target => SlidingAnimation.SetLeft(target, 10_000d),
+            new Vector3(30f, 40f, 0f));
+    }
+
+    [AvaloniaFact]
+    public void CompositionAnimationHelpers_AddRelativeMotionToLayoutOffset()
+    {
+        var target = new Border();
+        target.Arrange(new Rect(30d, 40d, 100d, 100d));
+
+        Vector3 offset = CompositionAnimationHelpers.GetLayoutOffset(
+            target,
+            new Vector3(-100f, 25f, 0f));
+
+        Assert.Equal(new Vector3(-70f, 65f, 0f), offset);
+    }
+
+    private static async Task AssertCompositionOffsetAsync(Action<Control> configure, Vector3 expectedOffset)
+    {
+        var target = new Border { Width = 100d, Height = 100d };
+        Canvas.SetLeft(target, 30d);
+        Canvas.SetTop(target, 40d);
+        var canvas = new Canvas { Width = 300d, Height = 300d, Children = { target } };
+        var window = new Window { Content = canvas };
+        configure(target);
+
+        try
+        {
+            window.Show();
+            Dispatcher.UIThread.RunJobs();
+            await Task.Delay(20);
+            Dispatcher.UIThread.RunJobs();
+
+            Assert.Equal(expectedOffset, ElementComposition.GetElementVisual(target)?.Offset);
+        }
+        finally
+        {
+            window.Close();
+        }
     }
 }

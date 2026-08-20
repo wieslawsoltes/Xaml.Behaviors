@@ -91,6 +91,34 @@ internal static class CompositionAnimationHelpers
         ConfigureAndStartAnimation(visual, propertyName, duration, animation);
     }
 
+    public static void StartOffsetAnimation(Control element, CompositionVisual visual, TimeSpan duration, IReadOnlyList<Vector3KeyFrame> keyFrames)
+    {
+        if (keyFrames.Count == 0)
+        {
+            return;
+        }
+
+        Vector3 layoutOffset = GetLayoutOffset(element);
+        Vector3KeyFrameAnimation animation = visual.Compositor.CreateVector3KeyFrameAnimation();
+        foreach (Vector3KeyFrame keyFrame in keyFrames)
+        {
+            animation.InsertKeyFrame(keyFrame.Progress, layoutOffset + keyFrame.Value);
+        }
+
+        ConfigureAndStartAnimation(visual, "Offset", duration, animation);
+    }
+
+    public static Vector3 GetLayoutOffset(Control element)
+    {
+        Rect bounds = element.Bounds;
+        return new Vector3((float)bounds.X, (float)bounds.Y, 0f);
+    }
+
+    public static Vector3 GetLayoutOffset(Control element, Vector3 relativeOffset)
+    {
+        return GetLayoutOffset(element) + relativeOffset;
+    }
+
     public static void StartScalarAnimation(CompositionVisual visual, string propertyName, TimeSpan duration, IReadOnlyList<ScalarKeyFrame> keyFrames)
     {
         if (keyFrames.Count == 0)

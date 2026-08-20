@@ -109,9 +109,9 @@ public static class AttentionAnimations
 
     private static void ApplyBounce(Control element, CompositionVisual visual, TimeSpan duration)
     {
-        CompositionAnimationHelpers.StartVector3Animation(
+        CompositionAnimationHelpers.StartOffsetAnimation(
+            element,
             visual,
-            "Offset",
             duration,
             new CompositionAnimationHelpers.Vector3KeyFrame[]
             {
@@ -177,9 +177,9 @@ public static class AttentionAnimations
 
     private static void ApplyShake(Control element, CompositionVisual visual, TimeSpan duration, bool horizontal)
     {
-        CompositionAnimationHelpers.StartVector3Animation(
+        CompositionAnimationHelpers.StartOffsetAnimation(
+            element,
             visual,
-            "Offset",
             duration,
             new CompositionAnimationHelpers.Vector3KeyFrame[]
             {
@@ -198,9 +198,9 @@ public static class AttentionAnimations
 
     private static void ApplyHeadShake(Control element, CompositionVisual visual, TimeSpan duration)
     {
-        CompositionAnimationHelpers.StartVector3Animation(
+        CompositionAnimationHelpers.StartOffsetAnimation(
+            element,
             visual,
-            "Offset",
             duration,
             new CompositionAnimationHelpers.Vector3KeyFrame[]
             {
@@ -287,9 +287,9 @@ public static class AttentionAnimations
 
     private static void ApplyWobble(Control element, CompositionVisual visual, TimeSpan duration)
     {
-        CompositionAnimationHelpers.StartVector3Animation(
+        CompositionAnimationHelpers.StartOffsetAnimation(
+            element,
             visual,
-            "Offset",
             duration,
             new CompositionAnimationHelpers.Vector3KeyFrame[]
             {

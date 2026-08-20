@@ -362,7 +362,7 @@ public static class ExitAnimations
 
             if (definition.InitialOffset.HasValue)
             {
-                visual.Offset = definition.InitialOffset.Value;
+                visual.Offset = CompositionAnimationHelpers.GetLayoutOffset(element, definition.InitialOffset.Value);
             }
 
             if (definition.InitialScale.HasValue)
@@ -394,7 +394,7 @@ public static class ExitAnimations
 
             if (definition.OffsetFrames is { Length: > 0 })
             {
-                CompositionAnimationHelpers.StartVector3Animation(visual, "Offset", duration, definition.OffsetFrames);
+                CompositionAnimationHelpers.StartOffsetAnimation(element, visual, duration, definition.OffsetFrames);
             }
 
             if (definition.ScaleFrames is { Length: > 0 })

@@ -2,10 +2,8 @@
 // Licensed under the MIT license. See LICENSE file in the project root for details.
 using System;
 using System.Numerics;
-using Avalonia.Animation;
 using Avalonia.Controls;
 using Avalonia.Rendering.Composition;
-using Avalonia.Rendering.Composition.Animations;
 
 namespace Avalonia.Xaml.Interactions.Custom;
 
@@ -73,7 +71,7 @@ public static class SlidingAnimation
     /// <param name="offsetX"></param>
     /// <param name="offsetY"></param>
     /// <param name="duration"></param>
-    private static void Apply(Visual visual, double offsetX, double offsetY, TimeSpan duration)
+    private static void Apply(Control visual, double offsetX, double offsetY, TimeSpan duration)
     {
         var compositionVisual = ElementComposition.GetElementVisual(visual);
         if (compositionVisual is null)
@@ -81,16 +79,14 @@ public static class SlidingAnimation
             return;
         }
 
-        var compositor = compositionVisual.Compositor;
-
-        var offsetAnimation = compositor.CreateVector3KeyFrameAnimation();
-        offsetAnimation.InsertKeyFrame(0.0f, new Vector3((float)offsetX, (float)offsetY, 0));
-        offsetAnimation.InsertKeyFrame(1.0f, new Vector3(0, 0, 0));
-        offsetAnimation.Direction = PlaybackDirection.Normal;
-        offsetAnimation.Duration = duration;
-        offsetAnimation.IterationBehavior = AnimationIterationBehavior.Count;
-        offsetAnimation.IterationCount = 1;
-
-        compositionVisual.StartAnimation("Offset", offsetAnimation);
+        CompositionAnimationHelpers.StartOffsetAnimation(
+            visual,
+            compositionVisual,
+            duration,
+            new CompositionAnimationHelpers.Vector3KeyFrame[]
+            {
+                new(0.0f, new Vector3((float)offsetX, (float)offsetY, 0f)),
+                new(1.0f, Vector3.Zero)
+            });
     }
 }
