@@ -18,7 +18,7 @@ The repository includes an [animations-only sample application](https://github.c
 | Composition catalogs | `AttentionAnimations`, `EntranceAnimations`, `ExitAnimations`, `FramerMotionAnimations`, `SpecialAnimations` |
 | Composition primitives | `FadeAnimation`, `RotateAnimation`, `ScaleAnimation`, `SlidingAnimation` |
 | Reusable effects | `OrbitAnimation`, `ParallaxAnimation`, `TiltAnimation` |
-| Selection animation | `SelectingItemsControlBehavior` attached property |
+| Selection animation | `SelectionIndicatorAnimation`, `SelectingItemsControlBehavior` attached property |
 | Transitions | `TransitionOperations` |
 
 The CLR namespace remains `Avalonia.Xaml.Interactions.Custom` for source and XAML compatibility with earlier releases. The types now live in the `Xaml.Behaviors.Animations` assembly, while `Xaml.Behaviors.Interactions.Custom` ships type forwarders for legacy assembly-qualified references.
@@ -43,7 +43,7 @@ The attached values are durations in milliseconds. The animation begins when the
 
 ## Direct use from code
 
-Create and run a normal Avalonia animation:
+Create and run a normal Avalonia animation. Async variants return the completion task when callers need to coordinate follow-up work:
 
 ```csharp
 using Avalonia.Controls;
@@ -62,7 +62,11 @@ public static class WelcomeAnimation
 }
 ```
 
+`AnimationRunner.TryBuildAndRunAsync` applies the same explicit-animation-first selection used by the behavior adapters and returns `null` when neither an animation nor a builder result is available. `FluidMoveAnimation.TryRun` prepares a control's translation transform before starting its movement animation.
+
 Composition effects expose calculation and application separately where useful. For example, a scroll observer can call `ParallaxAnimation.Apply(target, offset, ratio)` without attaching `ParallaxBehavior`. `OrbitAnimation` maintains its orientation state for callers, while `TiltAnimation` calculates an orientation directly from the target size and pointer position.
+
+`SelectionIndicatorAnimation.TryStart` can animate explicitly supplied indicator/container visuals or resolve the conventional `PART_SelectedPipe` from two templated item containers. `SelectingItemsControlBehavior.EnableSelectionAnimation` is the convenient attached-property adapter over the same primitive.
 
 Transition collection operations are likewise independent:
 
@@ -74,7 +78,13 @@ var transition = new DoubleTransition
 };
 
 TransitionOperations.Add(target, transition);
+
+using IDisposable subscription = TransitionOperations.Observe(
+    target,
+    transitions => OnTransitionsReplaced(transitions));
 ```
+
+`Observe` reports the current collection immediately and subsequent replacements until the returned subscription is disposed.
 
 ## Behavior adapters
 

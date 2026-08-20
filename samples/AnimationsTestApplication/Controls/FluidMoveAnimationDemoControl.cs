@@ -5,7 +5,6 @@ using System;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Input;
-using Avalonia.Media;
 using Avalonia.Xaml.Interactions.Custom;
 
 namespace AnimationsTestApplication.Controls;
@@ -41,15 +40,9 @@ public class FluidMoveAnimationDemoControl : ContentControl
     {
         base.OnPointerPressed(e);
 
-        if (RenderTransform is not TranslateTransform transform)
-        {
-            transform = new TranslateTransform();
-            RenderTransform = transform;
-        }
-
         double offset = _reverse ? -Distance : Distance;
         _reverse = !_reverse;
-        FluidMoveAnimation.Run(transform, offset, 0d, Duration);
+        FluidMoveAnimation.TryRun(this, offset, 0d, Duration);
         e.Handled = true;
     }
 }

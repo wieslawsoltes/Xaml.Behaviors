@@ -1,7 +1,9 @@
 // Copyright (c) Wiesław Šoltés. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for details.
 
+using System;
 using Avalonia.Animation;
+using Avalonia.Reactive;
 
 namespace Avalonia.Xaml.Interactions.Custom;
 
@@ -68,5 +70,23 @@ public static class TransitionOperations
         Transitions? previous = target.Transitions;
         target.Transitions = transitions;
         return previous;
+    }
+
+    /// <summary>
+    /// Observes replacements of an element's transition collection.
+    /// </summary>
+    /// <param name="target">The element whose transition property is observed.</param>
+    /// <param name="observer">The callback invoked with the current and subsequent transition collections.</param>
+    /// <returns>A subscription that stops observation when disposed.</returns>
+    /// <exception cref="ArgumentNullException">
+    /// Thrown when <paramref name="target"/> or <paramref name="observer"/> is <c>null</c>.
+    /// </exception>
+    public static IDisposable Observe(StyledElement target, Action<Transitions?> observer)
+    {
+        ArgumentNullException.ThrowIfNull(target);
+        ArgumentNullException.ThrowIfNull(observer);
+
+        return target.GetObservable(StyledElement.TransitionsProperty)
+            .Subscribe(new AnonymousObserver<Transitions?>(observer));
     }
 }

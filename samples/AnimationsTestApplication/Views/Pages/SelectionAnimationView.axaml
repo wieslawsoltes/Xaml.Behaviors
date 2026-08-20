@@ -10,7 +10,7 @@
              d:DesignHeight="600">
   <StackPanel Margin="28" Spacing="20">
     <TextBlock Text="Selection indicator animation" FontSize="24" FontWeight="SemiBold" />
-    <TextBlock Text="SelectingItemsControlBehavior is an attached animation helper in the standalone package; it does not depend on the behaviors framework."
+    <TextBlock Text="SelectingItemsControlBehavior delegates to the reusable SelectionIndicatorAnimation primitive in the standalone package; neither depends on the behaviors framework."
                TextWrapping="Wrap" />
     <TabControl animations:SelectingItemsControlBehavior.EnableSelectionAnimation="True"
                 HorizontalAlignment="Stretch">

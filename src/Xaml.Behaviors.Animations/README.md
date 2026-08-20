@@ -1,6 +1,6 @@
 # Xaml.Behaviors.Animations
 
-Reusable Avalonia key-frame animations, composition animation catalogs and effects, animation runners/builders, selection animation, and transition operations. The package depends only on Avalonia and can be installed without XAML Behaviors or Interactivity.
+Reusable Avalonia key-frame animations, composition animation catalogs and effects, synchronous and asynchronous animation runners/builders, fluid transform preparation, selection-indicator primitives, and transition mutation/observation operations. The package depends only on Avalonia and can be installed without XAML Behaviors or Interactivity.
 
 ```xml
 <PackageReference Include="Xaml.Behaviors.Animations" Version="..." />

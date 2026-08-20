@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Avalonia.Controls;
 using Avalonia.Layout;
-using Avalonia.Media;
 using Avalonia.Xaml.Interactivity;
 
 namespace Avalonia.Xaml.Interactions.Custom;
@@ -126,16 +125,7 @@ public class FluidMoveBehavior : Behavior<Visual>
         var dx = previous.X - current.X;
         var dy = previous.Y - current.Y;
 
-        if (control.RenderTransform is not TranslateTransform transform)
-        {
-            transform = new TranslateTransform();
-            control.RenderTransform = transform;
-        }
-
-        transform.X = dx;
-        transform.Y = dy;
-
-        FluidMoveAnimation.Run(transform, dx, dy, Duration);
+        FluidMoveAnimation.TryRun(control, dx, dy, Duration);
 
         _positions[control] = current;
     }

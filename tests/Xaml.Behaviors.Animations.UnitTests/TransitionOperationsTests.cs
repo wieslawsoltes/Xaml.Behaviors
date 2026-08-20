@@ -1,6 +1,8 @@
 // Copyright (c) Wiesław Šoltés. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for details.
 
+using System;
+using System.Collections.Generic;
 using Avalonia;
 using Avalonia.Animation;
 using Avalonia.Controls;
@@ -48,5 +50,35 @@ public class TransitionOperationsTests
         Assert.False(TransitionOperations.Add(null, null));
         Assert.False(TransitionOperations.Remove(null, null));
         Assert.False(TransitionOperations.Clear(null));
+    }
+
+    [AvaloniaFact]
+    public void Observe_ReportsCurrentAndReplacementCollectionsUntilDisposed()
+    {
+        var target = new Border();
+        var replacement = new Transitions();
+        var afterDisposal = new Transitions();
+        var observed = new List<Transitions?>();
+
+        using (TransitionOperations.Observe(target, observed.Add))
+        {
+            target.Transitions = replacement;
+        }
+
+        target.Transitions = afterDisposal;
+
+        Assert.Collection(
+            observed,
+            transitions => Assert.Null(transitions),
+            transitions => Assert.Same(replacement, transitions));
+    }
+
+    [AvaloniaFact]
+    public void Observe_RejectsMissingArguments()
+    {
+        var target = new Border();
+
+        Assert.Throws<ArgumentNullException>(() => TransitionOperations.Observe(null!, _ => { }));
+        Assert.Throws<ArgumentNullException>(() => TransitionOperations.Observe(target, null!));
     }
 }

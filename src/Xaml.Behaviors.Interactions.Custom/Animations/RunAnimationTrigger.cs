@@ -1,6 +1,7 @@
 // Copyright (c) Wiesław Šoltés. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for details.
 using System;
+using System.Threading.Tasks;
 using Avalonia.Controls;
 using Avalonia.Threading;
 using Avalonia.Xaml.Interactivity;
@@ -50,10 +51,12 @@ public class RunAnimationTrigger : AttachedToVisualTreeTriggerBase<Control>
             return DisposableAction.Empty;
         }
 
-        Animation.Animation? animation = Animation ?? AnimationBuilder?.Build(AssociatedObject);
-        if (animation is not null)
+        Task? task = AnimationRunner.TryBuildAndRunAsync(
+            AssociatedObject,
+            Animation,
+            AnimationBuilder);
+        if (task is not null)
         {
-            var task = AnimationRunner.RunAsync(animation, AssociatedObject);
             task.ContinueWith(_ =>
             {
                 Dispatcher.UIThread.Post(() => Interaction.ExecuteActions(AssociatedObject, Actions, null));

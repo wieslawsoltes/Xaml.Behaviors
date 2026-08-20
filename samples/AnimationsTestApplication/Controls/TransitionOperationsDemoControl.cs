@@ -16,8 +16,27 @@ namespace AnimationsTestApplication.Controls;
 /// </summary>
 public class TransitionOperationsDemoControl : ContentControl
 {
+    private IDisposable? _transitionSubscription;
     private DoubleTransition? _transition;
+    private int _transitionChangeCount;
     private bool _dimmed;
+
+    /// <summary>
+    /// Identifies the <see cref="TransitionChangeCount"/> direct property.
+    /// </summary>
+    public static readonly DirectProperty<TransitionOperationsDemoControl, int> TransitionChangeCountProperty =
+        AvaloniaProperty.RegisterDirect<TransitionOperationsDemoControl, int>(
+            nameof(TransitionChangeCount),
+            control => control.TransitionChangeCount);
+
+    /// <summary>
+    /// Gets the number of transition collection values reported by the active observation.
+    /// </summary>
+    public int TransitionChangeCount
+    {
+        get => _transitionChangeCount;
+        private set => SetAndRaise(TransitionChangeCountProperty, ref _transitionChangeCount, value);
+    }
 
     public static readonly StyledProperty<TimeSpan> DurationProperty =
         AvaloniaProperty.Register<TransitionOperationsDemoControl, TimeSpan>(
@@ -33,6 +52,10 @@ public class TransitionOperationsDemoControl : ContentControl
     protected override void OnAttachedToVisualTree(VisualTreeAttachmentEventArgs e)
     {
         base.OnAttachedToVisualTree(e);
+        TransitionChangeCount = 0;
+        _transitionSubscription = TransitionOperations.Observe(
+            this,
+            _ => TransitionChangeCount++);
         _transition = new DoubleTransition
         {
             Property = OpacityProperty,
@@ -44,6 +67,8 @@ public class TransitionOperationsDemoControl : ContentControl
     protected override void OnDetachedFromVisualTree(VisualTreeAttachmentEventArgs e)
     {
         TransitionOperations.Remove(this, _transition);
+        _transitionSubscription?.Dispose();
+        _transitionSubscription = null;
         _transition = null;
         base.OnDetachedFromVisualTree(e);
     }

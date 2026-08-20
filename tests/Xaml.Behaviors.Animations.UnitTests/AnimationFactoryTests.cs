@@ -3,6 +3,7 @@
 
 using System;
 using Avalonia.Animation;
+using Avalonia.Controls;
 using Avalonia.Headless.XUnit;
 using Avalonia.Media;
 using Avalonia.Xaml.Interactions.Custom;
@@ -85,5 +86,21 @@ public class AnimationFactoryTests
     {
         Assert.Throws<ArgumentOutOfRangeException>(() =>
             FluidMoveAnimation.Create(0d, 0d, TimeSpan.FromMilliseconds(-1d)));
+    }
+
+    [AvaloniaFact]
+    public void FluidMoveAnimation_TryRunPreparesControlTransform()
+    {
+        var target = new Border { RenderTransform = new RotateTransform() };
+
+        bool started = FluidMoveAnimation.TryRun(
+            target,
+            12d,
+            -8d,
+            TimeSpan.Zero);
+
+        Assert.True(started);
+        Assert.IsType<TranslateTransform>(target.RenderTransform);
+        Assert.False(FluidMoveAnimation.TryRun(null, 0d, 0d, TimeSpan.Zero));
     }
 }

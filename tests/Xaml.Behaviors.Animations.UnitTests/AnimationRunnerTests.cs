@@ -1,6 +1,8 @@
 // Copyright (c) Wiesław Šoltés. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for details.
 
+using System;
+using System.Threading.Tasks;
 using Avalonia.Animation;
 using Avalonia.Controls;
 using Avalonia.Headless.XUnit;
@@ -27,6 +29,8 @@ public class AnimationRunnerTests
     {
         Assert.False(AnimationRunner.TryRun(null, null));
         Assert.False(AnimationRunner.TryRun(null, new Border()));
+        Assert.Null(AnimationRunner.TryRunAsync(null, null));
+        Assert.Null(AnimationRunner.TryRunAsync(null, new Border()));
     }
 
     [AvaloniaFact]
@@ -49,5 +53,18 @@ public class AnimationRunnerTests
 
         Assert.False(started);
         Assert.Equal(0, builder.BuildCount);
+    }
+
+    [AvaloniaFact]
+    public async Task TryBuildAndRunAsync_ReturnsCompletionTaskForExplicitAnimation()
+    {
+        var builder = new NullAnimationBuilder();
+        var animation = new Animation { Duration = TimeSpan.Zero };
+
+        Task? task = AnimationRunner.TryBuildAndRunAsync(new Border(), animation, builder);
+
+        Assert.NotNull(task);
+        Assert.Equal(0, builder.BuildCount);
+        await task;
     }
 }

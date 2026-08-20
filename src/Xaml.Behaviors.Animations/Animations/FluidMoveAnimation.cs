@@ -3,6 +3,7 @@
 
 using System;
 using Avalonia.Animation;
+using Avalonia.Controls;
 using Avalonia.Media;
 using Avalonia.Styling;
 
@@ -53,15 +54,48 @@ public static class FluidMoveAnimation
     }
 
     /// <summary>
-    /// Creates and starts a fluid movement animation on a translation transform.
+    /// Creates and starts a fluid movement animation on a control.
     /// </summary>
-    /// <param name="target">The target transform.</param>
+    /// <param name="target">The target control.</param>
     /// <param name="offsetX">The previous horizontal offset.</param>
     /// <param name="offsetY">The previous vertical offset.</param>
     /// <param name="duration">The animation duration.</param>
-    public static void Run(TranslateTransform target, double offsetX, double offsetY, TimeSpan duration)
+    public static void Run(Control target, double offsetX, double offsetY, TimeSpan duration)
     {
+        ArgumentNullException.ThrowIfNull(target);
+        PrepareTransform(target, offsetX, offsetY);
         Animation.Animation animation = Create(offsetX, offsetY, duration);
         AnimationRunner.TryRun(animation, target);
+    }
+
+    /// <summary>
+    /// Prepares a control's translation transform and starts a fluid movement animation.
+    /// </summary>
+    /// <param name="target">The target control.</param>
+    /// <param name="offsetX">The previous horizontal offset.</param>
+    /// <param name="offsetY">The previous vertical offset.</param>
+    /// <param name="duration">The animation duration.</param>
+    /// <returns><c>true</c> when the target was prepared and the animation was started; otherwise, <c>false</c>.</returns>
+    public static bool TryRun(Control? target, double offsetX, double offsetY, TimeSpan duration)
+    {
+        if (target is null)
+        {
+            return false;
+        }
+
+        Run(target, offsetX, offsetY, duration);
+        return true;
+    }
+
+    private static void PrepareTransform(Control target, double offsetX, double offsetY)
+    {
+        if (target.RenderTransform is not TranslateTransform transform)
+        {
+            transform = new TranslateTransform();
+            target.RenderTransform = transform;
+        }
+
+        transform.X = offsetX;
+        transform.Y = offsetY;
     }
 }
