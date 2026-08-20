@@ -50,10 +50,7 @@ public class FadeInBehavior : AttachedToVisualTreeBehavior<Visual>
             return DisposableAction.Empty;
         }
 
-        Animation.Animation animation = AnimationFactory.CreateFadeInTimeline(
-            InitialDelay,
-            Duration,
-            InitialDelay + Duration);
+        Animation.Animation animation = AnimationFactory.CreateFadeIn(InitialDelay, Duration);
         AnimationRunner.TryRun(animation, AssociatedObject);
 
         return DisposableAction.Empty;

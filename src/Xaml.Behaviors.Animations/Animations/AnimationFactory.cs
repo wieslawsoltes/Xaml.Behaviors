@@ -38,7 +38,7 @@ public static class AnimationFactory
     /// <param name="totalDuration">The total animation duration.</param>
     /// <returns>The configured fade-in animation.</returns>
     /// <exception cref="ArgumentOutOfRangeException">
-    /// Thrown when any supplied time is negative.
+    /// Thrown when any supplied time is negative or the key times are not chronological.
     /// </exception>
     public static Animation.Animation CreateFadeInTimeline(
         TimeSpan initialDelay,
@@ -48,6 +48,8 @@ public static class AnimationFactory
         ArgumentOutOfRangeException.ThrowIfLessThan(initialDelay, TimeSpan.Zero);
         ArgumentOutOfRangeException.ThrowIfLessThan(fadeCompletionTime, TimeSpan.Zero);
         ArgumentOutOfRangeException.ThrowIfLessThan(totalDuration, TimeSpan.Zero);
+        ArgumentOutOfRangeException.ThrowIfGreaterThan(initialDelay, fadeCompletionTime);
+        ArgumentOutOfRangeException.ThrowIfGreaterThan(fadeCompletionTime, totalDuration);
 
         return new Animation.Animation
         {

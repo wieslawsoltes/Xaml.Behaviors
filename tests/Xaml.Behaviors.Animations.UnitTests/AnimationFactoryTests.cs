@@ -43,7 +43,7 @@ public class AnimationFactoryTests
     public void CreateFadeInTimeline_PreservesExplicitKeyTimes()
     {
         TimeSpan delay = TimeSpan.FromMilliseconds(500);
-        TimeSpan completion = TimeSpan.FromMilliseconds(250);
+        TimeSpan completion = TimeSpan.FromMilliseconds(650);
         TimeSpan totalDuration = TimeSpan.FromMilliseconds(750);
 
         Avalonia.Animation.Animation animation = AnimationFactory.CreateFadeInTimeline(
@@ -57,6 +57,20 @@ public class AnimationFactoryTests
             keyFrame => Assert.Equal(TimeSpan.Zero, keyFrame.KeyTime),
             keyFrame => Assert.Equal(delay, keyFrame.KeyTime),
             keyFrame => Assert.Equal(completion, keyFrame.KeyTime));
+    }
+
+    [AvaloniaTheory]
+    [InlineData(500, 250, 750)]
+    [InlineData(500, 800, 750)]
+    public void CreateFadeInTimeline_RejectsNonChronologicalKeyTimes(
+        double delayMilliseconds,
+        double completionMilliseconds,
+        double durationMilliseconds)
+    {
+        Assert.Throws<ArgumentOutOfRangeException>(() => AnimationFactory.CreateFadeInTimeline(
+            TimeSpan.FromMilliseconds(delayMilliseconds),
+            TimeSpan.FromMilliseconds(completionMilliseconds),
+            TimeSpan.FromMilliseconds(durationMilliseconds)));
     }
 
     [AvaloniaFact]
