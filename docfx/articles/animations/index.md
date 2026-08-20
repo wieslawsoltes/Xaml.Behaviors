@@ -39,7 +39,7 @@ The composition catalogs are attached properties, so they can be used with no be
 </UserControl>
 ```
 
-The attached values are durations in milliseconds. The animation begins when the element receives a composition visual.
+The attached values are durations in milliseconds. The animation begins when the element receives a composition visual. A zero duration applies the final key-frame state immediately; a positive duration runs through the compositor.
 
 ## Direct use from code
 
