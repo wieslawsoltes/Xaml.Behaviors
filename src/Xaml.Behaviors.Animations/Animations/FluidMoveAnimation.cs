@@ -29,6 +29,7 @@ public static class FluidMoveAnimation
         return new Animation.Animation
         {
             Duration = duration,
+            FillMode = FillMode.Forward,
             Children =
             {
                 new KeyFrame

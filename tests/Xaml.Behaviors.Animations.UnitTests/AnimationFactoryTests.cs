@@ -6,6 +6,7 @@ using Avalonia.Animation;
 using Avalonia.Controls;
 using Avalonia.Headless.XUnit;
 using Avalonia.Media;
+using Avalonia.Threading;
 using Avalonia.Xaml.Interactions.Custom;
 using Xunit;
 
@@ -81,6 +82,7 @@ public class AnimationFactoryTests
         var animation = FluidMoveAnimation.Create(12d, -8d, duration);
 
         Assert.Equal(duration, animation.Duration);
+        Assert.Equal(FillMode.Forward, animation.FillMode);
         Assert.Collection(
             animation.Children,
             keyFrame =>
@@ -114,7 +116,10 @@ public class AnimationFactoryTests
             TimeSpan.Zero);
 
         Assert.True(started);
-        Assert.IsType<TranslateTransform>(target.RenderTransform);
+        TranslateTransform transform = Assert.IsType<TranslateTransform>(target.RenderTransform);
+        Dispatcher.UIThread.RunJobs();
+        Assert.Equal(0d, transform.X);
+        Assert.Equal(0d, transform.Y);
         Assert.False(FluidMoveAnimation.TryRun(null, 0d, 0d, TimeSpan.Zero));
     }
 }
