@@ -1,9 +1,7 @@
 // Copyright (c) Wiesław Šoltés. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for details.
 using System;
-using System.Numerics;
 using Avalonia.Controls;
-using Avalonia.Rendering.Composition;
 using Avalonia.Xaml.Interactivity;
 
 namespace Avalonia.Xaml.Interactions.Custom;
@@ -48,15 +46,12 @@ public class ParallaxBehavior : Behavior<Control>, IObserver<Avalonia.Vector>
         set => SetValue(ParallaxRatioProperty, value);
     }
 
-    private CompositionVisual? _visual;
     private IDisposable? _scrollSubscription;
 
     /// <inheritdoc />
     protected override void OnAttachedToVisualTree()
     {
         base.OnAttachedToVisualTree();
-        UpdateVisual();
-        
         if (SourceScrollViewer == null)
         {
             // Try to find parent ScrollViewer
@@ -84,13 +79,7 @@ public class ParallaxBehavior : Behavior<Control>, IObserver<Avalonia.Vector>
     {
         base.OnDetachedFromVisualTree();
         _scrollSubscription?.Dispose();
-        _visual = null;
-    }
-
-    private void UpdateVisual()
-    {
-        if (AssociatedObject is null) return;
-        _visual = ElementComposition.GetElementVisual(AssociatedObject);
+        _scrollSubscription = null;
     }
 
     /// <inheritdoc />
@@ -106,29 +95,6 @@ public class ParallaxBehavior : Behavior<Control>, IObserver<Avalonia.Vector>
     /// <inheritdoc />
     public void OnNext(Avalonia.Vector value)
     {
-        OnScrollChanged(value);
-    }
-
-    private void OnScrollChanged(Vector offset)
-    {
-        if (_visual == null) UpdateVisual();
-        if (_visual == null) return;
-
-        // We want to offset the element based on the scroll position.
-        // If ParallaxRatio is 0.2, we want the element to move 0.2 * ScrollOffset.
-        // But wait, if we are inside the ScrollViewer, we are already moving with it.
-        // If we want to appear "slower", we need to offset it in the direction of scroll?
-        // Or opposite?
-        
-        // Standard Parallax: Background moves slower than foreground.
-        // If we scroll down (Offset.Y increases), the content moves UP relative to the viewport.
-        // To make something move slower, we need to push it DOWN (positive Y translation).
-        
-        // Offset = ScrollOffset * Ratio
-        
-        var yOffset = offset.Y * ParallaxRatio;
-        var xOffset = offset.X * ParallaxRatio;
-
-        _visual.Offset = new Vector3((float)xOffset, (float)yOffset, 0);
+        ParallaxAnimation.Apply(AssociatedObject, value, ParallaxRatio);
     }
 }

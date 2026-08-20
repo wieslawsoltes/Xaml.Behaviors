@@ -28,10 +28,12 @@
     <File Path="README.md" />
   </Folder>
   <Folder Name="/samples/">
+    <Project Path="samples/AnimationsTestApplication/AnimationsTestApplication.csproj" />
     <Project Path="samples/BehaviorsTestApplication/BehaviorsTestApplication.csproj" />
     <Project Path="samples/SourceGeneratorSample/SourceGeneratorSample.csproj" />
   </Folder>
   <Folder Name="/src/">
+    <Project Path="src/Xaml.Behaviors.Animations/Xaml.Behaviors.Animations.csproj" />
     <Project Path="src/Xaml.Behaviors.Avalonia/Xaml.Behaviors.Avalonia.csproj" />
     <Project Path="src/Xaml.Behaviors.Interactions.Custom/Xaml.Behaviors.Interactions.Custom.csproj" />
     <Project Path="src/Xaml.Behaviors.Interactions.DragAndDrop.DataGrid/Xaml.Behaviors.Interactions.DragAndDrop.DataGrid.csproj" />
@@ -47,6 +49,7 @@
     <Project Path="src/Xaml.Behaviors/Xaml.Behaviors.csproj" />
   </Folder>
   <Folder Name="/tests/">
+    <Project Path="tests/Xaml.Behaviors.Animations.UnitTests/Xaml.Behaviors.Animations.UnitTests.csproj" />
     <Project Path="tests/Xaml.Behaviors.Interactions.UnitTests/Xaml.Behaviors.Interactions.UnitTests.csproj" />
     <Project Path="tests/Xaml.Behaviors.Interactivity.UnitTests/Xaml.Behaviors.Interactivity.UnitTests.csproj" />
     <Project Path="tests/Xaml.Behaviors.SourceGenerators.IntegrationTests/Xaml.Behaviors.SourceGenerators.IntegrationTests.csproj" />

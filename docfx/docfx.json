@@ -4,6 +4,7 @@
       "src": [
         {
           "files": [
+            "src/Xaml.Behaviors.Animations/Xaml.Behaviors.Animations.csproj",
             "src/Xaml.Behaviors.Interactions/Xaml.Behaviors.Interactions.csproj",
             "src/Xaml.Behaviors.Interactions.Custom/Xaml.Behaviors.Interactions.Custom.csproj",
             "src/Xaml.Behaviors.Interactions.DragAndDrop/Xaml.Behaviors.Interactions.DragAndDrop.csproj",

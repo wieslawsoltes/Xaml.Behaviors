@@ -1,6 +1,6 @@
 # Transitions
 
-The `Avalonia.Xaml.Interactions.Custom` package provides behaviors, actions and triggers for working with `Transitions` in Avalonia.
+The `Avalonia.Xaml.Interactions.Custom` package provides behaviors, actions and triggers for working with `Transitions` in Avalonia. These adapters delegate collection changes to `TransitionOperations` from the standalone `Xaml.Behaviors.Animations` package.
 
 ## Actions
 

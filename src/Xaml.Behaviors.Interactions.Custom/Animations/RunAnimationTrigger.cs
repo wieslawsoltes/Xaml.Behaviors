@@ -50,10 +50,10 @@ public class RunAnimationTrigger : AttachedToVisualTreeTriggerBase<Control>
             return DisposableAction.Empty;
         }
 
-        var animation = Animation ?? AnimationBuilder?.Build(AssociatedObject);
+        Animation.Animation? animation = Animation ?? AnimationBuilder?.Build(AssociatedObject);
         if (animation is not null)
         {
-            var task = animation.RunAsync(AssociatedObject);
+            var task = AnimationRunner.RunAsync(animation, AssociatedObject);
             task.ContinueWith(_ =>
             {
                 Dispatcher.UIThread.Post(() => Interaction.ExecuteActions(AssociatedObject, Actions, null));

@@ -1,0 +1,28 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:controls="using:AnimationsTestApplication.Controls"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             x:Class="AnimationsTestApplication.Views.Pages.TiltAnimationView"
+             x:DataType="x:Object"
+             mc:Ignorable="d"
+             d:DesignWidth="850"
+             d:DesignHeight="600">
+  <StackPanel Margin="28" Spacing="20">
+    <TextBlock Text="Tilt composition effect" FontSize="24" FontWeight="SemiBold" />
+    <TextBlock Text="Move the pointer over the cards. Each sample calls TiltAnimation.Apply and resets on pointer exit."
+               TextWrapping="Wrap" />
+    <WrapPanel HorizontalAlignment="Center" ItemSpacing="24" LineSpacing="24">
+      <controls:TiltAnimationDemoControl Width="280" Height="190" TiltStrength="10">
+        <Border Background="#BBDEFB" CornerRadius="16" Padding="24">
+          <TextBlock Text="10° tilt" FontSize="21" HorizontalAlignment="Center" VerticalAlignment="Center" />
+        </Border>
+      </controls:TiltAnimationDemoControl>
+      <controls:TiltAnimationDemoControl Width="280" Height="190" TiltStrength="22">
+        <Border Background="#C8E6C9" CornerRadius="16" Padding="24">
+          <TextBlock Text="22° tilt" FontSize="21" HorizontalAlignment="Center" VerticalAlignment="Center" />
+        </Border>
+      </controls:TiltAnimationDemoControl>
+    </WrapPanel>
+  </StackPanel>
+</UserControl>

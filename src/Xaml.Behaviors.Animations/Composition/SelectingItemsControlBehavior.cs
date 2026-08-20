@@ -75,7 +75,7 @@ public class SelectingItemsControlBehavior
         // and used GetTemplateChildren() instead of GetVisualDescendants()
         if (newSelection.GetVisualDescendants().FirstOrDefault(s => s.Name == "PART_SelectedPipe") is not { } borderPipe
             || oldSelection.GetVisualDescendants().FirstOrDefault(s => s.Name == "PART_SelectedPipe") is not
-                { } oldPipe)
+            { } oldPipe)
         {
             return;
         }

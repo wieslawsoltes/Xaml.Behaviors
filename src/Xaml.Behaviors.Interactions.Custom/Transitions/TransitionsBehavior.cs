@@ -36,14 +36,13 @@ public class TransitionsBehavior : AttachedToVisualTreeBehavior<Control>
             return DisposableAction.Empty;
         }
 
-        _oldTransitions = AssociatedObject.Transitions;
-        AssociatedObject.Transitions = TransitionsSource;
+        _oldTransitions = TransitionOperations.Replace(AssociatedObject, TransitionsSource);
 
         return DisposableAction.Create(() =>
         {
             if (AssociatedObject is not null)
             {
-                AssociatedObject.Transitions = _oldTransitions;
+                TransitionOperations.Replace(AssociatedObject, _oldTransitions);
             }
         });
     }

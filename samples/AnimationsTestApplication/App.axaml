@@ -1,0 +1,13 @@
+<Application xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Class="AnimationsTestApplication.App"
+             Name="AnimationsTestApplication"
+             RequestedThemeVariant="Light">
+  <Application.Styles>
+    <FluentTheme />
+    <StyleInclude Source="/SideBar.axaml" />
+    <Style Selector="Button">
+      <Setter Property="HorizontalContentAlignment" Value="Center" />
+    </Style>
+  </Application.Styles>
+</Application>

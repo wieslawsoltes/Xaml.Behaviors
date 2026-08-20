@@ -51,13 +51,7 @@ public class BeginAnimationAction : StyledElementAction
             return false;
         }
 
-        var control = TargetControl ?? sender as Control;
-        if (control is null || Animation is null)
-        {
-            return false;
-        }
-
-        _ = Animation.RunAsync(control);
-        return true;
+        Control? control = TargetControl ?? sender as Control;
+        return AnimationRunner.TryRun(Animation, control);
     }
 }

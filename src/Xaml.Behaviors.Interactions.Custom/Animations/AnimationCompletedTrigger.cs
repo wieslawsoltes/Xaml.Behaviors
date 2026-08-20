@@ -44,7 +44,7 @@ public class AnimationCompletedTrigger : AttachedToVisualTreeTrigger
 
         async Task Run()
         {
-            await Animation.RunAsync(AssociatedObject);
+            await AnimationRunner.RunAsync(Animation, AssociatedObject);
             Dispatcher.UIThread.Post(() => Execute(parameter: null));
         }
     }

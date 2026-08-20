@@ -3,11 +3,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Avalonia.Animation;
 using Avalonia.Controls;
 using Avalonia.Layout;
 using Avalonia.Media;
-using Avalonia.Styling;
 using Avalonia.Xaml.Interactivity;
 
 namespace Avalonia.Xaml.Interactions.Custom;
@@ -137,33 +135,7 @@ public class FluidMoveBehavior : Behavior<Visual>
         transform.X = dx;
         transform.Y = dy;
 
-        var animation = new Animation.Animation
-        {
-            Duration = Duration,
-            Children =
-            {
-                new KeyFrame
-                {
-                    Cue = new Cue(0d),
-                    Setters =
-                    {
-                        new Setter(TranslateTransform.XProperty, dx),
-                        new Setter(TranslateTransform.YProperty, dy)
-                    }
-                },
-                new KeyFrame
-                {
-                    Cue = new Cue(1d),
-                    Setters =
-                    {
-                        new Setter(TranslateTransform.XProperty, 0d),
-                        new Setter(TranslateTransform.YProperty, 0d)
-                    }
-                }
-            }
-        };
-
-        _ = animation.RunAsync(transform);
+        FluidMoveAnimation.Run(transform, dx, dy, Duration);
 
         _positions[control] = current;
     }

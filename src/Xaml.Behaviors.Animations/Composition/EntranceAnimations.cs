@@ -178,7 +178,7 @@ public static class EntranceAnimations
     /// Applies the animate.css rotateIn animation.
     /// </summary>
     public static void SetRotateIn(Control element, double milliseconds) =>
-        Run(element, milliseconds, () => CreateRotateIn( -90f, new Vector2(0.5f, 0.5f)), ensureCenterPoint: true);
+        Run(element, milliseconds, () => CreateRotateIn(-90f, new Vector2(0.5f, 0.5f)), ensureCenterPoint: true);
 
     /// <summary>
     /// Applies the animate.css rotateInDownLeft animation.

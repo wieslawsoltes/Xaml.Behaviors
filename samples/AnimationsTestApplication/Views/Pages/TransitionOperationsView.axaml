@@ -1,0 +1,27 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:controls="using:AnimationsTestApplication.Controls"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             x:Class="AnimationsTestApplication.Views.Pages.TransitionOperationsView"
+             x:DataType="x:Object"
+             mc:Ignorable="d"
+             d:DesignWidth="850"
+             d:DesignHeight="600">
+  <StackPanel Margin="28" Spacing="20">
+    <TextBlock Text="Transition operations" FontSize="24" FontWeight="SemiBold" />
+    <TextBlock Text="Click the card to transition its opacity. The sample adds and removes DoubleTransition through TransitionOperations."
+               TextWrapping="Wrap" />
+    <controls:TransitionOperationsDemoControl Width="340"
+                                              Height="220"
+                                              HorizontalAlignment="Center"
+                                              Focusable="True">
+      <Border Background="#FFCDD2" CornerRadius="18" Padding="28">
+        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="10">
+          <TextBlock Text="Click to transition" FontSize="22" FontWeight="SemiBold" />
+          <TextBlock Text="Opacity 1.0 ↔ 0.25" />
+        </StackPanel>
+      </Border>
+    </controls:TransitionOperationsDemoControl>
+  </StackPanel>
+</UserControl>

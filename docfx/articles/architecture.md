@@ -2,6 +2,12 @@
 
 Understanding the internal architecture of `Xaml.Behaviors` helps in writing custom behaviors and debugging complex interactions. The library is built upon the concept of **Attached Properties** and a specific lifecycle management system.
 
+## Package boundaries
+
+`Xaml.Behaviors.Animations` contains reusable Avalonia key-frame animations, composition animation catalogs and effects, animation runners/builders, and transition operations. It references Avalonia only and can be installed without the Interactivity or Interactions packages.
+
+`Xaml.Behaviors.Interactions.Custom` references that package and adds lifecycle adapters such as `FadeInBehavior`, `OrbitEffectBehavior`, actions, and triggers. This keeps animation mechanics independent from behavior attachment and action execution while preserving the existing public XAML APIs.
+
 ## Core Components
 
 ### 1. The `Interaction` Class

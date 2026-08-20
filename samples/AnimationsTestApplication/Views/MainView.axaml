@@ -1,0 +1,82 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:controls="using:AnimationsTestApplication.Controls"
+             xmlns:pages="using:AnimationsTestApplication.Views.Pages"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             x:Class="AnimationsTestApplication.Views.MainView"
+             x:DataType="x:Object"
+             mc:Ignorable="d"
+             d:DesignWidth="1100"
+             d:DesignHeight="760">
+  <UserControl.Styles>
+    <Style Selector="TabItem">
+      <Setter Property="FontSize" Value="15" />
+    </Style>
+  </UserControl.Styles>
+  <Grid RowDefinitions="Auto,*">
+    <Border Padding="20,14" Background="#512BD4">
+      <StackPanel Spacing="3">
+        <TextBlock Text="Xaml.Behaviors.Animations"
+                   Foreground="White"
+                   FontSize="24"
+                   FontWeight="SemiBold" />
+        <TextBlock Text="Standalone Avalonia animation APIs — no behaviors or interactivity dependency"
+                   Foreground="#E8E2FF"
+                   FontSize="14" />
+      </StackPanel>
+    </Border>
+    <controls:SingleSelectionTabControl Grid.Row="1"
+                                        SelectedIndex="0"
+                                        Classes="sidebar">
+      <TabItem Header="Key-frame runner">
+        <pages:KeyFrameAnimationsView />
+      </TabItem>
+      <TabItem Header="Fluid move">
+        <pages:FluidMoveAnimationView />
+      </TabItem>
+      <TabItem Header="Fade">
+        <pages:FadeAnimationView />
+      </TabItem>
+      <TabItem Header="Sliding">
+        <pages:SlidingAnimationView />
+      </TabItem>
+      <TabItem Header="Scale">
+        <pages:ScaleAnimationView />
+      </TabItem>
+      <TabItem Header="Rotate">
+        <pages:RotateAnimationView />
+      </TabItem>
+      <TabItem Header="Attention catalog">
+        <pages:AttentionAnimationsView />
+      </TabItem>
+      <TabItem Header="Entrance catalog">
+        <pages:EntranceAnimationsView />
+      </TabItem>
+      <TabItem Header="Exit catalog">
+        <pages:ExitAnimationsView />
+      </TabItem>
+      <TabItem Header="Framer Motion">
+        <pages:FramerMotionAnimationsView />
+      </TabItem>
+      <TabItem Header="Special catalog">
+        <pages:SpecialAnimationsView />
+      </TabItem>
+      <TabItem Header="Selection indicator">
+        <pages:SelectionAnimationView />
+      </TabItem>
+      <TabItem Header="Orbit effect">
+        <pages:OrbitAnimationView />
+      </TabItem>
+      <TabItem Header="Tilt effect">
+        <pages:TiltAnimationView />
+      </TabItem>
+      <TabItem Header="Parallax effect">
+        <pages:ParallaxAnimationView />
+      </TabItem>
+      <TabItem Header="Transitions">
+        <pages:TransitionOperationsView />
+      </TabItem>
+    </controls:SingleSelectionTabControl>
+  </Grid>
+</UserControl>

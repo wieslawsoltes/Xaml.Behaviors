@@ -1,0 +1,29 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:controls="using:AnimationsTestApplication.Controls"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             x:Class="AnimationsTestApplication.Views.Pages.FluidMoveAnimationView"
+             x:DataType="x:Object"
+             mc:Ignorable="d"
+             d:DesignWidth="850"
+             d:DesignHeight="600">
+  <StackPanel Margin="28" Spacing="20">
+    <TextBlock Text="Fluid move animation" FontSize="24" FontWeight="SemiBold" />
+    <TextBlock Text="Click the card to run FluidMoveAnimation directly on its TranslateTransform."
+               TextWrapping="Wrap" />
+    <Border Padding="40" ClipToBounds="True" Background="#F5F5F5" CornerRadius="14">
+      <controls:FluidMoveAnimationDemoControl Width="280"
+                                              Height="180"
+                                              HorizontalAlignment="Center"
+                                              Focusable="True">
+        <Border Background="#FFE0B2" CornerRadius="14">
+          <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="8">
+            <TextBlock Text="FluidMoveAnimation" FontSize="19" FontWeight="SemiBold" />
+            <TextBlock Text="Click to animate from alternating offsets" />
+          </StackPanel>
+        </Border>
+      </controls:FluidMoveAnimationDemoControl>
+    </Border>
+  </StackPanel>
+</UserControl>
