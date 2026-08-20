@@ -31,6 +31,7 @@
   <Import Project="..\..\build\TrimmingEnable.targets" />
 
   <PropertyGroup>
+    <AnimationsSourcesBasePath>..\Xaml.Behaviors.Animations</AnimationsSourcesBasePath>
     <InteractivitySourcesBasePath>..\Xaml.Behaviors.Interactivity</InteractivitySourcesBasePath>
     <InteractionsSourcesBasePath>..\Xaml.Behaviors.Interactions</InteractionsSourcesBasePath>
     <InteractionsCustomSourcesBasePath>..\Xaml.Behaviors.Interactions.Custom</InteractionsCustomSourcesBasePath>
@@ -42,6 +43,7 @@
 
   <ItemGroup>
     <Compile Include="**\*.cs" Exclude="bin\**;obj\**" />
+    <Compile Include="$(AnimationsSourcesBasePath)\**\*.cs" LinkBase="Animations" Exclude="$(AnimationsSourcesBasePath)\Properties\**;$(AnimationsSourcesBasePath)\obj\**;$(AnimationsSourcesBasePath)\bin\**" />
     <Compile Include="$(InteractivitySourcesBasePath)\**\*.cs" LinkBase="Interactivity" Exclude="$(InteractivitySourcesBasePath)\Properties\**;$(InteractivitySourcesBasePath)\obj\**;$(InteractivitySourcesBasePath)\bin\**" />
     <Compile Include="$(InteractionsSourcesBasePath)\**\*.cs" LinkBase="Interactions" Exclude="$(InteractionsSourcesBasePath)\Properties\**;$(InteractionsSourcesBasePath)\obj\**;$(InteractionsSourcesBasePath)\bin\**" />
     <Compile Include="$(InteractionsCustomSourcesBasePath)\**\*.cs" LinkBase="Interactions" Exclude="$(InteractionsCustomSourcesBasePath)\Properties\**;$(InteractionsCustomSourcesBasePath)\obj\**;$(InteractionsCustomSourcesBasePath)\bin\**" />

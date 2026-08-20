@@ -49,11 +49,7 @@ public class AnimateOnAttachedBehavior : AttachedToVisualTreeBehavior<Control>
             return DisposableAction.Empty;
         }
 
-        var animation = Animation ?? AnimationBuilder?.Build(AssociatedObject);
-        if (animation is not null)
-        {
-            _ = animation.RunAsync(AssociatedObject);
-        }
+        AnimationRunner.TryBuildAndRun(AssociatedObject, Animation, AnimationBuilder);
 
         return DisposableAction.Empty;
     }

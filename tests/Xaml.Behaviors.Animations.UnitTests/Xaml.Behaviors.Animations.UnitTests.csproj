@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <OutputType>Library</OutputType>
+    <IsPackable>False</IsPackable>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Avalonia" />
+    <PackageReference Include="Avalonia.Desktop" />
+    <PackageReference Include="Avalonia.Skia" />
+    <PackageReference Include="Avalonia.HarfBuzz" />
+    <PackageReference Include="Avalonia.Headless.XUnit" />
+  </ItemGroup>
+
+  <Import Project="..\..\build\XUnit.props" />
+  <Import Project="..\..\build\SignAssembly.props" />
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Xaml.Behaviors.Animations\Xaml.Behaviors.Animations.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,29 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:controls="using:AnimationsTestApplication.Controls"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             x:Class="AnimationsTestApplication.Views.Pages.OrbitAnimationView"
+             x:DataType="x:Object"
+             mc:Ignorable="d"
+             d:DesignWidth="850"
+             d:DesignHeight="600">
+  <StackPanel Margin="28" Spacing="20">
+    <TextBlock Text="Orbit composition effect" FontSize="24" FontWeight="SemiBold" />
+    <TextBlock Text="Press and drag the card. The sample control forwards pointer deltas to OrbitAnimation without an interactivity behavior."
+               TextWrapping="Wrap" />
+    <controls:OrbitAnimationDemoControl Width="340"
+                                        Height="230"
+                                        HorizontalAlignment="Center"
+                                        Sensitivity="0.8"
+                                        Focusable="True">
+      <Border Background="#D1C4E9" CornerRadius="18" Padding="28">
+        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="10">
+          <TextBlock Text="Drag to orbit" FontSize="22" FontWeight="SemiBold" />
+          <TextBlock Text="CompositionVisual.Orientation"
+                     HorizontalAlignment="Center" />
+        </StackPanel>
+      </Border>
+    </controls:OrbitAnimationDemoControl>
+  </StackPanel>
+</UserControl>

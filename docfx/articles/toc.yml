@@ -4,6 +4,8 @@
   href: architecture.md
 - name: MVVM and Behaviors
   href: mvvm-and-behaviors.md
+- name: Animations
+  href: animations/toc.yml
 - name: Interactivity
   href: interactivity/toc.yml
 - name: Interactions

@@ -1,6 +1,6 @@
 # IAnimationBuilder
 
-The `IAnimationBuilder` interface allows for dynamic animation creation.
+The `IAnimationBuilder` interface allows for dynamic animation creation. It is shipped by `Xaml.Behaviors.Animations` and has no behaviors dependency; the animation behaviors and actions consume the same interface.
 
 ```csharp
 public interface IAnimationBuilder

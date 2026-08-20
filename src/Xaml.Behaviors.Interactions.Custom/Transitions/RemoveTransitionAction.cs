@@ -50,17 +50,7 @@ public class RemoveTransitionAction : StyledElementAction
             return false;
         }
 
-        var target = GetValue(StyledElementProperty) ?? sender as StyledElement;
-        if (target?.Transitions is null)
-        {
-            return false;
-        }
-
-        if (Transition is not null)
-        {
-            return target.Transitions.Remove(Transition);
-        }
-
-        return false;
+        StyledElement? target = GetValue(StyledElementProperty) ?? sender as StyledElement;
+        return TransitionOperations.Remove(target, Transition);
     }
 }

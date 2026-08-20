@@ -1,9 +1,9 @@
-using System;
-using System.Numerics;
+// Copyright (c) Wiesław Šoltés. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for details.
+
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Input;
-using Avalonia.Rendering.Composition;
 using Avalonia.Xaml.Interactivity;
 
 namespace Avalonia.Xaml.Interactions.Custom;
@@ -13,10 +13,9 @@ namespace Avalonia.Xaml.Interactions.Custom;
 /// </summary>
 public class OrbitEffectBehavior : StyledElementBehavior<Control>
 {
-    private CompositionVisual? _visual;
+    private readonly OrbitAnimation _animation = new();
     private bool _isPressed;
     private Point _lastPosition;
-    private Quaternion _currentOrientation = Quaternion.Identity;
 
     /// <summary>
     /// Identifies the <seealso cref="Sensitivity"/> avalonia property.
@@ -42,7 +41,8 @@ public class OrbitEffectBehavior : StyledElementBehavior<Control>
             AssociatedObject.PointerPressed += OnPointerPressed;
             AssociatedObject.PointerMoved += OnPointerMoved;
             AssociatedObject.PointerReleased += OnPointerReleased;
-            UpdateVisual();
+            AssociatedObject.SizeChanged += OnSizeChanged;
+            OrbitAnimation.UpdateCenterPoint(AssociatedObject);
         }
     }
 
@@ -55,28 +55,9 @@ public class OrbitEffectBehavior : StyledElementBehavior<Control>
             AssociatedObject.PointerPressed -= OnPointerPressed;
             AssociatedObject.PointerMoved -= OnPointerMoved;
             AssociatedObject.PointerReleased -= OnPointerReleased;
+            AssociatedObject.SizeChanged -= OnSizeChanged;
         }
-        _visual = null;
-    }
-
-    private void UpdateVisual()
-    {
-        if (AssociatedObject is null) return;
-
-        var visual = ElementComposition.GetElementVisual(AssociatedObject);
-        if (visual != null && _visual != visual)
-        {
-            _visual = visual;
-            _visual.CenterPoint = new Vector3((float)AssociatedObject.Bounds.Width / 2, (float)AssociatedObject.Bounds.Height / 2, 0);
-
-            AssociatedObject.SizeChanged += (s, e) =>
-            {
-                if (_visual != null)
-                {
-                    _visual.CenterPoint = new Vector3((float)AssociatedObject.Bounds.Width / 2, (float)AssociatedObject.Bounds.Height / 2, 0);
-                }
-            };
-        }
+        _isPressed = false;
     }
 
     private void OnPointerPressed(object? sender, PointerPressedEventArgs e)
@@ -94,24 +75,20 @@ public class OrbitEffectBehavior : StyledElementBehavior<Control>
 
     private void OnPointerMoved(object? sender, PointerEventArgs e)
     {
-        if (!_isPressed || _visual == null) return;
+        if (!_isPressed || AssociatedObject is null)
+        {
+            return;
+        }
 
         var currentPosition = e.GetPosition(AssociatedObject);
         var delta = currentPosition - _lastPosition;
         _lastPosition = currentPosition;
 
-        float rotX = (float)(delta.Y * Sensitivity * 0.01);
-        float rotY = (float)(delta.X * Sensitivity * 0.01);
+        _animation.Rotate(AssociatedObject, delta, Sensitivity);
+    }
 
-        var rotationX = Quaternion.CreateFromAxisAngle(Vector3.UnitX, -rotX);
-        var rotationY = Quaternion.CreateFromAxisAngle(Vector3.UnitY, rotY);
-        
-        _currentOrientation = _currentOrientation * rotationX * rotationY;
-        _currentOrientation = Quaternion.Normalize(_currentOrientation);
-
-        var orientationAnimation = _visual.Compositor.CreateQuaternionKeyFrameAnimation();
-        orientationAnimation.InsertKeyFrame(1.0f, _currentOrientation);
-        orientationAnimation.Duration = TimeSpan.FromMilliseconds(1);
-        _visual.StartAnimation("Orientation", orientationAnimation);
+    private void OnSizeChanged(object? sender, SizeChangedEventArgs e)
+    {
+        OrbitAnimation.UpdateCenterPoint(AssociatedObject);
     }
 }

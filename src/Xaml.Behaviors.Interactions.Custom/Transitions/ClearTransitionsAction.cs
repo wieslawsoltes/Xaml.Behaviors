@@ -34,13 +34,7 @@ public class ClearTransitionsAction : StyledElementAction
             return false;
         }
 
-        var target = GetValue(StyledElementProperty) ?? sender as StyledElement;
-        if (target?.Transitions is null)
-        {
-            return false;
-        }
-
-        target.Transitions.Clear();
-        return true;
+        StyledElement? target = GetValue(StyledElementProperty) ?? sender as StyledElement;
+        return TransitionOperations.Clear(target);
     }
 }

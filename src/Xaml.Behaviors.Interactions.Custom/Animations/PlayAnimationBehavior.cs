@@ -28,12 +28,7 @@ public class PlayAnimationBehavior : AttachedToVisualTreeBehavior<Visual>
     /// <inheritdoc />
     protected override IDisposable OnAttachedToVisualTreeOverride()
     {
-        if (AssociatedObject is null || Animation is null)
-        {
-            return DisposableAction.Empty;
-        }
-
-        _ = Animation.RunAsync(AssociatedObject);
+        AnimationRunner.TryRun(Animation, AssociatedObject);
         return DisposableAction.Empty;
     }
 }

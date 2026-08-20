@@ -33,13 +33,6 @@ public class StartAnimationAction : AvaloniaObject, IAction
     /// <returns>True if the animation was started; otherwise, false.</returns>
     public object Execute(object? sender, object? parameter)
     {
-        if (sender is not Control control || Animation is null)
-        {
-            return false;
-        }
-
-        _ = Animation.RunAsync(control);
-
-        return true;
+        return AnimationRunner.TryRun(Animation, sender as Control);
     }
 }

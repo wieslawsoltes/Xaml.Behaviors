@@ -15,6 +15,10 @@ In addition to the classic reflection-based behaviors from WPF/UWP, this port ad
 
 See the [AOT-friendly behaviors docs](docfx/articles/source-generators/index.md) for examples and guidance.
 
+Animation definitions and composition helpers are also available independently through `Xaml.Behaviors.Animations`. This package depends on Avalonia only; behavior, action, and trigger adapters in `Xaml.Behaviors.Interactions.Custom` reuse the same implementation. See the [standalone animations guide](docfx/articles/animations/index.md).
+
+The [standalone animations sample](samples/AnimationsTestApplication/README.md) demonstrates every feature family in a dedicated tab without referencing the behaviors framework.
+
 ## Building XAML Behaviors Avalonia
 
 First, clone the repository or download the latest zip.
@@ -75,6 +79,7 @@ and install the package like this:
 | Package | NuGet | Description |
 |---------|-------|-------------|
 | [Xaml.Behaviors](https://www.nuget.org/packages/Xaml.Behaviors) | [![NuGet](https://img.shields.io/nuget/v/Xaml.Behaviors.svg)](https://www.nuget.org/packages/Xaml.Behaviors) | Complete library of behaviors, actions and triggers for Avalonia applications. |
+| [Xaml.Behaviors.Animations](https://www.nuget.org/packages/Xaml.Behaviors.Animations) | [![NuGet](https://img.shields.io/nuget/v/Xaml.Behaviors.Animations.svg)](https://www.nuget.org/packages/Xaml.Behaviors.Animations) | Reusable Avalonia animations, composition effects, and transition helpers with no behaviors dependency. |
 | [Xaml.Behaviors.Avalonia](https://www.nuget.org/packages/Xaml.Behaviors.Avalonia) | [![NuGet](https://img.shields.io/nuget/v/Xaml.Behaviors.Avalonia.svg)](https://www.nuget.org/packages/Xaml.Behaviors.Avalonia) | Meta package that bundles all Avalonia XAML Behaviors for easy installation. |
 | [Xaml.Behaviors.Interactivity](https://www.nuget.org/packages/Xaml.Behaviors.Interactivity) | [![NuGet](https://img.shields.io/nuget/v/Xaml.Behaviors.Interactivity.svg)](https://www.nuget.org/packages/Xaml.Behaviors.Interactivity) | Foundation library providing base classes for actions, triggers and behaviors. |
 | [Xaml.Behaviors.Interactions](https://www.nuget.org/packages/Xaml.Behaviors.Interactions) | [![NuGet](https://img.shields.io/nuget/v/Xaml.Behaviors.Interactions.svg)](https://www.nuget.org/packages/Xaml.Behaviors.Interactions) | Core collection of common triggers and actions for Avalonia. |

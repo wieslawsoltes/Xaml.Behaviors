@@ -43,18 +43,6 @@ public class StartBuiltAnimationAction : AvaloniaObject, IAction
     /// <inheritdoc />
     public object Execute(object? sender, object? parameter)
     {
-        if (sender is not Control control)
-        {
-            return false;
-        }
-
-        var animation = Animation ?? AnimationBuilder?.Build(control);
-        if (animation is null)
-        {
-            return false;
-        }
-
-        _ = animation.RunAsync(control);
-        return true;
+        return AnimationRunner.TryBuildAndRun(sender as Control, Animation, AnimationBuilder);
     }
 }

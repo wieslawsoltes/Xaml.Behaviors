@@ -1,8 +1,6 @@
 // Copyright (c) Wiesław Šoltés. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for details.
 using System;
-using Avalonia.Animation;
-using Avalonia.Styling;
 using Avalonia.Xaml.Interactivity;
 
 namespace Avalonia.Xaml.Interactions.Custom;
@@ -52,19 +50,8 @@ public class FadeInBehavior : AttachedToVisualTreeBehavior<Visual>
             return DisposableAction.Empty;
         }
 
-        var totalDuration = InitialDelay + Duration;
-
-        var animation = new Animation.Animation
-        {
-            Duration = totalDuration,
-            Children =
-            {
-                new KeyFrame {KeyTime = TimeSpan.Zero, Setters = {new Setter(Visual.OpacityProperty, 0d),}},
-                new KeyFrame {KeyTime = InitialDelay, Setters = {new Setter(Visual.OpacityProperty, 0d),}},
-                new KeyFrame {KeyTime = Duration, Setters = {new Setter(Visual.OpacityProperty, 1d),}}
-            }
-        };
-        animation.RunAsync(AssociatedObject);
+        Animation.Animation animation = AnimationFactory.CreateFadeIn(InitialDelay, Duration);
+        AnimationRunner.TryRun(animation, AssociatedObject);
 
         return DisposableAction.Empty;
     }

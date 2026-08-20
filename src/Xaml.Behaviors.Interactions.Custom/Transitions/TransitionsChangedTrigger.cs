@@ -1,8 +1,6 @@
 // Copyright (c) Wiesław Šoltés. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for details.
-using Avalonia.Animation;
 using Avalonia.Controls;
-using Avalonia.Reactive;
 using Avalonia.Threading;
 using Avalonia.Xaml.Interactivity;
 
@@ -21,11 +19,12 @@ public class TransitionsChangedTrigger : DisposingTrigger<Control>
             return DisposableAction.Empty;
         }
 
-        return AssociatedObject.GetObservable(StyledElement.TransitionsProperty)
-            .Subscribe(new AnonymousObserver<Transitions?>(_ =>
+        return TransitionOperations.Observe(
+            AssociatedObject,
+            _ =>
             {
                 Dispatcher.UIThread.Post(() => Execute(null));
-            }));
+            });
     }
 
     private void Execute(object? parameter)

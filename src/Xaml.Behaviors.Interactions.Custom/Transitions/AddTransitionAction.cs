@@ -50,15 +50,7 @@ public class AddTransitionAction : StyledElementAction
             return false;
         }
 
-        var target = GetValue(StyledElementProperty) ?? sender as StyledElement;
-        if (target is null || Transition is null)
-        {
-            return false;
-        }
-
-        target.Transitions ??= [];
-        target.Transitions.Add(Transition);
-
-        return true;
+        StyledElement? target = GetValue(StyledElementProperty) ?? sender as StyledElement;
+        return TransitionOperations.Add(target, Transition);
     }
 }

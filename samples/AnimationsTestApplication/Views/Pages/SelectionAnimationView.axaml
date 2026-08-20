@@ -1,0 +1,33 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:animations="using:Avalonia.Xaml.Interactions.Custom"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             x:Class="AnimationsTestApplication.Views.Pages.SelectionAnimationView"
+             x:DataType="x:Object"
+             mc:Ignorable="d"
+             d:DesignWidth="850"
+             d:DesignHeight="600">
+  <StackPanel Margin="28" Spacing="20">
+    <TextBlock Text="Selection indicator animation" FontSize="24" FontWeight="SemiBold" />
+    <TextBlock Text="SelectingItemsControlBehavior delegates to the reusable SelectionIndicatorAnimation primitive in the standalone package; neither depends on the behaviors framework."
+               TextWrapping="Wrap" />
+    <TabControl animations:SelectingItemsControlBehavior.EnableSelectionAnimation="True"
+                HorizontalAlignment="Stretch">
+      <TabItem Header="First">
+        <Border Height="260" Background="#E3F2FD" Padding="30">
+          <TextBlock Text="Select another tab to animate the Fluent selection indicator."
+                     TextWrapping="Wrap"
+                     HorizontalAlignment="Center"
+                     VerticalAlignment="Center" />
+        </Border>
+      </TabItem>
+      <TabItem Header="Second">
+        <Border Height="260" Background="#E8F5E9" />
+      </TabItem>
+      <TabItem Header="Third">
+        <Border Height="260" Background="#FFF3E0" />
+      </TabItem>
+    </TabControl>
+  </StackPanel>
+</UserControl>

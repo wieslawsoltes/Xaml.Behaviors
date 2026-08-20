@@ -24,8 +24,8 @@ public class TransitionsBehavior : AttachedToVisualTreeBehavior<Control>
     /// </summary>
     public Transitions? TransitionsSource
     {
-        get => GetValue(TransitionsProperty);
-        set => SetValue(TransitionsProperty, value);
+        get => GetValue(TransitionsSourceProperty);
+        set => SetValue(TransitionsSourceProperty, value);
     }
 
     /// <inheritdoc />
@@ -36,14 +36,13 @@ public class TransitionsBehavior : AttachedToVisualTreeBehavior<Control>
             return DisposableAction.Empty;
         }
 
-        _oldTransitions = AssociatedObject.Transitions;
-        AssociatedObject.Transitions = TransitionsSource;
+        _oldTransitions = TransitionOperations.Replace(AssociatedObject, TransitionsSource);
 
         return DisposableAction.Create(() =>
         {
             if (AssociatedObject is not null)
             {
-                AssociatedObject.Transitions = _oldTransitions;
+                TransitionOperations.Replace(AssociatedObject, _oldTransitions);
             }
         });
     }
