@@ -116,6 +116,25 @@ public class CompositionAnimationTests
     }
 
     [AvaloniaFact]
+    public void TiltAnimation_AnimatesBackToNeutralAtCenter()
+    {
+        var target = new Border { Width = 100d, Height = 80d };
+        var window = new Window { Content = target };
+        window.Show();
+        Dispatcher.UIThread.RunJobs();
+
+        try
+        {
+            Assert.True(TiltAnimation.Apply(target, new Point(100d, 40d), 5d));
+            Assert.True(TiltAnimation.Apply(target, new Point(50d, 40d), 5d));
+        }
+        finally
+        {
+            window.Close();
+        }
+    }
+
+    [AvaloniaFact]
     public void CompositionEffects_ReturnFalseWithoutTargetVisuals()
     {
         var orbit = new OrbitAnimation();

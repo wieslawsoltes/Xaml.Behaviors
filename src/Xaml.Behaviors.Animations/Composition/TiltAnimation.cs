@@ -73,13 +73,13 @@ public static class TiltAnimation
     /// <returns><c>true</c> when a composition visual was animated; otherwise, <c>false</c>.</returns>
     public static bool Apply(Control? target, Point pointerPosition, double tiltStrength)
     {
-        if (target is null)
+        if (target is null || target.Bounds.Width <= 0d || target.Bounds.Height <= 0d)
         {
             return false;
         }
 
-        return TryCalculateOrientation(target.Bounds.Size, pointerPosition, tiltStrength, out Quaternion orientation)
-            && AnimateTo(target, orientation, TimeSpan.FromMilliseconds(50));
+        Quaternion orientation = CalculateOrientation(target.Bounds.Size, pointerPosition, tiltStrength);
+        return AnimateTo(target, orientation, TimeSpan.FromMilliseconds(50));
     }
 
     /// <summary>
