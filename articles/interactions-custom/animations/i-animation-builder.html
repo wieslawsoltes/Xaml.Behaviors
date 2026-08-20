@@ -83,7 +83,7 @@
         <article data-uid="">
 <h1 id="ianimationbuilder">IAnimationBuilder</h1>
 
-<p>The <code>IAnimationBuilder</code> interface allows for dynamic animation creation.</p>
+<p>The <code>IAnimationBuilder</code> interface allows for dynamic animation creation. It is shipped by <code>Xaml.Behaviors.Animations</code> and has no behaviors dependency; the animation behaviors and actions consume the same interface.</p>
 <pre><code class="lang-csharp">public interface IAnimationBuilder
 {
     Animation.Animation? Build(Control control);

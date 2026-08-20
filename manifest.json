@@ -746,6 +746,34 @@
     },
     {
       "type": "ManagedReference",
+      "source_relative_path": "api/Avalonia.Xaml.Interactions.Custom.AnimationFactory.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Avalonia.Xaml.Interactions.Custom.AnimationFactory.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Avalonia.Xaml.Interactions.Custom.AnimationFactory",
+      "Summary": "<p sourcefile=\"api/Avalonia.Xaml.Interactions.Custom.AnimationFactory.yml\" sourcestartlinenumber=\"1\">Creates commonly used Avalonia key-frame animations.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Avalonia.Xaml.Interactions.Custom.AnimationRunner.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Avalonia.Xaml.Interactions.Custom.AnimationRunner.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Avalonia.Xaml.Interactions.Custom.AnimationRunner",
+      "Summary": "<p sourcefile=\"api/Avalonia.Xaml.Interactions.Custom.AnimationRunner.yml\" sourcestartlinenumber=\"1\">Builds and runs Avalonia animations independently of behaviors, actions, and triggers.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
       "source_relative_path": "api/Avalonia.Xaml.Interactions.Custom.ApplyTreeViewFilterAction.yml",
       "output": {
         ".html": {
@@ -2216,6 +2244,20 @@
     },
     {
       "type": "ManagedReference",
+      "source_relative_path": "api/Avalonia.Xaml.Interactions.Custom.FluidMoveAnimation.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Avalonia.Xaml.Interactions.Custom.FluidMoveAnimation.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Avalonia.Xaml.Interactions.Custom.FluidMoveAnimation",
+      "Summary": "<p sourcefile=\"api/Avalonia.Xaml.Interactions.Custom.FluidMoveAnimation.yml\" sourcestartlinenumber=\"1\">Creates and runs the translation animation used for fluid layout movement.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
       "source_relative_path": "api/Avalonia.Xaml.Interactions.Custom.FluidMoveBehavior.yml",
       "output": {
         ".html": {
@@ -3308,6 +3350,20 @@
     },
     {
       "type": "ManagedReference",
+      "source_relative_path": "api/Avalonia.Xaml.Interactions.Custom.OrbitAnimation.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Avalonia.Xaml.Interactions.Custom.OrbitAnimation.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Avalonia.Xaml.Interactions.Custom.OrbitAnimation",
+      "Summary": "<p sourcefile=\"api/Avalonia.Xaml.Interactions.Custom.OrbitAnimation.yml\" sourcestartlinenumber=\"1\">Maintains and applies a composition orientation for an orbit-style pointer interaction.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
       "source_relative_path": "api/Avalonia.Xaml.Interactions.Custom.OrbitEffectBehavior.yml",
       "output": {
         ".html": {
@@ -3319,6 +3375,20 @@
       "IsMRef": true,
       "Title": "Avalonia.Xaml.Interactions.Custom.OrbitEffectBehavior",
       "Summary": "<p sourcefile=\"api/Avalonia.Xaml.Interactions.Custom.OrbitEffectBehavior.yml\" sourcestartlinenumber=\"1\">A behavior that allows rotating the attached control in 3D space using pointer manipulation.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Avalonia.Xaml.Interactions.Custom.ParallaxAnimation.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Avalonia.Xaml.Interactions.Custom.ParallaxAnimation.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Avalonia.Xaml.Interactions.Custom.ParallaxAnimation",
+      "Summary": "<p sourcefile=\"api/Avalonia.Xaml.Interactions.Custom.ParallaxAnimation.yml\" sourcestartlinenumber=\"1\">Applies composition-based parallax offsets without requiring a behavior.</p>\n"
     },
     {
       "type": "ManagedReference",
@@ -4242,7 +4312,7 @@
       "Uid": null,
       "IsMRef": true,
       "Title": "Avalonia.Xaml.Interactions.Custom.SelectingItemsControlBehavior",
-      "Summary": ""
+      "Summary": "<p sourcefile=\"api/Avalonia.Xaml.Interactions.Custom.SelectingItemsControlBehavior.yml\" sourcestartlinenumber=\"1\">Enables the standard selection indicator animation on selecting items controls.</p>\n"
     },
     {
       "type": "ManagedReference",
@@ -4285,6 +4355,20 @@
       "IsMRef": true,
       "Title": "Avalonia.Xaml.Interactions.Custom.SelectingItemsControlSearchBehavior",
       "Summary": "<p sourcefile=\"api/Avalonia.Xaml.Interactions.Custom.SelectingItemsControlSearchBehavior.yml\" sourcestartlinenumber=\"1\">Filters <xref href=\"Avalonia.Controls.Primitives.SelectingItemsControl\" data-throw-if-not-resolved=\"false\"></xref> items based on the text of a search box.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Avalonia.Xaml.Interactions.Custom.SelectionIndicatorAnimation.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Avalonia.Xaml.Interactions.Custom.SelectionIndicatorAnimation.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Avalonia.Xaml.Interactions.Custom.SelectionIndicatorAnimation",
+      "Summary": "<p sourcefile=\"api/Avalonia.Xaml.Interactions.Custom.SelectionIndicatorAnimation.yml\" sourcestartlinenumber=\"1\">Creates and applies the composition animation used to move a selection indicator between item containers.</p>\n"
     },
     {
       "type": "ManagedReference",
@@ -5100,6 +5184,20 @@
     },
     {
       "type": "ManagedReference",
+      "source_relative_path": "api/Avalonia.Xaml.Interactions.Custom.TiltAnimation.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Avalonia.Xaml.Interactions.Custom.TiltAnimation.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Avalonia.Xaml.Interactions.Custom.TiltAnimation",
+      "Summary": "<p sourcefile=\"api/Avalonia.Xaml.Interactions.Custom.TiltAnimation.yml\" sourcestartlinenumber=\"1\">Calculates and applies composition-based pointer tilt animations.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
       "source_relative_path": "api/Avalonia.Xaml.Interactions.Custom.TiltEffectBehavior.yml",
       "output": {
         ".html": {
@@ -5181,6 +5279,20 @@
       "IsMRef": true,
       "Title": "Avalonia.Xaml.Interactions.Custom.ToolTipOpeningTrigger",
       "Summary": "<p sourcefile=\"api/Avalonia.Xaml.Interactions.Custom.ToolTipOpeningTrigger.yml\" sourcestartlinenumber=\"1\">Trigger that listens for the <xref href=\"Avalonia.Controls.ToolTip.ToolTipOpeningEvent\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Avalonia.Xaml.Interactions.Custom.TransitionOperations.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Avalonia.Xaml.Interactions.Custom.TransitionOperations.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Avalonia.Xaml.Interactions.Custom.TransitionOperations",
+      "Summary": "<p sourcefile=\"api/Avalonia.Xaml.Interactions.Custom.TransitionOperations.yml\" sourcestartlinenumber=\"1\">Provides reusable operations for a styled element's transition collection.</p>\n"
     },
     {
       "type": "ManagedReference",
@@ -7609,6 +7721,29 @@
         },
         ".html": {
           "relative_path": "api/toc.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/animations/index.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/animations/index.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "articles/animations/toc.yml",
+      "output": {
+        ".json": {
+          "relative_path": "articles/animations/toc.json"
+        },
+        ".html": {
+          "relative_path": "articles/animations/toc.html"
         }
       },
       "version": ""

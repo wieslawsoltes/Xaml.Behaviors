@@ -3464,6 +3464,121 @@ references:
   isSpec: "True"
   fullName: Avalonia.Xaml.Interactions.Custom.AnimationCompletedTrigger.OnAttachedToVisualTree
   nameWithType: AnimationCompletedTrigger.OnAttachedToVisualTree
+- uid: Avalonia.Xaml.Interactions.Custom.AnimationFactory
+  name: AnimationFactory
+  href: api/Avalonia.Xaml.Interactions.Custom.AnimationFactory.html
+  commentId: T:Avalonia.Xaml.Interactions.Custom.AnimationFactory
+  fullName: Avalonia.Xaml.Interactions.Custom.AnimationFactory
+  nameWithType: AnimationFactory
+- uid: Avalonia.Xaml.Interactions.Custom.AnimationFactory.CreateFadeIn(System.TimeSpan,System.TimeSpan)
+  name: CreateFadeIn(TimeSpan, TimeSpan)
+  href: api/Avalonia.Xaml.Interactions.Custom.AnimationFactory.html#Avalonia_Xaml_Interactions_Custom_AnimationFactory_CreateFadeIn_System_TimeSpan_System_TimeSpan_
+  commentId: M:Avalonia.Xaml.Interactions.Custom.AnimationFactory.CreateFadeIn(System.TimeSpan,System.TimeSpan)
+  fullName: Avalonia.Xaml.Interactions.Custom.AnimationFactory.CreateFadeIn(System.TimeSpan, System.TimeSpan)
+  nameWithType: AnimationFactory.CreateFadeIn(TimeSpan, TimeSpan)
+- uid: Avalonia.Xaml.Interactions.Custom.AnimationFactory.CreateFadeIn*
+  name: CreateFadeIn
+  href: api/Avalonia.Xaml.Interactions.Custom.AnimationFactory.html#Avalonia_Xaml_Interactions_Custom_AnimationFactory_CreateFadeIn_
+  commentId: Overload:Avalonia.Xaml.Interactions.Custom.AnimationFactory.CreateFadeIn
+  isSpec: "True"
+  fullName: Avalonia.Xaml.Interactions.Custom.AnimationFactory.CreateFadeIn
+  nameWithType: AnimationFactory.CreateFadeIn
+- uid: Avalonia.Xaml.Interactions.Custom.AnimationFactory.CreateFadeInTimeline(System.TimeSpan,System.TimeSpan,System.TimeSpan)
+  name: CreateFadeInTimeline(TimeSpan, TimeSpan, TimeSpan)
+  href: api/Avalonia.Xaml.Interactions.Custom.AnimationFactory.html#Avalonia_Xaml_Interactions_Custom_AnimationFactory_CreateFadeInTimeline_System_TimeSpan_System_TimeSpan_System_TimeSpan_
+  commentId: M:Avalonia.Xaml.Interactions.Custom.AnimationFactory.CreateFadeInTimeline(System.TimeSpan,System.TimeSpan,System.TimeSpan)
+  fullName: Avalonia.Xaml.Interactions.Custom.AnimationFactory.CreateFadeInTimeline(System.TimeSpan, System.TimeSpan, System.TimeSpan)
+  nameWithType: AnimationFactory.CreateFadeInTimeline(TimeSpan, TimeSpan, TimeSpan)
+- uid: Avalonia.Xaml.Interactions.Custom.AnimationFactory.CreateFadeInTimeline*
+  name: CreateFadeInTimeline
+  href: api/Avalonia.Xaml.Interactions.Custom.AnimationFactory.html#Avalonia_Xaml_Interactions_Custom_AnimationFactory_CreateFadeInTimeline_
+  commentId: Overload:Avalonia.Xaml.Interactions.Custom.AnimationFactory.CreateFadeInTimeline
+  isSpec: "True"
+  fullName: Avalonia.Xaml.Interactions.Custom.AnimationFactory.CreateFadeInTimeline
+  nameWithType: AnimationFactory.CreateFadeInTimeline
+- uid: Avalonia.Xaml.Interactions.Custom.AnimationRunner
+  name: AnimationRunner
+  href: api/Avalonia.Xaml.Interactions.Custom.AnimationRunner.html
+  commentId: T:Avalonia.Xaml.Interactions.Custom.AnimationRunner
+  fullName: Avalonia.Xaml.Interactions.Custom.AnimationRunner
+  nameWithType: AnimationRunner
+- uid: Avalonia.Xaml.Interactions.Custom.AnimationRunner.RunAsync(Avalonia.Animation.Animation,Avalonia.Animation.Animatable)
+  name: RunAsync(Animation, Animatable)
+  href: api/Avalonia.Xaml.Interactions.Custom.AnimationRunner.html#Avalonia_Xaml_Interactions_Custom_AnimationRunner_RunAsync_Avalonia_Animation_Animation_Avalonia_Animation_Animatable_
+  commentId: M:Avalonia.Xaml.Interactions.Custom.AnimationRunner.RunAsync(Avalonia.Animation.Animation,Avalonia.Animation.Animatable)
+  fullName: Avalonia.Xaml.Interactions.Custom.AnimationRunner.RunAsync(Avalonia.Animation.Animation, Avalonia.Animation.Animatable)
+  nameWithType: AnimationRunner.RunAsync(Animation, Animatable)
+- uid: Avalonia.Xaml.Interactions.Custom.AnimationRunner.RunAsync*
+  name: RunAsync
+  href: api/Avalonia.Xaml.Interactions.Custom.AnimationRunner.html#Avalonia_Xaml_Interactions_Custom_AnimationRunner_RunAsync_
+  commentId: Overload:Avalonia.Xaml.Interactions.Custom.AnimationRunner.RunAsync
+  isSpec: "True"
+  fullName: Avalonia.Xaml.Interactions.Custom.AnimationRunner.RunAsync
+  nameWithType: AnimationRunner.RunAsync
+- uid: Avalonia.Xaml.Interactions.Custom.AnimationRunner.TryBuildAndRun(Avalonia.Controls.Control,Avalonia.Animation.Animation,Avalonia.Xaml.Interactions.Custom.IAnimationBuilder)
+  name: TryBuildAndRun(Control?, Animation?, IAnimationBuilder?)
+  href: api/Avalonia.Xaml.Interactions.Custom.AnimationRunner.html#Avalonia_Xaml_Interactions_Custom_AnimationRunner_TryBuildAndRun_Avalonia_Controls_Control_Avalonia_Animation_Animation_Avalonia_Xaml_Interactions_Custom_IAnimationBuilder_
+  commentId: M:Avalonia.Xaml.Interactions.Custom.AnimationRunner.TryBuildAndRun(Avalonia.Controls.Control,Avalonia.Animation.Animation,Avalonia.Xaml.Interactions.Custom.IAnimationBuilder)
+  name.vb: TryBuildAndRun(Control, Animation, IAnimationBuilder)
+  fullName: Avalonia.Xaml.Interactions.Custom.AnimationRunner.TryBuildAndRun(Avalonia.Controls.Control?, Avalonia.Animation.Animation?, Avalonia.Xaml.Interactions.Custom.IAnimationBuilder?)
+  fullName.vb: Avalonia.Xaml.Interactions.Custom.AnimationRunner.TryBuildAndRun(Avalonia.Controls.Control, Avalonia.Animation.Animation, Avalonia.Xaml.Interactions.Custom.IAnimationBuilder)
+  nameWithType: AnimationRunner.TryBuildAndRun(Control?, Animation?, IAnimationBuilder?)
+  nameWithType.vb: AnimationRunner.TryBuildAndRun(Control, Animation, IAnimationBuilder)
+- uid: Avalonia.Xaml.Interactions.Custom.AnimationRunner.TryBuildAndRun*
+  name: TryBuildAndRun
+  href: api/Avalonia.Xaml.Interactions.Custom.AnimationRunner.html#Avalonia_Xaml_Interactions_Custom_AnimationRunner_TryBuildAndRun_
+  commentId: Overload:Avalonia.Xaml.Interactions.Custom.AnimationRunner.TryBuildAndRun
+  isSpec: "True"
+  fullName: Avalonia.Xaml.Interactions.Custom.AnimationRunner.TryBuildAndRun
+  nameWithType: AnimationRunner.TryBuildAndRun
+- uid: Avalonia.Xaml.Interactions.Custom.AnimationRunner.TryBuildAndRunAsync(Avalonia.Controls.Control,Avalonia.Animation.Animation,Avalonia.Xaml.Interactions.Custom.IAnimationBuilder)
+  name: TryBuildAndRunAsync(Control?, Animation?, IAnimationBuilder?)
+  href: api/Avalonia.Xaml.Interactions.Custom.AnimationRunner.html#Avalonia_Xaml_Interactions_Custom_AnimationRunner_TryBuildAndRunAsync_Avalonia_Controls_Control_Avalonia_Animation_Animation_Avalonia_Xaml_Interactions_Custom_IAnimationBuilder_
+  commentId: M:Avalonia.Xaml.Interactions.Custom.AnimationRunner.TryBuildAndRunAsync(Avalonia.Controls.Control,Avalonia.Animation.Animation,Avalonia.Xaml.Interactions.Custom.IAnimationBuilder)
+  name.vb: TryBuildAndRunAsync(Control, Animation, IAnimationBuilder)
+  fullName: Avalonia.Xaml.Interactions.Custom.AnimationRunner.TryBuildAndRunAsync(Avalonia.Controls.Control?, Avalonia.Animation.Animation?, Avalonia.Xaml.Interactions.Custom.IAnimationBuilder?)
+  fullName.vb: Avalonia.Xaml.Interactions.Custom.AnimationRunner.TryBuildAndRunAsync(Avalonia.Controls.Control, Avalonia.Animation.Animation, Avalonia.Xaml.Interactions.Custom.IAnimationBuilder)
+  nameWithType: AnimationRunner.TryBuildAndRunAsync(Control?, Animation?, IAnimationBuilder?)
+  nameWithType.vb: AnimationRunner.TryBuildAndRunAsync(Control, Animation, IAnimationBuilder)
+- uid: Avalonia.Xaml.Interactions.Custom.AnimationRunner.TryBuildAndRunAsync*
+  name: TryBuildAndRunAsync
+  href: api/Avalonia.Xaml.Interactions.Custom.AnimationRunner.html#Avalonia_Xaml_Interactions_Custom_AnimationRunner_TryBuildAndRunAsync_
+  commentId: Overload:Avalonia.Xaml.Interactions.Custom.AnimationRunner.TryBuildAndRunAsync
+  isSpec: "True"
+  fullName: Avalonia.Xaml.Interactions.Custom.AnimationRunner.TryBuildAndRunAsync
+  nameWithType: AnimationRunner.TryBuildAndRunAsync
+- uid: Avalonia.Xaml.Interactions.Custom.AnimationRunner.TryRun(Avalonia.Animation.Animation,Avalonia.Animation.Animatable)
+  name: TryRun(Animation?, Animatable?)
+  href: api/Avalonia.Xaml.Interactions.Custom.AnimationRunner.html#Avalonia_Xaml_Interactions_Custom_AnimationRunner_TryRun_Avalonia_Animation_Animation_Avalonia_Animation_Animatable_
+  commentId: M:Avalonia.Xaml.Interactions.Custom.AnimationRunner.TryRun(Avalonia.Animation.Animation,Avalonia.Animation.Animatable)
+  name.vb: TryRun(Animation, Animatable)
+  fullName: Avalonia.Xaml.Interactions.Custom.AnimationRunner.TryRun(Avalonia.Animation.Animation?, Avalonia.Animation.Animatable?)
+  fullName.vb: Avalonia.Xaml.Interactions.Custom.AnimationRunner.TryRun(Avalonia.Animation.Animation, Avalonia.Animation.Animatable)
+  nameWithType: AnimationRunner.TryRun(Animation?, Animatable?)
+  nameWithType.vb: AnimationRunner.TryRun(Animation, Animatable)
+- uid: Avalonia.Xaml.Interactions.Custom.AnimationRunner.TryRun*
+  name: TryRun
+  href: api/Avalonia.Xaml.Interactions.Custom.AnimationRunner.html#Avalonia_Xaml_Interactions_Custom_AnimationRunner_TryRun_
+  commentId: Overload:Avalonia.Xaml.Interactions.Custom.AnimationRunner.TryRun
+  isSpec: "True"
+  fullName: Avalonia.Xaml.Interactions.Custom.AnimationRunner.TryRun
+  nameWithType: AnimationRunner.TryRun
+- uid: Avalonia.Xaml.Interactions.Custom.AnimationRunner.TryRunAsync(Avalonia.Animation.Animation,Avalonia.Animation.Animatable)
+  name: TryRunAsync(Animation?, Animatable?)
+  href: api/Avalonia.Xaml.Interactions.Custom.AnimationRunner.html#Avalonia_Xaml_Interactions_Custom_AnimationRunner_TryRunAsync_Avalonia_Animation_Animation_Avalonia_Animation_Animatable_
+  commentId: M:Avalonia.Xaml.Interactions.Custom.AnimationRunner.TryRunAsync(Avalonia.Animation.Animation,Avalonia.Animation.Animatable)
+  name.vb: TryRunAsync(Animation, Animatable)
+  fullName: Avalonia.Xaml.Interactions.Custom.AnimationRunner.TryRunAsync(Avalonia.Animation.Animation?, Avalonia.Animation.Animatable?)
+  fullName.vb: Avalonia.Xaml.Interactions.Custom.AnimationRunner.TryRunAsync(Avalonia.Animation.Animation, Avalonia.Animation.Animatable)
+  nameWithType: AnimationRunner.TryRunAsync(Animation?, Animatable?)
+  nameWithType.vb: AnimationRunner.TryRunAsync(Animation, Animatable)
+- uid: Avalonia.Xaml.Interactions.Custom.AnimationRunner.TryRunAsync*
+  name: TryRunAsync
+  href: api/Avalonia.Xaml.Interactions.Custom.AnimationRunner.html#Avalonia_Xaml_Interactions_Custom_AnimationRunner_TryRunAsync_
+  commentId: Overload:Avalonia.Xaml.Interactions.Custom.AnimationRunner.TryRunAsync
+  isSpec: "True"
+  fullName: Avalonia.Xaml.Interactions.Custom.AnimationRunner.TryRunAsync
+  nameWithType: AnimationRunner.TryRunAsync
 - uid: Avalonia.Xaml.Interactions.Custom.ApplyTreeViewFilterAction
   name: ApplyTreeViewFilterAction
   href: api/Avalonia.Xaml.Interactions.Custom.ApplyTreeViewFilterAction.html
@@ -9369,6 +9484,60 @@ references:
   isSpec: "True"
   fullName: Avalonia.Xaml.Interactions.Custom.FadeInBehavior.OnAttachedToVisualTreeOverride
   nameWithType: FadeInBehavior.OnAttachedToVisualTreeOverride
+- uid: Avalonia.Xaml.Interactions.Custom.FluidMoveAnimation
+  name: FluidMoveAnimation
+  href: api/Avalonia.Xaml.Interactions.Custom.FluidMoveAnimation.html
+  commentId: T:Avalonia.Xaml.Interactions.Custom.FluidMoveAnimation
+  fullName: Avalonia.Xaml.Interactions.Custom.FluidMoveAnimation
+  nameWithType: FluidMoveAnimation
+- uid: Avalonia.Xaml.Interactions.Custom.FluidMoveAnimation.Create(System.Double,System.Double,System.TimeSpan)
+  name: Create(double, double, TimeSpan)
+  href: api/Avalonia.Xaml.Interactions.Custom.FluidMoveAnimation.html#Avalonia_Xaml_Interactions_Custom_FluidMoveAnimation_Create_System_Double_System_Double_System_TimeSpan_
+  commentId: M:Avalonia.Xaml.Interactions.Custom.FluidMoveAnimation.Create(System.Double,System.Double,System.TimeSpan)
+  name.vb: Create(Double, Double, TimeSpan)
+  fullName: Avalonia.Xaml.Interactions.Custom.FluidMoveAnimation.Create(double, double, System.TimeSpan)
+  fullName.vb: Avalonia.Xaml.Interactions.Custom.FluidMoveAnimation.Create(Double, Double, System.TimeSpan)
+  nameWithType: FluidMoveAnimation.Create(double, double, TimeSpan)
+  nameWithType.vb: FluidMoveAnimation.Create(Double, Double, TimeSpan)
+- uid: Avalonia.Xaml.Interactions.Custom.FluidMoveAnimation.Create*
+  name: Create
+  href: api/Avalonia.Xaml.Interactions.Custom.FluidMoveAnimation.html#Avalonia_Xaml_Interactions_Custom_FluidMoveAnimation_Create_
+  commentId: Overload:Avalonia.Xaml.Interactions.Custom.FluidMoveAnimation.Create
+  isSpec: "True"
+  fullName: Avalonia.Xaml.Interactions.Custom.FluidMoveAnimation.Create
+  nameWithType: FluidMoveAnimation.Create
+- uid: Avalonia.Xaml.Interactions.Custom.FluidMoveAnimation.Run(Avalonia.Controls.Control,System.Double,System.Double,System.TimeSpan)
+  name: Run(Control, double, double, TimeSpan)
+  href: api/Avalonia.Xaml.Interactions.Custom.FluidMoveAnimation.html#Avalonia_Xaml_Interactions_Custom_FluidMoveAnimation_Run_Avalonia_Controls_Control_System_Double_System_Double_System_TimeSpan_
+  commentId: M:Avalonia.Xaml.Interactions.Custom.FluidMoveAnimation.Run(Avalonia.Controls.Control,System.Double,System.Double,System.TimeSpan)
+  name.vb: Run(Control, Double, Double, TimeSpan)
+  fullName: Avalonia.Xaml.Interactions.Custom.FluidMoveAnimation.Run(Avalonia.Controls.Control, double, double, System.TimeSpan)
+  fullName.vb: Avalonia.Xaml.Interactions.Custom.FluidMoveAnimation.Run(Avalonia.Controls.Control, Double, Double, System.TimeSpan)
+  nameWithType: FluidMoveAnimation.Run(Control, double, double, TimeSpan)
+  nameWithType.vb: FluidMoveAnimation.Run(Control, Double, Double, TimeSpan)
+- uid: Avalonia.Xaml.Interactions.Custom.FluidMoveAnimation.Run*
+  name: Run
+  href: api/Avalonia.Xaml.Interactions.Custom.FluidMoveAnimation.html#Avalonia_Xaml_Interactions_Custom_FluidMoveAnimation_Run_
+  commentId: Overload:Avalonia.Xaml.Interactions.Custom.FluidMoveAnimation.Run
+  isSpec: "True"
+  fullName: Avalonia.Xaml.Interactions.Custom.FluidMoveAnimation.Run
+  nameWithType: FluidMoveAnimation.Run
+- uid: Avalonia.Xaml.Interactions.Custom.FluidMoveAnimation.TryRun(Avalonia.Controls.Control,System.Double,System.Double,System.TimeSpan)
+  name: TryRun(Control?, double, double, TimeSpan)
+  href: api/Avalonia.Xaml.Interactions.Custom.FluidMoveAnimation.html#Avalonia_Xaml_Interactions_Custom_FluidMoveAnimation_TryRun_Avalonia_Controls_Control_System_Double_System_Double_System_TimeSpan_
+  commentId: M:Avalonia.Xaml.Interactions.Custom.FluidMoveAnimation.TryRun(Avalonia.Controls.Control,System.Double,System.Double,System.TimeSpan)
+  name.vb: TryRun(Control, Double, Double, TimeSpan)
+  fullName: Avalonia.Xaml.Interactions.Custom.FluidMoveAnimation.TryRun(Avalonia.Controls.Control?, double, double, System.TimeSpan)
+  fullName.vb: Avalonia.Xaml.Interactions.Custom.FluidMoveAnimation.TryRun(Avalonia.Controls.Control, Double, Double, System.TimeSpan)
+  nameWithType: FluidMoveAnimation.TryRun(Control?, double, double, TimeSpan)
+  nameWithType.vb: FluidMoveAnimation.TryRun(Control, Double, Double, TimeSpan)
+- uid: Avalonia.Xaml.Interactions.Custom.FluidMoveAnimation.TryRun*
+  name: TryRun
+  href: api/Avalonia.Xaml.Interactions.Custom.FluidMoveAnimation.html#Avalonia_Xaml_Interactions_Custom_FluidMoveAnimation_TryRun_
+  commentId: Overload:Avalonia.Xaml.Interactions.Custom.FluidMoveAnimation.TryRun
+  isSpec: "True"
+  fullName: Avalonia.Xaml.Interactions.Custom.FluidMoveAnimation.TryRun
+  nameWithType: FluidMoveAnimation.TryRun
 - uid: Avalonia.Xaml.Interactions.Custom.FluidMoveBehavior
   name: FluidMoveBehavior
   href: api/Avalonia.Xaml.Interactions.Custom.FluidMoveBehavior.html
@@ -13076,6 +13245,86 @@ references:
   fullName.vb: Avalonia.Xaml.Interactions.Custom.ObservableTriggerBehavior(Of T).ValueProperty
   nameWithType: ObservableTriggerBehavior<T>.ValueProperty
   nameWithType.vb: ObservableTriggerBehavior(Of T).ValueProperty
+- uid: Avalonia.Xaml.Interactions.Custom.OrbitAnimation
+  name: OrbitAnimation
+  href: api/Avalonia.Xaml.Interactions.Custom.OrbitAnimation.html
+  commentId: T:Avalonia.Xaml.Interactions.Custom.OrbitAnimation
+  fullName: Avalonia.Xaml.Interactions.Custom.OrbitAnimation
+  nameWithType: OrbitAnimation
+- uid: Avalonia.Xaml.Interactions.Custom.OrbitAnimation.CalculateOrientation(System.Numerics.Quaternion,Avalonia.Vector,System.Double)
+  name: CalculateOrientation(Quaternion, Vector, double)
+  href: api/Avalonia.Xaml.Interactions.Custom.OrbitAnimation.html#Avalonia_Xaml_Interactions_Custom_OrbitAnimation_CalculateOrientation_System_Numerics_Quaternion_Avalonia_Vector_System_Double_
+  commentId: M:Avalonia.Xaml.Interactions.Custom.OrbitAnimation.CalculateOrientation(System.Numerics.Quaternion,Avalonia.Vector,System.Double)
+  name.vb: CalculateOrientation(Quaternion, Vector, Double)
+  fullName: Avalonia.Xaml.Interactions.Custom.OrbitAnimation.CalculateOrientation(System.Numerics.Quaternion, Avalonia.Vector, double)
+  fullName.vb: Avalonia.Xaml.Interactions.Custom.OrbitAnimation.CalculateOrientation(System.Numerics.Quaternion, Avalonia.Vector, Double)
+  nameWithType: OrbitAnimation.CalculateOrientation(Quaternion, Vector, double)
+  nameWithType.vb: OrbitAnimation.CalculateOrientation(Quaternion, Vector, Double)
+- uid: Avalonia.Xaml.Interactions.Custom.OrbitAnimation.CalculateOrientation*
+  name: CalculateOrientation
+  href: api/Avalonia.Xaml.Interactions.Custom.OrbitAnimation.html#Avalonia_Xaml_Interactions_Custom_OrbitAnimation_CalculateOrientation_
+  commentId: Overload:Avalonia.Xaml.Interactions.Custom.OrbitAnimation.CalculateOrientation
+  isSpec: "True"
+  fullName: Avalonia.Xaml.Interactions.Custom.OrbitAnimation.CalculateOrientation
+  nameWithType: OrbitAnimation.CalculateOrientation
+- uid: Avalonia.Xaml.Interactions.Custom.OrbitAnimation.Orientation
+  name: Orientation
+  href: api/Avalonia.Xaml.Interactions.Custom.OrbitAnimation.html#Avalonia_Xaml_Interactions_Custom_OrbitAnimation_Orientation
+  commentId: P:Avalonia.Xaml.Interactions.Custom.OrbitAnimation.Orientation
+  fullName: Avalonia.Xaml.Interactions.Custom.OrbitAnimation.Orientation
+  nameWithType: OrbitAnimation.Orientation
+- uid: Avalonia.Xaml.Interactions.Custom.OrbitAnimation.Orientation*
+  name: Orientation
+  href: api/Avalonia.Xaml.Interactions.Custom.OrbitAnimation.html#Avalonia_Xaml_Interactions_Custom_OrbitAnimation_Orientation_
+  commentId: Overload:Avalonia.Xaml.Interactions.Custom.OrbitAnimation.Orientation
+  isSpec: "True"
+  fullName: Avalonia.Xaml.Interactions.Custom.OrbitAnimation.Orientation
+  nameWithType: OrbitAnimation.Orientation
+- uid: Avalonia.Xaml.Interactions.Custom.OrbitAnimation.Reset
+  name: Reset()
+  href: api/Avalonia.Xaml.Interactions.Custom.OrbitAnimation.html#Avalonia_Xaml_Interactions_Custom_OrbitAnimation_Reset
+  commentId: M:Avalonia.Xaml.Interactions.Custom.OrbitAnimation.Reset
+  fullName: Avalonia.Xaml.Interactions.Custom.OrbitAnimation.Reset()
+  nameWithType: OrbitAnimation.Reset()
+- uid: Avalonia.Xaml.Interactions.Custom.OrbitAnimation.Reset*
+  name: Reset
+  href: api/Avalonia.Xaml.Interactions.Custom.OrbitAnimation.html#Avalonia_Xaml_Interactions_Custom_OrbitAnimation_Reset_
+  commentId: Overload:Avalonia.Xaml.Interactions.Custom.OrbitAnimation.Reset
+  isSpec: "True"
+  fullName: Avalonia.Xaml.Interactions.Custom.OrbitAnimation.Reset
+  nameWithType: OrbitAnimation.Reset
+- uid: Avalonia.Xaml.Interactions.Custom.OrbitAnimation.Rotate(Avalonia.Controls.Control,Avalonia.Vector,System.Double)
+  name: Rotate(Control?, Vector, double)
+  href: api/Avalonia.Xaml.Interactions.Custom.OrbitAnimation.html#Avalonia_Xaml_Interactions_Custom_OrbitAnimation_Rotate_Avalonia_Controls_Control_Avalonia_Vector_System_Double_
+  commentId: M:Avalonia.Xaml.Interactions.Custom.OrbitAnimation.Rotate(Avalonia.Controls.Control,Avalonia.Vector,System.Double)
+  name.vb: Rotate(Control, Vector, Double)
+  fullName: Avalonia.Xaml.Interactions.Custom.OrbitAnimation.Rotate(Avalonia.Controls.Control?, Avalonia.Vector, double)
+  fullName.vb: Avalonia.Xaml.Interactions.Custom.OrbitAnimation.Rotate(Avalonia.Controls.Control, Avalonia.Vector, Double)
+  nameWithType: OrbitAnimation.Rotate(Control?, Vector, double)
+  nameWithType.vb: OrbitAnimation.Rotate(Control, Vector, Double)
+- uid: Avalonia.Xaml.Interactions.Custom.OrbitAnimation.Rotate*
+  name: Rotate
+  href: api/Avalonia.Xaml.Interactions.Custom.OrbitAnimation.html#Avalonia_Xaml_Interactions_Custom_OrbitAnimation_Rotate_
+  commentId: Overload:Avalonia.Xaml.Interactions.Custom.OrbitAnimation.Rotate
+  isSpec: "True"
+  fullName: Avalonia.Xaml.Interactions.Custom.OrbitAnimation.Rotate
+  nameWithType: OrbitAnimation.Rotate
+- uid: Avalonia.Xaml.Interactions.Custom.OrbitAnimation.UpdateCenterPoint(Avalonia.Controls.Control)
+  name: UpdateCenterPoint(Control?)
+  href: api/Avalonia.Xaml.Interactions.Custom.OrbitAnimation.html#Avalonia_Xaml_Interactions_Custom_OrbitAnimation_UpdateCenterPoint_Avalonia_Controls_Control_
+  commentId: M:Avalonia.Xaml.Interactions.Custom.OrbitAnimation.UpdateCenterPoint(Avalonia.Controls.Control)
+  name.vb: UpdateCenterPoint(Control)
+  fullName: Avalonia.Xaml.Interactions.Custom.OrbitAnimation.UpdateCenterPoint(Avalonia.Controls.Control?)
+  fullName.vb: Avalonia.Xaml.Interactions.Custom.OrbitAnimation.UpdateCenterPoint(Avalonia.Controls.Control)
+  nameWithType: OrbitAnimation.UpdateCenterPoint(Control?)
+  nameWithType.vb: OrbitAnimation.UpdateCenterPoint(Control)
+- uid: Avalonia.Xaml.Interactions.Custom.OrbitAnimation.UpdateCenterPoint*
+  name: UpdateCenterPoint
+  href: api/Avalonia.Xaml.Interactions.Custom.OrbitAnimation.html#Avalonia_Xaml_Interactions_Custom_OrbitAnimation_UpdateCenterPoint_
+  commentId: Overload:Avalonia.Xaml.Interactions.Custom.OrbitAnimation.UpdateCenterPoint
+  isSpec: "True"
+  fullName: Avalonia.Xaml.Interactions.Custom.OrbitAnimation.UpdateCenterPoint
+  nameWithType: OrbitAnimation.UpdateCenterPoint
 - uid: Avalonia.Xaml.Interactions.Custom.OrbitEffectBehavior
   name: OrbitEffectBehavior
   href: api/Avalonia.Xaml.Interactions.Custom.OrbitEffectBehavior.html
@@ -13127,6 +13376,69 @@ references:
   commentId: F:Avalonia.Xaml.Interactions.Custom.OrbitEffectBehavior.SensitivityProperty
   fullName: Avalonia.Xaml.Interactions.Custom.OrbitEffectBehavior.SensitivityProperty
   nameWithType: OrbitEffectBehavior.SensitivityProperty
+- uid: Avalonia.Xaml.Interactions.Custom.ParallaxAnimation
+  name: ParallaxAnimation
+  href: api/Avalonia.Xaml.Interactions.Custom.ParallaxAnimation.html
+  commentId: T:Avalonia.Xaml.Interactions.Custom.ParallaxAnimation
+  fullName: Avalonia.Xaml.Interactions.Custom.ParallaxAnimation
+  nameWithType: ParallaxAnimation
+- uid: Avalonia.Xaml.Interactions.Custom.ParallaxAnimation.Apply(Avalonia.Controls.Control,Avalonia.Vector,System.Double)
+  name: Apply(Control?, Vector, double)
+  href: api/Avalonia.Xaml.Interactions.Custom.ParallaxAnimation.html#Avalonia_Xaml_Interactions_Custom_ParallaxAnimation_Apply_Avalonia_Controls_Control_Avalonia_Vector_System_Double_
+  commentId: M:Avalonia.Xaml.Interactions.Custom.ParallaxAnimation.Apply(Avalonia.Controls.Control,Avalonia.Vector,System.Double)
+  name.vb: Apply(Control, Vector, Double)
+  fullName: Avalonia.Xaml.Interactions.Custom.ParallaxAnimation.Apply(Avalonia.Controls.Control?, Avalonia.Vector, double)
+  fullName.vb: Avalonia.Xaml.Interactions.Custom.ParallaxAnimation.Apply(Avalonia.Controls.Control, Avalonia.Vector, Double)
+  nameWithType: ParallaxAnimation.Apply(Control?, Vector, double)
+  nameWithType.vb: ParallaxAnimation.Apply(Control, Vector, Double)
+- uid: Avalonia.Xaml.Interactions.Custom.ParallaxAnimation.Apply(Avalonia.Vector,System.Double)
+  name: Apply(Vector, double)
+  href: api/Avalonia.Xaml.Interactions.Custom.ParallaxAnimation.html#Avalonia_Xaml_Interactions_Custom_ParallaxAnimation_Apply_Avalonia_Vector_System_Double_
+  commentId: M:Avalonia.Xaml.Interactions.Custom.ParallaxAnimation.Apply(Avalonia.Vector,System.Double)
+  name.vb: Apply(Vector, Double)
+  fullName: Avalonia.Xaml.Interactions.Custom.ParallaxAnimation.Apply(Avalonia.Vector, double)
+  fullName.vb: Avalonia.Xaml.Interactions.Custom.ParallaxAnimation.Apply(Avalonia.Vector, Double)
+  nameWithType: ParallaxAnimation.Apply(Vector, double)
+  nameWithType.vb: ParallaxAnimation.Apply(Vector, Double)
+- uid: Avalonia.Xaml.Interactions.Custom.ParallaxAnimation.Apply*
+  name: Apply
+  href: api/Avalonia.Xaml.Interactions.Custom.ParallaxAnimation.html#Avalonia_Xaml_Interactions_Custom_ParallaxAnimation_Apply_
+  commentId: Overload:Avalonia.Xaml.Interactions.Custom.ParallaxAnimation.Apply
+  isSpec: "True"
+  fullName: Avalonia.Xaml.Interactions.Custom.ParallaxAnimation.Apply
+  nameWithType: ParallaxAnimation.Apply
+- uid: Avalonia.Xaml.Interactions.Custom.ParallaxAnimation.CalculateOffset(Avalonia.Vector,System.Double)
+  name: CalculateOffset(Vector, double)
+  href: api/Avalonia.Xaml.Interactions.Custom.ParallaxAnimation.html#Avalonia_Xaml_Interactions_Custom_ParallaxAnimation_CalculateOffset_Avalonia_Vector_System_Double_
+  commentId: M:Avalonia.Xaml.Interactions.Custom.ParallaxAnimation.CalculateOffset(Avalonia.Vector,System.Double)
+  name.vb: CalculateOffset(Vector, Double)
+  fullName: Avalonia.Xaml.Interactions.Custom.ParallaxAnimation.CalculateOffset(Avalonia.Vector, double)
+  fullName.vb: Avalonia.Xaml.Interactions.Custom.ParallaxAnimation.CalculateOffset(Avalonia.Vector, Double)
+  nameWithType: ParallaxAnimation.CalculateOffset(Vector, double)
+  nameWithType.vb: ParallaxAnimation.CalculateOffset(Vector, Double)
+- uid: Avalonia.Xaml.Interactions.Custom.ParallaxAnimation.CalculateOffset*
+  name: CalculateOffset
+  href: api/Avalonia.Xaml.Interactions.Custom.ParallaxAnimation.html#Avalonia_Xaml_Interactions_Custom_ParallaxAnimation_CalculateOffset_
+  commentId: Overload:Avalonia.Xaml.Interactions.Custom.ParallaxAnimation.CalculateOffset
+  isSpec: "True"
+  fullName: Avalonia.Xaml.Interactions.Custom.ParallaxAnimation.CalculateOffset
+  nameWithType: ParallaxAnimation.CalculateOffset
+- uid: Avalonia.Xaml.Interactions.Custom.ParallaxAnimation.TryCreate(Avalonia.Controls.Control)
+  name: TryCreate(Control?)
+  href: api/Avalonia.Xaml.Interactions.Custom.ParallaxAnimation.html#Avalonia_Xaml_Interactions_Custom_ParallaxAnimation_TryCreate_Avalonia_Controls_Control_
+  commentId: M:Avalonia.Xaml.Interactions.Custom.ParallaxAnimation.TryCreate(Avalonia.Controls.Control)
+  name.vb: TryCreate(Control)
+  fullName: Avalonia.Xaml.Interactions.Custom.ParallaxAnimation.TryCreate(Avalonia.Controls.Control?)
+  fullName.vb: Avalonia.Xaml.Interactions.Custom.ParallaxAnimation.TryCreate(Avalonia.Controls.Control)
+  nameWithType: ParallaxAnimation.TryCreate(Control?)
+  nameWithType.vb: ParallaxAnimation.TryCreate(Control)
+- uid: Avalonia.Xaml.Interactions.Custom.ParallaxAnimation.TryCreate*
+  name: TryCreate
+  href: api/Avalonia.Xaml.Interactions.Custom.ParallaxAnimation.html#Avalonia_Xaml_Interactions_Custom_ParallaxAnimation_TryCreate_
+  commentId: Overload:Avalonia.Xaml.Interactions.Custom.ParallaxAnimation.TryCreate
+  isSpec: "True"
+  fullName: Avalonia.Xaml.Interactions.Custom.ParallaxAnimation.TryCreate
+  nameWithType: ParallaxAnimation.TryCreate
 - uid: Avalonia.Xaml.Interactions.Custom.ParallaxBehavior
   name: ParallaxBehavior
   href: api/Avalonia.Xaml.Interactions.Custom.ParallaxBehavior.html
@@ -16263,6 +16575,50 @@ references:
   commentId: F:Avalonia.Xaml.Interactions.Custom.SelectingItemsControlSearchBehavior.SortOrderProperty
   fullName: Avalonia.Xaml.Interactions.Custom.SelectingItemsControlSearchBehavior.SortOrderProperty
   nameWithType: SelectingItemsControlSearchBehavior.SortOrderProperty
+- uid: Avalonia.Xaml.Interactions.Custom.SelectionIndicatorAnimation
+  name: SelectionIndicatorAnimation
+  href: api/Avalonia.Xaml.Interactions.Custom.SelectionIndicatorAnimation.html
+  commentId: T:Avalonia.Xaml.Interactions.Custom.SelectionIndicatorAnimation
+  fullName: Avalonia.Xaml.Interactions.Custom.SelectionIndicatorAnimation
+  nameWithType: SelectionIndicatorAnimation
+- uid: Avalonia.Xaml.Interactions.Custom.SelectionIndicatorAnimation.DefaultDuration
+  name: DefaultDuration
+  href: api/Avalonia.Xaml.Interactions.Custom.SelectionIndicatorAnimation.html#Avalonia_Xaml_Interactions_Custom_SelectionIndicatorAnimation_DefaultDuration
+  commentId: P:Avalonia.Xaml.Interactions.Custom.SelectionIndicatorAnimation.DefaultDuration
+  fullName: Avalonia.Xaml.Interactions.Custom.SelectionIndicatorAnimation.DefaultDuration
+  nameWithType: SelectionIndicatorAnimation.DefaultDuration
+- uid: Avalonia.Xaml.Interactions.Custom.SelectionIndicatorAnimation.DefaultDuration*
+  name: DefaultDuration
+  href: api/Avalonia.Xaml.Interactions.Custom.SelectionIndicatorAnimation.html#Avalonia_Xaml_Interactions_Custom_SelectionIndicatorAnimation_DefaultDuration_
+  commentId: Overload:Avalonia.Xaml.Interactions.Custom.SelectionIndicatorAnimation.DefaultDuration
+  isSpec: "True"
+  fullName: Avalonia.Xaml.Interactions.Custom.SelectionIndicatorAnimation.DefaultDuration
+  nameWithType: SelectionIndicatorAnimation.DefaultDuration
+- uid: Avalonia.Xaml.Interactions.Custom.SelectionIndicatorAnimation.TryStart(Avalonia.Controls.Primitives.TemplatedControl,Avalonia.Controls.Primitives.TemplatedControl,System.TimeSpan)
+  name: TryStart(TemplatedControl?, TemplatedControl?, TimeSpan)
+  href: api/Avalonia.Xaml.Interactions.Custom.SelectionIndicatorAnimation.html#Avalonia_Xaml_Interactions_Custom_SelectionIndicatorAnimation_TryStart_Avalonia_Controls_Primitives_TemplatedControl_Avalonia_Controls_Primitives_TemplatedControl_System_TimeSpan_
+  commentId: M:Avalonia.Xaml.Interactions.Custom.SelectionIndicatorAnimation.TryStart(Avalonia.Controls.Primitives.TemplatedControl,Avalonia.Controls.Primitives.TemplatedControl,System.TimeSpan)
+  name.vb: TryStart(TemplatedControl, TemplatedControl, TimeSpan)
+  fullName: Avalonia.Xaml.Interactions.Custom.SelectionIndicatorAnimation.TryStart(Avalonia.Controls.Primitives.TemplatedControl?, Avalonia.Controls.Primitives.TemplatedControl?, System.TimeSpan)
+  fullName.vb: Avalonia.Xaml.Interactions.Custom.SelectionIndicatorAnimation.TryStart(Avalonia.Controls.Primitives.TemplatedControl, Avalonia.Controls.Primitives.TemplatedControl, System.TimeSpan)
+  nameWithType: SelectionIndicatorAnimation.TryStart(TemplatedControl?, TemplatedControl?, TimeSpan)
+  nameWithType.vb: SelectionIndicatorAnimation.TryStart(TemplatedControl, TemplatedControl, TimeSpan)
+- uid: Avalonia.Xaml.Interactions.Custom.SelectionIndicatorAnimation.TryStart(Avalonia.Visual,Avalonia.Visual,Avalonia.Visual,Avalonia.Visual,System.TimeSpan)
+  name: TryStart(Visual?, Visual?, Visual?, Visual?, TimeSpan)
+  href: api/Avalonia.Xaml.Interactions.Custom.SelectionIndicatorAnimation.html#Avalonia_Xaml_Interactions_Custom_SelectionIndicatorAnimation_TryStart_Avalonia_Visual_Avalonia_Visual_Avalonia_Visual_Avalonia_Visual_System_TimeSpan_
+  commentId: M:Avalonia.Xaml.Interactions.Custom.SelectionIndicatorAnimation.TryStart(Avalonia.Visual,Avalonia.Visual,Avalonia.Visual,Avalonia.Visual,System.TimeSpan)
+  name.vb: TryStart(Visual, Visual, Visual, Visual, TimeSpan)
+  fullName: Avalonia.Xaml.Interactions.Custom.SelectionIndicatorAnimation.TryStart(Avalonia.Visual?, Avalonia.Visual?, Avalonia.Visual?, Avalonia.Visual?, System.TimeSpan)
+  fullName.vb: Avalonia.Xaml.Interactions.Custom.SelectionIndicatorAnimation.TryStart(Avalonia.Visual, Avalonia.Visual, Avalonia.Visual, Avalonia.Visual, System.TimeSpan)
+  nameWithType: SelectionIndicatorAnimation.TryStart(Visual?, Visual?, Visual?, Visual?, TimeSpan)
+  nameWithType.vb: SelectionIndicatorAnimation.TryStart(Visual, Visual, Visual, Visual, TimeSpan)
+- uid: Avalonia.Xaml.Interactions.Custom.SelectionIndicatorAnimation.TryStart*
+  name: TryStart
+  href: api/Avalonia.Xaml.Interactions.Custom.SelectionIndicatorAnimation.html#Avalonia_Xaml_Interactions_Custom_SelectionIndicatorAnimation_TryStart_
+  commentId: Overload:Avalonia.Xaml.Interactions.Custom.SelectionIndicatorAnimation.TryStart
+  isSpec: "True"
+  fullName: Avalonia.Xaml.Interactions.Custom.SelectionIndicatorAnimation.TryStart
+  nameWithType: SelectionIndicatorAnimation.TryStart
 - uid: Avalonia.Xaml.Interactions.Custom.SetAutomationIdAction
   name: SetAutomationIdAction
   href: api/Avalonia.Xaml.Interactions.Custom.SetAutomationIdAction.html
@@ -19422,6 +19778,92 @@ references:
   commentId: F:Avalonia.Xaml.Interactions.Custom.ThemeVariantTrigger.ThemeVariantProperty
   fullName: Avalonia.Xaml.Interactions.Custom.ThemeVariantTrigger.ThemeVariantProperty
   nameWithType: ThemeVariantTrigger.ThemeVariantProperty
+- uid: Avalonia.Xaml.Interactions.Custom.TiltAnimation
+  name: TiltAnimation
+  href: api/Avalonia.Xaml.Interactions.Custom.TiltAnimation.html
+  commentId: T:Avalonia.Xaml.Interactions.Custom.TiltAnimation
+  fullName: Avalonia.Xaml.Interactions.Custom.TiltAnimation
+  nameWithType: TiltAnimation
+- uid: Avalonia.Xaml.Interactions.Custom.TiltAnimation.Apply(Avalonia.Controls.Control,Avalonia.Point,System.Double)
+  name: Apply(Control?, Point, double)
+  href: api/Avalonia.Xaml.Interactions.Custom.TiltAnimation.html#Avalonia_Xaml_Interactions_Custom_TiltAnimation_Apply_Avalonia_Controls_Control_Avalonia_Point_System_Double_
+  commentId: M:Avalonia.Xaml.Interactions.Custom.TiltAnimation.Apply(Avalonia.Controls.Control,Avalonia.Point,System.Double)
+  name.vb: Apply(Control, Point, Double)
+  fullName: Avalonia.Xaml.Interactions.Custom.TiltAnimation.Apply(Avalonia.Controls.Control?, Avalonia.Point, double)
+  fullName.vb: Avalonia.Xaml.Interactions.Custom.TiltAnimation.Apply(Avalonia.Controls.Control, Avalonia.Point, Double)
+  nameWithType: TiltAnimation.Apply(Control?, Point, double)
+  nameWithType.vb: TiltAnimation.Apply(Control, Point, Double)
+- uid: Avalonia.Xaml.Interactions.Custom.TiltAnimation.Apply*
+  name: Apply
+  href: api/Avalonia.Xaml.Interactions.Custom.TiltAnimation.html#Avalonia_Xaml_Interactions_Custom_TiltAnimation_Apply_
+  commentId: Overload:Avalonia.Xaml.Interactions.Custom.TiltAnimation.Apply
+  isSpec: "True"
+  fullName: Avalonia.Xaml.Interactions.Custom.TiltAnimation.Apply
+  nameWithType: TiltAnimation.Apply
+- uid: Avalonia.Xaml.Interactions.Custom.TiltAnimation.CalculateOrientation(Avalonia.Size,Avalonia.Point,System.Double)
+  name: CalculateOrientation(Size, Point, double)
+  href: api/Avalonia.Xaml.Interactions.Custom.TiltAnimation.html#Avalonia_Xaml_Interactions_Custom_TiltAnimation_CalculateOrientation_Avalonia_Size_Avalonia_Point_System_Double_
+  commentId: M:Avalonia.Xaml.Interactions.Custom.TiltAnimation.CalculateOrientation(Avalonia.Size,Avalonia.Point,System.Double)
+  name.vb: CalculateOrientation(Size, Point, Double)
+  fullName: Avalonia.Xaml.Interactions.Custom.TiltAnimation.CalculateOrientation(Avalonia.Size, Avalonia.Point, double)
+  fullName.vb: Avalonia.Xaml.Interactions.Custom.TiltAnimation.CalculateOrientation(Avalonia.Size, Avalonia.Point, Double)
+  nameWithType: TiltAnimation.CalculateOrientation(Size, Point, double)
+  nameWithType.vb: TiltAnimation.CalculateOrientation(Size, Point, Double)
+- uid: Avalonia.Xaml.Interactions.Custom.TiltAnimation.CalculateOrientation*
+  name: CalculateOrientation
+  href: api/Avalonia.Xaml.Interactions.Custom.TiltAnimation.html#Avalonia_Xaml_Interactions_Custom_TiltAnimation_CalculateOrientation_
+  commentId: Overload:Avalonia.Xaml.Interactions.Custom.TiltAnimation.CalculateOrientation
+  isSpec: "True"
+  fullName: Avalonia.Xaml.Interactions.Custom.TiltAnimation.CalculateOrientation
+  nameWithType: TiltAnimation.CalculateOrientation
+- uid: Avalonia.Xaml.Interactions.Custom.TiltAnimation.Reset(Avalonia.Controls.Control)
+  name: Reset(Control?)
+  href: api/Avalonia.Xaml.Interactions.Custom.TiltAnimation.html#Avalonia_Xaml_Interactions_Custom_TiltAnimation_Reset_Avalonia_Controls_Control_
+  commentId: M:Avalonia.Xaml.Interactions.Custom.TiltAnimation.Reset(Avalonia.Controls.Control)
+  name.vb: Reset(Control)
+  fullName: Avalonia.Xaml.Interactions.Custom.TiltAnimation.Reset(Avalonia.Controls.Control?)
+  fullName.vb: Avalonia.Xaml.Interactions.Custom.TiltAnimation.Reset(Avalonia.Controls.Control)
+  nameWithType: TiltAnimation.Reset(Control?)
+  nameWithType.vb: TiltAnimation.Reset(Control)
+- uid: Avalonia.Xaml.Interactions.Custom.TiltAnimation.Reset*
+  name: Reset
+  href: api/Avalonia.Xaml.Interactions.Custom.TiltAnimation.html#Avalonia_Xaml_Interactions_Custom_TiltAnimation_Reset_
+  commentId: Overload:Avalonia.Xaml.Interactions.Custom.TiltAnimation.Reset
+  isSpec: "True"
+  fullName: Avalonia.Xaml.Interactions.Custom.TiltAnimation.Reset
+  nameWithType: TiltAnimation.Reset
+- uid: Avalonia.Xaml.Interactions.Custom.TiltAnimation.TryCalculateOrientation(Avalonia.Size,Avalonia.Point,System.Double,System.Numerics.Quaternion@)
+  name: TryCalculateOrientation(Size, Point, double, out Quaternion)
+  href: api/Avalonia.Xaml.Interactions.Custom.TiltAnimation.html#Avalonia_Xaml_Interactions_Custom_TiltAnimation_TryCalculateOrientation_Avalonia_Size_Avalonia_Point_System_Double_System_Numerics_Quaternion__
+  commentId: M:Avalonia.Xaml.Interactions.Custom.TiltAnimation.TryCalculateOrientation(Avalonia.Size,Avalonia.Point,System.Double,System.Numerics.Quaternion@)
+  name.vb: TryCalculateOrientation(Size, Point, Double, Quaternion)
+  fullName: Avalonia.Xaml.Interactions.Custom.TiltAnimation.TryCalculateOrientation(Avalonia.Size, Avalonia.Point, double, out System.Numerics.Quaternion)
+  fullName.vb: Avalonia.Xaml.Interactions.Custom.TiltAnimation.TryCalculateOrientation(Avalonia.Size, Avalonia.Point, Double, System.Numerics.Quaternion)
+  nameWithType: TiltAnimation.TryCalculateOrientation(Size, Point, double, out Quaternion)
+  nameWithType.vb: TiltAnimation.TryCalculateOrientation(Size, Point, Double, Quaternion)
+- uid: Avalonia.Xaml.Interactions.Custom.TiltAnimation.TryCalculateOrientation*
+  name: TryCalculateOrientation
+  href: api/Avalonia.Xaml.Interactions.Custom.TiltAnimation.html#Avalonia_Xaml_Interactions_Custom_TiltAnimation_TryCalculateOrientation_
+  commentId: Overload:Avalonia.Xaml.Interactions.Custom.TiltAnimation.TryCalculateOrientation
+  isSpec: "True"
+  fullName: Avalonia.Xaml.Interactions.Custom.TiltAnimation.TryCalculateOrientation
+  nameWithType: TiltAnimation.TryCalculateOrientation
+- uid: Avalonia.Xaml.Interactions.Custom.TiltAnimation.UpdateCenterPoint(Avalonia.Controls.Control)
+  name: UpdateCenterPoint(Control?)
+  href: api/Avalonia.Xaml.Interactions.Custom.TiltAnimation.html#Avalonia_Xaml_Interactions_Custom_TiltAnimation_UpdateCenterPoint_Avalonia_Controls_Control_
+  commentId: M:Avalonia.Xaml.Interactions.Custom.TiltAnimation.UpdateCenterPoint(Avalonia.Controls.Control)
+  name.vb: UpdateCenterPoint(Control)
+  fullName: Avalonia.Xaml.Interactions.Custom.TiltAnimation.UpdateCenterPoint(Avalonia.Controls.Control?)
+  fullName.vb: Avalonia.Xaml.Interactions.Custom.TiltAnimation.UpdateCenterPoint(Avalonia.Controls.Control)
+  nameWithType: TiltAnimation.UpdateCenterPoint(Control?)
+  nameWithType.vb: TiltAnimation.UpdateCenterPoint(Control)
+- uid: Avalonia.Xaml.Interactions.Custom.TiltAnimation.UpdateCenterPoint*
+  name: UpdateCenterPoint
+  href: api/Avalonia.Xaml.Interactions.Custom.TiltAnimation.html#Avalonia_Xaml_Interactions_Custom_TiltAnimation_UpdateCenterPoint_
+  commentId: Overload:Avalonia.Xaml.Interactions.Custom.TiltAnimation.UpdateCenterPoint
+  isSpec: "True"
+  fullName: Avalonia.Xaml.Interactions.Custom.TiltAnimation.UpdateCenterPoint
+  nameWithType: TiltAnimation.UpdateCenterPoint
 - uid: Avalonia.Xaml.Interactions.Custom.TiltEffectBehavior
   name: TiltEffectBehavior
   href: api/Avalonia.Xaml.Interactions.Custom.TiltEffectBehavior.html
@@ -19644,6 +20086,92 @@ references:
   isSpec: "True"
   fullName: Avalonia.Xaml.Interactions.Custom.ToolTipOpeningTrigger.RoutedEvent
   nameWithType: ToolTipOpeningTrigger.RoutedEvent
+- uid: Avalonia.Xaml.Interactions.Custom.TransitionOperations
+  name: TransitionOperations
+  href: api/Avalonia.Xaml.Interactions.Custom.TransitionOperations.html
+  commentId: T:Avalonia.Xaml.Interactions.Custom.TransitionOperations
+  fullName: Avalonia.Xaml.Interactions.Custom.TransitionOperations
+  nameWithType: TransitionOperations
+- uid: Avalonia.Xaml.Interactions.Custom.TransitionOperations.Add(Avalonia.StyledElement,Avalonia.Animation.TransitionBase)
+  name: Add(StyledElement?, TransitionBase?)
+  href: api/Avalonia.Xaml.Interactions.Custom.TransitionOperations.html#Avalonia_Xaml_Interactions_Custom_TransitionOperations_Add_Avalonia_StyledElement_Avalonia_Animation_TransitionBase_
+  commentId: M:Avalonia.Xaml.Interactions.Custom.TransitionOperations.Add(Avalonia.StyledElement,Avalonia.Animation.TransitionBase)
+  name.vb: Add(StyledElement, TransitionBase)
+  fullName: Avalonia.Xaml.Interactions.Custom.TransitionOperations.Add(Avalonia.StyledElement?, Avalonia.Animation.TransitionBase?)
+  fullName.vb: Avalonia.Xaml.Interactions.Custom.TransitionOperations.Add(Avalonia.StyledElement, Avalonia.Animation.TransitionBase)
+  nameWithType: TransitionOperations.Add(StyledElement?, TransitionBase?)
+  nameWithType.vb: TransitionOperations.Add(StyledElement, TransitionBase)
+- uid: Avalonia.Xaml.Interactions.Custom.TransitionOperations.Add*
+  name: Add
+  href: api/Avalonia.Xaml.Interactions.Custom.TransitionOperations.html#Avalonia_Xaml_Interactions_Custom_TransitionOperations_Add_
+  commentId: Overload:Avalonia.Xaml.Interactions.Custom.TransitionOperations.Add
+  isSpec: "True"
+  fullName: Avalonia.Xaml.Interactions.Custom.TransitionOperations.Add
+  nameWithType: TransitionOperations.Add
+- uid: Avalonia.Xaml.Interactions.Custom.TransitionOperations.Clear(Avalonia.StyledElement)
+  name: Clear(StyledElement?)
+  href: api/Avalonia.Xaml.Interactions.Custom.TransitionOperations.html#Avalonia_Xaml_Interactions_Custom_TransitionOperations_Clear_Avalonia_StyledElement_
+  commentId: M:Avalonia.Xaml.Interactions.Custom.TransitionOperations.Clear(Avalonia.StyledElement)
+  name.vb: Clear(StyledElement)
+  fullName: Avalonia.Xaml.Interactions.Custom.TransitionOperations.Clear(Avalonia.StyledElement?)
+  fullName.vb: Avalonia.Xaml.Interactions.Custom.TransitionOperations.Clear(Avalonia.StyledElement)
+  nameWithType: TransitionOperations.Clear(StyledElement?)
+  nameWithType.vb: TransitionOperations.Clear(StyledElement)
+- uid: Avalonia.Xaml.Interactions.Custom.TransitionOperations.Clear*
+  name: Clear
+  href: api/Avalonia.Xaml.Interactions.Custom.TransitionOperations.html#Avalonia_Xaml_Interactions_Custom_TransitionOperations_Clear_
+  commentId: Overload:Avalonia.Xaml.Interactions.Custom.TransitionOperations.Clear
+  isSpec: "True"
+  fullName: Avalonia.Xaml.Interactions.Custom.TransitionOperations.Clear
+  nameWithType: TransitionOperations.Clear
+- uid: Avalonia.Xaml.Interactions.Custom.TransitionOperations.Observe(Avalonia.StyledElement,System.Action{Avalonia.Animation.Transitions})
+  name: Observe(StyledElement, Action<Transitions?>)
+  href: api/Avalonia.Xaml.Interactions.Custom.TransitionOperations.html#Avalonia_Xaml_Interactions_Custom_TransitionOperations_Observe_Avalonia_StyledElement_System_Action_Avalonia_Animation_Transitions__
+  commentId: M:Avalonia.Xaml.Interactions.Custom.TransitionOperations.Observe(Avalonia.StyledElement,System.Action{Avalonia.Animation.Transitions})
+  name.vb: Observe(StyledElement, Action(Of Transitions))
+  fullName: Avalonia.Xaml.Interactions.Custom.TransitionOperations.Observe(Avalonia.StyledElement, System.Action<Avalonia.Animation.Transitions?>)
+  fullName.vb: Avalonia.Xaml.Interactions.Custom.TransitionOperations.Observe(Avalonia.StyledElement, System.Action(Of Avalonia.Animation.Transitions))
+  nameWithType: TransitionOperations.Observe(StyledElement, Action<Transitions?>)
+  nameWithType.vb: TransitionOperations.Observe(StyledElement, Action(Of Transitions))
+- uid: Avalonia.Xaml.Interactions.Custom.TransitionOperations.Observe*
+  name: Observe
+  href: api/Avalonia.Xaml.Interactions.Custom.TransitionOperations.html#Avalonia_Xaml_Interactions_Custom_TransitionOperations_Observe_
+  commentId: Overload:Avalonia.Xaml.Interactions.Custom.TransitionOperations.Observe
+  isSpec: "True"
+  fullName: Avalonia.Xaml.Interactions.Custom.TransitionOperations.Observe
+  nameWithType: TransitionOperations.Observe
+- uid: Avalonia.Xaml.Interactions.Custom.TransitionOperations.Remove(Avalonia.StyledElement,Avalonia.Animation.TransitionBase)
+  name: Remove(StyledElement?, TransitionBase?)
+  href: api/Avalonia.Xaml.Interactions.Custom.TransitionOperations.html#Avalonia_Xaml_Interactions_Custom_TransitionOperations_Remove_Avalonia_StyledElement_Avalonia_Animation_TransitionBase_
+  commentId: M:Avalonia.Xaml.Interactions.Custom.TransitionOperations.Remove(Avalonia.StyledElement,Avalonia.Animation.TransitionBase)
+  name.vb: Remove(StyledElement, TransitionBase)
+  fullName: Avalonia.Xaml.Interactions.Custom.TransitionOperations.Remove(Avalonia.StyledElement?, Avalonia.Animation.TransitionBase?)
+  fullName.vb: Avalonia.Xaml.Interactions.Custom.TransitionOperations.Remove(Avalonia.StyledElement, Avalonia.Animation.TransitionBase)
+  nameWithType: TransitionOperations.Remove(StyledElement?, TransitionBase?)
+  nameWithType.vb: TransitionOperations.Remove(StyledElement, TransitionBase)
+- uid: Avalonia.Xaml.Interactions.Custom.TransitionOperations.Remove*
+  name: Remove
+  href: api/Avalonia.Xaml.Interactions.Custom.TransitionOperations.html#Avalonia_Xaml_Interactions_Custom_TransitionOperations_Remove_
+  commentId: Overload:Avalonia.Xaml.Interactions.Custom.TransitionOperations.Remove
+  isSpec: "True"
+  fullName: Avalonia.Xaml.Interactions.Custom.TransitionOperations.Remove
+  nameWithType: TransitionOperations.Remove
+- uid: Avalonia.Xaml.Interactions.Custom.TransitionOperations.Replace(Avalonia.StyledElement,Avalonia.Animation.Transitions)
+  name: Replace(StyledElement, Transitions?)
+  href: api/Avalonia.Xaml.Interactions.Custom.TransitionOperations.html#Avalonia_Xaml_Interactions_Custom_TransitionOperations_Replace_Avalonia_StyledElement_Avalonia_Animation_Transitions_
+  commentId: M:Avalonia.Xaml.Interactions.Custom.TransitionOperations.Replace(Avalonia.StyledElement,Avalonia.Animation.Transitions)
+  name.vb: Replace(StyledElement, Transitions)
+  fullName: Avalonia.Xaml.Interactions.Custom.TransitionOperations.Replace(Avalonia.StyledElement, Avalonia.Animation.Transitions?)
+  fullName.vb: Avalonia.Xaml.Interactions.Custom.TransitionOperations.Replace(Avalonia.StyledElement, Avalonia.Animation.Transitions)
+  nameWithType: TransitionOperations.Replace(StyledElement, Transitions?)
+  nameWithType.vb: TransitionOperations.Replace(StyledElement, Transitions)
+- uid: Avalonia.Xaml.Interactions.Custom.TransitionOperations.Replace*
+  name: Replace
+  href: api/Avalonia.Xaml.Interactions.Custom.TransitionOperations.html#Avalonia_Xaml_Interactions_Custom_TransitionOperations_Replace_
+  commentId: Overload:Avalonia.Xaml.Interactions.Custom.TransitionOperations.Replace
+  isSpec: "True"
+  fullName: Avalonia.Xaml.Interactions.Custom.TransitionOperations.Replace
+  nameWithType: TransitionOperations.Replace
 - uid: Avalonia.Xaml.Interactions.Custom.TransitionsBehavior
   name: TransitionsBehavior
   href: api/Avalonia.Xaml.Interactions.Custom.TransitionsBehavior.html
