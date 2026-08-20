@@ -2,10 +2,8 @@
 // Licensed under the MIT license. See LICENSE file in the project root for details.
 using System;
 using System.Numerics;
-using Avalonia.Animation;
 using Avalonia.Controls;
 using Avalonia.Rendering.Composition;
-using Avalonia.Rendering.Composition.Animations;
 
 namespace Avalonia.Xaml.Interactions.Custom;
 
@@ -111,17 +109,15 @@ public static class ScaleAnimation
             return;
         }
 
-        var compositor = compositionVisual.Compositor;
-
-        var scaleAnimation = compositor.CreateVector3KeyFrameAnimation();
-        scaleAnimation.InsertKeyFrame(0.0f, fromScale);
-        scaleAnimation.InsertKeyFrame(1.0f, toScale);
-        scaleAnimation.Direction = PlaybackDirection.Normal;
-        scaleAnimation.Duration = duration;
-        scaleAnimation.IterationBehavior = AnimationIterationBehavior.Count;
-        scaleAnimation.IterationCount = 1;
-
-        compositionVisual.StartAnimation("Scale", scaleAnimation);
+        CompositionAnimationHelpers.StartVector3Animation(
+            compositionVisual,
+            "Scale",
+            duration,
+            new CompositionAnimationHelpers.Vector3KeyFrame[]
+            {
+                new(0f, fromScale),
+                new(1f, toScale)
+            });
     }
 
     /// <summary>
@@ -137,18 +133,16 @@ public static class ScaleAnimation
             return;
         }
 
-        var compositor = compositionVisual.Compositor;
-
-        var scaleAnimation = compositor.CreateVector3KeyFrameAnimation();
-        scaleAnimation.InsertKeyFrame(0.0f, new Vector3(0, 0, 0));
-        scaleAnimation.InsertKeyFrame(0.5f, new Vector3(1.1f, 1.1f, 1));
-        scaleAnimation.InsertKeyFrame(0.75f, new Vector3(0.9f, 0.9f, 1));
-        scaleAnimation.InsertKeyFrame(1.0f, Vector3.One);
-        scaleAnimation.Direction = PlaybackDirection.Normal;
-        scaleAnimation.Duration = duration;
-        scaleAnimation.IterationBehavior = AnimationIterationBehavior.Count;
-        scaleAnimation.IterationCount = 1;
-
-        compositionVisual.StartAnimation("Scale", scaleAnimation);
+        CompositionAnimationHelpers.StartVector3Animation(
+            compositionVisual,
+            "Scale",
+            duration,
+            new CompositionAnimationHelpers.Vector3KeyFrame[]
+            {
+                new(0f, Vector3.Zero),
+                new(0.5f, new Vector3(1.1f, 1.1f, 1f)),
+                new(0.75f, new Vector3(0.9f, 0.9f, 1f)),
+                new(1f, Vector3.One)
+            });
     }
 }

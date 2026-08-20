@@ -1,10 +1,8 @@
 // Copyright (c) Wiesław Šoltés. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for details.
 using System;
-using Avalonia.Animation;
 using Avalonia.Controls;
 using Avalonia.Rendering.Composition;
-using Avalonia.Rendering.Composition.Animations;
 
 namespace Avalonia.Xaml.Interactions.Custom;
 
@@ -69,16 +67,14 @@ public static class FadeAnimation
             return;
         }
 
-        var compositor = compositionVisual.Compositor;
-
-        var opacityAnimation = compositor.CreateScalarKeyFrameAnimation();
-        opacityAnimation.InsertKeyFrame(0.0f, fromOpacity);
-        opacityAnimation.InsertKeyFrame(1.0f, toOpacity);
-        opacityAnimation.Direction = PlaybackDirection.Normal;
-        opacityAnimation.Duration = duration;
-        opacityAnimation.IterationBehavior = AnimationIterationBehavior.Count;
-        opacityAnimation.IterationCount = 1;
-
-        compositionVisual.StartAnimation("Opacity", opacityAnimation);
+        CompositionAnimationHelpers.StartScalarAnimation(
+            compositionVisual,
+            "Opacity",
+            duration,
+            new CompositionAnimationHelpers.ScalarKeyFrame[]
+            {
+                new(0f, fromOpacity),
+                new(1f, toOpacity)
+            });
     }
 }

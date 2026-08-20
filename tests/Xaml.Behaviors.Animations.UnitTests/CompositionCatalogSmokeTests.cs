@@ -2,6 +2,8 @@
 // Licensed under the MIT license. See LICENSE file in the project root for details.
 
 using System;
+using System.Numerics;
+using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Headless.XUnit;
 using Avalonia.Rendering.Composition;
@@ -180,6 +182,60 @@ public class CompositionCatalogSmokeTests
             target => SpecialAnimations.SetFlip(target, DurationMilliseconds));
     }
 
+    [AvaloniaFact]
+    public void ZeroDuration_AppliesFinalCompositionStatesWithoutStartingInvalidAnimations()
+    {
+        var attention = new Border { Width = 32d, Height = 32d };
+        var entrance = new Border { Width = 32d, Height = 32d };
+        var exit = new Border { Width = 32d, Height = 32d };
+        var fade = new Border { Width = 32d, Height = 32d };
+        var scale = new Border { Width = 32d, Height = 32d };
+        var rotate = new Border { Width = 32d, Height = 32d };
+        var sliding = new Border { Width = 32d, Height = 32d };
+        var special = new Border { Width = 32d, Height = 32d };
+        var framerMotion = new Border { Width = 32d, Height = 32d };
+        var targets = new[] { attention, entrance, exit, fade, scale, rotate, sliding, special, framerMotion };
+        var canvas = new Canvas { Width = 300d, Height = 400d };
+        foreach (Border target in targets)
+        {
+            Canvas.SetLeft(target, 30d);
+            Canvas.SetTop(target, 40d);
+            canvas.Children.Add(target);
+        }
+
+        AttentionAnimations.SetBounce(attention, 0d);
+        EntranceAnimations.SetSlideInLeft(entrance, 0d);
+        ExitAnimations.SetSlideOutDown(exit, 0d);
+        FadeAnimation.SetCustomFade(fade, 0.2d, 0.8d, 0d);
+        ScaleAnimation.SetScaleOut(scale, 0d);
+        RotateAnimation.SetCustomRotate(rotate, -30d, 30d, 0d);
+        SlidingAnimation.SetLeft(sliding, 0d);
+        SpecialAnimations.SetFlip(special, 0d);
+        FramerMotionAnimations.SetSlideInFromLeft(framerMotion, 0d);
+
+        var window = new Window { Content = canvas };
+        try
+        {
+            window.Show();
+            Dispatcher.UIThread.RunJobs();
+
+            Assert.Equal(new Vector3(30f, 40f, 0f), GetVisual(attention).Offset);
+            Assert.Equal(new Vector3(30f, 40f, 0f), GetVisual(entrance).Offset);
+            Assert.Equal(new Vector3(30f, 280f, 0f), GetVisual(exit).Offset);
+            Assert.Equal(0.8f, GetVisual(fade).Opacity);
+            Assert.Equal(Vector3.Zero, GetVisual(scale).Scale);
+            Assert.Equal(CompositionAnimationHelpers.DegreesToRadians(30f), GetVisual(rotate).RotationAngle);
+            Assert.Equal(new Vector3(30f, 40f, 0f), GetVisual(sliding).Offset);
+            Assert.Equal(Vector3.One, GetVisual(special).Scale);
+            Assert.Equal(0f, GetVisual(special).RotationAngle);
+            Assert.Equal(new Vector3(30f, 40f, 0f), GetVisual(framerMotion).Offset);
+        }
+        finally
+        {
+            window.Close();
+        }
+    }
+
     private static void AssertCatalogStarts(params Action<Control>[] configureAnimations)
     {
         var panel = new StackPanel();
@@ -204,5 +260,10 @@ public class CompositionCatalogSmokeTests
         {
             window.Close();
         }
+    }
+
+    private static CompositionVisual GetVisual(Visual target)
+    {
+        return Assert.IsAssignableFrom<CompositionVisual>(ElementComposition.GetElementVisual(target));
     }
 }

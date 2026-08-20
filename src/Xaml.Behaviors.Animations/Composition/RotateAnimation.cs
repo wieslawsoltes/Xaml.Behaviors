@@ -1,10 +1,8 @@
 // Copyright (c) Wiesław Šoltés. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for details.
 using System;
-using Avalonia.Animation;
 using Avalonia.Controls;
 using Avalonia.Rendering.Composition;
-using Avalonia.Rendering.Composition.Animations;
 
 namespace Avalonia.Xaml.Interactions.Custom;
 
@@ -121,19 +119,17 @@ public static class RotateAnimation
             return;
         }
 
-        var compositor = compositionVisual.Compositor;
-
-        var rotationAnimation = compositor.CreateScalarKeyFrameAnimation();
         var fromRadians = CompositionAnimationHelpers.DegreesToRadians(fromAngle);
         var toRadians = CompositionAnimationHelpers.DegreesToRadians(toAngle);
-        rotationAnimation.InsertKeyFrame(0.0f, fromRadians);
-        rotationAnimation.InsertKeyFrame(1.0f, toRadians);
-        rotationAnimation.Direction = PlaybackDirection.Normal;
-        rotationAnimation.Duration = duration;
-        rotationAnimation.IterationBehavior = AnimationIterationBehavior.Count;
-        rotationAnimation.IterationCount = 1;
-
-        compositionVisual.StartAnimation("RotationAngle", rotationAnimation);
+        CompositionAnimationHelpers.StartScalarAnimation(
+            compositionVisual,
+            "RotationAngle",
+            duration,
+            new CompositionAnimationHelpers.ScalarKeyFrame[]
+            {
+                new(0f, fromRadians),
+                new(1f, toRadians)
+            });
     }
 
     /// <summary>
@@ -149,19 +145,17 @@ public static class RotateAnimation
             return;
         }
 
-        var compositor = compositionVisual.Compositor;
-
-        var rotationAnimation = compositor.CreateScalarKeyFrameAnimation();
-        rotationAnimation.InsertKeyFrame(0.0f, 0f);
-        rotationAnimation.InsertKeyFrame(0.25f, CompositionAnimationHelpers.DegreesToRadians(15f));
-        rotationAnimation.InsertKeyFrame(0.5f, 0f);
-        rotationAnimation.InsertKeyFrame(0.75f, CompositionAnimationHelpers.DegreesToRadians(-15f));
-        rotationAnimation.InsertKeyFrame(1.0f, 0f);
-        rotationAnimation.Direction = PlaybackDirection.Normal;
-        rotationAnimation.Duration = duration;
-        rotationAnimation.IterationBehavior = AnimationIterationBehavior.Count;
-        rotationAnimation.IterationCount = 1;
-
-        compositionVisual.StartAnimation("RotationAngle", rotationAnimation);
+        CompositionAnimationHelpers.StartScalarAnimation(
+            compositionVisual,
+            "RotationAngle",
+            duration,
+            new CompositionAnimationHelpers.ScalarKeyFrame[]
+            {
+                new(0f, 0f),
+                new(0.25f, CompositionAnimationHelpers.DegreesToRadians(15f)),
+                new(0.5f, 0f),
+                new(0.75f, CompositionAnimationHelpers.DegreesToRadians(-15f)),
+                new(1f, 0f)
+            });
     }
 }

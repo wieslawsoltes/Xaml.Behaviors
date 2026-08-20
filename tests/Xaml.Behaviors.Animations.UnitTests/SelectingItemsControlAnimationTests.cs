@@ -59,4 +59,31 @@ public class SelectingItemsControlAnimationTests
             new ContentControl(),
             TimeSpan.FromMilliseconds(-1d)));
     }
+
+    [AvaloniaFact]
+    public void SelectionIndicatorAnimation_ReturnsFalseForZeroDurationWithAvailableVisuals()
+    {
+        var oldIndicator = new Border { Width = 4d, Height = 30d };
+        var newIndicator = new Border { Width = 4d, Height = 30d };
+        var oldSelection = new ContentControl { Content = oldIndicator, Height = 40d };
+        var newSelection = new ContentControl { Content = newIndicator, Height = 40d };
+        var panel = new StackPanel { Children = { oldSelection, newSelection } };
+        var window = new Window { Content = panel };
+        window.Show();
+        Dispatcher.UIThread.RunJobs();
+
+        try
+        {
+            Assert.False(SelectionIndicatorAnimation.TryStart(
+                newIndicator,
+                oldIndicator,
+                newSelection,
+                oldSelection,
+                TimeSpan.Zero));
+        }
+        finally
+        {
+            window.Close();
+        }
+    }
 }

@@ -82,6 +82,13 @@ internal static class CompositionAnimationHelpers
             return;
         }
 
+        ValidateDuration(duration);
+        if (duration == TimeSpan.Zero)
+        {
+            SetVector3Value(visual, propertyName, keyFrames[keyFrames.Count - 1].Value);
+            return;
+        }
+
         var animation = visual.Compositor.CreateVector3KeyFrameAnimation();
         foreach (var keyFrame in keyFrames)
         {
@@ -99,6 +106,13 @@ internal static class CompositionAnimationHelpers
         }
 
         Vector3 layoutOffset = GetLayoutOffset(element);
+        ValidateDuration(duration);
+        if (duration == TimeSpan.Zero)
+        {
+            visual.Offset = layoutOffset + keyFrames[keyFrames.Count - 1].Value;
+            return;
+        }
+
         Vector3KeyFrameAnimation animation = visual.Compositor.CreateVector3KeyFrameAnimation();
         foreach (Vector3KeyFrame keyFrame in keyFrames)
         {
@@ -126,6 +140,13 @@ internal static class CompositionAnimationHelpers
             return;
         }
 
+        ValidateDuration(duration);
+        if (duration == TimeSpan.Zero)
+        {
+            SetScalarValue(visual, propertyName, keyFrames[keyFrames.Count - 1].Value);
+            return;
+        }
+
         var animation = visual.Compositor.CreateScalarKeyFrameAnimation();
         foreach (var keyFrame in keyFrames)
         {
@@ -133,6 +154,41 @@ internal static class CompositionAnimationHelpers
         }
 
         ConfigureAndStartAnimation(visual, propertyName, duration, animation);
+    }
+
+    private static void SetVector3Value(CompositionVisual visual, string propertyName, Vector3 value)
+    {
+        switch (propertyName)
+        {
+            case "Offset":
+                visual.Offset = value;
+                break;
+            case "Scale":
+                visual.Scale = value;
+                break;
+            default:
+                throw new ArgumentException($"Unsupported Vector3 composition property '{propertyName}'.", nameof(propertyName));
+        }
+    }
+
+    private static void SetScalarValue(CompositionVisual visual, string propertyName, float value)
+    {
+        switch (propertyName)
+        {
+            case "Opacity":
+                visual.Opacity = value;
+                break;
+            case "RotationAngle":
+                visual.RotationAngle = value;
+                break;
+            default:
+                throw new ArgumentException($"Unsupported scalar composition property '{propertyName}'.", nameof(propertyName));
+        }
+    }
+
+    private static void ValidateDuration(TimeSpan duration)
+    {
+        ArgumentOutOfRangeException.ThrowIfLessThan(duration, TimeSpan.Zero);
     }
 
     private static void ConfigureAndStartAnimation(CompositionVisual visual, string propertyName, TimeSpan duration, CompositionAnimation animation)

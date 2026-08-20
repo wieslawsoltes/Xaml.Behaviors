@@ -76,7 +76,8 @@ public static class SelectionIndicatorAnimation
     {
         ArgumentOutOfRangeException.ThrowIfLessThan(duration, TimeSpan.Zero);
 
-        if (newIndicator is null || oldIndicator is null || newSelection is null || oldSelection is null)
+        if (duration == TimeSpan.Zero ||
+            newIndicator is null || oldIndicator is null || newSelection is null || oldSelection is null)
         {
             return false;
         }
