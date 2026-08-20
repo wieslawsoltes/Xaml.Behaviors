@@ -9,6 +9,7 @@ using Avalonia.Controls;
 using Avalonia.Headless.XUnit;
 using Avalonia.Markup.Xaml;
 using Avalonia.Media;
+using Avalonia.Rendering.Composition;
 using Avalonia.Threading;
 using Avalonia.Xaml.Interactions.Custom;
 using Avalonia.Xaml.Interactivity;
@@ -120,6 +121,38 @@ public class AnimationAdapterTests
         Dispatcher.UIThread.RunJobs();
 
         Assert.IsType<TranslateTransform>(child.RenderTransform);
+        window.Close();
+    }
+
+    [AvaloniaFact]
+    public void ParallaxBehavior_TracksScrollOffsetThroughSharedPrimitive()
+    {
+        var target = new Border { Width = 100d, Height = 100d };
+        Canvas.SetLeft(target, 30d);
+        Canvas.SetTop(target, 40d);
+        var content = new Canvas { Width = 500d, Height = 1000d, Children = { target } };
+        var scrollViewer = new ScrollViewer
+        {
+            Width = 300d,
+            Height = 300d,
+            Content = content
+        };
+        var behavior = new ParallaxBehavior
+        {
+            SourceScrollViewer = scrollViewer,
+            ParallaxRatio = 0.25d
+        };
+        Interaction.GetBehaviors(target).Add(behavior);
+        var window = new Window { Content = scrollViewer };
+        window.Show();
+        Dispatcher.UIThread.RunJobs();
+
+        scrollViewer.Offset = new Vector(20d, 100d);
+        Dispatcher.UIThread.RunJobs();
+
+        Assert.Equal(
+            new System.Numerics.Vector3(35f, 65f, 0f),
+            ElementComposition.GetElementVisual(target)?.Offset);
         window.Close();
     }
 }

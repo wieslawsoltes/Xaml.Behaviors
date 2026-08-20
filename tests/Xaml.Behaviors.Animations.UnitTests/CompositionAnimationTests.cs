@@ -3,7 +3,10 @@
 
 using System.Numerics;
 using Avalonia;
+using Avalonia.Controls;
 using Avalonia.Headless.XUnit;
+using Avalonia.Rendering.Composition;
+using Avalonia.Threading;
 using Avalonia.Xaml.Interactions.Custom;
 using Xunit;
 
@@ -17,6 +20,44 @@ public class CompositionAnimationTests
         Vector3 offset = ParallaxAnimation.CalculateOffset(new Avalonia.Vector(20d, 50d), 0.25d);
 
         Assert.Equal(new Vector3(5f, 12.5f, 0f), offset);
+    }
+
+    [AvaloniaFact]
+    public void ParallaxAnimation_AppliesOffsetToAttachedCompositionVisual()
+    {
+        var target = new Border { Width = 100d, Height = 100d };
+        Canvas.SetLeft(target, 30d);
+        Canvas.SetTop(target, 40d);
+        var canvas = new Canvas { Width = 300d, Height = 300d, Children = { target } };
+        var window = new Window { Content = canvas };
+        window.Show();
+        Dispatcher.UIThread.RunJobs();
+
+        bool applied = ParallaxAnimation.Apply(target, new Avalonia.Vector(20d, 50d), 0.25d);
+
+        Assert.True(applied);
+        Assert.Equal(new Vector3(35f, 52.5f, 0f), ElementComposition.GetElementVisual(target)?.Offset);
+        window.Close();
+    }
+
+    [AvaloniaFact]
+    public void ParallaxAnimation_RetainsAttachedCompositionVisualAcrossUpdates()
+    {
+        var target = new Border { Width = 100d, Height = 100d };
+        Canvas.SetLeft(target, 30d);
+        Canvas.SetTop(target, 40d);
+        var canvas = new Canvas { Width = 300d, Height = 300d, Children = { target } };
+        var window = new Window { Content = canvas };
+        window.Show();
+        Dispatcher.UIThread.RunJobs();
+        ParallaxAnimation? animation = ParallaxAnimation.TryCreate(target);
+
+        Assert.NotNull(animation);
+        animation.Apply(new Avalonia.Vector(10d, 20d), 0.5d);
+        animation.Apply(new Avalonia.Vector(20d, 50d), 0.25d);
+
+        Assert.Equal(new Vector3(35f, 52.5f, 0f), ElementComposition.GetElementVisual(target)?.Offset);
+        window.Close();
     }
 
     [AvaloniaFact]
@@ -77,6 +118,7 @@ public class CompositionAnimationTests
     {
         var orbit = new OrbitAnimation();
 
+        Assert.Null(ParallaxAnimation.TryCreate(null));
         Assert.False(ParallaxAnimation.Apply(null, default, 0.25d));
         Assert.False(orbit.Rotate(null, new Avalonia.Vector(10d, 5d), 0.5d));
         Assert.False(TiltAnimation.Apply(null, default, 5d));

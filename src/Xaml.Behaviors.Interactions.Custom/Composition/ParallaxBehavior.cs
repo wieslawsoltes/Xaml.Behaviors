@@ -47,11 +47,13 @@ public class ParallaxBehavior : Behavior<Control>, IObserver<Avalonia.Vector>
     }
 
     private IDisposable? _scrollSubscription;
+    private ParallaxAnimation? _animation;
 
     /// <inheritdoc />
     protected override void OnAttachedToVisualTree()
     {
         base.OnAttachedToVisualTree();
+        _animation = ParallaxAnimation.TryCreate(AssociatedObject);
         if (SourceScrollViewer == null)
         {
             // Try to find parent ScrollViewer
@@ -80,6 +82,7 @@ public class ParallaxBehavior : Behavior<Control>, IObserver<Avalonia.Vector>
         base.OnDetachedFromVisualTree();
         _scrollSubscription?.Dispose();
         _scrollSubscription = null;
+        _animation = null;
     }
 
     /// <inheritdoc />
@@ -95,6 +98,7 @@ public class ParallaxBehavior : Behavior<Control>, IObserver<Avalonia.Vector>
     /// <inheritdoc />
     public void OnNext(Avalonia.Vector value)
     {
-        ParallaxAnimation.Apply(AssociatedObject, value, ParallaxRatio);
+        _animation ??= ParallaxAnimation.TryCreate(AssociatedObject);
+        _animation?.Apply(value, ParallaxRatio);
     }
 }

@@ -12,7 +12,7 @@
     <TextBlock Text="Parallax composition effect" FontSize="24" FontWeight="SemiBold" />
     <TextBlock Grid.Row="1"
                Margin="0,10,0,18"
-               Text="Scroll the content. The cards subscribe to the ScrollViewer offset and call ParallaxAnimation.Apply directly."
+               Text="Scroll the content. Each card retains a ParallaxAnimation session and applies ScrollViewer offsets directly."
                TextWrapping="Wrap" />
     <ScrollViewer x:Name="ParallaxScroller" Grid.Row="2">
       <StackPanel Spacing="70" Margin="20,30,20,220">

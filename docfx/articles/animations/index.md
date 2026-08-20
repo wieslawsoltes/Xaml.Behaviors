@@ -64,7 +64,7 @@ public static class WelcomeAnimation
 
 `AnimationRunner.TryBuildAndRunAsync` applies the same explicit-animation-first selection used by the behavior adapters and returns `null` when neither an animation nor a builder result is available. `FluidMoveAnimation.TryRun` prepares a control's translation transform before starting its movement animation.
 
-Composition effects expose calculation and application separately where useful. For example, a scroll observer can call `ParallaxAnimation.Apply(target, offset, ratio)` without attaching `ParallaxBehavior`. `OrbitAnimation` maintains its orientation state for callers, while `TiltAnimation` calculates an orientation directly from the target size and pointer position.
+Composition effects expose calculation and application separately where useful. For example, a scroll observer can retain a session from `ParallaxAnimation.TryCreate(target)` and call its `Apply(offset, ratio)` method without attaching `ParallaxBehavior`. The session preserves the target composition visual across scroll updates and adds each parallax delta to the target's layout offset. `OrbitAnimation` maintains its orientation state for callers, while `TiltAnimation` calculates an orientation directly from the target size and pointer position.
 
 `SelectionIndicatorAnimation.TryStart` can animate explicitly supplied indicator/container visuals or resolve the conventional `PART_SelectedPipe` from two templated item containers. `SelectingItemsControlBehavior.EnableSelectionAnimation` is the convenient attached-property adapter over the same primitive.
 

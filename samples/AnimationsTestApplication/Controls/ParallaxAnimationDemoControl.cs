@@ -16,6 +16,7 @@ namespace AnimationsTestApplication.Controls;
 public class ParallaxAnimationDemoControl : ContentControl, IObserver<Vector>
 {
     private IDisposable? _subscription;
+    private ParallaxAnimation? _animation;
     private bool _isAttached;
 
     public static readonly StyledProperty<ScrollViewer?> SourceProperty =
@@ -41,6 +42,7 @@ public class ParallaxAnimationDemoControl : ContentControl, IObserver<Vector>
     {
         base.OnAttachedToVisualTree(e);
         _isAttached = true;
+        _animation = ParallaxAnimation.TryCreate(this);
         Subscribe();
     }
 
@@ -49,6 +51,7 @@ public class ParallaxAnimationDemoControl : ContentControl, IObserver<Vector>
         _isAttached = false;
         _subscription?.Dispose();
         _subscription = null;
+        _animation = null;
         base.OnDetachedFromVisualTree(e);
     }
 
@@ -71,7 +74,8 @@ public class ParallaxAnimationDemoControl : ContentControl, IObserver<Vector>
 
     public void OnNext(Vector value)
     {
-        ParallaxAnimation.Apply(this, value, Ratio);
+        _animation ??= ParallaxAnimation.TryCreate(this);
+        _animation?.Apply(value, Ratio);
     }
 
     private void Subscribe()
