@@ -1,6 +1,7 @@
 // Copyright (c) Wiesław Šoltés. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for details.
 using System;
+using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Reflection;
@@ -28,6 +29,29 @@ internal static class PropertyHelper
     }
 
     private static AvaloniaProperty? InitializeOwnerAndFindAttachedProperty(
+        Type targetType,
+        string ownerTypeName,
+        string propertyName)
+    {
+        // Reflection over all assemblies/types is extremely expensive. This is
+        // called from ChangePropertyAction for dotted property names (e.g.
+        // "Border.BorderBrush") once per item container in data-templated lists -
+        // cache the result per (targetType, ownerTypeName, propertyName).
+        var cacheKey = (targetType, ownerTypeName, propertyName);
+        if (_attachedPropertyCache.TryGetValue(cacheKey, out var cached))
+        {
+            return cached;
+        }
+
+        var result = InitializeOwnerAndFindAttachedPropertySlow(targetType, ownerTypeName, propertyName);
+        _attachedPropertyCache[cacheKey] = result;
+        return result;
+    }
+
+    private static readonly Dictionary<(Type, string, string), AvaloniaProperty?> _attachedPropertyCache =
+        new Dictionary<(Type, string, string), AvaloniaProperty?>();
+
+    private static AvaloniaProperty? InitializeOwnerAndFindAttachedPropertySlow(
         Type targetType,
         string ownerTypeName,
         string propertyName)
