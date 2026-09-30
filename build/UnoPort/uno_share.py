@@ -42,6 +42,9 @@ USING_MAP = {
     "Avalonia.Rendering.Composition": ["Microsoft.UI.Composition"],
     "Avalonia.Rendering.Composition.Animations": ["Microsoft.UI.Composition"],
     "Avalonia.VisualTree": ["Microsoft.UI.Xaml.Media"],
+    # Shared tests: the Avalonia headless test API is provided by tests/Uno/Shared/TestCompat (global using).
+    "Avalonia.Headless": [],
+    "Avalonia.Headless.XUnit": [],
 }
 
 PROPERTY_DECL = re.compile(

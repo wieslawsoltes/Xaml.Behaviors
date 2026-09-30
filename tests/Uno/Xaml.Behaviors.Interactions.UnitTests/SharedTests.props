@@ -1,0 +1,103 @@
+<Project>
+  <!--
+    Files of tests/Xaml.Behaviors.Interactions.UnitTests that are not compiled for Uno Platform, one block per folder.
+    Pending files are listed under "not ported yet"; files that stay excluded name the reason.
+  -->
+  <PropertyGroup>
+    <UnoSharedTestExcludes></UnoSharedTestExcludes>
+  </PropertyGroup>
+
+  <!-- (root): not ported yet. -->
+  <PropertyGroup>
+    <UnoSharedTestExcludes>$(UnoSharedTestExcludes);
+      HeadlessWindowExtensions.cs;
+    </UnoSharedTestExcludes>
+  </PropertyGroup>
+
+  <!-- Core: not ported yet. -->
+  <PropertyGroup>
+    <UnoSharedTestExcludes>$(UnoSharedTestExcludes);
+      Core/ActionLogicalTreeLifetimeTests.cs;
+      Core/ChangePropertyAction001.axaml.cs;
+      Core/ChangePropertyAction002.axaml.cs;
+      Core/ChangePropertyActionTests.cs;
+      Core/Command.cs;
+      Core/DataTriggerBehavior001.axaml.cs;
+      Core/DataTriggerBehavior002.axaml.cs;
+      Core/DataTriggerBehavior003.axaml.cs;
+      Core/DataTriggerBehavior004.axaml.cs;
+      Core/DataTriggerBehaviorTests.cs;
+      Core/EventTriggerBehavior001.axaml.cs;
+      Core/EventTriggerBehavior002.axaml.cs;
+      Core/EventTriggerBehavior003.axaml.cs;
+      Core/EventTriggerBehavior004.axaml.cs;
+      Core/EventTriggerBehavior005.axaml.cs;
+      Core/EventTriggerBehaviorTests.cs;
+      Core/InvokeCommandAction001.axaml.cs;
+      Core/InvokeCommandAction002.axaml.cs;
+      Core/InvokeCommandAction003.axaml.cs;
+      Core/InvokeCommandAction004.axaml.cs;
+      Core/InvokeCommandActionTests.cs;
+      Core/ItemDragBehaviorHorizontal.axaml.cs;
+      Core/ItemDragBehaviorTests.cs;
+      Core/ItemDragBehaviorVertical.axaml.cs;
+      Core/ListReorderDragBehaviorWindow.axaml.cs;
+      Core/MultiDataTriggerBehavior001.axaml.cs;
+      Core/MultiDataTriggerBehavior002.axaml.cs;
+      Core/MultiDataTriggerBehavior003.axaml.cs;
+      Core/MultiDataTriggerBehaviorTests.cs;
+      Core/ObservableCommand.cs;
+      Core/PickerActionBaseTests.cs;
+      Core/PickerBehaviorBaseTests.cs;
+      Core/TestValueConverter.cs;
+    </UnoSharedTestExcludes>
+  </PropertyGroup>
+
+  <!-- Custom: not ported yet. -->
+  <PropertyGroup>
+    <UnoSharedTestExcludes>$(UnoSharedTestExcludes);
+      Custom/AnimationAdapterTests.cs;
+      Custom/AttachedToVisualTreeLifecycleTests.cs;
+      Custom/BindableValidationRule001.axaml.cs;
+      Custom/ClickEventTrigger001.axaml.cs;
+      Custom/ClickEventTriggerTests.cs;
+      Custom/DetachedFromVisualTreeTrigger001.axaml.cs;
+      Custom/DetachedFromVisualTreeTriggerTests.cs;
+      Custom/ExecuteCommandBehaviorBaseTests.cs;
+      Custom/FocusNextElementActionTests.cs;
+      Custom/FocusTrapBehaviorTests.cs;
+      Custom/InlineEditBehaviorTests.cs;
+      Custom/InvokeButtonClickActionTests.cs;
+      Custom/RoutedEventTriggerBehaviorTests.cs;
+      Custom/ToolTipTriggerTests.cs;
+      Custom/UnoPortedControlBehaviorsTests.cs;
+      Custom/ValidationRuleTests.cs;
+      Custom/WindowClosedRoutedEventWindow.axaml.cs;
+      Custom/XmlnsDefinitionRuntimeXamlTests.cs;
+    </UnoSharedTestExcludes>
+  </PropertyGroup>
+
+  <!-- DragAndDrop: not ported yet. -->
+  <PropertyGroup>
+    <UnoSharedTestExcludes>$(UnoSharedTestExcludes);
+      DragAndDrop/ContextDragBehaviorTests.cs;
+      DragAndDrop/ContextDragEscapeWindow.axaml.cs;
+      DragAndDrop/ContextDropBehavior001.axaml.cs;
+      DragAndDrop/ContextDropBehaviorTests.cs;
+      DragAndDrop/DragDropCommandsBehaviorTests.cs;
+      DragAndDrop/ManagedContextDropBehaviorTests.cs;
+      DragAndDrop/PanelDragBehaviorTests.cs;
+      DragAndDrop/PanelDragDrop001.axaml.cs;
+      DragAndDrop/TestContextDragBehavior.cs;
+      DragAndDrop/TestDropHandler.cs;
+      DragAndDrop/VirtualizedContextDragWindow.axaml.cs;
+    </UnoSharedTestExcludes>
+  </PropertyGroup>
+
+  <!-- Events: not ported yet. -->
+  <PropertyGroup>
+    <UnoSharedTestExcludes>$(UnoSharedTestExcludes);
+      Events/EventTriggerDetachTests.cs;
+    </UnoSharedTestExcludes>
+  </PropertyGroup>
+</Project>

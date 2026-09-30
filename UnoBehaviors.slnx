@@ -12,6 +12,9 @@
     <File Path="src/Uno/Directory.Build.props" />
     <File Path="src/Uno/Directory.Build.targets" />
     <File Path="src/Uno/PORTING.md" />
+    <File Path="src/Uno/UnoPortAliases.props" />
+    <File Path="tests/Uno/README.md" />
+    <File Path="tests/Uno/UnoSharedTests.targets" />
   </Folder>
   <Folder Name="/samples/">
     <Project Path="samples/Uno/BehaviorsTestApplication/BehaviorsTestApplication.csproj" />
