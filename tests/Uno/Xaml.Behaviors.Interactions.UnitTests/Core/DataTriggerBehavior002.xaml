@@ -1,0 +1,30 @@
+<compat:HeadlessTestWindow x:Class="Xaml.Interactions.UnitTests.Core.DataTriggerBehavior002"
+                           xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                           xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                           xmlns:compat="using:Xaml.Behaviors.Uno.TestCompat"
+                           xmlns:i="using:Xaml.Interactivity"
+                           xmlns:ic="using:Xaml.Interactions.Core"
+                           Title="DataTriggerBehavior002">
+  <StackPanel>
+    <TextBlock x:Name="TargetTextBlock" x:FieldModifier="internal"
+               Text="">
+      <i:Interaction.Behaviors>
+        <ic:DataTriggerBehavior Binding="{x:Bind TargetCheckBox.IsChecked, Mode=OneWay}"
+                                ComparisonCondition="Equal"
+                                Value="True">
+          <ic:ChangePropertyAction PropertyName="Text"
+                                   Value="Checked" />
+        </ic:DataTriggerBehavior>
+        <ic:DataTriggerBehavior Binding="{x:Bind TargetCheckBox.IsChecked, Mode=OneWay}"
+                                ComparisonCondition="Equal"
+                                Value="False">
+          <ic:ChangePropertyAction PropertyName="Text"
+                                   Value="Unchecked" />
+        </ic:DataTriggerBehavior>
+      </i:Interaction.Behaviors>
+    </TextBlock>
+    <CheckBox x:Name="TargetCheckBox" x:FieldModifier="internal"
+              Content="Check"
+              IsChecked="False" />
+  </StackPanel>
+</compat:HeadlessTestWindow>

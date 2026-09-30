@@ -1,12 +1,25 @@
 using System;
 using System.Threading.Tasks;
+#if UNO
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Dispatching;
+using Xaml.Interactions.Core;
+using System.Collections.Generic;
+using Windows.Storage;
+#else
 using Avalonia.Controls;
 using Avalonia.Headless.XUnit;
 using Avalonia.Threading;
 using Avalonia.Xaml.Interactions.Core;
+#endif
 using Xunit;
 
+#if UNO
+namespace Xaml.Interactions.UnitTests.Core;
+#else
 namespace Avalonia.Xaml.Interactions.UnitTests.Core;
+#endif
 
 public class PickerActionBaseTests
 {
@@ -47,7 +60,11 @@ public class PickerActionBaseTests
     {
         var action = new OpenFilePickerAction
         {
-            Command = new Command(_ => { })
+            Command = new Command(_ => { }),
+#if UNO
+            // The headless Uno host has no system pickers (Avalonia headless: a storage provider without pickers).
+            StorageProvider = new HeadlessStorageProvider(),
+#endif
         };
 
         var result = action.Execute(new Border(), null);
@@ -83,7 +100,11 @@ public class PickerActionBaseTests
     {
         var action = new OpenFolderPickerAction
         {
-            Command = new Command(_ => { })
+            Command = new Command(_ => { }),
+#if UNO
+            // The headless Uno host has no system pickers (Avalonia headless: a storage provider without pickers).
+            StorageProvider = new HeadlessStorageProvider(),
+#endif
         };
 
         var result = action.Execute(new Border(), null);
@@ -97,7 +118,11 @@ public class PickerActionBaseTests
     {
         var action = new SaveFilePickerAction
         {
-            Command = new Command(_ => { })
+            Command = new Command(_ => { }),
+#if UNO
+            // The headless Uno host has no system pickers (Avalonia headless: a storage provider without pickers).
+            StorageProvider = new HeadlessStorageProvider(),
+#endif
         };
 
         var result = action.Execute(new Border(), null);
@@ -121,6 +146,23 @@ public class PickerActionBaseTests
         Assert.Equal(0, action.ActivePickerOperationCount);
     }
 
+#if UNO
+    private sealed class HeadlessStorageProvider : IStorageProvider
+    {
+        public Task<IReadOnlyList<IStorageFile>> OpenFilePickerAsync(FilePickerOpenOptions options)
+            => Task.FromResult<IReadOnlyList<IStorageFile>>([]);
+
+        public Task<IStorageFile?> SaveFilePickerAsync(FilePickerSaveOptions options)
+            => Task.FromResult<IStorageFile?>(null);
+
+        public Task<IReadOnlyList<IStorageFolder>> OpenFolderPickerAsync(FolderPickerOpenOptions options)
+            => Task.FromResult<IReadOnlyList<IStorageFolder>>([]);
+
+        public Task<IStorageFolder?> TryGetFolderFromPathAsync(Uri folderPath)
+            => Task.FromResult<IStorageFolder?>(null);
+    }
+
+#endif
     private sealed class TestPickerAction : PickerActionBase
     {
         public Task Track(Task task)

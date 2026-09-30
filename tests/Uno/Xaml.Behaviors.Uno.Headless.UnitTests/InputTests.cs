@@ -1,5 +1,6 @@
 // Copyright (c) Wiesław Šoltés. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for details.
+using System;
 using System.Collections.Generic;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -61,5 +62,25 @@ public class InputTests
         Session.Mouse.Click(target, new Point(40, 5));
 
         Assert.Equal([new Point(10, 20), new Point(40, 5)], pressed);
+    }
+
+    [UnoHeadlessFact]
+    public void Mouse_Wait_Separates_Clicks_Into_Single_Taps()
+    {
+        var doubleTaps = 0;
+        var target = new Border { Width = 50, Height = 50, Background = new SolidColorBrush(Microsoft.UI.Colors.Red) };
+        target.DoubleTapped += (_, _) => doubleTaps++;
+        Session.Show(new StackPanel { Children = { target } });
+        Session.Mouse.Wait(TimeSpan.FromSeconds(10));
+
+        Session.Mouse.Click(target);
+        Session.Mouse.Wait(TimeSpan.FromSeconds(10));
+        Session.Mouse.Click(target);
+
+        Assert.Equal(0, doubleTaps);
+
+        Session.Mouse.Click(target);
+
+        Assert.Equal(1, doubleTaps);
     }
 }

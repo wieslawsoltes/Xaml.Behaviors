@@ -1,8 +1,20 @@
-﻿using Avalonia.Controls;
+﻿#if UNO
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Input;
+// The test windows (HeadlessTestWindow) are elements shown in the headless session window.
+using TopLevel = Microsoft.UI.Xaml.UIElement;
+#else
+using Avalonia.Controls;
 using Avalonia.Headless;
 using Avalonia.Input;
+#endif
 
+#if UNO
+namespace Xaml.Interactions.UnitTests;
+#else
 namespace Avalonia.Xaml.Interactions.UnitTests;
+#endif
 
 /// <summary>
 /// Set of extension methods to simplify usage of Avalonia.Headless platform.

@@ -19,6 +19,15 @@ public abstract partial class Behavior
     }
 
     /// <summary>
+    /// Gets a value indicating whether the initialized event of the associated object was raised for this behavior.
+    /// </summary>
+    /// <remarks>
+    /// On Uno Platform the initialized event is raised when the associated object is loaded: before that, bindings of
+    /// the behavior that depend on the inherited data context are not resolved yet.
+    /// </remarks>
+    internal bool IsInitializedNotified => _isInitializedNotified;
+
+    /// <summary>
     /// Publishes the associated object to the actions of a trigger (WinUI has no logical tree).
     /// </summary>
     /// <param name="host">The associated object, or <c>null</c> when detaching.</param>

@@ -1,6 +1,16 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+#if UNO
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Input;
+using Microsoft.UI.Dispatching;
+using Xaml.Interactions.Draggable;
+using Xaml.Interactivity;
+// The test windows (HeadlessTestWindow) are elements shown in the headless session window.
+using TopLevel = Microsoft.UI.Xaml.UIElement;
+#else
 using Avalonia.Controls;
 using Avalonia.Controls.Presenters;
 using Avalonia.Headless;
@@ -9,9 +19,14 @@ using Avalonia.Input;
 using Avalonia.Threading;
 using Avalonia.Xaml.Interactions.Draggable;
 using Avalonia.Xaml.Interactivity;
+#endif
 using Xunit;
 
+#if UNO
+namespace Xaml.Interactions.UnitTests.Core;
+#else
 namespace Avalonia.Xaml.Interactions.UnitTests.Core;
+#endif
 
 public class ItemDragBehaviorTests
 {
@@ -19,7 +34,12 @@ public class ItemDragBehaviorTests
         ListReorderDragBehaviorWindow window,
         int index)
     {
+#if UNO
+        // The Uno test window uses the virtualizing WinUI ListView (Uno Platform's ListBox has no ListBoxItem containers).
+        var container = Assert.IsType<ListViewItem>(window.TargetListBox.ContainerFromIndex(index));
+#else
         var container = Assert.IsType<ListBoxItem>(window.TargetListBox.ContainerFromIndex(index));
+#endif
         var behaviors = Assert.IsType<BehaviorCollection>(
             container.GetValue(Interaction.BehaviorsProperty));
         var behavior = Assert.IsType<ListReorderDragBehavior>(Assert.Single(behaviors));
@@ -60,7 +80,12 @@ public class ItemDragBehaviorTests
         window.MouseUp(parent, end, MouseButton.Left);
     }
 
+#if UNO
+    // The Uno headless session injects pointer input, so the drag runs.
+    [AvaloniaFact]
+#else
     [AvaloniaFact(Skip = "Drag not supported in headless environment")]
+#endif
     public void ItemDragBehavior_Reorders_Vertical()
     {
         var window = new ItemDragBehaviorVertical();
@@ -68,7 +93,11 @@ public class ItemDragBehaviorTests
         window.Show();
         window.CaptureRenderedFrame();
 
+#if UNO
+        var containers = window.TargetListBox.GetRealizedContainers().Cast<ListViewItem>().ToList();
+#else
         var containers = window.TargetListBox.GetRealizedContainers().Cast<ListBoxItem>().ToList();
+#endif
         Assert.Equal(new[] { "Item1", "Item2", "Item3" }, window.Items.ToArray());
 
         Drag(window, window.TargetListBox, containers[0], false);
@@ -76,7 +105,11 @@ public class ItemDragBehaviorTests
         Assert.Equal(new[] { "Item2", "Item3", "Item1" }, window.Items.ToArray());
     }
 
+#if UNO
+    [AvaloniaFact]
+#else
     [AvaloniaFact(Skip = "Drag not supported in headless environment")]
+#endif
     public void ItemDragBehavior_Reorders_Horizontal()
     {
         var window = new ItemDragBehaviorHorizontal();

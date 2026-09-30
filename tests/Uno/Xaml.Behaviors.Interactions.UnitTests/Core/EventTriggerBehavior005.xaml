@@ -1,0 +1,29 @@
+<compat:HeadlessTestWindow x:Class="Xaml.Interactions.UnitTests.Core.EventTriggerBehavior005"
+                           xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                           xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                           xmlns:compat="using:Xaml.Behaviors.Uno.TestCompat"
+                           xmlns:i="using:Xaml.Interactivity"
+                           xmlns:ic="using:Xaml.Interactions.Core"
+                           xmlns:local="using:Xaml.Interactions.UnitTests.Core">
+  <compat:HeadlessTestWindow.DataContext>
+    <local:FlyoutEventBindingSource />
+  </compat:HeadlessTestWindow.DataContext>
+
+  <Button x:Name="TargetButton" x:FieldModifier="internal" Content="Open flyout">
+    <Button.Flyout>
+      <Flyout>
+        <i:Interaction.Behaviors>
+          <ic:EventTriggerBehavior EventName="Opened">
+            <ic:InvokeCommandAction Command="{Binding OpenedCommand}"
+                                    PassEventArgsToCommand="True" />
+          </ic:EventTriggerBehavior>
+          <ic:EventTriggerBehavior EventName="Closed">
+            <ic:InvokeCommandAction Command="{Binding ClosedCommand}"
+                                    PassEventArgsToCommand="True" />
+          </ic:EventTriggerBehavior>
+        </i:Interaction.Behaviors>
+        <TextBlock Text="Flyout content" />
+      </Flyout>
+    </Button.Flyout>
+  </Button>
+</compat:HeadlessTestWindow>

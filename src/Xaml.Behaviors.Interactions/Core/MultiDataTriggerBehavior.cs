@@ -7,6 +7,7 @@ using System.Diagnostics.CodeAnalysis;
 #if UNO
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Dispatching;
 using Xaml.Interactivity;
 #else
@@ -312,8 +313,18 @@ public partial class MultiDataTriggerBehavior : StyledElementTrigger
         {
             var sourceName = condition.SourceName!;
 #if UNO
-            // WinUI resolves names through the XAML name scope of the element.
-            return (AssociatedObject as FrameworkElement)?.FindName(sourceName) as AvaloniaObject;
+            // WinUI has no logical tree: query the name scope of the element and of its parents (Uno Platform's
+            // FindName only searches the subtree of the element).
+            for (var current = AssociatedObject as FrameworkElement; current is not null;
+                 current = (current.Parent ?? VisualTreeHelper.GetParent(current)) as FrameworkElement)
+            {
+                if (current.FindName(sourceName) is AvaloniaObject found)
+                {
+                    return found;
+                }
+            }
+
+            return null;
 #else
 
             var namedTarget = FindInNameScope(AssociatedObject, sourceName) ??
@@ -411,6 +422,15 @@ public partial class MultiDataTriggerBehavior : StyledElementTrigger
         {
             return;
         }
+
+#if UNO
+        // The bindings of the behavior resolve through the data context inherited when the associated object enters
+        // the tree: evaluate from the initialized event (raised when it is loaded), not from changes queued before.
+        if (!IsInitializedNotified)
+        {
+            return;
+        }
+#endif
 
         if (!IsEnabled)
         {
