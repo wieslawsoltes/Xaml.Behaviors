@@ -1,0 +1,13 @@
+<Project>
+  <!--
+    Xaml.PortAnalyzers: the generated analyzer config file stores one value per line, so multi-line property
+    values (a common way to list excluded files) are collapsed to a single line before it is written.
+  -->
+  <Target Name="_XamlPortNormalizeAnalyzerProperties" BeforeTargets="GenerateMSBuildEditorConfigFileShouldRun;GenerateMSBuildEditorConfigFile">
+    <PropertyGroup>
+      <XamlPortSharedSourceExcludes Condition="'$(XamlPortSharedSourceExcludes)' != ''">$([MSBuild]::Unescape($([System.Text.RegularExpressions.Regex]::Replace('$(XamlPortSharedSourceExcludes)', '\s*[\r\n]+\s*', ''))))</XamlPortSharedSourceExcludes>
+      <XamlPortKnownSymbols Condition="'$(XamlPortKnownSymbols)' != ''">$([System.Text.RegularExpressions.Regex]::Replace('$(XamlPortKnownSymbols)', '\s+', ';'))</XamlPortKnownSymbols>
+      <XamlPortTargetSymbol Condition="'$(XamlPortTargetSymbol)' != ''">$(XamlPortTargetSymbol.Trim())</XamlPortTargetSymbol>
+    </PropertyGroup>
+  </Target>
+</Project>
