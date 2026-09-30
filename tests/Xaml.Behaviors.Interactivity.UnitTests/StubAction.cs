@@ -1,6 +1,14 @@
-﻿namespace Avalonia.Xaml.Interactivity.UnitTests;
+﻿#if UNO
+namespace Xaml.Interactivity.UnitTests;
+#else
+namespace Avalonia.Xaml.Interactivity.UnitTests;
+#endif
 
+#if UNO
+public partial class StubAction(object? returnValue) : Xaml.Interactivity.StyledElementAction
+#else
 public class StubAction(object? returnValue) : Avalonia.Xaml.Interactivity.StyledElementAction
+#endif
 {
     public StubAction() : this(null)
     {

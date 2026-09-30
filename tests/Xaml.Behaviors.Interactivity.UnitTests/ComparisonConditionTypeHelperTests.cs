@@ -2,7 +2,11 @@ using System;
 using System.Diagnostics.CodeAnalysis;
 using Xunit;
 
+#if UNO
+namespace Xaml.Interactivity.UnitTests;
+#else
 namespace Avalonia.Xaml.Interactivity.UnitTests;
+#endif
 
 [UnconditionalSuppressMessage("Trimming", "IL2026", Justification = "Validates the reflection-based compatibility comparison helper.")]
 public class ComparisonConditionTypeHelperTests

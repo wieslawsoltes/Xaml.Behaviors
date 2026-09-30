@@ -1,9 +1,18 @@
 using System;
+#if UNO
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+#else
 using Avalonia.Controls;
 using Avalonia.Headless.XUnit;
+#endif
 using Xunit;
 
+#if UNO
+namespace Xaml.Interactivity.UnitTests;
+#else
 namespace Avalonia.Xaml.Interactivity.UnitTests;
+#endif
 
 public class BehaviorOfTTests
 {

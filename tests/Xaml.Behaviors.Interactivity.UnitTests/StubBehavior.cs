@@ -1,8 +1,12 @@
 ﻿using System.Collections.Generic;
 
+#if UNO
+namespace Xaml.Interactivity.UnitTests;
+#else
 namespace Avalonia.Xaml.Interactivity.UnitTests;
+#endif
 
-public class StubBehavior : AvaloniaObject, IBehavior
+public partial class StubBehavior : AvaloniaObject, IBehavior
 {
     public int AttachCount
     {

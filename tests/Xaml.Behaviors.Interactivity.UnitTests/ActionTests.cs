@@ -1,11 +1,21 @@
 using System;
 using System.Linq;
+#if UNO
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Xaml.Interactivity;
+#else
 using Avalonia.Controls;
 using Avalonia.Headless.XUnit;
 using Avalonia.Xaml.Interactivity;
+#endif
 using Xunit;
 
+#if UNO
+namespace Xaml.Interactivity.UnitTests;
+#else
 namespace Avalonia.Xaml.Interactivity.UnitTests;
+#endif
 
 public class ActionTests
 {
