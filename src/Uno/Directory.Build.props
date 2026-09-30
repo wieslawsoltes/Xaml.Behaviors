@@ -21,6 +21,10 @@
     <NoWarn>$(NoWarn);CS1574</NoWarn>
     <!-- Libraries do not need the app-level implicit packages of the Uno.Sdk. -->
     <UnoFeatures></UnoFeatures>
+    <!-- Uno.Sdk libraries are not packable by default; every project under src/Uno ships as a NuGet package. -->
+    <IsPackable>true</IsPackable>
+    <!-- Uno.Sdk would build project references during a no-build pack (NETSDK1085); they are already built. -->
+    <BuildProjectReferences Condition="'$(NoBuild)' == 'true'">false</BuildProjectReferences>
     <PackageTags>Uno;UnoPlatform;WinUI;Behavior;Action;Behaviors;Actions;Managed;C#;Interaction;Interactivity;Interactions;Xaml</PackageTags>
   </PropertyGroup>
 

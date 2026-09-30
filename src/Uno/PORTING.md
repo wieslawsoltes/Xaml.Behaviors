@@ -93,7 +93,9 @@ portability analyzers know which files are shared.
 dotnet build AvaloniaBehaviors.slnx -c Release
 mkdir -p /tmp/baseline && cp src/Xaml.Behaviors*/bin/Release/net10.0/Xaml.Behaviors*.dll /tmp/baseline/
 
-# 1. Generate the properties (Avalonia build, deterministic code fix)
+# 1. Generate the properties (Avalonia build, deterministic code fix). dotnet format loads the analyzers from the
+#    Debug output, so build the project in Debug first.
+dotnet build src/Xaml.Behaviors.<Name>/Xaml.Behaviors.<Name>.csproj -c Debug
 dotnet format analyzers src/Xaml.Behaviors.<Name>/Xaml.Behaviors.<Name>.csproj --diagnostics XPG1001 --severity info
 
 # 2. Share the sources (namespaces, usings, partial, getter casts)
@@ -118,15 +120,16 @@ python3 build/UnoPort/uno_share.py src/Xaml.Behaviors.<Name>
 | Xaml.Behaviors.Interactivity | ✅ | Avalonia templates (`ITemplate`) are replaced by `Interaction.BehaviorsTemplate` + `BehaviorCollectionHost` on Uno; the C# 14 `Behaviors` extension is Avalonia only. |
 | Xaml.Behaviors.Interactions | ✅ | Clipboard uses a public `IClipboard`/`SystemClipboard` (DataTransfer.Clipboard); pickers use the Avalonia shaped `IStorageProvider`/options types backed by `SystemStorageProvider` (Windows.Storage.Pickers, no arbitrary start folder). Composite actions use the action tree (`Action.Host`). |
 | Xaml.Behaviors.Interactions.Events | ✅ | Scroll gesture and IME client events have no WinUI counterpart. |
-| Xaml.Behaviors.Interactions.Responsive | ⏳ | |
-| Xaml.Behaviors.Interactions.Draggable | ⏳ | |
-| Xaml.Behaviors.Interactions.DragAndDrop | ⏳ | |
-| Xaml.Behaviors.Interactions.DragAndDrop.DataGrid | ⏳ | |
-| Xaml.Behaviors.Interactions.Custom | 🚧 | Properties generated and sources shared; folders are enabled one by one in `SharedSources.props`. |
-| Xaml.Behaviors.Interactions.ReactiveUI | ⏳ | |
-| Xaml.Behaviors.Interactions.Scripting | ⏳ | |
-| Xaml.Behaviors.Animations | ⏳ | |
-| Xaml.Behaviors (single assembly) | ⏳ | |
+| Xaml.Behaviors.Interactions.Responsive | ✅ | Style classes map to visual states (`VisualStateManager`): adding a class moves the control to the state of the same name, removing it to `Not{Name}`, `Normal` or `Default`. Bounds come from `ActualOffset` and the actual size. |
+| Xaml.Behaviors.Interactions.Draggable | ✅ | `SelectionAdorner` is excluded (no adorner layer); the list reorder placeholder is shown in a non-interactive `Popup`. Pointer capture on press, `TranslateTransform` instead of transform operations, `ChangeView` for scrolling. |
+| Xaml.Behaviors.Interactions.DragAndDrop | ✅ | `ManagedDragDrop/**` is excluded (it builds `DragEventArgs` and top-level windows; the WinUI drag is already in-process on Uno Skia/WASM). `DragDropEffects` is `DataPackageOperation`; drop targets that do not set effects accept what the source allows. |
+| Xaml.Behaviors.Interactions.DragAndDrop.DataGrid | ✅ | Built against the Uno maintained `Uno.CommunityToolkit.WinUI.UI.Controls.DataGrid`. |
+| Xaml.Behaviors.Interactions.Custom | ✅ | Every folder is ported. Excluded (no WinUI counterpart): style class actions, `ScreenshotAction`, resources changed triggers, `Cursor/**` (only the protected `ProtectedCursor` exists), visual debug adorner, pinch/pull/scroll/touch pad gestures, IME client events, `NumericUpDownValidationBehavior`, `Notifications/**`, `Screen/**`, `CenterWindowBehavior`, `WindowDragMoveBehavior`, the RenderTarget drawing behaviors and `ItemsControlPreparingContainerTrigger`. Controls map to their WinUI counterparts (`AutoSuggestBox`, `FlipView`, `TabView`, `ContentDialog`, `ItemsRepeater`, `Selector`, …). |
+| Xaml.Behaviors.Interactions.ReactiveUI | ✅ | Depends on ReactiveUI core only. |
+| Xaml.Behaviors.Interactions.Scripting | ✅ | Same `[RequiresUnreferencedCode]` contract; needs a runtime with dynamic code (not AOT-only targets). |
+| Xaml.Behaviors.Animations | ✅ | Avalonia `Animation` becomes a WinUI `Storyboard` (`PlatformAnimation` alias); composition offsets are relative to the layout position on Uno Skia; tilt/orbit rotate around an axis; the selection indicator starts explicit key frame animations (no implicit animations on Uno). |
+| Xaml.Behaviors (single assembly) | ✅ | `src/Uno/Xaml.Behaviors` (`Xaml.Behaviors.Uno`) compiles exactly the sources of the Interactivity, Animations, Interactions, Custom, DragAndDrop, Draggable, Events and Responsive Uno projects. |
+| Xaml.Behaviors.Avalonia (meta package) | ✅ | `src/Uno/Xaml.Behaviors.All` (`Xaml.Behaviors.Uno.All`) references the same packages. |
 | Xaml.Behaviors.SourceGenerators | ✅ | Same generator project; platform strategy (`IXamlPlatform`) with Avalonia and WinUI emitters, override with `XamlBehaviorsSourceGeneratorPlatform`. See `docfx/articles/source-generators/uno-platform.md`. |
 
 ## Tooling

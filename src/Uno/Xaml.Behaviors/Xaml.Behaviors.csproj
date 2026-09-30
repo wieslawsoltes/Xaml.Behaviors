@@ -1,0 +1,157 @@
+<Project Sdk="Uno.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>$(UnoTargetFrameworks)</TargetFrameworks>
+    <AssemblyName>Xaml.Behaviors.Uno</AssemblyName>
+    <RootNamespace>Xaml.Behaviors</RootNamespace>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <PackageId>Xaml.Behaviors.Uno</PackageId>
+    <Description>Complete library of behaviors, actions and triggers for Uno Platform (WinUI) applications in a single assembly.</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Using Include="Xaml.Interactivity" />
+  </ItemGroup>
+
+  <!--
+    Single assembly build of the Uno port, like src/Xaml.Behaviors for Avalonia. Every component compiles exactly the
+    sources of its Uno project: the shared Avalonia sources minus the files excluded in its SharedSources.props, plus
+    the Uno-only files next to the Uno project (without Properties/, which only holds InternalsVisibleTo attributes).
+    SharedSources.props files all set UnoSharedSourceExcludes, so the value is captured after each import.
+  -->
+
+  <PropertyGroup><UnoSharedSourceExcludes /></PropertyGroup>
+  <Import Project="..\Xaml.Behaviors.Interactivity\SharedSources.props" />
+  <PropertyGroup>
+    <_InteractivityShared>../../Xaml.Behaviors.Interactivity/</_InteractivityShared>
+    <_InteractivityUno>../Xaml.Behaviors.Interactivity/</_InteractivityUno>
+    <_InteractivityExcludes>$([System.Text.RegularExpressions.Regex]::Replace('$(UnoSharedSourceExcludes)', '\s+', '').Trim(';'))</_InteractivityExcludes>
+    <_InteractivityExcludes Condition="'$(_InteractivityExcludes)' != ''">$(_InteractivityShared)$(_InteractivityExcludes.Replace(';', ';$(_InteractivityShared)'))</_InteractivityExcludes>
+  </PropertyGroup>
+
+  <PropertyGroup><UnoSharedSourceExcludes /></PropertyGroup>
+  <Import Project="..\Xaml.Behaviors.Animations\SharedSources.props" />
+  <PropertyGroup>
+    <_AnimationsShared>../../Xaml.Behaviors.Animations/</_AnimationsShared>
+    <_AnimationsUno>../Xaml.Behaviors.Animations/</_AnimationsUno>
+    <_AnimationsExcludes>$([System.Text.RegularExpressions.Regex]::Replace('$(UnoSharedSourceExcludes)', '\s+', '').Trim(';'))</_AnimationsExcludes>
+    <_AnimationsExcludes Condition="'$(_AnimationsExcludes)' != ''">$(_AnimationsShared)$(_AnimationsExcludes.Replace(';', ';$(_AnimationsShared)'))</_AnimationsExcludes>
+  </PropertyGroup>
+
+  <PropertyGroup><UnoSharedSourceExcludes /></PropertyGroup>
+  <Import Project="..\Xaml.Behaviors.Interactions\SharedSources.props" />
+  <PropertyGroup>
+    <_InteractionsShared>../../Xaml.Behaviors.Interactions/</_InteractionsShared>
+    <_InteractionsUno>../Xaml.Behaviors.Interactions/</_InteractionsUno>
+    <_InteractionsExcludes>$([System.Text.RegularExpressions.Regex]::Replace('$(UnoSharedSourceExcludes)', '\s+', '').Trim(';'))</_InteractionsExcludes>
+    <_InteractionsExcludes Condition="'$(_InteractionsExcludes)' != ''">$(_InteractionsShared)$(_InteractionsExcludes.Replace(';', ';$(_InteractionsShared)'))</_InteractionsExcludes>
+  </PropertyGroup>
+
+  <PropertyGroup><UnoSharedSourceExcludes /></PropertyGroup>
+  <Import Project="..\Xaml.Behaviors.Interactions.Custom\SharedSources.props" />
+  <PropertyGroup>
+    <_CustomShared>../../Xaml.Behaviors.Interactions.Custom/</_CustomShared>
+    <_CustomUno>../Xaml.Behaviors.Interactions.Custom/</_CustomUno>
+    <_CustomExcludes>$([System.Text.RegularExpressions.Regex]::Replace('$(UnoSharedSourceExcludes)', '\s+', '').Trim(';'))</_CustomExcludes>
+    <_CustomExcludes Condition="'$(_CustomExcludes)' != ''">$(_CustomShared)$(_CustomExcludes.Replace(';', ';$(_CustomShared)'))</_CustomExcludes>
+  </PropertyGroup>
+
+  <PropertyGroup><UnoSharedSourceExcludes /></PropertyGroup>
+  <Import Project="..\Xaml.Behaviors.Interactions.DragAndDrop\SharedSources.props" />
+  <PropertyGroup>
+    <_DragAndDropShared>../../Xaml.Behaviors.Interactions.DragAndDrop/</_DragAndDropShared>
+    <_DragAndDropUno>../Xaml.Behaviors.Interactions.DragAndDrop/</_DragAndDropUno>
+    <_DragAndDropExcludes>$([System.Text.RegularExpressions.Regex]::Replace('$(UnoSharedSourceExcludes)', '\s+', '').Trim(';'))</_DragAndDropExcludes>
+    <_DragAndDropExcludes Condition="'$(_DragAndDropExcludes)' != ''">$(_DragAndDropShared)$(_DragAndDropExcludes.Replace(';', ';$(_DragAndDropShared)'))</_DragAndDropExcludes>
+  </PropertyGroup>
+
+  <PropertyGroup><UnoSharedSourceExcludes /></PropertyGroup>
+  <Import Project="..\Xaml.Behaviors.Interactions.Draggable\SharedSources.props" />
+  <PropertyGroup>
+    <_DraggableShared>../../Xaml.Behaviors.Interactions.Draggable/</_DraggableShared>
+    <_DraggableUno>../Xaml.Behaviors.Interactions.Draggable/</_DraggableUno>
+    <_DraggableExcludes>$([System.Text.RegularExpressions.Regex]::Replace('$(UnoSharedSourceExcludes)', '\s+', '').Trim(';'))</_DraggableExcludes>
+    <_DraggableExcludes Condition="'$(_DraggableExcludes)' != ''">$(_DraggableShared)$(_DraggableExcludes.Replace(';', ';$(_DraggableShared)'))</_DraggableExcludes>
+  </PropertyGroup>
+
+  <PropertyGroup><UnoSharedSourceExcludes /></PropertyGroup>
+  <Import Project="..\Xaml.Behaviors.Interactions.Events\SharedSources.props" />
+  <PropertyGroup>
+    <_EventsShared>../../Xaml.Behaviors.Interactions.Events/</_EventsShared>
+    <_EventsUno>../Xaml.Behaviors.Interactions.Events/</_EventsUno>
+    <_EventsExcludes>$([System.Text.RegularExpressions.Regex]::Replace('$(UnoSharedSourceExcludes)', '\s+', '').Trim(';'))</_EventsExcludes>
+    <_EventsExcludes Condition="'$(_EventsExcludes)' != ''">$(_EventsShared)$(_EventsExcludes.Replace(';', ';$(_EventsShared)'))</_EventsExcludes>
+  </PropertyGroup>
+
+  <PropertyGroup><UnoSharedSourceExcludes /></PropertyGroup>
+  <Import Project="..\Xaml.Behaviors.Interactions.Responsive\SharedSources.props" />
+  <PropertyGroup>
+    <_ResponsiveShared>../../Xaml.Behaviors.Interactions.Responsive/</_ResponsiveShared>
+    <_ResponsiveUno>../Xaml.Behaviors.Interactions.Responsive/</_ResponsiveUno>
+    <_ResponsiveExcludes>$([System.Text.RegularExpressions.Regex]::Replace('$(UnoSharedSourceExcludes)', '\s+', '').Trim(';'))</_ResponsiveExcludes>
+    <_ResponsiveExcludes Condition="'$(_ResponsiveExcludes)' != ''">$(_ResponsiveShared)$(_ResponsiveExcludes.Replace(';', ';$(_ResponsiveShared)'))</_ResponsiveExcludes>
+  </PropertyGroup>
+
+  <!-- Property functions escape wildcards; unescape so the globs are honored (see src/Uno/Directory.Build.targets). -->
+  <ItemGroup>
+    <Compile Include="$(_InteractivityShared)**/*.cs"
+             Exclude="$(_InteractivityShared)bin/**;$(_InteractivityShared)obj/**;$(_InteractivityShared)Properties/**;$([MSBuild]::Unescape('$(_InteractivityExcludes)'))"
+             Link="Interactivity/Shared/%(RecursiveDir)%(Filename)%(Extension)" />
+    <Compile Include="$(_InteractivityUno)**/*.cs"
+             Exclude="$(_InteractivityUno)bin/**;$(_InteractivityUno)obj/**;$(_InteractivityUno)Properties/**"
+             Link="Interactivity/%(RecursiveDir)%(Filename)%(Extension)" />
+    <Compile Include="$(_AnimationsShared)**/*.cs"
+             Exclude="$(_AnimationsShared)bin/**;$(_AnimationsShared)obj/**;$(_AnimationsShared)Properties/**;$([MSBuild]::Unescape('$(_AnimationsExcludes)'))"
+             Link="Animations/Shared/%(RecursiveDir)%(Filename)%(Extension)" />
+    <Compile Include="$(_AnimationsUno)**/*.cs"
+             Exclude="$(_AnimationsUno)bin/**;$(_AnimationsUno)obj/**;$(_AnimationsUno)Properties/**"
+             Link="Animations/%(RecursiveDir)%(Filename)%(Extension)" />
+    <Compile Include="$(_InteractionsShared)**/*.cs"
+             Exclude="$(_InteractionsShared)bin/**;$(_InteractionsShared)obj/**;$(_InteractionsShared)Properties/**;$([MSBuild]::Unescape('$(_InteractionsExcludes)'))"
+             Link="Interactions/Shared/%(RecursiveDir)%(Filename)%(Extension)" />
+    <Compile Include="$(_InteractionsUno)**/*.cs"
+             Exclude="$(_InteractionsUno)bin/**;$(_InteractionsUno)obj/**;$(_InteractionsUno)Properties/**"
+             Link="Interactions/%(RecursiveDir)%(Filename)%(Extension)" />
+    <Compile Include="$(_CustomShared)**/*.cs"
+             Exclude="$(_CustomShared)bin/**;$(_CustomShared)obj/**;$(_CustomShared)Properties/**;$([MSBuild]::Unescape('$(_CustomExcludes)'))"
+             Link="Custom/Shared/%(RecursiveDir)%(Filename)%(Extension)" />
+    <Compile Include="$(_CustomUno)**/*.cs"
+             Exclude="$(_CustomUno)bin/**;$(_CustomUno)obj/**;$(_CustomUno)Properties/**"
+             Link="Custom/%(RecursiveDir)%(Filename)%(Extension)" />
+    <Compile Include="$(_DragAndDropShared)**/*.cs"
+             Exclude="$(_DragAndDropShared)bin/**;$(_DragAndDropShared)obj/**;$(_DragAndDropShared)Properties/**;$([MSBuild]::Unescape('$(_DragAndDropExcludes)'))"
+             Link="DragAndDrop/Shared/%(RecursiveDir)%(Filename)%(Extension)" />
+    <Compile Include="$(_DragAndDropUno)**/*.cs"
+             Exclude="$(_DragAndDropUno)bin/**;$(_DragAndDropUno)obj/**;$(_DragAndDropUno)Properties/**"
+             Link="DragAndDrop/%(RecursiveDir)%(Filename)%(Extension)" />
+    <Compile Include="$(_DraggableShared)**/*.cs"
+             Exclude="$(_DraggableShared)bin/**;$(_DraggableShared)obj/**;$(_DraggableShared)Properties/**;$([MSBuild]::Unescape('$(_DraggableExcludes)'))"
+             Link="Draggable/Shared/%(RecursiveDir)%(Filename)%(Extension)" />
+    <Compile Include="$(_DraggableUno)**/*.cs"
+             Exclude="$(_DraggableUno)bin/**;$(_DraggableUno)obj/**;$(_DraggableUno)Properties/**"
+             Link="Draggable/%(RecursiveDir)%(Filename)%(Extension)" />
+    <Compile Include="$(_EventsShared)**/*.cs"
+             Exclude="$(_EventsShared)bin/**;$(_EventsShared)obj/**;$(_EventsShared)Properties/**;$([MSBuild]::Unescape('$(_EventsExcludes)'))"
+             Link="Events/Shared/%(RecursiveDir)%(Filename)%(Extension)" />
+    <Compile Include="$(_EventsUno)**/*.cs"
+             Exclude="$(_EventsUno)bin/**;$(_EventsUno)obj/**;$(_EventsUno)Properties/**"
+             Link="Events/%(RecursiveDir)%(Filename)%(Extension)" />
+    <Compile Include="$(_ResponsiveShared)**/*.cs"
+             Exclude="$(_ResponsiveShared)bin/**;$(_ResponsiveShared)obj/**;$(_ResponsiveShared)Properties/**;$([MSBuild]::Unescape('$(_ResponsiveExcludes)'))"
+             Link="Responsive/Shared/%(RecursiveDir)%(Filename)%(Extension)" />
+    <Compile Include="$(_ResponsiveUno)**/*.cs"
+             Exclude="$(_ResponsiveUno)bin/**;$(_ResponsiveUno)obj/**;$(_ResponsiveUno)Properties/**"
+             Link="Responsive/%(RecursiveDir)%(Filename)%(Extension)" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="$(AvaloniaSourcesDirectory)Xaml.Behaviors.SourceGenerators\Xaml.Behaviors.SourceGenerators.csproj"
+                      OutputItemType="Analyzer"
+                      ReferenceOutputAssembly="false" />
+  </ItemGroup>
+
+  <Import Project="$(AvaloniaSourcesDirectory)../build/XamlPropertyGenerator.props" />
+
+</Project>

@@ -10,9 +10,18 @@ The Uno Platform (WinUI API) port of XAML Behaviors. It is built from the same s
 | `Xaml.Behaviors.Uno.Interactivity` | `Behavior`, `Trigger`, `Action`, `Interaction`, collections, conditions, event registry |
 | `Xaml.Behaviors.Uno.Interactions` | Core triggers and actions (`EventTriggerBehavior`, `InvokeCommandAction`, `CallMethodAction`, `ChangePropertyAction`, data triggers, timers, debounce/throttle, clipboard, file/folder pickers, file system and network) |
 | `Xaml.Behaviors.Uno.Interactions.Events` | Input and focus event triggers and behaviors |
+| `Xaml.Behaviors.Uno.Interactions.Custom` | The large collection of custom behaviors, triggers, actions and converters |
+| `Xaml.Behaviors.Uno.Interactions.Responsive` | Adaptive and aspect ratio behaviors (style classes map to visual states) |
+| `Xaml.Behaviors.Uno.Interactions.Draggable` | Canvas, grid, item and list reorder drag behaviors |
+| `Xaml.Behaviors.Uno.Interactions.DragAndDrop` | Context, typed, text and file drag and drop behaviors |
+| `Xaml.Behaviors.Uno.Interactions.DragAndDrop.DataGrid` | DataGrid row drag and drop (Uno Community Toolkit DataGrid) |
+| `Xaml.Behaviors.Uno.Animations` | Storyboard, composition and transition helpers (no behaviors dependency) |
+| `Xaml.Behaviors.Uno.Interactions.ReactiveUI` | ReactiveUI navigation and interaction behaviors |
+| `Xaml.Behaviors.Uno.Interactions.Scripting` | C# scripting actions (needs dynamic code) |
+| `Xaml.Behaviors.Uno` | Single assembly with Interactivity, Animations, Interactions, Custom, DragAndDrop, Draggable, Events and Responsive |
+| `Xaml.Behaviors.Uno.All` | Meta package referencing the same packages individually |
 
-More packages (Custom, DragAndDrop, Draggable, Responsive, Animations, ReactiveUI, Scripting) follow the status table in
-[PORTING.md](PORTING.md#status).
+See the status table in [PORTING.md](PORTING.md#status) for the features that have no WinUI counterpart.
 
 Supporting packages that are useful beyond this library:
 

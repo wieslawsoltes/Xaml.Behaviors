@@ -82,3 +82,15 @@ jobs:
 
     - name: Test Uno Release
       run: dotnet test UnoBehaviors.slnx --configuration Release --no-build
+
+    - name: Pack Uno NuGet
+      if: matrix.os == 'ubuntu-latest'
+      run: dotnet pack UnoBehaviors.slnx --configuration Release --no-build --output artifacts/NuGet.Uno
+
+    - name: Upload Uno NuGet artifacts
+      if: matrix.os == 'ubuntu-latest'
+      uses: actions/upload-artifact@v4
+      with:
+        name: nuget-packages-uno
+        path: artifacts/NuGet.Uno
+        if-no-files-found: error
