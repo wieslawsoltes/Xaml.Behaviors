@@ -3,9 +3,18 @@
 using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
+#if UNO
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+#else
 using Avalonia.Controls;
+#endif
 
+#if UNO
+namespace Xaml.Interactivity;
+#else
 namespace Avalonia.Xaml.Interactivity;
+#endif
 
 /// <summary>
 /// A behavior that listens for a specified event on its source and executes its actions when that event is fired.
@@ -18,13 +27,21 @@ public abstract class EventTriggerBase : StyledElementTrigger
     /// <summary>
     /// Identifies the <seealso cref="EventName"/> avalonia property.
     /// </summary>
+#if UNO
+    public static readonly DependencyProperty EventNameProperty =
+#else
     public static readonly StyledProperty<string?> EventNameProperty =
+#endif
         AvaloniaProperty.Register<EventTriggerBase, string?>(nameof(EventName), EventNameDefaultValue);
 
     /// <summary>
     /// Identifies the <seealso cref="SourceObject"/> avalonia property.
     /// </summary>
+#if UNO
+    public static readonly DependencyProperty SourceObjectProperty =
+#else
     public static readonly StyledProperty<object?> SourceObjectProperty =
+#endif
         AvaloniaProperty.Register<EventTriggerBase, object?>(nameof(SourceObject));
 
     private object? _resolvedSource;
@@ -37,7 +54,7 @@ public abstract class EventTriggerBase : StyledElementTrigger
     /// </summary>
     public string? EventName
     {
-        get => GetValue(EventNameProperty);
+        get => (string?)GetValue(EventNameProperty);
         set => SetValue(EventNameProperty, value);
     }
 
@@ -48,7 +65,7 @@ public abstract class EventTriggerBase : StyledElementTrigger
     [ResolveByName]
     public object? SourceObject
     {
-        get => GetValue(SourceObjectProperty);
+        get => (object?)GetValue(SourceObjectProperty);
         set => SetValue(SourceObjectProperty, value);
     }
 

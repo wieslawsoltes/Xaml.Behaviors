@@ -3,10 +3,19 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+#if UNO
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+#else
 using Avalonia.Controls;
 using Avalonia.Interactivity;
+#endif
 
+#if UNO
+namespace Xaml.Interactivity;
+#else
 namespace Avalonia.Xaml.Interactivity;
+#endif
 
 /// <summary>
 /// A registry for adding event handlers to various controls.

@@ -1,11 +1,21 @@
 // Copyright (c) Wiesław Šoltés. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for details.
 using System.Windows.Input;
+#if UNO
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Data;
+#else
 using Avalonia.Controls;
 using Avalonia.Data.Converters;
 using Avalonia.Reactive;
+#endif
 
+#if UNO
+namespace Xaml.Interactivity;
+#else
 namespace Avalonia.Xaml.Interactivity;
+#endif
 
 /// <summary>
 /// Invoke command behavior base class.
@@ -20,50 +30,82 @@ public abstract class InvokeCommandBehaviorBase : StyledElementBehavior<Control>
     /// <summary>
     /// Identifies the <seealso cref="Command"/> avalonia property.
     /// </summary>
+#if UNO
+    public static readonly DependencyProperty CommandProperty =
+#else
     public static readonly StyledProperty<ICommand?> CommandProperty =
+#endif
         AvaloniaProperty.Register<InvokeCommandBehaviorBase, ICommand?>(nameof(Command));
 
     /// <summary>
     /// Identifies the <seealso cref="CanExecuteCommand"/> avalonia property.
     /// </summary>
+#if UNO
+    public static readonly DependencyProperty CanExecuteCommandProperty =
+#else
     public static readonly DirectProperty<InvokeCommandBehaviorBase, bool> CanExecuteCommandProperty =
+#endif
         AvaloniaProperty.RegisterDirect<InvokeCommandBehaviorBase, bool>(nameof(CanExecuteCommand), behavior => behavior.CanExecuteCommand);
 
     /// <summary>
     /// Identifies the <seealso cref="CanExecuteCommandParameter"/> avalonia property.
     /// </summary>
+#if UNO
+    public static readonly DependencyProperty CanExecuteCommandParameterProperty =
+#else
     public static readonly StyledProperty<object?> CanExecuteCommandParameterProperty =
+#endif
         AvaloniaProperty.Register<InvokeCommandBehaviorBase, object?>(nameof(CanExecuteCommandParameter));
 
     /// <summary>
     /// Identifies the <seealso cref="UseCommandCanExecuteForIsEnabled"/> avalonia property.
     /// </summary>
+#if UNO
+    public static readonly DependencyProperty UseCommandCanExecuteForIsEnabledProperty =
+#else
     public static readonly StyledProperty<bool> UseCommandCanExecuteForIsEnabledProperty =
+#endif
         AvaloniaProperty.Register<InvokeCommandBehaviorBase, bool>(nameof(UseCommandCanExecuteForIsEnabled));
 
     /// <summary>
     /// Identifies the <seealso cref="CommandParameter"/> avalonia property.
     /// </summary>
+#if UNO
+    public static readonly DependencyProperty CommandParameterProperty =
+#else
     public static readonly StyledProperty<object?> CommandParameterProperty =
+#endif
         AvaloniaProperty.Register<InvokeCommandBehaviorBase, object?>(nameof(CommandParameter));
 
     /// <summary>
     /// Identifies the <seealso cref="InputConverter"/> avalonia property.
     /// </summary>
+#if UNO
+    public static readonly DependencyProperty InputConverterProperty =
+#else
     public static readonly StyledProperty<IValueConverter?> InputConverterProperty =
+#endif
         AvaloniaProperty.Register<InvokeCommandBehaviorBase, IValueConverter?>(nameof(InputConverter));
 
     /// <summary>
     /// Identifies the <seealso cref="InputConverterParameter"/> avalonia property.
     /// </summary>
+#if UNO
+    public static readonly DependencyProperty InputConverterParameterProperty =
+#else
     public static readonly StyledProperty<object?> InputConverterParameterProperty =
+#endif
         AvaloniaProperty.Register<InvokeCommandBehaviorBase, object?>(nameof(InputConverterParameter));
 
     /// <summary>
     /// Identifies the <seealso cref="InputConverterLanguage"/> avalonia property.
     /// </summary>
     /// <remarks>The string.Empty used for default value string means the invariant culture.</remarks>
+#if UNO
+    public static readonly DependencyProperty InputConverterLanguageProperty =
+#else
     public static readonly StyledProperty<string?> InputConverterLanguageProperty =
+#endif
         AvaloniaProperty.Register<InvokeCommandBehaviorBase, string?>(nameof(InputConverterLanguage), string.Empty);
 
     /// <summary>
@@ -80,7 +122,7 @@ public abstract class InvokeCommandBehaviorBase : StyledElementBehavior<Control>
     /// </summary>
     public ICommand? Command
     {
-        get => GetValue(CommandProperty);
+        get => (ICommand?)GetValue(CommandProperty);
         set => SetValue(CommandProperty, value);
     }
 
@@ -100,7 +142,7 @@ public abstract class InvokeCommandBehaviorBase : StyledElementBehavior<Control>
     /// </summary>
     public object? CanExecuteCommandParameter
     {
-        get => GetValue(CanExecuteCommandParameterProperty);
+        get => (object?)GetValue(CanExecuteCommandParameterProperty);
         set => SetValue(CanExecuteCommandParameterProperty, value);
     }
 
@@ -110,7 +152,7 @@ public abstract class InvokeCommandBehaviorBase : StyledElementBehavior<Control>
     /// </summary>
     public bool UseCommandCanExecuteForIsEnabled
     {
-        get => GetValue(UseCommandCanExecuteForIsEnabledProperty);
+        get => (bool)GetValue(UseCommandCanExecuteForIsEnabledProperty);
         set => SetValue(UseCommandCanExecuteForIsEnabledProperty, value);
     }
   
@@ -121,7 +163,7 @@ public abstract class InvokeCommandBehaviorBase : StyledElementBehavior<Control>
     /// </summary>
     public object? CommandParameter
     {
-        get => GetValue(CommandParameterProperty);
+        get => (object?)GetValue(CommandParameterProperty);
         set => SetValue(CommandParameterProperty, value);
     }
   
@@ -131,7 +173,7 @@ public abstract class InvokeCommandBehaviorBase : StyledElementBehavior<Control>
     /// </summary>
     public IValueConverter? InputConverter
     {
-        get => GetValue(InputConverterProperty);
+        get => (IValueConverter?)GetValue(InputConverterProperty);
         set => SetValue(InputConverterProperty, value);
     }
 
@@ -142,7 +184,7 @@ public abstract class InvokeCommandBehaviorBase : StyledElementBehavior<Control>
     /// </summary>
     public object? InputConverterParameter
     {
-        get => GetValue(InputConverterParameterProperty);
+        get => (object?)GetValue(InputConverterParameterProperty);
         set => SetValue(InputConverterParameterProperty, value);
     }
     
@@ -153,7 +195,7 @@ public abstract class InvokeCommandBehaviorBase : StyledElementBehavior<Control>
     /// </summary>
     public string? InputConverterLanguage
     {
-        get => GetValue(InputConverterLanguageProperty);
+        get => (string?)GetValue(InputConverterLanguageProperty);
         set => SetValue(InputConverterLanguageProperty, value);
     }
 

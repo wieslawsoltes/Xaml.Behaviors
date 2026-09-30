@@ -1,8 +1,16 @@
 // Copyright (c) Wiesław Šoltés. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for details.
+#if UNO
+using Microsoft.UI.Xaml;
+#else
 using Avalonia.Interactivity;
+#endif
 
+#if UNO
+namespace Xaml.Interactivity;
+#else
 namespace Avalonia.Xaml.Interactivity;
+#endif
 
 /// <summary>
 /// Base class for behaviors that listen for routed events.
@@ -12,7 +20,11 @@ public abstract class InteractiveBehaviorBase : StyledElementBehavior<Interactiv
     /// <summary>
     /// Identifies the <see cref="RoutingStrategies"/> avalonia property.
     /// </summary>
+#if UNO
+    public static readonly DependencyProperty RoutingStrategiesProperty =
+#else
     public static readonly StyledProperty<RoutingStrategies> RoutingStrategiesProperty =
+#endif
         AvaloniaProperty.Register<InteractiveBehaviorBase, RoutingStrategies>(
             nameof(RoutingStrategies),
             RoutingStrategies.Bubble);
@@ -22,7 +34,7 @@ public abstract class InteractiveBehaviorBase : StyledElementBehavior<Interactiv
     /// </summary>
     public RoutingStrategies RoutingStrategies
     {
-        get => GetValue(RoutingStrategiesProperty);
+        get => (RoutingStrategies)GetValue(RoutingStrategiesProperty);
         set => SetValue(RoutingStrategiesProperty, value);
     }
 }

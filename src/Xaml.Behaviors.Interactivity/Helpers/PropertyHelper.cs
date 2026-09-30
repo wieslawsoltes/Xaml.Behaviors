@@ -4,9 +4,17 @@ using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Reflection;
+#if UNO
+using Microsoft.UI.Xaml.Data;
+#else
 using Avalonia.Data;
+#endif
 
+#if UNO
+namespace Xaml.Interactivity;
+#else
 namespace Avalonia.Xaml.Interactivity;
+#endif
 
 [RequiresUnreferencedCode("This functionality is not compatible with trimming.")]
 internal static class PropertyHelper

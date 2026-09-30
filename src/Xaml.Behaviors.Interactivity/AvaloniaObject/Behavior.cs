@@ -3,14 +3,23 @@
 using System;
 using System.Diagnostics;
 using System.Globalization;
+#if UNO
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+#else
 using Avalonia.Controls;
+#endif
 
+#if UNO
+namespace Xaml.Interactivity;
+#else
 namespace Avalonia.Xaml.Interactivity;
+#endif
 
 /// <summary>
 /// A base class for behaviors, implementing the basic plumbing of <see cref="IBehavior"/>.
 /// </summary>
-public abstract class Behavior : AvaloniaObject, IBehavior, IBehaviorEventsHandler
+public abstract partial class Behavior : AvaloniaObject, IBehavior, IBehaviorEventsHandler
 {
     private bool _isAttachedToLogicalTree;
     private bool _isAttachedToVisualTree;
@@ -20,7 +29,11 @@ public abstract class Behavior : AvaloniaObject, IBehavior, IBehaviorEventsHandl
     /// <summary>
     /// Identifies the <seealso cref="IsEnabled"/> avalonia property.
     /// </summary>
+#if UNO
+    public static readonly DependencyProperty IsEnabledProperty =
+#else
     public static readonly StyledProperty<bool> IsEnabledProperty =
+#endif
         AvaloniaProperty.Register<Behavior, bool>(nameof(IsEnabled), defaultValue: true);
 
     /// <summary>
@@ -34,7 +47,7 @@ public abstract class Behavior : AvaloniaObject, IBehavior, IBehaviorEventsHandl
     /// <value><c>true</c> if this instance is enabled; otherwise, <c>false</c>.</value>
     public bool IsEnabled
     {
-        get => GetValue(IsEnabledProperty);
+        get => (bool)GetValue(IsEnabledProperty);
         set => SetValue(IsEnabledProperty, value);
     }
 
@@ -59,6 +72,9 @@ public abstract class Behavior : AvaloniaObject, IBehavior, IBehaviorEventsHandl
 
         Debug.Assert(associatedObject is not null, "Cannot attach the behavior to a null object.");
         AssociatedObject = associatedObject ?? throw new ArgumentNullException(nameof(associatedObject));
+#if UNO
+        UpdateActionsHost(AssociatedObject);
+#endif
 
         OnAttached();
     }
@@ -69,6 +85,9 @@ public abstract class Behavior : AvaloniaObject, IBehavior, IBehaviorEventsHandl
     public void Detach()
     {
         OnDetaching();
+#if UNO
+        UpdateActionsHost(null);
+#endif
         _isAttachedToLogicalTree = false;
         _isAttachedToVisualTree = false;
         _isInitializedNotified = false;

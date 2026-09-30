@@ -1,16 +1,28 @@
 // Copyright (c) Wiesław Šoltés. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for details.
+#if UNO
+using Microsoft.UI.Xaml;
+#endif
+
+#if UNO
+namespace Xaml.Interactivity;
+#else
 namespace Avalonia.Xaml.Interactivity;
+#endif
 
 /// <summary>
 /// A base class for action that calls a method on a specified object when invoked.
 /// </summary>
-public abstract class Action : AvaloniaObject, IAction
+public abstract partial class Action : AvaloniaObject, IAction
 {
     /// <summary>
     /// Identifies the <seealso cref="IsEnabled"/> avalonia property.
     /// </summary>
+#if UNO
+    public static readonly DependencyProperty IsEnabledProperty =
+#else
     public static readonly StyledProperty<bool> IsEnabledProperty =
+#endif
         AvaloniaProperty.Register<Avalonia.Xaml.Interactivity.Action, bool>(nameof(IsEnabled), defaultValue: true);
 
     /// <summary>
@@ -19,7 +31,7 @@ public abstract class Action : AvaloniaObject, IAction
     /// <value><c>true</c> if this instance is enabled; otherwise, <c>false</c>.</value>
     public bool IsEnabled
     {
-        get => GetValue(IsEnabledProperty);
+        get => (bool)GetValue(IsEnabledProperty);
         set => SetValue(IsEnabledProperty, value);
     }
     

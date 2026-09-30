@@ -2,7 +2,11 @@
 // Licensed under the MIT license. See LICENSE file in the project root for details.
 using System;
 
+#if UNO
+namespace Xaml.Interactivity;
+#else
 namespace Avalonia.Xaml.Interactivity;
+#endif
 
 /// <summary>
 /// A base class for behaviors, implementing the basic plumbing of <seealso cref="ITrigger"/>.

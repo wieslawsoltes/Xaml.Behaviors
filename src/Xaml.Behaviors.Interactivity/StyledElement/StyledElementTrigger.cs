@@ -1,9 +1,18 @@
 // Copyright (c) Wiesław Šoltés. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for details.
+#if UNO
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+#else
 using Avalonia.Controls;
 using Avalonia.Metadata;
+#endif
 
+#if UNO
+namespace Xaml.Interactivity;
+#else
 namespace Avalonia.Xaml.Interactivity;
+#endif
 
 /// <summary>
 /// A base class for behaviors, implementing the basic plumbing of <seealso cref="ITrigger"/>.
@@ -13,7 +22,11 @@ public abstract class StyledElementTrigger : StyledElementBehavior, ITrigger
     /// <summary>
     /// Identifies the <seealso cref="Actions"/> avalonia property.
     /// </summary>
+#if UNO
+    public static readonly DependencyProperty ActionsProperty =
+#else
     public static readonly StyledProperty<ActionCollection?> ActionsProperty =
+#endif
         AvaloniaProperty.Register<StyledElementTrigger, ActionCollection?>(nameof(Actions));
 
     /// <summary>
@@ -22,7 +35,7 @@ public abstract class StyledElementTrigger : StyledElementBehavior, ITrigger
     [Content]
     public ActionCollection? Actions
     {
-        get => GetValue(ActionsProperty);
+        get => (ActionCollection?)GetValue(ActionsProperty);
         set => SetValue(ActionsProperty, value);
     }
 

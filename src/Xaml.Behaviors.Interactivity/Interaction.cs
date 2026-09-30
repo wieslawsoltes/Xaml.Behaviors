@@ -2,14 +2,24 @@
 // Licensed under the MIT license. See LICENSE file in the project root for details.
 using System;
 using System.Collections.Generic;
+#if UNO
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Dispatching;
+#else
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.LogicalTree;
 using Avalonia.Reactive;
 using Avalonia.Threading;
 using Avalonia.VisualTree;
+#endif
 
+#if UNO
+namespace Xaml.Interactivity;
+#else
 namespace Avalonia.Xaml.Interactivity;
+#endif
 
 /// <summary>
 /// Defines a <see cref="BehaviorCollection"/> attached property and provides a method for executing an <seealso cref="ActionCollection"/>.
@@ -25,7 +35,11 @@ public class Interaction
     /// <summary>
     /// Gets or sets the <see cref="BehaviorCollection"/> associated with a specified object.
     /// </summary>
+#if UNO
+    public static readonly DependencyProperty BehaviorsProperty =
+#else
     public static readonly AttachedProperty<BehaviorCollection?> BehaviorsProperty =
+#endif
         AvaloniaProperty.RegisterAttached<Interaction, AvaloniaObject, BehaviorCollection?>("Behaviors");
 
     /// <summary>
@@ -53,7 +67,7 @@ public class Interaction
 
     private static BehaviorCollection? GetExistingBehaviors(AvaloniaObject obj)
     {
-        return obj.GetValue(BehaviorsProperty);
+        return (BehaviorCollection?)obj.GetValue(BehaviorsProperty);
     }
 
     /// <summary>

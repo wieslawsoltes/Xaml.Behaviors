@@ -4,7 +4,11 @@ using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 
+#if UNO
+namespace Xaml.Interactivity;
+#else
 namespace Avalonia.Xaml.Interactivity;
+#endif
 
 internal static class ComparisonConditionTypeHelper
 {

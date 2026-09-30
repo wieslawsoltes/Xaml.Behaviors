@@ -1,15 +1,29 @@
 // Copyright (c) Wiesław Šoltés. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for details.
 using System;
+#if UNO
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Data;
+using Microsoft.UI.Xaml.Input;
+#else
 using Avalonia.Data;
 using Avalonia.Input;
 using Avalonia.Reactive;
+#endif
 
+#if UNO
+namespace Xaml.Interactivity;
+#else
 namespace Avalonia.Xaml.Interactivity;
+#endif
 
 internal sealed class CommandCanExecuteIsEnabledBinder : IDisposable
 {
+#if UNO
+    private static readonly DependencyProperty OverlayStateProperty =
+#else
     private static readonly AttachedProperty<CommandCanExecuteIsEnabledOverlayState?> OverlayStateProperty =
+#endif
         AvaloniaProperty.RegisterAttached<CommandCanExecuteIsEnabledBinder, InputElement, CommandCanExecuteIsEnabledOverlayState?>(
             "CommandCanExecuteIsEnabledOverlayState");
 

@@ -2,7 +2,11 @@
 // Licensed under the MIT license. See LICENSE file in the project root for details.
 using System;
 
+#if UNO
+namespace Xaml.Interactivity;
+#else
 namespace Avalonia.Xaml.Interactivity;
+#endif
 
 /// <summary>
 /// A service that provides a way to register event handlers for specific events on various controls.

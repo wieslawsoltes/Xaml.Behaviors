@@ -3,9 +3,17 @@
 using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
+#if UNO
+using Microsoft.UI.Xaml.Data;
+#else
 using Avalonia.Data;
+#endif
 
+#if UNO
+namespace Xaml.Interactivity;
+#else
 namespace Avalonia.Xaml.Interactivity;
+#endif
 
 internal sealed class ReversiblePropertyChange
 {

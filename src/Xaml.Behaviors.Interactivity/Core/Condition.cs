@@ -1,49 +1,82 @@
 ﻿// Copyright (c) Wiesław Šoltés. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for details.
 using System;
+#if UNO
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Data;
+#else
 using Avalonia;
 using Avalonia.Data;
 using Avalonia.Metadata;
+#endif
+#if UNO
+namespace Xaml.Interactivity;
+#else
 namespace Avalonia.Xaml.Interactivity;
+#endif
 
 /// <summary>
 /// Represents a reusable comparison that can be used by triggers and behaviors.
 /// </summary>
-public class Condition : AvaloniaObject
+public partial class Condition : AvaloniaObject
 {
     private IDisposable? _bindingSubscription;
 
     /// <summary>
     /// Identifies the <seealso cref="Binding"/> avalonia property.
     /// </summary>
+#if UNO
+    public static readonly DependencyProperty BindingProperty =
+#else
     public static readonly StyledProperty<BindingBase?> BindingProperty =
+#endif
         AvaloniaProperty.Register<Condition, BindingBase?>(nameof(Binding));
 
+#if UNO
+    internal static readonly DependencyProperty BindingValueProperty =
+#else
     internal static readonly StyledProperty<object?> BindingValueProperty =
+#endif
         AvaloniaProperty.Register<Condition, object?>(nameof(BindingValue));
 
     /// <summary>
     /// Identifies the <seealso cref="ComparisonCondition"/> avalonia property.
     /// </summary>
+#if UNO
+    public static readonly DependencyProperty ComparisonConditionProperty =
+#else
     public static readonly StyledProperty<ComparisonConditionType> ComparisonConditionProperty =
+#endif
         AvaloniaProperty.Register<Condition, ComparisonConditionType>(nameof(ComparisonCondition));
 
     /// <summary>
     /// Identifies the <seealso cref="Value"/> avalonia property.
     /// </summary>
+#if UNO
+    public static readonly DependencyProperty ValueProperty =
+#else
     public static readonly StyledProperty<object?> ValueProperty =
+#endif
         AvaloniaProperty.Register<Condition, object?>(nameof(Value));
 
     /// <summary>
     /// Identifies the <seealso cref="Property"/> avalonia property.
     /// </summary>
+#if UNO
+    public static readonly DependencyProperty PropertyProperty =
+#else
     public static readonly StyledProperty<AvaloniaProperty?> PropertyProperty =
+#endif
         AvaloniaProperty.Register<Condition, AvaloniaProperty?>(nameof(Property));
 
     /// <summary>
     /// Identifies the <seealso cref="SourceName"/> avalonia property.
     /// </summary>
+#if UNO
+    public static readonly DependencyProperty SourceNameProperty =
+#else
     public static readonly StyledProperty<string?> SourceNameProperty =
+#endif
         AvaloniaProperty.Register<Condition, string?>(nameof(SourceName));
 
     /// <summary>
@@ -52,7 +85,7 @@ public class Condition : AvaloniaObject
     [AssignBinding]
     public BindingBase? Binding
     {
-        get => GetValue(BindingProperty);
+        get => (BindingBase?)GetValue(BindingProperty);
         set => SetValue(BindingProperty, value);
     }
 
@@ -61,7 +94,7 @@ public class Condition : AvaloniaObject
     /// </summary>
     public ComparisonConditionType ComparisonCondition
     {
-        get => GetValue(ComparisonConditionProperty);
+        get => (ComparisonConditionType)GetValue(ComparisonConditionProperty);
         set => SetValue(ComparisonConditionProperty, value);
     }
 
@@ -70,7 +103,7 @@ public class Condition : AvaloniaObject
     /// </summary>
     public object? Value
     {
-        get => GetValue(ValueProperty);
+        get => (object?)GetValue(ValueProperty);
         set => SetValue(ValueProperty, value);
     }
 
@@ -79,7 +112,7 @@ public class Condition : AvaloniaObject
     /// </summary>
     public AvaloniaProperty? Property
     {
-        get => GetValue(PropertyProperty);
+        get => (AvaloniaProperty?)GetValue(PropertyProperty);
         set => SetValue(PropertyProperty, value);
     }
 
@@ -88,13 +121,13 @@ public class Condition : AvaloniaObject
     /// </summary>
     public string? SourceName
     {
-        get => GetValue(SourceNameProperty);
+        get => (string?)GetValue(SourceNameProperty);
         set => SetValue(SourceNameProperty, value);
     }
 
     internal object? BindingValue
     {
-        get => GetValue(BindingValueProperty);
+        get => (object?)GetValue(BindingValueProperty);
         set => SetValue(BindingValueProperty, value);
     }
 

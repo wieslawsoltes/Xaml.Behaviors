@@ -5,17 +5,30 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Diagnostics;
 using System.Linq;
+#if UNO
+using Microsoft.UI.Xaml;
+using Windows.Foundation.Collections;
+#else
 using Avalonia.Collections;
 using Avalonia.Controls;
 using Avalonia.LogicalTree;
 using Avalonia.VisualTree;
+#endif
 
+#if UNO
+namespace Xaml.Interactivity;
+#else
 namespace Avalonia.Xaml.Interactivity;
+#endif
 
 /// <summary>
 /// Represents a collection of <see cref="IBehavior"/>'s with a shared <see cref="AssociatedObject"/>.
 /// </summary>
+#if UNO
+public class BehaviorCollection : DependencyObjectCollection
+#else
 public class BehaviorCollection : AvaloniaList<AvaloniaObject>
+#endif
 {
     // After a VectorChanged event we need to compare the current state of the collection
     // with the old collection so that we can call Detach on all removed items.
@@ -33,7 +46,11 @@ public class BehaviorCollection : AvaloniaList<AvaloniaObject>
     /// </summary>
     public BehaviorCollection()
     {
+#if UNO
+        VectorChanged += BehaviorCollection_VectorChanged;
+#else
         CollectionChanged += BehaviorCollection_CollectionChanged;
+#endif
     }
 
     /// <summary>
@@ -222,91 +239,59 @@ public class BehaviorCollection : AvaloniaList<AvaloniaObject>
         }
     }
 
+#if UNO
+    private void BehaviorCollection_VectorChanged(IObservableVector<DependencyObject> sender, IVectorChangedEventArgs eventArgs)
+    {
+        var eventIndex = (int)eventArgs.Index;
+
+        switch (eventArgs.CollectionChange)
+        {
+            case CollectionChange.Reset:
+                OnItemsReset();
+                break;
+            case CollectionChange.ItemInserted:
+                OnItemAdded(eventIndex, this[eventIndex]);
+                break;
+            case CollectionChange.ItemChanged:
+                OnItemReplaced(eventIndex, this[eventIndex]);
+                break;
+            case CollectionChange.ItemRemoved:
+                OnItemRemoved(eventIndex);
+                break;
+            default:
+                Debug.Assert(false, "Unsupported collection operation attempted.");
+                break;
+        }
+#if DEBUG
+        VerifyOldCollectionIntegrity();
+#endif
+    }
+#else
     private void BehaviorCollection_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs eventArgs)
     {
-        if (eventArgs.Action == NotifyCollectionChangedAction.Reset)
-        {
-            foreach (var behavior in _oldCollection)
-            {
-                if (behavior.AssociatedObject is not null)
-                {
-                    behavior.Detach();
-                }
-            }
-
-            _oldCollection.Clear();
-
-            var attachedBehaviors = new List<IBehavior>(Count);
-            foreach (var newItem in this.ToList())
-            {
-                var behavior = VerifiedAttach(newItem);
-                _oldCollection.Add(behavior);
-                attachedBehaviors.Add(behavior);
-            }
-
-            if (!_isAttachingCollection)
-            {
-                QueueOrSynchronizeBehaviorEvents(attachedBehaviors);
-            }
-#if DEBUG
-            VerifyOldCollectionIntegrity();
-#endif
-            return;
-        }
-
         switch (eventArgs.Action)
         {
-            case NotifyCollectionChangedAction.Add:
-            {
-                var eventIndex = eventArgs.NewStartingIndex;
-                var changedItem = eventArgs.NewItems?[0] as AvaloniaObject;
-                var behavior = VerifiedAttach(changedItem);
-                _oldCollection.Insert(eventIndex, behavior);
-                if (!_isAttachingCollection)
-                {
-                    QueueOrSynchronizeBehaviorEvents(behavior);
-                }
+            case NotifyCollectionChangedAction.Reset:
+                OnItemsReset();
                 break;
-            }
+
+            case NotifyCollectionChangedAction.Add:
+                OnItemAdded(eventArgs.NewStartingIndex, eventArgs.NewItems?[0] as AvaloniaObject);
+                break;
 
             case NotifyCollectionChangedAction.Replace:
             {
                 var eventIndex = eventArgs.OldStartingIndex;
                 eventIndex = eventIndex == -1 ? 0 : eventIndex;
-
-                var changedItem = eventArgs.NewItems?[0] as AvaloniaObject;
-
-                var oldItem = _oldCollection[eventIndex];
-                if (oldItem.AssociatedObject is not null)
-                {
-                    oldItem.Detach();
-                }
-
-                var behavior = VerifiedAttach(changedItem);
-                _oldCollection[eventIndex] = behavior;
-                if (!_isAttachingCollection)
-                {
-                    QueueOrSynchronizeBehaviorEvents(behavior);
-                }
+                OnItemReplaced(eventIndex, eventArgs.NewItems?[0] as AvaloniaObject);
                 break;
             }
 
             case NotifyCollectionChangedAction.Remove:
-            {
-                var eventIndex = eventArgs.OldStartingIndex;
-
-                var oldItem = _oldCollection[eventIndex];
-                if (oldItem.AssociatedObject is not null)
-                {
-                    oldItem.Detach();
-                }
-
-                _oldCollection.RemoveAt(eventIndex);
+                OnItemRemoved(eventArgs.OldStartingIndex);
                 break;
-            }
 
             case NotifyCollectionChangedAction.Move:
-            case NotifyCollectionChangedAction.Reset:
             default:
             {
                 Debug.Assert(false, "Unsupported collection operation attempted.");
@@ -316,6 +301,70 @@ public class BehaviorCollection : AvaloniaList<AvaloniaObject>
 #if DEBUG
         VerifyOldCollectionIntegrity();
 #endif
+    }
+#endif
+
+    private void OnItemsReset()
+    {
+        foreach (var behavior in _oldCollection)
+        {
+            if (behavior.AssociatedObject is not null)
+            {
+                behavior.Detach();
+            }
+        }
+
+        _oldCollection.Clear();
+
+        var attachedBehaviors = new List<IBehavior>(Count);
+        foreach (var newItem in this.ToList())
+        {
+            var behavior = VerifiedAttach(newItem);
+            _oldCollection.Add(behavior);
+            attachedBehaviors.Add(behavior);
+        }
+
+        if (!_isAttachingCollection)
+        {
+            QueueOrSynchronizeBehaviorEvents(attachedBehaviors);
+        }
+    }
+
+    private void OnItemAdded(int eventIndex, AvaloniaObject? changedItem)
+    {
+        var behavior = VerifiedAttach(changedItem);
+        _oldCollection.Insert(eventIndex, behavior);
+        if (!_isAttachingCollection)
+        {
+            QueueOrSynchronizeBehaviorEvents(behavior);
+        }
+    }
+
+    private void OnItemReplaced(int eventIndex, AvaloniaObject? changedItem)
+    {
+        var oldItem = _oldCollection[eventIndex];
+        if (oldItem.AssociatedObject is not null)
+        {
+            oldItem.Detach();
+        }
+
+        var behavior = VerifiedAttach(changedItem);
+        _oldCollection[eventIndex] = behavior;
+        if (!_isAttachingCollection)
+        {
+            QueueOrSynchronizeBehaviorEvents(behavior);
+        }
+    }
+
+    private void OnItemRemoved(int eventIndex)
+    {
+        var oldItem = _oldCollection[eventIndex];
+        if (oldItem.AssociatedObject is not null)
+        {
+            oldItem.Detach();
+        }
+
+        _oldCollection.RemoveAt(eventIndex);
     }
 
     private IBehavior VerifiedAttach(AvaloniaObject? item)
@@ -382,40 +431,31 @@ public class BehaviorCollection : AvaloniaList<AvaloniaObject>
             return false;
         }
 
-        if (!_hasObservedInitialized &&
-            associatedObject is StyledElement { IsInitialized: true })
+        if (!_hasObservedInitialized && IsHostInitialized(associatedObject))
         {
             return true;
         }
 
-        var isOpenTopLevel = associatedObject is TopLevel { IsLoaded: true };
-        if (!_hasObservedLogicalAttachment &&
-            associatedObject is StyledElement styledElement &&
-            (((ILogical)styledElement).IsAttachedToLogicalTree || isOpenTopLevel))
+        if (!_hasObservedLogicalAttachment && IsHostAttachedToLogicalTree(associatedObject))
         {
             return true;
         }
 
-        if (!_hasObservedVisualAttachment &&
-            associatedObject is Visual visual &&
-            (visual.IsAttachedToVisualTree() || isOpenTopLevel))
+        if (!_hasObservedVisualAttachment && IsHostAttachedToVisualTree(associatedObject))
         {
             return true;
         }
 
-        return !_hasObservedLoaded && associatedObject is Control { IsLoaded: true };
+        return !_hasObservedLoaded && IsHostLoaded(associatedObject);
     }
 
     private void CaptureCurrentLifecycleState()
     {
         var associatedObject = AssociatedObject;
-        var isOpenTopLevel = associatedObject is TopLevel { IsLoaded: true };
-        _hasObservedInitialized = associatedObject is StyledElement { IsInitialized: true };
-        _hasObservedLogicalAttachment = associatedObject is StyledElement styledElement &&
-                                        (((ILogical)styledElement).IsAttachedToLogicalTree || isOpenTopLevel);
-        _hasObservedVisualAttachment = associatedObject is Visual visual &&
-                                       (visual.IsAttachedToVisualTree() || isOpenTopLevel);
-        _hasObservedLoaded = associatedObject is Control { IsLoaded: true };
+        _hasObservedInitialized = IsHostInitialized(associatedObject);
+        _hasObservedLogicalAttachment = IsHostAttachedToLogicalTree(associatedObject);
+        _hasObservedVisualAttachment = IsHostAttachedToVisualTree(associatedObject);
+        _hasObservedLoaded = IsHostLoaded(associatedObject);
     }
 
     private void SynchronizeBehaviorEvents(IReadOnlyList<IBehavior> behaviors)
@@ -518,7 +558,7 @@ public class BehaviorCollection : AvaloniaList<AvaloniaObject>
     private static void SynchronizeInitialized(IBehavior behavior)
     {
         if (behavior is IBehaviorEventsHandler eventsHandler &&
-            behavior.AssociatedObject is StyledElement { IsInitialized: true })
+            IsHostInitialized(behavior.AssociatedObject))
         {
             eventsHandler.InitializedEventHandler();
         }
@@ -526,11 +566,8 @@ public class BehaviorCollection : AvaloniaList<AvaloniaObject>
 
     private static void SynchronizeLogicalAttachment(IBehavior behavior)
     {
-        var associatedObject = behavior.AssociatedObject;
-        var isOpenTopLevel = associatedObject is TopLevel { IsLoaded: true };
         if (behavior is IBehaviorEventsHandler eventsHandler &&
-            associatedObject is StyledElement styledElement &&
-            (((ILogical)styledElement).IsAttachedToLogicalTree || isOpenTopLevel))
+            IsHostAttachedToLogicalTree(behavior.AssociatedObject))
         {
             eventsHandler.AttachedToLogicalTreeEventHandler();
         }
@@ -538,11 +575,8 @@ public class BehaviorCollection : AvaloniaList<AvaloniaObject>
 
     private static void SynchronizeVisualAttachment(IBehavior behavior)
     {
-        var associatedObject = behavior.AssociatedObject;
-        var isOpenTopLevel = associatedObject is TopLevel { IsLoaded: true };
         if (behavior is IBehaviorEventsHandler eventsHandler &&
-            associatedObject is Visual visual &&
-            (visual.IsAttachedToVisualTree() || isOpenTopLevel))
+            IsHostAttachedToVisualTree(behavior.AssociatedObject))
         {
             eventsHandler.AttachedToVisualTreeEventHandler();
         }
@@ -551,11 +585,44 @@ public class BehaviorCollection : AvaloniaList<AvaloniaObject>
     private static void SynchronizeLoaded(IBehavior behavior)
     {
         if (behavior is IBehaviorEventsHandler eventsHandler &&
-            behavior.AssociatedObject is Control { IsLoaded: true })
+            IsHostLoaded(behavior.AssociatedObject))
         {
             eventsHandler.LoadedEventHandler();
         }
     }
+
+#if UNO
+    // WinUI has no initialization, logical tree or visual tree attachment notifications distinct from
+    // Loaded/Unloaded; Interaction raises all of them from FrameworkElement.Loaded/Unloaded.
+    private static bool IsHostInitialized(AvaloniaObject? associatedObject)
+        => associatedObject is FrameworkElement { IsLoaded: true };
+
+    private static bool IsHostAttachedToLogicalTree(AvaloniaObject? associatedObject)
+        => associatedObject is FrameworkElement { IsLoaded: true };
+
+    private static bool IsHostAttachedToVisualTree(AvaloniaObject? associatedObject)
+        => associatedObject is FrameworkElement { IsLoaded: true };
+
+    private static bool IsHostLoaded(AvaloniaObject? associatedObject)
+        => associatedObject is FrameworkElement { IsLoaded: true };
+#else
+    private static bool IsHostInitialized(AvaloniaObject? associatedObject)
+        => associatedObject is StyledElement { IsInitialized: true };
+
+    private static bool IsHostAttachedToLogicalTree(AvaloniaObject? associatedObject)
+        => associatedObject is StyledElement styledElement &&
+           (((ILogical)styledElement).IsAttachedToLogicalTree || IsOpenTopLevel(associatedObject));
+
+    private static bool IsHostAttachedToVisualTree(AvaloniaObject? associatedObject)
+        => associatedObject is Visual visual &&
+           (visual.IsAttachedToVisualTree() || IsOpenTopLevel(associatedObject));
+
+    private static bool IsHostLoaded(AvaloniaObject? associatedObject)
+        => associatedObject is Control { IsLoaded: true };
+
+    private static bool IsOpenTopLevel(AvaloniaObject? associatedObject)
+        => associatedObject is TopLevel { IsLoaded: true };
+#endif
 
     [Conditional("DEBUG")]
     private void VerifyOldCollectionIntegrity()

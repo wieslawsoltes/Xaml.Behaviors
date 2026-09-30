@@ -1,0 +1,35 @@
+<Project Sdk="Uno.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>$(UnoTargetFrameworks)</TargetFrameworks>
+    <AssemblyName>Xaml.Behaviors.Uno.Interactivity</AssemblyName>
+    <RootNamespace>Xaml.Interactivity</RootNamespace>
+    <UnoSharedSourceProject>Xaml.Behaviors.Interactivity</UnoSharedSourceProject>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <PackageId>Xaml.Behaviors.Uno.Interactivity</PackageId>
+    <Description>Foundation library providing base classes for actions, triggers and behaviors for Uno Platform (WinUI).</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Using Include="Xaml.Interactivity" />
+  </ItemGroup>
+
+  <PropertyGroup>
+    <!-- Avalonia-only sources (see PORTING.md). Uno replacements live next to this project file. -->
+    <UnoSharedSourceExcludes>
+      AvaloniaObjectBehaviorsExtensions.cs;
+      Templates/**;
+      StyledElement/StyledElementBehavior.cs;
+      StyledElement/StyledElementTrigger.cs;
+      StyledElement/StyledElementAction.cs;
+      Helpers/TemplatedParentHelper.cs;
+      Helpers/CommandCanExecuteIsEnabledBinder.cs;
+      Events/Handlers/MenuItemClickEventHandler.cs;
+      Events/Handlers/ButtonClickEventHandler.cs;
+      Events/Handlers/FlyoutEventHandler.cs
+    </UnoSharedSourceExcludes>
+  </PropertyGroup>
+
+</Project>

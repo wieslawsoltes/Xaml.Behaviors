@@ -3,11 +3,21 @@
 using System;
 using System.Diagnostics;
 using System.Globalization;
+#if UNO
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Controls.Primitives;
+#else
 using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
 using Avalonia.Reactive;
+#endif
 
+#if UNO
+namespace Xaml.Interactivity;
+#else
 namespace Avalonia.Xaml.Interactivity;
+#endif
 
 /// <summary>
 /// A base class for behaviors, implementing the basic plumbing of <see cref="IBehavior"/>.
@@ -23,7 +33,11 @@ public abstract class StyledElementBehavior : StyledElement, IBehavior, IBehavio
     /// <summary>
     /// Identifies the <seealso cref="IsEnabled"/> avalonia property.
     /// </summary>
+#if UNO
+    public static readonly DependencyProperty IsEnabledProperty =
+#else
     public static readonly StyledProperty<bool> IsEnabledProperty =
+#endif
         AvaloniaProperty.Register<StyledElementBehavior, bool>(nameof(IsEnabled), defaultValue: true);
 
     /// <summary>
@@ -42,7 +56,7 @@ public abstract class StyledElementBehavior : StyledElement, IBehavior, IBehavio
     /// <value><c>true</c> if this instance is enabled; otherwise, <c>false</c>.</value>
     public bool IsEnabled
     {
-        get => GetValue(IsEnabledProperty);
+        get => (bool)GetValue(IsEnabledProperty);
         set => SetValue(IsEnabledProperty, value);
     }
 

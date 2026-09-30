@@ -1,9 +1,17 @@
 // Copyright (c) Wiesław Šoltés. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for details.
 using System;
+#if UNO
+using Microsoft.UI.Xaml.Controls.Primitives;
+#else
 using Avalonia.Controls.Primitives;
+#endif
 
+#if UNO
+namespace Xaml.Interactivity;
+#else
 namespace Avalonia.Xaml.Interactivity;
+#endif
 
 internal sealed class FlyoutEventHandler : IAddEventHandler
 {

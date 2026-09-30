@@ -2,9 +2,17 @@
 // Licensed under the MIT license. See LICENSE file in the project root for details.
 using System;
 using System.Windows.Input;
+#if UNO
+using Microsoft.UI.Dispatching;
+#else
 using Avalonia.Threading;
+#endif
 
+#if UNO
+namespace Xaml.Interactivity;
+#else
 namespace Avalonia.Xaml.Interactivity;
+#endif
 
 /// <summary>
 /// Observes an <see cref="ICommand"/> and reports whether it can execute with a specified parameter.

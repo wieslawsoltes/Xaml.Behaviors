@@ -3,7 +3,11 @@
 using System;
 using System.Reflection;
 
+#if UNO
+namespace Xaml.Interactivity;
+#else
 namespace Avalonia.Xaml.Interactivity;
+#endif
 
 internal static class TemplatedParentHelper
 {
