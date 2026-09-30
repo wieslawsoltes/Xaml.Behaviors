@@ -13,6 +13,9 @@
     <File Path="src/Uno/Directory.Build.targets" />
     <File Path="src/Uno/PORTING.md" />
   </Folder>
+  <Folder Name="/samples/">
+    <Project Path="samples/Uno/BehaviorsTestApplication/BehaviorsTestApplication.csproj" />
+  </Folder>
   <Folder Name="/src/">
     <Project Path="src/Uno/Xaml.Behaviors.Interactivity/Xaml.Behaviors.Interactivity.csproj" />
     <Project Path="src/Uno/Xaml.Behaviors.Interactions/Xaml.Behaviors.Interactions.csproj" />

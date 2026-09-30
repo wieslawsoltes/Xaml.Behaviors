@@ -1,0 +1,68 @@
+<Page x:Class="BehaviorsTestApplication.Views.MainPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:i="using:Xaml.Interactivity"
+      xmlns:ic="using:Xaml.Interactions.Core"
+      xmlns:ie="using:Xaml.Interactions.Events">
+  <ScrollViewer>
+    <StackPanel Margin="24" Spacing="16" MaxWidth="720">
+      <TextBlock Text="XAML Behaviors for Uno Platform" Style="{StaticResource TitleTextBlockStyle}" />
+
+      <TextBlock Text="EventTriggerBehavior + InvokeCommandAction" Style="{StaticResource SubtitleTextBlockStyle}" />
+      <StackPanel Orientation="Horizontal" Spacing="8">
+        <Button Content="Increment">
+          <i:Interaction.Behaviors>
+            <ic:EventTriggerBehavior EventName="Click">
+              <ic:InvokeCommandAction Command="{x:Bind ViewModel.IncrementCommand}" />
+            </ic:EventTriggerBehavior>
+          </i:Interaction.Behaviors>
+        </Button>
+        <Button Content="Reset">
+          <i:Interaction.Behaviors>
+            <ic:EventTriggerBehavior EventName="Click">
+              <ic:InvokeCommandAction Command="{x:Bind ViewModel.ResetCommand}" />
+            </ic:EventTriggerBehavior>
+          </i:Interaction.Behaviors>
+        </Button>
+        <TextBlock VerticalAlignment="Center" Text="{x:Bind ViewModel.Count, Mode=OneWay}" />
+      </StackPanel>
+
+      <TextBlock Text="DataTriggerBehavior + ChangePropertyAction" Style="{StaticResource SubtitleTextBlockStyle}" />
+      <Border x:Name="Indicator" Width="200" Height="24" Background="LightGray" CornerRadius="4">
+        <i:Interaction.Behaviors>
+          <ic:DataTriggerBehavior Binding="{x:Bind ViewModel.Count, Mode=OneWay}" ComparisonCondition="GreaterThanOrEqual" Value="5">
+            <ic:ChangePropertyAction PropertyName="Background" Value="LimeGreen" />
+          </ic:DataTriggerBehavior>
+          <ic:DataTriggerBehavior Binding="{x:Bind ViewModel.Count, Mode=OneWay}" ComparisonCondition="LessThan" Value="5">
+            <ic:ChangePropertyAction PropertyName="Background" Value="LightGray" />
+          </ic:DataTriggerBehavior>
+        </i:Interaction.Behaviors>
+      </Border>
+
+      <TextBlock Text="Events: KeyDown and GotFocus triggers" Style="{StaticResource SubtitleTextBlockStyle}" />
+      <TextBox PlaceholderText="Type here">
+        <i:Interaction.Behaviors>
+          <ie:KeyDownEventTrigger>
+            <ic:InvokeCommandAction Command="{x:Bind ViewModel.KeyCommand}" PassEventArgsToCommand="True" />
+          </ie:KeyDownEventTrigger>
+          <ie:GotFocusEventTrigger>
+            <ic:InvokeCommandAction Command="{x:Bind ViewModel.LogCommand}" CommandParameter="TextBox got focus" />
+          </ie:GotFocusEventTrigger>
+        </i:Interaction.Behaviors>
+      </TextBox>
+      <TextBlock Text="{x:Bind ViewModel.LastKey, Mode=OneWay}" />
+
+      <TextBlock Text="TimerTrigger" Style="{StaticResource SubtitleTextBlockStyle}" />
+      <TextBlock Text="Logs a tick every second, five times.">
+        <i:Interaction.Behaviors>
+          <ic:TimerTrigger MillisecondsPerTick="1000" TotalTicks="5">
+            <ic:InvokeCommandAction Command="{x:Bind ViewModel.LogCommand}" CommandParameter="tick" />
+          </ic:TimerTrigger>
+        </i:Interaction.Behaviors>
+      </TextBlock>
+
+      <TextBlock Text="Log" Style="{StaticResource SubtitleTextBlockStyle}" />
+      <ItemsControl ItemsSource="{x:Bind ViewModel.Log}" />
+    </StackPanel>
+  </ScrollViewer>
+</Page>

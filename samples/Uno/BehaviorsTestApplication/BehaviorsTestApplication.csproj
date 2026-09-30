@@ -1,0 +1,27 @@
+<Project Sdk="Uno.Sdk">
+
+  <!-- Uno Platform sample for XAML Behaviors (Skia desktop head). -->
+  <PropertyGroup>
+    <TargetFrameworks>net10.0-desktop</TargetFrameworks>
+    <OutputType>Exe</OutputType>
+    <UnoSingleProject>true</UnoSingleProject>
+    <IsPackable>false</IsPackable>
+    <Nullable>enable</Nullable>
+    <UnoPortAliases>false</UnoPortAliases>
+    <ApplicationTitle>XAML Behaviors (Uno Platform)</ApplicationTitle>
+    <ApplicationId>com.wieslawsoltes.xamlbehaviors.uno.sample</ApplicationId>
+    <ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
+    <ApplicationVersion>1</ApplicationVersion>
+    <UnoFeatures>SkiaRenderer</UnoFeatures>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="ReactiveUI.Uno" VersionOverride="25.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\src\Uno\Xaml.Behaviors.Interactions\Xaml.Behaviors.Interactions.csproj" />
+    <ProjectReference Include="..\..\..\src\Uno\Xaml.Behaviors.Interactions.Events\Xaml.Behaviors.Interactions.Events.csproj" />
+  </ItemGroup>
+
+</Project>
