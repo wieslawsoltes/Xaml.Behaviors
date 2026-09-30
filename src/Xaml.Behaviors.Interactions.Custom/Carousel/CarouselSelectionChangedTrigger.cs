@@ -4,6 +4,7 @@
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
+using Carousel = Microsoft.UI.Xaml.Controls.FlipView;
 #else
 using Avalonia.Controls;
 using Avalonia.Controls.Primitives;

@@ -42,12 +42,22 @@ public partial class ShowWindowAction : StyledElementAction
             return false;
         }
 
+#if UNO
+        // A WinUI window has no data context: its content inherits the data context of the sender.
+        if (sender is Control control && window.Content is FrameworkElement content)
+        {
+            content.DataContext = control.DataContext;
+        }
+
+        window.Activate();
+#else
         if (sender is Control control)
         {
             window.DataContext = control.DataContext;
         }
 
         window.Show();
+#endif
         return true;
     }
 }

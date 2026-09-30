@@ -5,6 +5,10 @@ using System;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Xaml.Interactivity;
+using ItemsControl = Microsoft.UI.Xaml.Controls.ItemsRepeater;
+using ContainerPreparedEventArgs = Microsoft.UI.Xaml.Controls.ItemsRepeaterElementPreparedEventArgs;
+using ContainerClearingEventArgs = Microsoft.UI.Xaml.Controls.ItemsRepeaterElementClearingEventArgs;
+using ContainerIndexChangedEventArgs = Microsoft.UI.Xaml.Controls.ItemsRepeaterElementIndexChangedEventArgs;
 #else
 using Avalonia.Controls;
 using Avalonia.Xaml.Interactivity;
@@ -19,6 +23,10 @@ namespace Avalonia.Xaml.Interactions.Custom;
 /// <summary>
 /// Base class that exposes container related events from an <see cref="ItemsControl"/>.
 /// </summary>
+/// <remarks>
+/// On Uno Platform the container lifecycle events are raised by the WinUI <c>ItemsRepeater</c>
+/// (<c>ElementPrepared</c>, <c>ElementIndexChanged</c> and <c>ElementClearing</c>).
+/// </remarks>
 public abstract class ItemsControlContainerEventsBehavior : DisposingBehavior<ItemsControl>
 {
     /// <inheritdoc />
@@ -29,6 +37,18 @@ public abstract class ItemsControlContainerEventsBehavior : DisposingBehavior<It
             return DisposableAction.Empty;
         }
 
+#if UNO
+        itemsControl.ElementPrepared += ItemsControlOnContainerPrepared;
+        itemsControl.ElementIndexChanged += ItemsControlOnContainerIndexChanged;
+        itemsControl.ElementClearing += ItemsControlOnContainerClearing;
+
+        return DisposableAction.Create(() =>
+        {
+            itemsControl.ElementPrepared -= ItemsControlOnContainerPrepared;
+            itemsControl.ElementIndexChanged -= ItemsControlOnContainerIndexChanged;
+            itemsControl.ElementClearing -= ItemsControlOnContainerClearing;
+        });
+#else
         itemsControl.PreparingContainer += ItemsControlOnPreparingContainer;
         itemsControl.ContainerPrepared += ItemsControlOnContainerPrepared;
         itemsControl.ContainerIndexChanged += ItemsControlOnContainerIndexChanged;
@@ -41,12 +61,15 @@ public abstract class ItemsControlContainerEventsBehavior : DisposingBehavior<It
             itemsControl.ContainerIndexChanged -= ItemsControlOnContainerIndexChanged;
             itemsControl.ContainerClearing -= ItemsControlOnContainerClearing;
         });
+#endif
     }
 
+#if !UNO
     private void ItemsControlOnPreparingContainer(object? sender, ContainerPreparedEventArgs e)
     {
         OnPreparingContainer(sender, e);
     }
+#endif
 
     private void ItemsControlOnContainerPrepared(object? sender, ContainerPreparedEventArgs e)
     {
@@ -66,6 +89,9 @@ public abstract class ItemsControlContainerEventsBehavior : DisposingBehavior<It
     /// <summary>
     /// Called before the container is prepared.
     /// </summary>
+    /// <remarks>
+    /// Not raised on Uno Platform: <c>ItemsRepeater</c> has no event before an element is prepared.
+    /// </remarks>
     /// <param name="sender">The items control raising the event.</param>
     /// <param name="e">Event arguments.</param>
     protected virtual void OnPreparingContainer(object? sender, ContainerPreparedEventArgs e)

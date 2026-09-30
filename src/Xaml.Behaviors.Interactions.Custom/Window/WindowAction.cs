@@ -51,6 +51,9 @@ public enum WindowActionType
 /// <summary>
 /// An action that performs common window operations.
 /// </summary>
+/// <remarks>
+/// On Uno Platform the window states map to the presenter of the WinUI <c>AppWindow</c>.
+/// </remarks>
 public partial class WindowAction : StyledElementAction
 {
 

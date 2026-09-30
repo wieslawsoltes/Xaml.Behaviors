@@ -4,6 +4,7 @@
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Xaml.Interactivity;
+using TabControl = Microsoft.UI.Xaml.Controls.TabView;
 #else
 using Avalonia.Controls;
 using Avalonia.Xaml.Interactivity;

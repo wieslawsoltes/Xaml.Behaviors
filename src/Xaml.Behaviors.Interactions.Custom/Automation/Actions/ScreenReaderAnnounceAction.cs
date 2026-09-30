@@ -1,11 +1,12 @@
 // Copyright (c) Wiesław Šoltés. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for details.
-using System.Reflection;
 #if UNO
 using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Automation.Peers;
 using Microsoft.UI.Xaml.Controls;
 using Xaml.Interactivity;
 #else
+using System.Reflection;
 using Avalonia.Controls;
 using Avalonia.Xaml.Interactivity;
 #endif
@@ -33,6 +34,20 @@ public partial class ScreenReaderAnnounceAction : StyledElementAction
     {
         if (sender is Control control && !string.IsNullOrEmpty(Message))
         {
+#if UNO
+            // WinUI announces through the automation peer of the element (UI Automation notification event).
+            var peer = FrameworkElementAutomationPeer.FromElement(control)
+                       ?? FrameworkElementAutomationPeer.CreatePeerForElement(control);
+            if (peer is not null)
+            {
+                peer.RaiseNotificationEvent(
+                    AutomationNotificationKind.Other,
+                    AutomationNotificationProcessing.ImportantMostRecent,
+                    Message,
+                    nameof(ScreenReaderAnnounceAction));
+                return true;
+            }
+#else
             var topLevel = TopLevel.GetTopLevel(control);
             if (topLevel != null)
             {
@@ -43,6 +58,7 @@ public partial class ScreenReaderAnnounceAction : StyledElementAction
                     return true;
                 }
             }
+#endif
         }
         return false;
     }

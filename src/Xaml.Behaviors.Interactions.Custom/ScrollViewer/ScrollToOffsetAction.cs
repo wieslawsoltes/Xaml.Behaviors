@@ -53,6 +53,10 @@ public partial class ScrollToOffsetAction : StyledElementAction
             return false;
         }
 
+#if UNO
+        // WinUI scrolls through ChangeView; a null offset keeps the current one.
+        scroller.ChangeView(HorizontalOffset, VerticalOffset, null, disableAnimation: true);
+#else
         var offset = scroller.Offset;
 
         if (HorizontalOffset.HasValue)
@@ -66,6 +70,7 @@ public partial class ScrollToOffsetAction : StyledElementAction
         }
 
         scroller.Offset = offset;
+#endif
         return true;
     }
 }

@@ -56,11 +56,16 @@ public partial class WriteableBitmapRenderBehavior : StyledElementBehavior<Image
     /// <inheritdoc />
     protected override void OnAttachedToVisualTree()
     {
+#if UNO
+        // WinUI writeable bitmaps are always BGRA8 (premultiplied) at 96 DPI.
+        Bitmap = new WriteableBitmap(PixelWidth, PixelHeight);
+#else
         Bitmap = new WriteableBitmap(
             new PixelSize(PixelWidth, PixelHeight),
             new Vector(96, 96),
             PixelFormat.Bgra8888,
             AlphaFormat.Unpremul);
+#endif
 
         if (AssociatedObject is not null)
         {
@@ -87,11 +92,17 @@ public partial class WriteableBitmapRenderBehavior : StyledElementBehavior<Image
             AssociatedObject.Source = null;
         }
 
+#if !UNO
         Bitmap?.Dispose();
+#endif
         Bitmap = null;
     }
 
+#if UNO
+    private void OnTick(object? sender, object e)
+#else
     private void OnTick(object? sender, EventArgs e)
+#endif
     {
         if (Bitmap is null || Renderer is null)
         {
@@ -99,6 +110,11 @@ public partial class WriteableBitmapRenderBehavior : StyledElementBehavior<Image
         }
 
         Renderer.Render(Bitmap);
+#if UNO
+        // WinUI presents the pixel buffer changes once the bitmap is invalidated.
+        Bitmap.Invalidate();
+#else
         AssociatedObject?.InvalidateVisual();
+#endif
     }
 }

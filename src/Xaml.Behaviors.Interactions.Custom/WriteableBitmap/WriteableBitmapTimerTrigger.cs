@@ -78,7 +78,11 @@ public partial class WriteableBitmapTimerTrigger : StyledElementTrigger
         _timer = null;
     }
 
+#if UNO
+    private void OnTick(object? sender, object e)
+#else
     private void OnTick(object? sender, EventArgs e)
+#endif
     {
         if (!IsEnabled)
         {

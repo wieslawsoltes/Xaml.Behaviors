@@ -17,7 +17,7 @@ namespace Avalonia.Xaml.Interactions.Custom;
 #endif
 
 /// <summary>
-/// Executes actions when the dialog window is closed.
+/// Executes actions when the dialog window (Uno Platform: <c>ContentDialog</c>) is closed.
 /// </summary>
 public partial class DialogClosedTrigger : StyledElementTrigger<Control>
 {
@@ -25,8 +25,13 @@ public partial class DialogClosedTrigger : StyledElementTrigger<Control>
     /// <summary>
     /// Gets or sets the source object from which this behavior listens for events. This is an avalonia property.
     /// </summary>
+#if UNO
+    [StyledProperty(ResolveByName = true)]
+    public partial ContentDialog? SourceObject { get; set; }
+#else
     [StyledProperty(ResolveByName = true)]
     public partial Window? SourceObject { get; set; }
+#endif
     
     /// <inheritdoc />
     protected override void OnAttachedToVisualTree()
@@ -48,10 +53,17 @@ public partial class DialogClosedTrigger : StyledElementTrigger<Control>
         }
     }
 
+#if UNO
+    private void OnClosed(ContentDialog sender, ContentDialogClosedEventArgs e)
+    {
+        Execute(e);
+    }
+#else
     private void OnClosed(object? sender, EventArgs e)
     {
         Execute(e);
     }
+#endif
 
     private void Execute(object? parameter)
     {

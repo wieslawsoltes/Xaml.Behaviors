@@ -6,6 +6,8 @@ using System.Linq;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Xaml.Interactivity;
+using ListBox = Microsoft.UI.Xaml.Controls.Primitives.Selector;
+using ListBoxItem = Microsoft.UI.Xaml.Controls.Primitives.SelectorItem;
 #else
 using Avalonia.Controls;
 using Avalonia.LogicalTree;
@@ -21,6 +23,9 @@ namespace Avalonia.Xaml.Interactions.Custom;
 /// <summary>
 /// Allows a user to remove the item from a <see cref="ListBox"/> ItemTemplate.
 /// </summary>
+/// <remarks>
+/// On Uno Platform any WinUI selector (<c>ListView</c>, <c>ListBox</c>, ...) with directly added items is supported.
+/// </remarks>
 public sealed class RemoveItemInListBoxAction : StyledElementAction
 {
     /// <inheritdoc />
@@ -56,7 +61,11 @@ public sealed class RemoveItemInListBoxAction : StyledElementAction
             var listBoxItem = control.GetSelfAndLogicalAncestors().OfType<ListBoxItem>().FirstOrDefault();
             if (listBoxItem is not null)
             {
+#if UNO
+                if (listBox.Items is System.Collections.Generic.IList<object> listItems && listItems.Contains(listBoxItem.DataContext))
+#else
                 if (listBox.Items is IList listItems && listItems.Contains(listBoxItem.DataContext))
+#endif
                 {
                     listItems.Remove(listBoxItem.DataContext);
                     return true;

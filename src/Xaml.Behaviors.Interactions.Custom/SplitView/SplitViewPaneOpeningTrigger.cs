@@ -39,7 +39,11 @@ public class SplitViewPaneOpeningTrigger : StyledElementTrigger<SplitView>
         }
     }
 
+#if UNO
+    private void OnPaneOpening(object? sender, object e)
+#else
     private void OnPaneOpening(object? sender, CancelRoutedEventArgs e)
+#endif
     {
         Execute(e);
     }

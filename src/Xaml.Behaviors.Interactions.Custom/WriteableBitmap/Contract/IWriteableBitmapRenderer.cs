@@ -2,6 +2,7 @@
 // Licensed under the MIT license. See LICENSE file in the project root for details.
 #if UNO
 using Microsoft.UI.Xaml.Media.Imaging;
+using Media = Microsoft.UI.Xaml.Media;
 #else
 using Avalonia.Media.Imaging;
 #endif

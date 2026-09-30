@@ -59,6 +59,10 @@ public partial class ScrollViewerOffsetBehavior : AttachedToVisualTreeBehavior<S
             return;
         }
 
+#if UNO
+        // WinUI scrolls through ChangeView; a null offset keeps the current one.
+        AssociatedObject.ChangeView(HorizontalOffset, VerticalOffset, null, disableAnimation: true);
+#else
         var offset = AssociatedObject.Offset;
 
         if (HorizontalOffset.HasValue)
@@ -72,5 +76,6 @@ public partial class ScrollViewerOffsetBehavior : AttachedToVisualTreeBehavior<S
         }
 
         AssociatedObject.Offset = offset;
+#endif
     }
 }

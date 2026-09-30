@@ -5,6 +5,7 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Imaging;
 using Xaml.Interactivity;
+using Media = Microsoft.UI.Xaml.Media;
 #else
 using Avalonia.Controls;
 using Avalonia.Media.Imaging;
@@ -51,11 +52,16 @@ public partial class WriteableBitmapBehavior : StyledElementBehavior<Image>
     /// <inheritdoc />
     protected override void OnAttachedToVisualTree()
     {
+#if UNO
+        // WinUI writeable bitmaps are always BGRA8 (premultiplied) at 96 DPI.
+        Bitmap = new Media.Imaging.WriteableBitmap(PixelWidth, PixelHeight);
+#else
         Bitmap = new Media.Imaging.WriteableBitmap(
             new PixelSize(PixelWidth, PixelHeight),
             new Vector(96, 96),
             PixelFormat.Bgra8888,
             AlphaFormat.Unpremul);
+#endif
 
         if (AssociatedObject is not null)
         {
@@ -63,6 +69,9 @@ public partial class WriteableBitmapBehavior : StyledElementBehavior<Image>
         }
 
         Renderer?.Render(Bitmap);
+#if UNO
+        Bitmap.Invalidate();
+#endif
     }
 
     /// <inheritdoc />
@@ -73,7 +82,9 @@ public partial class WriteableBitmapBehavior : StyledElementBehavior<Image>
             AssociatedObject.Source = null;
         }
 
+#if !UNO
         Bitmap?.Dispose();
+#endif
         Bitmap = null;
     }
 
@@ -88,6 +99,11 @@ public partial class WriteableBitmapBehavior : StyledElementBehavior<Image>
         }
 
         Renderer.Render(Bitmap);
+#if UNO
+        // WinUI presents the pixel buffer changes once the bitmap is invalidated.
+        Bitmap.Invalidate();
+#else
         AssociatedObject?.InvalidateVisual();
+#endif
     }
 }

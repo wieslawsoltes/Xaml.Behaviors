@@ -7,6 +7,8 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using Xaml.Interactivity;
+using TabControl = Microsoft.UI.Xaml.Controls.TabView;
+using Key = Windows.System.VirtualKey;
 #else
 using Avalonia.Controls;
 using Avalonia.Input;

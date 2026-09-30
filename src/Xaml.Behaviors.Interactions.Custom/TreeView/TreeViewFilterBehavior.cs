@@ -41,8 +41,13 @@ public sealed partial class TreeViewFilterBehavior : StyledElementBehavior<TreeV
     {
         if (SearchBox is not null)
         {
+#if UNO
+            // WinUI raises TextChanged (a CLR event) after every edit, including text input.
+            SearchBox.TextChanged += SearchBox_TextChanged;
+#else
             SearchBox.AddHandler(InputElement.TextInputEvent, SearchBox_TextChanged, RoutingStrategies.Bubble);
             SearchBox.AddHandler(TextBox.TextChangedEvent, SearchBox_TextChanged, RoutingStrategies.Bubble);
+#endif
         }
     }
 
@@ -51,8 +56,12 @@ public sealed partial class TreeViewFilterBehavior : StyledElementBehavior<TreeV
     {
         if (SearchBox is not null)
         {
+#if UNO
+            SearchBox.TextChanged -= SearchBox_TextChanged;
+#else
             SearchBox.RemoveRoutedEventHandler(InputElement.TextInputEvent, SearchBox_TextChanged);
             SearchBox.RemoveRoutedEventHandler(TextBox.TextChangedEvent, SearchBox_TextChanged);
+#endif
         }
     }
 

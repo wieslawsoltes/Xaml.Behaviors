@@ -5,6 +5,8 @@ using System;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Xaml.Interactivity;
+using ThemeVariant = Microsoft.UI.Xaml.ElementTheme;
+using ThemeVariantScope = Microsoft.UI.Xaml.FrameworkElement;
 #else
 using Avalonia.Controls;
 using Avalonia.Styling;
@@ -20,6 +22,10 @@ namespace Avalonia.Xaml.Interactions.Custom;
 /// <summary>
 /// Sets the <see cref="ThemeVariantScope.RequestedThemeVariant"/> on the associated control.
 /// </summary>
+/// <remarks>
+/// On Uno Platform the behavior sets <c>FrameworkElement.RequestedTheme</c> (a <c>null</c> theme variant maps to
+/// <c>ElementTheme.Default</c>).
+/// </remarks>
 public partial class ThemeVariantBehavior : AttachedToVisualTreeBehavior<ThemeVariantScope>
 {
 
@@ -37,6 +43,18 @@ public partial class ThemeVariantBehavior : AttachedToVisualTreeBehavior<ThemeVa
             return DisposableAction.Empty;
         }
 
+#if UNO
+        var old = AssociatedObject.RequestedTheme;
+        AssociatedObject.RequestedTheme = ThemeVariant ?? Microsoft.UI.Xaml.ElementTheme.Default;
+
+        return DisposableAction.Create(() =>
+        {
+            if (AssociatedObject is not null)
+            {
+                AssociatedObject.RequestedTheme = old;
+            }
+        });
+#else
         var old = AssociatedObject.RequestedThemeVariant;
         AssociatedObject.SetCurrentValue(ThemeVariantScope.RequestedThemeVariantProperty, ThemeVariant);
 
@@ -47,6 +65,7 @@ public partial class ThemeVariantBehavior : AttachedToVisualTreeBehavior<ThemeVa
                 AssociatedObject.SetCurrentValue(ThemeVariantScope.RequestedThemeVariantProperty, old);
             }
         });
+#endif
     }
 
     /// <inheritdoc />
@@ -56,7 +75,11 @@ public partial class ThemeVariantBehavior : AttachedToVisualTreeBehavior<ThemeVa
 
         if (change.Property == ThemeVariantProperty && AssociatedObject is not null)
         {
+#if UNO
+            AssociatedObject.RequestedTheme = change.GetNewValue<ThemeVariant?>() ?? Microsoft.UI.Xaml.ElementTheme.Default;
+#else
             AssociatedObject.SetCurrentValue(ThemeVariantScope.RequestedThemeVariantProperty, change.GetNewValue<ThemeVariant?>());
+#endif
         }
     }
 }

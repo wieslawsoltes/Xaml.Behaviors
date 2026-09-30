@@ -38,7 +38,11 @@ public class PopupClosedTrigger : StyledElementTrigger<Popup>
         }
     }
 
+#if UNO
+    private void OnClosed(object? sender, object e)
+#else
     private void OnClosed(object? sender, EventArgs e)
+#endif
     {
         Execute(e);
     }

@@ -7,6 +7,7 @@ using System.Linq;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Xaml.Interactivity;
+using Windows.Foundation;
 #else
 using Avalonia.Controls;
 using Avalonia.Layout;
@@ -39,7 +40,11 @@ public enum FluidMoveScope
 /// </summary>
 public partial class FluidMoveBehavior : Behavior<Visual>
 {
+#if UNO
+    private readonly Dictionary<Control, Point> _positions = new();
+#else
     private readonly Dictionary<Control, PixelPoint> _positions = new();
+#endif
 
     /// <summary>
     /// Gets or sets how the behavior is applied.
@@ -73,7 +78,11 @@ public partial class FluidMoveBehavior : Behavior<Visual>
         base.OnDetaching();
     }
 
+#if UNO
+    private void OnLayoutUpdated(object? sender, object e)
+#else
     private void OnLayoutUpdated(object? sender, EventArgs e)
+#endif
     {
         if (AssociatedObject is not { } root)
         {
@@ -95,6 +104,10 @@ public partial class FluidMoveBehavior : Behavior<Visual>
 
     private void UpdateControl(Control control, Visual root)
     {
+#if UNO
+        var p = control.TransformToVisual(root).TransformPoint(new Point(0, 0));
+        var current = new Point((int)p.X, (int)p.Y);
+#else
         var p = control.TranslatePoint(new Point(0, 0), root);
         if (p is null)
         {
@@ -102,6 +115,7 @@ public partial class FluidMoveBehavior : Behavior<Visual>
         }
 
         var current = new PixelPoint((int)p.Value.X, (int)p.Value.Y);
+#endif
 
         if (!_positions.TryGetValue(control, out var previous))
         {

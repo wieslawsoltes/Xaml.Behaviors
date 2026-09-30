@@ -39,10 +39,15 @@ public partial class UploadCompletedTrigger : StyledElementTrigger
 
     private void OnIsCompletedChanged(AvaloniaPropertyChangedEventArgs args)
     {
+#if UNO
+        // WinUI change arguments carry no sender: the change is always raised for this trigger.
+        var trigger = this;
+#else
         if (args.Sender is not UploadCompletedTrigger trigger)
         {
             return;
         }
+#endif
 
         if (args.NewValue is bool completed && completed)
         {

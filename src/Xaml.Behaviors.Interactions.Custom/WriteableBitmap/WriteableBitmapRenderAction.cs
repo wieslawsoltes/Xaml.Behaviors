@@ -4,6 +4,7 @@
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Xaml.Interactivity;
+using Media = Microsoft.UI.Xaml.Media;
 #else
 using Avalonia.Controls;
 using Avalonia.Xaml.Interactivity;

@@ -75,7 +75,11 @@ public partial class RenderTargetBitmapTrigger : StyledElementTrigger
         _timer = null;
     }
 
+#if UNO
+    private void OnTick(object? sender, object e)
+#else
     private void OnTick(object? sender, EventArgs e)
+#endif
     {
         Target?.Render();
         Interaction.ExecuteActions(AssociatedObject, Actions, e);
