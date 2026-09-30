@@ -1,0 +1,59 @@
+# XAML Behaviors for Uno Platform
+
+The Uno Platform (WinUI API) port of XAML Behaviors. It is built from the same sources as the Avalonia packages
+(see [PORTING.md](PORTING.md) for how the sources are shared) and targets Uno Platform 6.7+ on .NET 10.
+
+## Packages
+
+| Package | Contents |
+|---------|----------|
+| `Xaml.Behaviors.Uno.Interactivity` | `Behavior`, `Trigger`, `Action`, `Interaction`, collections, conditions, event registry |
+| `Xaml.Behaviors.Uno.Interactions` | Core triggers and actions (`EventTriggerBehavior`, `InvokeCommandAction`, `CallMethodAction`, `ChangePropertyAction`, data triggers, timers, debounce/throttle, clipboard, file/folder pickers, file system and network) |
+| `Xaml.Behaviors.Uno.Interactions.Events` | Input and focus event triggers and behaviors |
+
+More packages (Custom, DragAndDrop, Draggable, Responsive, Animations, ReactiveUI, Scripting) follow the status table in
+[PORTING.md](PORTING.md#status).
+
+Supporting packages that are useful beyond this library:
+
+| Package | Purpose |
+|---------|---------|
+| `Xaml.Behaviors.Uno.Headless`, `Xaml.Behaviors.Uno.Headless.XUnit`, `Xaml.Behaviors.Uno.Headless.Host` | Headless Uno Platform UI tests with xUnit v3 (`[UnoHeadlessFact]`), see [the harness README](Xaml.Behaviors.Uno.Headless/README.md). |
+| `Xaml.PropertyGenerator` | Generates Avalonia and WinUI/Uno properties from one declaration; migrates hand written registrations. |
+| `Xaml.PortAnalyzers` | Portability analyzers for Avalonia → Uno Platform ports. |
+
+## Usage
+
+```xml
+<Page xmlns:i="using:Xaml.Interactivity"
+      xmlns:ic="using:Xaml.Interactions.Core"
+      xmlns:ie="using:Xaml.Interactions.Events">
+  <Button Content="Save">
+    <i:Interaction.Behaviors>
+      <ic:EventTriggerBehavior EventName="Click">
+        <ic:InvokeCommandAction Command="{x:Bind ViewModel.SaveCommand}" />
+      </ic:EventTriggerBehavior>
+    </i:Interaction.Behaviors>
+  </Button>
+</Page>
+```
+
+Namespaces follow the Avalonia ones without the `Avalonia.` prefix: `Avalonia.Xaml.Interactivity` →
+`Xaml.Interactivity`, `Avalonia.Xaml.Interactions.Core` → `Xaml.Interactions.Core`, and so on.
+
+## Differences from the Avalonia packages
+
+* **Lifecycle**: WinUI has no logical tree, `Initialized` or `AttachedToVisualTree` notifications. Behaviors receive
+  `OnInitializedEvent`, `OnAttachedToLogicalTree`, `OnAttachedToVisualTree` and `OnLoaded` (in that order) from
+  `FrameworkElement.Loaded`, and the detach notifications in reverse order from `Unloaded`.
+* **Element names**: `[ResolveByName]` does not exist in WinUI XAML; use `{Binding ElementName=...}` or `{x:Bind}`.
+* **Bindings as values**: WinUI applies a binding assigned to a property; `Condition.Binding` and
+  `DataTriggerBehavior.Binding` therefore compare the bound value.
+* **Routed events**: WinUI routed events always bubble. `RoutingStrategies.Tunnel` uses the `Preview*` event when one
+  exists (key events) and otherwise also receives handled events.
+* **Default binding modes and value inheritance** are Avalonia features; on WinUI specify `Mode=TwoWay` explicitly.
+* **Clipboard and pickers** use the application wide WinUI services (`SystemClipboard`, `SystemStorageProvider`).
+  The `Clipboard` and `StorageProvider` properties accept other implementations, for example in tests. WinUI pickers
+  cannot open an arbitrary start folder.
+* **Templates** (`BehaviorCollectionTemplate` and friends) and the Avalonia only controls/features listed in
+  PORTING.md are not available.
