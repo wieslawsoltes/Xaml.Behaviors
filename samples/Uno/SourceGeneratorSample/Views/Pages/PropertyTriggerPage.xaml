@@ -1,0 +1,60 @@
+<UserControl x:Class="SourceGeneratorSample.Views.Pages.PropertyTriggerPage"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:i="using:Xaml.Interactivity"
+             xmlns:vm="using:SourceGeneratorSample.ViewModels"
+             xmlns:xaml="using:Microsoft.UI.Xaml"
+             xmlns:controls="using:Microsoft.UI.Xaml.Controls">
+  <!--
+    WinUI twin of PropertyTriggerPage.axaml. WinUI has no IsVisible and Bounds properties: the visibility trigger
+    observes UIElement.Visibility (Visible/Collapsed), and the bounds trigger observes the layout width
+    (FrameworkElement.Width) that the slider changes, since ActualWidth raises no property change notifications.
+  -->
+  <StackPanel Spacing="12">
+    <TextBlock Text="Property Triggers" FontWeight="Bold" />
+    <TextBlock Text="{x:Bind ViewModel.PropertyTriggerStatus, Mode=OneWay}" />
+
+    <StackPanel Spacing="6">
+      <TextBlock Text="IsVisible trigger (name scope lookup)" FontWeight="SemiBold" />
+      <ToggleSwitch Header="Show region" IsOn="{x:Bind ViewModel.ShowRegion, Mode=TwoWay}" />
+      <Border x:Name="VisibilityTarget"
+              Visibility="{x:Bind ViewModel.ShowRegion, Mode=OneWay}"
+              Background="LightGray"
+              Padding="12">
+        <TextBlock Text="Toggle the switch to change visibility." />
+      </Border>
+      <i:Interaction.Behaviors>
+        <xaml:UIElementVisibilityPropertyTrigger SourceName="VisibilityTarget" Value="Visible">
+          <vm:SetPropertyTriggerStatusAction TargetObject="{x:Bind ViewModel}" Value="Region became visible" />
+        </xaml:UIElementVisibilityPropertyTrigger>
+        <xaml:UIElementVisibilityPropertyTrigger SourceName="VisibilityTarget" Value="Collapsed">
+          <vm:SetPropertyTriggerStatusAction TargetObject="{x:Bind ViewModel}" Value="Region hidden" />
+        </xaml:UIElementVisibilityPropertyTrigger>
+      </i:Interaction.Behaviors>
+    </StackPanel>
+
+    <StackPanel Spacing="6">
+      <TextBlock Text="Bounds trigger (non-zero layout)" FontWeight="SemiBold" />
+      <Slider Minimum="100" Maximum="400" Value="{x:Bind ViewModel.BoundsWidth, Mode=TwoWay}" />
+      <Border x:Name="BoundsTarget"
+              Width="{x:Bind ViewModel.BoundsWidth, Mode=OneWay}"
+              Height="80"
+              Background="LightBlue" />
+      <i:Interaction.Behaviors>
+        <xaml:FrameworkElementWidthPropertyTrigger SourceName="BoundsTarget" Value="0" ComparisonCondition="NotEqual">
+          <vm:SetPropertyTriggerStatusAction TargetObject="{x:Bind ViewModel}" Value="Bounds changed (dispatched)" />
+        </xaml:FrameworkElementWidthPropertyTrigger>
+      </i:Interaction.Behaviors>
+    </StackPanel>
+
+    <StackPanel Spacing="6">
+      <TextBlock Text="Text trigger (dispatcher enabled)" FontWeight="SemiBold" />
+      <TextBox x:Name="TextTarget" PlaceholderText="Type 'ping' to trigger" />
+      <i:Interaction.Behaviors>
+        <controls:TextBoxDispatchingTextPropertyTrigger SourceName="TextTarget" Value="ping">
+          <vm:SetPropertyTriggerStatusAction TargetObject="{x:Bind ViewModel}" Value="Text matched 'ping' on UI thread" />
+        </controls:TextBoxDispatchingTextPropertyTrigger>
+      </i:Interaction.Behaviors>
+    </StackPanel>
+  </StackPanel>
+</UserControl>

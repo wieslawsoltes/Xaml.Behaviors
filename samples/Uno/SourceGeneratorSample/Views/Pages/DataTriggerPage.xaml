@@ -1,0 +1,22 @@
+<UserControl x:Class="SourceGeneratorSample.Views.Pages.DataTriggerPage"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:i="using:Xaml.Interactivity"
+             xmlns:controls="using:Microsoft.UI.Xaml.Controls"
+             xmlns:gen="using:Xaml.Behaviors.Generated">
+  <!-- WinUI twin of DataTriggerPage.axaml; IsSnapToTickEnabled is SnapsTo="Ticks" in WinUI. -->
+  <StackPanel Spacing="10">
+    <TextBlock Text="DataTrigger" FontWeight="Bold" />
+    <Slider Minimum="0" Maximum="10" SnapsTo="Ticks" TickFrequency="1" StepFrequency="1" Value="{x:Bind ViewModel.Value, Mode=TwoWay}" />
+    <TextBlock Text="Value is 5!">
+      <i:Interaction.Behaviors>
+        <gen:DoubleDataTrigger Binding="{x:Bind ViewModel.Value, Mode=OneWay}" Value="5" ComparisonCondition="Equal">
+          <controls:TextBlockSetForegroundAction Value="Green" />
+        </gen:DoubleDataTrigger>
+        <gen:DoubleDataTrigger Binding="{x:Bind ViewModel.Value, Mode=OneWay}" Value="5" ComparisonCondition="NotEqual">
+          <controls:TextBlockSetForegroundAction Value="Black" />
+        </gen:DoubleDataTrigger>
+      </i:Interaction.Behaviors>
+    </TextBlock>
+  </StackPanel>
+</UserControl>

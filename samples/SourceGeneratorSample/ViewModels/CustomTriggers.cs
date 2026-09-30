@@ -1,5 +1,11 @@
+#if UNO
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Xaml.Interactivity;
+#else
 using Avalonia.Controls;
 using Avalonia.Xaml.Interactivity;
+#endif
 using Xaml.Behaviors.SourceGenerators;
 using System.Windows.Input;
 

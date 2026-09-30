@@ -1,0 +1,50 @@
+<Project Sdk="Uno.Sdk">
+
+  <!-- Surfaces XamlBehaviorsSourceGeneratorPlatform to the generator, like the package's buildTransitive props. -->
+  <Import Project="..\..\..\src\Xaml.Behaviors.SourceGenerators\buildTransitive\Xaml.Behaviors.SourceGenerators.props" />
+
+  <!--
+    The view models, models and converters of samples/SourceGeneratorSample compiled for Uno Platform, with the
+    behaviors source generator in its WinUI mode.
+
+    Why a separate assembly: the Uno XAML generator is a Roslyn source generator too, and source generators do not see
+    each other's output. The views (samples/Uno/SourceGeneratorSample) therefore cannot use actions and triggers that
+    are generated in their own assembly (UXAML0001 "type could not be found"), so the generated types are compiled here
+    and the application references them, like any behavior library.
+  -->
+  <PropertyGroup>
+    <TargetFrameworks>net10.0</TargetFrameworks>
+    <OutputType>Library</OutputType>
+    <IsPackable>false</IsPackable>
+    <Nullable>enable</Nullable>
+    <UnoFeatures></UnoFeatures>
+    <RootNamespace>SourceGeneratorSample.Core</RootNamespace>
+    <XamlBehaviorsSourceGeneratorPlatform>WinUI</XamlBehaviorsSourceGeneratorPlatform>
+    <EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
+    <CompilerGeneratedFilesOutputPath>$(BaseIntermediateOutputPath)\GeneratedFiles</CompilerGeneratedFilesOutputPath>
+    <UnoSharedSampleProject>SourceGeneratorSample</UnoSharedSampleProject>
+    <!--
+      Uno0001 (member not implemented in Uno Platform): the wildcard samples generate an action or trigger for every
+      UIElement event and property, including the WinUI members that Uno Platform does not implement (access keys,
+      key tips, 3D transforms, ...). The generated code is correct WinUI code; these members are simply no-ops on Uno.
+    -->
+    <NoWarn>$(NoWarn);Uno0001</NoWarn>
+  </PropertyGroup>
+
+  <Import Project="SharedSources.props" />
+
+  <ItemGroup>
+    <PackageReference Include="ReactiveUI.Uno" VersionOverride="25.0.0" />
+    <!-- ReactiveUI 25 no longer depends on System.Reactive, which the shared view model uses (Observable, Unit). -->
+    <PackageReference Include="System.Reactive" VersionOverride="6.1.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- The single assembly package (Xaml.Behaviors.Uno), the twin of src/Xaml.Behaviors used by the Avalonia sample. -->
+    <ProjectReference Include="..\..\..\src\Uno\Xaml.Behaviors\Xaml.Behaviors.csproj" />
+    <ProjectReference Include="..\..\..\src\Xaml.Behaviors.SourceGenerators\Xaml.Behaviors.SourceGenerators.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
+  </ItemGroup>
+
+  <Import Project="..\UnoSharedSample.targets" />
+
+</Project>
