@@ -1,0 +1,29 @@
+<Project>
+  <!--
+    Shares the sources of an Avalonia sample application with its Uno Platform twin, like src/Uno shares the library
+    sources and tests/Uno the tests. A Uno sample project (Uno.Sdk app) sets:
+      <UnoSharedSampleProject>   the folder name of the Avalonia sample under samples/
+      <UnoSharedSampleExcludes>  files (relative paths or globs, ';' separated) of the Avalonia sample that are not
+                                 compiled for Uno, usually in a SharedSources.props next to the project
+    and imports this file. The shared C# sources (view models, models, behaviors, converters and the code-behind of
+    the views) compile with the UNO symbol and the port aliases of src/Uno. Every Avalonia view (.axaml) has a WinUI
+    twin (.xaml) at the same relative path next to the Uno project, which shares the view's code-behind (.axaml.cs).
+    See samples/Uno/README.md.
+  -->
+  <PropertyGroup>
+    <DefineConstants>$(DefineConstants);UNO</DefineConstants>
+    <_UnoSharedSampleRoot>$([MSBuild]::EnsureTrailingSlash($([MSBuild]::MakeRelative('$(MSBuildProjectDirectory)', '$(MSBuildThisFileDirectory)../$(UnoSharedSampleProject)'))))</_UnoSharedSampleRoot>
+    <_UnoSharedSampleExcludes>$([System.Text.RegularExpressions.Regex]::Replace('$(UnoSharedSampleExcludes)', '\s+', '').Trim(';'))</_UnoSharedSampleExcludes>
+    <_UnoSharedSampleExcludes Condition="'$(_UnoSharedSampleExcludes)' != ''">$(_UnoSharedSampleRoot)$(_UnoSharedSampleExcludes.Replace(';', ';$(_UnoSharedSampleRoot)'))</_UnoSharedSampleExcludes>
+    <_UnoSharedSampleExcludes>$([MSBuild]::Unescape('$(_UnoSharedSampleExcludes)'))</_UnoSharedSampleExcludes>
+  </PropertyGroup>
+
+  <ItemGroup Condition="'$(UnoSharedSampleProject)' != ''">
+    <!-- The Avalonia application bootstrap (App, Program) is replaced by the Uno Platform application. -->
+    <Compile Include="$(_UnoSharedSampleRoot)**/*.cs"
+             Exclude="$(_UnoSharedSampleRoot)bin/**;$(_UnoSharedSampleRoot)obj/**;$(_UnoSharedSampleRoot)Properties/**;$(_UnoSharedSampleRoot)Program.cs;$(_UnoSharedSampleRoot)App.axaml.cs;$(_UnoSharedSampleExcludes)"
+             Link="Shared/%(RecursiveDir)%(Filename)%(Extension)" />
+  </ItemGroup>
+
+  <Import Project="$(MSBuildThisFileDirectory)../../src/Uno/UnoPortAliases.props" />
+</Project>
