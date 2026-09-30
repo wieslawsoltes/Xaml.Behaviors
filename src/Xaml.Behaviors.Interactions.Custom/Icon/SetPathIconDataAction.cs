@@ -43,7 +43,7 @@ public partial class SetPathIconDataAction : StyledElementAction
             return false;
         }
 
-        var target = GetValue(PathIconProperty) ?? sender as PathIcon;
+        var target = (PathIcon?)GetValue(PathIconProperty) ?? sender as PathIcon;
         if (target is null)
         {
             return false;

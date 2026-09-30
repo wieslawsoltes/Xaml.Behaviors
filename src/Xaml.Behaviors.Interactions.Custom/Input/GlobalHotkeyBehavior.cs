@@ -21,7 +21,11 @@ namespace Avalonia.Xaml.Interactions.Custom;
 /// </summary>
 public partial class GlobalHotkeyBehavior : StyledElementTrigger<Control>
 {
+#if UNO
+    private UIElement? _topLevel;
+#else
     private TopLevel? _topLevel;
+#endif
 
     /// <summary>
     /// Gets or sets the key to listen for.
@@ -38,7 +42,12 @@ public partial class GlobalHotkeyBehavior : StyledElementTrigger<Control>
     /// <inheritdoc />
     protected override void OnAttachedToVisualTree()
     {
+#if UNO
+        // WinUI: the root element of the XAML island hosting the associated object.
+        _topLevel = AssociatedObject?.XamlRoot?.Content;
+#else
         _topLevel = TopLevel.GetTopLevel(AssociatedObject);
+#endif
         if (_topLevel != null)
         {
             _topLevel.AddHandler(InputElement.KeyDownEvent, OnKeyDown, RoutingStrategies.Tunnel);

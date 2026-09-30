@@ -42,6 +42,7 @@ public abstract partial class StyledElementAction : Action, ILogical
         {
             Action action => action.Host,
             IBehavior behavior => behavior.AssociatedObject,
+            IActionHostProvider provider => provider.ActionHost,
             _ => parent,
         };
 

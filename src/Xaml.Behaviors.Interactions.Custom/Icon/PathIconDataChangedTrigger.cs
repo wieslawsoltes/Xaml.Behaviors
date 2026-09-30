@@ -31,7 +31,7 @@ public class PathIconDataChangedTrigger : DisposingTrigger<PathIcon>
             return DisposableAction.Empty;
         }
 
-        return AssociatedObject.GetObservable(PathIcon.DataProperty)
+        return AssociatedObject.GetObservable<Geometry?>(PathIcon.DataProperty)
             .Subscribe(new AnonymousObserver<Geometry?>(_ => Execute(null)));
     }
 

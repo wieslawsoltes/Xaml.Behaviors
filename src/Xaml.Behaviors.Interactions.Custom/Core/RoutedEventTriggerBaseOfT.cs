@@ -24,12 +24,7 @@ public abstract class RoutedEventTriggerBase<T> : RoutedEventTriggerBase where T
     /// <summary>
     /// 
     /// </summary>
-#if UNO
-    // WinUI routed event identifiers are not generic; T is the argument type the event raises.
-    protected abstract RoutedEvent RoutedEvent { get; }
-#else
     protected abstract RoutedEvent<T> RoutedEvent { get; }
-#endif
 
     /// <summary>
     /// 
@@ -39,11 +34,7 @@ public abstract class RoutedEventTriggerBase<T> : RoutedEventTriggerBase where T
     {
         if (AssociatedObject is Interactive interactive)
         {
-#if UNO
-            var disposable = interactive.AddDisposableHandler<T>(
-#else
             var disposable = interactive.AddDisposableHandler(
-#endif
                 RoutedEvent, 
                 Handler, 
                 EventRoutingStrategy);

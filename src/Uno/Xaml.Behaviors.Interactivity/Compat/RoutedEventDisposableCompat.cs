@@ -75,22 +75,4 @@ internal static class RoutedEventDisposableCompatExtensions
         element.AddHandler(routedEvent, handler, routes, handledEventsToo);
         return DisposableAction.Create(() => element.RemoveRoutedEventHandler(routedEvent, handler));
     }
-
-    /// <summary>
-    /// Subscribes a handler typed with the event argument type of the routed event (Avalonia <c>RoutedEvent&lt;T&gt;</c>).
-    /// </summary>
-    /// <typeparam name="TEventArgs">The event argument type raised by <paramref name="routedEvent"/>.</typeparam>
-    public static IDisposable AddDisposableHandler<TEventArgs>(this UIElement element, RoutedEvent routedEvent, EventHandler<TEventArgs> handler, RoutingStrategies routes = RoutingStrategies.Direct | RoutingStrategies.Bubble, bool handledEventsToo = false)
-        where TEventArgs : RoutedEventArgs
-    {
-        EventHandler<RoutedEventArgs> wrapper = (sender, e) =>
-        {
-            if (e is TEventArgs args)
-            {
-                handler(sender, args);
-            }
-        };
-        element.AddHandler(routedEvent, wrapper, routes, handledEventsToo);
-        return DisposableAction.Create(() => element.RemoveRoutedEventHandler(routedEvent, wrapper));
-    }
 }

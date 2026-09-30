@@ -5,7 +5,10 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Input;
+using Microsoft.UI.Xaml.Media;
 using Xaml.Interactivity;
+using EventRoutingStrategies = Xaml.Interactivity.RoutingStrategies;
+using IInputElement = Microsoft.UI.Xaml.UIElement;
 #else
 using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
@@ -13,8 +16,8 @@ using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.VisualTree;
 using Avalonia.Xaml.Interactivity;
-#endif
 using EventRoutingStrategies = Avalonia.Interactivity.RoutingStrategies;
+#endif
 
 #if UNO
 namespace Xaml.Interactions.Custom;
@@ -155,7 +158,11 @@ public partial class ClickEventTrigger : StyledElementTrigger<Control>
 
         if (ShouldCapturePointer(sourceControl))
         {
+#if UNO
+            sourceControl.CapturePointer(e.Pointer);
+#else
             e.Pointer?.Capture(sourceControl);
+#endif
             _ownsPointerCapture = true;
         }
 
@@ -169,13 +176,21 @@ public partial class ClickEventTrigger : StyledElementTrigger<Control>
 
     private void OnPointerReleased(object? sender, PointerReleasedEventArgs e)
     {
+#if UNO
+        if (_isPressed && e.GetCurrentPoint(null).Properties.PointerUpdateKind == Microsoft.UI.Input.PointerUpdateKind.LeftButtonReleased)
+#else
         if (_isPressed && e.InitialPressMouseButton == MouseButton.Left)
+#endif
         {
             _isPressed = false;
 
             if (_ownsPointerCapture)
             {
+#if UNO
+                _resolvedSourceControl?.ReleasePointerCapture(e.Pointer);
+#else
                 e.Pointer?.Capture(null);
+#endif
                 _ownsPointerCapture = false;
             }
 
@@ -287,7 +302,12 @@ public partial class ClickEventTrigger : StyledElementTrigger<Control>
 
         ToggleFlyout(sourceControl);
 
+#if UNO
+        // WinUI click events are CLR events of ButtonBase; the actions receive plain routed event arguments.
+        var clickArgs = new RoutedEventArgs();
+#else
         var clickArgs = new RoutedEventArgs(Button.ClickEvent, sourceControl);
+#endif
         RaiseClickEventIfNeeded(sourceControl, clickArgs);
         Interaction.ExecuteActions(sourceControl, Actions, clickArgs);
         return true;
@@ -295,6 +315,11 @@ public partial class ClickEventTrigger : StyledElementTrigger<Control>
 
     private static void RaiseClickEventIfNeeded(Control sourceControl, RoutedEventArgs clickArgs)
     {
+#if UNO
+        // WinUI cannot raise ButtonBase.Click (a CLR event) on other controls; buttons raise it natively.
+        _ = sourceControl;
+        _ = clickArgs;
+#else
         // Button-derived controls already raise ClickEvent through native control logic.
         if (sourceControl is Button)
         {
@@ -302,6 +327,7 @@ public partial class ClickEventTrigger : StyledElementTrigger<Control>
         }
 
         sourceControl.RaiseEvent(clickArgs);
+#endif
     }
 
     private void ToggleFlyout(Control associatedObject)
@@ -353,8 +379,14 @@ public partial class ClickEventTrigger : StyledElementTrigger<Control>
             return false;
         }
 
+#if UNO
+        // WinUI hit testing works in root (host) coordinates.
+        var position = e.GetCurrentPoint(null).Position;
+        foreach (var visual in VisualTreeHelper.FindElementsInHostCoordinates(position, _resolvedSourceControl))
+#else
         var position = e.GetPosition(_resolvedSourceControl);
         foreach (var visual in _resolvedSourceControl.GetVisualsAt(position))
+#endif
         {
             if (ReferenceEquals(visual, _resolvedSourceControl) || _resolvedSourceControl.IsVisualAncestorOf(visual))
             {
@@ -414,7 +446,11 @@ public partial class ClickEventTrigger : StyledElementTrigger<Control>
             return;
         }
 
+#if UNO
+        var rootInputElement = _resolvedSourceControl.XamlRoot?.Content;
+#else
         var rootInputElement = TopLevel.GetTopLevel(_resolvedSourceControl) as IInputElement;
+#endif
         if (!forceReattach && ReferenceEquals(_rootInputElement, rootInputElement))
         {
             return;
@@ -508,7 +544,11 @@ public partial class ClickEventTrigger : StyledElementTrigger<Control>
             return;
         }
 
+#if UNO
+        _rootInputElement.RemoveRoutedEventHandler(InputElement.KeyDownEvent, OnRootKeyDown);
+#else
         _rootInputElement.RemoveHandler(InputElement.KeyDownEvent, OnRootKeyDown);
+#endif
         _rootInputElement = null;
     }
 }

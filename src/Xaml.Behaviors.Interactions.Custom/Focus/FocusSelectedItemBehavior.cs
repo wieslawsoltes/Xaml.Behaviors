@@ -6,6 +6,7 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Dispatching;
 using Xaml.Interactivity;
+using SelectingItemsControl = Microsoft.UI.Xaml.Controls.Primitives.Selector;
 #else
 using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
@@ -43,10 +44,14 @@ public class FocusSelectedItemBehavior : AttachedToVisualTreeBehavior<ItemsContr
                         Dispatcher.UIThread.Post(() =>
                         {
                             var container = AssociatedObject.ContainerFromItem(item);
+#if UNO
+                            (container as UIElement)?.Focus();
+#else
                             if (container is not null)
                             {
                                 container.Focus();
                             }
+#endif
                         });
                     }
                 }));

@@ -12,20 +12,12 @@
       Carousel/**;
       Composition/**;
       ContextDialogs/**;
-      Cursor/**;
-      Debugging/**;
       Dialog/**;
       FileUpload/**;
-      Focus/**;
-      Gestures/**;
-      Icon/**;
-      Input/**;
-      InputElement/**;
       ItemsControl/**;
       Layout/**;
       ListBox/**;
       ListBoxItem/**;
-      Logic/**;
       Multimedia/**;
       Notifications/**;
       Popup/**;
@@ -43,8 +35,6 @@
       Transitions/**;
       TreeView/**;
       TreeViewItem/**;
-      Validation/**;
-      ViewModel/**;
       Window/**;
       WriteableBitmap/**
     </UnoSharedSourceExcludes>
@@ -62,12 +52,26 @@
       <!-- WinUI raises no ResourcesChanged notification. -->
       Core/ResourcesChangedBehavior.cs;
       Core/ResourcesChangedTrigger.cs;
+      <!-- WinUI only exposes the element cursor through the protected UIElement.ProtectedCursor. -->
+      Cursor/**;
+      <!-- Adorner layer based highlighting; WinUI has no adorners. -->
+      Debugging/VisualDebugAdorner.cs;
+      Debugging/VisualDebugBehavior.cs;
       <!-- Avalonia gesture recognizer and IME events without a WinUI routed event. -->
       ExecuteCommand/ExecuteCommandOnPinch*.cs;
       ExecuteCommand/ExecuteCommandOnPullGesture*.cs;
       ExecuteCommand/ExecuteCommandOnScrollGesture*.cs;
       ExecuteCommand/ExecuteCommandOnPointerTouchPadGesture*.cs;
-      ExecuteCommand/ExecuteCommandOnTextInputMethodClientRequestedBehavior.cs
+      ExecuteCommand/ExecuteCommandOnTextInputMethodClientRequestedBehavior.cs;
+      Gestures/Pinch*.cs;
+      Gestures/PullGesture*.cs;
+      Gestures/ScrollGesture*.cs;
+      Gestures/PointerTouchPadGesture*.cs;
+      InputElement/Triggers/TextInputMethodClientRequestedTrigger.cs;
+      <!-- Replaced by a FocusManager based helper next to the Uno project. -->
+      Focus/FocusNavigationHelper.cs;
+      <!-- WinUI has no NumericUpDown (NumberBox values are double). -->
+      Validation/NumericUpDownValidationBehavior.cs
     </UnoSharedSourceExcludes>
   </PropertyGroup>
 </Project>

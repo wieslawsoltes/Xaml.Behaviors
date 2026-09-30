@@ -89,6 +89,15 @@ public partial class ConditionalBehavior : StyledElementTrigger
             return;
         }
 
+#if UNO
+        // WinUI has no top level element: the behavior (its associated object) hosts the actions.
+        if (AssociatedObject is null)
+        {
+            return;
+        }
+
+        var parent = this;
+#else
         StyledElement? parent;
             
         if (AssociatedObject is TopLevel topLevel)
@@ -104,6 +113,7 @@ public partial class ConditionalBehavior : StyledElementTrigger
 
             parent = this;
         }
+#endif
 
         foreach (var action in actions)
         {
@@ -121,6 +131,15 @@ public partial class ConditionalBehavior : StyledElementTrigger
             return;
         }
 
+#if UNO
+        // WinUI has no top level element: the behavior (its associated object) hosts the actions.
+        if (AssociatedObject is null)
+        {
+            return;
+        }
+
+        var parent = this;
+#else
         StyledElement? parent;
             
         if (AssociatedObject is TopLevel topLevel)
@@ -136,6 +155,7 @@ public partial class ConditionalBehavior : StyledElementTrigger
 
             parent = this;
         }
+#endif
 
         foreach (var action in actions)
         {

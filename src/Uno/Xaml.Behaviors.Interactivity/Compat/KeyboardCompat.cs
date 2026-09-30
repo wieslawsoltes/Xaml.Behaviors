@@ -25,6 +25,14 @@ internal static class KeyboardCompat
         public VirtualKeyModifiers KeyModifiers => GetKeyModifiers();
     }
 
+    extension(CharacterReceivedRoutedEventArgs e)
+    {
+        /// <summary>
+        /// Gets the text entered (Avalonia <c>TextInputEventArgs.Text</c>).
+        /// </summary>
+        public string Text => e.Character.ToString();
+    }
+
     /// <summary>
     /// Gets the keyboard modifiers currently pressed on the UI thread.
     /// </summary>

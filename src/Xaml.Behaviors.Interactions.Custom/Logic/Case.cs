@@ -17,7 +17,15 @@ namespace Avalonia.Xaml.Interactions.Custom;
 /// <summary>
 /// Represents a case in a <see cref="SwitchCaseAction"/>.
 /// </summary>
+/// <remarks>
+/// On Uno Platform a case is a dependency object that joins the action tree of its switch (WinUI has no logical
+/// tree); see <c>Case.Uno.cs</c>.
+/// </remarks>
+#if UNO
+public partial class Case : AvaloniaObject
+#else
 public partial class Case : StyledElement
+#endif
 {
 
     /// <summary>
@@ -37,13 +45,18 @@ public partial class Case : StyledElement
     /// </summary>
     public Case()
     {
-        SetCurrentValue(ActionsProperty, new ActionCollection());
+        this.SetCurrentValue(ActionsProperty, new ActionCollection());
     }
 
+#if UNO
+    private void OnPropertyChanged(AvaloniaPropertyChangedEventArgs change)
+    {
+#else
     /// <inheritdoc />
     protected override void OnPropertyChanged(AvaloniaPropertyChangedEventArgs change)
     {
         base.OnPropertyChanged(change);
+#endif
 
         if (change.Property == ActionsProperty)
         {
@@ -62,6 +75,17 @@ public partial class Case : StyledElement
         }
     }
 
+#if UNO
+    private void OnAttachedToLogicalTree()
+    {
+        AttachActionsToLogicalTree(Actions);
+    }
+
+    private void OnDetachedFromLogicalTree()
+    {
+        DetachActionsFromLogicalTree(Actions);
+    }
+#else
     /// <inheritdoc />
     protected override void OnAttachedToLogicalTree(LogicalTreeAttachmentEventArgs e)
     {
@@ -75,6 +99,7 @@ public partial class Case : StyledElement
         DetachActionsFromLogicalTree(Actions);
         base.OnDetachedFromLogicalTree(e);
     }
+#endif
 
     private void AttachActionsToLogicalTree(ActionCollection? actions)
     {

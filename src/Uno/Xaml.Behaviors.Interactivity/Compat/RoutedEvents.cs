@@ -20,6 +20,10 @@ internal sealed class ClrRoutedEvent(string name)
     public static ClrRoutedEvent GotFocus { get; } = new("GotFocus");
 
     public static ClrRoutedEvent LostFocus { get; } = new("LostFocus");
+
+    /// <summary>Converts the event to the typed identifier used by the shared sources (Avalonia <c>RoutedEvent&lt;T&gt;</c>).</summary>
+    public static implicit operator RoutedEvent<RoutedEventArgs>(ClrRoutedEvent clrEvent)
+        => RoutedEvent<RoutedEventArgs>.FromClrEvent(clrEvent);
 }
 
 /// <summary>

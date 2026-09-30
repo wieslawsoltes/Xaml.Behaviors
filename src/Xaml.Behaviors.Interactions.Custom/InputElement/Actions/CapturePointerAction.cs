@@ -42,6 +42,16 @@ public partial class CapturePointerAction : StyledElementAction
             return null;
         }
 
+#if UNO
+        if (pointerEventArgs.OriginalSource is not UIElement inputElement)
+        {
+            return null;
+        }
+
+        var control = TargetControl ?? inputElement;
+
+        control.CapturePointer(pointerEventArgs.Pointer);
+#else
         if (pointerEventArgs.Source is not IInputElement inputElement)
         {
             return null;
@@ -50,6 +60,7 @@ public partial class CapturePointerAction : StyledElementAction
         var control = TargetControl ?? inputElement;
 
         pointerEventArgs.Pointer.Capture(control);
+#endif
 
         return null;
     }

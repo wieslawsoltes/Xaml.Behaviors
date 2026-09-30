@@ -3,6 +3,7 @@
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
+using Microsoft.UI.Xaml.Media;
 using Windows.Foundation;
 
 namespace Xaml.Interactivity;
@@ -36,6 +37,31 @@ internal static class UIElementCompatExtensions
         /// </summary>
         /// <remarks>WinUI <see cref="Control.IsEnabled"/> already reflects the enabled state of the ancestors.</remarks>
         public bool IsEffectivelyEnabled => element is not Control control || control.IsEnabled;
+
+        /// <summary>
+        /// Gets a value indicating whether the element and all its visual ancestors are visible (Avalonia
+        /// <c>Visual.IsEffectivelyVisible</c>).
+        /// </summary>
+        public bool IsEffectivelyVisible
+        {
+            get
+            {
+                for (DependencyObject? current = element; current is not null; current = VisualTreeHelper.GetParent(current))
+                {
+                    if (current is UIElement { Visibility: not Visibility.Visible })
+                    {
+                        return false;
+                    }
+                }
+
+                return true;
+            }
+        }
+
+        /// <summary>
+        /// Gets a value indicating whether the element has focus (Avalonia <c>InputElement.IsFocused</c>).
+        /// </summary>
+        public bool IsFocused => element.FocusState != FocusState.Unfocused;
     }
 
     /// <summary>

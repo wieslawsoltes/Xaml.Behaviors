@@ -19,6 +19,11 @@ internal static class RoutedEventArgsCompatExtensions
     extension(RoutedEventArgs e)
     {
         /// <summary>
+        /// Gets the element that raised the event (Avalonia <c>RoutedEventArgs.Source</c>).
+        /// </summary>
+        public object? Source => e.OriginalSource;
+
+        /// <summary>
         /// Gets or sets a value indicating whether the routed event was handled.
         /// </summary>
         public bool Handled

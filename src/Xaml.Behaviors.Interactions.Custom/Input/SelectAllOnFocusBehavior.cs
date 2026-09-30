@@ -48,10 +48,12 @@ public class SelectAllOnFocusBehavior : Behavior<Control>
         {
             textBox.SelectAll();
         }
+#if !UNO
         else if (AssociatedObject is SelectableTextBlock selectableTextBlock)
         {
             // SelectableTextBlock does not expose SelectAll public method easily or it might be different.
             // For now we support TextBox.
         }
+#endif
     }
 }

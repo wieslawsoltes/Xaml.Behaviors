@@ -27,7 +27,11 @@ namespace Avalonia.Xaml.Interactions.Custom;
 public partial class InactivityTrigger : Trigger<Control>
 {
     private DispatcherTimer? _timer;
+#if UNO
+    private UIElement? _topLevel;
+#else
     private TopLevel? _topLevel;
+#endif
 
     /// <summary>
     /// Gets or sets the inactivity timeout duration.
@@ -39,7 +43,12 @@ public partial class InactivityTrigger : Trigger<Control>
     protected override void OnAttachedToVisualTree()
     {
         base.OnAttachedToVisualTree();
+#if UNO
+        // WinUI: the root element of the XAML island hosting the associated object.
+        _topLevel = AssociatedObject?.XamlRoot?.Content;
+#else
         _topLevel = TopLevel.GetTopLevel(AssociatedObject);
+#endif
         if (_topLevel != null)
         {
             _timer = new DispatcherTimer
@@ -90,7 +99,7 @@ public partial class InactivityTrigger : Trigger<Control>
         }
     }
 
-    private void Timer_Tick(object? sender, EventArgs e)
+    private void Timer_Tick(object? sender, object e)
     {
         _timer?.Stop();
         Interaction.ExecuteActions(AssociatedObject, Actions, null);
