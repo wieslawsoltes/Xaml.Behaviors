@@ -1,0 +1,35 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!-- Consumes the headless host through a ProjectReference, so import its buildTransitive files like a package consumer would get them. -->
+  <Import Project="..\..\..\src\Uno\Xaml.Behaviors.Uno.Headless.Host\buildTransitive\Xaml.Behaviors.Uno.Headless.Host.props" />
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <OutputType>Exe</OutputType>
+    <IsPackable>False</IsPackable>
+    <Nullable>enable</Nullable>
+    <AssemblyName>Xaml.Behaviors.Uno.Interactions.Custom.Controls.UnitTests</AssemblyName>
+    <RootNamespace>Xaml.Interactions.Custom.Controls.UnitTests</RootNamespace>
+  </PropertyGroup>
+
+  <Import Project="..\..\..\build\XUnit.props" />
+  <Import Project="..\..\..\build\SignAssembly.props" />
+  <Import Project="..\..\..\build\XamlPropertyGenerator.props" />
+
+  <!--
+    Tests of the control behaviors deriving from Core base types: enable them together with those behaviors once
+    Core/** of Xaml.Behaviors.Interactions.Custom is ported (see its SharedSources.props).
+  -->
+  <ItemGroup>
+    <Compile Remove="CoreDependentTests.cs" />
+    <None Include="CoreDependentTests.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\src\Uno\Xaml.Behaviors.Uno.Headless.XUnit\Xaml.Behaviors.Uno.Headless.XUnit.csproj" />
+    <ProjectReference Include="..\..\..\src\Uno\Xaml.Behaviors.Interactions.Custom\Xaml.Behaviors.Interactions.Custom.csproj" />
+  </ItemGroup>
+
+  <Import Project="..\..\..\src\Uno\Xaml.Behaviors.Uno.Headless.Host\buildTransitive\Xaml.Behaviors.Uno.Headless.Host.targets" />
+
+</Project>
