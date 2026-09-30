@@ -15,12 +15,7 @@ namespace Avalonia.Xaml.Interactions.UnitTests.Custom;
 
 public class DetachedFromVisualTreeTriggerTests
 {
-#if UNO
-    // TabView needs its WinUI template.
-    [AvaloniaFact(Skip = "The TabView needs the WinUI control templates (XamlControlsResources), which this test session does not load: loading them registers the Fluent styles process-wide and would make the other tests order dependent.")]
-#else
     [AvaloniaFact]
-#endif
     public void SwitchingTabs_ExecutesBoundDetachedCommand()
     {
         var window = new DetachedFromVisualTreeTrigger001();

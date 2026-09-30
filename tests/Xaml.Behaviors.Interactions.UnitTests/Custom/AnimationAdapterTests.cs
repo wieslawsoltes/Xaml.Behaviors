@@ -175,12 +175,7 @@ public class AnimationAdapterTests
         window.Close();
     }
 
-#if UNO
-    // ScrollViewer needs its WinUI template.
-    [AvaloniaFact(Skip = "The ScrollViewer needs the WinUI control templates (XamlControlsResources), which this test session does not load: loading them registers the Fluent styles process-wide and would make the other tests order dependent.")]
-#else
     [AvaloniaFact]
-#endif
     public void ParallaxBehavior_TracksScrollOffsetThroughSharedPrimitive()
     {
         var target = new Border { Width = 100d, Height = 100d };
