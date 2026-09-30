@@ -38,6 +38,10 @@ USING_MAP = {
     "Avalonia.Animation": ["Microsoft.UI.Xaml.Media.Animation"],
     "Avalonia.Layout": ["Microsoft.UI.Xaml"],
     "Avalonia.Markup.Xaml": ["Microsoft.UI.Xaml.Markup"],
+    "Avalonia.Animation.Easings": ["Microsoft.UI.Xaml.Media.Animation"],
+    "Avalonia.Rendering.Composition": ["Microsoft.UI.Composition"],
+    "Avalonia.Rendering.Composition.Animations": ["Microsoft.UI.Composition"],
+    "Avalonia.VisualTree": ["Microsoft.UI.Xaml.Media"],
 }
 
 PROPERTY_DECL = re.compile(

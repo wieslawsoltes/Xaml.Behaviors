@@ -2,10 +2,18 @@
 // Licensed under the MIT license. See LICENSE file in the project root for details.
 
 using System;
+#if UNO
+using Microsoft.UI.Xaml.Media.Animation;
+#else
 using Avalonia.Animation;
 using Avalonia.Reactive;
+#endif
 
+#if UNO
+namespace Xaml.Interactions.Custom;
+#else
 namespace Avalonia.Xaml.Interactions.Custom;
+#endif
 
 /// <summary>
 /// Provides reusable operations for a styled element's transition collection.
@@ -86,7 +94,7 @@ public static class TransitionOperations
         ArgumentNullException.ThrowIfNull(target);
         ArgumentNullException.ThrowIfNull(observer);
 
-        return target.GetObservable(StyledElement.TransitionsProperty)
+        return target.GetObservable<Transitions?>(StyledElement.TransitionsProperty)
             .Subscribe(new AnonymousObserver<Transitions?>(observer));
     }
 }

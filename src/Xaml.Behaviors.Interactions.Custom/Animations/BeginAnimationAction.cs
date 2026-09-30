@@ -4,10 +4,12 @@
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Xaml.Interactivity;
+using PlatformAnimation = Microsoft.UI.Xaml.Media.Animation.Storyboard;
 #else
 using Avalonia.Controls;
 using Avalonia.Metadata;
 using Avalonia.Xaml.Interactivity;
+using PlatformAnimation = Avalonia.Animation.Animation;
 #endif
 
 #if UNO
@@ -26,7 +28,7 @@ public partial class BeginAnimationAction : StyledElementAction
     /// Gets or sets the animation to run. This is an avalonia property.
     /// </summary>
     [StyledProperty(Content = true)]
-    public partial Animation.Animation? Animation { get; set; }
+    public partial PlatformAnimation? Animation { get; set; }
 
     /// <summary>
     /// Gets or sets the control on which the animation will run. This is an avalonia property.

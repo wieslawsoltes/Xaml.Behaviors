@@ -2,15 +2,9 @@
   <!--
     Files of src/Xaml.Behaviors.Interactions.Custom that are not compiled for Uno Platform (see src/Uno/PORTING.md).
     Imported by the Uno project (source linking) and by the Avalonia project (Xaml.PortAnalyzers).
-    The port proceeds folder by folder: remove a folder from this list once it is ported.
+    Every folder is ported; the remaining files have no WinUI counterpart.
   -->
   <PropertyGroup>
-    <UnoSharedSourceExcludes>
-      Animations/**;
-      Composition/**;
-      Transitions/**;
-    </UnoSharedSourceExcludes>
-
     <!--
       Control specific folders: Avalonia concepts without a WinUI counterpart.
       - ItemsControlPreparingContainerTrigger: WinUI items hosts (ItemsRepeater) raise no event before a container is
@@ -23,7 +17,7 @@
         implemented by Uno Platform Skia).
       - WindowDragMoveBehavior: Window.BeginMoveDrag; WinUI declares drag regions with Window.SetTitleBar.
     -->
-    <UnoSharedSourceExcludes>$(UnoSharedSourceExcludes)
+    <UnoSharedSourceExcludes>
       ItemsControl/ItemsControlPreparingContainerTrigger.cs;
       Notifications/**;
       RenderTarget/Contract/IRenderTargetBitmapRenderer.cs;

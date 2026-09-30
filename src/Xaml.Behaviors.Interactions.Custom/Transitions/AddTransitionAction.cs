@@ -5,6 +5,7 @@ using Microsoft.UI.Xaml.Media.Animation;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Xaml.Interactivity;
+using TransitionBase = Microsoft.UI.Xaml.Media.Animation.Transition;
 #else
 using Avalonia.Animation;
 using Avalonia.Controls;
@@ -43,7 +44,7 @@ public partial class AddTransitionAction : StyledElementAction
             return false;
         }
 
-        StyledElement? target = GetValue(StyledElementProperty) ?? sender as StyledElement;
+        StyledElement? target = (StyledElement?)GetValue(StyledElementProperty) ?? sender as StyledElement;
         return TransitionOperations.Add(target, Transition);
     }
 }

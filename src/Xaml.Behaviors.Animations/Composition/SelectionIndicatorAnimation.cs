@@ -4,18 +4,29 @@
 using System;
 using System.Linq;
 using System.Numerics;
+#if UNO
+using Microsoft.UI.Xaml.Media.Animation;
+using Microsoft.UI.Xaml.Controls.Primitives;
+using Microsoft.UI.Composition;
+using Microsoft.UI.Xaml.Media;
+#else
 using Avalonia.Animation.Easings;
 using Avalonia.Controls.Primitives;
 using Avalonia.Rendering.Composition;
 using Avalonia.Rendering.Composition.Animations;
 using Avalonia.VisualTree;
+#endif
 
+#if UNO
+namespace Xaml.Interactions.Custom;
+#else
 namespace Avalonia.Xaml.Interactions.Custom;
+#endif
 
 /// <summary>
 /// Creates and applies the composition animation used to move a selection indicator between item containers.
 /// </summary>
-public static class SelectionIndicatorAnimation
+public static partial class SelectionIndicatorAnimation
 {
     private const string IndicatorPartName = "PART_SelectedPipe";
 
@@ -82,7 +93,11 @@ public static class SelectionIndicatorAnimation
             return false;
         }
 
+#if UNO
+        StopIndicatorAnimations(ElementComposition.GetElementVisual(oldIndicator));
+#else
         ElementComposition.GetElementVisual(oldIndicator)?.ImplicitAnimations?.Clear();
+#endif
 
         CompositionVisual? indicatorVisual = ElementComposition.GetElementVisual(newIndicator);
         CompositionVisual? newSelectionVisual = ElementComposition.GetElementVisual(newSelection);
@@ -92,6 +107,9 @@ public static class SelectionIndicatorAnimation
             return false;
         }
 
+#if UNO
+        return StartIndicatorAnimation(indicatorVisual, newIndicator, newSelection, oldSelection, duration);
+#else
         Vector3D selectionOffset = oldSelectionVisual.Offset - newSelectionVisual.Offset;
         bool isVerticalOffset = selectionOffset.Y != 0f;
         double offset = isVerticalOffset ? selectionOffset.Y : selectionOffset.X;
@@ -131,5 +149,6 @@ public static class SelectionIndicatorAnimation
         implicitAnimations[currentOffset == 0d ? "Offset" : "Visible"] = animationGroup;
         indicatorVisual.ImplicitAnimations = implicitAnimations;
         return true;
+#endif
     }
 }

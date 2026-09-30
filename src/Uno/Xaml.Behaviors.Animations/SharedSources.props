@@ -1,0 +1,12 @@
+<Project>
+  <!--
+    Files of src/Xaml.Behaviors.Animations that are not compiled for Uno Platform (see src/Uno/PORTING.md).
+    Imported by the Uno project (source linking) and by the Avalonia project (Xaml.PortAnalyzers).
+    Every file is shared: the WinUI differences are handled with #if UNO blocks and the internal helpers next to
+    the Uno project file.
+  -->
+  <PropertyGroup>
+    <UnoSharedSourceExcludes>
+    </UnoSharedSourceExcludes>
+  </PropertyGroup>
+</Project>

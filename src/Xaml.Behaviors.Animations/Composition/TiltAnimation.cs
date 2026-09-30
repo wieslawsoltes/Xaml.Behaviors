@@ -3,10 +3,20 @@
 
 using System;
 using System.Numerics;
+#if UNO
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Composition;
+#else
 using Avalonia.Controls;
 using Avalonia.Rendering.Composition;
+#endif
 
+#if UNO
+namespace Xaml.Interactions.Custom;
+#else
 namespace Avalonia.Xaml.Interactions.Custom;
+#endif
 
 /// <summary>
 /// Calculates and applies composition-based pointer tilt animations.
@@ -120,10 +130,7 @@ public static class TiltAnimation
             return false;
         }
 
-        var animation = visual.Compositor.CreateQuaternionKeyFrameAnimation();
-        animation.InsertKeyFrame(1f, orientation);
-        animation.Duration = duration;
-        visual.StartAnimation("Orientation", animation);
+        CompositionAnimationHelpers.StartOrientationAnimation(visual, orientation, duration);
         return true;
     }
 }

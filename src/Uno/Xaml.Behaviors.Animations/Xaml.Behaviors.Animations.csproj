@@ -1,0 +1,42 @@
+<Project Sdk="Uno.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>$(UnoTargetFrameworks)</TargetFrameworks>
+    <AssemblyName>Xaml.Behaviors.Uno.Animations</AssemblyName>
+    <!--
+      The types live in Xaml.Interactions.Custom (like the Avalonia twin). The root namespace differs from the
+      Xaml.Behaviors.Uno.Interactions.Custom one so the Uno XAML generator's GlobalStaticResources types do not collide.
+    -->
+    <RootNamespace>Xaml.Behaviors.Animations</RootNamespace>
+    <UnoSharedSourceProject>Xaml.Behaviors.Animations</UnoSharedSourceProject>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <PackageId>Xaml.Behaviors.Uno.Animations</PackageId>
+    <Description>Reusable Uno Platform (WinUI) storyboards, composition effects, and animation helpers with no behaviors dependency.</Description>
+    <PackageTags>Uno;UnoPlatform;WinUI;Animation;Animations;Composition;Transition;Transitions;Xaml</PackageTags>
+  </PropertyGroup>
+
+  <!--
+    Avalonia animation and geometry types used by the shared sources, mapped to their WinUI counterparts
+    (see src/Uno/PORTING.md). Like its Avalonia twin, this package does not depend on the behaviors
+    (Xaml.Behaviors.Uno.Interactivity); the few compat helpers it needs are internal to this assembly (Compat/).
+  -->
+  <ItemGroup>
+    <Using Include="Microsoft.UI.Composition.Visual" Alias="CompositionVisual" />
+    <Using Include="Microsoft.UI.Xaml.DependencyObject" Alias="Animatable" />
+    <Using Include="Microsoft.UI.Xaml.Controls.Control" Alias="TemplatedControl" />
+    <Using Include="Microsoft.UI.Xaml.Controls.Primitives.Selector" Alias="SelectingItemsControl" />
+    <Using Include="Microsoft.UI.Xaml.Media.Animation.Transition" Alias="TransitionBase" />
+    <Using Include="Microsoft.UI.Xaml.Media.Animation.TransitionCollection" Alias="Transitions" />
+    <!-- Avalonia.Vector (pointer deltas, scroll offsets) maps to a WinUI point with double precision. -->
+    <Using Include="Windows.Foundation.Point" Alias="Vector" />
+    <Using Include="Windows.Foundation.Point" Alias="Point" />
+    <Using Include="Windows.Foundation.Rect" Alias="Rect" />
+    <Using Include="Windows.Foundation.Size" Alias="Size" />
+  </ItemGroup>
+
+  <!-- Avalonia-only sources, shared with the Avalonia build for the portability analyzers. -->
+  <Import Project="SharedSources.props" />
+
+</Project>

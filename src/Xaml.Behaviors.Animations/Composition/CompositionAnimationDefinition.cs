@@ -2,7 +2,11 @@
 // Licensed under the MIT license. See LICENSE file in the project root for details.
 using System.Numerics;
 
+#if UNO
+namespace Xaml.Interactions.Custom;
+#else
 namespace Avalonia.Xaml.Interactions.Custom;
+#endif
 
 internal sealed class CompositionAnimationDefinition
 {

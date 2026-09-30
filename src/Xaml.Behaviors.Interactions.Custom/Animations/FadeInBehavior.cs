@@ -3,8 +3,10 @@
 using System;
 #if UNO
 using Xaml.Interactivity;
+using PlatformAnimation = Microsoft.UI.Xaml.Media.Animation.Storyboard;
 #else
 using Avalonia.Xaml.Interactivity;
+using PlatformAnimation = Avalonia.Animation.Animation;
 #endif
 
 #if UNO
@@ -41,7 +43,7 @@ public partial class FadeInBehavior : AttachedToVisualTreeBehavior<Visual>
             return DisposableAction.Empty;
         }
 
-        Animation.Animation animation = AnimationFactory.CreateFadeIn(InitialDelay, Duration);
+        PlatformAnimation animation = AnimationFactory.CreateFadeIn(InitialDelay, Duration);
         AnimationRunner.TryRun(animation, AssociatedObject);
 
         return DisposableAction.Empty;

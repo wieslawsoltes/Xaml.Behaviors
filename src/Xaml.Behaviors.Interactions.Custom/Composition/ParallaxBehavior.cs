@@ -4,7 +4,9 @@ using System;
 #if UNO
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Media;
 using Xaml.Interactivity;
+using Vector = Windows.Foundation.Point;
 #else
 using Avalonia.Controls;
 using Avalonia.Xaml.Interactivity;
@@ -19,7 +21,7 @@ namespace Avalonia.Xaml.Interactions.Custom;
 /// <summary>
 /// A behavior that moves the associated element at a different speed than the scrolling container, creating a parallax effect.
 /// </summary>
-public partial class ParallaxBehavior : Behavior<Control>, IObserver<Avalonia.Vector>
+public partial class ParallaxBehavior : Behavior<Control>, IObserver<Vector>
 {
 
     /// <summary>
@@ -49,6 +51,19 @@ public partial class ParallaxBehavior : Behavior<Control>, IObserver<Avalonia.Ve
         if (SourceScrollViewer == null)
         {
             // Try to find parent ScrollViewer
+#if UNO
+            // WinUI elements inside templates have no logical parent: walk the visual tree.
+            var parent = AssociatedObject is null ? null : VisualTreeHelper.GetParent(AssociatedObject);
+            while (parent != null)
+            {
+                if (parent is ScrollViewer sv)
+                {
+                    SourceScrollViewer = sv;
+                    break;
+                }
+                parent = VisualTreeHelper.GetParent(parent);
+            }
+#else
             var parent = AssociatedObject?.Parent;
             while (parent != null)
             {
@@ -59,12 +74,17 @@ public partial class ParallaxBehavior : Behavior<Control>, IObserver<Avalonia.Ve
                 }
                 parent = parent.Parent;
             }
+#endif
         }
 
         if (SourceScrollViewer != null)
         {
+#if UNO
+            _scrollSubscription = SubscribeToOffset(SourceScrollViewer);
+#else
             _scrollSubscription = SourceScrollViewer.GetObservable(ScrollViewer.OffsetProperty)
                 .Subscribe(this);
+#endif
         }
     }
 
@@ -77,6 +97,20 @@ public partial class ParallaxBehavior : Behavior<Control>, IObserver<Avalonia.Ve
         _animation = null;
     }
 
+#if UNO
+    private IDisposable SubscribeToOffset(ScrollViewer scrollViewer)
+    {
+        // WinUI has no ScrollViewer.Offset property: report the offsets when the view changes.
+        OnNext(new Vector(scrollViewer.HorizontalOffset, scrollViewer.VerticalOffset));
+
+        void OnViewChanged(object? sender, ScrollViewerViewChangedEventArgs e)
+            => OnNext(new Vector(scrollViewer.HorizontalOffset, scrollViewer.VerticalOffset));
+
+        scrollViewer.ViewChanged += OnViewChanged;
+        return DisposableAction.Create(() => scrollViewer.ViewChanged -= OnViewChanged);
+    }
+
+#endif
     /// <inheritdoc />
     public void OnCompleted()
     {
@@ -88,7 +122,7 @@ public partial class ParallaxBehavior : Behavior<Control>, IObserver<Avalonia.Ve
     }
 
     /// <inheritdoc />
-    public void OnNext(Avalonia.Vector value)
+    public void OnNext(Vector value)
     {
         _animation ??= ParallaxAnimation.TryCreate(AssociatedObject);
         _animation?.Apply(value, ParallaxRatio);

@@ -2,18 +2,36 @@
 // Licensed under the MIT license. See LICENSE file in the project root for details.
 
 using System;
+#if UNO
+using Microsoft.UI.Xaml.Media.Animation;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Media;
+using PlatformAnimation = Microsoft.UI.Xaml.Media.Animation.Storyboard;
+#else
 using Avalonia.Animation;
 using Avalonia.Controls;
 using Avalonia.Media;
 using Avalonia.Styling;
+using PlatformAnimation = Avalonia.Animation.Animation;
+#endif
 
+#if UNO
+namespace Xaml.Interactions.Custom;
+#else
 namespace Avalonia.Xaml.Interactions.Custom;
+#endif
 
 /// <summary>
 /// Creates and runs the translation animation used for fluid layout movement.
 /// </summary>
 public static class FluidMoveAnimation
 {
+#if UNO
+    private const string TranslateXPath = "(UIElement.RenderTransform).(TranslateTransform.X)";
+    private const string TranslateYPath = "(UIElement.RenderTransform).(TranslateTransform.Y)";
+
+#endif
     /// <summary>
     /// Creates an animation from a previous layout offset back to the current position.
     /// </summary>
@@ -22,11 +40,26 @@ public static class FluidMoveAnimation
     /// <param name="duration">The animation duration.</param>
     /// <returns>The configured translation animation.</returns>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="duration"/> is negative.</exception>
-    public static Animation.Animation Create(double offsetX, double offsetY, TimeSpan duration)
+    public static PlatformAnimation Create(double offsetX, double offsetY, TimeSpan duration)
     {
         ArgumentOutOfRangeException.ThrowIfLessThan(duration, TimeSpan.Zero);
 
-        return new Animation.Animation
+#if UNO
+        // Avalonia FillMode.Forward: the element stays at its current position when the storyboard completes.
+        return StoryboardFactory.Create(
+            FillBehavior.HoldEnd,
+            StoryboardFactory.CreateDoubleKeyFrames(
+                TranslateXPath,
+                duration,
+                (TimeSpan.Zero, offsetX),
+                (duration, 0d)),
+            StoryboardFactory.CreateDoubleKeyFrames(
+                TranslateYPath,
+                duration,
+                (TimeSpan.Zero, offsetY),
+                (duration, 0d)));
+#else
+        return new PlatformAnimation
         {
             Duration = duration,
             FillMode = FillMode.Forward,
@@ -52,6 +85,7 @@ public static class FluidMoveAnimation
                 }
             }
         };
+#endif
     }
 
     /// <summary>
@@ -65,7 +99,7 @@ public static class FluidMoveAnimation
     {
         ArgumentNullException.ThrowIfNull(target);
         PrepareTransform(target, offsetX, offsetY);
-        Animation.Animation animation = Create(offsetX, offsetY, duration);
+        PlatformAnimation animation = Create(offsetX, offsetY, duration);
         AnimationRunner.TryRun(animation, target);
     }
 

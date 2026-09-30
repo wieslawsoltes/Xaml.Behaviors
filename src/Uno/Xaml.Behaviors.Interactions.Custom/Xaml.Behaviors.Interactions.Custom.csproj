@@ -32,6 +32,7 @@
   <Import Project="SharedSources.props" />
 
   <ItemGroup>
+    <ProjectReference Include="..\Xaml.Behaviors.Animations\Xaml.Behaviors.Animations.csproj" />
     <ProjectReference Include="..\Xaml.Behaviors.Interactivity\Xaml.Behaviors.Interactivity.csproj" />
   </ItemGroup>
 

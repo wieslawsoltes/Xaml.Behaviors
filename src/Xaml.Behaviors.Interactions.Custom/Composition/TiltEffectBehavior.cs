@@ -58,7 +58,11 @@ public partial class TiltEffectBehavior : Behavior<Control>
     {
         if (AssociatedObject is not null)
         {
+#if UNO
+            TiltAnimation.Apply(AssociatedObject, e.GetCurrentPoint(AssociatedObject).Position, TiltStrength);
+#else
             TiltAnimation.Apply(AssociatedObject, e.GetPosition(AssociatedObject), TiltStrength);
+#endif
         }
     }
 
