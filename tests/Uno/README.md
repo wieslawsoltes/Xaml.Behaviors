@@ -10,6 +10,22 @@ the same name under `tests/Uno`; the twin also keeps its Uno-only tests.
 | `[AvaloniaFact]`, `[AvaloniaTheory]` | `[UnoHeadlessFact]`, `[UnoHeadlessTheory]` (global aliases, the test runs on the Uno UI thread) |
 | `.axaml` test page + `.axaml.cs` | `.xaml` page next to the Uno project (same relative path) + the shared `.axaml.cs` |
 
+## Status
+
+Every Avalonia test suite is shared with its Uno twin. Tests excluded on Uno test features that have no WinUI counterpart;
+the reasons are next to each exclusion (`SharedTests.props` or `#if !UNO`).
+
+| Avalonia test project | Tests | Run on Uno | Excluded on Uno |
+|-----------------------|------:|-----------:|-----------------|
+| `Xaml.Behaviors.Interactivity.UnitTests` | 130 | 121 | 9: action collection templates (element styles), TopLevel close, `AttachedToVisualTree`/`Initialized` events, action initialization state |
+| `Xaml.Behaviors.Interactions.UnitTests` | 158 | 144 | 14: direct (field-backed) properties, managed drag and drop, runtime XAML loader, `WindowClosedEvent`, tunneling pointer route, `KeyboardNavigationMode.None`, handled click events, tool tip opening/closing events |
+| `Xaml.Behaviors.Animations.UnitTests` | 43 | 43 | – |
+| `Xaml.Behaviors.SourceGenerators.UnitTests` | 232 | 231 | 1: Avalonia value priorities (runtime); the generator scenarios run through the WinUI emitter |
+| `Xaml.Behaviors.SourceGenerators.IntegrationTests` | 2 | – | NuGet package scenarios, skipped on Avalonia as well |
+
+The Uno twins also keep their Uno-only tests. Two drag reorder tests that are skipped on the Avalonia headless platform
+run on Uno Platform, where the headless session injects real pointer input.
+
 ## How sharing works
 
 A Uno test project is an `Uno.Sdk` project (so its XAML pages are compiled by the Uno XAML generator) with
