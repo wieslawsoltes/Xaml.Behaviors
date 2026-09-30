@@ -1,0 +1,28 @@
+<Project>
+  <!-- Shared settings for all Uno Platform port projects (src/Uno/**). -->
+  <Import Project="$([MSBuild]::GetPathOfFileAbove('Directory.Build.props', '$(MSBuildThisFileDirectory)../'))" />
+
+  <PropertyGroup>
+    <UnoTargetFrameworks>net10.0</UnoTargetFrameworks>
+    <UnoRootDirectory>$(MSBuildThisFileDirectory)</UnoRootDirectory>
+    <!-- Root of the Avalonia projects whose sources are shared (source linked) with the Uno port. -->
+    <AvaloniaSourcesDirectory>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..'))/</AvaloniaSourcesDirectory>
+    <DefineConstants>$(DefineConstants);UNO</DefineConstants>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <OutputType>Library</OutputType>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <!-- Libraries do not need the app-level implicit packages of the Uno.Sdk. -->
+    <UnoFeatures></UnoFeatures>
+    <PackageTags>Uno;UnoPlatform;WinUI;Behavior;Action;Behaviors;Actions;Managed;C#;Interaction;Interactivity;Interactions;Xaml</PackageTags>
+  </PropertyGroup>
+
+  <!--
+    Type aliases that let the shared (Avalonia-first) sources compile against WinUI.
+    They only exist in Uno builds; see src/Uno/PORTING.md.
+  -->
+  <ItemGroup>
+    <Using Include="Microsoft.UI.Xaml.DependencyObject" Alias="AvaloniaObject" />
+    <Using Include="Microsoft.UI.Xaml.DependencyPropertyChangedEventArgs" Alias="AvaloniaPropertyChangedEventArgs" />
+  </ItemGroup>
+</Project>
