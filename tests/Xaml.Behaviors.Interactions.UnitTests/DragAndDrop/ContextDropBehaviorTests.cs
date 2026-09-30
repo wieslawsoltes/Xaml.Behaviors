@@ -1,11 +1,21 @@
+#if UNO
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Input;
+using Xaml.Interactions.UnitTests;
+#else
 using Avalonia;
 using Avalonia.Headless;
 using Avalonia.Headless.XUnit;
 using Avalonia.Input;
 using Avalonia.Xaml.Interactions.UnitTests;
+#endif
 using Xunit;
 
+#if UNO
+namespace Xaml.Interactions.UnitTests.DragAndDrop;
+#else
 namespace Avalonia.Xaml.Interactions.UnitTests.DragAndDrop;
+#endif
 
 public class ContextDropBehaviorTests
 {

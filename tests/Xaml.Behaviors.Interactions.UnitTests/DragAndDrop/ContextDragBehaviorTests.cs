@@ -1,4 +1,11 @@
 using System.Linq;
+#if UNO
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Input;
+using Microsoft.UI.Dispatching;
+using Xaml.Interactivity;
+#else
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Headless;
@@ -6,9 +13,14 @@ using Avalonia.Headless.XUnit;
 using Avalonia.Input;
 using Avalonia.Threading;
 using Avalonia.Xaml.Interactivity;
+#endif
 using Xunit;
 
+#if UNO
+namespace Xaml.Interactions.UnitTests.DragAndDrop;
+#else
 namespace Avalonia.Xaml.Interactions.UnitTests.DragAndDrop;
+#endif
 
 public class ContextDragBehaviorTests
 {
@@ -58,12 +70,22 @@ public class ContextDragBehaviorTests
         window.TargetListBox.ScrollIntoView(50);
         Dispatcher.UIThread.RunJobs();
 
+#if UNO
+        // The Uno page uses a ListView: the Uno Platform ListBox generates no ListBoxItem containers.
+        var container = Assert.IsType<ListViewItem>(window.TargetListBox.ContainerFromIndex(50));
+#else
         var container = Assert.IsType<ListBoxItem>(window.TargetListBox.ContainerFromIndex(50));
+#endif
         var oldBehaviors = Assert.IsType<BehaviorCollection>(
             container.GetValue(Interaction.BehaviorsProperty));
         var oldBehavior = Assert.IsType<TestContextDragBehavior>(Assert.Single(oldBehaviors));
         var behavior = new TestContextDragBehavior();
         var behaviors = new BehaviorCollection { behavior };
+#if UNO
+        // Uno Platform recycles containers through the visual tree (unloaded, then loaded again for the scrolled item),
+        // Avalonia keeps them attached: the old behavior may already have seen attach/detach pairs.
+        var recycledAttachments = oldBehavior.DetachedFromVisualTreeCount;
+#endif
 
         Interaction.SetBehaviors(container, behaviors);
 
@@ -72,7 +94,11 @@ public class ContextDragBehaviorTests
         container.AddHandler(
             InputElement.PointerPressedEvent,
             (_, e) => handled = e.Handled,
+#if UNO
+            RoutingStrategies.Bubble,
+#else
             Avalonia.Interactivity.RoutingStrategies.Bubble,
+#endif
             handledEventsToo: true);
 
         window.TargetListBox.SelectedIndex = 50;
@@ -81,8 +107,13 @@ public class ContextDragBehaviorTests
 
         Assert.Null(oldBehaviors.AssociatedObject);
         Assert.Null(oldBehavior.AssociatedObject);
+#if UNO
+        Assert.Equal(1 + recycledAttachments, oldBehavior.AttachedToVisualTreeCount);
+        Assert.Equal(1 + recycledAttachments, oldBehavior.DetachedFromVisualTreeCount);
+#else
         Assert.Equal(1, oldBehavior.AttachedToVisualTreeCount);
         Assert.Equal(1, oldBehavior.DetachedFromVisualTreeCount);
+#endif
         Assert.Same(container, behavior.AssociatedObject);
         Assert.Same(container, behaviors.AssociatedObject);
         Assert.Equal(1, behavior.AttachedToVisualTreeCount);

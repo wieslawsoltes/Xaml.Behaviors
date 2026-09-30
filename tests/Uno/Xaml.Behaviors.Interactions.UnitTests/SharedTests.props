@@ -77,20 +77,14 @@
     </UnoSharedTestExcludes>
   </PropertyGroup>
 
-  <!-- DragAndDrop: not ported yet. -->
+  <!--
+    DragAndDrop: ManagedContextDropBehaviorTests tests the Avalonia managed (in-process) drag and drop
+    (ManagedDragDrop/**: ManagedPayloadDataTransfer, ManagedContextDropBehavior), which is not ported: it builds
+    DragEventArgs and top-level windows, and the WinUI drag is already in-process on Uno Platform (see src/Uno/PORTING.md).
+  -->
   <PropertyGroup>
     <UnoSharedTestExcludes>$(UnoSharedTestExcludes);
-      DragAndDrop/ContextDragBehaviorTests.cs;
-      DragAndDrop/ContextDragEscapeWindow.axaml.cs;
-      DragAndDrop/ContextDropBehavior001.axaml.cs;
-      DragAndDrop/ContextDropBehaviorTests.cs;
-      DragAndDrop/DragDropCommandsBehaviorTests.cs;
       DragAndDrop/ManagedContextDropBehaviorTests.cs;
-      DragAndDrop/PanelDragBehaviorTests.cs;
-      DragAndDrop/PanelDragDrop001.axaml.cs;
-      DragAndDrop/TestContextDragBehavior.cs;
-      DragAndDrop/TestDropHandler.cs;
-      DragAndDrop/VirtualizedContextDragWindow.axaml.cs;
     </UnoSharedTestExcludes>
   </PropertyGroup>
 
