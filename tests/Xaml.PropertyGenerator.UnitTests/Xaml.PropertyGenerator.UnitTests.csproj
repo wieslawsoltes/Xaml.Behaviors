@@ -1,0 +1,43 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <OutputType>Exe</OutputType>
+    <IsPackable>False</IsPackable>
+    <Nullable>enable</Nullable>
+    <RootNamespace>Xaml.PropertyGenerator.UnitTests</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Avalonia" />
+    <PackageReference Include="Avalonia.Headless.XUnit" />
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" />
+    <!-- WinUI reference assemblies for compile-only generator tests (not referenced by the test assembly). -->
+    <PackageDownload Include="Uno.WinUI" Version="[$(UnoWinUIVersion)]" />
+    <PackageDownload Include="Uno.Foundation" Version="[$(UnoWinUIVersion)]" />
+    <PackageDownload Include="Uno.WinRT" Version="[$(UnoWinUIVersion)]" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <AssemblyAttribute Include="System.Reflection.AssemblyMetadataAttribute">
+      <_Parameter1>NuGetPackageRoot</_Parameter1>
+      <_Parameter2>$(NuGetPackageRoot)</_Parameter2>
+    </AssemblyAttribute>
+    <AssemblyAttribute Include="System.Reflection.AssemblyMetadataAttribute">
+      <_Parameter1>UnoWinUIVersion</_Parameter1>
+      <_Parameter2>$(UnoWinUIVersion)</_Parameter2>
+    </AssemblyAttribute>
+  </ItemGroup>
+
+  <Import Project="..\..\build\XUnit.props" />
+  <Import Project="..\..\build\SignAssembly.props" />
+
+  <ItemGroup>
+    <!-- The generator runs on this project (runtime tests) and is referenced for driver based tests. -->
+    <ProjectReference Include="..\..\src\Xaml.PropertyGenerator\Xaml.PropertyGenerator.csproj"
+                      OutputItemType="Analyzer"
+                      ReferenceOutputAssembly="true"
+                      PrivateAssets="all" />
+  </ItemGroup>
+
+</Project>

@@ -48,11 +48,15 @@
     <Project Path="src/Xaml.Behaviors.SourceGenerators/Xaml.Behaviors.SourceGenerators.csproj" />
     <Project Path="src/Xaml.Behaviors/Xaml.Behaviors.csproj" />
   </Folder>
+  <Folder Name="/tools/">
+    <Project Path="src/Xaml.PropertyGenerator/Xaml.PropertyGenerator.csproj" />
+  </Folder>
   <Folder Name="/tests/">
     <Project Path="tests/Xaml.Behaviors.Animations.UnitTests/Xaml.Behaviors.Animations.UnitTests.csproj" />
     <Project Path="tests/Xaml.Behaviors.Interactions.UnitTests/Xaml.Behaviors.Interactions.UnitTests.csproj" />
     <Project Path="tests/Xaml.Behaviors.Interactivity.UnitTests/Xaml.Behaviors.Interactivity.UnitTests.csproj" />
     <Project Path="tests/Xaml.Behaviors.SourceGenerators.IntegrationTests/Xaml.Behaviors.SourceGenerators.IntegrationTests.csproj" />
     <Project Path="tests/Xaml.Behaviors.SourceGenerators.UnitTests/Xaml.Behaviors.SourceGenerators.UnitTests.csproj" />
+    <Project Path="tests/Xaml.PropertyGenerator.UnitTests/Xaml.PropertyGenerator.UnitTests.csproj" />
   </Folder>
 </Solution>

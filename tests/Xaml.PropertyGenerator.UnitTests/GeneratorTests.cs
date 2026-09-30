@@ -1,0 +1,208 @@
+using System.Linq;
+using Xunit;
+
+namespace Xaml.PropertyGenerator.UnitTests;
+
+public class GeneratorTests
+{
+    private const string AvaloniaSource = """
+        using System.Collections.Generic;
+        using Avalonia;
+        using Xaml.PropertyGenerator;
+
+        namespace Sample;
+
+        public enum Mode { First, Second = 4 }
+
+        public partial class Owner : AvaloniaObject
+        {
+            [StyledProperty(DefaultValue = true)]
+            public partial bool IsActive { get; set; }
+
+            [StyledProperty(DefaultValue = Mode.Second, DefaultBindingMode = PropertyBindingMode.TwoWay)]
+            public partial Mode Mode { get; set; }
+
+            [StyledProperty(DefaultValueExpression = "System.TimeSpan.FromMilliseconds(500)")]
+            public partial System.TimeSpan Delay { get; set; }
+
+            [StyledProperty(Content = true, ResolveByName = true)]
+            public partial object? Target { get; set; }
+
+            [DirectProperty(DefaultValue = true)]
+            public partial bool CanExecute { get; private set; }
+
+            [DirectProperty(Lazy = true)]
+            public partial List<int> Items { get; }
+
+            [StyledProperty]
+            public partial string? Text { get; set; }
+
+            partial void OnTextChanged(string? oldValue, string? newValue) { }
+        }
+
+        [AttachedProperty("Tag", typeof(string), IsNullable = true)]
+        public partial class Attachments
+        {
+            static partial void OnTagChanged(AvaloniaObject element, string? oldValue, string? newValue) { }
+        }
+
+        public partial class Outer<T>
+        {
+            public partial class Inner : AvaloniaObject
+            {
+                [StyledProperty]
+                public partial T? Value { get; set; }
+            }
+        }
+        """;
+
+    private const string WinUISource = """
+        using System.Collections.Generic;
+        using Microsoft.UI.Xaml;
+        using Xaml.PropertyGenerator;
+
+        namespace Sample;
+
+        public enum Mode { First, Second = 4 }
+
+        public partial class Owner : FrameworkElement
+        {
+            public int ChangedCount { get; private set; }
+
+            [StyledProperty(DefaultValue = true)]
+            public partial bool IsActive { get; set; }
+
+            [StyledProperty(DefaultValue = Mode.Second)]
+            public partial Mode Mode { get; set; }
+
+            [StyledProperty(DefaultValueExpression = "System.TimeSpan.FromMilliseconds(500)")]
+            public partial System.TimeSpan Delay { get; set; }
+
+            [StyledProperty(Content = true)]
+            public partial object? Target { get; set; }
+
+            [DirectProperty(DefaultValue = true)]
+            public partial bool CanExecute { get; private set; }
+
+            [DirectProperty(Lazy = true)]
+            public partial List<int> Items { get; }
+
+            [StyledProperty]
+            public partial string? Text { get; set; }
+
+            partial void OnTextChanged(string? oldValue, string? newValue) { }
+
+            protected virtual void OnPropertyChanged(DependencyPropertyChangedEventArgs change) => ChangedCount++;
+        }
+
+        [AttachedProperty("Tag", typeof(string), IsNullable = true, HostType = typeof(UIElement))]
+        public static partial class Attachments
+        {
+            static partial void OnTagChanged(UIElement element, string? oldValue, string? newValue) { }
+        }
+        """;
+
+    [Fact]
+    public void Avalonia_Output_Compiles()
+    {
+        var run = GeneratorTestHelper.Run(AvaloniaSource, TestPlatform.Avalonia);
+
+        Assert.Empty(run.GeneratorDiagnostics);
+        Assert.Empty(run.CompilationErrors);
+        Assert.Contains("global::Avalonia.StyledProperty<bool> IsActiveProperty", run.GeneratedSource);
+        Assert.Contains("defaultValue: (bool)(true)", run.GeneratedSource);
+        Assert.Contains("defaultBindingMode: global::Avalonia.Data.BindingMode.TwoWay", run.GeneratedSource);
+        Assert.Contains("global::Avalonia.DirectProperty<global::Sample.Owner, bool> CanExecuteProperty", run.GeneratedSource);
+        Assert.Contains("SetAndRaise(CanExecuteProperty, ref field, value)", run.GeneratedSource);
+        Assert.Contains("get => field ??= new global::System.Collections.Generic.List<int>();", run.GeneratedSource);
+        Assert.Contains("[global::Avalonia.Metadata.Content]", run.GeneratedSource);
+        Assert.Contains("[global::Avalonia.Controls.ResolveByName]", run.GeneratedSource);
+        Assert.Contains("global::Avalonia.AttachedProperty<string?> TagProperty", run.GeneratedSource);
+        Assert.Contains("partial void OnTextChanged(string? oldValue, string? newValue);", run.GeneratedSource);
+    }
+
+    [Fact]
+    public void WinUI_Output_Compiles()
+    {
+        var run = GeneratorTestHelper.Run(WinUISource, TestPlatform.WinUI);
+
+        Assert.Empty(run.GeneratorDiagnostics);
+        Assert.Empty(run.CompilationErrors);
+        Assert.Contains("global::Microsoft.UI.Xaml.DependencyProperty IsActiveProperty", run.GeneratedSource);
+        Assert.Contains("new global::Microsoft.UI.Xaml.PropertyMetadata((bool)(true)", run.GeneratedSource);
+        Assert.Contains("[global::Microsoft.UI.Xaml.Markup.ContentProperty(Name = \"Target\")]", run.GeneratedSource);
+        Assert.Contains("owner.OnPropertyChanged(e);", run.GeneratedSource);
+        Assert.Contains("owner.CanExecute = (bool)e.NewValue!;", run.GeneratedSource);
+        Assert.Contains("RegisterAttached(\"Tag\"", run.GeneratedSource);
+    }
+
+    [Fact]
+    public void WinUI_Reports_Unsupported_Options()
+    {
+        const string source = """
+            using Microsoft.UI.Xaml;
+            using Xaml.PropertyGenerator;
+            namespace Sample;
+            public partial class Owner : FrameworkElement
+            {
+                [StyledProperty(Inherits = true)]
+                public partial bool IsActive { get; set; }
+            }
+            """;
+
+        var run = GeneratorTestHelper.Run(source, TestPlatform.WinUI);
+
+        Assert.Empty(run.CompilationErrors);
+        Assert.Contains(run.GeneratorDiagnostics, d => d.Id == "XPG0005");
+    }
+
+    [Theory]
+    [InlineData("public bool IsActive { get; set; }", "XPG0001")]
+    [InlineData("public partial bool IsActive { get; set; }", "XPG0002")]
+    public void Reports_Declaration_Errors(string member, string id)
+    {
+        var source = $$"""
+            using Avalonia;
+            using Xaml.PropertyGenerator;
+            namespace Sample;
+            public {{(id == "XPG0002" ? string.Empty : "partial ")}}class Owner : AvaloniaObject
+            {
+                [StyledProperty]
+                {{member}}
+            }
+            """;
+
+        var run = GeneratorTestHelper.Run(source, TestPlatform.Avalonia);
+
+        Assert.Contains(run.GeneratorDiagnostics, d => d.Id == id);
+    }
+
+    [Fact]
+    public void Reports_Lazy_Property_With_Setter()
+    {
+        const string source = """
+            using System.Collections.Generic;
+            using Avalonia;
+            using Xaml.PropertyGenerator;
+            namespace Sample;
+            public partial class Owner : AvaloniaObject
+            {
+                [DirectProperty(Lazy = true)]
+                public partial List<int> Items { get; set; }
+            }
+            """;
+
+        var run = GeneratorTestHelper.Run(source, TestPlatform.Avalonia);
+
+        Assert.Contains(run.GeneratorDiagnostics, d => d.Id == "XPG0004");
+    }
+
+    [Fact]
+    public void Attributes_Are_Not_Persisted_In_Metadata()
+    {
+        var run = GeneratorTestHelper.Run(AvaloniaSource, TestPlatform.Avalonia);
+
+        Assert.Empty(run.CompilationErrors);
+        Assert.DoesNotContain("XAML_PROPERTY_GENERATOR_ATTRIBUTES", run.GeneratedSource.Split('\n').Where(static l => l.StartsWith("#define", System.StringComparison.Ordinal)));
+    }
+}

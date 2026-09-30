@@ -1,0 +1,9 @@
+<Project>
+  <!--
+    XamlPropertyGeneratorPlatform: Avalonia | WinUI. When empty the generator detects the platform from the
+    referenced assemblies (Avalonia.AvaloniaObject or Microsoft.UI.Xaml.DependencyObject).
+  -->
+  <ItemGroup>
+    <CompilerVisibleProperty Include="XamlPropertyGeneratorPlatform" />
+  </ItemGroup>
+</Project>
