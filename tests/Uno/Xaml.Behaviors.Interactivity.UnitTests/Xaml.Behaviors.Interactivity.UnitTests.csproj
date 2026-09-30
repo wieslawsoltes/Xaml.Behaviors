@@ -13,9 +13,12 @@
   </PropertyGroup>
 
   <Import Project="..\..\..\build\XUnit.props" />
+  <Import Project="..\..\..\build\SignAssembly.props" />
+  <Import Project="..\..\..\build\XamlPropertyGenerator.props" />
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\src\Uno\Xaml.Behaviors.Uno.Headless.XUnit\Xaml.Behaviors.Uno.Headless.XUnit.csproj" />
+    <ProjectReference Include="..\..\..\src\Uno\Xaml.Behaviors.Interactivity\Xaml.Behaviors.Interactivity.csproj" />
   </ItemGroup>
 
   <Import Project="..\..\..\src\Uno\Xaml.Behaviors.Uno.Headless.Host\buildTransitive\Xaml.Behaviors.Uno.Headless.Host.targets" />
