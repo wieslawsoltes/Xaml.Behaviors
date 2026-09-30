@@ -25,7 +25,7 @@ public class SymbolPatternSetTests
     [InlineData("FEATURE_A")]
     public void CreateKnown_IncludesDefaultsTargetAndConfiguredSymbols(string symbol)
     {
-        var set = SymbolPatternSet.CreateKnown("MY_TARGET", "CUSTOM; FEATURE_*");
+        var set = SymbolPatternSet.CreateKnown("MY_TARGET", "CUSTOM|FEATURE_*");
 
         Assert.True(set.IsMatch(symbol));
     }

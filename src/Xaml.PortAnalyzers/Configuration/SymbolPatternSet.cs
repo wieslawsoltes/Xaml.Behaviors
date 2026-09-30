@@ -25,7 +25,7 @@ namespace Xaml.PortAnalyzers.Configuration
             "WINDOWS", "ANDROID", "IOS", "MACCATALYST", "MACOS", "TVOS", "BROWSER", "WASI", "LINUX", "OSX", "FREEBSD",
         ];
 
-        private static readonly char[] s_separators = [';', ',', ' ', '\t', '\r', '\n'];
+        private static readonly char[] s_separators = [';', ',', '|', ' ', '\t', '\r', '\n'];
 
         private readonly HashSet<string> _exact;
         private readonly string[] _wildcards;
@@ -40,7 +40,7 @@ namespace Xaml.PortAnalyzers.Configuration
         /// Creates a set from the default known symbols, the port target symbol and a user supplied list.
         /// </summary>
         /// <param name="targetSymbol">The port target symbol.</param>
-        /// <param name="additional">Additional symbols separated by <c>;</c>, <c>,</c> or white space.</param>
+        /// <param name="additional">Additional symbols separated by <c>;</c>, <c>,</c>, <c>|</c> or white space.</param>
         public static SymbolPatternSet CreateKnown(string targetSymbol, string? additional)
         {
             var exact = new HashSet<string>(StringComparer.Ordinal);

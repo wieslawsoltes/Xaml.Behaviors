@@ -20,7 +20,7 @@
     <DevelopmentDependency>true</DevelopmentDependency>
     <SuppressDependenciesWhenPacking>true</SuppressDependenciesWhenPacking>
     <NoWarn>$(NoWarn);NU5128;RS2007</NoWarn>
-    <TargetsForTfmSpecificContentInPackage>$(TargetsForTfmSpecificContentInPackage);_XamlPortAddCodeFixesToPackage</TargetsForTfmSpecificContentInPackage>
+    <TargetsForTfmSpecificContentInPackage>$(TargetsForTfmSpecificContentInPackage);_XamlPortAddAnalyzersToPackage</TargetsForTfmSpecificContentInPackage>
   </PropertyGroup>
 
   <ItemGroup>
@@ -41,8 +41,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="$(TargetPath)" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
-    <None Include="$(TargetDir)$(AssemblyName).pdb" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" Condition="Exists('$(TargetDir)$(AssemblyName).pdb')" />
     <None Include="buildTransitive\Xaml.PortAnalyzers.props" Pack="true" PackagePath="buildTransitive" />
     <None Include="buildTransitive\Xaml.PortAnalyzers.targets" Pack="true" PackagePath="buildTransitive" />
     <None Include="README.md" Pack="true" PackagePath="" />
@@ -54,16 +52,20 @@
     <AdditionalFiles Include="AnalyzerReleases.Unshipped.md" />
   </ItemGroup>
 
-  <!-- Packs the code fix assembly (built by the ProjectReference above) into analyzers/dotnet/cs. -->
-  <Target Name="_XamlPortAddCodeFixesToPackage">
+  <!--
+    Packs the analyzer assembly and the code fix assembly (built by the ProjectReference above) into
+    analyzers/dotnet/cs. The pdbs are moved to the symbol package (snupkg) by NuGet.
+  -->
+  <Target Name="_XamlPortAddAnalyzersToPackage">
     <MSBuild Projects="..\Xaml.PortAnalyzers.CodeFixes\Xaml.PortAnalyzers.CodeFixes.csproj"
              Targets="GetTargetPath"
              Properties="Configuration=$(Configuration)">
-      <Output TaskParameter="TargetOutputs" ItemName="_XamlPortCodeFixAssembly" />
+      <Output TaskParameter="TargetOutputs" ItemName="_XamlPortAnalyzerAssembly" />
     </MSBuild>
     <ItemGroup>
-      <TfmSpecificPackageFile Include="@(_XamlPortCodeFixAssembly)" PackagePath="analyzers/dotnet/cs" />
-      <TfmSpecificPackageFile Include="@(_XamlPortCodeFixAssembly->'%(RootDir)%(Directory)%(Filename).pdb')"
+      <_XamlPortAnalyzerAssembly Include="$(TargetPath)" />
+      <TfmSpecificPackageFile Include="@(_XamlPortAnalyzerAssembly)" PackagePath="analyzers/dotnet/cs" />
+      <TfmSpecificPackageFile Include="@(_XamlPortAnalyzerAssembly->'%(RootDir)%(Directory)%(Filename).pdb')"
                               Condition="Exists('%(RootDir)%(Directory)%(Filename).pdb')"
                               PackagePath="analyzers/dotnet/cs" />
     </ItemGroup>

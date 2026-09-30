@@ -14,6 +14,9 @@ namespace Xaml.PortAnalyzers.Configuration
     /// </summary>
     internal sealed class GlobPattern
     {
+        // '|' is accepted because the generated analyzer config file treats ';' as the start of a comment.
+        private static readonly char[] s_separators = [';', '|'];
+
         private readonly string _pattern;
 
         private GlobPattern(string pattern)
@@ -27,7 +30,7 @@ namespace Xaml.PortAnalyzers.Configuration
         public string Pattern => _pattern;
 
         /// <summary>
-        /// Parses a <c>;</c>-separated list of globs. Blank entries are ignored.
+        /// Parses a list of globs separated by <c>;</c> or <c>|</c>. Blank entries are ignored.
         /// </summary>
         public static GlobPattern[] ParseList(string? value)
         {
@@ -37,7 +40,7 @@ namespace Xaml.PortAnalyzers.Configuration
             }
 
             var result = new List<GlobPattern>();
-            var parts = value.Split(';');
+            var parts = value.Split(s_separators);
             for (var i = 0; i < parts.Length; i++)
             {
                 var pattern = Create(parts[i]);

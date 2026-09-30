@@ -54,6 +54,14 @@ public class GlobPatternTests
         Assert.Equal(2, globs.Length);
     }
 
+    [Fact]
+    public void ParseList_AcceptsPipeSeparators()
+    {
+        var globs = GlobPattern.ParseList("Templates/**|A.cs;B.cs");
+
+        Assert.Equal(["Templates/**", "A.cs", "B.cs"], [globs[0].Pattern, globs[1].Pattern, globs[2].Pattern]);
+    }
+
     [Theory]
     [InlineData(null)]
     [InlineData("")]
