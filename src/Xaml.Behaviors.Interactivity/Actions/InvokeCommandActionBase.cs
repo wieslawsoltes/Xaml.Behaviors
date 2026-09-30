@@ -1,4 +1,4 @@
-// Copyright (c) Wiesław Šoltés. All rights reserved.
+﻿// Copyright (c) Wiesław Šoltés. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for details.
 using System.Windows.Input;
 #if UNO
@@ -310,11 +310,15 @@ public abstract class InvokeCommandActionBase : StyledElementAction, IActionLogi
         _commandCanExecuteIsEnabledBinder.Update(
             ResolveCommandCanExecuteIsEnabledTarget(),
             UseCommandCanExecuteForIsEnabled,
-            AvaloniaObjectExtensions.GetObservable(this, CanExecuteCommandProperty));
+            AvaloniaObjectExtensions.GetObservable<bool>(this, CanExecuteCommandProperty));
     }
 
     private InputElement? ResolveCommandCanExecuteIsEnabledTarget()
     {
+#if UNO
+        // WinUI has no logical tree: the owning trigger publishes its associated object as the host.
+        return Host as InputElement;
+#else
         foreach (var logical in this.GetSelfAndLogicalAncestors())
         {
             if (logical is IBehavior { AssociatedObject: InputElement associatedInputElement })
@@ -329,5 +333,6 @@ public abstract class InvokeCommandActionBase : StyledElementAction, IActionLogi
         }
 
         return null;
+#endif
     }
 }

@@ -24,5 +24,16 @@
   <ItemGroup>
     <Using Include="Microsoft.UI.Xaml.DependencyObject" Alias="AvaloniaObject" />
     <Using Include="Microsoft.UI.Xaml.DependencyPropertyChangedEventArgs" Alias="AvaloniaPropertyChangedEventArgs" />
+    <!--
+      Avalonia element hierarchy mapped to its closest WinUI counterparts. In the shared sources these names
+      always refer to Avalonia types, so the aliases intentionally win over WinUI's own Control type.
+      Uno-only files use fully qualified names when they need Microsoft.UI.Xaml.Controls.Control.
+    -->
+    <Using Include="Microsoft.UI.Xaml.FrameworkElement" Alias="Control" />
+    <Using Include="Microsoft.UI.Xaml.FrameworkElement" Alias="StyledElement" />
+    <Using Include="Microsoft.UI.Xaml.FrameworkElement" Alias="Layoutable" />
+    <Using Include="Microsoft.UI.Xaml.UIElement" Alias="Visual" />
+    <Using Include="Microsoft.UI.Xaml.UIElement" Alias="InputElement" />
+    <Using Include="Microsoft.UI.Xaml.UIElement" Alias="Interactive" />
   </ItemGroup>
 </Project>
