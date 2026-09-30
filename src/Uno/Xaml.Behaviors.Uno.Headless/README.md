@@ -98,6 +98,8 @@ public void TextBox_Receives_Typed_Text()
 
 Key events go through the regular Uno Platform keyboard pipeline to the focused element (the root element when nothing
 has focus). Mouse input is injected with `InputInjector`; `Mouse` tracks the pointer position so moves are absolute.
+Every injected mouse event is one frame (16 ms) after the previous one, so clicks at the same position form double taps;
+`Mouse.Wait(duration)` lets time pass without input (for example to start an independent input sequence).
 
 ## Configuring the session
 
