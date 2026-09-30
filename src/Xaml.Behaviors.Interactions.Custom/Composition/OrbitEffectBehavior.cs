@@ -5,6 +5,7 @@
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
+using Windows.Foundation;
 using Xaml.Interactivity;
 #else
 using Avalonia;
@@ -65,14 +66,23 @@ public partial class OrbitEffectBehavior : StyledElementBehavior<Control>
     private void OnPointerPressed(object? sender, PointerPressedEventArgs e)
     {
         _isPressed = true;
+#if UNO
+        _lastPosition = e.GetCurrentPoint(AssociatedObject).Position;
+        AssociatedObject?.CapturePointer(e.Pointer);
+#else
         _lastPosition = e.GetPosition(AssociatedObject);
         e.Pointer.Capture(AssociatedObject);
+#endif
     }
 
     private void OnPointerReleased(object? sender, PointerReleasedEventArgs e)
     {
         _isPressed = false;
+#if UNO
+        AssociatedObject?.ReleasePointerCapture(e.Pointer);
+#else
         e.Pointer.Capture(null);
+#endif
     }
 
     private void OnPointerMoved(object? sender, PointerEventArgs e)
@@ -82,8 +92,13 @@ public partial class OrbitEffectBehavior : StyledElementBehavior<Control>
             return;
         }
 
+#if UNO
+        Point currentPosition = e.GetCurrentPoint(AssociatedObject).Position;
+        Point delta = new(currentPosition.X - _lastPosition.X, currentPosition.Y - _lastPosition.Y);
+#else
         var currentPosition = e.GetPosition(AssociatedObject);
         var delta = currentPosition - _lastPosition;
+#endif
         _lastPosition = currentPosition;
 
         _animation.Rotate(AssociatedObject, delta, Sensitivity);

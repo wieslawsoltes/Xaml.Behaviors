@@ -4,9 +4,11 @@ using System.Threading.Tasks;
 #if UNO
 using Microsoft.UI.Dispatching;
 using Xaml.Interactivity;
+using PlatformAnimation = Microsoft.UI.Xaml.Media.Animation.Storyboard;
 #else
 using Avalonia.Threading;
 using Avalonia.Xaml.Interactivity;
+using PlatformAnimation = Avalonia.Animation.Animation;
 #endif
 
 #if UNO
@@ -25,7 +27,7 @@ public partial class AnimationCompletedTrigger : AttachedToVisualTreeTrigger
     /// Gets or sets the animation to run. This is an avalonia property.
     /// </summary>
     [StyledProperty]
-    public partial Animation.Animation? Animation { get; set; }
+    public partial PlatformAnimation? Animation { get; set; }
 
     /// <inheritdoc />
     protected override void OnAttachedToVisualTree()

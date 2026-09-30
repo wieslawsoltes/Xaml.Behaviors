@@ -4,21 +4,52 @@
     Imported by the Uno project (source linking) and by the Avalonia project (Xaml.PortAnalyzers).
     The port proceeds folder by folder: remove a folder from this list once it is ported.
   -->
+  <!--
+    Core: only the AttachedToVisualTree* base classes are shared so far (the Animations and Transitions folders
+    derive from them); the other Core files are listed one by one until the folder is ported.
+  -->
   <PropertyGroup>
     <UnoSharedSourceExcludes>
       Actions/**;
-      Animations/**;
       AutoCompleteBox/**;
       Automation/**;
       Behaviors/**;
       Button/**;
       Carousel/**;
       Collections/**;
-      Composition/**;
       ContextDialogs/**;
       Control/**;
       Converters/**;
-      Core/**;
+      Core/ActualThemeVariantChangedBehavior.cs;
+      Core/ActualThemeVariantChangedTrigger.cs;
+      Core/AsyncLoadBehavior.cs;
+      Core/AttachedToLogicalTreeBehavior.cs;
+      Core/AttachedToLogicalTreeTrigger.cs;
+      Core/AttachedToLogicalTreeTriggerBase.cs;
+      Core/BindingBehavior.cs;
+      Core/BindingTriggerBehavior.cs;
+      Core/DataContextChangedBehavior.cs;
+      Core/DataContextChangedTrigger.cs;
+      Core/DelayedLoadTrigger.cs;
+      Core/DetachedFromLogicalTreeTrigger.cs;
+      Core/DetachedFromVisualTreeTrigger.cs;
+      Core/IfElseTrigger.cs;
+      Core/InitializedBehavior.cs;
+      Core/InitializedTrigger.cs;
+      Core/LaunchUriOrFileAction.cs;
+      Core/LoadedBehavior.cs;
+      Core/LoadedTrigger.cs;
+      Core/ObservableTriggerBehavior.cs;
+      Core/PropertyChangedTrigger.cs;
+      Core/ResourcesChangedBehavior.cs;
+      Core/ResourcesChangedTrigger.cs;
+      Core/RoutedEventTrigger.cs;
+      Core/RoutedEventTriggerBase.cs;
+      Core/RoutedEventTriggerBaseOfT.cs;
+      Core/RoutedEventTriggerBehavior.cs;
+      Core/SizeChangedTrigger.cs;
+      Core/UnloadedTrigger.cs;
+      Core/ValueChangedTriggerBehavior.cs;
       Cursor/**;
       Debugging/**;
       Dialog/**;
@@ -48,7 +79,6 @@
       TextBox/**;
       ThemeVariant/**;
       ToolTips/**;
-      Transitions/**;
       TreeView/**;
       TreeViewItem/**;
       Validation/**;

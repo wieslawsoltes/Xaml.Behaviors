@@ -4,9 +4,11 @@
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Xaml.Interactivity;
+using PlatformAnimation = Microsoft.UI.Xaml.Media.Animation.Storyboard;
 #else
 using Avalonia.Controls;
 using Avalonia.Xaml.Interactivity;
+using PlatformAnimation = Avalonia.Animation.Animation;
 #endif
 
 #if UNO
@@ -25,7 +27,7 @@ public partial class StartBuiltAnimationAction : AvaloniaObject, IAction
     /// Gets or sets the animation to run.
     /// </summary>
     [StyledProperty]
-    public partial Animation.Animation? Animation { get; set; }
+    public partial PlatformAnimation? Animation { get; set; }
 
     /// <summary>
     /// Gets or sets the animation builder used to create an animation.

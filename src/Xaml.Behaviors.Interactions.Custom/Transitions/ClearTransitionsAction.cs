@@ -35,7 +35,7 @@ public partial class ClearTransitionsAction : StyledElementAction
             return false;
         }
 
-        StyledElement? target = GetValue(StyledElementProperty) ?? sender as StyledElement;
+        StyledElement? target = (StyledElement?)GetValue(StyledElementProperty) ?? sender as StyledElement;
         return TransitionOperations.Clear(target);
     }
 }

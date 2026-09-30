@@ -3,7 +3,11 @@
   <PropertyGroup>
     <TargetFrameworks>$(UnoTargetFrameworks)</TargetFrameworks>
     <AssemblyName>Xaml.Behaviors.Uno.Animations</AssemblyName>
-    <RootNamespace>Xaml.Interactions.Custom</RootNamespace>
+    <!--
+      The types live in Xaml.Interactions.Custom (like the Avalonia twin). The root namespace differs from the
+      Xaml.Behaviors.Uno.Interactions.Custom one so the Uno XAML generator's GlobalStaticResources types do not collide.
+    -->
+    <RootNamespace>Xaml.Behaviors.Animations</RootNamespace>
     <UnoSharedSourceProject>Xaml.Behaviors.Animations</UnoSharedSourceProject>
   </PropertyGroup>
 
