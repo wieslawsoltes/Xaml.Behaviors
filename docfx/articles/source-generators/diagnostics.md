@@ -40,6 +40,11 @@ This page lists the analyzer diagnostics emitted by `Xaml.Behaviors.SourceGenera
 | XBG031 | MultiDataTrigger | No fields marked with `[TriggerProperty]` | Add at least one `[TriggerProperty]` field |
 | XBG032 | MultiDataTrigger/InvokeCommand | `[TriggerProperty]`/`[ActionCommand]`/`[ActionParameter]` field is read-only | Make the field mutable |
 | XBG033 | EventArgsAction | Method does not declare exactly one parameter | Add a single parameter (the event args) to the target method |
+| XBG036 | MultiDataTrigger/InvokeCommand (WinUI) | Target type not derived from the `Xaml.Interactivity` base class | Derive from `Xaml.Interactivity.StyledElementTrigger`/`StyledElementAction` |
+| XBG037 | PropertyTrigger (WinUI) | Member is neither a `DependencyProperty` nor a property of an `INotifyPropertyChanged` type | Target a dependency property or implement `INotifyPropertyChanged` |
+| XBG038 | PropertyTrigger (WinUI) | Dependency property identifier declared on a type that is not a `DependencyObject` | Target the identifier on the observed `DependencyObject` type |
+
+See [Uno Platform (WinUI) Support](uno-platform.md) for the WinUI specific emission.
 
 ## Trigger diagnostics (XBG001-XBG004)
 
@@ -629,3 +634,72 @@ public partial class InvokeSave : Avalonia.Xaml.Interactivity.StyledElementActio
 ```csharp
 [ActionCommand] private ICommand? _command; // OK
 ```
+
+## WinUI / Uno Platform diagnostics (XBG036-XBG038)
+
+These diagnostics are only reported when the generator emits WinUI code (see [Uno Platform (WinUI) Support](uno-platform.md)).
+
+### XBG036 Invalid WinUI base type
+`[GenerateTypedMultiDataTrigger]` and `[GenerateTypedInvokeCommandAction]` types must derive from the Uno Platform interactivity base classes.
+
+```csharp
+[GenerateTypedMultiDataTrigger]
+public partial class RangeTrigger // XBG036
+{
+    [TriggerProperty] private int _minimum;
+    private bool Evaluate() => _minimum > 0;
+}
+```
+
+**Fix**: Derive from `Xaml.Interactivity.StyledElementTrigger` (or `Xaml.Interactivity.StyledElementAction` for invoke command actions).
+
+```csharp
+[GenerateTypedMultiDataTrigger]
+public partial class RangeTrigger : Xaml.Interactivity.StyledElementTrigger
+{
+    [TriggerProperty] private int _minimum;
+    private bool Evaluate() => _minimum > 0;
+}
+```
+
+### XBG037 Property cannot be observed on WinUI
+WinUI property triggers observe a `DependencyProperty` with `RegisterPropertyChangedCallback` or a CLR property through `INotifyPropertyChanged`. A plain CLR property of a type that does not raise change notifications cannot be observed.
+
+```csharp
+public class Settings
+{
+    [GeneratePropertyTrigger]
+    public int Volume { get; set; } // XBG037
+}
+```
+
+**Fix**: Back the property with a `DependencyProperty` (`VolumeProperty`) or implement `INotifyPropertyChanged` on the declaring type.
+
+```csharp
+public class Settings : INotifyPropertyChanged
+{
+    private int _volume;
+    public event PropertyChangedEventHandler? PropertyChanged;
+
+    [GeneratePropertyTrigger]
+    public int Volume
+    {
+        get => _volume;
+        set { _volume = value; PropertyChanged?.Invoke(this, new(nameof(Volume))); }
+    }
+}
+```
+
+### XBG038 Dependency property owner is not a DependencyObject
+The generated trigger observes instances of the type declaring the dependency property identifier. Attached properties declared on static helper classes cannot be observed that way.
+
+```csharp
+public static class Attached
+{
+    [GeneratePropertyTrigger] // XBG038
+    public static readonly DependencyProperty ModeProperty =
+        DependencyProperty.RegisterAttached("Mode", typeof(int), typeof(Attached), new PropertyMetadata(0));
+}
+```
+
+**Fix**: Declare the dependency property on the observed `DependencyObject` type, or use a regular data trigger bound to the attached property.

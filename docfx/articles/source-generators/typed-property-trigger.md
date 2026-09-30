@@ -2,6 +2,8 @@
 
 The `[GeneratePropertyTrigger]` attribute generates a strongly-typed trigger that listens to an Avalonia property via `GetObservable` and executes actions when the property's value matches your expected value. This avoids XAML bindings and reflection for scenarios like reacting to `IsVisible`, `Bounds`, or other control properties.
 
+> On Uno Platform (WinUI) the trigger observes a `DependencyProperty` (static field or static property such as `TextBox.TextProperty`) with `RegisterPropertyChangedCallback`, or a CLR property of an `INotifyPropertyChanged` type. See [Uno Platform (WinUI) Support](uno-platform.md).
+
 ## Usage
 
 Annotate an Avalonia property field (or use the assembly-level form) to generate a trigger.

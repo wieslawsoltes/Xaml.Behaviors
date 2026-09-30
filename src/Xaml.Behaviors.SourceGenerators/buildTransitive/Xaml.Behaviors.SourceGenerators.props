@@ -1,0 +1,11 @@
+<Project>
+  <!--
+    XamlBehaviorsSourceGeneratorPlatform: Avalonia | WinUI.
+    When empty, the generator detects the platform from the referenced assemblies: Avalonia when
+    Avalonia.AvaloniaObject is referenced, WinUI/Uno Platform when only Microsoft.UI.Xaml.DependencyObject is.
+    WinUI output requires a reference to Xaml.Behaviors.Uno.Interactivity (namespace Xaml.Interactivity).
+  -->
+  <ItemGroup>
+    <CompilerVisibleProperty Include="XamlBehaviorsSourceGeneratorPlatform" />
+  </ItemGroup>
+</Project>
