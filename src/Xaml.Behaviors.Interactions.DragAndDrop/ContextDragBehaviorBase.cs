@@ -145,11 +145,19 @@ public abstract partial class ContextDragBehaviorBase : StyledElementBehavior<Co
 
                 // Drag detection must not consume the initial press. Selection and
                 // interactive content still need to observe it before a drag starts.
+#if UNO
+                // WinUI has no pointer tunnel phase: the handler also receives handled events, after the
+                // element's own handlers, so resetting Handled would un-handle a press the element (for
+                // example a list item) consumed. The press is left as is.
+#else
                 e.Handled = false;
+#endif
                 return;
             }
         }
+#if !UNO
         e.Handled = false;
+#endif
     }
 
     private void AssociatedObject_PointerReleased(object? sender, PointerReleasedEventArgs e)
