@@ -286,5 +286,29 @@ namespace Xaml.Behaviors.SourceGenerators
             category: "Usage",
             DiagnosticSeverity.Error,
             isEnabledByDefault: true);
+
+        private static readonly DiagnosticDescriptor InvalidWinUIBaseTypeDiagnostic = new(
+            id: "XBG036",
+            title: "Invalid WinUI base type",
+            messageFormat: "Type '{0}' must derive from {1} (Xaml.Behaviors.Uno.Interactivity) to use {2} on WinUI/Uno Platform",
+            category: "Usage",
+            DiagnosticSeverity.Error,
+            isEnabledByDefault: true);
+
+        private static readonly DiagnosticDescriptor PropertyTriggerNotObservableDiagnostic = new(
+            id: "XBG037",
+            title: "Property cannot be observed on WinUI",
+            messageFormat: "Member '{0}' on type '{1}' must be a WinUI DependencyProperty, a property backed by one, or a property of a type implementing INotifyPropertyChanged for property trigger generation on WinUI/Uno Platform",
+            category: "Usage",
+            DiagnosticSeverity.Error,
+            isEnabledByDefault: true);
+
+        private static readonly DiagnosticDescriptor PropertyTriggerOwnerNotDependencyObjectDiagnostic = new(
+            id: "XBG038",
+            title: "Dependency property owner is not a DependencyObject",
+            messageFormat: "Dependency property '{0}' is declared on '{1}' which is not a DependencyObject; WinUI property triggers observe the declaring type with RegisterPropertyChangedCallback",
+            category: "Usage",
+            DiagnosticSeverity.Error,
+            isEnabledByDefault: true);
     }
 }

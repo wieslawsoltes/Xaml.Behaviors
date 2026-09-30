@@ -11,6 +11,7 @@ using System.Text.RegularExpressions;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using Xaml.Behaviors.SourceGenerators.Platforms;
 
 namespace Xaml.Behaviors.SourceGenerators
 {
@@ -23,6 +24,25 @@ namespace Xaml.Behaviors.SourceGenerators
         private static string ToDisplayStringWithNullable(ITypeSymbol typeSymbol)
         {
             return typeSymbol.ToDisplayString(FullyQualifiedNullableFormat);
+        }
+
+        /// <summary>
+        /// Formats a type for a <c>typeof</c> expression (nullable reference annotations are not allowed there).
+        /// </summary>
+        private static string ToTypeOfString(ITypeSymbol typeSymbol)
+        {
+            return typeSymbol.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat);
+        }
+
+        /// <summary>
+        /// Appends a property identifier field and its accessor, each followed by a blank line.
+        /// </summary>
+        private static void AppendProperty(StringBuilder sb, IPropertySystemEmitter properties, string ownerClassName, PropertySpec property)
+        {
+            properties.AppendField(sb, ownerClassName, property);
+            sb.AppendLine();
+            properties.AppendAccessor(sb, property);
+            sb.AppendLine();
         }
 
         private static string EscapeIdentifier(string name)
@@ -283,11 +303,18 @@ namespace Xaml.Behaviors.SourceGenerators
             }
         }
 
-        private static Diagnostic? ValidateStyledElementTriggerType(INamedTypeSymbol symbol, Location? location, Compilation? compilation)
+        private static Diagnostic? ValidateStyledElementTriggerType(INamedTypeSymbol symbol, Location? location, Compilation? compilation, out PlatformDiagnostics? baseTypeDiagnostics)
         {
-            if (!InheritsFrom(symbol, "Avalonia.Xaml.Interactivity.StyledElementTrigger"))
+            baseTypeDiagnostics = ValidateInteractivityBaseType(
+                symbol,
+                location,
+                "Avalonia.Xaml.Interactivity.StyledElementTrigger",
+                "Xaml.Interactivity.StyledElementTrigger",
+                InvalidMultiDataTriggerTargetDiagnostic,
+                "GenerateTypedMultiDataTrigger");
+            if (baseTypeDiagnostics != null)
             {
-                return Diagnostic.Create(InvalidMultiDataTriggerTargetDiagnostic, location ?? Location.None, symbol.ToDisplayString());
+                return null;
             }
 
             return ValidateTypeAccessibility(symbol, location, compilation);
@@ -310,11 +337,18 @@ namespace Xaml.Behaviors.SourceGenerators
             return name;
         }
 
-        private static Diagnostic? ValidateStyledElementActionType(INamedTypeSymbol symbol, Location? location, Compilation? compilation)
+        private static Diagnostic? ValidateStyledElementActionType(INamedTypeSymbol symbol, Location? location, Compilation? compilation, out PlatformDiagnostics? baseTypeDiagnostics)
         {
-            if (!InheritsFrom(symbol, "Avalonia.Xaml.Interactivity.StyledElementAction"))
+            baseTypeDiagnostics = ValidateInteractivityBaseType(
+                symbol,
+                location,
+                "Avalonia.Xaml.Interactivity.StyledElementAction",
+                "Xaml.Interactivity.StyledElementAction",
+                InvalidInvokeCommandTargetDiagnostic,
+                "GenerateTypedInvokeCommandAction");
+            if (baseTypeDiagnostics != null)
             {
-                return Diagnostic.Create(InvalidInvokeCommandTargetDiagnostic, location ?? Location.None, symbol.ToDisplayString());
+                return null;
             }
 
             return ValidateTypeAccessibility(symbol, location, compilation);
