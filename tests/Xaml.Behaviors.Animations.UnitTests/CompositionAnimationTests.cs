@@ -10,6 +10,8 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Composition;
 using Microsoft.UI.Dispatching;
 using Xaml.Interactions.Custom;
+// Avalonia.Vector (used fully qualified: Vector also names System.Numerics.Vector) is a point on Uno Platform.
+using AvaloniaVector = Windows.Foundation.Point;
 #else
 using Avalonia;
 using Avalonia.Controls;
@@ -17,6 +19,7 @@ using Avalonia.Headless.XUnit;
 using Avalonia.Rendering.Composition;
 using Avalonia.Threading;
 using Avalonia.Xaml.Interactions.Custom;
+using AvaloniaVector = Avalonia.Vector;
 #endif
 using Xunit;
 
@@ -27,7 +30,7 @@ public class CompositionAnimationTests
     [AvaloniaFact]
     public void ParallaxAnimation_CalculatesProportionalOffset()
     {
-        Vector3 offset = ParallaxAnimation.CalculateOffset(new Avalonia.Vector(20d, 50d), 0.25d);
+        Vector3 offset = ParallaxAnimation.CalculateOffset(new AvaloniaVector(20d, 50d), 0.25d);
 
         Assert.Equal(new Vector3(5f, 12.5f, 0f), offset);
     }
@@ -43,7 +46,7 @@ public class CompositionAnimationTests
         window.Show();
         Dispatcher.UIThread.RunJobs();
 
-        bool applied = ParallaxAnimation.Apply(target, new Avalonia.Vector(20d, 50d), 0.25d);
+        bool applied = ParallaxAnimation.Apply(target, new AvaloniaVector(20d, 50d), 0.25d);
 
         Assert.True(applied);
 #if UNO
@@ -68,8 +71,8 @@ public class CompositionAnimationTests
         ParallaxAnimation? animation = ParallaxAnimation.TryCreate(target);
 
         Assert.NotNull(animation);
-        animation.Apply(new Avalonia.Vector(10d, 20d), 0.5d);
-        animation.Apply(new Avalonia.Vector(20d, 50d), 0.25d);
+        animation.Apply(new AvaloniaVector(10d, 20d), 0.5d);
+        animation.Apply(new AvaloniaVector(20d, 50d), 0.25d);
 
 #if UNO
         // WinUI composes Visual.Offset on top of the arranged position (30, 40) of the element.
@@ -85,7 +88,7 @@ public class CompositionAnimationTests
     {
         Quaternion orientation = OrbitAnimation.CalculateOrientation(
             Quaternion.Identity,
-            new Avalonia.Vector(10d, 5d),
+            new AvaloniaVector(10d, 5d),
             0.5d);
 
         Assert.NotEqual(Quaternion.Identity, orientation);
@@ -159,7 +162,7 @@ public class CompositionAnimationTests
 
         Assert.Null(ParallaxAnimation.TryCreate(null));
         Assert.False(ParallaxAnimation.Apply(null, default, 0.25d));
-        Assert.False(orbit.Rotate(null, new Avalonia.Vector(10d, 5d), 0.5d));
+        Assert.False(orbit.Rotate(null, new AvaloniaVector(10d, 5d), 0.5d));
         Assert.False(TiltAnimation.Apply(null, default, 5d));
         Assert.False(TiltAnimation.Reset(null));
         Assert.Equal(Quaternion.Identity, orbit.Orientation);
