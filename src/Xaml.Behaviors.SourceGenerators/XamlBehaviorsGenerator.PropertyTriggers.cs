@@ -348,9 +348,19 @@ namespace Xaml.Behaviors.SourceGenerators
 
         private PropertyTriggerInfo CreatePropertyTriggerInfo(IFieldSymbol fieldSymbol, Location? diagnosticLocation, Compilation? compilation, bool useDispatcher, string? nameOverride, string? sourceName, bool includeTypeNamePrefix = false, ITypeSymbol? dependencyPropertyValueType = null)
         {
+            return CreateIdentifierPropertyTriggerInfo(fieldSymbol, fieldSymbol.Type, fieldSymbol.IsStatic, diagnosticLocation, compilation, useDispatcher, nameOverride, sourceName, includeTypeNamePrefix, dependencyPropertyValueType);
+        }
+
+        /// <summary>
+        /// Creates a property trigger for a property identifier: an Avalonia styled/direct property field or a WinUI
+        /// <c>DependencyProperty</c> (declared as a static field, or as a static property like the WinUI framework does).
+        /// </summary>
+        private PropertyTriggerInfo CreateIdentifierPropertyTriggerInfo(ISymbol identifierSymbol, ITypeSymbol identifierType, bool isStatic, Location? diagnosticLocation, Compilation? compilation, bool useDispatcher, string? nameOverride, string? sourceName, bool includeTypeNamePrefix, ITypeSymbol? dependencyPropertyValueType)
+        {
+            var fieldSymbol = identifierSymbol;
             var location = diagnosticLocation ?? Location.None;
 
-            if (fieldSymbol.IsStatic == false)
+            if (isStatic == false)
             {
                 return CreateInvalidPropertyTriggerInfo(fieldSymbol.Name, useDispatcher, sourceName, Diagnostic.Create(PropertyTriggerInvalidPropertyTypeDiagnostic, location, fieldSymbol.Name));
             }
@@ -358,13 +368,13 @@ namespace Xaml.Behaviors.SourceGenerators
             PropertyObservationKind kind;
             string valueType;
             string? valueTypeOf;
-            if (IsAvaloniaPropertyType(fieldSymbol.Type))
+            if (IsAvaloniaPropertyType(identifierType))
             {
                 kind = PropertyObservationKind.AvaloniaProperty;
-                valueType = GetAvaloniaPropertyValueType(fieldSymbol.Type) ?? "object?";
-                valueTypeOf = GetAvaloniaPropertyValueTypeOf(fieldSymbol.Type);
+                valueType = GetAvaloniaPropertyValueType(identifierType) ?? "object?";
+                valueTypeOf = GetAvaloniaPropertyValueTypeOf(identifierType);
             }
-            else if (IsWinUIDependencyPropertyType(fieldSymbol.Type))
+            else if (IsWinUIDependencyPropertyType(identifierType))
             {
                 kind = PropertyObservationKind.DependencyProperty;
                 var clrType = dependencyPropertyValueType ?? FindDependencyPropertyValueType(fieldSymbol.ContainingType, TrimPropertySuffix(fieldSymbol.Name));
@@ -383,10 +393,10 @@ namespace Xaml.Behaviors.SourceGenerators
             var baseName = nameOverride ?? $"{TrimPropertySuffix(fieldSymbol.Name)}PropertyTrigger";
             var className = string.IsNullOrEmpty(typePrefix) ? baseName : typePrefix + baseName;
             var targetTypeName = ToDisplayStringWithNullable(targetType!);
-            var accessibility = GetPropertyTriggerAccessibility(fieldSymbol, targetType!, valueType);
+            var accessibility = GetPropertyTriggerAccessibility(fieldSymbol, identifierType, targetType!, valueType);
             var ownerTypeName = ToDisplayStringWithNullable(fieldSymbol.ContainingType);
 
-            var validation = ValidatePropertyTrigger(fieldSymbol, location, compilation);
+            var validation = ValidatePropertyTrigger(fieldSymbol, identifierType, location, compilation);
             var platformDiagnostics = kind == PropertyObservationKind.AvaloniaProperty
                 ? new PlatformDiagnostics(
                     CreateSourceNameWarnings(targetType!, sourceName, location, compilation),
@@ -403,6 +413,12 @@ namespace Xaml.Behaviors.SourceGenerators
             var location = diagnosticLocation ?? Location.None;
             if (propertySymbol.IsStatic)
             {
+                if (IsWinUIDependencyPropertyType(propertySymbol.Type))
+                {
+                    // WinUI exposes the framework dependency property identifiers as static properties.
+                    return CreateIdentifierPropertyTriggerInfo(propertySymbol, propertySymbol.Type, isStatic: true, diagnosticLocation, compilation, useDispatcher, nameOverride, sourceName, includeTypeNamePrefix, dependencyPropertyValueType: null);
+                }
+
                 return CreateInvalidPropertyTriggerInfo(propertySymbol.Name, useDispatcher, sourceName, Diagnostic.Create(PropertyTriggerInvalidPropertyTypeDiagnostic, location, propertySymbol.Name));
             }
 
@@ -410,6 +426,12 @@ namespace Xaml.Behaviors.SourceGenerators
             if (backingField != null)
             {
                 return CreatePropertyTriggerInfo(backingField, diagnosticLocation, compilation, useDispatcher, nameOverride, sourceName, includeTypeNamePrefix, propertySymbol.Type);
+            }
+
+            var identifierProperty = FindDependencyPropertyIdentifierProperty(propertySymbol.ContainingType, propertySymbol.Name + "Property");
+            if (identifierProperty != null)
+            {
+                return CreateIdentifierPropertyTriggerInfo(identifierProperty, identifierProperty.Type, isStatic: true, diagnosticLocation, compilation, useDispatcher, nameOverride, sourceName, includeTypeNamePrefix, propertySymbol.Type);
             }
 
             var avaloniaDiagnostic = Diagnostic.Create(PropertyTriggerInvalidPropertyTypeDiagnostic, location, propertySymbol.Name);
@@ -499,6 +521,20 @@ namespace Xaml.Behaviors.SourceGenerators
             return null;
         }
 
+        private static IPropertySymbol? FindDependencyPropertyIdentifierProperty(INamedTypeSymbol? type, string name)
+        {
+            for (var current = type; current != null; current = current.BaseType)
+            {
+                var property = current.GetMembers(name).OfType<IPropertySymbol>().FirstOrDefault(p => p.IsStatic && IsWinUIDependencyPropertyType(p.Type));
+                if (property != null)
+                {
+                    return property;
+                }
+            }
+
+            return null;
+        }
+
         private static bool IsAvaloniaPropertyType(ITypeSymbol typeSymbol)
         {
             var display = typeSymbol.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat);
@@ -575,9 +611,9 @@ namespace Xaml.Behaviors.SourceGenerators
             return name.EndsWith("Property", System.StringComparison.Ordinal) ? name.Substring(0, name.Length - "Property".Length) : name;
         }
 
-        private Diagnostic? ValidatePropertyTrigger(IFieldSymbol fieldSymbol, Location? location, Compilation? compilation)
+        private Diagnostic? ValidatePropertyTrigger(ISymbol fieldSymbol, ITypeSymbol identifierType, Location? location, Compilation? compilation)
         {
-            if (ContainsTypeParameter(fieldSymbol.Type))
+            if (ContainsTypeParameter(identifierType))
             {
                 return Diagnostic.Create(GenericMemberNotSupportedDiagnostic, location ?? Location.None, fieldSymbol.Name);
             }
@@ -598,8 +634,13 @@ namespace Xaml.Behaviors.SourceGenerators
                 return Diagnostic.Create(MemberNotAccessibleDiagnostic, location ?? Location.None, fieldSymbol.Name, fieldSymbol.ContainingType.ToDisplayString());
             }
 
-            var valueType = GetAvaloniaPropertyValueType(fieldSymbol.Type);
-            if (valueType != null && !IsAccessibleType(fieldSymbol.Type, compilation))
+            if (fieldSymbol is IPropertySymbol { GetMethod: var getter } && (getter is null || !IsAccessibleToGenerator(getter, compilation)))
+            {
+                return Diagnostic.Create(MemberNotAccessibleDiagnostic, location ?? Location.None, fieldSymbol.Name, fieldSymbol.ContainingType.ToDisplayString());
+            }
+
+            var valueType = GetAvaloniaPropertyValueType(identifierType);
+            if (valueType != null && !IsAccessibleType(identifierType, compilation))
             {
                 return Diagnostic.Create(MemberNotAccessibleDiagnostic, location ?? Location.None, fieldSymbol.Name, fieldSymbol.ContainingType.ToDisplayString());
             }
@@ -675,11 +716,11 @@ namespace Xaml.Behaviors.SourceGenerators
             return false;
         }
 
-        private string GetPropertyTriggerAccessibility(IFieldSymbol fieldSymbol, INamedTypeSymbol containingType, string valueTypeName)
+        private string GetPropertyTriggerAccessibility(ISymbol fieldSymbol, ITypeSymbol identifierType, INamedTypeSymbol containingType, string valueTypeName)
         {
             var requiresInternal = containingType.DeclaredAccessibility == Accessibility.Internal ||
                                    fieldSymbol.DeclaredAccessibility == Accessibility.Internal ||
-                                   ContainsInternalType(fieldSymbol.Type) ||
+                                   ContainsInternalType(identifierType) ||
                                    valueTypeName.StartsWith("global::", System.StringComparison.Ordinal) && valueTypeName.Contains("Internal");
 
             return requiresInternal ? "internal" : "public";
