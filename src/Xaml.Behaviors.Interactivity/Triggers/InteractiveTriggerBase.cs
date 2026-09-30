@@ -15,28 +15,14 @@ namespace Avalonia.Xaml.Interactivity;
 /// <summary>
 /// Base class for triggers that listen for routed events.
 /// </summary>
-public abstract class InteractiveTriggerBase : StyledElementTrigger<Interactive>
+public abstract partial class InteractiveTriggerBase : StyledElementTrigger<Interactive>
 {
-    /// <summary>
-    /// Identifies the <see cref="RoutingStrategies"/> avalonia property.
-    /// </summary>
-#if UNO
-    public static readonly DependencyProperty RoutingStrategiesProperty =
-#else
-    public static readonly StyledProperty<RoutingStrategies> RoutingStrategiesProperty =
-#endif
-        AvaloniaProperty.Register<InteractiveTriggerBase, RoutingStrategies>(
-            nameof(RoutingStrategies),
-            RoutingStrategies.Bubble);
 
     /// <summary>
     /// Gets or sets the routing strategies used when subscribing to events.
     /// </summary>
-    public RoutingStrategies RoutingStrategies
-    {
-        get => (RoutingStrategies)GetValue(RoutingStrategiesProperty);
-        set => SetValue(RoutingStrategiesProperty, value);
-    }
+    [StyledProperty(DefaultValue = RoutingStrategies.Bubble)]
+    public partial RoutingStrategies RoutingStrategies { get; set; }
 
     /// <summary>
     /// Executes the actions associated with this trigger.

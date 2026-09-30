@@ -13,7 +13,6 @@ using Microsoft.CodeAnalysis.CodeActions;
 using Microsoft.CodeAnalysis.CodeFixes;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
-using Microsoft.CodeAnalysis.Editing;
 using Xaml.PropertyGenerator.Migration;
 
 namespace Xaml.PropertyGenerator.CodeFixes
@@ -80,33 +79,44 @@ namespace Xaml.PropertyGenerator.CodeFixes
                 return document;
             }
 
-            var editor = await DocumentEditor.CreateAsync(document, cancellationToken).ConfigureAwait(false);
-            var types = new HashSet<TypeDeclarationSyntax>();
+            // Track every node first; each rewrite then works on the current version of the tree.
+            var tracked = new List<SyntaxNode>();
             foreach (var candidate in candidates)
             {
-                editor.RemoveNode(candidate.Registration, SyntaxRemoveOptions.KeepUnbalancedDirectives);
+                tracked.Add(candidate.Registration);
+                tracked.Add(candidate.Property);
                 if (candidate.BackingField is not null && candidate.BackingField.SyntaxTree == root.SyntaxTree)
                 {
-                    editor.RemoveNode(candidate.BackingField, SyntaxRemoveOptions.KeepUnbalancedDirectives);
+                    tracked.Add(candidate.BackingField);
                 }
 
-                editor.ReplaceNode(candidate.Property, BuildProperty(candidate));
-
-                foreach (var type in candidate.Property.Ancestors().OfType<TypeDeclarationSyntax>())
-                {
-                    types.Add(type);
-                }
+                tracked.AddRange(candidate.Property.Ancestors().OfType<TypeDeclarationSyntax>());
             }
 
-            foreach (var type in types)
+            var newRoot = root.TrackNodes(tracked.Distinct());
+            foreach (var candidate in candidates)
             {
-                if (!type.Modifiers.Any(SyntaxKind.PartialKeyword))
+                newRoot = RemovePreservingDirectives(newRoot, candidate.Registration);
+                if (candidate.BackingField is not null && candidate.BackingField.SyntaxTree == root.SyntaxTree)
                 {
-                    editor.ReplaceNode(type, static (node, _) => AddPartial((TypeDeclarationSyntax)node));
+                    newRoot = RemovePreservingDirectives(newRoot, candidate.BackingField);
                 }
             }
 
-            var newRoot = editor.GetChangedRoot();
+            foreach (var candidate in candidates)
+            {
+                var current = newRoot.GetCurrentNode(candidate.Property)!;
+                newRoot = newRoot.ReplaceNode(current, BuildProperty(candidate, current.GetLeadingTrivia(), current.GetTrailingTrivia()));
+            }
+
+            foreach (var type in candidates.SelectMany(static c => c.Property.Ancestors().OfType<TypeDeclarationSyntax>()).Distinct())
+            {
+                if (newRoot.GetCurrentNode(type) is { } currentType && !currentType.Modifiers.Any(SyntaxKind.PartialKeyword))
+                {
+                    newRoot = newRoot.ReplaceNode(currentType, AddPartial(currentType));
+                }
+            }
+
             if (!IsAttributeNamespaceInScope(model, candidates[0].Property.SpanStart) && newRoot is CompilationUnitSyntax unit)
             {
                 newRoot = AddUsing(unit);
@@ -115,10 +125,24 @@ namespace Xaml.PropertyGenerator.CodeFixes
             return document.WithSyntaxRoot(newRoot);
         }
 
-        private static MemberDeclarationSyntax BuildProperty(MigrationModel candidate)
+        private static SyntaxNode RemovePreservingDirectives(SyntaxNode root, SyntaxNode original)
+        {
+            var node = root.GetCurrentNode(original)!;
+            var preserved = MigrationModel.GetPreservedLeadingTrivia(node);
+            if (preserved.Count > 0)
+            {
+                // Move the directives (and disabled code) that belong to the surrounding code to the next token.
+                var next = node.GetLastToken().GetNextToken();
+                root = root.ReplaceToken(next, next.WithLeadingTrivia(preserved.AddRange(next.LeadingTrivia)));
+                node = root.GetCurrentNode(original)!;
+            }
+
+            return root.RemoveNode(node, SyntaxRemoveOptions.KeepNoTrivia)!;
+        }
+
+        private static MemberDeclarationSyntax BuildProperty(MigrationModel candidate, SyntaxTriviaList leading, SyntaxTriviaList trailing)
         {
             var property = candidate.Property;
-            var leading = property.GetLeadingTrivia();
             var indent = leading.LastOrDefault(static t => t.IsKind(SyntaxKind.WhitespaceTrivia)).ToString();
             var eol = property.SyntaxTree.GetText().ToString().Contains("\r\n") ? "\r\n" : "\n";
 
@@ -165,7 +189,7 @@ namespace Xaml.PropertyGenerator.CodeFixes
             var member = SyntaxFactory.ParseMemberDeclaration(text.ToString())!;
             return member
                 .WithLeadingTrivia(leading)
-                .WithTrailingTrivia(property.GetTrailingTrivia());
+                .WithTrailingTrivia(trailing);
         }
 
         private static TypeDeclarationSyntax AddPartial(TypeDeclarationSyntax type)

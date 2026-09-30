@@ -20,29 +20,9 @@ namespace Avalonia.Xaml.Interactivity;
 /// A behavior that listens for a specified event on its source and executes its actions when that event is fired.
 /// </summary>
 [RequiresUnreferencedCode("This functionality is not compatible with trimming.")]
-public abstract class EventTriggerBase : StyledElementTrigger
+public abstract partial class EventTriggerBase : StyledElementTrigger
 {
     private const string EventNameDefaultValue = "AttachedToVisualTree";
-
-    /// <summary>
-    /// Identifies the <seealso cref="EventName"/> avalonia property.
-    /// </summary>
-#if UNO
-    public static readonly DependencyProperty EventNameProperty =
-#else
-    public static readonly StyledProperty<string?> EventNameProperty =
-#endif
-        AvaloniaProperty.Register<EventTriggerBase, string?>(nameof(EventName), EventNameDefaultValue);
-
-    /// <summary>
-    /// Identifies the <seealso cref="SourceObject"/> avalonia property.
-    /// </summary>
-#if UNO
-    public static readonly DependencyProperty SourceObjectProperty =
-#else
-    public static readonly StyledProperty<object?> SourceObjectProperty =
-#endif
-        AvaloniaProperty.Register<EventTriggerBase, object?>(nameof(SourceObject));
 
     private object? _resolvedSource;
     private Delegate? _eventHandler;
@@ -52,22 +32,15 @@ public abstract class EventTriggerBase : StyledElementTrigger
     /// <summary>
     /// Gets or sets the name of the event to listen for. This is an avalonia property.
     /// </summary>
-    public string? EventName
-    {
-        get => (string?)GetValue(EventNameProperty);
-        set => SetValue(EventNameProperty, value);
-    }
+    [StyledProperty(DefaultValue = EventNameDefaultValue)]
+    public partial string? EventName { get; set; }
 
     /// <summary>
     /// Gets or sets the source object from which this behavior listens for events.
     /// If <seealso cref="SourceObject"/> is not set, the source will default to <seealso cref="IBehavior.AssociatedObject"/>. This is an avalonia property.
     /// </summary>
-    [ResolveByName]
-    public object? SourceObject
-    {
-        get => (object?)GetValue(SourceObjectProperty);
-        set => SetValue(SourceObjectProperty, value);
-    }
+    [StyledProperty(ResolveByName = true)]
+    public partial object? SourceObject { get; set; }
 
     /// <inheritdoc />
     protected override void OnPropertyChanged(AvaloniaPropertyChangedEventArgs change)

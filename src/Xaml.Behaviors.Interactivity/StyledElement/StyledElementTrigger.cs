@@ -17,27 +17,14 @@ namespace Avalonia.Xaml.Interactivity;
 /// <summary>
 /// A base class for behaviors, implementing the basic plumbing of <seealso cref="ITrigger"/>.
 /// </summary>
-public abstract class StyledElementTrigger : StyledElementBehavior, ITrigger
+public abstract partial class StyledElementTrigger : StyledElementBehavior, ITrigger
 {
-    /// <summary>
-    /// Identifies the <seealso cref="Actions"/> avalonia property.
-    /// </summary>
-#if UNO
-    public static readonly DependencyProperty ActionsProperty =
-#else
-    public static readonly StyledProperty<ActionCollection?> ActionsProperty =
-#endif
-        AvaloniaProperty.Register<StyledElementTrigger, ActionCollection?>(nameof(Actions));
 
     /// <summary>
     /// Gets the collection of actions associated with the behavior. This is an avalonia property.
     /// </summary>
-    [Content]
-    public ActionCollection? Actions
-    {
-        get => (ActionCollection?)GetValue(ActionsProperty);
-        set => SetValue(ActionsProperty, value);
-    }
+    [StyledProperty(Content = true)]
+    public partial ActionCollection? Actions { get; set; }
 
     /// <summary>
     /// Initializes a new instance of the <see cref="StyledElementTrigger"/> class.

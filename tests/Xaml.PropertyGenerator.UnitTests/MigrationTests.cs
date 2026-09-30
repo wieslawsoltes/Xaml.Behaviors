@@ -155,6 +155,66 @@ public class MigrationTests
         Assert.Equal(before, after);
     }
 
+    [Fact]
+    public async Task FixAll_Preserves_Code_Of_Other_Platforms()
+    {
+        const string source = """
+            using System.Collections.Generic;
+            using Avalonia;
+
+            namespace Sample;
+
+            public partial class Owner : AvaloniaObject
+            {
+                #region Properties
+
+                public static readonly StyledProperty<int> CountProperty =
+                    AvaloniaProperty.Register<Owner, int>(nameof(Count));
+
+                #endregion
+
+                public static readonly DirectProperty<Owner, List<int>> ItemsProperty =
+                    AvaloniaProperty.RegisterDirect<Owner, List<int>>(nameof(Items), o => o.Items);
+
+            #if UNO
+                public List<int> Items => UnoOnly();
+            #else
+                private List<int>? _items;
+
+                /// <summary>Gets the items.</summary>
+                public List<int> Items => _items ??= [];
+            #endif
+
+                public int Count
+                {
+                    get => GetValue(CountProperty);
+                    set => SetValue(CountProperty, value);
+                }
+            }
+            """;
+
+        var fixedDocument = await FixAllAsync(CreateDocument(source));
+        var text = (await fixedDocument.GetTextAsync()).ToString();
+
+        Assert.Contains("#region Properties", text);
+        Assert.Contains("#endregion", text);
+        Assert.Contains("#if UNO", text);
+        Assert.Contains("public List<int> Items => UnoOnly();", text);
+        Assert.Contains("#else", text);
+        Assert.Contains("#endif", text);
+        Assert.Contains("[DirectProperty(Lazy = true)]", text);
+        Assert.Contains("[StyledProperty]", text);
+        Assert.DoesNotContain("_items", text);
+        Assert.True(
+            text.IndexOf("#if UNO", System.StringComparison.Ordinal) < text.IndexOf("#else", System.StringComparison.Ordinal) &&
+            text.IndexOf("#else", System.StringComparison.Ordinal) < text.IndexOf("[DirectProperty(Lazy = true)]", System.StringComparison.Ordinal) &&
+            text.IndexOf("[DirectProperty(Lazy = true)]", System.StringComparison.Ordinal) < text.IndexOf("#endif", System.StringComparison.Ordinal),
+            text);
+
+        var compilation = (await fixedDocument.Project.GetCompilationAsync())!;
+        Assert.Empty(compilation.GetDiagnostics().Where(static d => d.Severity == DiagnosticSeverity.Error));
+    }
+
     private static Document CreateDocument(string source)
     {
         var workspace = new AdhocWorkspace();

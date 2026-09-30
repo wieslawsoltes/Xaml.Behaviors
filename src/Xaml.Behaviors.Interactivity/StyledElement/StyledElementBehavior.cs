@@ -22,23 +22,13 @@ namespace Avalonia.Xaml.Interactivity;
 /// <summary>
 /// A base class for behaviors, implementing the basic plumbing of <see cref="IBehavior"/>.
 /// </summary>
-public abstract class StyledElementBehavior : StyledElement, IBehavior, IBehaviorEventsHandler
+public abstract partial class StyledElementBehavior : StyledElement, IBehavior, IBehaviorEventsHandler
 {
     private IDisposable? _dataContextDisposable;
     private bool _isAttachedToLogicalTree;
     private bool _isAttachedToVisualTree;
     private bool _isInitializedNotified;
     private bool _isLoaded;
-
-    /// <summary>
-    /// Identifies the <seealso cref="IsEnabled"/> avalonia property.
-    /// </summary>
-#if UNO
-    public static readonly DependencyProperty IsEnabledProperty =
-#else
-    public static readonly StyledProperty<bool> IsEnabledProperty =
-#endif
-        AvaloniaProperty.Register<StyledElementBehavior, bool>(nameof(IsEnabled), defaultValue: true);
 
     /// <summary>
     /// Gets the <see cref="AvaloniaObject"/> to which the behavior is attached.
@@ -54,11 +44,8 @@ public abstract class StyledElementBehavior : StyledElement, IBehavior, IBehavio
     /// Gets or sets a value indicating whether this instance is enabled.
     /// </summary>
     /// <value><c>true</c> if this instance is enabled; otherwise, <c>false</c>.</value>
-    public bool IsEnabled
-    {
-        get => (bool)GetValue(IsEnabledProperty);
-        set => SetValue(IsEnabledProperty, value);
-    }
+    [StyledProperty(DefaultValue = true)]
+    public partial bool IsEnabled { get; set; }
 
     /// <summary>
     /// Attaches the behavior to the specified <see cref="AvaloniaObject"/>.

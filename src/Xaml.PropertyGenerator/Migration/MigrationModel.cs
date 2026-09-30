@@ -228,6 +228,11 @@ namespace Xaml.PropertyGenerator.Migration
                 }
             }
 
+            if (!HasSafeDirectives(field) || !HasSafeDirectives(property))
+            {
+                return null;
+            }
+
             return isDirect
                 ? CreateDirect(field, property, propertySymbol, fieldSymbol, operation, arguments, removedAttributes, model, cancellationToken)
                 : CreateStyled(field, property, fieldSymbol, arguments, removedAttributes, model, cancellationToken);
@@ -414,7 +419,8 @@ namespace Xaml.PropertyGenerator.Migration
                 return null;
             }
 
-            if (IsReferencedOutside(backingSymbol, property, backingField, propertySymbol.ContainingType, model.Compilation, cancellationToken))
+            if (!HasSafeDirectives(backingField) ||
+                IsReferencedOutside(backingSymbol, property, backingField, propertySymbol.ContainingType, model.Compilation, cancellationToken))
             {
                 return null;
             }
@@ -485,6 +491,73 @@ namespace Xaml.PropertyGenerator.Migration
             }
 
             return false;
+        }
+
+        /// <summary>
+        /// Checks that every preprocessor directive after the leading trivia of <paramref name="node"/> belongs to a
+        /// conditional group that is entirely contained in the node, so the node can be removed or rewritten
+        /// without leaving unbalanced directives or dropping code of other platforms.
+        /// </summary>
+        internal static bool HasSafeDirectives(SyntaxNode node)
+        {
+            var bodyStart = node.GetFirstToken().SpanStart;
+            foreach (var trivia in node.DescendantTrivia(descendIntoTrivia: false))
+            {
+                if (trivia.SpanStart < bodyStart || trivia.GetStructure() is not DirectiveTriviaSyntax directive)
+                {
+                    continue;
+                }
+
+                if (!IsBalancedWithin(directive, node))
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        /// <summary>
+        /// Gets the part of the leading trivia of <paramref name="node"/> that must survive when the node is removed:
+        /// everything up to and including the last directive whose conditional group is not contained in the node
+        /// (disabled code of other platforms between such directives is kept as well).
+        /// </summary>
+        internal static SyntaxTriviaList GetPreservedLeadingTrivia(SyntaxNode node)
+        {
+            var leading = node.GetLeadingTrivia();
+            var last = -1;
+            for (var i = 0; i < leading.Count; i++)
+            {
+                if (leading[i].GetStructure() is DirectiveTriviaSyntax directive && !IsBalancedWithin(directive, node))
+                {
+                    last = i;
+                }
+            }
+
+            return last < 0 ? SyntaxTriviaList.Empty : SyntaxFactory.TriviaList(leading.Take(last + 1));
+        }
+
+        private static bool IsBalancedWithin(DirectiveTriviaSyntax directive, SyntaxNode node)
+        {
+            if (directive is RegionDirectiveTriviaSyntax or EndRegionDirectiveTriviaSyntax)
+            {
+                return false;
+            }
+
+            if (directive is not (IfDirectiveTriviaSyntax or ElifDirectiveTriviaSyntax or ElseDirectiveTriviaSyntax or EndIfDirectiveTriviaSyntax))
+            {
+                return true;
+            }
+
+            foreach (var related in directive.GetRelatedDirectives())
+            {
+                if (!node.FullSpan.Contains(related.Span))
+                {
+                    return false;
+                }
+            }
+
+            return true;
         }
 
         private static bool IsParameterlessCreation(ExpressionSyntax expression) => expression switch

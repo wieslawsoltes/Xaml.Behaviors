@@ -22,6 +22,7 @@
              Link="Shared/%(RecursiveDir)%(Filename)%(Extension)" />
   </ItemGroup>
 
+  <Import Project="$(AvaloniaSourcesDirectory)../build/XamlPropertyGenerator.props" Condition="'$(UnoSharedSourceProject)' != ''" />
   <Import Project="$(AvaloniaSourcesDirectory)../build/SignAssembly.props" />
   <Import Project="$(AvaloniaSourcesDirectory)../build/SourceLink.props" />
 </Project>

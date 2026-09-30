@@ -23,113 +23,37 @@ public partial class Condition : AvaloniaObject
     private IDisposable? _bindingSubscription;
 
     /// <summary>
-    /// Identifies the <seealso cref="Binding"/> avalonia property.
-    /// </summary>
-#if UNO
-    public static readonly DependencyProperty BindingProperty =
-#else
-    public static readonly StyledProperty<BindingBase?> BindingProperty =
-#endif
-        AvaloniaProperty.Register<Condition, BindingBase?>(nameof(Binding));
-
-#if UNO
-    internal static readonly DependencyProperty BindingValueProperty =
-#else
-    internal static readonly StyledProperty<object?> BindingValueProperty =
-#endif
-        AvaloniaProperty.Register<Condition, object?>(nameof(BindingValue));
-
-    /// <summary>
-    /// Identifies the <seealso cref="ComparisonCondition"/> avalonia property.
-    /// </summary>
-#if UNO
-    public static readonly DependencyProperty ComparisonConditionProperty =
-#else
-    public static readonly StyledProperty<ComparisonConditionType> ComparisonConditionProperty =
-#endif
-        AvaloniaProperty.Register<Condition, ComparisonConditionType>(nameof(ComparisonCondition));
-
-    /// <summary>
-    /// Identifies the <seealso cref="Value"/> avalonia property.
-    /// </summary>
-#if UNO
-    public static readonly DependencyProperty ValueProperty =
-#else
-    public static readonly StyledProperty<object?> ValueProperty =
-#endif
-        AvaloniaProperty.Register<Condition, object?>(nameof(Value));
-
-    /// <summary>
-    /// Identifies the <seealso cref="Property"/> avalonia property.
-    /// </summary>
-#if UNO
-    public static readonly DependencyProperty PropertyProperty =
-#else
-    public static readonly StyledProperty<AvaloniaProperty?> PropertyProperty =
-#endif
-        AvaloniaProperty.Register<Condition, AvaloniaProperty?>(nameof(Property));
-
-    /// <summary>
-    /// Identifies the <seealso cref="SourceName"/> avalonia property.
-    /// </summary>
-#if UNO
-    public static readonly DependencyProperty SourceNameProperty =
-#else
-    public static readonly StyledProperty<string?> SourceNameProperty =
-#endif
-        AvaloniaProperty.Register<Condition, string?>(nameof(SourceName));
-
-    /// <summary>
     /// Gets or sets the bound object to compare. This is an avalonia property.
     /// </summary>
-    [AssignBinding]
-    public BindingBase? Binding
-    {
-        get => (BindingBase?)GetValue(BindingProperty);
-        set => SetValue(BindingProperty, value);
-    }
+    [StyledProperty(AssignBinding = true)]
+    public partial BindingBase? Binding { get; set; }
 
     /// <summary>
     /// Gets or sets the type of comparison that is performed. This is an avalonia property.
     /// </summary>
-    public ComparisonConditionType ComparisonCondition
-    {
-        get => (ComparisonConditionType)GetValue(ComparisonConditionProperty);
-        set => SetValue(ComparisonConditionProperty, value);
-    }
+    [StyledProperty]
+    public partial ComparisonConditionType ComparisonCondition { get; set; }
 
     /// <summary>
     /// Gets or sets the value that is used during comparison. This is an avalonia property.
     /// </summary>
-    public object? Value
-    {
-        get => (object?)GetValue(ValueProperty);
-        set => SetValue(ValueProperty, value);
-    }
+    [StyledProperty]
+    public partial object? Value { get; set; }
 
     /// <summary>
     /// Gets or sets the avalonia property that will be monitored for changes.
     /// </summary>
-    public AvaloniaProperty? Property
-    {
-        get => (AvaloniaProperty?)GetValue(PropertyProperty);
-        set => SetValue(PropertyProperty, value);
-    }
+    [StyledProperty]
+    public partial AvaloniaProperty? Property { get; set; }
 
     /// <summary>
     /// Gets or sets the name of the element that supplies <see cref="Property"/>. When null, the associated object is used.
     /// </summary>
-    public string? SourceName
-    {
-        get => (string?)GetValue(SourceNameProperty);
-        set => SetValue(SourceNameProperty, value);
-    }
+    [StyledProperty]
+    public partial string? SourceName { get; set; }
 
-    internal object? BindingValue
-    {
-        get => (object?)GetValue(BindingValueProperty);
-        set => SetValue(BindingValueProperty, value);
-    }
+    [StyledProperty]
+    internal partial object? BindingValue { get; set; }
 
     /// <inheritdoc />
     protected override void OnPropertyChanged(AvaloniaPropertyChangedEventArgs change)
