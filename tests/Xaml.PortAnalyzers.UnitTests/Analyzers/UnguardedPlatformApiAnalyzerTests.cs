@@ -283,6 +283,34 @@ public class UnguardedPlatformApiAnalyzerTests
     }
 
     [Fact]
+    public async Task UnsupportedMembers_TakePrecedenceOverMappedWildcards()
+    {
+        var diagnostics = await new PortAnalyzerTest()
+            .WithPortMap("""
+                {
+                  "mapped": { "types": ["Avalonia.Controls.Control"], "members": ["Avalonia.Controls.Control.*"] },
+                  "unsupported": { "members": ["Avalonia.Controls.Control.Tag"] }
+                }
+                """)
+            .WithSource("""
+                #if !UNO
+                using Avalonia.Controls;
+                #endif
+
+                public class Sample
+                {
+                    public object? Tag(Control control) => control.Tag;
+                    public object? Property => Control.TagProperty;
+                }
+                """)
+            .GetDiagnosticsAsync(new UnguardedPlatformApiAnalyzer());
+
+        var diagnostic = Assert.Single(diagnostics);
+        Assert.Equal("XPORT002:7:'Tag'", diagnostic.Describe());
+        Assert.StartsWith("'Avalonia.Controls.Control.Tag' is unsupported", diagnostic.GetMessage());
+    }
+
+    [Fact]
     public async Task Ignores_NonSourcePlatformSymbolsDocCommentsAndExcludedFiles()
     {
         var diagnostics = await new PortAnalyzerTest()
