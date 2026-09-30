@@ -18,14 +18,6 @@ public partial class DetachedFromVisualTreeTrigger001 : Window
 {
     public DetachedFromVisualTreeTrigger001()
     {
-#if UNO
-        // TabViewItem reads this Fluent theme resource from the application when its template is applied; the Uno
-        // headless application loads no theme resources.
-        if (!Application.Current.Resources.ContainsKey("OverlayCornerRadius"))
-        {
-            Application.Current.Resources["OverlayCornerRadius"] = new CornerRadius(8);
-        }
-#endif
         InitializeComponent();
     }
 #if UNO

@@ -6,11 +6,6 @@
                            xmlns:ic="using:Xaml.Interactions.Core"
                            xmlns:custom="using:Xaml.Interactions.Custom"
                            xmlns:local="using:Xaml.Interactions.UnitTests.Custom">
-  <compat:HeadlessTestWindow.Resources>
-    <!-- The Uno headless application has no theme: the TabView needs the WinUI control templates. -->
-    <XamlControlsResources />
-  </compat:HeadlessTestWindow.Resources>
-
   <compat:HeadlessTestWindow.DataContext>
     <local:DetachedTriggerBindingSource />
   </compat:HeadlessTestWindow.DataContext>

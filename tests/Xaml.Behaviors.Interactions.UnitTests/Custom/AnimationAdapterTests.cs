@@ -175,7 +175,12 @@ public class AnimationAdapterTests
         window.Close();
     }
 
+#if UNO
+    // ScrollViewer needs its WinUI template.
+    [AvaloniaFact(Skip = "The ScrollViewer needs the WinUI control templates (XamlControlsResources), which this test session does not load: loading them registers the Fluent styles process-wide and would make the other tests order dependent.")]
+#else
     [AvaloniaFact]
+#endif
     public void ParallaxBehavior_TracksScrollOffsetThroughSharedPrimitive()
     {
         var target = new Border { Width = 100d, Height = 100d };
@@ -199,9 +204,11 @@ public class AnimationAdapterTests
         Dispatcher.UIThread.RunJobs();
 
 #if UNO
-        // WinUI scrolls with ChangeView; composition offsets are relative to the layout position on Uno Skia.
+        // WinUI scrolls with ChangeView (once the extent is measured); composition offsets are relative to the layout
+        // position on Uno Skia.
+        window.CaptureRenderedFrame();
         scrollViewer.ChangeView(20d, 100d, null, disableAnimation: true);
-        Dispatcher.UIThread.RunJobs();
+        window.CaptureRenderedFrame();
 
         Assert.Equal(
             new System.Numerics.Vector3(5f, 25f, 0f),
