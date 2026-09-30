@@ -5,7 +5,6 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Imaging;
 using Xaml.Interactivity;
-using Media = Microsoft.UI.Xaml.Media;
 #else
 using Avalonia.Controls;
 using Avalonia.Media.Imaging;
@@ -47,16 +46,16 @@ public partial class WriteableBitmapBehavior : StyledElementBehavior<Image>
     /// Gets the created bitmap.
     /// </summary>
     [DirectProperty]
-    public partial Media.Imaging.WriteableBitmap? Bitmap { get; private set; }
+    public partial WriteableBitmap? Bitmap { get; private set; }
 
     /// <inheritdoc />
     protected override void OnAttachedToVisualTree()
     {
 #if UNO
         // WinUI writeable bitmaps are always BGRA8 (premultiplied) at 96 DPI.
-        Bitmap = new Media.Imaging.WriteableBitmap(PixelWidth, PixelHeight);
+        Bitmap = new WriteableBitmap(PixelWidth, PixelHeight);
 #else
-        Bitmap = new Media.Imaging.WriteableBitmap(
+        Bitmap = new WriteableBitmap(
             new PixelSize(PixelWidth, PixelHeight),
             new Vector(96, 96),
             PixelFormat.Bgra8888,

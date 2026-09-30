@@ -2,7 +2,6 @@
 // Licensed under the MIT license. See LICENSE file in the project root for details.
 #if UNO
 using Microsoft.UI.Xaml.Media.Imaging;
-using Media = Microsoft.UI.Xaml.Media;
 #else
 using Avalonia.Media.Imaging;
 #endif
@@ -22,5 +21,5 @@ public interface IWriteableBitmapRenderer
     /// Renders into the provided <see cref="WriteableBitmap"/>.
     /// </summary>
     /// <param name="bitmap">The target bitmap.</param>
-    void Render(Media.Imaging.WriteableBitmap bitmap);
+    void Render(WriteableBitmap bitmap);
 }
