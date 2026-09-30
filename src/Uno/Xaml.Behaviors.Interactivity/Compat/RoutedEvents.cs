@@ -87,12 +87,15 @@ internal static class RoutedEventCompatExtensions
 
     public static void AddHandler(this UIElement element, RoutedEvent routedEvent, EventHandler<RoutedEventArgs> handler, RoutingStrategies routes = RoutingStrategies.Bubble, bool handledEventsToo = false)
     {
-        // Avalonia raises gesture events with plain routed event arguments; WinUI needs the typed delegate.
+        // Avalonia handlers may take plain routed event arguments; WinUI only invokes the typed delegate of the event.
         Delegate wrapper = routedEvent == UIElement.TappedEvent ? new TappedEventHandler((s, e) => handler(s, e))
             : routedEvent == UIElement.DoubleTappedEvent ? new DoubleTappedEventHandler((s, e) => handler(s, e))
             : routedEvent == UIElement.RightTappedEvent ? new RightTappedEventHandler((s, e) => handler(s, e))
             : routedEvent == UIElement.HoldingEvent ? new HoldingEventHandler((s, e) => handler(s, e))
             : IsDragEvent(routedEvent) ? WrapDragHandler(routedEvent, (s, e) => handler(s, e))
+            : IsKeyEvent(routedEvent) ? new KeyEventHandler((s, e) => handler(s, e))
+            : IsPointerEvent(routedEvent) ? new PointerEventHandler((s, e) => handler(s, e))
+            : routedEvent == UIElement.CharacterReceivedEvent ? new TypedEventHandler<UIElement, CharacterReceivedRoutedEventArgs>((s, e) => handler(s, e))
             : new RoutedEventHandler((s, e) => handler(s, e));
         Add(element, routedEvent, handler, wrapper, routes, handledEventsToo);
     }
@@ -205,6 +208,16 @@ internal static class RoutedEventCompatExtensions
             handler(s, e);
         };
     }
+
+    private static bool IsKeyEvent(RoutedEvent routedEvent)
+        => routedEvent == UIElement.KeyDownEvent || routedEvent == UIElement.KeyUpEvent
+            || routedEvent == UIElement.PreviewKeyDownEvent || routedEvent == UIElement.PreviewKeyUpEvent;
+
+    private static bool IsPointerEvent(RoutedEvent routedEvent)
+        => routedEvent == UIElement.PointerPressedEvent || routedEvent == UIElement.PointerReleasedEvent
+            || routedEvent == UIElement.PointerMovedEvent || routedEvent == UIElement.PointerEnteredEvent
+            || routedEvent == UIElement.PointerExitedEvent || routedEvent == UIElement.PointerCanceledEvent
+            || routedEvent == UIElement.PointerCaptureLostEvent || routedEvent == UIElement.PointerWheelChangedEvent;
 
     // Avalonia DragLeave handlers may take plain RoutedEventArgs; WinUI needs the DragEventHandler delegate type.
     private static bool IsDragEvent(RoutedEvent routedEvent)
