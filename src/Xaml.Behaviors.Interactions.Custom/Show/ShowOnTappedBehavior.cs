@@ -27,6 +27,15 @@ public class ShowOnTappedBehavior : ShowBehaviorBase
     /// <returns>A disposable that removes the event handler.</returns>
     protected override System.IDisposable OnAttachedToVisualTreeOverride()
     {
+#if UNO
+        if (AssociatedObject is not { } element)
+        {
+            return DisposableAction.Empty;
+        }
+
+        element.AddHandler(InputElement.TappedEvent, AssociatedObject_Tapped, EventRoutingStrategy);
+        return DisposableAction.Create(() => element.RemoveRoutedEventHandler(InputElement.TappedEvent, AssociatedObject_Tapped));
+#else
         var dispose = AssociatedObject?
             .AddDisposableHandler(
                 InputElement.TappedEvent,
@@ -39,6 +48,7 @@ public class ShowOnTappedBehavior : ShowBehaviorBase
         }
         
         return DisposableAction.Empty;
+#endif
     }
 
     private void AssociatedObject_Tapped(object? sender, RoutedEventArgs e)

@@ -16,9 +16,16 @@ namespace Avalonia.Xaml.Interactions.Custom;
 #endif
 
 /// <summary>
-/// 
+/// Clears the selection of the associated list box when it is attached to the visual tree.
 /// </summary>
+/// <remarks>
+/// On Uno Platform the associated object is a WinUI <c>ListViewBase</c> (<c>ListView</c>, <c>GridView</c>).
+/// </remarks>
+#if UNO
+public class ListBoxUnselectAllBehavior : AttachedToVisualTreeBehavior<Microsoft.UI.Xaml.Controls.ListViewBase>
+#else
 public class ListBoxUnselectAllBehavior : AttachedToVisualTreeBehavior<ListBox>
+#endif
 {
     /// <summary>
     /// 
@@ -26,7 +33,11 @@ public class ListBoxUnselectAllBehavior : AttachedToVisualTreeBehavior<ListBox>
     /// <returns></returns>
     protected override System.IDisposable OnAttachedToVisualTreeOverride()
     {
+#if UNO
+        ListViewBaseSelection.UnselectAll(AssociatedObject);
+#else
         AssociatedObject?.UnselectAll();
+#endif
 
         return DisposableAction.Empty;
     }

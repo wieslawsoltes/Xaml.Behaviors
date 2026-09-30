@@ -19,6 +19,19 @@
   <!-- Avalonia-only sources, shared with the Avalonia build for the portability analyzers. -->
   <Import Project="SharedSources.props" />
 
+  <!--
+    Uno parts of shared sources that are still excluded in SharedSources.props because they derive from Core base
+    types. Enable them together with the shared files once Core/** is ported.
+  -->
+  <ItemGroup>
+    <Compile Remove="AutoCompleteBox/AutoCompleteBoxSelectionChangedTrigger.Uno.cs" />
+    <Compile Remove="Carousel/CarouselSelectionChangedTrigger.Uno.cs" />
+    <Compile Remove="ScrollViewer/ScrollChangedTrigger.Uno.cs" />
+    <Compile Remove="TabControl/TabControlSelectionChangedTrigger.Uno.cs" />
+    <Compile Remove="ToolTips/ToolTipClosingTrigger.Uno.cs" />
+    <Compile Remove="ToolTips/ToolTipOpeningTrigger.Uno.cs" />
+  </ItemGroup>
+
   <ItemGroup>
     <ProjectReference Include="..\Xaml.Behaviors.Interactivity\Xaml.Behaviors.Interactivity.csproj" />
   </ItemGroup>

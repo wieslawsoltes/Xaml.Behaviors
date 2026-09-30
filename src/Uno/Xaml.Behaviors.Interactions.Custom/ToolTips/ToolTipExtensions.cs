@@ -30,24 +30,39 @@ internal static class ToolTipExtensions
         /// <param name="value"><c>true</c> to open the tooltip.</param>
         public static void SetIsOpen(DependencyObject element, bool value)
         {
-            var tip = ToolTipService.GetToolTip(element);
-            if (tip is null)
+            if (value)
             {
-                return;
-            }
-
-            if (tip is not ToolTip toolTip)
-            {
-                if (!value)
+                if (GetOrCreateToolTip(element) is { } toolTip)
                 {
-                    return;
+                    toolTip.IsOpen = true;
                 }
-
-                toolTip = new ToolTip { Content = tip };
-                ToolTipService.SetToolTip(element, toolTip);
             }
+            else if (ToolTipService.GetToolTip(element) is ToolTip toolTip)
+            {
+                toolTip.IsOpen = false;
+            }
+        }
+    }
 
-            toolTip.IsOpen = value;
+    /// <summary>
+    /// Gets the <see cref="ToolTip"/> of the element, wrapping plain tooltip content in a <see cref="ToolTip"/>.
+    /// </summary>
+    /// <param name="element">The element.</param>
+    /// <returns>The tooltip, or <c>null</c> when the element has no tooltip.</returns>
+    public static ToolTip? GetOrCreateToolTip(DependencyObject element)
+    {
+        switch (ToolTipService.GetToolTip(element))
+        {
+            case null:
+                return null;
+            case ToolTip toolTip:
+                return toolTip;
+            case var content:
+            {
+                var toolTip = new ToolTip { Content = content };
+                ToolTipService.SetToolTip(element, toolTip);
+                return toolTip;
+            }
         }
     }
 }

@@ -42,7 +42,11 @@ public abstract partial class ShowBehaviorBase : AttachedToVisualTreeBehavior<Co
     {
         if (IsEnabled && TargetControl is { IsVisible: false })
         {
+#if UNO
+            TargetControl.IsVisible = true;
+#else
             TargetControl.SetCurrentValue(Visual.IsVisibleProperty, true);
+#endif
 
             Dispatcher.UIThread.Post(() => TargetControl.Focus());
 

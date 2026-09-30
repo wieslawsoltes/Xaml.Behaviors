@@ -6,6 +6,7 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
 using Xaml.Interactivity;
+using PlacementMode = Microsoft.UI.Xaml.Controls.Primitives.PopupPlacementMode;
 #else
 using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
@@ -22,6 +23,9 @@ namespace Avalonia.Xaml.Interactions.Custom;
 /// <summary>
 /// Behavior that manages a context dialog implemented using a <see cref="Popup"/>.
 /// </summary>
+/// <remarks>
+/// On Uno Platform the placement is a WinUI <c>PopupPlacementMode</c> (<c>Popup.DesiredPlacement</c>).
+/// </remarks>
 public partial class ContextDialogBehavior : AttachedToVisualTreeBehavior<Control>
 {
 
@@ -81,13 +85,27 @@ public partial class ContextDialogBehavior : AttachedToVisualTreeBehavior<Contro
         }
         else if (change.Property == PlacementProperty)
         {
+#if UNO
+            _popup.DesiredPlacement = Placement;
+#else
             _popup.Placement = Placement;
+#endif
         }
     }
 
     /// <inheritdoc />
     protected override IDisposable OnAttachedToVisualTreeOverride()
     {
+#if UNO
+        _popup = new Popup
+        {
+            DesiredPlacement = Placement,
+            PlacementTarget = AssociatedObject,
+            IsLightDismissEnabled = IsLightDismissEnabled,
+            Child = DialogContent,
+            XamlRoot = AssociatedObject?.XamlRoot,
+        };
+#else
         _popup = new Popup
         {
             Placement = Placement,
@@ -95,6 +113,7 @@ public partial class ContextDialogBehavior : AttachedToVisualTreeBehavior<Contro
             IsLightDismissEnabled = IsLightDismissEnabled,
             Child = DialogContent
         };
+#endif
 
         UpdatePopup();
         
@@ -105,14 +124,22 @@ public partial class ContextDialogBehavior : AttachedToVisualTreeBehavior<Contro
             if (_popup is not null)
             {
                 _popup.Closed -= PopupOnClosed;
+#if UNO
+                _popup.IsOpen = false;
+#else
                 _popup.Close();
+#endif
                 Closed?.Invoke(this, EventArgs.Empty);
                 _popup = null;
             }
         });
     }
 
+#if UNO
+    private void PopupOnClosed(object? sender, object e)
+#else
     private void PopupOnClosed(object? sender, EventArgs e)
+#endif
     {
         if (_popup is not null)
         {
@@ -130,12 +157,20 @@ public partial class ContextDialogBehavior : AttachedToVisualTreeBehavior<Contro
 
         if (IsOpen)
         {
+#if UNO
+            _popup.IsOpen = true;
+#else
             _popup.Open();
+#endif
             Opened?.Invoke(this, EventArgs.Empty);
         }
         else
         {
+#if UNO
+            _popup.IsOpen = false;
+#else
             _popup.Close();
+#endif
             Closed?.Invoke(this, EventArgs.Empty);
         }
     }
