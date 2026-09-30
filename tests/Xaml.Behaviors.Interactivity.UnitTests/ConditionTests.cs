@@ -1,21 +1,45 @@
 using System;
 using System.Diagnostics.CodeAnalysis;
+#if UNO
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Data;
+using Xaml.Interactivity;
+#else
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Data;
 using Avalonia.Headless.XUnit;
 using Avalonia.Xaml.Interactivity;
+#endif
 using Xunit;
 
+#if UNO
+namespace Xaml.Interactivity.UnitTests;
+#else
 namespace Avalonia.Xaml.Interactivity.UnitTests;
+#endif
 
+#if UNO
+public partial class ConditionTests
+#else
 public class ConditionTests
+#endif
 {
     [AvaloniaFact]
     [RequiresUnreferencedCode("Tests intentionally exercise Avalonia Binding which uses reflection and is trimmer-unfriendly.")]
     public void Binding_Updates_BindingValue()
     {
         var source = new BindingSource { Value = "Initial" };
+#if UNO
+        // WinUI applies a binding to the Binding property (see Condition), BindingValue is the bound value.
+        var condition = new Condition();
+        BindingOperations.SetBinding(condition, Condition.BindingProperty, new Binding
+        {
+            Path = new PropertyPath(nameof(BindingSource.Value)),
+            Source = source
+        });
+#else
         var condition = new Condition
         {
             Binding = new Binding
@@ -24,6 +48,7 @@ public class ConditionTests
                 Source = source
             }
         };
+#endif
 
         Assert.Equal("Initial", condition.BindingValue);
 
@@ -40,7 +65,11 @@ public class ConditionTests
         {
             Binding = new Binding
             {
+#if UNO
+                Path = new PropertyPath(nameof(BindingSource.Value)),
+#else
                 Path = nameof(BindingSource.Value),
+#endif
                 Source = new BindingSource()
             }
         };
@@ -60,18 +89,29 @@ public class ConditionTests
         Assert.Throws<InvalidOperationException>(() =>
             condition.Binding = new Binding
             {
+#if UNO
+                Path = new PropertyPath(nameof(BindingSource.Value))
+#else
                 Path = nameof(BindingSource.Value)
+#endif
             });
     }
 
+#if UNO
+    private partial class BindingSource : AvaloniaObject
+    {
+        public static readonly DependencyProperty ValueProperty =
+            DependencyProperty.Register(nameof(Value), typeof(string), typeof(BindingSource), new PropertyMetadata(null));
+#else
     private class BindingSource : AvaloniaObject
     {
         public static readonly StyledProperty<string?> ValueProperty =
             AvaloniaProperty.Register<BindingSource, string?>(nameof(Value));
+#endif
 
         public string? Value
         {
-            get => GetValue(ValueProperty);
+            get => (string?)GetValue(ValueProperty);
             set => SetValue(ValueProperty, value);
         }
     }

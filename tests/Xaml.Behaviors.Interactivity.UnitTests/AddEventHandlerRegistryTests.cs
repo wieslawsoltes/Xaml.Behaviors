@@ -1,11 +1,22 @@
 using System;
+#if UNO
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Automation.Peers;
+using Microsoft.UI.Xaml.Controls;
+using Xaml.Interactivity;
+#else
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Headless.XUnit;
 using Avalonia.Xaml.Interactivity;
+#endif
 using Xunit;
 
+#if UNO
+namespace Xaml.Interactivity.UnitTests;
+#else
 namespace Avalonia.Xaml.Interactivity.UnitTests;
+#endif
 
 public class AddEventHandlerRegistryTests
 {
@@ -25,12 +36,20 @@ public class AddEventHandlerRegistryTests
 
         Assert.NotNull(disposable);
 
+#if UNO
+        new ButtonAutomationPeer(button).Invoke();
+#else
         button.RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
+#endif
         Assert.True(called);
 
         called = false;
         disposable!.Dispose();
+#if UNO
+        new ButtonAutomationPeer(button).Invoke();
+#else
         button.RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
+#endif
         Assert.False(called);
     }
 

@@ -1,10 +1,21 @@
 using System;
 using System.Windows.Input;
+#if UNO
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+// WinUI declares IsEnabled on Control (a Border is always enabled): use a content control as the enabled-aware parent.
+using Border = Microsoft.UI.Xaml.Controls.ContentControl;
+#else
 using Avalonia.Controls;
 using Avalonia.Headless.XUnit;
+#endif
 using Xunit;
 
+#if UNO
+namespace Xaml.Interactivity.UnitTests;
+#else
 namespace Avalonia.Xaml.Interactivity.UnitTests;
+#endif
 
 public class InvokeCommandActionBaseTests
 {

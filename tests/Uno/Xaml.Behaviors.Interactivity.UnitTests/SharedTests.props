@@ -1,0 +1,20 @@
+<Project>
+  <!--
+    Files of tests/Xaml.Behaviors.Interactivity.UnitTests that are not compiled for Uno Platform.
+    Files that stay excluded name the reason.
+  -->
+  <PropertyGroup>
+    <UnoSharedTestExcludes></UnoSharedTestExcludes>
+  </PropertyGroup>
+
+  <!--
+    Collections: ActionCollectionTemplate has no WinUI counterpart (Avalonia templates and element styles; the Uno
+    port only provides Interaction.BehaviorsTemplate, see src/Uno/PORTING.md).
+  -->
+  <PropertyGroup>
+    <UnoSharedTestExcludes>$(UnoSharedTestExcludes);
+      Collections/ActionCollectionTemplate001.axaml.cs;
+      Collections/ActionCollectionTemplateTests.cs;
+    </UnoSharedTestExcludes>
+  </PropertyGroup>
+</Project>

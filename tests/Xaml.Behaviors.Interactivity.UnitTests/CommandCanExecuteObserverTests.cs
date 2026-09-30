@@ -2,11 +2,22 @@ using System;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Windows.Input;
+#if UNO
+using Microsoft.UI.Dispatching;
+// The observer reports on the UI thread: Avalonia [Fact] tests run on the dispatcher thread, the Uno UI thread is the
+// headless session thread, so the tests run there.
+using FactAttribute = Xaml.Behaviors.Uno.Headless.XUnit.UnoHeadlessFactAttribute;
+#else
 using Avalonia.Headless.XUnit;
 using Avalonia.Threading;
+#endif
 using Xunit;
 
+#if UNO
+namespace Xaml.Interactivity.UnitTests;
+#else
 namespace Avalonia.Xaml.Interactivity.UnitTests;
+#endif
 
 public class CommandCanExecuteObserverTests
 {
@@ -150,7 +161,12 @@ public class CommandCanExecuteObserverTests
 
         command.CanExecuteResult = true;
         await Task.Run(command.RaiseCanExecuteChanged);
+#if UNO
+        // Runs after the queued callback (the compat dispatcher has no priorities).
+        await Dispatcher.UIThread.InvokeAsync(() => { });
+#else
         await Dispatcher.UIThread.InvokeAsync(() => { }, DispatcherPriority.Background);
+#endif
 
         Assert.Equal(2, callbackCount);
         Assert.True(canExecuteChangedCallbackUsedUiThread);
