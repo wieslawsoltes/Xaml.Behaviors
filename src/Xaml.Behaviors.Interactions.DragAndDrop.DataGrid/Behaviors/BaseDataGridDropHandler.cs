@@ -1,6 +1,13 @@
 // Copyright (c) Wiesław Šoltés. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for details.
 using System.Collections.ObjectModel;
+#if UNO
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Controls.Primitives;
+using Microsoft.UI.Xaml.Input;
+using Xaml.Interactions.DragAndDrop;
+#else
 using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
 using Avalonia.Input;
@@ -8,8 +15,13 @@ using Avalonia.Interactivity;
 using Avalonia.LogicalTree;
 using Avalonia.VisualTree;
 using Avalonia.Xaml.Interactions.DragAndDrop;
+#endif
 
+#if UNO
+namespace Xaml.Interactions.DragAndDrop;
+#else
 namespace Avalonia.Xaml.Interactions.DragAndDrop;
+#endif
 
 /// <summary>
 /// Provides common drag-and-drop logic for <see cref="DataGrid"/> row manipulations.

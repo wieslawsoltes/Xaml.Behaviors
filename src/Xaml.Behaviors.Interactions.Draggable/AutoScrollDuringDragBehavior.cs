@@ -1,49 +1,43 @@
 // Copyright (c) Wiesław Šoltés. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for details.
 using System;
+#if UNO
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Input;
+using Xaml.Interactivity;
+#else
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Xaml.Interactivity;
+#endif
 
+#if UNO
+namespace Xaml.Interactions.Draggable;
+#else
 namespace Avalonia.Xaml.Interactions.Draggable;
+#endif
 
 /// <summary>
 /// Automatically scrolls the associated <see cref="ScrollViewer"/> when the pointer is dragged near its edges.
 /// </summary>
-public class AutoScrollDuringDragBehavior : StyledElementBehavior<ScrollViewer>
+public partial class AutoScrollDuringDragBehavior : StyledElementBehavior<ScrollViewer>
 {
-    /// <summary>
-    /// Identifies the <see cref="EdgeDistance"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<double> EdgeDistanceProperty =
-        AvaloniaProperty.Register<AutoScrollDuringDragBehavior, double>(nameof(EdgeDistance), 20);
-
-    /// <summary>
-    /// Identifies the <see cref="ScrollDelta"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<double> ScrollDeltaProperty =
-        AvaloniaProperty.Register<AutoScrollDuringDragBehavior, double>(nameof(ScrollDelta), 10);
 
     private bool _dragging;
 
     /// <summary>
     /// Gets or sets the distance from the edge that triggers scrolling.
     /// </summary>
-    public double EdgeDistance
-    {
-        get => GetValue(EdgeDistanceProperty);
-        set => SetValue(EdgeDistanceProperty, value);
-    }
+    [StyledProperty(DefaultValue = 20)]
+    public partial double EdgeDistance { get; set; }
 
     /// <summary>
     /// Gets or sets the amount scrolled when triggered.
     /// </summary>
-    public double ScrollDelta
-    {
-        get => GetValue(ScrollDeltaProperty);
-        set => SetValue(ScrollDeltaProperty, value);
-    }
+    [StyledProperty(DefaultValue = 10)]
+    public partial double ScrollDelta { get; set; }
 
     /// <inheritdoc />
     protected override void OnAttachedToVisualTree()

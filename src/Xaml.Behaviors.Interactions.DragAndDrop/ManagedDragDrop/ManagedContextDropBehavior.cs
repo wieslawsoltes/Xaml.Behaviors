@@ -1,4 +1,10 @@
 using System;
+#if UNO
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Input;
+using Xaml.Interactivity;
+#else
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Metadata;
@@ -6,8 +12,13 @@ using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.VisualTree;
 using Avalonia.Xaml.Interactivity;
+#endif
 
+#if UNO
+namespace Xaml.Interactions.DragAndDrop;
+#else
 namespace Avalonia.Xaml.Interactions.DragAndDrop;
+#endif
 
 /// <summary>
 /// Arguments used by managed drop handlers to describe the drop context.
@@ -50,82 +61,38 @@ public sealed class ManagedContextDropArgs
 /// It mirrors the semantics of <see cref="ContextDropBehavior"/> but works entirely in-process.
 /// </summary>
 [PseudoClasses("wants-drop", "dragover")]
-public class ManagedContextDropBehavior : StyledElementBehavior<Control>
+public partial class ManagedContextDropBehavior : StyledElementBehavior<Control>
 {
-    /// <summary>
-    /// Identifies the <see cref="AcceptDataFormat"/> property.
-    /// </summary>
-    public static readonly StyledProperty<string> AcceptDataFormatProperty =
-        AvaloniaProperty.Register<ManagedContextDropBehavior, string>(nameof(AcceptDataFormat), "Context");
-
-    /// <summary>
-    /// Identifies the <see cref="AllowDrop"/> property.
-    /// </summary>
-    public static readonly StyledProperty<bool> AllowDropProperty =
-        AvaloniaProperty.Register<ManagedContextDropBehavior, bool>(nameof(AllowDrop), true);
-
-    /// <summary>
-    /// Identifies the <see cref="OverClass"/> property.
-    /// </summary>
-    public static readonly StyledProperty<string?> OverClassProperty =
-        AvaloniaProperty.Register<ManagedContextDropBehavior, string?>(nameof(OverClass));
-
-    /// <summary>
-    /// Identifies the <see cref="Context"/> property.
-    /// </summary>
-    public static readonly StyledProperty<object?> ContextProperty =
-        AvaloniaProperty.Register<ManagedContextDropBehavior, object?>(nameof(Context));
-
-    /// <summary>
-    /// Identifies the <see cref="Handler"/> property.
-    /// </summary>
-    public static readonly StyledProperty<IDropHandler?> HandlerProperty =
-        AvaloniaProperty.Register<ManagedContextDropBehavior, IDropHandler?>(nameof(Handler));
 
     /// <summary>
     /// Gets or sets the accepted managed data format.
     /// </summary>
-    public string AcceptDataFormat
-    {
-        get => GetValue(AcceptDataFormatProperty);
-        set => SetValue(AcceptDataFormatProperty, value);
-    }
+    [StyledProperty(DefaultValue = "Context")]
+    public partial string AcceptDataFormat { get; set; }
 
     /// <summary>
     /// Gets or sets a value indicating whether drop is allowed.
     /// </summary>
-    public bool AllowDrop
-    {
-        get => GetValue(AllowDropProperty);
-        set => SetValue(AllowDropProperty, value);
-    }
+    [StyledProperty(DefaultValue = true)]
+    public partial bool AllowDrop { get; set; }
 
     /// <summary>
     /// Gets or sets an optional CSS-like class applied while the pointer is over the target during drag.
     /// </summary>
-    public string? OverClass
-    {
-        get => GetValue(OverClassProperty);
-        set => SetValue(OverClassProperty, value);
-    }
+    [StyledProperty]
+    public partial string? OverClass { get; set; }
 
     /// <summary>
     /// Gets or sets the context value supplied to the drop handler.
     /// </summary>
-    public object? Context
-    {
-        get => GetValue(ContextProperty);
-        set => SetValue(ContextProperty, value);
-    }
+    [StyledProperty]
+    public partial object? Context { get; set; }
 
     /// <summary>
     /// Gets or sets the handler that receives managed drag-drop notifications.
     /// </summary>
-    public IDropHandler? Handler
-    {
-        get => GetValue(HandlerProperty);
-        set => SetValue(HandlerProperty, value);
-    }
+    [StyledProperty]
+    public partial IDropHandler? Handler { get; set; }
 
     private bool _isOver;
     private bool _wantsDrop; // tracks whether pseudo class is applied

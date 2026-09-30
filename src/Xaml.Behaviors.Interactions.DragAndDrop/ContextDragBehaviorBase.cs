@@ -2,17 +2,28 @@
 // Licensed under the MIT license. See LICENSE file in the project root for details.
 using System;
 using System.Threading.Tasks;
+#if UNO
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Input;
+using Xaml.Interactivity;
+#else
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Xaml.Interactivity;
+#endif
 
+#if UNO
+namespace Xaml.Interactions.DragAndDrop;
+#else
 namespace Avalonia.Xaml.Interactions.DragAndDrop;
+#endif
 
 /// <summary>
 /// Behavior base class that starts a drag operation using the associated context data.
 /// </summary>
-public abstract class ContextDragBehaviorBase : StyledElementBehavior<Control>
+public abstract partial class ContextDragBehaviorBase : StyledElementBehavior<Control>
 {
     private Point _dragStartPoint;
     private PointerPressedEventArgs? _triggerEvent;
@@ -20,49 +31,22 @@ public abstract class ContextDragBehaviorBase : StyledElementBehavior<Control>
     private bool _captured;
 
     /// <summary>
-    /// Identifies the <see cref="Context"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<object?> ContextProperty =
-        AvaloniaProperty.Register<ContextDragBehaviorBase, object?>(nameof(Context));
-
-    /// <summary>
-    /// Identifies the <see cref="HorizontalDragThreshold"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<double> HorizontalDragThresholdProperty =
-        AvaloniaProperty.Register<ContextDragBehaviorBase, double>(nameof(HorizontalDragThreshold), 3);
-
-    /// <summary>
-    /// Identifies the <see cref="VerticalDragThreshold"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<double> VerticalDragThresholdProperty =
-        AvaloniaProperty.Register<ContextDragBehaviorBase, double>(nameof(VerticalDragThreshold), 3);
-
-    /// <summary>
     /// Gets or sets context data passed to the drag handler.
     /// </summary>
-    public object? Context
-    {
-        get => GetValue(ContextProperty);
-        set => SetValue(ContextProperty, value);
-    }
+    [StyledProperty]
+    public partial object? Context { get; set; }
 
     /// <summary>
     /// Gets or sets the horizontal distance in pixels required to start a drag.
     /// </summary>
-    public double HorizontalDragThreshold
-    {
-        get => GetValue(HorizontalDragThresholdProperty);
-        set => SetValue(HorizontalDragThresholdProperty, value);
-    }
+    [StyledProperty(DefaultValue = 3)]
+    public partial double HorizontalDragThreshold { get; set; }
 
     /// <summary>
     /// Gets or sets the vertical distance in pixels required to start a drag.
     /// </summary>
-    public double VerticalDragThreshold
-    {
-        get => GetValue(VerticalDragThresholdProperty);
-        set => SetValue(VerticalDragThresholdProperty, value);
-    }
+    [StyledProperty(DefaultValue = 3)]
+    public partial double VerticalDragThreshold { get; set; }
 
     /// <inheritdoc />
     protected override void OnAttachedToVisualTree()

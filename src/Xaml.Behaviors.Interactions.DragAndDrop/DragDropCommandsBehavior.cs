@@ -1,85 +1,29 @@
 using System.Windows.Input;
+#if UNO
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Input;
+using Xaml.Interactivity;
+#else
 using Avalonia.Input;
 using Avalonia.Xaml.Interactivity;
+#endif
 
+#if UNO
+namespace Xaml.Interactions.DragAndDrop;
+#else
 namespace Avalonia.Xaml.Interactions.DragAndDrop;
+#endif
 
 /// <summary>
 /// Behavior that exposes commands for drag-and-drop events.
 /// </summary>
-public sealed class DragDropCommandsBehavior : DragAndDropEventsBehavior
+public sealed partial class DragDropCommandsBehavior : DragAndDropEventsBehavior
 {
     private readonly CommandCanExecuteObserver _dragEnterCommandCanExecuteObserver;
     private readonly CommandCanExecuteObserver _dragOverCommandCanExecuteObserver;
     private readonly CommandCanExecuteObserver _dragLeaveCommandCanExecuteObserver;
     private readonly CommandCanExecuteObserver _dropCommandCanExecuteObserver;
-    private bool _canExecuteDragEnterCommand = true;
-    private bool _canExecuteDragOverCommand = true;
-    private bool _canExecuteDragLeaveCommand = true;
-    private bool _canExecuteDropCommand = true;
     private bool _passEventArgsToCommand = true;
-
-    /// <summary>
-    /// Identifies the <see cref="DragEnterCommand"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<ICommand?> DragEnterCommandProperty =
-        AvaloniaProperty.Register<DragDropCommandsBehavior, ICommand?>(nameof(DragEnterCommand));
-
-    /// <summary>
-    /// Identifies the <see cref="DragOverCommand"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<ICommand?> DragOverCommandProperty =
-        AvaloniaProperty.Register<DragDropCommandsBehavior, ICommand?>(nameof(DragOverCommand));
-
-    /// <summary>
-    /// Identifies the <see cref="DragLeaveCommand"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<ICommand?> DragLeaveCommandProperty =
-        AvaloniaProperty.Register<DragDropCommandsBehavior, ICommand?>(nameof(DragLeaveCommand));
-
-    /// <summary>
-    /// Identifies the <see cref="DropCommand"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<ICommand?> DropCommandProperty =
-        AvaloniaProperty.Register<DragDropCommandsBehavior, ICommand?>(nameof(DropCommand));
-
-    /// <summary>
-    /// Identifies the <see cref="CanExecuteCommandParameter"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<object?> CanExecuteCommandParameterProperty =
-        AvaloniaProperty.Register<DragDropCommandsBehavior, object?>(nameof(CanExecuteCommandParameter));
-
-    /// <summary>
-    /// Identifies the <see cref="CanExecuteDragEnterCommand"/> avalonia property.
-    /// </summary>
-    public static readonly DirectProperty<DragDropCommandsBehavior, bool> CanExecuteDragEnterCommandProperty =
-        AvaloniaProperty.RegisterDirect<DragDropCommandsBehavior, bool>(
-            nameof(CanExecuteDragEnterCommand),
-            behavior => behavior.CanExecuteDragEnterCommand);
-
-    /// <summary>
-    /// Identifies the <see cref="CanExecuteDragOverCommand"/> avalonia property.
-    /// </summary>
-    public static readonly DirectProperty<DragDropCommandsBehavior, bool> CanExecuteDragOverCommandProperty =
-        AvaloniaProperty.RegisterDirect<DragDropCommandsBehavior, bool>(
-            nameof(CanExecuteDragOverCommand),
-            behavior => behavior.CanExecuteDragOverCommand);
-
-    /// <summary>
-    /// Identifies the <see cref="CanExecuteDragLeaveCommand"/> avalonia property.
-    /// </summary>
-    public static readonly DirectProperty<DragDropCommandsBehavior, bool> CanExecuteDragLeaveCommandProperty =
-        AvaloniaProperty.RegisterDirect<DragDropCommandsBehavior, bool>(
-            nameof(CanExecuteDragLeaveCommand),
-            behavior => behavior.CanExecuteDragLeaveCommand);
-
-    /// <summary>
-    /// Identifies the <see cref="CanExecuteDropCommand"/> avalonia property.
-    /// </summary>
-    public static readonly DirectProperty<DragDropCommandsBehavior, bool> CanExecuteDropCommandProperty =
-        AvaloniaProperty.RegisterDirect<DragDropCommandsBehavior, bool>(
-            nameof(CanExecuteDropCommand),
-            behavior => behavior.CanExecuteDropCommand);
 
     /// <summary>
     /// Initializes a new instance of the <see cref="DragDropCommandsBehavior"/> class.
@@ -95,84 +39,57 @@ public sealed class DragDropCommandsBehavior : DragAndDropEventsBehavior
     /// <summary>
     /// Gets or sets the command invoked on drag enter.
     /// </summary>
-    public ICommand? DragEnterCommand
-    {
-        get => GetValue(DragEnterCommandProperty);
-        set => SetValue(DragEnterCommandProperty, value);
-    }
+    [StyledProperty]
+    public partial ICommand? DragEnterCommand { get; set; }
 
     /// <summary>
     /// Gets or sets the command invoked on drag over.
     /// </summary>
-    public ICommand? DragOverCommand
-    {
-        get => GetValue(DragOverCommandProperty);
-        set => SetValue(DragOverCommandProperty, value);
-    }
+    [StyledProperty]
+    public partial ICommand? DragOverCommand { get; set; }
 
     /// <summary>
     /// Gets or sets the command invoked on drag leave.
     /// </summary>
-    public ICommand? DragLeaveCommand
-    {
-        get => GetValue(DragLeaveCommandProperty);
-        set => SetValue(DragLeaveCommandProperty, value);
-    }
+    [StyledProperty]
+    public partial ICommand? DragLeaveCommand { get; set; }
 
     /// <summary>
     /// Gets or sets the command invoked on drop.
     /// </summary>
-    public ICommand? DropCommand
-    {
-        get => GetValue(DropCommandProperty);
-        set => SetValue(DropCommandProperty, value);
-    }
+    [StyledProperty]
+    public partial ICommand? DropCommand { get; set; }
 
     /// <summary>
     /// Gets or sets the parameter used to evaluate the drag-and-drop commands before event-specific parameters are available.
     /// This property does not change the parameter passed to command execution.
     /// </summary>
-    public object? CanExecuteCommandParameter
-    {
-        get => GetValue(CanExecuteCommandParameterProperty);
-        set => SetValue(CanExecuteCommandParameterProperty, value);
-    }
+    [StyledProperty]
+    public partial object? CanExecuteCommandParameter { get; set; }
 
     /// <summary>
     /// Gets a value indicating whether <see cref="DragEnterCommand"/> can execute with the current can-execute parameter.
     /// </summary>
-    public bool CanExecuteDragEnterCommand
-    {
-        get => _canExecuteDragEnterCommand;
-        private set => SetAndRaise(CanExecuteDragEnterCommandProperty, ref _canExecuteDragEnterCommand, value);
-    }
+    [DirectProperty(DefaultValue = true)]
+    public partial bool CanExecuteDragEnterCommand { get; private set; }
 
     /// <summary>
     /// Gets a value indicating whether <see cref="DragOverCommand"/> can execute with the current can-execute parameter.
     /// </summary>
-    public bool CanExecuteDragOverCommand
-    {
-        get => _canExecuteDragOverCommand;
-        private set => SetAndRaise(CanExecuteDragOverCommandProperty, ref _canExecuteDragOverCommand, value);
-    }
+    [DirectProperty(DefaultValue = true)]
+    public partial bool CanExecuteDragOverCommand { get; private set; }
 
     /// <summary>
     /// Gets a value indicating whether <see cref="DragLeaveCommand"/> can execute with the current can-execute parameter.
     /// </summary>
-    public bool CanExecuteDragLeaveCommand
-    {
-        get => _canExecuteDragLeaveCommand;
-        private set => SetAndRaise(CanExecuteDragLeaveCommandProperty, ref _canExecuteDragLeaveCommand, value);
-    }
+    [DirectProperty(DefaultValue = true)]
+    public partial bool CanExecuteDragLeaveCommand { get; private set; }
 
     /// <summary>
     /// Gets a value indicating whether <see cref="DropCommand"/> can execute with the current can-execute parameter.
     /// </summary>
-    public bool CanExecuteDropCommand
-    {
-        get => _canExecuteDropCommand;
-        private set => SetAndRaise(CanExecuteDropCommandProperty, ref _canExecuteDropCommand, value);
-    }
+    [DirectProperty(DefaultValue = true)]
+    public partial bool CanExecuteDropCommand { get; private set; }
 
     /// <summary>
     /// Specifies whether the event args should be passed to the command.

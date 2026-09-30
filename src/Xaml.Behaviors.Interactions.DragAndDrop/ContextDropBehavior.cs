@@ -1,29 +1,30 @@
 ﻿// Copyright (c) Wiesław Šoltés. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for details.
+#if UNO
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Input;
+#else
 using Avalonia.Input;
 using Avalonia.Interactivity;
+#endif
 
+#if UNO
+namespace Xaml.Interactions.DragAndDrop;
+#else
 namespace Avalonia.Xaml.Interactions.DragAndDrop;
+#endif
 
 /// <summary>
 /// Behavior that enables dropping context data onto the associated control using predefined <see cref="IDropHandler"/>.
 /// </summary>
-public class ContextDropBehavior : ContextDropBehaviorBase
+public partial class ContextDropBehavior : ContextDropBehaviorBase
 {
-    /// <summary>
-    /// Identifies the <see cref="Handler"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<IDropHandler?> HandlerProperty =
-        AvaloniaProperty.Register<ContextDropBehavior, IDropHandler?>(nameof(Handler));
 
     /// <summary>
     /// Gets or sets the drop handler that receives drop notifications.
     /// </summary>
-    public IDropHandler? Handler
-    {
-        get => GetValue(HandlerProperty);
-        set => SetValue(HandlerProperty, value);
-    }
+    [StyledProperty]
+    public partial IDropHandler? Handler { get; set; }
 
     /// <inheritdoc />
     protected override void OnEnter(object? sender, DragEventArgs e, object? sourceContext, object? targetContext)

@@ -1,65 +1,48 @@
 ﻿// Copyright (c) Wiesław Šoltés. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for details.
 using System;
+#if UNO
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Xaml.Interactivity;
+#else
 using Avalonia.Collections;
 using Avalonia.Controls;
 using Avalonia.Metadata;
 using Avalonia.Reactive;
 using Avalonia.Xaml.Interactivity;
+#endif
 
+#if UNO
+namespace Xaml.Interactions.Responsive;
+#else
 namespace Avalonia.Xaml.Interactions.Responsive;
+#endif
 
 /// <summary>
 /// Observes <see cref="StyledElementBehavior{T}.AssociatedObject"/> control or <see cref="SourceControl"/> control <see cref="Visual.Bounds"/> property changes and if triggered sets or removes style classes when conditions from <see cref="AdaptiveClassSetter"/> are met.
 /// </summary>
-public class AdaptiveBehavior : StyledElementBehavior<Control>
+public partial class AdaptiveBehavior : StyledElementBehavior<Control>
 {
     private IDisposable? _disposable;
-    private AvaloniaList<AdaptiveClassSetter>? _setters;
-
-    /// <summary>
-    /// Identifies the <seealso cref="SourceControl"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<Control?> SourceControlProperty =
-        AvaloniaProperty.Register<AdaptiveBehavior, Control?>(nameof(SourceControl));
-
-    /// <summary>
-    /// Identifies the <seealso cref="TargetControl"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<Control?> TargetControlProperty =
-        AvaloniaProperty.Register<AdaptiveBehavior, Control?>(nameof(TargetControl));
-
-    /// <summary>
-    /// Identifies the <seealso cref="Setters"/> avalonia property.
-    /// </summary>
-    public static readonly DirectProperty<AdaptiveBehavior, AvaloniaList<AdaptiveClassSetter>> SettersProperty = 
-        AvaloniaProperty.RegisterDirect<AdaptiveBehavior, AvaloniaList<AdaptiveClassSetter>>(nameof(Setters), t => t.Setters);
 
     /// <summary>
     /// Gets or sets the the source control that <see cref="Visual.BoundsProperty"/> property are observed from, if not set <see cref="StyledElementBehavior{T}.AssociatedObject"/> is used. This is an avalonia property.
     /// </summary>
-    [ResolveByName]
-    public Control? SourceControl
-    {
-        get => GetValue(SourceControlProperty);
-        set => SetValue(SourceControlProperty, value);
-    }
+    [StyledProperty(ResolveByName = true)]
+    public partial Control? SourceControl { get; set; }
 
     /// <summary>
     /// Gets or sets the target control that class name that should be added or removed when triggered, if not set <see cref="StyledElementBehavior{T}.AssociatedObject"/> is used or <see cref="AdaptiveClassSetter.TargetControl"/> from <see cref="AdaptiveClassSetter"/>. This is an avalonia property.
     /// </summary>
-    [ResolveByName]
-    public Control? TargetControl
-    {
-        get => GetValue(TargetControlProperty);
-        set => SetValue(TargetControlProperty, value);
-    }
+    [StyledProperty(ResolveByName = true)]
+    public partial Control? TargetControl { get; set; }
 
     /// <summary>
     /// Gets adaptive class setters collection. This is an avalonia property.
     /// </summary>
-    [Content]
-    public AvaloniaList<AdaptiveClassSetter> Setters => _setters ??= [];
+    [DirectProperty(Lazy = true, Content = true)]
+    public partial AvaloniaList<AdaptiveClassSetter> Setters { get; }
 
     /// <inheritdoc/>
     protected override void OnAttachedToVisualTree()

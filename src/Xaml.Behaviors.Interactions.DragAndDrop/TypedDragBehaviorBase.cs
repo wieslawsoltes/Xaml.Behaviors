@@ -2,17 +2,28 @@
 // Licensed under the MIT license. See LICENSE file in the project root for details.
 using System;
 using System.Threading.Tasks;
+#if UNO
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Input;
+using Xaml.Interactivity;
+#else
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Xaml.Interactivity;
+#endif
 
+#if UNO
+namespace Xaml.Interactions.DragAndDrop;
+#else
 namespace Avalonia.Xaml.Interactions.DragAndDrop;
+#endif
 
 /// <summary>
 /// Behavior base class that initiates a drag operation for a specific data type.
 /// </summary>
-public abstract class TypedDragBehaviorBase : StyledElementBehavior<Control>
+public abstract partial class TypedDragBehaviorBase : StyledElementBehavior<Control>
 {
     private Point _dragStartPoint;
     private PointerPressedEventArgs? _triggerEvent;
@@ -20,19 +31,10 @@ public abstract class TypedDragBehaviorBase : StyledElementBehavior<Control>
     private bool _lock;
 
     /// <summary>
-    /// Identifies the <see cref="DataType"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<Type?> DataTypeProperty =
-        AvaloniaProperty.Register<TypedDragBehaviorBase, Type?>(nameof(DataType));
-
-    /// <summary>
     /// Gets or sets the data type allowed for dragging.
     /// </summary>
-    public Type? DataType
-    {
-        get => GetValue(DataTypeProperty);
-        set => SetValue(DataTypeProperty, value);
-    }
+    [StyledProperty]
+    public partial Type? DataType { get; set; }
 
     /// <inheritdoc />
     protected override void OnAttachedToVisualTree()

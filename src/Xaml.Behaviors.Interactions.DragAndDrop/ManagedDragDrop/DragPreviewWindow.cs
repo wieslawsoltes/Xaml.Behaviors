@@ -1,8 +1,18 @@
+#if UNO
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Media;
+#else
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Media;
+#endif
 
+#if UNO
+namespace Xaml.Interactions.DragAndDrop.Controls;
+#else
 namespace Avalonia.Xaml.Interactions.DragAndDrop.Controls;
+#endif
 
 /// <summary>
 /// Lightweight always-on-top window used to display drag preview content.

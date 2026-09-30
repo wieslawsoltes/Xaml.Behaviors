@@ -2,6 +2,13 @@
 // Licensed under the MIT license. See LICENSE file in the project root for details.
 using System;
 using System.Collections;
+#if UNO
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Controls.Primitives;
+using Microsoft.UI.Xaml.Input;
+using Xaml.Interactivity;
+#else
 using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
 using Avalonia.Input;
@@ -9,13 +16,18 @@ using Avalonia.Interactivity;
 using Avalonia.Layout;
 using Avalonia.Media.Transformation;
 using Avalonia.Xaml.Interactivity;
+#endif
 
+#if UNO
+namespace Xaml.Interactions.Draggable;
+#else
 namespace Avalonia.Xaml.Interactions.Draggable;
+#endif
 
 /// <summary>
 /// Allows dragging items within an <see cref="ItemsControl"/>.
 /// </summary>
-public class ItemDragBehavior : StyledElementBehavior<Control>
+public partial class ItemDragBehavior : StyledElementBehavior<Control>
 {
     private bool _enableDrag;
     private bool _dragStarted;
@@ -27,49 +39,22 @@ public class ItemDragBehavior : StyledElementBehavior<Control>
     private bool _captured;
 
     /// <summary>
-    /// Identifies the <see cref="Orientation"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<Orientation> OrientationProperty =
-        AvaloniaProperty.Register<ItemDragBehavior, Orientation>(nameof(Orientation));
-
-    /// <summary>
-    /// Identifies the <see cref="HorizontalDragThreshold"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<double> HorizontalDragThresholdProperty =
-        AvaloniaProperty.Register<ItemDragBehavior, double>(nameof(HorizontalDragThreshold), 3);
-
-    /// <summary>
-    /// Identifies the <see cref="VerticalDragThreshold"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<double> VerticalDragThresholdProperty =
-        AvaloniaProperty.Register<ItemDragBehavior, double>(nameof(VerticalDragThreshold), 3);
-
-    /// <summary>
     /// Gets or sets the orientation of the drag operation.
     /// </summary>
-    public Orientation Orientation
-    {
-        get => GetValue(OrientationProperty);
-        set => SetValue(OrientationProperty, value);
-    }
+    [StyledProperty]
+    public partial Orientation Orientation { get; set; }
 
     /// <summary>
     /// Gets or sets the horizontal drag threshold in pixels.
     /// </summary>
-    public double HorizontalDragThreshold
-    {
-        get => GetValue(HorizontalDragThresholdProperty);
-        set => SetValue(HorizontalDragThresholdProperty, value);
-    }
+    [StyledProperty(DefaultValue = 3)]
+    public partial double HorizontalDragThreshold { get; set; }
 
     /// <summary>
     /// Gets or sets the vertical drag threshold in pixels.
     /// </summary>
-    public double VerticalDragThreshold
-    {
-        get => GetValue(VerticalDragThresholdProperty);
-        set => SetValue(VerticalDragThresholdProperty, value);
-    }
+    [StyledProperty(DefaultValue = 3)]
+    public partial double VerticalDragThreshold { get; set; }
 
     /// <inheritdoc />
     protected override void OnAttachedToVisualTree()

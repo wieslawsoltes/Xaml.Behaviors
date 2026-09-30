@@ -3,7 +3,11 @@
 using System;
 using System.Collections.Concurrent;
 
+#if UNO
+namespace Xaml.Interactions.DragAndDrop;
+#else
 namespace Avalonia.Xaml.Interactions.DragAndDrop;
+#endif
 
 /// <summary>
 /// Provides an in-process store for objects attached to drag data.

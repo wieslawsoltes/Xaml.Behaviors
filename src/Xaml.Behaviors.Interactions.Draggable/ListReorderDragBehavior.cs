@@ -1,6 +1,13 @@
 // Copyright (c) Wiesław Šoltés. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for details.
 using System;
+#if UNO
+using Xaml.Interactivity;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Controls.Primitives;
+using Microsoft.UI.Xaml.Input;
+#else
 using Avalonia.Xaml.Interactivity;
 using Avalonia;
 using Avalonia.Controls;
@@ -10,20 +17,20 @@ using Avalonia.Interactivity;
 using Avalonia.Layout;
 using Avalonia.Media.Transformation;
 using Avalonia.Styling;
+#endif
 
+#if UNO
+namespace Xaml.Interactions.Draggable;
+#else
 namespace Avalonia.Xaml.Interactions.Draggable;
+#endif
 
 /// <summary>
 /// Allows reordering of items inside an <see cref="ItemsControl"/> while displaying
 /// a placeholder at the insertion point.
 /// </summary>
-public class ListReorderDragBehavior : ItemDragBehavior
+public partial class ListReorderDragBehavior : ItemDragBehavior
 {
-    /// <summary>
-    /// Identifies the <see cref="PlaceholderTemplate"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<ITemplate?> PlaceholderTemplateProperty =
-        AvaloniaProperty.Register<ListReorderDragBehavior, ITemplate?>(nameof(PlaceholderTemplate));
 
     private bool _enableDrag;
     private bool _dragStarted;
@@ -39,11 +46,8 @@ public class ListReorderDragBehavior : ItemDragBehavior
     /// <summary>
     /// Gets or sets template used to build placeholder shown while reordering.
     /// </summary>
-    public ITemplate? PlaceholderTemplate
-    {
-        get => GetValue(PlaceholderTemplateProperty);
-        set => SetValue(PlaceholderTemplateProperty, value);
-    }
+    [StyledProperty]
+    public partial ITemplate? PlaceholderTemplate { get; set; }
 
     /// <inheritdoc />
     protected override void OnAttachedToVisualTree()

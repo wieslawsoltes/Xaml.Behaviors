@@ -1,16 +1,27 @@
 // Copyright (c) Wiesław Šoltés. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for details.
+#if UNO
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Input;
+using Xaml.Interactivity;
+#else
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Xaml.Interactivity;
+#endif
 
+#if UNO
+namespace Xaml.Interactions.DragAndDrop;
+#else
 namespace Avalonia.Xaml.Interactions.DragAndDrop;
+#endif
 
 /// <summary>
 /// Behavior base class that enables dropping context data onto the associated control.
 /// </summary>
-public abstract class ContextDropBehaviorBase : StyledElementBehavior<Control>
+public abstract partial class ContextDropBehaviorBase : StyledElementBehavior<Control>
 {
     /// <summary>
     /// Identifies the application data format used to store context identifiers.
@@ -19,19 +30,10 @@ public abstract class ContextDropBehaviorBase : StyledElementBehavior<Control>
         DataFormat.CreateStringApplicationFormat("Avalonia.Xaml.Interactions.DragAndDrop.Context");
 
     /// <summary>
-    /// Identifies the <see cref="Context"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<object?> ContextProperty =
-        AvaloniaProperty.Register<ContextDropBehaviorBase, object?>(nameof(Context));
-
-    /// <summary>
     /// Gets or sets context data provided to the drop handler.
     /// </summary>
-    public object? Context
-    {
-        get => GetValue(ContextProperty);
-        set => SetValue(ContextProperty, value);
-    }
+    [StyledProperty]
+    public partial object? Context { get; set; }
 
     /// <inheritdoc />
     protected override void OnAttachedToVisualTree()

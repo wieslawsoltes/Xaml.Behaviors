@@ -1,41 +1,30 @@
 ﻿// Copyright (c) Wiesław Šoltés. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for details.
+#if UNO
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Controls.Primitives;
+using Microsoft.UI.Xaml.Input;
+using Xaml.Interactivity;
+#else
 using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
 using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Xaml.Interactivity;
+#endif
 
+#if UNO
+namespace Xaml.Interactions.Draggable;
+#else
 namespace Avalonia.Xaml.Interactions.Draggable;
+#endif
 
 /// <summary>
 /// Allows dragging of grid child controls with optional layout copying.
 /// </summary>
-public class GridDragBehavior : StyledElementBehavior<Control>
+public partial class GridDragBehavior : StyledElementBehavior<Control>
 {
-    /// <summary>
-    /// Identifies the <see cref="CopyColumn"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<bool> CopyColumnProperty =
-        AvaloniaProperty.Register<GridDragBehavior, bool>(nameof(CopyColumn), true);
-
-    /// <summary>
-    /// Identifies the <see cref="CopyRow"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<bool> CopyRowProperty =
-        AvaloniaProperty.Register<GridDragBehavior, bool>(nameof(CopyRow), true);
-
-    /// <summary>
-    /// Identifies the <see cref="CopyColumnSpan"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<bool> CopyColumnSpanProperty =
-        AvaloniaProperty.Register<GridDragBehavior, bool>(nameof(CopyColumnSpan));
-
-    /// <summary>
-    /// Identifies the <see cref="CopyRowSpan"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<bool> CopyRowSpanProperty =
-        AvaloniaProperty.Register<GridDragBehavior, bool>(nameof(CopyRowSpan));
 
     private bool _enableDrag;
     private Control? _parent;
@@ -46,38 +35,26 @@ public class GridDragBehavior : StyledElementBehavior<Control>
     /// <summary>
     /// Gets or sets whether to copy the dragged element's column.
     /// </summary>
-    public bool CopyColumn
-    {
-        get => GetValue(CopyColumnProperty);
-        set => SetValue(CopyColumnProperty, value);
-    }
+    [StyledProperty(DefaultValue = true)]
+    public partial bool CopyColumn { get; set; }
 
     /// <summary>
     /// Gets or sets whether to copy the dragged element's row.
     /// </summary>
-    public bool CopyRow
-    {
-        get => GetValue(CopyRowProperty);
-        set => SetValue(CopyRowProperty, value);
-    }
+    [StyledProperty(DefaultValue = true)]
+    public partial bool CopyRow { get; set; }
 
     /// <summary>
     /// Gets or sets whether to copy the dragged element's column span.
     /// </summary>
-    public bool CopyColumnSpan
-    {
-        get => GetValue(CopyColumnSpanProperty);
-        set => SetValue(CopyColumnSpanProperty, value);
-    }
+    [StyledProperty]
+    public partial bool CopyColumnSpan { get; set; }
 
     /// <summary>
     /// Gets or sets whether to copy the dragged element's row span.
     /// </summary>
-    public bool CopyRowSpan
-    {
-        get => GetValue(CopyRowSpanProperty);
-        set => SetValue(CopyRowSpanProperty, value);
-    }
+    [StyledProperty]
+    public partial bool CopyRowSpan { get; set; }
 
     /// <inheritdoc />
     protected override void OnAttachedToVisualTree()
