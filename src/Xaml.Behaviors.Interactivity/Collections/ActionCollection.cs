@@ -19,9 +19,15 @@ namespace Avalonia.Xaml.Interactivity;
 /// Represents a collection of <see cref="IAction"/>'s.
 /// </summary>
 #if UNO
-public class ActionCollection : DependencyObjectCollection
+public class ActionCollection : DependencyObjectCollection, INotifyCollectionChanged
 {
     private readonly System.Collections.Generic.List<DependencyObject> _items = [];
+    private readonly VectorChangeTranslator<DependencyObject> _changes = new();
+
+    /// <summary>
+    /// Occurs when the collection changes (translated from <c>VectorChanged</c>).
+    /// </summary>
+    public event NotifyCollectionChangedEventHandler? CollectionChanged;
     private DependencyObject? _host;
 
     /// <summary>
@@ -72,6 +78,12 @@ public class ActionCollection : DependencyObjectCollection
     }
 
     private void ActionCollection_VectorChanged(IObservableVector<DependencyObject> sender, IVectorChangedEventArgs eventArgs)
+    {
+        OnVectorChanged(eventArgs);
+        CollectionChanged?.Invoke(this, _changes.Translate(this, eventArgs));
+    }
+
+    private void OnVectorChanged(IVectorChangedEventArgs eventArgs)
     {
         var index = (int)eventArgs.Index;
 

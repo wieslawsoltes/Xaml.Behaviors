@@ -1,9 +1,18 @@
 using System;
 using System.Net.NetworkInformation;
+#if UNO
+using Microsoft.UI.Dispatching;
+using Xaml.Interactivity;
+#else
 using Avalonia.Threading;
 using Avalonia.Xaml.Interactivity;
+#endif
 
+#if UNO
+namespace Xaml.Interactions.Network;
+#else
 namespace Avalonia.Xaml.Interactions.Network;
+#endif
 
 /// <summary>
 /// A trigger that listens to network availability changes.

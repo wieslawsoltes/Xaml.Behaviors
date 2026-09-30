@@ -20,7 +20,10 @@
       "Avalonia.Reactive.AnonymousObserver`1",
       "Avalonia.Data.Converters.IValueConverter",
       "Avalonia.AvaloniaObjectExtensions",
-      "Avalonia.AvaloniaPropertyChangedExtensions"
+      "Avalonia.AvaloniaPropertyChangedExtensions",
+      "Avalonia.LogicalTree.ILogical",
+      "Avalonia.LogicalTree.LogicalTreeAttachmentEventArgs",
+      "Avalonia.Threading.DispatcherTimer"
     ],
     "members": [
       "Avalonia.AvaloniaObject.GetValue",
@@ -55,7 +58,18 @@
       "Avalonia.Collections.AvaloniaList.Insert",
       "Avalonia.Collections.AvaloniaList.IndexOf",
       "Avalonia.AvaloniaPropertyChangedExtensions.GetNewValue",
-      "Avalonia.AvaloniaPropertyChangedExtensions.GetOldValue"
+      "Avalonia.AvaloniaPropertyChangedExtensions.GetOldValue",
+      "Avalonia.LogicalTree.ILogical.IsAttachedToLogicalTree",
+      "Avalonia.StyledElement.OnAttachedToLogicalTree",
+      "Avalonia.StyledElement.OnDetachedFromLogicalTree",
+      "Avalonia.AvaloniaProperty.UnsetValue",
+      "Avalonia.Collections.AvaloniaList.CollectionChanged",
+      "Avalonia.AvaloniaObject.PropertyChanged",
+      "Avalonia.Threading.DispatcherTimer.Tick",
+      "Avalonia.Threading.DispatcherTimer.Interval",
+      "Avalonia.Threading.DispatcherTimer.Start",
+      "Avalonia.Threading.DispatcherTimer.Stop",
+      "Avalonia.Threading.DispatcherTimer.IsEnabled"
     ]
   },
   "renamedNamespaces": {

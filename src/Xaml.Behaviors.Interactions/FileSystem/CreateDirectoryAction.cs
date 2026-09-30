@@ -1,28 +1,28 @@
 using System;
 using System.IO;
+#if UNO
+using Xaml.Interactivity;
+#else
 using Avalonia.Xaml.Interactivity;
+#endif
 
+#if UNO
+namespace Xaml.Interactions.FileSystem;
+#else
 namespace Avalonia.Xaml.Interactions.FileSystem;
+#endif
 
 /// <summary>
 /// An action that creates a directory at the specified path.
 /// </summary>
-public class CreateDirectoryAction : StyledElementAction
+public partial class CreateDirectoryAction : StyledElementAction
 {
-    /// <summary>
-    /// Identifies the <seealso cref="Path"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<string?> PathProperty =
-        AvaloniaProperty.Register<CreateDirectoryAction, string?>(nameof(Path));
 
     /// <summary>
     /// Gets or sets the path of the directory to create.
     /// </summary>
-    public string? Path
-    {
-        get => GetValue(PathProperty);
-        set => SetValue(PathProperty, value);
-    }
+    [StyledProperty]
+    public partial string? Path { get; set; }
 
     /// <inheritdoc />
     public override object? Execute(object? sender, object? parameter)

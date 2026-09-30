@@ -3,47 +3,40 @@
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+#if UNO
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Dispatching;
+#else
 using Avalonia.Controls;
 using Avalonia.Input.Platform;
 using Avalonia.LogicalTree;
 using Avalonia.Threading;
+#endif
 
+#if UNO
+namespace Xaml.Interactions.Core;
+#else
 namespace Avalonia.Xaml.Interactions.Core;
+#endif
 
 /// <summary>
 /// An action that will set the text to the clipboard.
 /// </summary>
-public class SetClipboardTextAction : Interactivity.StyledElementAction
+public partial class SetClipboardTextAction : Interactivity.StyledElementAction
 {
-    /// <summary>
-    /// Identifies the <seealso cref="Clipboard"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<IClipboard?> ClipboardProperty =
-        AvaloniaProperty.Register<SetClipboardTextAction, IClipboard?>(nameof(Clipboard));
-
-    /// <summary>
-    /// Identifies the <seealso cref="Text"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<string?> TextProperty =
-        AvaloniaProperty.Register<SetClipboardTextAction, string?>(nameof(Text));
 
     /// <summary>
     /// Gets or sets the clipboard to use. This is an avalonia property.
     /// </summary>
-    public IClipboard? Clipboard
-    {
-        get => GetValue(ClipboardProperty);
-        set => SetValue(ClipboardProperty, value);
-    }
+    [StyledProperty]
+    public partial IClipboard? Clipboard { get; set; }
     
     /// <summary>
     /// Gets or sets the text to set to the clipboard. This is an avalonia property.
     /// </summary>
-    public string? Text
-    {
-        get => GetValue(TextProperty);
-        set => SetValue(TextProperty, value);
-    }
+    [StyledProperty]
+    public partial string? Text { get; set; }
 
     /// <summary>
     /// Executes the action.

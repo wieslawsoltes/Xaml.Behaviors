@@ -3,48 +3,42 @@
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+#if UNO
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Input;
+using Microsoft.UI.Dispatching;
+#else
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Input.Platform;
 using Avalonia.LogicalTree;
 using Avalonia.Threading;
+#endif
 
+#if UNO
+namespace Xaml.Interactions.Core;
+#else
 namespace Avalonia.Xaml.Interactions.Core;
+#endif
 
 /// <summary>
 /// An action that will set the data object to the clipboard.
 /// </summary>
-public class SetClipboardDataObjectAction : Interactivity.StyledElementAction
+public partial class SetClipboardDataObjectAction : Interactivity.StyledElementAction
 {
-    /// <summary>
-    /// Identifies the <seealso cref="Clipboard"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<IClipboard?> ClipboardProperty =
-        AvaloniaProperty.Register<SetClipboardDataObjectAction, IClipboard?>(nameof(Clipboard));
 
     /// <summary>
     /// Gets or sets the clipboard to use. This is an avalonia property.
     /// </summary>
-    public IClipboard? Clipboard
-    {
-        get => GetValue(ClipboardProperty);
-        set => SetValue(ClipboardProperty, value);
-    }
-
-    /// <summary>
-    /// Identifies the <seealso cref="DataTransfer"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<IAsyncDataTransfer?> DataTransferProperty =
-        AvaloniaProperty.Register<SetClipboardDataObjectAction, IAsyncDataTransfer?>(nameof(DataTransfer));
+    [StyledProperty]
+    public partial IClipboard? Clipboard { get; set; }
 
     /// <summary>
     /// Gets or sets the data transfer content to place on the clipboard.
     /// </summary>
-    public IAsyncDataTransfer? DataTransfer
-    {
-        get => GetValue(DataTransferProperty);
-        set => SetValue(DataTransferProperty, value);
-    }
+    [StyledProperty]
+    public partial IAsyncDataTransfer? DataTransfer { get; set; }
 
     /// <summary>
     /// Executes the action.

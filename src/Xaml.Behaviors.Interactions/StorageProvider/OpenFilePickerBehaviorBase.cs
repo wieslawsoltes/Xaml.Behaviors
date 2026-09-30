@@ -3,16 +3,25 @@
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+#if UNO
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+#else
 using Avalonia.Controls;
 using Avalonia.LogicalTree;
 using Avalonia.Platform.Storage;
+#endif
 
+#if UNO
+namespace Xaml.Interactions.Core;
+#else
 namespace Avalonia.Xaml.Interactions.Core;
+#endif
 
 /// <summary>
 /// Open file picker behavior base.
 /// </summary>
-public abstract class OpenFilePickerBehaviorBase : PickerBehaviorBase
+public abstract partial class OpenFilePickerBehaviorBase : PickerBehaviorBase
 {
     /// <summary>
     /// Occurs after the file picker successfully returns one or more files.
@@ -20,34 +29,16 @@ public abstract class OpenFilePickerBehaviorBase : PickerBehaviorBase
     public event EventHandler<FilePickerEventArgs>? Pick;
 
     /// <summary>
-    /// Identifies the <seealso cref="AllowMultiple"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<bool> AllowMultipleProperty =
-        AvaloniaProperty.Register<OpenFilePickerBehaviorBase, bool>(nameof(AllowMultiple));
-
-    /// <summary>
-    /// Identifies the <seealso cref="FileTypeFilter"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<string?> FileTypeFilterProperty =
-        AvaloniaProperty.Register<OpenFilePickerBehaviorBase, string?>(nameof(FileTypeFilter));
-
-    /// <summary>
     /// Gets or sets an option indicating whether open picker allows users to select multiple files. This is an avalonia property.
     /// </summary>
-    public bool AllowMultiple
-    {
-        get => GetValue(AllowMultipleProperty);
-        set => SetValue(AllowMultipleProperty, value);
-    }
+    [StyledProperty]
+    public partial bool AllowMultiple { get; set; }
 
     /// <summary>
     /// Gets or sets the collection of file types that the file open picker displays. This is an avalonia property.
     /// </summary>
-    public string? FileTypeFilter
-    {
-        get => GetValue(FileTypeFilterProperty);
-        set => SetValue(FileTypeFilterProperty, value);
-    }
+    [StyledProperty]
+    public partial string? FileTypeFilter { get; set; }
     
     /// <summary>
     /// Initializes a new instance of the <see cref="OpenFilePickerBehaviorBase"/> class.

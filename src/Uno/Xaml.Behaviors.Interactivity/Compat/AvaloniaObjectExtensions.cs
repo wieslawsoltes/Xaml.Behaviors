@@ -1,4 +1,4 @@
-// Copyright (c) Wiesław Šoltés. All rights reserved.
+﻿// Copyright (c) Wiesław Šoltés. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for details.
 using System;
 using System.Collections.Generic;
@@ -20,6 +20,15 @@ internal static class AvaloniaObjectExtensions
     /// <returns>The observable.</returns>
     public static IObservable<T> GetObservable<T>(this DependencyObject o, DependencyProperty property)
         => new DependencyPropertyObservable<T>(o, property);
+
+    /// <summary>
+    /// Gets an observable that produces the current value of the property and then every change.
+    /// </summary>
+    /// <param name="o">The object.</param>
+    /// <param name="property">The property.</param>
+    /// <returns>The observable.</returns>
+    public static IObservable<object?> GetObservable(this DependencyObject o, DependencyProperty property)
+        => new DependencyPropertyObservable<object?>(o, property);
 
     private sealed class DependencyPropertyObservable<T>(DependencyObject owner, DependencyProperty property) : IObservable<T>
     {

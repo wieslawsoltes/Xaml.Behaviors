@@ -78,6 +78,8 @@ public partial class Condition : AvaloniaObject
     /// <param name="change">The change details.</param>
     protected virtual void OnPropertyChanged(AvaloniaPropertyChangedEventArgs change)
     {
+        RaisePropertyChanged(change);
+
         if (change.Property == BindingProperty && change.NewValue is not null && Property is not null)
         {
             throw new InvalidOperationException("Condition cannot use both Property and Binding.");

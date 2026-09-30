@@ -1,82 +1,56 @@
 // Copyright (c) Wiesław Šoltés. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for details.
 using System;
+#if UNO
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Dispatching;
+using Xaml.Interactivity;
+#else
 using Avalonia.Controls;
 using Avalonia.LogicalTree;
 using Avalonia.Metadata;
 using Avalonia.Reactive;
 using Avalonia.Threading;
 using Avalonia.Xaml.Interactivity;
+#endif
 
+#if UNO
+namespace Xaml.Interactions.Core;
+#else
 namespace Avalonia.Xaml.Interactions.Core;
+#endif
 
 /// <summary>
 /// A behavior that subscribes to an <see cref="IObservable{T}"/> and executes actions on OnNext, OnError, and OnCompleted.
 /// </summary>
-public class ObservableStreamBehavior : StyledElementBehavior
+public partial class ObservableStreamBehavior : StyledElementBehavior
 {
     private IDisposable? _subscription;
 
     /// <summary>
-    /// Identifies the <seealso cref="Source"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<object?> SourceProperty =
-        AvaloniaProperty.Register<ObservableStreamBehavior, object?>(nameof(Source));
-
-    /// <summary>
-    /// Identifies the <seealso cref="Actions"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<ActionCollection?> ActionsProperty =
-        AvaloniaProperty.Register<ObservableStreamBehavior, ActionCollection?>(nameof(Actions));
-
-    /// <summary>
-    /// Identifies the <seealso cref="ErrorActions"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<ActionCollection?> ErrorActionsProperty =
-        AvaloniaProperty.Register<ObservableStreamBehavior, ActionCollection?>(nameof(ErrorActions));
-
-    /// <summary>
-    /// Identifies the <seealso cref="CompletedActions"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<ActionCollection?> CompletedActionsProperty =
-        AvaloniaProperty.Register<ObservableStreamBehavior, ActionCollection?>(nameof(CompletedActions));
-
-    /// <summary>
     /// Gets or sets the source observable. This is an avalonia property.
     /// </summary>
-    public object? Source
-    {
-        get => GetValue(SourceProperty);
-        set => SetValue(SourceProperty, value);
-    }
+    [StyledProperty]
+    public partial object? Source { get; set; }
 
     /// <summary>
     /// Gets or sets the collection of actions to execute when the observable emits a value. This is an avalonia property.
     /// </summary>
-    [Content]
-    public ActionCollection? Actions
-    {
-        get => GetValue(ActionsProperty);
-        set => SetValue(ActionsProperty, value);
-    }
+    [StyledProperty(Content = true)]
+    public partial ActionCollection? Actions { get; set; }
 
     /// <summary>
     /// Gets or sets the collection of actions to execute when the observable emits an error. This is an avalonia property.
     /// </summary>
-    public ActionCollection? ErrorActions
-    {
-        get => GetValue(ErrorActionsProperty);
-        set => SetValue(ErrorActionsProperty, value);
-    }
+    [StyledProperty]
+    public partial ActionCollection? ErrorActions { get; set; }
 
     /// <summary>
     /// Gets or sets the collection of actions to execute when the observable completes. This is an avalonia property.
     /// </summary>
-    public ActionCollection? CompletedActions
-    {
-        get => GetValue(CompletedActionsProperty);
-        set => SetValue(CompletedActionsProperty, value);
-    }
+    [StyledProperty]
+    public partial ActionCollection? CompletedActions { get; set; }
 
     /// <summary>
     /// Initializes a new instance of the <see cref="ObservableStreamBehavior"/> class.

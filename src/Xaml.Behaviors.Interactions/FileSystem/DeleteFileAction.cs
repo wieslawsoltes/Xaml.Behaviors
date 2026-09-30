@@ -1,28 +1,28 @@
 using System;
 using System.IO;
+#if UNO
+using Xaml.Interactivity;
+#else
 using Avalonia.Xaml.Interactivity;
+#endif
 
+#if UNO
+namespace Xaml.Interactions.FileSystem;
+#else
 namespace Avalonia.Xaml.Interactions.FileSystem;
+#endif
 
 /// <summary>
 /// An action that deletes a file at the specified path.
 /// </summary>
-public class DeleteFileAction : StyledElementAction
+public partial class DeleteFileAction : StyledElementAction
 {
-    /// <summary>
-    /// Identifies the <seealso cref="Path"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<string?> PathProperty =
-        AvaloniaProperty.Register<DeleteFileAction, string?>(nameof(Path));
 
     /// <summary>
     /// Gets or sets the path of the file to delete.
     /// </summary>
-    public string? Path
-    {
-        get => GetValue(PathProperty);
-        set => SetValue(PathProperty, value);
-    }
+    [StyledProperty]
+    public partial string? Path { get; set; }
 
     /// <inheritdoc />
     public override object? Execute(object? sender, object? parameter)

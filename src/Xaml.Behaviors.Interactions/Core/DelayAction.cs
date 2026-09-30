@@ -2,30 +2,32 @@
 // Licensed under the MIT license. See LICENSE file in the project root for details.
 using System;
 using System.Threading.Tasks;
+#if UNO
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Xaml.Interactivity;
+#else
 using Avalonia.Controls;
 using Avalonia.Xaml.Interactivity;
+#endif
 
+#if UNO
+namespace Xaml.Interactions.Core;
+#else
 namespace Avalonia.Xaml.Interactions.Core;
+#endif
 
 /// <summary>
 /// An action that waits for a specified duration.
 /// </summary>
-public class DelayAction : StyledElementAction
+public partial class DelayAction : StyledElementAction
 {
-    /// <summary>
-    /// Identifies the <seealso cref="Duration"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<TimeSpan> DurationProperty =
-        AvaloniaProperty.Register<DelayAction, TimeSpan>(nameof(Duration));
 
     /// <summary>
     /// Gets or sets the duration to wait. This is an avalonia property.
     /// </summary>
-    public TimeSpan Duration
-    {
-        get => GetValue(DurationProperty);
-        set => SetValue(DurationProperty, value);
-    }
+    [StyledProperty]
+    public partial TimeSpan Duration { get; set; }
 
     /// <inheritdoc />
     public override object? Execute(object? sender, object? parameter)

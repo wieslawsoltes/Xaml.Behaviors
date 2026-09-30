@@ -1,54 +1,46 @@
-// Copyright (c) Wiesław Šoltés. All rights reserved.
+﻿// Copyright (c) Wiesław Šoltés. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for details.
 using System;
+#if UNO
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Dispatching;
+using Xaml.Interactivity;
+#else
 using Avalonia.Controls;
 using Avalonia.Metadata;
 using Avalonia.Threading;
 using Avalonia.Xaml.Interactivity;
 using Avalonia.LogicalTree;
+#endif
 
+#if UNO
+namespace Xaml.Interactions.Core;
+#else
 namespace Avalonia.Xaml.Interactions.Core;
+#endif
 
 /// <summary>
 /// An action that will execute its child actions after a specified delay.
 /// If invoked again before the delay elapses, the timer is reset.
 /// </summary>
-public class DebounceAction : StyledElementAction
+public partial class DebounceAction : StyledElementAction
 {
     private DispatcherTimer? _timer;
     private object? _lastSender;
     private object? _lastParameter;
 
     /// <summary>
-    /// Identifies the <seealso cref="Delay"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<TimeSpan> DelayProperty =
-        AvaloniaProperty.Register<DebounceAction, TimeSpan>(nameof(Delay));
-
-    /// <summary>
-    /// Identifies the <seealso cref="Actions"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<ActionCollection?> ActionsProperty =
-        AvaloniaProperty.Register<DebounceAction, ActionCollection?>(nameof(Actions));
-
-    /// <summary>
     /// Gets or sets the delay to wait before executing the actions. This is an avalonia property.
     /// </summary>
-    public TimeSpan Delay
-    {
-        get => GetValue(DelayProperty);
-        set => SetValue(DelayProperty, value);
-    }
+    [StyledProperty]
+    public partial TimeSpan Delay { get; set; }
 
     /// <summary>
     /// Gets or sets the collection of actions to execute. This is an avalonia property.
     /// </summary>
-    [Content]
-    public ActionCollection? Actions
-    {
-        get => GetValue(ActionsProperty);
-        set => SetValue(ActionsProperty, value);
-    }
+    [StyledProperty(Content = true)]
+    public partial ActionCollection? Actions { get; set; }
 
     /// <summary>
     /// Initializes a new instance of the <see cref="DebounceAction"/> class.
@@ -145,7 +137,11 @@ public class DebounceAction : StyledElementAction
         return null;
     }
 
+#if UNO
+    private void Timer_Tick(object? sender, object e)
+#else
     private void Timer_Tick(object? sender, EventArgs e)
+#endif
     {
         _timer?.Stop();
         Interaction.ExecuteActions(_lastSender, Actions, _lastParameter);

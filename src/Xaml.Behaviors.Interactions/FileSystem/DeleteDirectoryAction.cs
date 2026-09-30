@@ -1,43 +1,34 @@
 using System;
 using System.IO;
+#if UNO
+using Xaml.Interactivity;
+#else
 using Avalonia.Xaml.Interactivity;
+#endif
 
+#if UNO
+namespace Xaml.Interactions.FileSystem;
+#else
 namespace Avalonia.Xaml.Interactions.FileSystem;
+#endif
 
 /// <summary>
 /// An action that deletes a directory at the specified path.
 /// </summary>
-public class DeleteDirectoryAction : StyledElementAction
+public partial class DeleteDirectoryAction : StyledElementAction
 {
-    /// <summary>
-    /// Identifies the <seealso cref="Path"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<string?> PathProperty =
-        AvaloniaProperty.Register<DeleteDirectoryAction, string?>(nameof(Path));
-
-    /// <summary>
-    /// Identifies the <seealso cref="Recursive"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<bool> RecursiveProperty =
-        AvaloniaProperty.Register<DeleteDirectoryAction, bool>(nameof(Recursive), true);
 
     /// <summary>
     /// Gets or sets the path of the directory to delete.
     /// </summary>
-    public string? Path
-    {
-        get => GetValue(PathProperty);
-        set => SetValue(PathProperty, value);
-    }
+    [StyledProperty]
+    public partial string? Path { get; set; }
 
     /// <summary>
     /// Gets or sets a value indicating whether to delete subdirectories and files.
     /// </summary>
-    public bool Recursive
-    {
-        get => GetValue(RecursiveProperty);
-        set => SetValue(RecursiveProperty, value);
-    }
+    [StyledProperty(DefaultValue = true)]
+    public partial bool Recursive { get; set; }
 
     /// <inheritdoc />
     public override object? Execute(object? sender, object? parameter)

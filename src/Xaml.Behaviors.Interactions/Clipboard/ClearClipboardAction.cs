@@ -3,32 +3,34 @@
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+#if UNO
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Dispatching;
+#else
 using Avalonia.Controls;
 using Avalonia.Input.Platform;
 using Avalonia.LogicalTree;
 using Avalonia.Threading;
+#endif
 
+#if UNO
+namespace Xaml.Interactions.Core;
+#else
 namespace Avalonia.Xaml.Interactions.Core;
+#endif
 
 /// <summary>
 /// An action that will clear the clipboard.
 /// </summary>
-public class ClearClipboardAction : Interactivity.StyledElementAction
+public partial class ClearClipboardAction : Interactivity.StyledElementAction
 {
-    /// <summary>
-    /// Identifies the <seealso cref="Clipboard"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<IClipboard?> ClipboardProperty =
-        AvaloniaProperty.Register<ClearClipboardAction, IClipboard?>(nameof(Clipboard));
 
     /// <summary>
     /// Gets or sets the clipboard to use. This is an avalonia property.
     /// </summary>
-    public IClipboard? Clipboard
-    {
-        get => GetValue(ClipboardProperty);
-        set => SetValue(ClipboardProperty, value);
-    }
+    [StyledProperty]
+    public partial IClipboard? Clipboard { get; set; }
 
     /// <summary>
     /// Executes the action.

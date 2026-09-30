@@ -1,61 +1,43 @@
 using System;
 using System.IO;
+#if UNO
+using Microsoft.UI.Dispatching;
+using Xaml.Interactivity;
+#else
 using Avalonia.Threading;
 using Avalonia.Xaml.Interactivity;
+#endif
 
+#if UNO
+namespace Xaml.Interactions.FileSystem;
+#else
 namespace Avalonia.Xaml.Interactions.FileSystem;
+#endif
 
 /// <summary>
 /// A trigger that listens to file system events.
 /// </summary>
-public class FileSystemWatcherTrigger : Trigger
+public partial class FileSystemWatcherTrigger : Trigger
 {
     private FileSystemWatcher? _watcher;
 
     /// <summary>
-    /// Identifies the <seealso cref="Path"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<string?> PathProperty =
-        AvaloniaProperty.Register<FileSystemWatcherTrigger, string?>(nameof(Path));
-
-    /// <summary>
-    /// Identifies the <seealso cref="Filter"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<string?> FilterProperty =
-        AvaloniaProperty.Register<FileSystemWatcherTrigger, string?>(nameof(Filter), "*.*");
-
-    /// <summary>
-    /// Identifies the <seealso cref="IncludeSubdirectories"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<bool> IncludeSubdirectoriesProperty =
-        AvaloniaProperty.Register<FileSystemWatcherTrigger, bool>(nameof(IncludeSubdirectories));
-
-    /// <summary>
     /// Gets or sets the path to watch.
     /// </summary>
-    public string? Path
-    {
-        get => GetValue(PathProperty);
-        set => SetValue(PathProperty, value);
-    }
+    [StyledProperty]
+    public partial string? Path { get; set; }
 
     /// <summary>
     /// Gets or sets the filter string used to determine what files are monitored in a directory.
     /// </summary>
-    public string? Filter
-    {
-        get => GetValue(FilterProperty);
-        set => SetValue(FilterProperty, value);
-    }
+    [StyledProperty(DefaultValue = "*.*")]
+    public partial string? Filter { get; set; }
 
     /// <summary>
     /// Gets or sets a value indicating whether subdirectories within the specified path should be monitored.
     /// </summary>
-    public bool IncludeSubdirectories
-    {
-        get => GetValue(IncludeSubdirectoriesProperty);
-        set => SetValue(IncludeSubdirectoriesProperty, value);
-    }
+    [StyledProperty]
+    public partial bool IncludeSubdirectories { get; set; }
 
     /// <inheritdoc />
     protected override void OnAttached()

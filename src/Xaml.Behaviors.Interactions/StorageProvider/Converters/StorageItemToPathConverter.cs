@@ -2,11 +2,19 @@
 // Licensed under the MIT license. See LICENSE file in the project root for details.
 using System;
 using System.Globalization;
+#if UNO
+using Microsoft.UI.Xaml.Data;
+#else
 using Avalonia.Data;
 using Avalonia.Data.Converters;
 using Avalonia.Platform.Storage;
+#endif
 
+#if UNO
+namespace Xaml.Interactions.Core;
+#else
 namespace Avalonia.Xaml.Interactions.Core;
+#endif
 
 /// <summary>
 /// Converts a <seealso cref="IStorageItem"/> to a path.

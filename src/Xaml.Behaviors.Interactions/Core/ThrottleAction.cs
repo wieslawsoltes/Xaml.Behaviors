@@ -1,51 +1,42 @@
 // Copyright (c) Wiesław Šoltés. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for details.
 using System;
+#if UNO
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Xaml.Interactivity;
+#else
 using Avalonia.Controls;
 using Avalonia.LogicalTree;
 using Avalonia.Metadata;
 using Avalonia.Xaml.Interactivity;
+#endif
 
+#if UNO
+namespace Xaml.Interactions.Core;
+#else
 namespace Avalonia.Xaml.Interactions.Core;
+#endif
 
 /// <summary>
 /// An action that will execute its child actions immediately, but ignores subsequent invocations
 /// until a specified interval has passed.
 /// </summary>
-public class ThrottleAction : StyledElementAction
+public partial class ThrottleAction : StyledElementAction
 {
     private DateTime _lastExecutionTime = DateTime.MinValue;
 
     /// <summary>
-    /// Identifies the <seealso cref="Interval"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<TimeSpan> IntervalProperty =
-        AvaloniaProperty.Register<ThrottleAction, TimeSpan>(nameof(Interval));
-
-    /// <summary>
-    /// Identifies the <seealso cref="Actions"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<ActionCollection?> ActionsProperty =
-        AvaloniaProperty.Register<ThrottleAction, ActionCollection?>(nameof(Actions));
-
-    /// <summary>
     /// Gets or sets the minimum interval between executions. This is an avalonia property.
     /// </summary>
-    public TimeSpan Interval
-    {
-        get => GetValue(IntervalProperty);
-        set => SetValue(IntervalProperty, value);
-    }
+    [StyledProperty]
+    public partial TimeSpan Interval { get; set; }
 
     /// <summary>
     /// Gets or sets the collection of actions to execute. This is an avalonia property.
     /// </summary>
-    [Content]
-    public ActionCollection? Actions
-    {
-        get => GetValue(ActionsProperty);
-        set => SetValue(ActionsProperty, value);
-    }
+    [StyledProperty(Content = true)]
+    public partial ActionCollection? Actions { get; set; }
 
     /// <summary>
     /// Initializes a new instance of the <see cref="ThrottleAction"/> class.

@@ -102,7 +102,7 @@ python3 build/UnoPort/uno_share.py src/Xaml.Behaviors.<Name>
 | Project | Uno port | Notes |
 |---------|----------|-------|
 | Xaml.Behaviors.Interactivity | ✅ | Templates (`ITemplate`) and the C# 14 `Behaviors` extension are Avalonia only. |
-| Xaml.Behaviors.Interactions | ⏳ | |
+| Xaml.Behaviors.Interactions | ✅ Core, FileSystem, Network | Clipboard (`TopLevel.Clipboard`) and StorageProvider (`IStorageProvider`) are pending a port to `DataTransfer.Clipboard` / `Windows.Storage.Pickers`. Composite actions use the action tree (`Action.Host`). |
 | Xaml.Behaviors.Interactions.Events | ⏳ | |
 | Xaml.Behaviors.Interactions.Responsive | ⏳ | |
 | Xaml.Behaviors.Interactions.Draggable | ⏳ | |

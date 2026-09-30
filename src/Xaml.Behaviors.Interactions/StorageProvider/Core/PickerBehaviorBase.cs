@@ -2,109 +2,66 @@
 // Licensed under the MIT license. See LICENSE file in the project root for details.
 using System;
 using System.Linq;
+#if UNO
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Xaml.Interactivity;
+#else
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.LogicalTree;
 using Avalonia.Platform.Storage;
 using Avalonia.VisualTree;
 using Avalonia.Xaml.Interactivity;
+#endif
 
+#if UNO
+namespace Xaml.Interactions.Core;
+#else
 namespace Avalonia.Xaml.Interactions.Core;
+#endif
 
 /// <summary>
 /// Base class for picker behaviors.
 /// </summary>
-public abstract class PickerBehaviorBase : InvokeCommandBehaviorBase
+public abstract partial class PickerBehaviorBase : InvokeCommandBehaviorBase
 {
-    /// <summary>
-    /// Identifies the <seealso cref="StorageProvider"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<IStorageProvider?> StorageProviderProperty =
-        AvaloniaProperty.Register<PickerBehaviorBase, IStorageProvider?>(nameof(StorageProvider));
-
-    /// <summary>
-    /// Identifies the <seealso cref="Title"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<string?> TitleProperty =
-        AvaloniaProperty.Register<PickerBehaviorBase, string?>(nameof(Title));
-
-    /// <summary>
-    /// Identifies the <seealso cref="SuggestedStartLocation"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<IStorageFolder?> SuggestedStartLocationProperty =
-        AvaloniaProperty.Register<PickerBehaviorBase, IStorageFolder?>(nameof(SuggestedStartLocation));
-
-    /// <summary>
-    /// Identifies the <seealso cref="SuggestedStartLocationPath"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<string?> SuggestedStartLocationPathProperty =
-        AvaloniaProperty.Register<PickerBehaviorBase, string?>(nameof(SuggestedStartLocationPath));
-
-    /// <summary>
-    /// Identifies the <seealso cref="SuggestedFileName"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<string?> SuggestedFileNameProperty =
-        AvaloniaProperty.Register<PickerBehaviorBase, string?>(nameof(SuggestedFileName));
-
-    /// <summary>
-    /// Identifies the <seealso cref="CreateSuggestedStartLocationDirectory"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<bool> CreateSuggestedStartLocationDirectoryProperty =
-        AvaloniaProperty.Register<PickerBehaviorBase, bool>(nameof(CreateSuggestedStartLocationDirectory), false);
 
     /// <summary>
     /// Gets or sets the storage provider that the picker uses to access the file system. This is an avalonia property.
     /// </summary>
-    public IStorageProvider? StorageProvider
-    {
-        get => GetValue(StorageProviderProperty);
-        set => SetValue(StorageProviderProperty, value);
-    }
+    [StyledProperty]
+    public partial IStorageProvider? StorageProvider { get; set; }
 
     /// <summary>
     /// Gets or sets the text that appears in the title bar of a picker. This is an avalonia property.
     /// </summary>
-    public string? Title
-    {
-        get => GetValue(TitleProperty);
-        set => SetValue(TitleProperty, value);
-    }
+    [StyledProperty]
+    public partial string? Title { get; set; }
 
     /// <summary>
     /// Gets or sets the initial location where the file open picker looks for files to present to the user. This is an avalonia property.
     /// </summary>
-    public IStorageFolder? SuggestedStartLocation
-    {
-        get => GetValue(SuggestedStartLocationProperty);
-        set => SetValue(SuggestedStartLocationProperty, value);
-    }
+    [StyledProperty]
+    public partial IStorageFolder? SuggestedStartLocation { get; set; }
 
     /// <summary>
     /// Gets or sets a fallback path that is used to resolve <see cref="SuggestedStartLocation"/> when no folder is provided.
     /// </summary>
-    public string? SuggestedStartLocationPath
-    {
-        get => GetValue(SuggestedStartLocationPathProperty);
-        set => SetValue(SuggestedStartLocationPathProperty, value);
-    }
+    [StyledProperty]
+    public partial string? SuggestedStartLocationPath { get; set; }
 
     /// <summary>
     /// Gets or sets the file name that the file picker suggests to the user. This is an avalonia property.
     /// </summary>
-    public string? SuggestedFileName
-    {
-        get => GetValue(SuggestedFileNameProperty);
-        set => SetValue(SuggestedFileNameProperty, value);
-    }
+    [StyledProperty]
+    public partial string? SuggestedFileName { get; set; }
 
     /// <summary>
     /// Gets or sets a value indicating whether to create the suggested start location directory if it doesn't exist. This is an avalonia property.
     /// </summary>
-    public bool CreateSuggestedStartLocationDirectory
-    {
-        get => GetValue(CreateSuggestedStartLocationDirectoryProperty);
-        set => SetValue(CreateSuggestedStartLocationDirectoryProperty, value);
-    }
+    [StyledProperty(DefaultValue = false)]
+    public partial bool CreateSuggestedStartLocationDirectory { get; set; }
 
     /// <summary>
     /// Resolves the storage provider using the configured value or the provided fallback visual.

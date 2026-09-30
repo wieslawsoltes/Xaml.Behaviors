@@ -3,27 +3,30 @@
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+#if UNO
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+#else
 using Avalonia.Controls;
 using Avalonia.LogicalTree;
 using Avalonia.Platform.Storage;
+#endif
 
+#if UNO
+namespace Xaml.Interactions.Core;
+#else
 namespace Avalonia.Xaml.Interactions.Core;
+#endif
 
 /// <summary>
 /// An action that will open a file picker dialog.
 /// </summary>
-public class SaveFilePickerAction : PickerActionBase
+public partial class SaveFilePickerAction : PickerActionBase
 {
     /// <summary>
     /// Occurs after the save file picker successfully returns a file.
     /// </summary>
     public event EventHandler<SaveFilePickerEventArgs>? Pick;
-
-    /// <summary>
-    /// Identifies the <seealso cref="DefaultExtension"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<string?> DefaultExtensionProperty =
-        AvaloniaProperty.Register<SaveFilePickerAction, string?>(nameof(DefaultExtension));
 
     /// <summary>
     /// Identifies the <seealso cref="FileTypeChoices"/> avalonia property.
@@ -32,37 +35,25 @@ public class SaveFilePickerAction : PickerActionBase
         AvaloniaProperty.Register<OpenFilePickerAction, string?>(nameof(FileTypeChoices));
 
     /// <summary>
-    /// Identifies the <seealso cref="ShowOverwritePrompt"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<bool?> ShowOverwritePromptProperty =
-        AvaloniaProperty.Register<SaveFilePickerAction, bool?>(nameof(ShowOverwritePrompt));
-
-    /// <summary>
     /// Gets or sets the default extension to be used to save the file. This is an avalonia property.
     /// </summary>
-    public string? DefaultExtension
-    {
-        get => GetValue(DefaultExtensionProperty);
-        set => SetValue(DefaultExtensionProperty, value);
-    }
+    [StyledProperty]
+    public partial string? DefaultExtension { get; set; }
 
     /// <summary>
     /// Gets or sets the collection of valid file types that the user can choose to assign to a file. This is an avalonia property.
     /// </summary>
     public string? FileTypeChoices
     {
-        get => GetValue(FileTypeChoicesProperty);
+        get => (string?)GetValue(FileTypeChoicesProperty);
         set => SetValue(FileTypeChoicesProperty, value);
     }
 
     /// <summary>
     /// Gets or sets a value indicating whether file open picker displays a warning if the user specifies the name of a file that already exists. This is an avalonia property.
     /// </summary>
-    public bool? ShowOverwritePrompt
-    {
-        get => GetValue(ShowOverwritePromptProperty);
-        set => SetValue(ShowOverwritePromptProperty, value);
-    }
+    [StyledProperty]
+    public partial bool? ShowOverwritePrompt { get; set; }
 
     /// <summary>
     /// Initializes a new instance of the <see cref="SaveFilePickerAction"/> class.

@@ -3,9 +3,15 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+#if !UNO
 using Avalonia.Platform.Storage;
+#endif
 
+#if UNO
+namespace Xaml.Interactions.Core;
+#else
 namespace Avalonia.Xaml.Interactions.Core;
+#endif
 
 internal static class FileFilterParser
 {

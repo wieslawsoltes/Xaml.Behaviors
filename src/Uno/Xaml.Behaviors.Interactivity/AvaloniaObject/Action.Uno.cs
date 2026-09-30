@@ -33,11 +33,28 @@ public abstract partial class Action
         }
 
         _host = host;
+        OnHostAttached(host);
 
         if (this is IActionLogicalTreeLifecycle lifecycle)
         {
             lifecycle.AttachedToActionLogicalTree();
         }
+    }
+
+    /// <summary>
+    /// Called after the action was attached to the object hosting its trigger.
+    /// </summary>
+    /// <param name="host">The host.</param>
+    private protected virtual void OnHostAttached(DependencyObject host)
+    {
+    }
+
+    /// <summary>
+    /// Called before the action is detached from the object hosting its trigger.
+    /// </summary>
+    /// <param name="host">The host.</param>
+    private protected virtual void OnHostDetaching(DependencyObject host)
+    {
     }
 
     internal void DetachFromHost()
@@ -52,6 +69,7 @@ public abstract partial class Action
             lifecycle.DetachedFromActionLogicalTree();
         }
 
+        OnHostDetaching(_host);
         _host = null;
     }
 
