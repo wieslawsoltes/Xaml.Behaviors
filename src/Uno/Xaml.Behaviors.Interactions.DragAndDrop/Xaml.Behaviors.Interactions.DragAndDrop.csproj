@@ -1,0 +1,28 @@
+<Project Sdk="Uno.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>$(UnoTargetFrameworks)</TargetFrameworks>
+    <AssemblyName>Xaml.Behaviors.Uno.Interactions.DragAndDrop</AssemblyName>
+    <RootNamespace>Xaml.Interactions.DragAndDrop</RootNamespace>
+    <UnoSharedSourceProject>Xaml.Behaviors.Interactions.DragAndDrop</UnoSharedSourceProject>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <PackageId>Xaml.Behaviors.Uno.Interactions.DragAndDrop</PackageId>
+    <Description>Behaviors that enable drag-and-drop support for Uno Platform (WinUI).</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Using Include="Xaml.Interactivity" />
+    <!-- Avalonia DragDropEffects has the same values as the WinUI DataPackageOperation (None, Copy, Move, Link). -->
+    <Using Include="Windows.ApplicationModel.DataTransfer.DataPackageOperation" Alias="DragDropEffects" />
+  </ItemGroup>
+
+  <!-- Avalonia-only sources, shared with the Avalonia build for the portability analyzers. -->
+  <Import Project="SharedSources.props" />
+
+  <ItemGroup>
+    <ProjectReference Include="..\Xaml.Behaviors.Interactivity\Xaml.Behaviors.Interactivity.csproj" />
+  </ItemGroup>
+
+</Project>

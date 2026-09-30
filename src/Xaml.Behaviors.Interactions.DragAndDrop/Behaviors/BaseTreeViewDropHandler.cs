@@ -1,17 +1,32 @@
 // Copyright (c) Wiesław Šoltés. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for details.
 using System.Linq;
+#if UNO
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Input;
+#else
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.LogicalTree;
 using Avalonia.VisualTree;
+#endif
 
+#if UNO
+namespace Xaml.Interactions.DragAndDrop;
+#else
 namespace Avalonia.Xaml.Interactions.DragAndDrop;
+#endif
 
 /// <summary>
 /// Provides base drag-and-drop visuals and validation helpers for <see cref="TreeView"/> scenarios.
 /// </summary>
+/// <remarks>
+/// On Uno Platform the WinUI <c>TreeView</c> displays its nodes as a flat list of <c>TreeViewItem</c> containers: parent
+/// items are resolved through the tree nodes, and the <c>DraggingUp</c>, <c>DraggingDown</c> and <c>TargetHighlight</c>
+/// classes map to visual states of the items (see <c>VisualStateManager</c>).
+/// </remarks>
 public abstract class BaseTreeViewDropHandler : DropHandlerBase
 {
     private const string RowDraggingUpStyleClass = "DraggingUp";
@@ -41,7 +56,11 @@ public abstract class BaseTreeViewDropHandler : DropHandlerBase
                 if (targetItem is not null)
                 {
                     var isDirectionUp = e.GetPosition(targetItem).Y < targetItem.Bounds.Height / 2;
+#if UNO
+                    var itemToApplyStyle = willSourceItemChangeParent && GetParentItem(treeView, targetItem) is TreeViewItem parentItem
+#else
                     var itemToApplyStyle = willSourceItemChangeParent && targetItem?.Parent is TreeViewItem parentItem
+#endif
                         ? parentItem
                         : targetItem;
                     ApplyDraggingStyleToItem(itemToApplyStyle, isDirectionUp, willSourceItemChangeParent);
@@ -90,6 +109,14 @@ public abstract class BaseTreeViewDropHandler : DropHandlerBase
         return sourceChild.FindLogicalAncestorOfType<TreeViewItem>();
     }
 
+#if UNO
+    private static TreeViewItem? GetParentItem(TreeView treeView, TreeViewItem item)
+    {
+        var parentNode = treeView.NodeFromContainer(item)?.Parent;
+        return parentNode is null ? null : treeView.ContainerFromNode(parentNode) as TreeViewItem;
+    }
+
+#endif
     private static void ClearDraggingStyleFromAllItems(object? sender, TreeViewItem? exceptThis = null)
     {
         if (sender is not Visual rootVisual)
@@ -97,7 +124,12 @@ public abstract class BaseTreeViewDropHandler : DropHandlerBase
             return;
         }
 
+#if UNO
+        // WinUI tree views realize every visible node as a flat list of containers.
+        foreach (var item in rootVisual.GetVisualDescendants().OfType<TreeViewItem>())
+#else
         foreach (var item in rootVisual.GetLogicalChildren().OfType<TreeViewItem>())
+#endif
         {
             if (item == exceptThis)
             {
@@ -111,7 +143,9 @@ public abstract class BaseTreeViewDropHandler : DropHandlerBase
                 item.Classes.Remove(TargetHighlightStyleClass);
             }
 
+#if !UNO
             ClearDraggingStyleFromAllItems(item, exceptThis);
+#endif
         }
     }
 

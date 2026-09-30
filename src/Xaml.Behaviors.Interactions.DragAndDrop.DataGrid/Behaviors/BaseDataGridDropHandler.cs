@@ -1,6 +1,14 @@
 // Copyright (c) Wiesław Šoltés. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for details.
 using System.Collections.ObjectModel;
+#if UNO
+using System.Linq;
+using CommunityToolkit.WinUI.UI.Controls;
+using CommunityToolkit.WinUI.UI.Controls.Primitives;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Input;
+using Xaml.Interactions.DragAndDrop;
+#else
 using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
 using Avalonia.Input;
@@ -8,13 +16,22 @@ using Avalonia.Interactivity;
 using Avalonia.LogicalTree;
 using Avalonia.VisualTree;
 using Avalonia.Xaml.Interactions.DragAndDrop;
+#endif
 
+#if UNO
+namespace Xaml.Interactions.DragAndDrop;
+#else
 namespace Avalonia.Xaml.Interactions.DragAndDrop;
+#endif
 
 /// <summary>
 /// Provides common drag-and-drop logic for <see cref="DataGrid"/> row manipulations.
 /// </summary>
 /// <typeparam name="T">The item type contained by the target <see cref="DataGrid"/>.</typeparam>
+/// <remarks>
+/// On Uno Platform the handler targets the Windows Community Toolkit <c>DataGrid</c> and the <c>DraggingUp</c>/<c>DraggingDown</c>
+/// row classes map to visual states of the rows (see <c>VisualStateManager</c>).
+/// </remarks>
 public abstract class BaseDataGridDropHandler<T> : DropHandlerBase
     where T : class
 {
@@ -162,7 +179,7 @@ public abstract class BaseDataGridDropHandler<T> : DropHandlerBase
         {
             if (cv is DataGridRowsPresenter dgrp)
                 return dgrp;
-            else if (GetRowsPresenter(cv) is DataGridRowsPresenter dgrp2)
+            else if (cv is Visual child && GetRowsPresenter(child) is DataGridRowsPresenter dgrp2)
                 return dgrp2;
         }
         return null;
@@ -179,7 +196,11 @@ public abstract class BaseDataGridDropHandler<T> : DropHandlerBase
             if (presenter is null)
                 return;
 
+#if UNO
+            foreach (var r in presenter.Children.OfType<FrameworkElement>())
+#else
             foreach (var r in presenter.Children)
+#endif
             {
                 if (r == exceptThis)
                     continue;

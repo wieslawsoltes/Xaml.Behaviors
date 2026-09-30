@@ -1,30 +1,33 @@
 // Copyright (c) Wiesław Šoltés. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for details.
 using System;
+#if UNO
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Controls.Primitives;
+using Microsoft.UI.Xaml.Input;
+using Microsoft.UI.Xaml.Media;
+using IBrush = Microsoft.UI.Xaml.Media.Brush;
+using TemplatedControl = Microsoft.UI.Xaml.Controls.Control;
+#else
 using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
 using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Media;
+#endif
 
+#if UNO
+namespace Xaml.Interactions.DragAndDrop;
+#else
 namespace Avalonia.Xaml.Interactions.DragAndDrop;
+#endif
 
 /// <summary>
 /// Behavior that handles file drop operations for <see cref="ContentControl"/>.
 /// </summary>
-public sealed class ContentControlFilesDropBehavior : DropBehaviorBase
+public sealed partial class ContentControlFilesDropBehavior : DropBehaviorBase
 {
-    /// <summary>
-    /// Identifies the <seealso cref="ContentDuringDrag"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<object?> ContentDuringDragProperty = 
-        AvaloniaProperty.Register<ContentControlFilesDropBehavior, object?>(nameof(ContentDuringDrag));
-
-    /// <summary>
-    /// Identifies the <seealso cref="BackgroundDuringDrag"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<IBrush?> BackgroundDuringDragProperty = 
-        AvaloniaProperty.Register<ContentControlFilesDropBehavior, IBrush?>(nameof(BackgroundDuringDrag));
 
     /// <summary>
     /// Initializes a new instance of the <see cref="ContentControlFilesDropBehavior"/> class.
@@ -40,20 +43,14 @@ public sealed class ContentControlFilesDropBehavior : DropBehaviorBase
     /// <summary>
     /// If sender is ContentControl - this content will be set during drag over
     /// </summary>
-    public object? ContentDuringDrag
-    {
-        get => GetValue(ContentDuringDragProperty);
-        set => SetValue(ContentDuringDragProperty, value);
-    }
+    [StyledProperty]
+    public partial object? ContentDuringDrag { get; set; }
 
     /// <summary>
     /// If sender is ContentControl - this background will be set during drag over
     /// </summary>
-    public IBrush? BackgroundDuringDrag
-    {
-        get => GetValue(BackgroundDuringDragProperty);
-        set => SetValue(BackgroundDuringDragProperty, value);
-    }
+    [StyledProperty]
+    public partial IBrush? BackgroundDuringDrag { get; set; }
 
     private sealed class FilesDropHandler(
         Action<object?> execute,

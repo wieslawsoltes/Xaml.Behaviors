@@ -1,0 +1,10 @@
+<Project>
+  <!--
+    Files of src/Xaml.Behaviors.Interactions.Responsive that are not compiled for Uno Platform (see src/Uno/PORTING.md).
+    Imported by the Uno project (source linking) and by the Avalonia project (Xaml.PortAnalyzers).
+    All sources are shared: style classes map to visual states on Uno Platform (Compat/StyleClasses.cs).
+  -->
+  <PropertyGroup>
+    <UnoSharedSourceExcludes></UnoSharedSourceExcludes>
+  </PropertyGroup>
+</Project>

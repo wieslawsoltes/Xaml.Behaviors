@@ -2,18 +2,30 @@
 // Licensed under the MIT license. See LICENSE file in the project root for details.
 using System;
 using System.Threading.Tasks;
+#if UNO
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Input;
+using Xaml.Interactivity;
+using Windows.Foundation;
+#else
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Xaml.Interactivity;
+#endif
 
+#if UNO
+namespace Xaml.Interactions.DragAndDrop;
+#else
 namespace Avalonia.Xaml.Interactions.DragAndDrop;
+#endif
 
 /// <summary>
 /// Behavior that starts drag and drop with information about drag direction.
 /// </summary>
-public sealed class ContextDragWithDirectionBehavior : StyledElementBehavior<Control>
+public sealed partial class ContextDragWithDirectionBehavior : StyledElementBehavior<Control>
 {
     private Point _dragStartPoint;
     private PointerPressedEventArgs? _triggerEvent;
@@ -23,64 +35,28 @@ public sealed class ContextDragWithDirectionBehavior : StyledElementBehavior<Con
         DataFormat.CreateStringApplicationFormat("Avalonia.Xaml.Interactions.DragAndDrop.Direction");
 
     /// <summary>
-    /// Identifies the <see cref="Context"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<object?> ContextProperty =
-        AvaloniaProperty.Register<ContextDragWithDirectionBehavior, object?>(nameof(Context));
-
-    /// <summary>
-    /// Identifies the <see cref="Handler"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<IDragHandler?> HandlerProperty =
-        AvaloniaProperty.Register<ContextDragWithDirectionBehavior, IDragHandler?>(nameof(Handler));
-
-    /// <summary>
-    /// Identifies the <see cref="HorizontalDragThreshold"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<double> HorizontalDragThresholdProperty =
-        AvaloniaProperty.Register<ContextDragWithDirectionBehavior, double>(nameof(HorizontalDragThreshold), 3);
-
-    /// <summary>
-    /// Identifies the <see cref="VerticalDragThreshold"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<double> VerticalDragThresholdProperty =
-        AvaloniaProperty.Register<ContextDragWithDirectionBehavior, double>(nameof(VerticalDragThreshold), 3);
-
-    /// <summary>
     /// Gets or sets the context used for drag operations.
     /// </summary>
-    public object? Context
-    {
-        get => GetValue(ContextProperty);
-        set => SetValue(ContextProperty, value);
-    }
+    [StyledProperty]
+    public partial object? Context { get; set; }
 
     /// <summary>
     /// Gets or sets the drag handler to notify.
     /// </summary>
-    public IDragHandler? Handler
-    {
-        get => GetValue(HandlerProperty);
-        set => SetValue(HandlerProperty, value);
-    }
+    [StyledProperty]
+    public partial IDragHandler? Handler { get; set; }
 
     /// <summary>
     /// Gets or sets the horizontal drag threshold.
     /// </summary>
-    public double HorizontalDragThreshold
-    {
-        get => GetValue(HorizontalDragThresholdProperty);
-        set => SetValue(HorizontalDragThresholdProperty, value);
-    }
+    [StyledProperty(DefaultValue = 3)]
+    public partial double HorizontalDragThreshold { get; set; }
 
     /// <summary>
     /// Gets or sets the vertical drag threshold.
     /// </summary>
-    public double VerticalDragThreshold
-    {
-        get => GetValue(VerticalDragThresholdProperty);
-        set => SetValue(VerticalDragThresholdProperty, value);
-    }
+    [StyledProperty(DefaultValue = 3)]
+    public partial double VerticalDragThreshold { get; set; }
 
     /// <inheritdoc />
     protected override void OnAttachedToVisualTree()
@@ -185,11 +161,12 @@ public sealed class ContextDragWithDirectionBehavior : StyledElementBehavior<Con
         if (_captured && properties.IsLeftButtonPressed && _triggerEvent is not null)
         {
             var point = e.GetPosition(null);
-            var diff = _dragStartPoint - point;
+            var diffX = _dragStartPoint.X - point.X;
+            var diffY = _dragStartPoint.Y - point.Y;
             var horizontal = HorizontalDragThreshold;
             var vertical = VerticalDragThreshold;
 
-            if (Math.Abs(diff.X) > horizontal || Math.Abs(diff.Y) > vertical)
+            if (Math.Abs(diffX) > horizontal || Math.Abs(diffY) > vertical)
             {
                 if (_lock)
                 {
@@ -204,7 +181,7 @@ public sealed class ContextDragWithDirectionBehavior : StyledElementBehavior<Con
 
                 Handler?.BeforeDragDrop(sender, _triggerEvent, context);
 
-                await DoDragDrop(_triggerEvent, context, diff.Y > 0 ? "up" : "down");
+                await DoDragDrop(_triggerEvent, context, diffY > 0 ? "up" : "down");
 
                 Handler?.AfterDragDrop(sender, _triggerEvent, context);
 

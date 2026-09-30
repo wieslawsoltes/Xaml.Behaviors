@@ -3,6 +3,7 @@
 using System.Collections.Generic;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media;
+using Windows.Foundation;
 
 namespace Xaml.Interactivity;
 
@@ -178,5 +179,38 @@ internal static class VisualTreeCompat
         }
 
         return null;
+    }
+
+    /// <summary>
+    /// Gets the top-most hit testable element at a position (Avalonia <c>Visual.GetVisualAt</c>).
+    /// </summary>
+    /// <param name="root">The element whose subtree is searched.</param>
+    /// <param name="position">The position relative to <paramref name="root"/>.</param>
+    /// <returns>The element or <c>null</c>.</returns>
+    /// <remarks>
+    /// The deepest visible, hit test visible element whose layout bounds contain the position is returned (children are
+    /// visited top-most first). Render transforms of the descendants are taken into account.
+    /// </remarks>
+    public static FrameworkElement? GetVisualAt(this UIElement root, Point position)
+        => root is FrameworkElement frameworkElement ? HitTest(frameworkElement, root, position) : null;
+
+    private static FrameworkElement? HitTest(FrameworkElement element, UIElement root, Point position)
+    {
+        if (element.Visibility != Visibility.Visible || !element.IsHitTestVisible)
+        {
+            return null;
+        }
+
+        for (var i = VisualTreeHelper.GetChildrenCount(element) - 1; i >= 0; i--)
+        {
+            if (VisualTreeHelper.GetChild(element, i) is FrameworkElement child && HitTest(child, root, position) is { } hit)
+            {
+                return hit;
+            }
+        }
+
+        var origin = element.TransformToVisual(root).TransformPoint(new Point(0, 0));
+        var bounds = new Rect(origin.X, origin.Y, element.ActualWidth, element.ActualHeight);
+        return bounds.Contains(position) ? element : null;
     }
 }

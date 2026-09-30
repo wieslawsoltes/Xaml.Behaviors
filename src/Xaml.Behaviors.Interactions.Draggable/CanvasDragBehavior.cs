@@ -1,12 +1,25 @@
 ﻿// Copyright (c) Wiesław Šoltés. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for details.
+#if UNO
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Controls.Primitives;
+using Microsoft.UI.Xaml.Input;
+using Windows.Foundation;
+using Xaml.Interactivity;
+#else
 using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
 using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Xaml.Interactivity;
+#endif
 
+#if UNO
+namespace Xaml.Interactions.Draggable;
+#else
 namespace Avalonia.Xaml.Interactions.Draggable;
+#endif
 
 /// <summary>
 /// Enables dragging of child controls within a <see cref="Canvas"/>.
@@ -17,7 +30,9 @@ public class CanvasDragBehavior : StyledElementBehavior<Control>
     private Point _start;
     private Control? _parent;
     private Control? _draggedContainer;
+#if !UNO
     private Control? _adorner;
+#endif
     private bool _captured;
 
     /// <inheritdoc />
@@ -44,6 +59,8 @@ public class CanvasDragBehavior : StyledElementBehavior<Control>
         }
     }
 
+#if !UNO
+    // Adorners (unused): WinUI has no adorner layer.
     private void AddAdorner(Control control)
     {
         var layer = AdornerLayer.GetAdornerLayer(control);
@@ -73,6 +90,7 @@ public class CanvasDragBehavior : StyledElementBehavior<Control>
         ((ISetLogicalParent) _adorner).SetParent(null);
         _adorner = null;
     }
+#endif
 
     private void Pressed(object? sender, PointerPressedEventArgs e)
     {
@@ -90,6 +108,10 @@ public class CanvasDragBehavior : StyledElementBehavior<Control>
             // AddAdorner(_draggedContainer);
 
             _captured = true;
+#if UNO
+            // Avalonia captures the pointer implicitly on press; WinUI only does so for touch.
+            AssociatedObject.CapturePointer(e.Pointer);
+#endif
         }
     }
 

@@ -1,32 +1,34 @@
 // Copyright (c) Wiesław Šoltés. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for details.
 using System.Collections;
+#if UNO
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Input;
+using Xaml.Interactivity;
+#else
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Xaml.Interactivity;
+#endif
 
+#if UNO
+namespace Xaml.Interactions.DragAndDrop;
+#else
 namespace Avalonia.Xaml.Interactions.DragAndDrop;
+#endif
 
 /// <summary>
 /// Adds file paths from a drag event to an <see cref="ItemsControl"/>.
 /// </summary>
-public sealed class AddPreviewFilesAction : StyledElementAction
+public sealed partial class AddPreviewFilesAction : StyledElementAction
 {
-    /// <summary>
-    /// Identifies the <seealso cref="ItemsControl"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<ItemsControl?> ItemsControlProperty =
-        AvaloniaProperty.Register<AddPreviewFilesAction, ItemsControl?>(nameof(ItemsControl));
 
     /// <summary>
     /// Gets or sets the items control used to display preview. This is an avalonia property.
     /// </summary>
-    [ResolveByName]
-    public ItemsControl? ItemsControl
-    {
-        get => GetValue(ItemsControlProperty);
-        set => SetValue(ItemsControlProperty, value);
-    }
+    [StyledProperty(ResolveByName = true)]
+    public partial ItemsControl? ItemsControl { get; set; }
 
     /// <inheritdoc />
     public override object Execute(object? sender, object? parameter)

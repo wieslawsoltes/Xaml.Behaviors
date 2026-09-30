@@ -1,0 +1,34 @@
+{
+  "$schema": "../../Xaml.PortAnalyzers/xamlport.schema.json",
+  "mapped": {
+    "types": [
+      "Avalonia.Point",
+      "Avalonia.Rect",
+      "Avalonia.Controls.Classes",
+      "Avalonia.Controls.DataGrid",
+      "Avalonia.Controls.DataGridRow",
+      "Avalonia.Controls.Primitives.DataGridRowsPresenter",
+      "Avalonia.Input.DragDropEffects"
+    ],
+    "members": [
+      "Avalonia.Point.X",
+      "Avalonia.Point.Y",
+      "Avalonia.Rect.Width",
+      "Avalonia.Rect.Height",
+      "Avalonia.Visual.Bounds",
+      "Avalonia.StyledElement.Classes",
+      "Avalonia.Controls.Classes.Add",
+      "Avalonia.Controls.Classes.Remove",
+      "Avalonia.Controls.DataGrid.SelectedIndex",
+      "Avalonia.Input.DragDropEffects.None",
+      "Avalonia.Input.DragDropEffects.Copy",
+      "Avalonia.Input.DragDropEffects.Move",
+      "Avalonia.Input.DragDropEffects.Link",
+      "Avalonia.Input.DragEventArgs.DragEffects",
+      "Avalonia.Input.DragEventArgs.GetPosition",
+      "Avalonia.Interactivity.RoutedEventArgs.Source",
+      "Avalonia.LogicalTree.LogicalExtensions.FindLogicalAncestorOfType",
+      "Avalonia.VisualTree.VisualExtensions.GetVisualChildren"
+    ]
+  }
+}

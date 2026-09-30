@@ -31,7 +31,7 @@ public class EventTriggerDetachTests
 
         var trigger = new GotFocusEventTrigger();
         var action = new RecordingAction();
-        trigger.Actions.Add(action);
+        trigger.Actions!.Add(action);
         Interaction.GetBehaviors(button).Add(trigger);
 
         Interaction.GetBehaviors(button).Remove(trigger);

@@ -1,5 +1,11 @@
 using System;
 using System.Threading.Tasks;
+#if UNO
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Input;
+using Xaml.Interactivity;
+#else
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Templates;
@@ -7,14 +13,19 @@ using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.LogicalTree;
 using Avalonia.Xaml.Interactivity;
+#endif
 
+#if UNO
+namespace Xaml.Interactions.DragAndDrop;
+#else
 namespace Avalonia.Xaml.Interactions.DragAndDrop;
+#endif
 
 /// <summary>
 /// Behavior that initiates an in-process managed drag with an optional preview window.
 /// This avoids OS drag-drop and integrates with <see cref="ManagedDragDropService"/>.
 /// </summary>
-public class ManagedContextDragBehavior : StyledElementBehavior<Control>
+public partial class ManagedContextDragBehavior : StyledElementBehavior<Control>
 {
     private static bool s_isDragging;
 
@@ -33,123 +44,50 @@ public class ManagedContextDragBehavior : StyledElementBehavior<Control>
     /// <summary>
     /// Gets or sets the context value used as a drag payload when the drag starts.
     /// </summary>
-    public static readonly StyledProperty<object?> ContextProperty =
-        AvaloniaProperty.Register<ManagedContextDragBehavior, object?>(nameof(Context));
-
-    /// <summary>
-    /// Gets or sets the data template used to render the drag preview window content.
-    /// </summary>
-    public static readonly StyledProperty<IDataTemplate?> PreviewTemplateProperty =
-        AvaloniaProperty.Register<ManagedContextDragBehavior, IDataTemplate?>(nameof(PreviewTemplate));
-
-    /// <summary>
-    /// Gets or sets the minimal horizontal distance required to start dragging.
-    /// </summary>
-    public static readonly StyledProperty<double> HorizontalDragThresholdProperty =
-        AvaloniaProperty.Register<ManagedContextDragBehavior, double>(nameof(HorizontalDragThreshold), 3);
-
-    /// <summary>
-    /// Gets or sets the minimal vertical distance required to start dragging.
-    /// </summary>
-    public static readonly StyledProperty<double> VerticalDragThresholdProperty =
-        AvaloniaProperty.Register<ManagedContextDragBehavior, double>(nameof(VerticalDragThreshold), 3);
-
-    /// <summary>
-    /// Gets or sets the fixed logical offset applied to the preview position.
-    /// Ignored when <see cref="UsePointerRelativePreviewOffset"/> is true and a pointer-relative offset is calculated.
-    /// </summary>
-    public static readonly StyledProperty<Point> PreviewOffsetProperty =
-        AvaloniaProperty.Register<ManagedContextDragBehavior, Point>(nameof(PreviewOffset), new Point(0, 0));
-
-    /// <summary>
-    /// Gets or sets the data format name used to identify the payload in managed drag operations.
-    /// </summary>
-    public static readonly StyledProperty<string> DataFormatProperty =
-        AvaloniaProperty.Register<ManagedContextDragBehavior, string>(nameof(DataFormat), "Context");
-
-    /// <summary>
-    /// Gets or sets whether to compute a pointer-relative preview offset automatically.
-    /// </summary>
-    public static readonly StyledProperty<bool> UsePointerRelativePreviewOffsetProperty =
-        AvaloniaProperty.Register<ManagedContextDragBehavior, bool>(nameof(UsePointerRelativePreviewOffset), true);
-
-    /// <summary>
-    /// Gets or sets the preview window opacity.
-    /// </summary>
-    public static readonly StyledProperty<double> PreviewOpacityProperty =
-        AvaloniaProperty.Register<ManagedContextDragBehavior, double>(nameof(PreviewOpacity), 0.65);
-
-    /// <summary>
-    /// Gets or sets the context value used as a drag payload when the drag starts.
-    /// </summary>
-    public object? Context
-    {
-        get => GetValue(ContextProperty);
-        set => SetValue(ContextProperty, value);
-    }
+    [StyledProperty]
+    public partial object? Context { get; set; }
 
     /// <summary>
     /// Gets or sets the template used to render the drag preview.
     /// </summary>
-    public IDataTemplate? PreviewTemplate
-    {
-        get => GetValue(PreviewTemplateProperty);
-        set => SetValue(PreviewTemplateProperty, value);
-    }
+    [StyledProperty]
+    public partial IDataTemplate? PreviewTemplate { get; set; }
 
     /// <summary>
     /// Gets or sets the minimal horizontal distance required to start dragging.
     /// </summary>
-    public double HorizontalDragThreshold
-    {
-        get => GetValue(HorizontalDragThresholdProperty);
-        set => SetValue(HorizontalDragThresholdProperty, value);
-    }
+    [StyledProperty(DefaultValue = 3)]
+    public partial double HorizontalDragThreshold { get; set; }
 
     /// <summary>
     /// Gets or sets the minimal vertical distance required to start dragging.
     /// </summary>
-    public double VerticalDragThreshold
-    {
-        get => GetValue(VerticalDragThresholdProperty);
-        set => SetValue(VerticalDragThresholdProperty, value);
-    }
+    [StyledProperty(DefaultValue = 3)]
+    public partial double VerticalDragThreshold { get; set; }
 
     /// <summary>
     /// Gets or sets a fixed logical offset added to the preview position.
     /// </summary>
-    public Point PreviewOffset
-    {
-        get => GetValue(PreviewOffsetProperty);
-        set => SetValue(PreviewOffsetProperty, value);
-    }
+    [StyledProperty(DefaultValueExpression = "new Point(0, 0)")]
+    public partial Point PreviewOffset { get; set; }
 
     /// <summary>
     /// Gets or sets the data format name used to identify the managed payload.
     /// </summary>
-    public string DataFormat
-    {
-        get => GetValue(DataFormatProperty);
-        set => SetValue(DataFormatProperty, value);
-    }
+    [StyledProperty(DefaultValue = "Context")]
+    public partial string DataFormat { get; set; }
 
     /// <summary>
     /// Gets or sets whether to compute a pointer-relative preview offset automatically.
     /// </summary>
-    public bool UsePointerRelativePreviewOffset
-    {
-        get => GetValue(UsePointerRelativePreviewOffsetProperty);
-        set => SetValue(UsePointerRelativePreviewOffsetProperty, value);
-    }
+    [StyledProperty(DefaultValue = true)]
+    public partial bool UsePointerRelativePreviewOffset { get; set; }
 
     /// <summary>
     /// Gets or sets the preview window opacity.
     /// </summary>
-    public double PreviewOpacity
-    {
-        get => GetValue(PreviewOpacityProperty);
-        set => SetValue(PreviewOpacityProperty, value);
-    }
+    [StyledProperty(DefaultValue = 0.65)]
+    public partial double PreviewOpacity { get; set; }
 
     /// <inheritdoc />
     protected override void OnAttachedToVisualTree()

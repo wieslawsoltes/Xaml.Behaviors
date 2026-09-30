@@ -1,24 +1,32 @@
 // Copyright (c) Wiesław Šoltés. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for details.
 using System;
+#if UNO
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Input;
+using Microsoft.UI.Xaml.Media;
+using Windows.Foundation;
+using Xaml.Interactivity;
+#else
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Media;
 using Avalonia.Xaml.Interactivity;
+#endif
 
+#if UNO
+namespace Xaml.Interactions.Draggable;
+#else
 namespace Avalonia.Xaml.Interactions.Draggable;
+#endif
 
 /// <summary>
 /// Enables dragging of a control with the mouse using a <see cref="TranslateTransform"/>.
 /// </summary>
-public class MouseDragElementBehavior : StyledElementBehavior<Control>
+public partial class MouseDragElementBehavior : StyledElementBehavior<Control>
 {
-    /// <summary>
-    /// Identifies the <see cref="ConstrainToParentBounds"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<bool> ConstrainToParentBoundsProperty =
-        AvaloniaProperty.Register<MouseDragElementBehavior, bool>(nameof(ConstrainToParentBounds));
 
     private bool _captured;
     private Point _start;
@@ -28,11 +36,8 @@ public class MouseDragElementBehavior : StyledElementBehavior<Control>
     /// <summary>
     /// Gets or sets whether dragging should be constrained to the bounds of the parent control.
     /// </summary>
-    public bool ConstrainToParentBounds
-    {
-        get => GetValue(ConstrainToParentBoundsProperty);
-        set => SetValue(ConstrainToParentBoundsProperty, value);
-    }
+    [StyledProperty]
+    public partial bool ConstrainToParentBounds { get; set; }
 
     /// <inheritdoc />
     protected override void OnAttachedToVisualTree()
@@ -77,6 +82,10 @@ public class MouseDragElementBehavior : StyledElementBehavior<Control>
             }
 
             _captured = true;
+#if UNO
+            // Avalonia captures the pointer implicitly on press; WinUI only does so for touch.
+            AssociatedObject.CapturePointer(e.Pointer);
+#endif
         }
     }
 

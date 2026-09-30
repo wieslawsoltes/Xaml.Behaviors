@@ -2,6 +2,16 @@
 // Licensed under the MIT license. See LICENSE file in the project root for details.
 using System;
 using System.Collections;
+#if UNO
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Controls.Primitives;
+using Microsoft.UI.Xaml.Input;
+using Microsoft.UI.Xaml.Media;
+using Windows.Foundation;
+using Xaml.Interactivity;
+using SelectingItemsControl = Microsoft.UI.Xaml.Controls.Primitives.Selector;
+#else
 using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
 using Avalonia.Input;
@@ -9,13 +19,23 @@ using Avalonia.Interactivity;
 using Avalonia.Layout;
 using Avalonia.Media.Transformation;
 using Avalonia.Xaml.Interactivity;
+#endif
 
+#if UNO
+namespace Xaml.Interactions.Draggable;
+#else
 namespace Avalonia.Xaml.Interactions.Draggable;
+#endif
 
 /// <summary>
 /// Allows dragging items within an <see cref="ItemsControl"/>.
 /// </summary>
-public class ItemDragBehavior : StyledElementBehavior<Control>
+/// <remarks>
+/// On Uno Platform the behavior can be attached to an item container or to an element of the item template (the
+/// closest item container is dragged), and the <c>:dragging</c> pseudo class maps to the <c>dragging</c>/<c>Dragging</c>
+/// visual state of the container (see <c>VisualStateManager</c>).
+/// </remarks>
+public partial class ItemDragBehavior : StyledElementBehavior<Control>
 {
     private bool _enableDrag;
     private bool _dragStarted;
@@ -27,49 +47,22 @@ public class ItemDragBehavior : StyledElementBehavior<Control>
     private bool _captured;
 
     /// <summary>
-    /// Identifies the <see cref="Orientation"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<Orientation> OrientationProperty =
-        AvaloniaProperty.Register<ItemDragBehavior, Orientation>(nameof(Orientation));
-
-    /// <summary>
-    /// Identifies the <see cref="HorizontalDragThreshold"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<double> HorizontalDragThresholdProperty =
-        AvaloniaProperty.Register<ItemDragBehavior, double>(nameof(HorizontalDragThreshold), 3);
-
-    /// <summary>
-    /// Identifies the <see cref="VerticalDragThreshold"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<double> VerticalDragThresholdProperty =
-        AvaloniaProperty.Register<ItemDragBehavior, double>(nameof(VerticalDragThreshold), 3);
-
-    /// <summary>
     /// Gets or sets the orientation of the drag operation.
     /// </summary>
-    public Orientation Orientation
-    {
-        get => GetValue(OrientationProperty);
-        set => SetValue(OrientationProperty, value);
-    }
+    [StyledProperty(DefaultValue = Orientation.Horizontal)]
+    public partial Orientation Orientation { get; set; }
 
     /// <summary>
     /// Gets or sets the horizontal drag threshold in pixels.
     /// </summary>
-    public double HorizontalDragThreshold
-    {
-        get => GetValue(HorizontalDragThresholdProperty);
-        set => SetValue(HorizontalDragThresholdProperty, value);
-    }
+    [StyledProperty(DefaultValue = 3)]
+    public partial double HorizontalDragThreshold { get; set; }
 
     /// <summary>
     /// Gets or sets the vertical drag threshold in pixels.
     /// </summary>
-    public double VerticalDragThreshold
-    {
-        get => GetValue(VerticalDragThresholdProperty);
-        set => SetValue(VerticalDragThresholdProperty, value);
-    }
+    [StyledProperty(DefaultValue = 3)]
+    public partial double VerticalDragThreshold { get; set; }
 
     /// <inheritdoc />
     protected override void OnAttachedToVisualTree()
@@ -98,8 +91,13 @@ public class ItemDragBehavior : StyledElementBehavior<Control>
     private void PointerPressed(object? sender, PointerPressedEventArgs e)
     {
         var properties = e.GetCurrentPoint(AssociatedObject).Properties;
+#if UNO
+        if (properties.IsLeftButtonPressed
+            && AssociatedObject.TryGetItemContainer(out var itemsControl, out var container) && IsEnabled)
+#else
         if (properties.IsLeftButtonPressed 
             && AssociatedObject?.Parent is ItemsControl itemsControl && IsEnabled)
+#endif
         {
             _enableDrag = true;
             _dragStarted = false;
@@ -107,7 +105,11 @@ public class ItemDragBehavior : StyledElementBehavior<Control>
             _draggedIndex = -1;
             _targetIndex = -1;
             _itemsControl = itemsControl;
+#if UNO
+            _draggedContainer = container;
+#else
             _draggedContainer = AssociatedObject;
+#endif
 
             if (_draggedContainer is not null)
             {
@@ -117,6 +119,10 @@ public class ItemDragBehavior : StyledElementBehavior<Control>
             AddTransforms(_itemsControl);
 
             _captured = true;
+#if UNO
+            // Avalonia captures the pointer implicitly on press; WinUI only does so for touch.
+            AssociatedObject?.CapturePointer(e.Pointer);
+#endif
         }
     }
 
@@ -145,6 +151,10 @@ public class ItemDragBehavior : StyledElementBehavior<Control>
         {
             return;
         }
+
+        // Moving the items can detach the captured container, which raises PointerCaptureLost (and re-enters this
+        // method) synchronously: end the drag before touching the items.
+        _enableDrag = false;
 
         RemoveTransforms(_itemsControl);
 
@@ -197,8 +207,7 @@ public class ItemDragBehavior : StyledElementBehavior<Control>
 
         foreach (var _ in itemsControl.Items)
         {
-            var container = itemsControl.ContainerFromIndex(i);
-            if (container is not null)
+            if (itemsControl.ContainerFromIndex(i) is Control container)
             {
                 SetTranslateTransform(container, 0, 0);
             }
@@ -218,8 +227,7 @@ public class ItemDragBehavior : StyledElementBehavior<Control>
 
         foreach (var _ in itemsControl.Items)
         {
-            var container = itemsControl.ContainerFromIndex(i);
-            if (container is not null)
+            if (itemsControl.ContainerFromIndex(i) is Control container)
             {
                 SetTranslateTransform(container, 0, 0);
             }
@@ -249,7 +257,7 @@ public class ItemDragBehavior : StyledElementBehavior<Control>
                 itemCollection.RemoveAt(draggedIndex);
                 itemCollection.Insert(targetIndex, draggedItem);
 
-                var control = itemsControl?.ContainerFromIndex(targetIndex);
+                var control = itemsControl?.ContainerFromIndex(targetIndex) as Control;
                 if (control is not null)
                 {
                     Attach(control);
@@ -279,13 +287,14 @@ public class ItemDragBehavior : StyledElementBehavior<Control>
 
             if (!_dragStarted)
             {
-                var diff = _start - position;
+                var diffX = _start.X - position.X;
+                var diffY = _start.Y - position.Y;
                 var horizontalDragThreshold = HorizontalDragThreshold;
                 var verticalDragThreshold = VerticalDragThreshold;
 
                 if (orientation == Orientation.Horizontal)
                 {
-                    if (Math.Abs(diff.X) > horizontalDragThreshold)
+                    if (Math.Abs(diffX) > horizontalDragThreshold)
                     {
                         _dragStarted = true;
                     }
@@ -296,7 +305,7 @@ public class ItemDragBehavior : StyledElementBehavior<Control>
                 }
                 else
                 {
-                    if (Math.Abs(diff.Y) > verticalDragThreshold)
+                    if (Math.Abs(diffY) > verticalDragThreshold)
                     {
                         _dragStarted = true;
                     }
@@ -335,7 +344,7 @@ public class ItemDragBehavior : StyledElementBehavior<Control>
 
             foreach (var _ in _itemsControl.Items)
             {
-                var targetContainer = _itemsControl.ContainerFromIndex(i);
+                var targetContainer = _itemsControl.ContainerFromIndex(i) as Control;
                 if (targetContainer?.RenderTransform is null || ReferenceEquals(targetContainer, _draggedContainer))
                 {
                     i++;
@@ -411,8 +420,12 @@ public class ItemDragBehavior : StyledElementBehavior<Control>
 
     private void SetTranslateTransform(Control control, double x, double y)
     {
+#if UNO
+        control.RenderTransform = new TranslateTransform { X = x, Y = y };
+#else
         var transformBuilder = new TransformOperations.Builder(1);
         transformBuilder.AppendTranslate(x, y);
         control.RenderTransform = transformBuilder.Build();
+#endif
     }
 }
