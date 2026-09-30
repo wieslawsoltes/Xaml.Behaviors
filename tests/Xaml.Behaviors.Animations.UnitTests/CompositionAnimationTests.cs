@@ -4,12 +4,20 @@
 using System;
 using System.Numerics;
 using System.Threading.Tasks;
+#if UNO
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Composition;
+using Microsoft.UI.Dispatching;
+using Xaml.Interactions.Custom;
+#else
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Headless.XUnit;
 using Avalonia.Rendering.Composition;
 using Avalonia.Threading;
 using Avalonia.Xaml.Interactions.Custom;
+#endif
 using Xunit;
 
 namespace Xaml.Behaviors.Animations.UnitTests;
@@ -38,7 +46,12 @@ public class CompositionAnimationTests
         bool applied = ParallaxAnimation.Apply(target, new Avalonia.Vector(20d, 50d), 0.25d);
 
         Assert.True(applied);
+#if UNO
+        // WinUI composes Visual.Offset on top of the arranged position (30, 40) of the element.
+        Assert.Equal(new Vector3(5f, 12.5f, 0f), ElementComposition.GetElementVisual(target)?.Offset);
+#else
         Assert.Equal(new Vector3(35f, 52.5f, 0f), ElementComposition.GetElementVisual(target)?.Offset);
+#endif
         window.Close();
     }
 
@@ -58,7 +71,12 @@ public class CompositionAnimationTests
         animation.Apply(new Avalonia.Vector(10d, 20d), 0.5d);
         animation.Apply(new Avalonia.Vector(20d, 50d), 0.25d);
 
+#if UNO
+        // WinUI composes Visual.Offset on top of the arranged position (30, 40) of the element.
+        Assert.Equal(new Vector3(5f, 12.5f, 0f), ElementComposition.GetElementVisual(target)?.Offset);
+#else
         Assert.Equal(new Vector3(35f, 52.5f, 0f), ElementComposition.GetElementVisual(target)?.Offset);
+#endif
         window.Close();
     }
 
@@ -182,9 +200,17 @@ public class CompositionAnimationTests
     [AvaloniaFact]
     public async Task SlidingAnimation_DoesNotOverwritePositionedControlLayoutOffset()
     {
+#if UNO
+        // Uno Platform reads the animated composition offset: the slide starts one element width (100) left of the
+        // positioned control, whose layout position (30, 40) is kept (see AssertCompositionOffsetAsync).
+        await AssertCompositionOffsetAsync(
+            target => SlidingAnimation.SetLeft(target, 10_000d),
+            new Vector3(-70f, 40f, 0f));
+#else
         await AssertCompositionOffsetAsync(
             target => SlidingAnimation.SetLeft(target, 10_000d),
             new Vector3(30f, 40f, 0f));
+#endif
     }
 
     [AvaloniaFact]
@@ -197,7 +223,12 @@ public class CompositionAnimationTests
             target,
             new Vector3(-100f, 25f, 0f));
 
+#if UNO
+        // WinUI composes Visual.Offset on top of the arranged position: the layout offset is always zero.
+        Assert.Equal(new Vector3(-100f, 25f, 0f), offset);
+#else
         Assert.Equal(new Vector3(-70f, 65f, 0f), offset);
+#endif
     }
 
     private static async Task AssertCompositionOffsetAsync(Action<Control> configure, Vector3 expectedOffset)
@@ -216,7 +247,18 @@ public class CompositionAnimationTests
             await Task.Delay(20);
             Dispatcher.UIThread.RunJobs();
 
+#if UNO
+            // WinUI composes Visual.Offset on top of the arranged position (30, 40) of the element, and the Uno
+            // composition animation may already have advanced by a frame.
+            Vector3 actualOffset = Assert.IsAssignableFrom<CompositionVisual>(ElementComposition.GetElementVisual(target)).Offset;
+            Vector3 expectedRelativeOffset = expectedOffset - new Vector3(30f, 40f, 0f);
+            Assert.True(
+                Vector3.Distance(expectedRelativeOffset, actualOffset) <= 3f,
+                $"Expected {expectedRelativeOffset} but was {actualOffset}.");
+            Assert.Equal(new Vector3(30f, 40f, 0f), target.ActualOffset);
+#else
             Assert.Equal(expectedOffset, ElementComposition.GetElementVisual(target)?.Offset);
+#endif
         }
         finally
         {

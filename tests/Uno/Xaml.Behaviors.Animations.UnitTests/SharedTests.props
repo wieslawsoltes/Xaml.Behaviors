@@ -1,0 +1,9 @@
+<Project>
+  <!--
+    Files of tests/Xaml.Behaviors.Animations.UnitTests that are not compiled for Uno Platform.
+    Every file is shared: the WinUI differences are adapted with #if UNO blocks in the tests.
+  -->
+  <PropertyGroup>
+    <UnoSharedTestExcludes></UnoSharedTestExcludes>
+  </PropertyGroup>
+</Project>

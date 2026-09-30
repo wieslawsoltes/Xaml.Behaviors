@@ -13,7 +13,7 @@ using Xunit;
 
 namespace Xaml.Behaviors.Animations.UnitTests;
 
-public class CompositionCatalogSmokeTests
+public class UnoCompositionCatalogSmokeTests
 {
     private const double DurationMilliseconds = 10_000d;
 
@@ -265,5 +265,5 @@ public class CompositionCatalogSmokeTests
         Assert.All(panel.Children, target => Assert.NotNull(GetVisual(target)));
     }
 
-    private static Visual GetVisual(UIElement target) => TestHelpers.GetVisual(target);
+    private static CompositionVisual GetVisual(UIElement target) => TestHelpers.GetVisual(target);
 }

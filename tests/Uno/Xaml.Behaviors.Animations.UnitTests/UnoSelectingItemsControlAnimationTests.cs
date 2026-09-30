@@ -13,7 +13,7 @@ using Xunit;
 
 namespace Xaml.Behaviors.Animations.UnitTests;
 
-public class SelectingItemsControlAnimationTests
+public class UnoSelectingItemsControlAnimationTests
 {
     private const string IndicatorName = "PART_SelectedPipe";
 
@@ -43,7 +43,7 @@ public class SelectingItemsControlAnimationTests
         bool started = SelectionIndicatorAnimation.TryStart(newSelection, oldSelection, TimeSpan.FromSeconds(10));
 
         Assert.True(started);
-        Visual indicatorVisual = TestHelpers.GetVisual(newIndicator);
+        CompositionVisual indicatorVisual = TestHelpers.GetVisual(newIndicator);
         Assert.Equal(CompositionGetValueStatus.Succeeded, indicatorVisual.Properties.TryGetVector3("Translation", out Vector3 translation));
         // The indicator starts at the previous container (40 pixels above) and moves to its own position.
         TestHelpers.AssertNear(new Vector3(0f, -40f, 0f), translation, 1f);
@@ -61,7 +61,7 @@ public class SelectingItemsControlAnimationTests
 
         Assert.True(SelectionIndicatorAnimation.TryStart(newSelection, oldSelection, TimeSpan.FromMilliseconds(60)));
 
-        Visual indicatorVisual = TestHelpers.GetVisual(newIndicator);
+        CompositionVisual indicatorVisual = TestHelpers.GetVisual(newIndicator);
         await TestHelpers.WaitUntilAsync(
             () => indicatorVisual.Properties.TryGetVector3("Translation", out Vector3 translation) == CompositionGetValueStatus.Succeeded
                 && translation == Vector3.Zero
@@ -126,7 +126,7 @@ public class SelectingItemsControlAnimationTests
 
         listView.SelectedIndex = 1;
 
-        Visual indicatorVisual = TestHelpers.GetVisual(secondIndicator);
+        CompositionVisual indicatorVisual = TestHelpers.GetVisual(secondIndicator);
         Assert.Equal(CompositionGetValueStatus.Succeeded, indicatorVisual.Properties.TryGetVector3("Translation", out Vector3 translation));
         // The indicator starts at the previous container (40 pixels above) and moves to its own position.
         TestHelpers.AssertNear(new Vector3(0f, -40f, 0f), translation, 1f);

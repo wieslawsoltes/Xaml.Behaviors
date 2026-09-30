@@ -3,12 +3,20 @@
 
 using System;
 using System.Numerics;
+#if UNO
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Composition;
+using Microsoft.UI.Dispatching;
+using Xaml.Interactions.Custom;
+#else
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Headless.XUnit;
 using Avalonia.Rendering.Composition;
 using Avalonia.Threading;
 using Avalonia.Xaml.Interactions.Custom;
+#endif
 using Xunit;
 
 namespace Xaml.Behaviors.Animations.UnitTests;
@@ -219,16 +227,31 @@ public class CompositionCatalogSmokeTests
             window.Show();
             Dispatcher.UIThread.RunJobs();
 
+#if UNO
+            // WinUI composes Visual.Offset on top of the arranged position (30, 40) of the element.
+            Assert.Equal(Vector3.Zero, GetVisual(attention).Offset);
+            Assert.Equal(Vector3.Zero, GetVisual(entrance).Offset);
+            Assert.Equal(new Vector3(0f, 240f, 0f), GetVisual(exit).Offset);
+#else
             Assert.Equal(new Vector3(30f, 40f, 0f), GetVisual(attention).Offset);
             Assert.Equal(new Vector3(30f, 40f, 0f), GetVisual(entrance).Offset);
             Assert.Equal(new Vector3(30f, 280f, 0f), GetVisual(exit).Offset);
+#endif
             Assert.Equal(0.8f, GetVisual(fade).Opacity);
             Assert.Equal(Vector3.Zero, GetVisual(scale).Scale);
             Assert.Equal(CompositionAnimationHelpers.DegreesToRadians(30f), GetVisual(rotate).RotationAngle);
+#if UNO
+            Assert.Equal(Vector3.Zero, GetVisual(sliding).Offset);
+#else
             Assert.Equal(new Vector3(30f, 40f, 0f), GetVisual(sliding).Offset);
+#endif
             Assert.Equal(Vector3.One, GetVisual(special).Scale);
             Assert.Equal(0f, GetVisual(special).RotationAngle);
+#if UNO
+            Assert.Equal(Vector3.Zero, GetVisual(framerMotion).Offset);
+#else
             Assert.Equal(new Vector3(30f, 40f, 0f), GetVisual(framerMotion).Offset);
+#endif
         }
         finally
         {

@@ -29,7 +29,7 @@ internal static class TestHelpers
         await task;
     }
 
-    public static Visual GetVisual(UIElement element) => ElementCompositionPreview.GetElementVisual(element);
+    public static CompositionVisual GetVisual(UIElement element) => ElementCompositionPreview.GetElementVisual(element);
 
     public static void AssertNear(System.Numerics.Vector3 expected, System.Numerics.Vector3 actual, float tolerance = 0.001f)
     {
