@@ -5,6 +5,8 @@ using System;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Xaml.Interactivity;
+using System.Collections.Generic;
+using Windows.Foundation;
 #else
 using Avalonia.Collections;
 using Avalonia.Controls;
@@ -36,8 +38,13 @@ public partial class SplitViewStateBehavior : StyledElementBehavior<SplitView>
     /// <summary>
     /// Gets split view state setters collection. This is an avalonia property.
     /// </summary>
+#if UNO
+    [DirectProperty(Lazy = true, Content = true)]
+    public partial DependencyObjectCollection<SplitViewStateSetter> Setters { get; }
+#else
     [DirectProperty(Lazy = true, Content = true)]
     public partial AvaloniaList<SplitViewStateSetter> Setters { get; }
+#endif
 
     /// <inheritdoc />
     protected override void OnAttachedToVisualTree()
@@ -65,6 +72,19 @@ public partial class SplitViewStateBehavior : StyledElementBehavior<SplitView>
 
     private void StopObserving() => _disposable?.Dispose();
 
+#if UNO
+    private IDisposable ObserveBounds(Control source)
+    {
+        // WinUI has no observable Bounds property: the size changes are observed instead.
+        void OnSizeChanged(object sender, SizeChangedEventArgs e) => Execute(Setters, new Rect(0, 0, e.NewSize.Width, e.NewSize.Height));
+
+        Execute(Setters, new Rect(0, 0, source.ActualWidth, source.ActualHeight));
+        source.SizeChanged += OnSizeChanged;
+        return DisposableAction.Create(() => source.SizeChanged -= OnSizeChanged);
+    }
+
+    private void Execute(IList<SplitViewStateSetter>? setters, Rect bounds)
+#else
     private IDisposable ObserveBounds(Control source)
     {
         Execute(Setters, source.Bounds);
@@ -73,6 +93,7 @@ public partial class SplitViewStateBehavior : StyledElementBehavior<SplitView>
     }
 
     private void Execute(AvaloniaList<SplitViewStateSetter>? setters, Rect bounds)
+#endif
     {
         if (AssociatedObject is null || setters is null)
         {

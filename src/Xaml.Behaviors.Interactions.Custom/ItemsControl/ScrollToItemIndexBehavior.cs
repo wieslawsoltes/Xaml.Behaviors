@@ -5,6 +5,7 @@ using System;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Xaml.Interactivity;
+using ItemsControl = Microsoft.UI.Xaml.Controls.ListViewBase;
 #else
 using Avalonia.Controls;
 using Avalonia.Reactive;
@@ -20,6 +21,9 @@ namespace Avalonia.Xaml.Interactions.Custom;
 /// <summary>
 /// Scrolls the associated <see cref="ItemsControl"/> to a given item index.
 /// </summary>
+/// <remarks>
+/// On Uno Platform the associated object is a WinUI <c>ListViewBase</c> (<c>ListView</c>, <c>GridView</c>).
+/// </remarks>
 public partial class ScrollToItemIndexBehavior : AttachedToVisualTreeBehavior<ItemsControl>
 {
 
@@ -37,7 +41,15 @@ public partial class ScrollToItemIndexBehavior : AttachedToVisualTreeBehavior<It
     {
         var disposable = ItemIndex?.Subscribe(new AnonymousObserver<int>(index =>
         {
+#if UNO
+            // WinUI scrolls to items: resolve the item at the index.
+            if (AssociatedObject is { } itemsControl && index >= 0 && index < itemsControl.Items.Count)
+            {
+                itemsControl.ScrollIntoView(itemsControl.Items[index]);
+            }
+#else
             AssociatedObject?.ScrollIntoView(index);
+#endif
         }));
 
         if (disposable is not null)

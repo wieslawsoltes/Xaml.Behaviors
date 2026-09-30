@@ -3,6 +3,7 @@
 using System;
 #if UNO
 using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Automation;
 using Microsoft.UI.Xaml.Controls;
 using Xaml.Interactivity;
 #else
@@ -31,7 +32,7 @@ public class AutomationNameChangedTrigger : DisposingTrigger<Control>
             return DisposableAction.Empty;
         }
 
-        var subscription = AssociatedObject.GetObservable(AutomationProperties.NameProperty)
+        var subscription = AssociatedObject.GetObservable<string?>(AutomationProperties.NameProperty)
             .Subscribe(new AnonymousObserver<string?>(_ => Execute()));
 
         return subscription;

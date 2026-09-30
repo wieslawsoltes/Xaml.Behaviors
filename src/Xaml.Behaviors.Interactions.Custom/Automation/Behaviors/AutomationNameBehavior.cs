@@ -2,6 +2,7 @@
 // Licensed under the MIT license. See LICENSE file in the project root for details.
 #if UNO
 using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Automation;
 using Microsoft.UI.Xaml.Controls;
 using Xaml.Interactivity;
 #else
@@ -19,22 +20,13 @@ namespace Avalonia.Xaml.Interactions.Custom;
 /// <summary>
 /// Sets <see cref="AutomationProperties.NameProperty"/> on the associated control when attached.
 /// </summary>
-public class AutomationNameBehavior : StyledElementBehavior<Control>
+public partial class AutomationNameBehavior : StyledElementBehavior<Control>
 {
-    /// <summary>
-    /// Identifies the <see cref="AutomationName"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<string?> AutomationNameProperty =
-        AvaloniaProperty.Register<AutomationNameBehavior, string?>(nameof(AutomationName));
-
     /// <summary>
     /// Gets or sets the automation name. This is an avalonia property.
     /// </summary>
-    public string? AutomationName
-    {
-        get => (string?)GetValue(NameProperty);
-        set => SetValue(NameProperty, value);
-    }
+    [StyledProperty]
+    public partial string? AutomationName { get; set; }
 
     /// <inheritdoc />
     protected override void OnAttached()

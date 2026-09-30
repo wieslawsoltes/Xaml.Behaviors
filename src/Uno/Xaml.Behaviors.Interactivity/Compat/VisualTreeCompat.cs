@@ -64,7 +64,10 @@ internal static class VisualTreeCompat
         return false;
     }
 
-    /// <summary>Finds the closest visual ancestor of the given type.</summary>
+    /// <summary>
+    /// Finds the closest visual ancestor of the given type, falling back to <see cref="FrameworkElement.Parent"/> for
+    /// elements that are not (yet) part of a visual tree.
+    /// </summary>
     public static T? FindAncestorOfType<T>(this DependencyObject? element, bool includeSelf = false)
         where T : class
     {
@@ -73,7 +76,7 @@ internal static class VisualTreeCompat
             return null;
         }
 
-        for (var current = includeSelf ? element : VisualTreeHelper.GetParent(element); current is not null; current = VisualTreeHelper.GetParent(current))
+        for (var current = includeSelf ? element : VisualOrLogicalParent(element); current is not null; current = VisualOrLogicalParent(current))
         {
             if (current is T result)
             {
@@ -115,6 +118,34 @@ internal static class VisualTreeCompat
 
         return null;
     }
+
+    /// <summary>Gets the logical ancestors of the element, closest first (Avalonia <c>GetLogicalAncestors</c>).</summary>
+    public static IEnumerable<DependencyObject> GetLogicalAncestors(this DependencyObject element)
+    {
+        for (var current = element.GetLogicalParent(); current is not null; current = current.GetLogicalParent())
+        {
+            yield return current;
+        }
+    }
+
+    /// <summary>Enumerates the visual descendants of the element, depth first (Avalonia <c>GetVisualDescendants</c>).</summary>
+    public static IEnumerable<DependencyObject> GetVisualDescendants(this DependencyObject element)
+    {
+        var count = VisualTreeHelper.GetChildrenCount(element);
+        for (var i = 0; i < count; i++)
+        {
+            var child = VisualTreeHelper.GetChild(element, i);
+            yield return child;
+
+            foreach (var descendant in child.GetVisualDescendants())
+            {
+                yield return descendant;
+            }
+        }
+    }
+
+    private static DependencyObject? VisualOrLogicalParent(DependencyObject element)
+        => VisualTreeHelper.GetParent(element) ?? (element as FrameworkElement)?.Parent;
 
     /// <summary>Gets the logical parent of an element (<see cref="FrameworkElement.Parent"/>, then the visual parent).</summary>
     public static DependencyObject? GetLogicalParent(this DependencyObject element)

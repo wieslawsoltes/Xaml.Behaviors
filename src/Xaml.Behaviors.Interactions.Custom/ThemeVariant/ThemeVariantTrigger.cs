@@ -3,6 +3,7 @@
 #if UNO
 using Microsoft.UI.Dispatching;
 using Xaml.Interactivity;
+using ThemeVariant = Microsoft.UI.Xaml.ElementTheme;
 #else
 using Avalonia.Styling;
 using Avalonia.Threading;
@@ -19,6 +20,9 @@ namespace Avalonia.Xaml.Interactions.Custom;
 /// Executes actions when the associated control's <see cref="StyledElement.ActualThemeVariant"/>
 /// matches the specified <see cref="ThemeVariant"/>.
 /// </summary>
+/// <remarks>
+/// On Uno Platform the theme variant is a WinUI <c>ElementTheme</c> compared with <c>FrameworkElement.ActualTheme</c>.
+/// </remarks>
 public partial class ThemeVariantTrigger : StyledElementTrigger<StyledElement>
 {
 
@@ -59,7 +63,11 @@ public partial class ThemeVariantTrigger : StyledElementTrigger<StyledElement>
             return;
         }
 
+#if UNO
+        if (AssociatedObject.ActualTheme == ThemeVariant)
+#else
         if (AssociatedObject.ActualThemeVariant == ThemeVariant)
+#endif
         {
             Dispatcher.UIThread.Post(() => Execute(null));
         }

@@ -5,6 +5,7 @@ using System;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Xaml.Interactivity;
+using ItemsControl = Microsoft.UI.Xaml.Controls.ListViewBase;
 #else
 using Avalonia.Controls;
 using Avalonia.Reactive;
@@ -20,6 +21,9 @@ namespace Avalonia.Xaml.Interactions.Custom;
 /// <summary>
 /// Scrolls the associated <see cref="ItemsControl"/> to a specific item.
 /// </summary>
+/// <remarks>
+/// On Uno Platform the associated object is a WinUI <c>ListViewBase</c> (<c>ListView</c>, <c>GridView</c>).
+/// </remarks>
 public partial class ScrollToItemBehavior : AttachedToVisualTreeBehavior<ItemsControl>
 {
 

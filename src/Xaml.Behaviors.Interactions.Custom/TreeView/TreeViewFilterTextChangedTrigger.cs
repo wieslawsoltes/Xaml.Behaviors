@@ -31,13 +31,28 @@ public sealed partial class TreeViewFilterTextChangedTrigger : InteractiveTrigge
     /// <inheritdoc />
     protected override void OnAttachedToVisualTree()
     {
+#if UNO
+        // WinUI TextChanged is a CLR event (no routing).
+        if (SearchBox is not null)
+        {
+            SearchBox.TextChanged += OnTextChanged;
+        }
+#else
         SearchBox?.AddHandler(TextBox.TextChangedEvent, OnTextChanged, RoutingStrategies);
+#endif
     }
 
     /// <inheritdoc />
     protected override void OnDetachedFromVisualTree()
     {
+#if UNO
+        if (SearchBox is not null)
+        {
+            SearchBox.TextChanged -= OnTextChanged;
+        }
+#else
         SearchBox?.RemoveRoutedEventHandler(TextBox.TextChangedEvent, OnTextChanged);
+#endif
     }
 
     private void OnTextChanged(object? sender, RoutedEventArgs e)

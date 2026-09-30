@@ -5,6 +5,8 @@ using System;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Xaml.Interactivity;
+using Windows.Foundation;
+using ScrollChangedEventArgs = Microsoft.UI.Xaml.Controls.ScrollViewerViewChangedEventArgs;
 #else
 using Avalonia.Controls;
 using Avalonia.VisualTree;
@@ -65,6 +67,7 @@ public partial class ViewportBehavior : AttachedToVisualTreeBehavior<Visual>
 
     private ScrollViewer? _hostScrollViewer;
 
+#if !UNO
     static ViewportBehavior()
     {
         IsFullyInViewportProperty.Changed.Subscribe(
@@ -72,6 +75,7 @@ public partial class ViewportBehavior : AttachedToVisualTreeBehavior<Visual>
         IsInViewportProperty.Changed.Subscribe(
             new AnonymousObserver<AvaloniaPropertyChangedEventArgs<bool>>(OnIsInViewportChanged));
     }
+#endif
 
     /// <inheritdoc />
     protected override IDisposable OnAttachedToVisualTreeOverride()
@@ -83,12 +87,20 @@ public partial class ViewportBehavior : AttachedToVisualTreeBehavior<Visual>
                 "This behavior can only be attached to an element which has a ScrollViewer as a parent.");
         }
 
+#if UNO
+        _hostScrollViewer.ViewChanged += OnScrollChanged;
+#else
         _hostScrollViewer.ScrollChanged += OnScrollChanged;
+#endif
         EvaluateViewportState();
 
         return DisposableAction.Create(() =>
         {
+#if UNO
+            _hostScrollViewer.ViewChanged -= OnScrollChanged;
+#else
             _hostScrollViewer.ScrollChanged -= OnScrollChanged;
+#endif
             _hostScrollViewer = null;
         });
     }
@@ -105,6 +117,18 @@ public partial class ViewportBehavior : AttachedToVisualTreeBehavior<Visual>
             return;
         }
 
+#if UNO
+        if (AssociatedObject is FrameworkElement { IsLoaded: false })
+        {
+            return;
+        }
+
+        // Layout bounds of the element in the coordinate space of the scroll viewer.
+        var associatedElementRect = AssociatedObject.TransformToVisual(_hostScrollViewer).TransformBounds(
+            new Rect(0, 0, AssociatedObject.ActualSize.X, AssociatedObject.ActualSize.Y));
+
+        var hostScrollViewerRect = new Rect(0, 0, _hostScrollViewer.ActualWidth, _hostScrollViewer.ActualHeight);
+#else
         if (!AssociatedObject.IsInitialized)
         {
             return;
@@ -127,6 +151,7 @@ public partial class ViewportBehavior : AttachedToVisualTreeBehavior<Visual>
             0, 
             _hostScrollViewer.Bounds.Width, 
             _hostScrollViewer.Bounds.Height);
+#endif
 
         if (hostScrollViewerRect.Contains(new Point(associatedElementRect.Left, associatedElementRect.Top)) ||
             hostScrollViewerRect.Contains(new Point(associatedElementRect.Right, associatedElementRect.Top)) ||
@@ -154,6 +179,12 @@ public partial class ViewportBehavior : AttachedToVisualTreeBehavior<Visual>
         }
     }
 
+#if UNO
+    partial void OnIsFullyInViewportChanged(bool oldValue, bool newValue)
+    {
+        var obj = this;
+        var value = newValue;
+#else
     private static void OnIsFullyInViewportChanged(AvaloniaPropertyChangedEventArgs<bool> e)
     {
         if (e.Sender is not ViewportBehavior obj)
@@ -162,6 +193,7 @@ public partial class ViewportBehavior : AttachedToVisualTreeBehavior<Visual>
         }
 
         var value = e.NewValue.GetValueOrDefault();
+#endif
 
         if (value)
         {
@@ -178,6 +210,12 @@ public partial class ViewportBehavior : AttachedToVisualTreeBehavior<Visual>
         }
     }
 
+#if UNO
+    partial void OnIsInViewportChanged(bool oldValue, bool newValue)
+    {
+        var obj = this;
+        var value = newValue;
+#else
     private static void OnIsInViewportChanged(AvaloniaPropertyChangedEventArgs<bool> e)
     {
         if (e.Sender is not ViewportBehavior obj)
@@ -186,6 +224,7 @@ public partial class ViewportBehavior : AttachedToVisualTreeBehavior<Visual>
         }
 
         var value = e.NewValue.GetValueOrDefault();
+#endif
 
         if (value)
         {

@@ -58,10 +58,17 @@ public sealed partial class InsertItemToItemsControlAction : StyledElementAction
             return false;
         }
 
+#if UNO
+        if (item is DataTemplate template)
+        {
+            item = template.LoadContent();
+        }
+#else
         if (item is ITemplate template)
         {
             item = template.Build();
         }
+#endif
 
         var itemsControl = ItemsControl;
         if (itemsControl is null)

@@ -8,6 +8,7 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Dispatching;
 using Xaml.Interactivity;
+using AutoCompleteBox = Microsoft.UI.Xaml.Controls.AutoSuggestBox;
 #else
 using Avalonia.Controls;
 using Avalonia.Input;
@@ -23,7 +24,7 @@ namespace Avalonia.Xaml.Interactions.Custom;
 #endif
 
 /// <summary>
-/// 
+/// Moves the focus to the text box of an <see cref="AutoCompleteBox"/> when the box receives focus.
 /// </summary>
 public class FocusAutoCompleteBoxTextBoxBehavior : AttachedToVisualTreeBehavior<AutoCompleteBox>
 {

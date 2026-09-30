@@ -49,9 +49,28 @@ public partial class WindowStateTrigger : AttachedToVisualTreeTriggerBase<Contro
             return DisposableAction.Empty;
         }
 
+#if UNO
+        // WinUI raises AppWindow.Changed when the presenter (and so the window state) changes.
+        var appWindow = window.AppWindow;
+        var state = window.WindowState;
+        void OnAppWindowChanged(Microsoft.UI.Windowing.AppWindow sender, Microsoft.UI.Windowing.AppWindowChangedEventArgs e)
+        {
+            var newState = WindowStateExtensions.GetState(sender);
+            if (newState != state)
+            {
+                state = newState;
+                OnStateChanged(newState);
+            }
+        }
+
+        appWindow.Changed += OnAppWindowChanged;
+        _subscription = DisposableAction.Create(() => appWindow.Changed -= OnAppWindowChanged);
+        OnStateChanged(state);
+#else
         _subscription = window.GetObservable(Window.WindowStateProperty)
             .Subscribe(new AnonymousObserver<WindowState>(OnStateChanged));
         OnStateChanged(window.WindowState);
+#endif
 
         return DisposableAction.Create(() => _subscription?.Dispose());
     }

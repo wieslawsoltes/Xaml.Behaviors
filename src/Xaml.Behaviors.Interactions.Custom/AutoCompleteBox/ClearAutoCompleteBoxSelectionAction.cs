@@ -4,6 +4,7 @@
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Xaml.Interactivity;
+using AutoCompleteBox = Microsoft.UI.Xaml.Controls.AutoSuggestBox;
 #else
 using Avalonia.Controls;
 using Avalonia.Xaml.Interactivity;
@@ -41,7 +42,12 @@ public partial class ClearAutoCompleteBoxSelectionAction : StyledElementAction
             return false;
         }
 
+#if UNO
+        // AutoSuggestBox has no selected item: the chosen suggestion only lives in the text.
+        box.IsSuggestionListOpen = false;
+#else
         box.SelectedItem = null;
+#endif
         box.Text = string.Empty;
 
         return null;

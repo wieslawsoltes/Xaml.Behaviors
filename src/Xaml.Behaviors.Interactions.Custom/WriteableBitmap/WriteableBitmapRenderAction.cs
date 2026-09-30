@@ -4,8 +4,10 @@
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Xaml.Interactivity;
+using Microsoft.UI.Xaml.Media.Imaging;
 #else
 using Avalonia.Controls;
+using Avalonia.Media.Imaging;
 using Avalonia.Xaml.Interactivity;
 #endif
 
@@ -31,7 +33,7 @@ public partial class WriteableBitmapRenderAction : StyledElementAction
     /// Gets or sets the target bitmap. This is an avalonia property.
     /// </summary>
     [StyledProperty(ResolveByName = true)]
-    public partial Media.Imaging.WriteableBitmap? Bitmap { get; set; }
+    public partial WriteableBitmap? Bitmap { get; set; }
 
     /// <inheritdoc />
     public override object Execute(object? sender, object? parameter)

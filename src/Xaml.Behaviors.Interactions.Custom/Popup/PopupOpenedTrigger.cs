@@ -38,7 +38,11 @@ public class PopupOpenedTrigger : StyledElementTrigger<Popup>
         }
     }
 
+#if UNO
+    private void OnOpened(object? sender, object e)
+#else
     private void OnOpened(object? sender, EventArgs e)
+#endif
     {
         Execute(e);
     }

@@ -4,6 +4,7 @@
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Xaml.Interactivity;
+using CancelRoutedEventArgs = Microsoft.UI.Xaml.Controls.SplitViewPaneClosingEventArgs;
 #else
 using Avalonia.Controls;
 using Avalonia.Interactivity;

@@ -7,36 +7,37 @@
   <PropertyGroup>
     <UnoSharedSourceExcludes>
       Animations/**;
-      AutoCompleteBox/**;
-      Automation/**;
-      Carousel/**;
       Composition/**;
-      ContextDialogs/**;
-      Dialog/**;
-      FileUpload/**;
-      ItemsControl/**;
-      Layout/**;
-      ListBox/**;
-      ListBoxItem/**;
-      Multimedia/**;
-      Notifications/**;
-      Popup/**;
-      RenderTarget/**;
-      Screen/**;
-      ScrollViewer/**;
-      SelectingItemsControl/**;
-      Show/**;
-      SplitView/**;
-      System/**;
-      TabControl/**;
-      TextBox/**;
-      ThemeVariant/**;
-      ToolTips/**;
       Transitions/**;
-      TreeView/**;
-      TreeViewItem/**;
-      Window/**;
-      WriteableBitmap/**
+    </UnoSharedSourceExcludes>
+
+    <!--
+      Control specific folders: Avalonia concepts without a WinUI counterpart.
+      - ItemsControlPreparingContainerTrigger: WinUI items hosts (ItemsRepeater) raise no event before a container is
+        prepared.
+      - Notifications: Avalonia notification managers (WindowNotificationManager, NotificationCard).
+      - RenderTarget renderers: immediate mode drawing (DrawingContext) into a bitmap; WinUI RenderTargetBitmap only
+        captures elements.
+      - Screen: Avalonia Screens; the WinUI DisplayArea API is not implemented by Uno Platform.
+      - CenterWindowBehavior: needs the screen working area (DisplayArea / DisplayInformation screen size are not
+        implemented by Uno Platform Skia).
+      - WindowDragMoveBehavior: Window.BeginMoveDrag; WinUI declares drag regions with Window.SetTitleBar.
+    -->
+    <UnoSharedSourceExcludes>$(UnoSharedSourceExcludes)
+      ItemsControl/ItemsControlPreparingContainerTrigger.cs;
+      Notifications/**;
+      RenderTarget/Contract/IRenderTargetBitmapRenderer.cs;
+      RenderTarget/Contract/IRenderTargetBitmapSimpleRenderer.cs;
+      RenderTarget/RenderTargetBitmapBehavior.cs;
+      RenderTarget/StaticRenderTargetBitmapBehavior.cs;
+      Screen/**;
+      Window/CenterWindowBehavior.cs;
+      Window/WindowDragMoveBehavior.cs
+    </UnoSharedSourceExcludes>
+
+    <!-- Replaced by Uno Platform implementations next to the Uno project (same relative path). -->
+    <UnoSharedSourceExcludes>$(UnoSharedSourceExcludes);
+      TreeView/TreeViewFilterHelper.cs
     </UnoSharedSourceExcludes>
   </PropertyGroup>
   <!-- General purpose folders: files without a WinUI counterpart (see src/Uno/PORTING.md). -->

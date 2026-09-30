@@ -21,5 +21,5 @@ public interface IWriteableBitmapRenderer
     /// Renders into the provided <see cref="WriteableBitmap"/>.
     /// </summary>
     /// <param name="bitmap">The target bitmap.</param>
-    void Render(Media.Imaging.WriteableBitmap bitmap);
+    void Render(WriteableBitmap bitmap);
 }

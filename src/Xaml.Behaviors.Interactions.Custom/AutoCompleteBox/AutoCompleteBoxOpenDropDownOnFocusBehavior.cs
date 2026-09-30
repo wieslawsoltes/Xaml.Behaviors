@@ -7,6 +7,7 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Dispatching;
 using Xaml.Interactivity;
+using AutoCompleteBox = Microsoft.UI.Xaml.Controls.AutoSuggestBox;
 #else
 using Avalonia.Controls;
 using Avalonia.Input;
@@ -47,7 +48,11 @@ public class AutoCompleteBoxOpenDropDownOnFocusBehavior : AttachedToVisualTreeBe
 
         Dispatcher.UIThread.Post(() =>
         {
+#if UNO
+            AssociatedObject.SetCurrentValue(AutoCompleteBox.IsSuggestionListOpenProperty, true);
+#else
             AssociatedObject.SetCurrentValue(AutoCompleteBox.IsDropDownOpenProperty, true);
+#endif
         });
     }
 }

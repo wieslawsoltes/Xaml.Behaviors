@@ -27,6 +27,15 @@ public class ShowOnDoubleTappedBehavior : ShowBehaviorBase
     /// <returns>A disposable that removes the event handler.</returns>
     protected override System.IDisposable OnAttachedToVisualTreeOverride()
     {
+#if UNO
+        if (AssociatedObject is not { } element)
+        {
+            return DisposableAction.Empty;
+        }
+
+        element.AddHandler(InputElement.DoubleTappedEvent, AssociatedObject_DoubleTapped, EventRoutingStrategy);
+        return DisposableAction.Create(() => element.RemoveRoutedEventHandler(InputElement.DoubleTappedEvent, AssociatedObject_DoubleTapped));
+#else
         var dispose = AssociatedObject?
             .AddDisposableHandler(
                 InputElement.DoubleTappedEvent,
@@ -39,6 +48,7 @@ public class ShowOnDoubleTappedBehavior : ShowBehaviorBase
         }
         
         return DisposableAction.Empty;
+#endif
     }
 
     private void AssociatedObject_DoubleTapped(object? sender, RoutedEventArgs e)

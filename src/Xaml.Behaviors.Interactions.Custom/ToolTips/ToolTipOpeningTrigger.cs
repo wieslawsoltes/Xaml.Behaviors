@@ -17,11 +17,21 @@ namespace Avalonia.Xaml.Interactions.Custom;
 /// <summary>
 /// Trigger that listens for the <see cref="ToolTip.ToolTipOpeningEvent"/>.
 /// </summary>
-public class ToolTipOpeningTrigger : RoutedEventTriggerBase<CancelRoutedEventArgs>
+/// <remarks>
+/// WinUI has no cancelable tooltip opening event: on Uno Platform the trigger handles <c>ToolTip.Opened</c> of the
+/// tooltip assigned with <c>ToolTipService.ToolTip</c> to the associated element.
+/// </remarks>
+#if UNO
+public partial class ToolTipOpeningTrigger : RoutedEventTriggerBase
+#else
+public partial class ToolTipOpeningTrigger : RoutedEventTriggerBase<CancelRoutedEventArgs>
+#endif
 {
+#if !UNO
     /// <inheritdoc />
     protected override RoutedEvent<CancelRoutedEventArgs> RoutedEvent
         => ToolTip.ToolTipOpeningEvent;
+#endif
 
     static ToolTipOpeningTrigger()
     {

@@ -17,11 +17,21 @@ namespace Avalonia.Xaml.Interactions.Custom;
 /// <summary>
 /// Trigger that listens for the <see cref="ToolTip.ToolTipClosingEvent"/>.
 /// </summary>
-public class ToolTipClosingTrigger : RoutedEventTrigger
+/// <remarks>
+/// WinUI has no tooltip closing event: on Uno Platform the trigger handles <c>ToolTip.Closed</c> of the tooltip
+/// assigned with <c>ToolTipService.ToolTip</c> to the associated element.
+/// </remarks>
+#if UNO
+public partial class ToolTipClosingTrigger : RoutedEventTriggerBase
+#else
+public partial class ToolTipClosingTrigger : RoutedEventTrigger
+#endif
 {
+#if !UNO
     /// <inheritdoc />
     protected override RoutedEvent RoutedEvent
         => ToolTip.ToolTipClosingEvent;
+#endif
 
     static ToolTipClosingTrigger()
     {

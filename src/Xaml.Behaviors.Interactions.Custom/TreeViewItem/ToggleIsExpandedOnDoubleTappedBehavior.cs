@@ -43,7 +43,12 @@ public class ToggleIsExpandedOnDoubleTappedBehavior : StyledElementBehavior<Cont
 
     private void DoubleTapped(object? sender, RoutedEventArgs args)
     {
+#if UNO
+        // WinUI item templates are hosted by a content presenter: the container is the nearest tree view item.
+        if (AssociatedObject?.FindAncestorOfType<TreeViewItem>() is { } item)
+#else
         if (AssociatedObject is {Parent: TreeViewItem item})
+#endif
         {
             item.IsExpanded = !item.IsExpanded;
         }

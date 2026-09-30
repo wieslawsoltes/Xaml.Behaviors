@@ -87,7 +87,12 @@ public partial class HorizontalScrollViewerBehavior : StyledElementBehavior<Scro
 
         if (RequireShiftKey && e.KeyModifiers == KeyModifiers.Shift || !RequireShiftKey)
         {
+#if UNO
+            // WinUI reports the wheel rotation in the pointer point (positive when rotated away from the user).
+            if (e.GetCurrentPoint(AssociatedObject).Properties.MouseWheelDelta < 0)
+#else
             if (e.Delta.Y < 0)
+#endif
             {
                 if (ScrollChangeSize == ChangeSize.Line)
                 {

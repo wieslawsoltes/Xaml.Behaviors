@@ -4,6 +4,7 @@
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Input;
 using Xaml.Interactivity;
+using KeyGesture = Microsoft.UI.Xaml.Input.KeyboardAccelerator;
 #else
 using Avalonia.Input;
 using Avalonia.Interactivity;
@@ -19,6 +20,10 @@ namespace Avalonia.Xaml.Interactions.Custom;
 /// <summary>
 /// A behavior that allows to show control on key down event.
 /// </summary>
+/// <remarks>
+/// On Uno Platform the key is a <c>Windows.System.VirtualKey</c> and the gesture a WinUI
+/// <c>KeyboardAccelerator</c> (key and modifiers).
+/// </remarks>
 public partial class ShowOnKeyDownBehavior : ShowBehaviorBase
 {
 
@@ -40,6 +45,15 @@ public partial class ShowOnKeyDownBehavior : ShowBehaviorBase
     /// <returns>A disposable that removes the event handler.</returns>
     protected override System.IDisposable OnAttachedToVisualTreeOverride()
     {
+#if UNO
+        if (AssociatedObject is not { } element)
+        {
+            return DisposableAction.Empty;
+        }
+
+        element.AddHandler(InputElement.KeyDownEvent, AssociatedObject_KeyDown, EventRoutingStrategy);
+        return DisposableAction.Create(() => element.RemoveRoutedEventHandler(InputElement.KeyDownEvent, AssociatedObject_KeyDown));
+#else
         var dispose = AssociatedObject?
             .AddDisposableHandler(
                 InputElement.KeyDownEvent, 
@@ -52,6 +66,7 @@ public partial class ShowOnKeyDownBehavior : ShowBehaviorBase
         }
         
         return DisposableAction.Empty;
+#endif
     }
 
     private void AssociatedObject_KeyDown(object? sender, KeyEventArgs e)
