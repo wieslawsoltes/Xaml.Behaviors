@@ -1,0 +1,83 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!--
+    Headless (offscreen) Skia host for Uno Platform.
+    Vendored from https://github.com/unoplatform/uno (src/Uno.UI.Runtime.Skia.Headless, release/stable/6.7, Apache-2.0)
+    because the Uno.WinUI.Runtime.Skia.Headless package is not published on nuget.org yet. See NOTICE.md.
+
+    The assembly name must stay "Uno.UI.Runtime.Skia.Headless": the Uno Skia runtime assemblies grant it
+    InternalsVisibleTo access, and the host uses those internals. For the same reason the package pins
+    Uno.WinUI / Uno.WinUI.Runtime.Skia to the exact version it was compiled against.
+    Keep the C# sources as close to upstream as possible; replace this project with the official package once it ships.
+  -->
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <AssemblyName>Uno.UI.Runtime.Skia.Headless</AssemblyName>
+    <RootNamespace>Uno.UI.Runtime.Skia.Headless</RootNamespace>
+    <UnoRuntimeIdentifier>Skia</UnoRuntimeIdentifier>
+    <!-- Upstream sources: no Avalonia port aliases, no XML docs requirement. -->
+    <UnoPortAliases>false</UnoPortAliases>
+    <NoWarn>$(NoWarn);CS1591</NoWarn>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <IsPackable>true</IsPackable>
+    <PackageId>Xaml.Behaviors.Uno.Headless.Host</PackageId>
+    <Description>Headless (offscreen) Skia host for Uno Platform, repackaged from the Uno Platform sources (Uno.UI.Runtime.Skia.Headless) until the official Uno.WinUI.Runtime.Skia.Headless package is published. Pins Uno.WinUI $(UnoWinUIVersion) exactly.</Description>
+    <PackageTags>Uno;UnoPlatform;WinUI;Skia;Headless;Testing</PackageTags>
+    <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
+    <Copyright>Copyright © Uno Platform Inc. and contributors; packaging © Wiesław Šoltés 2026</Copyright>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- The host calls Uno internals: pin the exact Uno version it was compiled against. -->
+    <PackageReference Include="Uno.WinUI" VersionOverride="[$(UnoWinUIVersion)]" />
+    <PackageReference Include="Uno.WinUI.Runtime.Skia" VersionOverride="[$(UnoWinUIVersion)]" />
+    <PackageReference Include="SkiaSharp" />
+    <PackageReference Include="SkiaSharp.NativeAssets.Linux" />
+    <!-- Text layout needs HarfBuzz and ICU. Linux uses the system libicuuc; Windows/macOS ship it through these packages. -->
+    <PackageReference Include="HarfBuzzSharp" />
+    <PackageReference Include="HarfBuzzSharp.NativeAssets.Linux" />
+    <PackageReference Include="Uno.icu-win" />
+    <PackageReference Include="Uno.icu-macos" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="README.md;NOTICE.md" Pack="true" PackagePath="" />
+    <!-- Consumers (test heads) must run on the Skia runtime assemblies; see buildTransitive. -->
+    <None Include="buildTransitive/*.*" Pack="true" PackagePath="buildTransitive" />
+  </ItemGroup>
+
+  <!--
+    Compile against the Skia runtime implementation assemblies instead of the reference API assemblies.
+
+    Uno.WinUI/Uno.WinRT/Uno.Foundation expose reference API assemblies under lib/net10.0 and the Skia
+    implementations under uno-runtime/net10.0/skia. Only the latter grant InternalsVisibleTo to this
+    assembly, so after the references are resolved each Uno reference API assembly in @(ReferencePath) is
+    swapped for its uno-runtime/<tfm>/skia counterpart. This is done at build time rather than through
+    ExcludeAssets="compile" + explicit <Reference> items so the generated nuspec stays a clean dependency list.
+  -->
+  <Target Name="_UnoHeadlessUseSkiaRuntimeReferences" AfterTargets="ResolveAssemblyReferences" BeforeTargets="FindReferenceAssembliesForReferences;CoreCompile">
+    <ItemGroup>
+      <_UnoHeadlessReferenceApi Include="@(ReferencePath)" Condition="'%(ReferencePath.NuGetPackageId)' == 'Uno.WinUI' Or '%(ReferencePath.NuGetPackageId)' == 'Uno.WinRT' Or '%(ReferencePath.NuGetPackageId)' == 'Uno.Foundation'" />
+      <_UnoHeadlessReferenceApi Update="@(_UnoHeadlessReferenceApi)">
+        <UnoHeadlessTfmFolder>$([System.IO.Path]::GetFileName($([System.IO.Path]::GetDirectoryName('%(FullPath)'))))</UnoHeadlessTfmFolder>
+      </_UnoHeadlessReferenceApi>
+      <_UnoHeadlessReferenceApi Update="@(_UnoHeadlessReferenceApi)">
+        <UnoHeadlessSkiaPath>$([MSBuild]::NormalizePath('%(RootDir)%(Directory)', '..', '..', 'uno-runtime', '%(UnoHeadlessTfmFolder)', 'skia', '%(Filename)%(Extension)'))</UnoHeadlessSkiaPath>
+      </_UnoHeadlessReferenceApi>
+      <_UnoHeadlessSwappedReference Include="@(_UnoHeadlessReferenceApi)" Condition="Exists('%(UnoHeadlessSkiaPath)')" />
+      <_UnoHeadlessSkiaReference Include="@(_UnoHeadlessSwappedReference->'%(UnoHeadlessSkiaPath)')" />
+      <ReferencePath Remove="@(_UnoHeadlessSwappedReference)" />
+      <ReferencePath Include="@(_UnoHeadlessSkiaReference)" />
+    </ItemGroup>
+
+    <Error Condition="'@(_UnoHeadlessSkiaReference)' == ''"
+           Text="Could not find the Uno Skia runtime assemblies (uno-runtime/&lt;tfm&gt;/skia) next to the Uno.WinUI reference assemblies. The headless host must be compiled against them." />
+    <Message Importance="low" Text="Uno headless host compiles against: @(_UnoHeadlessSkiaReference)" />
+  </Target>
+
+</Project>

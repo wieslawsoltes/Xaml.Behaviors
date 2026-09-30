@@ -8,8 +8,8 @@
     <OutputType>Exe</OutputType>
     <IsPackable>False</IsPackable>
     <Nullable>enable</Nullable>
-    <AssemblyName>Xaml.Behaviors.Uno.Interactivity.UnitTests</AssemblyName>
-    <RootNamespace>Xaml.Interactivity.UnitTests</RootNamespace>
+    <AssemblyName>Xaml.Behaviors.Uno.Headless.UnitTests</AssemblyName>
+    <RootNamespace>Xaml.Behaviors.Uno.Headless.UnitTests</RootNamespace>
   </PropertyGroup>
 
   <Import Project="..\..\..\build\XUnit.props" />

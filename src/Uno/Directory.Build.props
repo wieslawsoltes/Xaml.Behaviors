@@ -20,8 +20,11 @@
   <!--
     Type aliases that let the shared (Avalonia-first) sources compile against WinUI.
     They only exist in Uno builds; see src/Uno/PORTING.md.
+    Projects that do not share Avalonia sources (e.g. the headless test packages) opt out with
+    <UnoPortAliases>false</UnoPortAliases>; item conditions are evaluated after all properties,
+    so setting the property in the project file is enough.
   -->
-  <ItemGroup>
+  <ItemGroup Condition="'$(UnoPortAliases)' != 'false'">
     <Using Include="Microsoft.UI.Xaml.DependencyObject" Alias="AvaloniaObject" />
     <Using Include="Microsoft.UI.Xaml.DependencyPropertyChangedEventArgs" Alias="AvaloniaPropertyChangedEventArgs" />
     <!--

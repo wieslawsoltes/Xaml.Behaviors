@@ -1,0 +1,31 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <AssemblyName>Xaml.Behaviors.Uno.Headless.XUnit</AssemblyName>
+    <RootNamespace>Xaml.Behaviors.Uno.Headless.XUnit</RootNamespace>
+    <!-- Not an Avalonia-shared-source project: no port type aliases. -->
+    <UnoPortAliases>false</UnoPortAliases>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <IsPackable>true</IsPackable>
+    <PackageId>Xaml.Behaviors.Uno.Headless.XUnit</PackageId>
+    <Description>xUnit v3 integration for the Uno Platform headless harness: [UnoHeadlessFact] and [UnoHeadlessTheory] run tests on the headless Uno UI thread.</Description>
+    <PackageTags>Uno;UnoPlatform;WinUI;Skia;Headless;Testing;xunit</PackageTags>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\Xaml.Behaviors.Uno.Headless\README.md" Link="README.md" Pack="true" PackagePath="" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="xunit.v3.extensibility.core" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Xaml.Behaviors.Uno.Headless\Xaml.Behaviors.Uno.Headless.csproj" />
+  </ItemGroup>
+
+</Project>
