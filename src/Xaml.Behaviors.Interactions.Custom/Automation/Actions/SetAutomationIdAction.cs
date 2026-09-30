@@ -1,46 +1,38 @@
 // Copyright (c) Wiesław Šoltés. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for details.
+#if UNO
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Xaml.Interactivity;
+#else
 using Avalonia.Automation;
 using Avalonia.Controls;
 using Avalonia.Xaml.Interactivity;
+#endif
 
+#if UNO
+namespace Xaml.Interactions.Custom;
+#else
 namespace Avalonia.Xaml.Interactions.Custom;
+#endif
 
 /// <summary>
 /// Sets <see cref="AutomationProperties.AutomationIdProperty"/> on the target control when executed.
 /// </summary>
-public class SetAutomationIdAction : StyledElementAction
+public partial class SetAutomationIdAction : StyledElementAction
 {
-    /// <summary>
-    /// Identifies the <see cref="TargetControl"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<Control?> TargetControlProperty =
-        AvaloniaProperty.Register<SetAutomationIdAction, Control?>(nameof(TargetControl));
-
-    /// <summary>
-    /// Identifies the <see cref="AutomationId"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<string?> AutomationIdProperty =
-        AvaloniaProperty.Register<SetAutomationIdAction, string?>(nameof(AutomationId));
 
     /// <summary>
     /// Gets or sets the target control. This is an avalonia property.
     /// </summary>
-    [ResolveByName]
-    public Control? TargetControl
-    {
-        get => GetValue(TargetControlProperty);
-        set => SetValue(TargetControlProperty, value);
-    }
+    [StyledProperty(ResolveByName = true)]
+    public partial Control? TargetControl { get; set; }
 
     /// <summary>
     /// Gets or sets the automation id value. This is an avalonia property.
     /// </summary>
-    public string? AutomationId
-    {
-        get => GetValue(AutomationIdProperty);
-        set => SetValue(AutomationIdProperty, value);
-    }
+    [StyledProperty]
+    public partial string? AutomationId { get; set; }
 
     /// <inheritdoc />
     public override object Execute(object? sender, object? parameter)

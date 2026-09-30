@@ -1,49 +1,43 @@
 // Copyright (c) Wiesław Šoltés. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for details.
 using System;
+#if UNO
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Media;
+using Microsoft.UI.Xaml.Media.Imaging;
+using Xaml.Interactivity;
+#else
 using Avalonia.Controls;
 using Avalonia.Media;
 using Avalonia.Media.Imaging;
 using Avalonia.Platform.Storage;
 using Avalonia.Xaml.Interactivity;
+#endif
 
+#if UNO
+namespace Xaml.Interactions.Custom;
+#else
 namespace Avalonia.Xaml.Interactions.Custom;
+#endif
 
 /// <summary>
 /// An action that captures a screenshot of a control and saves it to a file.
 /// </summary>
-public class ScreenshotAction : StyledElementAction
+public partial class ScreenshotAction : StyledElementAction
 {
-    /// <summary>
-    /// Identifies the <seealso cref="TargetControl"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<Control?> TargetControlProperty =
-        AvaloniaProperty.Register<ScreenshotAction, Control?>(nameof(TargetControl));
-
-    /// <summary>
-    /// Identifies the <seealso cref="FileName"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<string?> FileNameProperty =
-        AvaloniaProperty.Register<ScreenshotAction, string?>(nameof(FileName));
 
     /// <summary>
     /// Gets or sets the target control to capture. If null, the associated object is used.
     /// </summary>
-    [ResolveByName]
-    public Control? TargetControl
-    {
-        get => GetValue(TargetControlProperty);
-        set => SetValue(TargetControlProperty, value);
-    }
+    [StyledProperty(ResolveByName = true)]
+    public partial Control? TargetControl { get; set; }
 
     /// <summary>
     /// Gets or sets the suggested file name for the screenshot.
     /// </summary>
-    public string? FileName
-    {
-        get => GetValue(FileNameProperty);
-        set => SetValue(FileNameProperty, value);
-    }
+    [StyledProperty]
+    public partial string? FileName { get; set; }
 
     /// <inheritdoc />
     public override object Execute(object? sender, object? parameter)

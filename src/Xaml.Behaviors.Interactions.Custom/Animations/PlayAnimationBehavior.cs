@@ -1,29 +1,29 @@
 // Copyright (c) Wiesław Šoltés. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for details.
 using System;
+#if UNO
+using Xaml.Interactivity;
+#else
 using Avalonia.Xaml.Interactivity;
+#endif
 
+#if UNO
+namespace Xaml.Interactions.Custom;
+#else
 namespace Avalonia.Xaml.Interactions.Custom;
+#endif
 
 /// <summary>
 /// Plays a specified <see cref="Animation"/> when the associated element is attached to the visual tree.
 /// </summary>
-public class PlayAnimationBehavior : AttachedToVisualTreeBehavior<Visual>
+public partial class PlayAnimationBehavior : AttachedToVisualTreeBehavior<Visual>
 {
-    /// <summary>
-    /// Identifies the <see cref="Animation"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<Animation.Animation?> AnimationProperty =
-        AvaloniaProperty.Register<PlayAnimationBehavior, Animation.Animation?>(nameof(Animation));
 
     /// <summary>
     /// Gets or sets the animation that will be played. This is an avalonia property.
     /// </summary>
-    public Animation.Animation? Animation
-    {
-        get => GetValue(AnimationProperty);
-        set => SetValue(AnimationProperty, value);
-    }
+    [StyledProperty]
+    public partial Animation.Animation? Animation { get; set; }
 
     /// <inheritdoc />
     protected override IDisposable OnAttachedToVisualTreeOverride()

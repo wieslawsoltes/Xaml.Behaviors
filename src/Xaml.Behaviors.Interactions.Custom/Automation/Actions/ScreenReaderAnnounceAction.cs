@@ -1,30 +1,32 @@
 // Copyright (c) Wiesław Šoltés. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for details.
 using System.Reflection;
+#if UNO
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Xaml.Interactivity;
+#else
 using Avalonia.Controls;
 using Avalonia.Xaml.Interactivity;
+#endif
 
+#if UNO
+namespace Xaml.Interactions.Custom;
+#else
 namespace Avalonia.Xaml.Interactions.Custom;
+#endif
 
 /// <summary>
 /// An action that requests a screen reader announcement.
 /// </summary>
-public class ScreenReaderAnnounceAction : StyledElementAction
+public partial class ScreenReaderAnnounceAction : StyledElementAction
 {
-    /// <summary>
-    /// Identifies the <seealso cref="Message"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<string?> MessageProperty =
-        AvaloniaProperty.Register<ScreenReaderAnnounceAction, string?>(nameof(Message));
 
     /// <summary>
     /// Gets or sets the message to announce.
     /// </summary>
-    public string? Message
-    {
-        get => GetValue(MessageProperty);
-        set => SetValue(MessageProperty, value);
-    }
+    [StyledProperty]
+    public partial string? Message { get; set; }
 
     /// <inheritdoc />
     public override object? Execute(object? sender, object? parameter)

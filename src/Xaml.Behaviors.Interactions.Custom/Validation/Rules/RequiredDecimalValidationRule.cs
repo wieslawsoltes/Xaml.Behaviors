@@ -1,28 +1,26 @@
 // Copyright (c) Wiesław Šoltés. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for details.
+#if UNO
+using Microsoft.UI.Xaml;
+#else
 using Avalonia;
+#endif
 
+#if UNO
+namespace Xaml.Interactions.Custom;
+#else
 namespace Avalonia.Xaml.Interactions.Custom;
+#endif
 
 /// <summary>
 /// Validation rule that requires a non-null decimal value.
 /// </summary>
-public class RequiredDecimalValidationRule : AvaloniaObject, IValidationRule<decimal?>
+public partial class RequiredDecimalValidationRule : AvaloniaObject, IValidationRule<decimal?>
 {
-    /// <summary>
-    /// Identifies the <see cref="ErrorMessage"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<string?> ErrorMessageProperty =
-        AvaloniaProperty.Register<RequiredDecimalValidationRule, string?>(
-            nameof(ErrorMessage),
-            defaultValue: "Value is required.");
 
     /// <inheritdoc />
-    public string? ErrorMessage
-    {
-        get => GetValue(ErrorMessageProperty);
-        set => SetValue(ErrorMessageProperty, value);
-    }
+    [StyledProperty(DefaultValue = "Value is required.")]
+    public partial string? ErrorMessage { get; set; }
 
     /// <inheritdoc />
     public bool Validate(decimal? value)

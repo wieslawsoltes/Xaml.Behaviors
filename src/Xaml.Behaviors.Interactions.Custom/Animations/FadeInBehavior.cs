@@ -1,44 +1,35 @@
 // Copyright (c) Wiesław Šoltés. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for details.
 using System;
+#if UNO
+using Xaml.Interactivity;
+#else
 using Avalonia.Xaml.Interactivity;
+#endif
 
+#if UNO
+namespace Xaml.Interactions.Custom;
+#else
 namespace Avalonia.Xaml.Interactions.Custom;
+#endif
 
 /// <summary>
 /// Plays a simple fade in animation when the associated control is attached.
 /// </summary>
-public class FadeInBehavior : AttachedToVisualTreeBehavior<Visual>
+public partial class FadeInBehavior : AttachedToVisualTreeBehavior<Visual>
 {
-    /// <summary>
-    /// Gets or sets the delay before the animation starts.
-    /// </summary>
-    public static readonly StyledProperty<TimeSpan> InitialDelayProperty =
-        AvaloniaProperty.Register<FadeInBehavior, TimeSpan>(nameof(InitialDelay), TimeSpan.FromMilliseconds(500));
-
-    /// <summary>
-    /// Gets or sets the duration of the fade in animation.
-    /// </summary>
-    public static readonly StyledProperty<TimeSpan> DurationProperty =
-        AvaloniaProperty.Register<FadeInBehavior, TimeSpan>(nameof(Duration), TimeSpan.FromMilliseconds(250));
 
     /// <summary>
     /// 
     /// </summary>
-    public TimeSpan InitialDelay
-    {
-        get => GetValue(InitialDelayProperty);
-        set => SetValue(InitialDelayProperty, value);
-    }
+    [StyledProperty(DefaultValueExpression = "TimeSpan.FromMilliseconds(500)")]
+    public partial TimeSpan InitialDelay { get; set; }
 
     /// <summary>
     /// 
     /// </summary>
-    public TimeSpan Duration
-    {
-        get => GetValue(DurationProperty);
-        set => SetValue(DurationProperty, value);
-    }
+    [StyledProperty(DefaultValueExpression = "TimeSpan.FromMilliseconds(250)")]
+    public partial TimeSpan Duration { get; set; }
 
     /// <summary>
     /// Called when the behavior is attached to the visual tree.

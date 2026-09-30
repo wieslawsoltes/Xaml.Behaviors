@@ -177,6 +177,32 @@ public class GeneratorTests
         Assert.Contains(run.GeneratorDiagnostics, d => d.Id == id);
     }
 
+    [Theory]
+    [InlineData("double.PositiveInfinity", "double", "double.PositiveInfinity")]
+    [InlineData("double.NegativeInfinity", "double", "double.NegativeInfinity")]
+    [InlineData("double.NaN", "double", "double.NaN")]
+    [InlineData("float.PositiveInfinity", "float", "float.PositiveInfinity")]
+    [InlineData("0.5", "double", "0.5d")]
+    public void Special_Floating_Point_Defaults_Are_Emitted(string value, string type, string expected)
+    {
+        var source = $$"""
+            using Avalonia;
+            using Xaml.PropertyGenerator;
+            namespace Sample;
+            public partial class Owner : AvaloniaObject
+            {
+                [StyledProperty(DefaultValue = {{value}})]
+                public partial {{type}} Size { get; set; }
+            }
+            """;
+
+        var run = GeneratorTestHelper.Run(source, TestPlatform.Avalonia);
+
+        Assert.Empty(run.GeneratorDiagnostics);
+        Assert.Empty(run.CompilationErrors);
+        Assert.Contains($"defaultValue: ({type})({expected})", run.GeneratedSource);
+    }
+
     [Fact]
     public void Reports_Lazy_Property_With_Setter()
     {

@@ -1,47 +1,40 @@
 // Copyright (c) Wiesław Šoltés. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for details.
 using System;
+#if UNO
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Dispatching;
+using Xaml.Interactivity;
+#else
 using Avalonia.Controls;
 using Avalonia.Threading;
 using Avalonia.Xaml.Interactivity;
+#endif
 
+#if UNO
+namespace Xaml.Interactions.Custom;
+#else
 namespace Avalonia.Xaml.Interactions.Custom;
+#endif
 
 /// <summary>
 /// Shows the associated or target control after a specified delay when executed.
 /// </summary>
-public sealed class DelayedShowControlAction : StyledElementAction
+public sealed partial class DelayedShowControlAction : StyledElementAction
 {
-    /// <summary>
-    /// Identifies the <see cref="TargetControl"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<Control?> TargetControlProperty =
-        AvaloniaProperty.Register<DelayedShowControlAction, Control?>(nameof(TargetControl));
-
-    /// <summary>
-    /// Identifies the <see cref="Delay"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<TimeSpan> DelayProperty =
-        AvaloniaProperty.Register<DelayedShowControlAction, TimeSpan>(nameof(Delay), TimeSpan.FromMilliseconds(500));
 
     /// <summary>
     /// Gets or sets the target control. This is an avalonia property.
     /// </summary>
-    [ResolveByName]
-    public Control? TargetControl
-    {
-        get => GetValue(TargetControlProperty);
-        set => SetValue(TargetControlProperty, value);
-    }
+    [StyledProperty(ResolveByName = true)]
+    public partial Control? TargetControl { get; set; }
 
     /// <summary>
     /// Gets or sets the delay before the control is shown.
     /// </summary>
-    public TimeSpan Delay
-    {
-        get => GetValue(DelayProperty);
-        set => SetValue(DelayProperty, value);
-    }
+    [StyledProperty(DefaultValueExpression = "TimeSpan.FromMilliseconds(500)")]
+    public partial TimeSpan Delay { get; set; }
 
     /// <inheritdoc />
     public override object Execute(object? sender, object? parameter)

@@ -1,10 +1,21 @@
 using System;
 using System.Net.NetworkInformation;
+#if UNO
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Dispatching;
+using Xaml.Interactivity;
+#else
 using Avalonia.Controls;
 using Avalonia.Threading;
 using Avalonia.Xaml.Interactivity;
+#endif
 
+#if UNO
+namespace Xaml.Interactions.Custom;
+#else
 namespace Avalonia.Xaml.Interactions.Custom;
+#endif
 
 /// <summary>
 /// Defines the network status to listen for.
@@ -30,22 +41,14 @@ public enum NetworkStatus
 /// <summary>
 /// A trigger that fires when the network status changes.
 /// </summary>
-public class NetworkStatusTrigger : StyledElementTrigger<Control>
+public partial class NetworkStatusTrigger : StyledElementTrigger<Control>
 {
-    /// <summary>
-    /// Identifies the <seealso cref="Status"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<NetworkStatus> StatusProperty =
-        AvaloniaProperty.Register<NetworkStatusTrigger, NetworkStatus>(nameof(Status), NetworkStatus.Any);
 
     /// <summary>
     /// Gets or sets the network status to listen for.
     /// </summary>
-    public NetworkStatus Status
-    {
-        get => GetValue(StatusProperty);
-        set => SetValue(StatusProperty, value);
-    }
+    [StyledProperty(DefaultValue = NetworkStatus.Any)]
+    public partial NetworkStatus Status { get; set; }
 
     /// <inheritdoc />
     protected override void OnAttachedToVisualTree()

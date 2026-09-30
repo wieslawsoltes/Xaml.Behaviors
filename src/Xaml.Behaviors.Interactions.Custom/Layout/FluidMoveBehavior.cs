@@ -3,11 +3,21 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+#if UNO
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Xaml.Interactivity;
+#else
 using Avalonia.Controls;
 using Avalonia.Layout;
 using Avalonia.Xaml.Interactivity;
+#endif
 
+#if UNO
+namespace Xaml.Interactions.Custom;
+#else
 namespace Avalonia.Xaml.Interactions.Custom;
+#endif
 
 /// <summary>
 /// Determines if the behavior applies to the associated element or its children.
@@ -27,39 +37,21 @@ public enum FluidMoveScope
 /// <summary>
 /// Behavior that animates position changes of a control or its children.
 /// </summary>
-public class FluidMoveBehavior : Behavior<Visual>
+public partial class FluidMoveBehavior : Behavior<Visual>
 {
     private readonly Dictionary<Control, PixelPoint> _positions = new();
 
     /// <summary>
-    /// Identifies the <see cref="AppliesTo"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<FluidMoveScope> AppliesToProperty =
-        AvaloniaProperty.Register<FluidMoveBehavior, FluidMoveScope>(nameof(AppliesTo));
-
-    /// <summary>
-    /// Identifies the <see cref="Duration"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<TimeSpan> DurationProperty =
-        AvaloniaProperty.Register<FluidMoveBehavior, TimeSpan>(nameof(Duration), TimeSpan.FromMilliseconds(300));
-
-    /// <summary>
     /// Gets or sets how the behavior is applied.
     /// </summary>
-    public FluidMoveScope AppliesTo
-    {
-        get => GetValue(AppliesToProperty);
-        set => SetValue(AppliesToProperty, value);
-    }
+    [StyledProperty]
+    public partial FluidMoveScope AppliesTo { get; set; }
 
     /// <summary>
     /// Gets or sets animation duration.
     /// </summary>
-    public TimeSpan Duration
-    {
-        get => GetValue(DurationProperty);
-        set => SetValue(DurationProperty, value);
-    }
+    [StyledProperty(DefaultValueExpression = "TimeSpan.FromMilliseconds(300)")]
+    public partial TimeSpan Duration { get; set; }
 
     /// <inheritdoc />
     protected override void OnAttached()

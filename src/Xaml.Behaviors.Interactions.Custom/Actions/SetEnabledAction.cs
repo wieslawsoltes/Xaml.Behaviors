@@ -1,47 +1,40 @@
 // Copyright (c) Wiesław Šoltés. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for details.
+#if UNO
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Input;
+using Xaml.Interactivity;
+#else
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Xaml.Interactivity;
+#endif
 
+#if UNO
+namespace Xaml.Interactions.Custom;
+#else
 namespace Avalonia.Xaml.Interactions.Custom;
+#endif
 
 /// <summary>
 /// Sets the <see cref="InputElement.IsEnabled"/> property of a control when executed.
 /// </summary>
-public class SetEnabledAction : StyledElementAction
+public partial class SetEnabledAction : StyledElementAction
 {
-    /// <summary>
-    /// Identifies the <seealso cref="TargetControl"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<Control?> TargetControlProperty =
-        AvaloniaProperty.Register<SetEnabledAction, Control?>(nameof(TargetControl));
-
-    /// <summary>
-    /// Identifies the <seealso cref="IsEnabledValue"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<bool> IsEnabledValueProperty =
-        AvaloniaProperty.Register<SetEnabledAction, bool>(nameof(IsEnabledValue), true);
 
     /// <summary>
     /// Gets or sets the target control. This is an avalonia property.
     /// </summary>
-    [ResolveByName]
-    public Control? TargetControl
-    {
-        get => GetValue(TargetControlProperty);
-        set => SetValue(TargetControlProperty, value);
-    }
+    [StyledProperty(ResolveByName = true)]
+    public partial Control? TargetControl { get; set; }
 
     /// <summary>
     /// Gets or sets the value to assign to <see cref="InputElement.IsEnabled"/>.
     /// This is an avalonia property.
     /// </summary>
-    public bool IsEnabledValue
-    {
-        get => GetValue(IsEnabledValueProperty);
-        set => SetValue(IsEnabledValueProperty, value);
-    }
+    [StyledProperty(DefaultValue = true)]
+    public partial bool IsEnabledValue { get; set; }
 
     /// <summary>
     /// Executes the action.

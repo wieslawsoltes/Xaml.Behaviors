@@ -1,16 +1,27 @@
 // Copyright (c) Wiesław Šoltés. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for details.
+#if UNO
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Input;
+using Xaml.Interactivity;
+#else
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Xaml.Interactivity;
+#endif
 
+#if UNO
+namespace Xaml.Interactions.Custom;
+#else
 namespace Avalonia.Xaml.Interactions.Custom;
+#endif
 
 /// <summary>
 /// Enables horizontal scrolling of a <see cref="ScrollViewer"/> using the mouse wheel.
 /// </summary>
-public class HorizontalScrollViewerBehavior : StyledElementBehavior<ScrollViewer>
+public partial class HorizontalScrollViewerBehavior : StyledElementBehavior<ScrollViewer>
 {
     /// <summary>
     /// 
@@ -29,34 +40,16 @@ public class HorizontalScrollViewerBehavior : StyledElementBehavior<ScrollViewer
     }
 
     /// <summary>
-    /// Gets or sets a value indicating whether the Shift key must be held while scrolling.
-    /// </summary>
-    public static readonly StyledProperty<bool> RequireShiftKeyProperty =
-        AvaloniaProperty.Register<HorizontalScrollViewerBehavior, bool>(nameof(RequireShiftKey));
-
-    /// <summary>
-    /// Gets or sets the scroll amount used for each wheel delta.
-    /// </summary>
-    public static readonly StyledProperty<ChangeSize> ScrollChangeSizeProperty =
-        AvaloniaProperty.Register<HorizontalScrollViewerBehavior, ChangeSize>(nameof(ScrollChangeSize));
-
-    /// <summary>
     /// Called when the behavior is attached to the associated object.
     /// </summary>
-    public bool RequireShiftKey
-    {
-        get => GetValue(RequireShiftKeyProperty);
-        set => SetValue(RequireShiftKeyProperty, value);
-    }
+    [StyledProperty]
+    public partial bool RequireShiftKey { get; set; }
 
     /// <summary>
     /// Called when the behavior is detached from the associated object.
     /// </summary>
-    public ChangeSize ScrollChangeSize
-    {
-        get => GetValue(ScrollChangeSizeProperty);
-        set => SetValue(ScrollChangeSizeProperty, value);
-    }
+    [StyledProperty]
+    public partial ChangeSize ScrollChangeSize { get; set; }
 
     /// <summary>
     /// 

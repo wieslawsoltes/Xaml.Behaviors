@@ -2,62 +2,45 @@
 // Licensed under the MIT license. See LICENSE file in the project root for details.
 using System.Collections;
 using System.Linq;
+#if UNO
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Xaml.Interactivity;
+#else
 using Avalonia.Controls;
 using Avalonia.LogicalTree;
 using Avalonia.Xaml.Interactivity;
+#endif
 
+#if UNO
+namespace Xaml.Interactions.Custom;
+#else
 namespace Avalonia.Xaml.Interactions.Custom;
+#endif
 
 /// <summary>
 /// Moves an item within an <see cref="ItemsControl"/> from <see cref="FromIndex"/> to <see cref="ToIndex"/>.
 /// </summary>
-public sealed class MoveItemInItemsControlAction : StyledElementAction
+public sealed partial class MoveItemInItemsControlAction : StyledElementAction
 {
-    /// <summary>
-    /// Identifies the <see cref="ItemsControl"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<ItemsControl?> ItemsControlProperty =
-        AvaloniaProperty.Register<MoveItemInItemsControlAction, ItemsControl?>(nameof(ItemsControl));
-
-    /// <summary>
-    /// Identifies the <see cref="FromIndex"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<int> FromIndexProperty =
-        AvaloniaProperty.Register<MoveItemInItemsControlAction, int>(nameof(FromIndex));
-
-    /// <summary>
-    /// Identifies the <see cref="ToIndex"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<int> ToIndexProperty =
-        AvaloniaProperty.Register<MoveItemInItemsControlAction, int>(nameof(ToIndex));
 
     /// <summary>
     /// Gets or sets items control.
     /// </summary>
-    [ResolveByName]
-    public ItemsControl? ItemsControl
-    {
-        get => GetValue(ItemsControlProperty);
-        set => SetValue(ItemsControlProperty, value);
-    }
+    [StyledProperty(ResolveByName = true)]
+    public partial ItemsControl? ItemsControl { get; set; }
 
     /// <summary>
     /// Gets or sets source index.
     /// </summary>
-    public int FromIndex
-    {
-        get => GetValue(FromIndexProperty);
-        set => SetValue(FromIndexProperty, value);
-    }
+    [StyledProperty]
+    public partial int FromIndex { get; set; }
 
     /// <summary>
     /// Gets or sets target index.
     /// </summary>
-    public int ToIndex
-    {
-        get => GetValue(ToIndexProperty);
-        set => SetValue(ToIndexProperty, value);
-    }
+    [StyledProperty]
+    public partial int ToIndex { get; set; }
 
     /// <inheritdoc />
     public override object Execute(object? sender, object? parameter)

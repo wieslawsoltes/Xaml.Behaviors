@@ -1,41 +1,29 @@
 // Copyright (c) Wiesław Šoltés. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for details.
 using System;
+#if UNO
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Controls.Primitives;
+using Xaml.Interactivity;
+#else
 using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
 using Avalonia.Metadata;
 using Avalonia.Xaml.Interactivity;
+#endif
 
+#if UNO
+namespace Xaml.Interactions.Custom;
+#else
 namespace Avalonia.Xaml.Interactions.Custom;
+#endif
 
 /// <summary>
 /// Behavior that manages a context dialog implemented using a <see cref="Popup"/>.
 /// </summary>
-public class ContextDialogBehavior : AttachedToVisualTreeBehavior<Control>
+public partial class ContextDialogBehavior : AttachedToVisualTreeBehavior<Control>
 {
-    /// <summary>
-    /// Identifies the <see cref="DialogContent"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<Control?> DialogContentProperty =
-        AvaloniaProperty.Register<ContextDialogBehavior, Control?>(nameof(DialogContent));
-
-    /// <summary>
-    /// Identifies the <see cref="IsOpen"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<bool> IsOpenProperty =
-        AvaloniaProperty.Register<ContextDialogBehavior, bool>(nameof(IsOpen));
-
-    /// <summary>
-    /// Identifies the <see cref="Placement"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<PlacementMode> PlacementProperty =
-        AvaloniaProperty.Register<ContextDialogBehavior, PlacementMode>(nameof(Placement));
-
-    /// <summary>
-    /// Identifies the <see cref="IsLightDismissEnabled"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<bool> IsLightDismissEnabledProperty =
-        AvaloniaProperty.Register<ContextDialogBehavior, bool>(nameof(IsLightDismissEnabled), true);
 
     private Popup? _popup;
 
@@ -52,39 +40,26 @@ public class ContextDialogBehavior : AttachedToVisualTreeBehavior<Control>
     /// <summary>
     /// Gets or sets the dialog content. This is an avalonia property.
     /// </summary>
-    [Content]
-    public Control? DialogContent
-    {
-        get => GetValue(DialogContentProperty);
-        set => SetValue(DialogContentProperty, value);
-    }
+    [StyledProperty(Content = true)]
+    public partial Control? DialogContent { get; set; }
 
     /// <summary>
     /// Gets or sets a value indicating whether the dialog is open. This is an avalonia property.
     /// </summary>
-    public bool IsOpen
-    {
-        get => GetValue(IsOpenProperty);
-        set => SetValue(IsOpenProperty, value);
-    }
+    [StyledProperty]
+    public partial bool IsOpen { get; set; }
 
     /// <summary>
     /// Gets or sets the popup placement mode. This is an avalonia property.
     /// </summary>
-    public PlacementMode Placement
-    {
-        get => GetValue(PlacementProperty);
-        set => SetValue(PlacementProperty, value);
-    }
+    [StyledProperty]
+    public partial PlacementMode Placement { get; set; }
 
     /// <summary>
     /// Gets or sets a value that determines how the dialog can be dismissed. This is an avalonia property.
     /// </summary>
-    public bool IsLightDismissEnabled
-    {
-        get => GetValue(IsLightDismissEnabledProperty);
-        set => SetValue(IsLightDismissEnabledProperty, value);
-    }
+    [StyledProperty(DefaultValue = true)]
+    public partial bool IsLightDismissEnabled { get; set; }
 
     /// <inheritdoc />
     protected override void OnPropertyChanged(AvaloniaPropertyChangedEventArgs change)

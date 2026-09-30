@@ -1,56 +1,43 @@
 // Copyright (c) Wiesław Šoltés. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for details.
+#if UNO
+using Microsoft.UI.Dispatching;
+using Xaml.Interactivity;
+#else
 using Avalonia.Metadata;
 using Avalonia.Threading;
 using Avalonia.Xaml.Interactivity;
+#endif
 
+#if UNO
+namespace Xaml.Interactions.Custom;
+#else
 namespace Avalonia.Xaml.Interactions.Custom;
+#endif
 
 /// <summary>
 /// A behavior that executes different collections of actions depending on the specified condition.
 /// </summary>
-public class IfElseTrigger : StyledElementTrigger
+public partial class IfElseTrigger : StyledElementTrigger
 {
-    /// <summary>
-    /// Identifies the <seealso cref="Condition"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<bool> ConditionProperty =
-        AvaloniaProperty.Register<IfElseTrigger, bool>(nameof(Condition));
-
-    /// <summary>
-    /// Identifies the <seealso cref="IfActions"/> avalonia property.
-    /// </summary>
-    public static readonly DirectProperty<IfElseTrigger, ActionCollection> IfActionsProperty =
-        AvaloniaProperty.RegisterDirect<IfElseTrigger, ActionCollection>(nameof(IfActions), b => b.IfActions);
-
-    /// <summary>
-    /// Identifies the <seealso cref="ElseActions"/> avalonia property.
-    /// </summary>
-    public static readonly DirectProperty<IfElseTrigger, ActionCollection> ElseActionsProperty =
-        AvaloniaProperty.RegisterDirect<IfElseTrigger, ActionCollection>(nameof(ElseActions), b => b.ElseActions);
-
-    private ActionCollection? _ifActions;
-    private ActionCollection? _elseActions;
 
     /// <summary>
     /// Gets or sets the condition that determines which actions are executed. This is an avalonia property.
     /// </summary>
-    public bool Condition
-    {
-        get => GetValue(ConditionProperty);
-        set => SetValue(ConditionProperty, value);
-    }
+    [StyledProperty]
+    public partial bool Condition { get; set; }
 
     /// <summary>
     /// Gets the actions executed when <see cref="Condition"/> evaluates to <c>true</c>. This is an avalonia property.
     /// </summary>
-    [Content]
-    public ActionCollection IfActions => _ifActions ??= [];
+    [DirectProperty(Lazy = true, Content = true)]
+    public partial ActionCollection IfActions { get; }
 
     /// <summary>
     /// Gets the actions executed when <see cref="Condition"/> evaluates to <c>false</c>. This is an avalonia property.
     /// </summary>
-    public ActionCollection ElseActions => _elseActions ??= [];
+    [DirectProperty(Lazy = true)]
+    public partial ActionCollection ElseActions { get; }
 
     /// <inheritdoc />
     protected override void OnPropertyChanged(AvaloniaPropertyChangedEventArgs change)

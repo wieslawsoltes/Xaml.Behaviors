@@ -1,31 +1,32 @@
 // Copyright (c) Wiesław Šoltés. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for details.
+#if UNO
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Xaml.Interactivity;
+#else
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Xaml.Interactivity;
+#endif
 
+#if UNO
+namespace Xaml.Interactions.Custom;
+#else
 namespace Avalonia.Xaml.Interactions.Custom;
+#endif
 
 /// <summary>
 /// Executes actions when the search box text changes.
 /// </summary>
-public sealed class TreeViewFilterTextChangedTrigger : InteractiveTriggerBase
+public sealed partial class TreeViewFilterTextChangedTrigger : InteractiveTriggerBase
 {
-    /// <summary>
-    /// Identifies the <seealso cref="SearchBox"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<TextBox?> SearchBoxProperty =
-        AvaloniaProperty.Register<TreeViewFilterTextChangedTrigger, TextBox?>(nameof(SearchBox));
 
     /// <summary>
     /// Gets or sets the search box control.
     /// </summary>
-    [ResolveByName]
-    public TextBox? SearchBox
-    {
-        get => GetValue(SearchBoxProperty);
-        set => SetValue(SearchBoxProperty, value);
-    }
+    [StyledProperty(ResolveByName = true)]
+    public partial TextBox? SearchBox { get; set; }
 
     /// <inheritdoc />
     protected override void OnAttachedToVisualTree()

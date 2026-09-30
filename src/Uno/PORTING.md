@@ -102,7 +102,8 @@ python3 build/UnoPort/uno_share.py src/Xaml.Behaviors.<Name>
 3. Create `src/Uno/Xaml.Behaviors.<Name>/` (copy the Interactivity project file, set `UnoSharedSourceProject`,
    `AssemblyName`, `PackageId`, `RootNamespace`, `ProjectReference`s to the Uno twins) and `SharedSources.props`.
 4. Build the Uno project and port the remaining differences (rules above). Keep Avalonia behavior unchanged.
-5. Opt the Avalonia project into the portability analyzers (`<XamlPortEnabled>true</XamlPortEnabled>`, imports of
+5. Opt the Avalonia project into the portability analyzers (project specific port map additions go to
+   `src/Uno/<Project>/<Project>.xamlport.json`; the analyzers merge all maps) (`<XamlPortEnabled>true</XamlPortEnabled>`, imports of
    `build/XamlPort.props`/`.targets`) and fix every `XPORT` finding — guard the code or, when the Uno port
    provides the API, add it to `build/UnoPort/avalonia-to-uno.xamlport.json`.
 6. Verify the Avalonia side: `dotnet build AvaloniaBehaviors.slnx -c Release`, the Avalonia tests, and
@@ -120,7 +121,7 @@ python3 build/UnoPort/uno_share.py src/Xaml.Behaviors.<Name>
 | Xaml.Behaviors.Interactions.Draggable | ⏳ | |
 | Xaml.Behaviors.Interactions.DragAndDrop | ⏳ | |
 | Xaml.Behaviors.Interactions.DragAndDrop.DataGrid | ⏳ | |
-| Xaml.Behaviors.Interactions.Custom | ⏳ | |
+| Xaml.Behaviors.Interactions.Custom | 🚧 | Properties generated and sources shared; folders are enabled one by one in `SharedSources.props`. |
 | Xaml.Behaviors.Interactions.ReactiveUI | ⏳ | |
 | Xaml.Behaviors.Interactions.Scripting | ⏳ | |
 | Xaml.Behaviors.Animations | ⏳ | |

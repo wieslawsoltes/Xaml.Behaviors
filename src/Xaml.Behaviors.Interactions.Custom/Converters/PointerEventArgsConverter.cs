@@ -2,10 +2,20 @@
 // Licensed under the MIT license. See LICENSE file in the project root for details.
 using System;
 using System.Globalization;
+#if UNO
+using Microsoft.UI.Xaml.Data;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Input;
+#else
 using Avalonia.Data.Converters;
 using Avalonia.Input;
+#endif
 
+#if UNO
+namespace Xaml.Interactions.Custom.Converters;
+#else
 namespace Avalonia.Xaml.Interactions.Custom.Converters;
+#endif
 
 /// <summary>
 /// Converter for <see cref="PointerEventArgs"/>.

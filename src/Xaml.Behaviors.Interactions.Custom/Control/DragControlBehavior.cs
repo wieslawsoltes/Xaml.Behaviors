@@ -1,22 +1,29 @@
 ﻿// Copyright (c) Wiesław Šoltés. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for details.
+#if UNO
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Input;
+using Microsoft.UI.Xaml.Media;
+using Xaml.Interactivity;
+#else
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Media;
 using Avalonia.Xaml.Interactivity;
+#endif
 
+#if UNO
+namespace Xaml.Interactions.Custom;
+#else
 namespace Avalonia.Xaml.Interactions.Custom;
+#endif
 
 /// <summary>
 /// A behavior that allows controls to be moved around the canvas using RenderTransform of <see cref="IBehavior.AssociatedObject"/>.
 /// </summary>
-public sealed class DragControlBehavior : StyledElementBehavior<Control>
+public sealed partial class DragControlBehavior : StyledElementBehavior<Control>
 {
-    /// <summary>
-    /// Identifies the <seealso cref="TargetControl"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<Control?> TargetControlProperty =
-        AvaloniaProperty.Register<DragControlBehavior, Control?>(nameof(TargetControl));
 
     private Control? _parent;
     private Point _previous;
@@ -24,12 +31,8 @@ public sealed class DragControlBehavior : StyledElementBehavior<Control>
     /// <summary>
     /// Gets or sets the target control to be moved around instead of <see cref="IBehavior.AssociatedObject"/>. This is an avalonia property.
     /// </summary>
-    [ResolveByName]
-    public Control? TargetControl
-    {
-        get => GetValue(TargetControlProperty);
-        set => SetValue(TargetControlProperty, value);
-    }
+    [StyledProperty(ResolveByName = true)]
+    public partial Control? TargetControl { get; set; }
 
     /// <inheritdoc />
     protected override void OnAttachedToVisualTree()

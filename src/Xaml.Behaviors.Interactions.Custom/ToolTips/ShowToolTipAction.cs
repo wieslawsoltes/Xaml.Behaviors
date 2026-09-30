@@ -1,30 +1,31 @@
 // Copyright (c) Wiesław Šoltés. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for details.
+#if UNO
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Xaml.Interactivity;
+#else
 using Avalonia.Controls;
 using Avalonia.Xaml.Interactivity;
+#endif
 
+#if UNO
+namespace Xaml.Interactions.Custom;
+#else
 namespace Avalonia.Xaml.Interactions.Custom;
+#endif
 
 /// <summary>
 /// Shows the <see cref="ToolTip"/> of the associated or target control when executed.
 /// </summary>
-public class ShowToolTipAction : StyledElementAction
+public partial class ShowToolTipAction : StyledElementAction
 {
-    /// <summary>
-    /// Identifies the <seealso cref="TargetControl"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<Control?> TargetControlProperty =
-        AvaloniaProperty.Register<ShowToolTipAction, Control?>(nameof(TargetControl));
 
     /// <summary>
     /// Gets or sets the control whose tooltip will be shown. This is an avalonia property.
     /// </summary>
-    [ResolveByName]
-    public Control? TargetControl
-    {
-        get => GetValue(TargetControlProperty);
-        set => SetValue(TargetControlProperty, value);
-    }
+    [StyledProperty(ResolveByName = true)]
+    public partial Control? TargetControl { get; set; }
 
     /// <inheritdoc />
     public override object Execute(object? sender, object? parameter)

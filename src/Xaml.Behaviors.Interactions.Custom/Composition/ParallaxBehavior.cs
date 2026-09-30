@@ -1,37 +1,32 @@
 // Copyright (c) Wiesław Šoltés. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for details.
 using System;
+#if UNO
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Xaml.Interactivity;
+#else
 using Avalonia.Controls;
 using Avalonia.Xaml.Interactivity;
+#endif
 
+#if UNO
+namespace Xaml.Interactions.Custom;
+#else
 namespace Avalonia.Xaml.Interactions.Custom;
+#endif
 
 /// <summary>
 /// A behavior that moves the associated element at a different speed than the scrolling container, creating a parallax effect.
 /// </summary>
-public class ParallaxBehavior : Behavior<Control>, IObserver<Avalonia.Vector>
+public partial class ParallaxBehavior : Behavior<Control>, IObserver<Avalonia.Vector>
 {
-    /// <summary>
-    /// Identifies the <seealso cref="SourceScrollViewer"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<ScrollViewer?> SourceScrollViewerProperty =
-        AvaloniaProperty.Register<ParallaxBehavior, ScrollViewer?>(nameof(SourceScrollViewer));
-
-    /// <summary>
-    /// Identifies the <seealso cref="ParallaxRatio"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<double> ParallaxRatioProperty =
-        AvaloniaProperty.Register<ParallaxBehavior, double>(nameof(ParallaxRatio), 0.2);
 
     /// <summary>
     /// Gets or sets the source ScrollViewer. If not set, the behavior will attempt to find a parent ScrollViewer.
     /// </summary>
-    [ResolveByName]
-    public ScrollViewer? SourceScrollViewer
-    {
-        get => GetValue(SourceScrollViewerProperty);
-        set => SetValue(SourceScrollViewerProperty, value);
-    }
+    [StyledProperty(ResolveByName = true)]
+    public partial ScrollViewer? SourceScrollViewer { get; set; }
 
     /// <summary>
     /// Gets or sets the parallax ratio. 
@@ -40,11 +35,8 @@ public class ParallaxBehavior : Behavior<Control>, IObserver<Avalonia.Vector>
     /// Values between 0 and 1 create a "far away" depth effect.
     /// Negative values move in reverse.
     /// </summary>
-    public double ParallaxRatio
-    {
-        get => GetValue(ParallaxRatioProperty);
-        set => SetValue(ParallaxRatioProperty, value);
-    }
+    [StyledProperty(DefaultValue = 0.2)]
+    public partial double ParallaxRatio { get; set; }
 
     private IDisposable? _scrollSubscription;
     private ParallaxAnimation? _animation;

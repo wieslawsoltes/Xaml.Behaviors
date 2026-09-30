@@ -1,45 +1,38 @@
 // Copyright (c) Wiesław Šoltés. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for details.
 using System;
+#if UNO
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Xaml.Interactivity;
+#else
 using Avalonia.Controls;
 using Avalonia.Xaml.Interactivity;
+#endif
 
+#if UNO
+namespace Xaml.Interactions.Custom;
+#else
 namespace Avalonia.Xaml.Interactions.Custom;
+#endif
 
 /// <summary>
 /// Sets the <see cref="ScrollViewer.Offset"/> of the associated <see cref="ScrollViewer"/>.
 /// </summary>
-public class ScrollViewerOffsetBehavior : AttachedToVisualTreeBehavior<ScrollViewer>
+public partial class ScrollViewerOffsetBehavior : AttachedToVisualTreeBehavior<ScrollViewer>
 {
-    /// <summary>
-    /// Identifies the <see cref="HorizontalOffset"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<double?> HorizontalOffsetProperty =
-        AvaloniaProperty.Register<ScrollViewerOffsetBehavior, double?>(nameof(HorizontalOffset));
-
-    /// <summary>
-    /// Identifies the <see cref="VerticalOffset"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<double?> VerticalOffsetProperty =
-        AvaloniaProperty.Register<ScrollViewerOffsetBehavior, double?>(nameof(VerticalOffset));
 
     /// <summary>
     /// Gets or sets the horizontal offset value. This is an avalonia property.
     /// </summary>
-    public double? HorizontalOffset
-    {
-        get => GetValue(HorizontalOffsetProperty);
-        set => SetValue(HorizontalOffsetProperty, value);
-    }
+    [StyledProperty]
+    public partial double? HorizontalOffset { get; set; }
 
     /// <summary>
     /// Gets or sets the vertical offset value. This is an avalonia property.
     /// </summary>
-    public double? VerticalOffset
-    {
-        get => GetValue(VerticalOffsetProperty);
-        set => SetValue(VerticalOffsetProperty, value);
-    }
+    [StyledProperty]
+    public partial double? VerticalOffset { get; set; }
 
     /// <inheritdoc />
     protected override IDisposable OnAttachedToVisualTreeOverride()

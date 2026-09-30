@@ -1,29 +1,31 @@
 // Copyright (c) Wiesław Šoltés. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for details.
+#if UNO
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Input;
+using Xaml.Interactivity;
+#else
 using Avalonia.Input;
 using Avalonia.Xaml.Interactivity;
+#endif
 
+#if UNO
+namespace Xaml.Interactions.Custom;
+#else
 namespace Avalonia.Xaml.Interactions.Custom;
+#endif
 
 /// <summary>
 /// Sets the cursor provided by an <see cref="ICursorProvider"/> when attached.
 /// </summary>
-public class SetCursorFromProviderBehavior : StyledElementBehavior<InputElement>
+public partial class SetCursorFromProviderBehavior : StyledElementBehavior<InputElement>
 {
-    /// <summary>
-    /// Identifies the <see cref="Provider"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<ICursorProvider?> ProviderProperty =
-        AvaloniaProperty.Register<SetCursorFromProviderBehavior, ICursorProvider?>(nameof(Provider));
 
     /// <summary>
     /// Gets or sets the <see cref="ICursorProvider"/> that supplies the cursor.
     /// </summary>
-    public ICursorProvider? Provider
-    {
-        get => GetValue(ProviderProperty);
-        set => SetValue(ProviderProperty, value);
-    }
+    [StyledProperty]
+    public partial ICursorProvider? Provider { get; set; }
 
     /// <inheritdoc />
     protected override void OnAttachedToVisualTree()

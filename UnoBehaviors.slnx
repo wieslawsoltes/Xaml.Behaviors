@@ -17,6 +17,7 @@
     <Project Path="src/Uno/Xaml.Behaviors.Interactivity/Xaml.Behaviors.Interactivity.csproj" />
     <Project Path="src/Uno/Xaml.Behaviors.Interactions/Xaml.Behaviors.Interactions.csproj" />
     <Project Path="src/Uno/Xaml.Behaviors.Interactions.Events/Xaml.Behaviors.Interactions.Events.csproj" />
+    <Project Path="src/Uno/Xaml.Behaviors.Interactions.Custom/Xaml.Behaviors.Interactions.Custom.csproj" />
   </Folder>
   <Folder Name="/testing/">
     <Project Path="src/Uno/Xaml.Behaviors.Uno.Headless.Host/Xaml.Behaviors.Uno.Headless.Host.csproj" />

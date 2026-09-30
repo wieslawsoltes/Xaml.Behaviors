@@ -1,37 +1,40 @@
 using System;
 using System.Collections.Specialized;
+#if UNO
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Controls.Primitives;
+using Microsoft.UI.Dispatching;
+using Xaml.Interactivity;
+#else
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
 using Avalonia.Threading;
 using Avalonia.VisualTree;
 using Avalonia.Xaml.Interactivity;
+#endif
 
+#if UNO
+namespace Xaml.Interactions.Custom;
+#else
 namespace Avalonia.Xaml.Interactions.Custom;
+#endif
 
 /// <summary>
 /// A behavior that automatically scrolls to the bottom of a ScrollViewer or ItemsControl when new items are added.
 /// </summary>
-public class AutoScrollToBottomBehavior : StyledElementBehavior<Control>
+public partial class AutoScrollToBottomBehavior : StyledElementBehavior<Control>
 {
     private ScrollViewer? _scrollViewer;
     private INotifyCollectionChanged? _items;
     private bool _autoScroll = true;
 
     /// <summary>
-    /// Identifies the <seealso cref="ItemsSource"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<object?> ItemsSourceProperty =
-        AvaloniaProperty.Register<AutoScrollToBottomBehavior, object?>(nameof(ItemsSource));
-
-    /// <summary>
     /// Gets or sets the items source to monitor for changes.
     /// </summary>
-    public object? ItemsSource
-    {
-        get => GetValue(ItemsSourceProperty);
-        set => SetValue(ItemsSourceProperty, value);
-    }
+    [StyledProperty]
+    public partial object? ItemsSource { get; set; }
 
     /// <inheritdoc />
     protected override void OnAttached()

@@ -1,31 +1,32 @@
 // Copyright (c) Wiesław Šoltés. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for details.
+#if UNO
+using Microsoft.UI.Dispatching;
+using Xaml.Interactivity;
+#else
 using Avalonia.Styling;
 using Avalonia.Threading;
 using Avalonia.Xaml.Interactivity;
+#endif
 
+#if UNO
+namespace Xaml.Interactions.Custom;
+#else
 namespace Avalonia.Xaml.Interactions.Custom;
+#endif
 
 /// <summary>
 /// Executes actions when the associated control's <see cref="StyledElement.ActualThemeVariant"/>
 /// matches the specified <see cref="ThemeVariant"/>.
 /// </summary>
-public class ThemeVariantTrigger : StyledElementTrigger<StyledElement>
+public partial class ThemeVariantTrigger : StyledElementTrigger<StyledElement>
 {
-    /// <summary>
-    /// Identifies the <see cref="ThemeVariant"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<ThemeVariant?> ThemeVariantProperty =
-        AvaloniaProperty.Register<ThemeVariantTrigger, ThemeVariant?>(nameof(ThemeVariant));
 
     /// <summary>
     /// Gets or sets the theme variant to watch for. This is an avalonia property.
     /// </summary>
-    public ThemeVariant? ThemeVariant
-    {
-        get => GetValue(ThemeVariantProperty);
-        set => SetValue(ThemeVariantProperty, value);
-    }
+    [StyledProperty]
+    public partial ThemeVariant? ThemeVariant { get; set; }
 
     /// <inheritdoc />
     protected override void OnAttached()

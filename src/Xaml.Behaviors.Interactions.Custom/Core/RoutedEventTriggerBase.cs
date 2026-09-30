@@ -1,28 +1,28 @@
 // Copyright (c) Wiesław Šoltés. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for details.
+#if UNO
+using Microsoft.UI.Xaml;
+#else
 using Avalonia.Interactivity;
+#endif
 
+#if UNO
+namespace Xaml.Interactions.Custom;
+#else
 namespace Avalonia.Xaml.Interactions.Custom;
+#endif
 
 /// <summary>
 /// 
 /// </summary>
-public abstract class RoutedEventTriggerBase : AttachedToVisualTreeTriggerBase<Visual>
+public abstract partial class RoutedEventTriggerBase : AttachedToVisualTreeTriggerBase<Visual>
 {
-    /// <summary>
-    /// 
-    /// </summary>
-    public static readonly StyledProperty<RoutingStrategies> EventRoutingStrategyProperty =
-        AvaloniaProperty.Register<RoutedEventTriggerBase, RoutingStrategies>(nameof(EventRoutingStrategy), defaultValue: RoutingStrategies.Direct);
 
     /// <summary>
     /// 
     /// </summary>
-    public RoutingStrategies EventRoutingStrategy
-    {
-        get => GetValue(EventRoutingStrategyProperty);
-        set => SetValue(EventRoutingStrategyProperty, value);
-    }
+    [StyledProperty(DefaultValue = RoutingStrategies.Direct)]
+    public partial RoutingStrategies EventRoutingStrategy { get; set; }
 
     /// <summary>
     /// 

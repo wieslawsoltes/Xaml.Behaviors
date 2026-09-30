@@ -1,8 +1,18 @@
+#if UNO
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Media;
+#else
 using Avalonia.Controls;
 using Avalonia.Media;
 using Avalonia.Rendering.Composition;
+#endif
 
+#if UNO
+namespace Xaml.Interactions.Custom;
+#else
 namespace Avalonia.Xaml.Interactions.Custom;
+#endif
 
 internal class VisualDebugAdorner : Control
 {

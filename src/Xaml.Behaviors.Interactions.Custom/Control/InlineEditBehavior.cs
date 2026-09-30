@@ -1,108 +1,64 @@
 // Copyright (c) Wiesław Šoltés. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for details.
+#if UNO
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Input;
+using Xaml.Interactivity;
+#else
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Xaml.Interactivity;
+#endif
 
+#if UNO
+namespace Xaml.Interactions.Custom;
+#else
 namespace Avalonia.Xaml.Interactions.Custom;
+#endif
 
 /// <summary>
 /// Behavior that toggles visibility of display and edit controls to enable inline editing.
 /// </summary>
-public class InlineEditBehavior : StyledElementBehavior<Control>
+public partial class InlineEditBehavior : StyledElementBehavior<Control>
 {
-    /// <summary>
-    /// Identifies the <see cref="EditControl"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<Control?> EditControlProperty =
-        AvaloniaProperty.Register<InlineEditBehavior, Control?>(nameof(EditControl));
-
-    /// <summary>
-    /// Identifies the <see cref="DisplayControl"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<Control?> DisplayControlProperty =
-        AvaloniaProperty.Register<InlineEditBehavior, Control?>(nameof(DisplayControl));
-
-    /// <summary>
-    /// Identifies the <see cref="EditKey"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<Key> EditKeyProperty =
-        AvaloniaProperty.Register<InlineEditBehavior, Key>(nameof(EditKey), Key.F2);
-
-    /// <summary>
-    /// Identifies the <see cref="AcceptKey"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<Key> AcceptKeyProperty =
-        AvaloniaProperty.Register<InlineEditBehavior, Key>(nameof(AcceptKey), Key.Enter);
-
-    /// <summary>
-    /// Identifies the <see cref="CancelKey"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<Key> CancelKeyProperty =
-        AvaloniaProperty.Register<InlineEditBehavior, Key>(nameof(CancelKey), Key.Escape);
-
-    /// <summary>
-    /// Identifies the <see cref="EditOnAssociatedObjectDoubleTapped"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<bool> EditOnAssociatedObjectDoubleTappedProperty =
-        AvaloniaProperty.Register<InlineEditBehavior, bool>(nameof(EditOnAssociatedObjectDoubleTapped), false);
 
     /// <summary>
     /// Editing control to show when editing begins.
     /// </summary>
-    [ResolveByName]
-    public Control? EditControl
-    {
-        get => GetValue(EditControlProperty);
-        set => SetValue(EditControlProperty, value);
-    }
+    [StyledProperty(ResolveByName = true)]
+    public partial Control? EditControl { get; set; }
 
     /// <summary>
     /// Display control to show when not editing.
     /// </summary>
-    [ResolveByName]
-    public Control? DisplayControl
-    {
-        get => GetValue(DisplayControlProperty);
-        set => SetValue(DisplayControlProperty, value);
-    }
+    [StyledProperty(ResolveByName = true)]
+    public partial Control? DisplayControl { get; set; }
 
     /// <summary>
     /// Key used to start editing.
     /// </summary>
-    public Key EditKey
-    {
-        get => GetValue(EditKeyProperty);
-        set => SetValue(EditKeyProperty, value);
-    }
+    [StyledProperty(DefaultValue = Key.F2)]
+    public partial Key EditKey { get; set; }
 
     /// <summary>
     /// Key used to accept editing.
     /// </summary>
-    public Key AcceptKey
-    {
-        get => GetValue(AcceptKeyProperty);
-        set => SetValue(AcceptKeyProperty, value);
-    }
+    [StyledProperty(DefaultValue = Key.Enter)]
+    public partial Key AcceptKey { get; set; }
 
     /// <summary>
     /// Key used to cancel editing.
     /// </summary>
-    public Key CancelKey
-    {
-        get => GetValue(CancelKeyProperty);
-        set => SetValue(CancelKeyProperty, value);
-    }
+    [StyledProperty(DefaultValue = Key.Escape)]
+    public partial Key CancelKey { get; set; }
 
     /// <summary>
     /// Gets or sets a value indicating whether double tapping the associated object starts editing.
     /// </summary>
-    public bool EditOnAssociatedObjectDoubleTapped
-    {
-        get => GetValue(EditOnAssociatedObjectDoubleTappedProperty);
-        set => SetValue(EditOnAssociatedObjectDoubleTappedProperty, value);
-    }
+    [StyledProperty(DefaultValue = false)]
+    public partial bool EditOnAssociatedObjectDoubleTapped { get; set; }
 
     /// <inheritdoc />
     protected override void OnAttachedToVisualTree()

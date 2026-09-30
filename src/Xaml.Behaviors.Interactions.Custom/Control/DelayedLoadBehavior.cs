@@ -1,33 +1,36 @@
 // Copyright (c) Wiesław Šoltés. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for details.
 using System;
+#if UNO
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Dispatching;
+using Xaml.Interactivity;
+#else
 using Avalonia.Controls;
 using Avalonia.Threading;
 using Avalonia.Xaml.Interactivity;
+#endif
 
+#if UNO
+namespace Xaml.Interactions.Custom;
+#else
 namespace Avalonia.Xaml.Interactions.Custom;
+#endif
 
 /// <summary>
 /// Delays the visibility of the associated control when it is attached to the visual tree.
 /// </summary>
-public sealed class DelayedLoadBehavior : AttachedToVisualTreeBehavior<Control>
+public sealed partial class DelayedLoadBehavior : AttachedToVisualTreeBehavior<Control>
 {
-    /// <summary>
-    /// Identifies the <see cref="Delay"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<TimeSpan> DelayProperty =
-        AvaloniaProperty.Register<DelayedLoadBehavior, TimeSpan>(nameof(Delay), TimeSpan.FromMilliseconds(500));
 
     private DispatcherTimer? _timer;
 
     /// <summary>
     /// Gets or sets the delay before the control becomes visible.
     /// </summary>
-    public TimeSpan Delay
-    {
-        get => GetValue(DelayProperty);
-        set => SetValue(DelayProperty, value);
-    }
+    [StyledProperty(DefaultValueExpression = "TimeSpan.FromMilliseconds(500)")]
+    public partial TimeSpan Delay { get; set; }
 
     /// <inheritdoc />
     protected override IDisposable OnAttachedToVisualTreeOverride()

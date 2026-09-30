@@ -2,69 +2,51 @@
 // Licensed under the MIT license. See LICENSE file in the project root for details.
 using System;
 using System.Collections.Specialized;
+#if UNO
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Xaml.Interactivity;
+#else
 using Avalonia.Controls;
 using Avalonia.Metadata;
 using Avalonia.Xaml.Interactivity;
+#endif
 
+#if UNO
+namespace Xaml.Interactions.Custom;
+#else
 namespace Avalonia.Xaml.Interactions.Custom;
+#endif
 
 /// <summary>
 /// Executes different sets of actions when the observed collection changes.
 /// </summary>
-public sealed class CollectionChangedBehavior : DisposingBehavior<AvaloniaObject>
+public sealed partial class CollectionChangedBehavior : DisposingBehavior<AvaloniaObject>
 {
-    /// <summary>
-    /// Identifies the <see cref="Collection"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<INotifyCollectionChanged?> CollectionProperty =
-        AvaloniaProperty.Register<CollectionChangedBehavior, INotifyCollectionChanged?>(nameof(Collection));
-
-    /// <summary>
-    /// Identifies the <see cref="AddedActions"/> avalonia property.
-    /// </summary>
-    public static readonly DirectProperty<CollectionChangedBehavior, ActionCollection> AddedActionsProperty =
-        AvaloniaProperty.RegisterDirect<CollectionChangedBehavior, ActionCollection>(nameof(AddedActions), b => b.AddedActions);
-
-    /// <summary>
-    /// Identifies the <see cref="RemovedActions"/> avalonia property.
-    /// </summary>
-    public static readonly DirectProperty<CollectionChangedBehavior, ActionCollection> RemovedActionsProperty =
-        AvaloniaProperty.RegisterDirect<CollectionChangedBehavior, ActionCollection>(nameof(RemovedActions), b => b.RemovedActions);
-
-    /// <summary>
-    /// Identifies the <see cref="ResetActions"/> avalonia property.
-    /// </summary>
-    public static readonly DirectProperty<CollectionChangedBehavior, ActionCollection> ResetActionsProperty =
-        AvaloniaProperty.RegisterDirect<CollectionChangedBehavior, ActionCollection>(nameof(ResetActions), b => b.ResetActions);
-
-    private ActionCollection? _addedActions;
-    private ActionCollection? _removedActions;
-    private ActionCollection? _resetActions;
 
     /// <summary>
     /// Gets or sets the collection to observe.
     /// </summary>
-    [ResolveByName]
-    public INotifyCollectionChanged? Collection
-    {
-        get => GetValue(CollectionProperty);
-        set => SetValue(CollectionProperty, value);
-    }
+    [StyledProperty(ResolveByName = true)]
+    public partial INotifyCollectionChanged? Collection { get; set; }
 
     /// <summary>
     /// Actions invoked when items are added to the collection.
     /// </summary>
-    public ActionCollection AddedActions => _addedActions ??= [];
+    [DirectProperty(Lazy = true)]
+    public partial ActionCollection AddedActions { get; }
 
     /// <summary>
     /// Actions invoked when items are removed from the collection.
     /// </summary>
-    public ActionCollection RemovedActions => _removedActions ??= [];
+    [DirectProperty(Lazy = true)]
+    public partial ActionCollection RemovedActions { get; }
 
     /// <summary>
     /// Actions invoked when the collection is reset.
     /// </summary>
-    public ActionCollection ResetActions => _resetActions ??= [];
+    [DirectProperty(Lazy = true)]
+    public partial ActionCollection ResetActions { get; }
 
     private void OnCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
     {

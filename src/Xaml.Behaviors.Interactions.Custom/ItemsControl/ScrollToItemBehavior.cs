@@ -1,31 +1,33 @@
 // Copyright (c) Wiesław Šoltés. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for details.
 using System;
+#if UNO
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Xaml.Interactivity;
+#else
 using Avalonia.Controls;
 using Avalonia.Reactive;
 using Avalonia.Xaml.Interactivity;
+#endif
 
+#if UNO
+namespace Xaml.Interactions.Custom;
+#else
 namespace Avalonia.Xaml.Interactions.Custom;
+#endif
 
 /// <summary>
 /// Scrolls the associated <see cref="ItemsControl"/> to a specific item.
 /// </summary>
-public class ScrollToItemBehavior : AttachedToVisualTreeBehavior<ItemsControl>
+public partial class ScrollToItemBehavior : AttachedToVisualTreeBehavior<ItemsControl>
 {
-    /// <summary>
-    /// Gets or sets the observable that produces items to scroll into view.
-    /// </summary>
-    public static readonly StyledProperty<IObservable<object>?> ItemProperty =
-        AvaloniaProperty.Register<ScrollToItemBehavior, IObservable<object>?>(nameof(Item));
 
     /// <summary>
     /// 
     /// </summary>
-    public IObservable<object>? Item
-    {
-        get => GetValue(ItemProperty);
-        set => SetValue(ItemProperty, value);
-    }
+    [StyledProperty]
+    public partial IObservable<object>? Item { get; set; }
 
     /// <summary>
     /// Subscribes to the <see cref="Item"/> observable and scrolls to incoming values.

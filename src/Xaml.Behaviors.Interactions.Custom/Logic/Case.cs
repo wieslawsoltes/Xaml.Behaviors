@@ -1,45 +1,36 @@
+#if UNO
+using Microsoft.UI.Xaml;
+using Xaml.Interactivity;
+#else
 using Avalonia;
 using Avalonia.LogicalTree;
 using Avalonia.Metadata;
 using Avalonia.Xaml.Interactivity;
+#endif
 
+#if UNO
+namespace Xaml.Interactions.Custom;
+#else
 namespace Avalonia.Xaml.Interactions.Custom;
+#endif
 
 /// <summary>
 /// Represents a case in a <see cref="SwitchCaseAction"/>.
 /// </summary>
-public class Case : StyledElement
+public partial class Case : StyledElement
 {
-    /// <summary>
-    /// Identifies the <seealso cref="Value"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<object?> ValueProperty =
-        AvaloniaProperty.Register<Case, object?>(nameof(Value));
-
-    /// <summary>
-    /// Identifies the <seealso cref="Actions"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<ActionCollection?> ActionsProperty =
-        AvaloniaProperty.Register<Case, ActionCollection?>(nameof(Actions));
 
     /// <summary>
     /// Gets or sets the value to match against.
     /// </summary>
-    public object? Value
-    {
-        get => GetValue(ValueProperty);
-        set => SetValue(ValueProperty, value);
-    }
+    [StyledProperty]
+    public partial object? Value { get; set; }
 
     /// <summary>
     /// Gets the actions to execute when the value matches.
     /// </summary>
-    [Content]
-    public ActionCollection? Actions
-    {
-        get => GetValue(ActionsProperty);
-        set => SetValue(ActionsProperty, value);
-    }
+    [StyledProperty(Content = true)]
+    public partial ActionCollection? Actions { get; set; }
 
     /// <summary>
     /// Initializes a new instance of the <see cref="Case"/> class.

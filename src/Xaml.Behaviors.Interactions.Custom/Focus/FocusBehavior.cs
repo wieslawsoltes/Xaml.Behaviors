@@ -1,32 +1,36 @@
 // Copyright (c) Wiesław Šoltés. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for details.
+#if UNO
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Data;
+using Microsoft.UI.Dispatching;
+using Xaml.Interactivity;
+#else
 using Avalonia.Controls;
 using Avalonia.Data;
 using Avalonia.Reactive;
 using Avalonia.Threading;
 using Avalonia.Xaml.Interactivity;
+#endif
 
+#if UNO
+namespace Xaml.Interactions.Custom;
+#else
 namespace Avalonia.Xaml.Interactions.Custom;
+#endif
 
 /// <summary>
 /// Keeps a control focused while the <see cref="IsFocused"/> property is set.
 /// </summary>
-public class FocusBehavior : DisposingBehavior<Control>
+public partial class FocusBehavior : DisposingBehavior<Control>
 {
-    /// <summary>
-    /// Gets or sets a value indicating whether the control should be focused.
-    /// </summary>
-    public static readonly StyledProperty<bool> IsFocusedProperty =
-        AvaloniaProperty.Register<FocusBehavior, bool>(nameof(IsFocused), defaultBindingMode: BindingMode.TwoWay);
 
     /// <summary>
     /// 
     /// </summary>
-    public bool IsFocused
-    {
-        get => GetValue(IsFocusedProperty);
-        set => SetValue(IsFocusedProperty, value);
-    }
+    [StyledProperty(DefaultBindingMode = PropertyBindingMode.TwoWay)]
+    public partial bool IsFocused { get; set; }
 
     /// <summary>
     /// Subscribes to focus changes and updates <see cref="IsFocused"/> accordingly.

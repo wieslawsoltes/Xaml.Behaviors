@@ -1,33 +1,36 @@
 // Copyright (c) Wiesław Šoltés. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for details.
 using System;
+#if UNO
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Input;
+using Xaml.Interactivity;
+#else
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.VisualTree;
 using Avalonia.Xaml.Interactivity;
+#endif
 
+#if UNO
+namespace Xaml.Interactions.Custom;
+#else
 namespace Avalonia.Xaml.Interactions.Custom;
+#endif
 
 /// <summary>
 /// A behavior that traps focus within the attached element.
 /// </summary>
-public class FocusTrapBehavior : Behavior<Control>
+public partial class FocusTrapBehavior : Behavior<Control>
 {
-    /// <summary>
-    /// Identifies the <seealso cref="IsActive"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<bool> IsActiveProperty =
-        AvaloniaProperty.Register<FocusTrapBehavior, bool>(nameof(IsActive), defaultValue: true);
 
     /// <summary>
     /// Gets or sets a value indicating whether the focus trap is active.
     /// </summary>
-    public bool IsActive
-    {
-        get => GetValue(IsActiveProperty);
-        set => SetValue(IsActiveProperty, value);
-    }
+    [StyledProperty(DefaultValue = true)]
+    public partial bool IsActive { get; set; }
 
     /// <inheritdoc />
     protected override void OnAttached()

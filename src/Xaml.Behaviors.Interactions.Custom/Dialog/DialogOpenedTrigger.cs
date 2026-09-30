@@ -1,31 +1,32 @@
 // Copyright (c) Wiesław Šoltés. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for details.
 using System;
+#if UNO
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Xaml.Interactivity;
+#else
 using Avalonia.Controls;
 using Avalonia.Xaml.Interactivity;
+#endif
 
+#if UNO
+namespace Xaml.Interactions.Custom;
+#else
 namespace Avalonia.Xaml.Interactions.Custom;
+#endif
 
 /// <summary>
 /// Executes actions when the dialog window is opened.
 /// </summary>
-public class DialogOpenedTrigger : StyledElementTrigger<Control>
+public partial class DialogOpenedTrigger : StyledElementTrigger<Control>
 {
-    /// <summary>
-    /// Identifies the <seealso cref="SourceObject"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<Window?> SourceObjectProperty =
-        AvaloniaProperty.Register<DialogOpenedTrigger, Window?>(nameof(SourceObject));
 
     /// <summary>
     /// Gets or sets the source object from which this behavior listens for events. This is an avalonia property.
     /// </summary>
-    [ResolveByName]
-    public Window? SourceObject
-    {
-        get => GetValue(SourceObjectProperty);
-        set => SetValue(SourceObjectProperty, value);
-    }
+    [StyledProperty(ResolveByName = true)]
+    public partial Window? SourceObject { get; set; }
 
     /// <inheritdoc />
     protected override void OnAttachedToVisualTree()

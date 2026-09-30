@@ -2,74 +2,51 @@
 // Licensed under the MIT license. See LICENSE file in the project root for details.
 using System;
 using System.Diagnostics.CodeAnalysis;
+#if UNO
+using Microsoft.UI.Xaml.Data;
+using Microsoft.UI.Dispatching;
+using Xaml.Interactivity;
+#else
 using Avalonia.Data;
 using Avalonia.Threading;
 using Avalonia.Xaml.Interactivity;
+#endif
 
+#if UNO
+namespace Xaml.Interactions.Custom;
+#else
 namespace Avalonia.Xaml.Interactions.Custom;
+#endif
 
 /// <summary>
 /// A behavior that performs actions when the bound data meets a specified condition.
 /// </summary>
 [RequiresUnreferencedCode("This functionality is not compatible with trimming.")]
-public class BindingTriggerBehavior : StyledElementTrigger
+public partial class BindingTriggerBehavior : StyledElementTrigger
 {
-    /// <summary>
-    /// Identifies the <seealso cref="Binding"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<BindingBase?> BindingProperty =
-        AvaloniaProperty.Register<BindingTriggerBehavior, BindingBase?>(nameof(Binding));
-
-    /// <summary>
-    /// Identifies the <seealso cref="ComparisonCondition"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<ComparisonConditionType> ComparisonConditionProperty =
-        AvaloniaProperty.Register<BindingTriggerBehavior, ComparisonConditionType>(nameof(ComparisonCondition));
-
-    /// <summary>
-    /// Identifies the <seealso cref="Value"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<object?> ValueProperty =
-        AvaloniaProperty.Register<BindingTriggerBehavior, object?>(nameof(Value));
-
-    private static readonly StyledProperty<object?> BindingValueProperty =
-        AvaloniaProperty.Register<BindingTriggerBehavior, object?>(nameof(BindingValue));
 
     private IDisposable? _dispose;
 
     /// <summary>
     /// Gets or sets the bound object that the <see cref="BindingTriggerBehavior"/> will listen to. This is an avalonia property.
     /// </summary>
-    [AssignBinding]
-    public BindingBase? Binding
-    {
-        get => GetValue(BindingProperty);
-        set => SetValue(BindingProperty, value);
-    }
+    [StyledProperty(AssignBinding = true)]
+    public partial BindingBase? Binding { get; set; }
 
     /// <summary>
     /// Gets or sets the type of comparison to be performed between <see cref="BindingTriggerBehavior.Binding"/> and <see cref="BindingTriggerBehavior.Value"/>. This is an avalonia property.
     /// </summary>
-    public ComparisonConditionType ComparisonCondition
-    {
-        get => GetValue(ComparisonConditionProperty);
-        set => SetValue(ComparisonConditionProperty, value);
-    }
+    [StyledProperty]
+    public partial ComparisonConditionType ComparisonCondition { get; set; }
 
     /// <summary>
     /// Gets or sets the value to be compared with the value of <see cref="BindingTriggerBehavior.Binding"/>. This is an avalonia property.
     /// </summary>
-    public object? Value
-    {
-        get => GetValue(ValueProperty);
-        set => SetValue(ValueProperty, value);
-    }
+    [StyledProperty]
+    public partial object? Value { get; set; }
 
-    private object? BindingValue
-    {
-        get => GetValue(BindingValueProperty);
-        set => SetValue(BindingValueProperty, value);
-    }
+    [StyledProperty]
+    private partial object? BindingValue { get; set; }
 
     /// <inheritdoc />
     protected override void OnPropertyChanged(AvaloniaPropertyChangedEventArgs change)

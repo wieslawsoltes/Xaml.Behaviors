@@ -1,31 +1,32 @@
 // Copyright (c) Wiesław Šoltés. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for details.
+#if UNO
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Xaml.Interactivity;
+#else
 using Avalonia.Controls;
 using Avalonia.Xaml.Interactivity;
+#endif
 
+#if UNO
+namespace Xaml.Interactions.Custom;
+#else
 namespace Avalonia.Xaml.Interactions.Custom;
+#endif
 
 /// <summary>
 /// Moves the target <see cref="Carousel"/> to the previous page.
 /// </summary>
-public class CarouselPreviousAction : StyledElementAction
+public partial class CarouselPreviousAction : StyledElementAction
 {
-    /// <summary>
-    /// Identifies the <seealso cref="Carousel"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<Carousel?> CarouselProperty =
-        AvaloniaProperty.Register<CarouselPreviousAction, Carousel?>(nameof(Carousel));
 
     /// <summary>
     /// Gets or sets the carousel instance this action will operate on.
     /// This is an avalonia property.
     /// </summary>
-    [ResolveByName]
-    public Carousel? Carousel
-    {
-        get => GetValue(CarouselProperty);
-        set => SetValue(CarouselProperty, value);
-    }
+    [StyledProperty(ResolveByName = true)]
+    public partial Carousel? Carousel { get; set; }
 
     /// <inheritdoc />
     public override object? Execute(object? sender, object? parameter)

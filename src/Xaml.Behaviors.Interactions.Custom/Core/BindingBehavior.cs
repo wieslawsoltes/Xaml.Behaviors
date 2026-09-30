@@ -1,63 +1,46 @@
 // Copyright (c) Wiesław Šoltés. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for details.
 using System;
+#if UNO
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Data;
+using Xaml.Interactivity;
+#else
 using Avalonia.Controls;
 using Avalonia.Data;
 using Avalonia.Xaml.Interactivity;
+#endif
 
+#if UNO
+namespace Xaml.Interactions.Custom;
+#else
 namespace Avalonia.Xaml.Interactions.Custom;
+#endif
 
 /// <summary>
 /// Applies a binding to a target property when the control is attached to the visual tree.
 /// </summary>
-public class BindingBehavior : AttachedToVisualTreeBehavior<Control>
+public partial class BindingBehavior : AttachedToVisualTreeBehavior<Control>
 {
-    /// <summary>
-    /// Gets or sets the property that will be bound.
-    /// </summary>
-    public static readonly StyledProperty<AvaloniaProperty?> TargetPropertyProperty =
-        AvaloniaProperty.Register<BindingBehavior, AvaloniaProperty?>(nameof(TargetProperty));
-
-    /// <summary>
-    /// Gets or sets the object that owns the <see cref="TargetProperty"/>.
-    /// </summary>
-    public static readonly StyledProperty<AvaloniaObject?> TargetObjectProperty =
-        AvaloniaProperty.Register<BindingBehavior, AvaloniaObject?>(nameof(TargetObject));
-
-    /// <summary>
-    /// Gets or sets the binding to apply.
-    /// </summary>
-    public static readonly StyledProperty<BindingBase?> BindingProperty =
-        AvaloniaProperty.Register<BindingBehavior, BindingBase?>(nameof(Binding));
 
     /// <summary>
     /// 
     /// </summary>
-    public AvaloniaProperty? TargetProperty
-    {
-        get => GetValue(TargetPropertyProperty);
-        set => SetValue(TargetPropertyProperty, value);
-    }
+    [StyledProperty]
+    public partial AvaloniaProperty? TargetProperty { get; set; }
 
     /// <summary>
     /// 
     /// </summary>
-    [ResolveByName]
-    public AvaloniaObject? TargetObject
-    {
-        get => GetValue(TargetObjectProperty);
-        set => SetValue(TargetObjectProperty, value);
-    }
+    [StyledProperty(ResolveByName = true)]
+    public partial AvaloniaObject? TargetObject { get; set; }
 
     /// <summary>
     /// 
     /// </summary>
-    [AssignBinding]
-    public BindingBase? Binding
-    {
-        get => GetValue(BindingProperty);
-        set => SetValue(BindingProperty, value);
-    }
+    [StyledProperty(AssignBinding = true)]
+    public partial BindingBase? Binding { get; set; }
 
     /// <summary>
     /// Applies the binding when the behavior is attached to the visual tree.

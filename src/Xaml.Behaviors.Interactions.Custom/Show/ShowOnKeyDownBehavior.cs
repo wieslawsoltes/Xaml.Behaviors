@@ -1,45 +1,38 @@
 ﻿// Copyright (c) Wiesław Šoltés. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for details.
+#if UNO
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Input;
+using Xaml.Interactivity;
+#else
 using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Xaml.Interactivity;
+#endif
 
+#if UNO
+namespace Xaml.Interactions.Custom;
+#else
 namespace Avalonia.Xaml.Interactions.Custom;
+#endif
 
 /// <summary>
 /// A behavior that allows to show control on key down event.
 /// </summary>
-public class ShowOnKeyDownBehavior : ShowBehaviorBase
+public partial class ShowOnKeyDownBehavior : ShowBehaviorBase
 {
-    /// <summary>
-    /// Identifies the <seealso cref="Key"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<Key?> KeyProperty =
-        AvaloniaProperty.Register<ShowOnKeyDownBehavior, Key?>(nameof(Key));
-
-    /// <summary>
-    /// Gets or sets the key gesture used to trigger the behavior.
-    /// </summary>
-    public static readonly StyledProperty<KeyGesture?> GestureProperty =
-        AvaloniaProperty.Register<ShowOnKeyDownBehavior, KeyGesture?>(nameof(Gesture));
 
     /// <summary>
     /// Gets or sets the key. This is an avalonia property.
     /// </summary>
-    public Key? Key
-    {
-        get => GetValue(KeyProperty);
-        set => SetValue(KeyProperty, value);
-    }
+    [StyledProperty]
+    public partial Key? Key { get; set; }
 
     /// <summary>
     /// 
     /// </summary>
-    public KeyGesture? Gesture
-    {
-        get => GetValue(GestureProperty);
-        set => SetValue(GestureProperty, value);
-    }
+    [StyledProperty]
+    public partial KeyGesture? Gesture { get; set; }
 
     /// <summary>
     /// Called when the behavior is attached to the visual tree.

@@ -2,11 +2,21 @@
 // Licensed under the MIT license. See LICENSE file in the project root for details.
 using System.Collections.Generic;
 using System.Linq;
+#if UNO
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Input;
+#else
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.VisualTree;
+#endif
 
+#if UNO
+namespace Xaml.Interactions.Custom;
+#else
 namespace Avalonia.Xaml.Interactions.Custom;
+#endif
 
 internal static class FocusNavigationHelper
 {

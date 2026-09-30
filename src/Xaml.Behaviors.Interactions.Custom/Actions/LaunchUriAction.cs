@@ -1,30 +1,32 @@
 // Copyright (c) Wiesław Šoltés. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for details.
 using System;
+#if UNO
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Xaml.Interactivity;
+#else
 using Avalonia.Controls;
 using Avalonia.Xaml.Interactivity;
+#endif
 
+#if UNO
+namespace Xaml.Interactions.Custom;
+#else
 namespace Avalonia.Xaml.Interactions.Custom;
+#endif
 
 /// <summary>
 /// An action that launches a URI using the system's default handler.
 /// </summary>
-public class LaunchUriAction : StyledElementAction
+public partial class LaunchUriAction : StyledElementAction
 {
-    /// <summary>
-    /// Identifies the <seealso cref="Uri"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<string?> UriProperty =
-        AvaloniaProperty.Register<LaunchUriAction, string?>(nameof(Uri));
 
     /// <summary>
     /// Gets or sets the URI to launch. This is an avalonia property.
     /// </summary>
-    public string? Uri
-    {
-        get => GetValue(UriProperty);
-        set => SetValue(UriProperty, value);
-    }
+    [StyledProperty]
+    public partial string? Uri { get; set; }
 
     /// <inheritdoc />
     public override object Execute(object? sender, object? parameter)

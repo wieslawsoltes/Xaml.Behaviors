@@ -1,0 +1,60 @@
+<Project>
+  <!--
+    Files of src/Xaml.Behaviors.Interactions.Custom that are not compiled for Uno Platform (see src/Uno/PORTING.md).
+    Imported by the Uno project (source linking) and by the Avalonia project (Xaml.PortAnalyzers).
+    The port proceeds folder by folder: remove a folder from this list once it is ported.
+  -->
+  <PropertyGroup>
+    <UnoSharedSourceExcludes>
+      Actions/**;
+      Animations/**;
+      AutoCompleteBox/**;
+      Automation/**;
+      Behaviors/**;
+      Button/**;
+      Carousel/**;
+      Collections/**;
+      Composition/**;
+      ContextDialogs/**;
+      Control/**;
+      Converters/**;
+      Core/**;
+      Cursor/**;
+      Debugging/**;
+      Dialog/**;
+      ExecuteCommand/**;
+      FileUpload/**;
+      Focus/**;
+      Gestures/**;
+      Icon/**;
+      Input/**;
+      InputElement/**;
+      ItemsControl/**;
+      Layout/**;
+      ListBox/**;
+      ListBoxItem/**;
+      Logic/**;
+      Multimedia/**;
+      Notifications/**;
+      Popup/**;
+      RenderTarget/**;
+      Screen/**;
+      ScrollViewer/**;
+      SelectingItemsControl/**;
+      Show/**;
+      SplitView/**;
+      System/**;
+      TabControl/**;
+      TextBox/**;
+      ThemeVariant/**;
+      ToolTips/**;
+      Transitions/**;
+      TreeView/**;
+      TreeViewItem/**;
+      Validation/**;
+      ViewModel/**;
+      Window/**;
+      WriteableBitmap/**
+    </UnoSharedSourceExcludes>
+  </PropertyGroup>
+</Project>

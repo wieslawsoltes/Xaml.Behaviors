@@ -25,6 +25,8 @@
     <ProjectReference Include="$(MSBuildThisFileDirectory)../src/Xaml.PortAnalyzers.CodeFixes/Xaml.PortAnalyzers.CodeFixes.csproj"
                       OutputItemType="Analyzer" ReferenceOutputAssembly="false" PrivateAssets="all" />
     <AdditionalFiles Include="$(MSBuildThisFileDirectory)UnoPort/avalonia-to-uno.xamlport.json" />
+    <!-- Optional project specific additions (merged by the analyzers). -->
+    <AdditionalFiles Include="$(_XamlPortUnoProjectDirectory)*.xamlport.json" />
   </ItemGroup>
 
   <Import Project="$(MSBuildThisFileDirectory)../src/Xaml.PortAnalyzers/buildTransitive/Xaml.PortAnalyzers.props" Condition="'$(XamlPortEnabled)' == 'true'" />

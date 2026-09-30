@@ -1,48 +1,40 @@
 // Copyright (c) Wiesław Šoltés. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for details.
+#if UNO
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Input;
+using Xaml.Interactivity;
+#else
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Xaml.Interactivity;
+#endif
 
+#if UNO
+namespace Xaml.Interactions.Custom;
+#else
 namespace Avalonia.Xaml.Interactions.Custom;
+#endif
 
 /// <summary>
 /// Filters <see cref="TreeView"/> items based on the text of a search box.
 /// </summary>
-public sealed class TreeViewFilterBehavior : StyledElementBehavior<TreeView>
+public sealed partial class TreeViewFilterBehavior : StyledElementBehavior<TreeView>
 {
-    /// <summary>
-    /// Identifies the <seealso cref="SearchBox"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<TextBox?> SearchBoxProperty =
-        AvaloniaProperty.Register<TreeViewFilterBehavior, TextBox?>(nameof(SearchBox));
-
-    /// <summary>
-    /// Identifies the <seealso cref="NoMatchesControl"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<Control?> NoMatchesControlProperty =
-        AvaloniaProperty.Register<TreeViewFilterBehavior, Control?>(nameof(NoMatchesControl));
 
     /// <summary>
     /// Gets or sets the search box control.
     /// </summary>
-    [ResolveByName]
-    public TextBox? SearchBox
-    {
-        get => GetValue(SearchBoxProperty);
-        set => SetValue(SearchBoxProperty, value);
-    }
+    [StyledProperty(ResolveByName = true)]
+    public partial TextBox? SearchBox { get; set; }
 
     /// <summary>
     /// Gets or sets the control displayed when no matches are found.
     /// </summary>
-    [ResolveByName]
-    public Control? NoMatchesControl
-    {
-        get => GetValue(NoMatchesControlProperty);
-        set => SetValue(NoMatchesControlProperty, value);
-    }
+    [StyledProperty(ResolveByName = true)]
+    public partial Control? NoMatchesControl { get; set; }
 
     /// <inheritdoc />
     protected override void OnAttachedToVisualTree()

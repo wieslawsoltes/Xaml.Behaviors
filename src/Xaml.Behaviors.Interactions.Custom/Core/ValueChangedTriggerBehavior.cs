@@ -1,29 +1,30 @@
 ﻿// Copyright (c) Wiesław Šoltés. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for details.
+#if UNO
+using Microsoft.UI.Dispatching;
+using Xaml.Interactivity;
+#else
 using Avalonia.Threading;
 using Avalonia.Xaml.Interactivity;
+#endif
 
+#if UNO
+namespace Xaml.Interactions.Custom;
+#else
 namespace Avalonia.Xaml.Interactions.Custom;
+#endif
 
 /// <summary>
 /// A behavior that performs actions when the bound data produces new value.
 /// </summary>
-public class ValueChangedTriggerBehavior : StyledElementTrigger
+public partial class ValueChangedTriggerBehavior : StyledElementTrigger
 {
-    /// <summary>
-    /// Identifies the <seealso cref="Binding"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<object?> BindingProperty =
-        AvaloniaProperty.Register<ValueChangedTriggerBehavior, object?>(nameof(Binding));
 
     /// <summary>
     /// Gets or sets the bound object that the <see cref="ValueChangedTriggerBehavior"/> will listen to. This is an avalonia property.
     /// </summary>
-    public object? Binding
-    {
-        get => GetValue(BindingProperty);
-        set => SetValue(BindingProperty, value);
-    }
+    [StyledProperty]
+    public partial object? Binding { get; set; }
 
     
     /// <inheritdoc />

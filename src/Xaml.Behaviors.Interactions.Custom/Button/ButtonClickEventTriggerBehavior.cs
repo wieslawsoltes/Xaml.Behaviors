@@ -1,33 +1,35 @@
 ﻿// Copyright (c) Wiesław Šoltés. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for details.
+#if UNO
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Input;
+using Xaml.Interactivity;
+#else
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Xaml.Interactivity;
+#endif
 
+#if UNO
+namespace Xaml.Interactions.Custom;
+#else
 namespace Avalonia.Xaml.Interactions.Custom;
+#endif
 
 /// <summary>
 /// A behavior that listens for a <see cref="Button.ClickEvent"/> event on its source and executes its actions when that event is fired.
 /// </summary>
-public class ButtonClickEventTriggerBehavior : StyledElementTrigger<Button>
+public partial class ButtonClickEventTriggerBehavior : StyledElementTrigger<Button>
 {
     private KeyModifiers _savedKeyModifiers = KeyModifiers.None;
 
     /// <summary>
-    /// Identifies the <seealso cref="KeyModifiers"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<KeyModifiers> KeyModifiersProperty =
-        AvaloniaProperty.Register<ButtonClickEventTriggerBehavior, KeyModifiers>(nameof(KeyModifiers));
-
-    /// <summary>
     /// Gets or sets the required key modifiers to execute <see cref="Button.ClickEvent"/> event handler. This is an avalonia property.
     /// </summary>
-    public KeyModifiers KeyModifiers
-    {
-        get => GetValue(KeyModifiersProperty);
-        set => SetValue(KeyModifiersProperty, value);
-    }
+    [StyledProperty]
+    public partial KeyModifiers KeyModifiers { get; set; }
 
     /// <inheritdoc />
     protected override void OnAttachedToVisualTree()

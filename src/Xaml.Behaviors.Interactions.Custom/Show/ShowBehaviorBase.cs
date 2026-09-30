@@ -1,46 +1,38 @@
 // Copyright (c) Wiesław Šoltés. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for details.
+#if UNO
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Dispatching;
+#else
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Threading;
+#endif
 
+#if UNO
+namespace Xaml.Interactions.Custom;
+#else
 namespace Avalonia.Xaml.Interactions.Custom;
+#endif
 
 /// <summary>
 /// Base class for behaviors that show a control in response to an event.
 /// </summary>
-public abstract class ShowBehaviorBase : AttachedToVisualTreeBehavior<Control>
+public abstract partial class ShowBehaviorBase : AttachedToVisualTreeBehavior<Control>
 {
-    /// <summary>
-    /// Identifies the <seealso cref="TargetControl"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<Control?> TargetControlProperty =
-        AvaloniaProperty.Register<ShowBehaviorBase, Control?>(nameof(TargetControl));
-
-    /// <summary>
-    /// Gets or sets the routing strategy used for the triggering event.
-    /// </summary>
-    public static readonly StyledProperty<RoutingStrategies> EventRoutingStrategyProperty =
-        AvaloniaProperty.Register<ShowBehaviorBase, RoutingStrategies>(nameof(EventRoutingStrategy), RoutingStrategies.Bubble);
 
     /// <summary>
     /// Gets or sets the target control. This is an avalonia property.
     /// </summary>
-    [ResolveByName]
-    public Control? TargetControl
-    {
-        get => GetValue(TargetControlProperty);
-        set => SetValue(TargetControlProperty, value);
-    }
+    [StyledProperty(ResolveByName = true)]
+    public partial Control? TargetControl { get; set; }
 
     /// <summary>
     /// 
     /// </summary>
-    public RoutingStrategies EventRoutingStrategy
-    {
-        get => GetValue(EventRoutingStrategyProperty);
-        set => SetValue(EventRoutingStrategyProperty, value);
-    }
+    [StyledProperty(DefaultValue = RoutingStrategies.Bubble)]
+    public partial RoutingStrategies EventRoutingStrategy { get; set; }
 
     /// <summary>
     /// Shows the <see cref="TargetControl"/> when the behavior is triggered.

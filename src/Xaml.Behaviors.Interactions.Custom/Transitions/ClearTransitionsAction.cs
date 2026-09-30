@@ -1,30 +1,31 @@
 // Copyright (c) Wiesław Šoltés. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for details.
+#if UNO
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Xaml.Interactivity;
+#else
 using Avalonia.Controls;
 using Avalonia.Xaml.Interactivity;
+#endif
 
+#if UNO
+namespace Xaml.Interactions.Custom;
+#else
 namespace Avalonia.Xaml.Interactions.Custom;
+#endif
 
 /// <summary>
 /// Clears the <see cref="Avalonia.Animation.Transitions"/> collection.
 /// </summary>
-public class ClearTransitionsAction : StyledElementAction
+public partial class ClearTransitionsAction : StyledElementAction
 {
-    /// <summary>
-    /// Identifies the <seealso cref="StyledElement"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<StyledElement?> StyledElementProperty =
-        AvaloniaProperty.Register<ClearTransitionsAction, StyledElement?>(nameof(StyledElement));
 
     /// <summary>
     /// Gets or sets the target styled element. This is an avalonia property.
     /// </summary>
-    [ResolveByName]
-    public StyledElement? StyledElement
-    {
-        get => GetValue(StyledElementProperty);
-        set => SetValue(StyledElementProperty, value);
-    }
+    [StyledProperty(ResolveByName = true)]
+    public partial StyledElement? StyledElement { get; set; }
 
     /// <inheritdoc />
     public override object Execute(object? sender, object? parameter)

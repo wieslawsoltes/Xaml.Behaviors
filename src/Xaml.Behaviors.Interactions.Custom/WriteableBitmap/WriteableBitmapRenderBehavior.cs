@@ -1,81 +1,57 @@
 // Copyright (c) Wiesław Šoltés. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for details.
 using System;
+#if UNO
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Media.Imaging;
+using Microsoft.UI.Dispatching;
+using Xaml.Interactivity;
+#else
 using Avalonia.Controls;
 using Avalonia.Media.Imaging;
 using Avalonia.Platform;
 using Avalonia.Threading;
 using Avalonia.Xaml.Interactivity;
+#endif
 
+#if UNO
+namespace Xaml.Interactions.Custom;
+#else
 namespace Avalonia.Xaml.Interactions.Custom;
+#endif
 
 /// <summary>
 /// Creates a <see cref="WriteableBitmap"/> and updates it using a renderer on a timer.
 /// </summary>
-public class WriteableBitmapRenderBehavior : StyledElementBehavior<Image>
+public partial class WriteableBitmapRenderBehavior : StyledElementBehavior<Image>
 {
-    /// <summary>
-    /// Identifies the <see cref="PixelWidth"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<int> PixelWidthProperty =
-        AvaloniaProperty.Register<WriteableBitmapRenderBehavior, int>(nameof(PixelWidth), 256);
-
-    /// <summary>
-    /// Identifies the <see cref="PixelHeight"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<int> PixelHeightProperty =
-        AvaloniaProperty.Register<WriteableBitmapRenderBehavior, int>(nameof(PixelHeight), 256);
-
-    /// <summary>
-    /// Identifies the <see cref="Renderer"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<IWriteableBitmapRenderer?> RendererProperty =
-        AvaloniaProperty.Register<WriteableBitmapRenderBehavior, IWriteableBitmapRenderer?>(nameof(Renderer));
-
-    /// <summary>
-    /// Identifies the <see cref="Bitmap"/> avalonia property.
-    /// </summary>
-    public static readonly DirectProperty<WriteableBitmapRenderBehavior, WriteableBitmap?> BitmapProperty =
-        AvaloniaProperty.RegisterDirect<WriteableBitmapRenderBehavior, WriteableBitmap?>(nameof(Bitmap), o => o.Bitmap);
 
     private DispatcherTimer? _timer;
-    private WriteableBitmap? _bitmap;
 
     /// <summary>
     /// Gets or sets the width of the bitmap in pixels. This is an avalonia property.
     /// </summary>
-    public int PixelWidth
-    {
-        get => GetValue(PixelWidthProperty);
-        set => SetValue(PixelWidthProperty, value);
-    }
+    [StyledProperty(DefaultValue = 256)]
+    public partial int PixelWidth { get; set; }
 
     /// <summary>
     /// Gets or sets the height of the bitmap in pixels. This is an avalonia property.
     /// </summary>
-    public int PixelHeight
-    {
-        get => GetValue(PixelHeightProperty);
-        set => SetValue(PixelHeightProperty, value);
-    }
+    [StyledProperty(DefaultValue = 256)]
+    public partial int PixelHeight { get; set; }
 
     /// <summary>
     /// Gets or sets the renderer used to update the bitmap. This is an avalonia property.
     /// </summary>
-    public IWriteableBitmapRenderer? Renderer
-    {
-        get => GetValue(RendererProperty);
-        set => SetValue(RendererProperty, value);
-    }
+    [StyledProperty]
+    public partial IWriteableBitmapRenderer? Renderer { get; set; }
 
     /// <summary>
     /// Gets the created bitmap.
     /// </summary>
-    public WriteableBitmap? Bitmap
-    {
-        get => _bitmap;
-        private set => SetAndRaise(BitmapProperty, ref _bitmap, value);
-    }
+    [DirectProperty]
+    public partial WriteableBitmap? Bitmap { get; private set; }
 
     /// <inheritdoc />
     protected override void OnAttachedToVisualTree()

@@ -5,47 +5,40 @@ using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Reflection;
 using System.Threading.Tasks;
+#if UNO
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Dispatching;
+using Xaml.Interactivity;
+#else
 using Avalonia.Controls;
 using Avalonia.Threading;
 using Avalonia.Xaml.Interactivity;
+#endif
 
+#if UNO
+namespace Xaml.Interactions.Custom;
+#else
 namespace Avalonia.Xaml.Interactions.Custom;
+#endif
 
 /// <summary>
 /// An action that calls an asynchronous method on a specified object when invoked.
 /// </summary>
-public class CallMethodAsyncAction : StyledElementAction
+public partial class CallMethodAsyncAction : StyledElementAction
 {
-    /// <summary>
-    /// Identifies the <seealso cref="MethodName"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<string?> MethodNameProperty =
-        AvaloniaProperty.Register<CallMethodAsyncAction, string?>(nameof(MethodName));
-
-    /// <summary>
-    /// Identifies the <seealso cref="TargetObject"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<object?> TargetObjectProperty =
-        AvaloniaProperty.Register<CallMethodAsyncAction, object?>(nameof(TargetObject));
 
     /// <summary>
     /// Gets or sets the name of the method to invoke. This is an avalonia property.
     /// </summary>
-    public string? MethodName
-    {
-        get => GetValue(MethodNameProperty);
-        set => SetValue(MethodNameProperty, value);
-    }
+    [StyledProperty]
+    public partial string? MethodName { get; set; }
 
     /// <summary>
     /// Gets or sets the object that exposes the method of interest. This is an avalonia property.
     /// </summary>
-    [ResolveByName]
-    public object? TargetObject
-    {
-        get => GetValue(TargetObjectProperty);
-        set => SetValue(TargetObjectProperty, value);
-    }
+    [StyledProperty(ResolveByName = true)]
+    public partial object? TargetObject { get; set; }
 
     /// <summary>
     /// Executes the action.

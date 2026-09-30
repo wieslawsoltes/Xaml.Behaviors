@@ -4,18 +4,30 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+#if UNO
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Controls.Primitives;
+using Microsoft.UI.Xaml.Input;
+using Xaml.Interactivity;
+#else
 using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
 using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Xaml.Interactivity;
+#endif
 
+#if UNO
+namespace Xaml.Interactions.Custom;
+#else
 namespace Avalonia.Xaml.Interactions.Custom;
+#endif
 
 /// <summary>
 /// Filters <see cref="SelectingItemsControl"/> items based on the text of a search box.
 /// </summary>
-public sealed class SelectingItemsControlSearchBehavior : StyledElementBehavior<SelectingItemsControl>
+public sealed partial class SelectingItemsControlSearchBehavior : StyledElementBehavior<SelectingItemsControl>
 {
     /// <summary>
     /// Sort order for tab items.
@@ -34,38 +46,16 @@ public sealed class SelectingItemsControlSearchBehavior : StyledElementBehavior<
     }
 
     /// <summary>
-    /// Identifies the <seealso cref="SearchBox"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<TextBox?> SearchBoxProperty =
-        AvaloniaProperty.Register<SelectingItemsControlSearchBehavior, TextBox?>(nameof(SearchBox));
-
-    /// <summary>
     /// Identifies the <seealso cref="NoMatchesControl"/> avalonia property.
     /// </summary>
     public static readonly StyledProperty<TextBlock?> NoMatchesControlProperty =
         AvaloniaProperty.Register<SelectingItemsControlSearchBehavior, TextBlock?>(nameof(NoMatchesControl));
 
     /// <summary>
-    /// Identifies the <seealso cref="EnableSorting"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<bool> EnableSortingProperty =
-        AvaloniaProperty.Register<SelectingItemsControlSearchBehavior, bool>(nameof(EnableSorting));
-
-    /// <summary>
-    /// Identifies the <seealso cref="SortOrder"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<SortDirection> SortOrderProperty =
-        AvaloniaProperty.Register<SelectingItemsControlSearchBehavior, SortDirection>(nameof(SortOrder), SortDirection.Ascending);
-
-    /// <summary>
     /// Gets or sets the search box control.
     /// </summary>
-    [ResolveByName]
-    public TextBox? SearchBox
-    {
-        get => GetValue(SearchBoxProperty);
-        set => SetValue(SearchBoxProperty, value);
-    }
+    [StyledProperty(ResolveByName = true)]
+    public partial TextBox? SearchBox { get; set; }
 
     /// <summary>
     /// Gets or sets the control displayed when no matches are found.
@@ -73,27 +63,21 @@ public sealed class SelectingItemsControlSearchBehavior : StyledElementBehavior<
     [ResolveByName]
     public Control? NoMatchesControl
     {
-        get => GetValue(NoMatchesControlProperty);
+        get => (Control?)GetValue(NoMatchesControlProperty);
         set => SetValue(NoMatchesControlProperty, value);
     }
 
     /// <summary>
     /// Gets or sets a value indicating whether items should be sorted.
     /// </summary>
-    public bool EnableSorting
-    {
-        get => GetValue(EnableSortingProperty);
-        set => SetValue(EnableSortingProperty, value);
-    }
+    [StyledProperty]
+    public partial bool EnableSorting { get; set; }
 
     /// <summary>
     /// Gets or sets the sort order for the items.
     /// </summary>
-    public SortDirection SortOrder
-    {
-        get => GetValue(SortOrderProperty);
-        set => SetValue(SortOrderProperty, value);
-    }
+    [StyledProperty(DefaultValue = SortDirection.Ascending)]
+    public partial SortDirection SortOrder { get; set; }
 
     /// <inheritdoc />
     protected override void OnAttachedToVisualTree()

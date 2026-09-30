@@ -1,50 +1,43 @@
 // Copyright (c) Wiesław Šoltés. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for details.
 using System;
+#if UNO
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Xaml.Interactivity;
+#else
 using Avalonia.Collections;
 using Avalonia.Controls;
 using Avalonia.Metadata;
 using Avalonia.Reactive;
 using Avalonia.Xaml.Interactivity;
+#endif
 
+#if UNO
+namespace Xaml.Interactions.Custom;
+#else
 namespace Avalonia.Xaml.Interactions.Custom;
+#endif
 
 /// <summary>
 /// Updates <see cref="SplitView"/> properties based on size conditions.
 /// </summary>
-public class SplitViewStateBehavior : StyledElementBehavior<SplitView>
+public partial class SplitViewStateBehavior : StyledElementBehavior<SplitView>
 {
     private IDisposable? _disposable;
-    private AvaloniaList<SplitViewStateSetter>? _setters;
-
-    /// <summary>
-    /// Identifies the <seealso cref="SourceControl"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<Control?> SourceControlProperty =
-        AvaloniaProperty.Register<SplitViewStateBehavior, Control?>(nameof(SourceControl));
-
-    /// <summary>
-    /// Identifies the <seealso cref="Setters"/> avalonia property.
-    /// </summary>
-    public static readonly DirectProperty<SplitViewStateBehavior, AvaloniaList<SplitViewStateSetter>> SettersProperty =
-        AvaloniaProperty.RegisterDirect<SplitViewStateBehavior, AvaloniaList<SplitViewStateSetter>>(nameof(Setters), b => b.Setters);
 
     /// <summary>
     /// Gets or sets the control whose bounds are observed. If not set, the associated object is used.
     /// This is an avalonia property.
     /// </summary>
-    [ResolveByName]
-    public Control? SourceControl
-    {
-        get => GetValue(SourceControlProperty);
-        set => SetValue(SourceControlProperty, value);
-    }
+    [StyledProperty(ResolveByName = true)]
+    public partial Control? SourceControl { get; set; }
 
     /// <summary>
     /// Gets split view state setters collection. This is an avalonia property.
     /// </summary>
-    [Content]
-    public AvaloniaList<SplitViewStateSetter> Setters => _setters ??= [];
+    [DirectProperty(Lazy = true, Content = true)]
+    public partial AvaloniaList<SplitViewStateSetter> Setters { get; }
 
     /// <inheritdoc />
     protected override void OnAttachedToVisualTree()

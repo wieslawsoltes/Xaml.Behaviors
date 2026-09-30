@@ -1,43 +1,32 @@
 // Copyright (c) Wiesław Šoltés. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for details.
+#if UNO
+using Microsoft.UI.Xaml;
+#else
 using Avalonia;
+#endif
 
+#if UNO
+namespace Xaml.Interactions.Custom;
+#else
 namespace Avalonia.Xaml.Interactions.Custom;
+#endif
 
 /// <summary>
 /// Validation rule that requires a string with a minimal length.
 /// </summary>
-public class MinLengthValidationRule : AvaloniaObject, IValidationRule<string>
+public partial class MinLengthValidationRule : AvaloniaObject, IValidationRule<string>
 {
-    /// <summary>
-    /// Identifies the <see cref="Length"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<int> LengthProperty =
-        AvaloniaProperty.Register<MinLengthValidationRule, int>(nameof(Length));
-
-    /// <summary>
-    /// Identifies the <see cref="ErrorMessage"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<string?> ErrorMessageProperty =
-        AvaloniaProperty.Register<MinLengthValidationRule, string?>(
-            nameof(ErrorMessage),
-            defaultValue: "Value is too short.");
 
     /// <summary>
     /// Gets or sets the minimal allowed length.
     /// </summary>
-    public int Length
-    {
-        get => GetValue(LengthProperty);
-        set => SetValue(LengthProperty, value);
-    }
+    [StyledProperty]
+    public partial int Length { get; set; }
 
     /// <inheritdoc />
-    public string? ErrorMessage
-    {
-        get => GetValue(ErrorMessageProperty);
-        set => SetValue(ErrorMessageProperty, value);
-    }
+    [StyledProperty(DefaultValue = "Value is too short.")]
+    public partial string? ErrorMessage { get; set; }
 
     /// <inheritdoc />
     public bool Validate(string? value)

@@ -1,31 +1,32 @@
 // Copyright (c) Wiesław Šoltés. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for details.
+#if UNO
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Xaml.Interactivity;
+#else
 using Avalonia.Controls;
 using Avalonia.Metadata;
 using Avalonia.Xaml.Interactivity;
+#endif
 
+#if UNO
+namespace Xaml.Interactions.Custom;
+#else
 namespace Avalonia.Xaml.Interactions.Custom;
+#endif
 
 /// <summary>
 /// Shows the specified window when executed.
 /// </summary>
-public class ShowWindowAction : StyledElementAction
+public partial class ShowWindowAction : StyledElementAction
 {
-    /// <summary>
-    /// Identifies the <see cref="Window"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<Window?> WindowProperty =
-        AvaloniaProperty.Register<ShowWindowAction, Window?>(nameof(Window));
 
     /// <summary>
     /// Gets or sets the window instance to show. This is an avalonia property.
     /// </summary>
-    [Content]
-    public Window? Window
-    {
-        get => GetValue(WindowProperty);
-        set => SetValue(WindowProperty, value);
-    }
+    [StyledProperty(Content = true)]
+    public partial Window? Window { get; set; }
 
     /// <inheritdoc />
     public override object Execute(object? sender, object? parameter)

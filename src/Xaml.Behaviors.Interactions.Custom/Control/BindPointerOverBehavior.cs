@@ -1,32 +1,36 @@
 // Copyright (c) Wiesław Šoltés. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for details.
 using System;
+#if UNO
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Data;
+using Microsoft.UI.Xaml.Input;
+using Xaml.Interactivity;
+#else
 using Avalonia.Controls;
 using Avalonia.Data;
 using Avalonia.Input;
 using Avalonia.Xaml.Interactivity;
+#endif
 
+#if UNO
+namespace Xaml.Interactions.Custom;
+#else
 namespace Avalonia.Xaml.Interactions.Custom;
+#endif
 
 /// <summary>
 /// Binds the <see cref="InputElement.IsPointerOverProperty"/> to the <see cref="IsPointerOver"/> property.
 /// </summary>
-public class BindPointerOverBehavior : DisposingBehavior<Control>
+public partial class BindPointerOverBehavior : DisposingBehavior<Control>
 {
-    /// <summary>
-    /// Gets or sets a value indicating whether the pointer is over the control.
-    /// </summary>
-	public static readonly StyledProperty<bool> IsPointerOverProperty =
-		AvaloniaProperty.Register<BindPointerOverBehavior, bool>(nameof(IsPointerOver), defaultBindingMode: BindingMode.TwoWay);
 
     /// <summary>
     /// 
     /// </summary>
-	public bool IsPointerOver
-	{
-		get => GetValue(IsPointerOverProperty);
-		set => SetValue(IsPointerOverProperty, value);
-	}
+	[StyledProperty(DefaultBindingMode = PropertyBindingMode.TwoWay)]
+	public partial bool IsPointerOver { get; set; }
 
     /// <summary>
     /// Called when the behavior is attached to the control.

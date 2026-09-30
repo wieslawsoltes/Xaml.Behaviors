@@ -1,30 +1,32 @@
 // Copyright (c) Wiesław Šoltés. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for details.
+#if UNO
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Input;
+using Xaml.Interactivity;
+#else
 using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Xaml.Interactivity;
+#endif
 
+#if UNO
+namespace Xaml.Interactions.Custom;
+#else
 namespace Avalonia.Xaml.Interactions.Custom;
+#endif
 
 /// <summary>
 /// Changes the cursor when the pointer is over the associated control.
 /// </summary>
-public class PointerOverCursorBehavior : StyledElementBehavior<InputElement>
+public partial class PointerOverCursorBehavior : StyledElementBehavior<InputElement>
 {
-    /// <summary>
-    /// Identifies the <seealso cref="Cursor"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<Cursor?> CursorProperty =
-        AvaloniaProperty.Register<PointerOverCursorBehavior, Cursor?>(nameof(Cursor));
 
     /// <summary>
     /// Gets or sets the cursor to apply while the pointer is over the control.
     /// </summary>
-    public Cursor? Cursor
-    {
-        get => GetValue(CursorProperty);
-        set => SetValue(CursorProperty, value);
-    }
+    [StyledProperty]
+    public partial Cursor? Cursor { get; set; }
 
     /// <inheritdoc />
     protected override void OnAttachedToVisualTree()

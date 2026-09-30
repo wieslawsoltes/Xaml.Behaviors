@@ -1,63 +1,46 @@
 using System.Collections.Specialized;
+#if UNO
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Xaml.Interactivity;
+#else
 using Avalonia;
 using Avalonia.Collections;
 using Avalonia.Controls;
 using Avalonia.LogicalTree;
 using Avalonia.Metadata;
 using Avalonia.Xaml.Interactivity;
+#endif
 
+#if UNO
+namespace Xaml.Interactions.Custom;
+#else
 namespace Avalonia.Xaml.Interactions.Custom;
+#endif
 
 /// <summary>
 /// An action that executes a specific set of actions based on a value match.
 /// </summary>
-public class SwitchCaseAction : StyledElementAction
+public partial class SwitchCaseAction : StyledElementAction
 {
-    /// <summary>
-    /// Identifies the <seealso cref="Value"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<object?> ValueProperty =
-        AvaloniaProperty.Register<SwitchCaseAction, object?>(nameof(Value));
-
-    /// <summary>
-    /// Identifies the <seealso cref="Cases"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<AvaloniaList<Case>?> CasesProperty =
-        AvaloniaProperty.Register<SwitchCaseAction, AvaloniaList<Case>?>(nameof(Cases));
-
-    /// <summary>
-    /// Identifies the <seealso cref="DefaultActions"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<ActionCollection?> DefaultActionsProperty =
-        AvaloniaProperty.Register<SwitchCaseAction, ActionCollection?>(nameof(DefaultActions));
 
     /// <summary>
     /// Gets or sets the value to switch on.
     /// </summary>
-    public object? Value
-    {
-        get => GetValue(ValueProperty);
-        set => SetValue(ValueProperty, value);
-    }
+    [StyledProperty]
+    public partial object? Value { get; set; }
 
     /// <summary>
     /// Gets the collection of cases.
     /// </summary>
-    [Content]
-    public AvaloniaList<Case>? Cases
-    {
-        get => GetValue(CasesProperty);
-        set => SetValue(CasesProperty, value);
-    }
+    [StyledProperty(Content = true)]
+    public partial AvaloniaList<Case>? Cases { get; set; }
 
     /// <summary>
     /// Gets the actions to execute if no case matches.
     /// </summary>
-    public ActionCollection? DefaultActions
-    {
-        get => GetValue(DefaultActionsProperty);
-        set => SetValue(DefaultActionsProperty, value);
-    }
+    [StyledProperty]
+    public partial ActionCollection? DefaultActions { get; set; }
 
     /// <summary>
     /// Initializes a new instance of the <see cref="SwitchCaseAction"/> class.

@@ -1,45 +1,37 @@
 // Copyright (c) Wiesław Šoltés. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for details.
+#if UNO
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Xaml.Interactivity;
+#else
 using Avalonia.Controls;
 using Avalonia.Xaml.Interactivity;
+#endif
 
+#if UNO
+namespace Xaml.Interactions.Custom;
+#else
 namespace Avalonia.Xaml.Interactions.Custom;
+#endif
 
 /// <summary>
 /// Toggles a specified <see cref="ToggleClassAction.ClassName"/> in the <see cref="StyledElement.Classes"/> collection when invoked.
 /// </summary>
-public class ToggleClassAction : StyledElementAction
+public partial class ToggleClassAction : StyledElementAction
 {
-    /// <summary>
-    /// Identifies the <seealso cref="ClassName"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<string?> ClassNameProperty =
-        AvaloniaProperty.Register<ToggleClassAction, string?>(nameof(ClassName));
-
-    /// <summary>
-    /// Identifies the <seealso cref="StyledElement"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<StyledElement?> StyledElementProperty =
-        AvaloniaProperty.Register<ToggleClassAction, StyledElement?>(nameof(StyledElement));
 
     /// <summary>
     /// Gets or sets the class name that should be toggled. This is an avalonia property.
     /// </summary>
-    public string? ClassName
-    {
-        get => GetValue(ClassNameProperty);
-        set => SetValue(ClassNameProperty, value);
-    }
+    [StyledProperty]
+    public partial string? ClassName { get; set; }
 
     /// <summary>
     /// Gets or sets the target styled element that class name that should be toggled on. This is an avalonia property.
     /// </summary>
-    [ResolveByName]
-    public StyledElement? StyledElement
-    {
-        get => GetValue(StyledElementProperty);
-        set => SetValue(StyledElementProperty, value);
-    }
+    [StyledProperty(ResolveByName = true)]
+    public partial StyledElement? StyledElement { get; set; }
 
     /// <inheritdoc />
     public override object Execute(object? sender, object? parameter)

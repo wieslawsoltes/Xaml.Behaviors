@@ -1,27 +1,33 @@
 using System;
 using System.Linq;
+#if UNO
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Input;
+using Microsoft.UI.Dispatching;
+using Xaml.Interactivity;
+#else
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Input.Platform;
 using Avalonia.Threading;
 using Avalonia.Xaml.Interactivity;
+#endif
 
+#if UNO
+namespace Xaml.Interactions.Custom;
+#else
 namespace Avalonia.Xaml.Interactions.Custom;
+#endif
 
 /// <summary>
 /// A behavior that monitors the system clipboard for specific data formats.
 /// </summary>
-public class ClipboardMonitorBehavior : StyledElementBehavior<Control>
+public partial class ClipboardMonitorBehavior : StyledElementBehavior<Control>
 {
     private DispatcherTimer? _timer;
     private bool _hasData;
-
-    /// <summary>
-    /// Identifies the <see cref="Formats"/> property.
-    /// </summary>
-    public static readonly StyledProperty<string> FormatsProperty =
-        AvaloniaProperty.Register<ClipboardMonitorBehavior, string>(nameof(Formats), "Text");
 
     /// <summary>
     /// Identifies the <see cref="HasData"/> property.
@@ -34,11 +40,8 @@ public class ClipboardMonitorBehavior : StyledElementBehavior<Control>
     /// <summary>
     /// Gets or sets the comma-separated list of clipboard formats to listen for (e.g., "Text,FileNames").
     /// </summary>
-    public string Formats
-    {
-        get => GetValue(FormatsProperty);
-        set => SetValue(FormatsProperty, value);
-    }
+    [StyledProperty(DefaultValue = "Text")]
+    public partial string Formats { get; set; }
 
     /// <summary>
     /// Gets a value indicating whether the clipboard contains data in any of the specified <see cref="Formats"/>.

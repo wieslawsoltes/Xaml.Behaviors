@@ -1,63 +1,47 @@
 // Copyright (c) Wiesław Šoltés. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for details.
 using System;
+#if UNO
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Xaml.Interactivity;
+#else
 using Avalonia.Controls;
 using Avalonia.VisualTree;
 using Avalonia.Reactive;
 using Avalonia.Xaml.Interactivity;
+#endif
 
+#if UNO
+namespace Xaml.Interactions.Custom;
+#else
 namespace Avalonia.Xaml.Interactions.Custom;
+#endif
 
 /// <summary>
 /// Listens for the associated element entering or exiting the parent <see cref="ScrollViewer"/> viewport.
 /// </summary>
-public class ViewportBehavior : AttachedToVisualTreeBehavior<Visual>
+public partial class ViewportBehavior : AttachedToVisualTreeBehavior<Visual>
 {
-    /// <summary>
-    /// Identifies the <see cref="IsFullyInViewport"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<bool> IsFullyInViewportProperty =
-        AvaloniaProperty.Register<ViewportBehavior, bool>(nameof(IsFullyInViewport));
-
-    /// <summary>
-    /// Identifies the <see cref="IsInViewport"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<bool> IsInViewportProperty =
-        AvaloniaProperty.Register<ViewportBehavior, bool>(nameof(IsInViewport));
-
-    /// <summary>
-    /// Identifies the <see cref="IsAlwaysOn"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<bool> IsAlwaysOnProperty =
-        AvaloniaProperty.Register<ViewportBehavior, bool>(nameof(IsAlwaysOn));
 
     /// <summary>
     /// Gets or sets a value indicating whether this behavior will remain attached after the associated element enters the viewport.
     /// When false, the behavior will remove itself after entering.
     /// </summary>
-    public bool IsAlwaysOn
-    {
-        get => GetValue(IsAlwaysOnProperty);
-        set => SetValue(IsAlwaysOnProperty, value);
-    }
+    [StyledProperty]
+    public partial bool IsAlwaysOn { get; set; }
 
     /// <summary>
     /// Gets a value indicating whether the associated element is fully in the <see cref="ScrollViewer"/> viewport.
     /// </summary>
-    public bool IsFullyInViewport
-    {
-        get => GetValue(IsFullyInViewportProperty);
-        private set => SetValue(IsFullyInViewportProperty, value);
-    }
+    [StyledProperty]
+    public partial bool IsFullyInViewport { get; private set; }
 
     /// <summary>
     /// Gets a value indicating whether the associated element is in the <see cref="ScrollViewer"/> viewport.
     /// </summary>
-    public bool IsInViewport
-    {
-        get => GetValue(IsInViewportProperty);
-        private set => SetValue(IsInViewportProperty, value);
-    }
+    [StyledProperty]
+    public partial bool IsInViewport { get; private set; }
 
     /// <summary>
     /// Occurs when the associated element has fully entered the viewport.

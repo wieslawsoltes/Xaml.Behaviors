@@ -2,81 +2,57 @@
 // Licensed under the MIT license. See LICENSE file in the project root for details.
 using System;
 using System.Diagnostics;
+#if UNO
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Media.Imaging;
+using Microsoft.UI.Dispatching;
+using Xaml.Interactivity;
+#else
 using Avalonia.Controls;
 using Avalonia.Media.Imaging;
 using Avalonia.Threading;
 using Avalonia.Xaml.Interactivity;
+#endif
 
+#if UNO
+namespace Xaml.Interactions.Custom;
+#else
 namespace Avalonia.Xaml.Interactions.Custom;
+#endif
 
 /// <summary>
 /// Behavior that draws into a <see cref="RenderTargetBitmap"/> and assigns it to the associated <see cref="Image"/>.
 /// </summary>
-public class RenderTargetBitmapBehavior : StyledElementBehavior<Image>, IRenderTargetBitmapRenderHost
+public partial class RenderTargetBitmapBehavior : StyledElementBehavior<Image>, IRenderTargetBitmapRenderHost
 {
     private RenderTargetBitmap? _bitmap;
     private DispatcherTimer? _timer;
     private readonly Stopwatch _stopwatch = Stopwatch.StartNew();
 
     /// <summary>
-    /// Identifies the <see cref="PixelWidth"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<int> PixelWidthProperty =
-        AvaloniaProperty.Register<RenderTargetBitmapBehavior, int>(nameof(PixelWidth), 200);
-
-    /// <summary>
-    /// Identifies the <see cref="PixelHeight"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<int> PixelHeightProperty =
-        AvaloniaProperty.Register<RenderTargetBitmapBehavior, int>(nameof(PixelHeight), 200);
-
-    /// <summary>
-    /// Identifies the <see cref="Dpi"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<Vector> DpiProperty =
-        AvaloniaProperty.Register<RenderTargetBitmapBehavior, Vector>(nameof(Dpi), new Vector(96, 96));
-
-    /// <summary>
-    /// Identifies the <see cref="Renderer"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<IRenderTargetBitmapRenderer?> RendererProperty =
-        AvaloniaProperty.Register<RenderTargetBitmapBehavior, IRenderTargetBitmapRenderer?>(nameof(Renderer));
-
-    /// <summary>
     /// Gets or sets the pixel width of the bitmap. This is an avalonia property.
     /// </summary>
-    public int PixelWidth
-    {
-        get => GetValue(PixelWidthProperty);
-        set => SetValue(PixelWidthProperty, value);
-    }
+    [StyledProperty(DefaultValue = 200)]
+    public partial int PixelWidth { get; set; }
 
     /// <summary>
     /// Gets or sets the pixel height of the bitmap. This is an avalonia property.
     /// </summary>
-    public int PixelHeight
-    {
-        get => GetValue(PixelHeightProperty);
-        set => SetValue(PixelHeightProperty, value);
-    }
+    [StyledProperty(DefaultValue = 200)]
+    public partial int PixelHeight { get; set; }
 
     /// <summary>
     /// Gets or sets the DPI vector of the bitmap. This is an avalonia property.
     /// </summary>
-    public Vector Dpi
-    {
-        get => GetValue(DpiProperty);
-        set => SetValue(DpiProperty, value);
-    }
+    [StyledProperty(DefaultValueExpression = "new Vector(96, 96)")]
+    public partial Vector Dpi { get; set; }
 
     /// <summary>
     /// Gets or sets the renderer used to draw the bitmap. This is an avalonia property.
     /// </summary>
-    public IRenderTargetBitmapRenderer? Renderer
-    {
-        get => GetValue(RendererProperty);
-        set => SetValue(RendererProperty, value);
-    }
+    [StyledProperty]
+    public partial IRenderTargetBitmapRenderer? Renderer { get; set; }
 
     /// <inheritdoc />
     protected override void OnAttachedToVisualTree()

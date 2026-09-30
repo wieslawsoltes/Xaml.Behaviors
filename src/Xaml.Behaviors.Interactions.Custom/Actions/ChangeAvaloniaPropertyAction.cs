@@ -4,63 +4,46 @@ using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Reflection;
+#if UNO
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Xaml.Interactivity;
+#else
 using Avalonia.Controls;
 using Avalonia.Xaml.Interactivity;
+#endif
 
+#if UNO
+namespace Xaml.Interactions.Custom;
+#else
 namespace Avalonia.Xaml.Interactions.Custom;
+#endif
 
 /// <summary>
 /// An action that will change a specified Avalonia property to a specified value when invoked.
 /// </summary>
 [RequiresUnreferencedCode("This functionality is not compatible with trimming.")]
-public class ChangeAvaloniaPropertyAction : Avalonia.Xaml.Interactivity.StyledElementAction
+public partial class ChangeAvaloniaPropertyAction : Avalonia.Xaml.Interactivity.StyledElementAction
 {
-    /// <summary>
-    /// Identifies the <seealso cref="TargetProperty"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<AvaloniaProperty?> TargetPropertyProperty =
-        AvaloniaProperty.Register<ChangeAvaloniaPropertyAction, AvaloniaProperty?>(nameof(TargetProperty));
-
-    /// <summary>
-    /// Identifies the <seealso cref="TargetObject"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<AvaloniaObject?> TargetObjectProperty =
-        AvaloniaProperty.Register<ChangeAvaloniaPropertyAction, AvaloniaObject?>(nameof(TargetObject));
-
-    /// <summary>
-    /// Identifies the <seealso cref="Value"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<object?> ValueProperty =
-        AvaloniaProperty.Register<ChangeAvaloniaPropertyAction, object?>(nameof(Value));
 
     /// <summary>
     /// Gets or sets the name of the Avalonia property to change. This is an avalonia property.
     /// </summary>
-    public AvaloniaProperty? TargetProperty
-    {
-        get => GetValue(TargetPropertyProperty);
-        set => SetValue(TargetPropertyProperty, value);
-    }
+    [StyledProperty]
+    public partial AvaloniaProperty? TargetProperty { get; set; }
 
     /// <summary>
     /// Gets or sets the value to set. This is an avalonia property.
     /// </summary>
-    public object? Value
-    {
-        get => GetValue(ValueProperty);
-        set => SetValue(ValueProperty, value);
-    }
+    [StyledProperty]
+    public partial object? Value { get; set; }
 
     /// <summary>
     /// Gets or sets the Avalonia object whose property will be changed.
     /// If <seealso cref="TargetObject"/> is not set or cannot be resolved, the sender of <seealso cref="Execute"/> will be used. This is an avalonia property.
     /// </summary>
-    [ResolveByName]
-    public AvaloniaObject? TargetObject
-    {
-        get => GetValue(TargetObjectProperty);
-        set => SetValue(TargetObjectProperty, value);
-    }
+    [StyledProperty(ResolveByName = true)]
+    public partial AvaloniaObject? TargetObject { get; set; }
 
     /// <summary>
     /// Executes the action.

@@ -1,48 +1,44 @@
 using System;
 using System.Diagnostics.CodeAnalysis;
+#if UNO
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Controls.Primitives;
+using Microsoft.UI.Xaml.Media;
+using Microsoft.UI.Dispatching;
+using Xaml.Interactivity;
+#else
 using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
 using Avalonia.Media;
 using Avalonia.Threading;
 using Avalonia.Xaml.Interactivity;
+#endif
 
+#if UNO
+namespace Xaml.Interactions.Custom;
+#else
 namespace Avalonia.Xaml.Interactions.Custom;
+#endif
 
 /// <summary>
 /// A behavior that visualizes events on the attached control for debugging purposes.
 /// </summary>
 [RequiresUnreferencedCode("This functionality is not compatible with trimming.")]
-public class VisualDebugBehavior : EventTriggerBase
+public partial class VisualDebugBehavior : EventTriggerBase
 {
-    /// <summary>
-    /// Identifies the <seealso cref="HighlightColor"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<Color> HighlightColorProperty =
-        AvaloniaProperty.Register<VisualDebugBehavior, Color>(nameof(HighlightColor), Colors.Red);
-
-    /// <summary>
-    /// Identifies the <seealso cref="Duration"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<TimeSpan> DurationProperty =
-        AvaloniaProperty.Register<VisualDebugBehavior, TimeSpan>(nameof(Duration), TimeSpan.FromSeconds(0.5));
 
     /// <summary>
     /// Gets or sets the color used to highlight the control when the event fires.
     /// </summary>
-    public Color HighlightColor
-    {
-        get => GetValue(HighlightColorProperty);
-        set => SetValue(HighlightColorProperty, value);
-    }
+    [StyledProperty(DefaultValueExpression = "Colors.Red")]
+    public partial Color HighlightColor { get; set; }
 
     /// <summary>
     /// Gets or sets the duration of the highlight.
     /// </summary>
-    public TimeSpan Duration
-    {
-        get => GetValue(DurationProperty);
-        set => SetValue(DurationProperty, value);
-    }
+    [StyledProperty(DefaultValueExpression = "TimeSpan.FromSeconds(0.5)")]
+    public partial TimeSpan Duration { get; set; }
 
     /// <inheritdoc />
     protected override void OnEvent(object? eventArgs)

@@ -1,44 +1,37 @@
 // Copyright (c) Wiesław Šoltés. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for details.
+#if UNO
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Xaml.Interactivity;
+#else
 using Avalonia.Controls;
 using Avalonia.Xaml.Interactivity;
+#endif
 
+#if UNO
+namespace Xaml.Interactions.Custom;
+#else
 namespace Avalonia.Xaml.Interactions.Custom;
+#endif
 
 /// <summary>
 /// Starts an animation built in code on the associated control.
 /// </summary>
-public class StartBuiltAnimationAction : AvaloniaObject, IAction
+public partial class StartBuiltAnimationAction : AvaloniaObject, IAction
 {
-    /// <summary>
-    /// Identifies the <see cref="Animation"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<Animation.Animation?> AnimationProperty =
-        AvaloniaProperty.Register<StartBuiltAnimationAction, Animation.Animation?>(nameof(Animation));
-
-    /// <summary>
-    /// Identifies the <see cref="AnimationBuilder"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<IAnimationBuilder?> AnimationBuilderProperty =
-        AvaloniaProperty.Register<StartBuiltAnimationAction, IAnimationBuilder?>(nameof(AnimationBuilder));
 
     /// <summary>
     /// Gets or sets the animation to run.
     /// </summary>
-    public Animation.Animation? Animation
-    {
-        get => GetValue(AnimationProperty);
-        set => SetValue(AnimationProperty, value);
-    }
+    [StyledProperty]
+    public partial Animation.Animation? Animation { get; set; }
 
     /// <summary>
     /// Gets or sets the animation builder used to create an animation.
     /// </summary>
-    public IAnimationBuilder? AnimationBuilder
-    {
-        get => GetValue(AnimationBuilderProperty);
-        set => SetValue(AnimationBuilderProperty, value);
-    }
+    [StyledProperty]
+    public partial IAnimationBuilder? AnimationBuilder { get; set; }
 
     /// <inheritdoc />
     public object Execute(object? sender, object? parameter)

@@ -1,31 +1,33 @@
 // Copyright (c) Wiesław Šoltés. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for details.
 using System;
+#if UNO
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Xaml.Interactivity;
+#else
 using Avalonia.Controls;
 using Avalonia.Reactive;
 using Avalonia.Xaml.Interactivity;
+#endif
 
+#if UNO
+namespace Xaml.Interactions.Custom;
+#else
 namespace Avalonia.Xaml.Interactions.Custom;
+#endif
 
 /// <summary>
 /// Scrolls the associated <see cref="ItemsControl"/> to a given item index.
 /// </summary>
-public class ScrollToItemIndexBehavior : AttachedToVisualTreeBehavior<ItemsControl>
+public partial class ScrollToItemIndexBehavior : AttachedToVisualTreeBehavior<ItemsControl>
 {
-    /// <summary>
-    /// Gets or sets the observable that produces item indexes to scroll into view.
-    /// </summary>
-    public static readonly StyledProperty<IObservable<int>?> ItemIndexProperty =
-        AvaloniaProperty.Register<ScrollToItemIndexBehavior, IObservable<int>?>(nameof(ItemIndex));
 
     /// <summary>
     /// 
     /// </summary>
-    public IObservable<int>? ItemIndex
-    {
-        get => GetValue(ItemIndexProperty);
-        set => SetValue(ItemIndexProperty, value);
-    }
+    [StyledProperty]
+    public partial IObservable<int>? ItemIndex { get; set; }
 
     /// <summary>
     /// Subscribes to the <see cref="ItemIndex"/> observable and scrolls to incoming indexes.

@@ -366,8 +366,8 @@ namespace Xaml.PropertyGenerator
                 case TypedConstantKind.Primitive:
                     return constant.Value switch
                     {
-                        double d => d.ToString("R", CultureInfo.InvariantCulture) + "d",
-                        float f => f.ToString("R", CultureInfo.InvariantCulture) + "f",
+                        double d => FormatDouble(d),
+                        float f => FormatSingle(f),
                         decimal m => m.ToString(CultureInfo.InvariantCulture) + "m",
                         long l => l.ToString(CultureInfo.InvariantCulture) + "L",
                         ulong ul => ul.ToString(CultureInfo.InvariantCulture) + "UL",
@@ -377,6 +377,40 @@ namespace Xaml.PropertyGenerator
                 default:
                     return null;
             }
+        }
+
+        private static string FormatDouble(double value)
+        {
+            if (double.IsNaN(value))
+            {
+                return "double.NaN";
+            }
+
+            if (double.IsPositiveInfinity(value))
+            {
+                return "double.PositiveInfinity";
+            }
+
+            return double.IsNegativeInfinity(value)
+                ? "double.NegativeInfinity"
+                : value.ToString("R", CultureInfo.InvariantCulture) + "d";
+        }
+
+        private static string FormatSingle(float value)
+        {
+            if (float.IsNaN(value))
+            {
+                return "float.NaN";
+            }
+
+            if (float.IsPositiveInfinity(value))
+            {
+                return "float.PositiveInfinity";
+            }
+
+            return float.IsNegativeInfinity(value)
+                ? "float.NegativeInfinity"
+                : value.ToString("R", CultureInfo.InvariantCulture) + "f";
         }
 
         private static string ModifiersPrefix(AccessorDeclarationSyntax accessor)
