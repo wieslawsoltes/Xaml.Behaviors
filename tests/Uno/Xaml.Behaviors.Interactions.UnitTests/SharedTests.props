@@ -11,27 +11,13 @@
 
   <!-- Core: ported. -->
 
-  <!-- Custom: not ported yet. -->
+  <!-- Custom. -->
   <PropertyGroup>
     <UnoSharedTestExcludes>$(UnoSharedTestExcludes);
-      Custom/AnimationAdapterTests.cs;
-      Custom/AttachedToVisualTreeLifecycleTests.cs;
-      Custom/BindableValidationRule001.axaml.cs;
-      Custom/ClickEventTrigger001.axaml.cs;
-      Custom/ClickEventTriggerTests.cs;
-      Custom/DetachedFromVisualTreeTrigger001.axaml.cs;
-      Custom/DetachedFromVisualTreeTriggerTests.cs;
-      Custom/ExecuteCommandBehaviorBaseTests.cs;
-      Custom/FocusNextElementActionTests.cs;
-      Custom/FocusTrapBehaviorTests.cs;
-      Custom/InlineEditBehaviorTests.cs;
-      Custom/InvokeButtonClickActionTests.cs;
-      Custom/RoutedEventTriggerBehaviorTests.cs;
-      Custom/ToolTipTriggerTests.cs;
-      Custom/UnoPortedControlBehaviorsTests.cs;
-      Custom/ValidationRuleTests.cs;
-      Custom/WindowClosedRoutedEventWindow.axaml.cs;
+      <!-- Avalonia runtime XAML loader (AvaloniaRuntimeXamlLoader) and XmlnsDefinition resolution; Uno compiles XAML at build time. -->
       Custom/XmlnsDefinitionRuntimeXamlTests.cs;
+      <!-- Window.WindowClosedEvent is an Avalonia routed event of the top level; WinUI windows raise a CLR Closed event. -->
+      Custom/WindowClosedRoutedEventWindow.axaml.cs;
     </UnoSharedTestExcludes>
   </PropertyGroup>
 

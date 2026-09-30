@@ -1,3 +1,11 @@
+#if UNO
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Input;
+using Microsoft.UI.Xaml.Media;
+using Xaml.Interactions.Custom;
+using Xaml.Interactivity;
+#else
 using Avalonia.Controls;
 using Avalonia.Headless;
 using Avalonia.Headless.XUnit;
@@ -6,9 +14,14 @@ using Avalonia.Interactivity;
 using Avalonia.Media;
 using Avalonia.Xaml.Interactions.Custom;
 using Avalonia.Xaml.Interactivity;
+#endif
 using Xunit;
 
+#if UNO
+namespace Xaml.Interactions.UnitTests.Custom;
+#else
 namespace Avalonia.Xaml.Interactions.UnitTests.Custom;
+#endif
 
 public class InlineEditBehaviorTests
 {
@@ -71,7 +84,12 @@ public class InlineEditBehaviorTests
         Assert.True(editControl.IsVisible);
     }
 
+#if UNO
+    // TextBox needs its WinUI template to receive pointer input.
+    [AvaloniaFact(Skip = "The TextBox needs the WinUI control templates (XamlControlsResources), which this test session does not load: loading them registers the Fluent styles process-wide and would make the other tests order dependent.")]
+#else
     [AvaloniaFact]
+#endif
     public void DoubleTapped_EditControl_DoesNotRestartEdit()
     {
         var activationTarget = new Border { Width = 100, Height = 30, Background = Brushes.Transparent };
@@ -103,14 +121,25 @@ public class InlineEditBehaviorTests
             (_, _) =>
             {
                 editControl.SelectionStart = 1;
+#if UNO
+                editControl.SelectionLength = 2;
+#else
                 editControl.SelectionEnd = 3;
+#endif
             },
             RoutingStrategies.Bubble);
 
         window.Click(editControl);
         window.Click(editControl);
 
+#if UNO
+        // The WinUI text box applies its own pointer selection after the routed DoubleTapped handlers: check that the
+        // edit was not restarted, which would select the whole text.
+        Assert.True(editControl.IsVisible);
+        Assert.NotEqual(editControl.Text.Length, editControl.SelectionLength);
+#else
         Assert.Equal(1, editControl.SelectionStart);
         Assert.Equal(3, editControl.SelectionEnd);
+#endif
     }
 }

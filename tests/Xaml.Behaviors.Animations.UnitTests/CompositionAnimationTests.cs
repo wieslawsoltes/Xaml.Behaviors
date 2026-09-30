@@ -241,6 +241,9 @@ public class CompositionAnimationTests
         Canvas.SetTop(target, 40d);
         var canvas = new Canvas { Width = 300d, Height = 300d, Children = { target } };
         var window = new Window { Content = canvas };
+#if UNO
+        var elapsed = System.Diagnostics.Stopwatch.StartNew();
+#endif
         configure(target);
 
         try
@@ -251,13 +254,16 @@ public class CompositionAnimationTests
             Dispatcher.UIThread.RunJobs();
 
 #if UNO
-            // WinUI composes Visual.Offset on top of the arranged position (30, 40) of the element, and the Uno
-            // composition animation may already have advanced by a frame.
+            // WinUI composes Visual.Offset on top of the arranged position (30, 40) of the element. Uno Platform
+            // evaluates composition animations against the real time clock (it cannot be paused), so the animation
+            // may have advanced since it started: allow the distance it can travel in the elapsed time (at most
+            // 300 px over the 10 s duration, three times faster at the peak of an easing).
             Vector3 actualOffset = Assert.IsAssignableFrom<CompositionVisual>(ElementComposition.GetElementVisual(target)).Offset;
             Vector3 expectedRelativeOffset = expectedOffset - new Vector3(30f, 40f, 0f);
+            double tolerance = 3d + (3d * 300d / 10_000d * elapsed.Elapsed.TotalMilliseconds);
             Assert.True(
-                Vector3.Distance(expectedRelativeOffset, actualOffset) <= 3f,
-                $"Expected {expectedRelativeOffset} but was {actualOffset}.");
+                Vector3.Distance(expectedRelativeOffset, actualOffset) <= tolerance,
+                $"Expected {expectedRelativeOffset} (within {tolerance:F1} px after {elapsed.ElapsedMilliseconds} ms) but was {actualOffset}.");
             Assert.Equal(new Vector3(30f, 40f, 0f), target.ActualOffset);
 #else
             Assert.Equal(expectedOffset, ElementComposition.GetElementVisual(target)?.Offset);

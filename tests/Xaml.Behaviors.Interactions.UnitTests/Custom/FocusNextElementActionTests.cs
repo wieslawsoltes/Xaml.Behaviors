@@ -1,12 +1,24 @@
+#if UNO
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Input;
+using Microsoft.UI.Dispatching;
+using Xaml.Interactions.Custom;
+#else
 using Avalonia.Controls;
 using Avalonia.Headless;
 using Avalonia.Headless.XUnit;
 using Avalonia.Input;
 using Avalonia.Threading;
 using Avalonia.Xaml.Interactions.Custom;
+#endif
 using Xunit;
 
+#if UNO
+namespace Xaml.Interactions.UnitTests.Custom;
+#else
 namespace Avalonia.Xaml.Interactions.UnitTests.Custom;
+#endif
 
 public class FocusNextElementActionTests
 {
@@ -103,6 +115,8 @@ public class FocusNextElementActionTests
         Assert.Equal(0, tabKeyDownCount);
     }
 
+#if !UNO
+    // KeyboardNavigationMode.None has no WinUI counterpart (TabFocusNavigation is Local, Cycle or Once).
     [AvaloniaFact]
     public void Execute_Skips_None_TabNavigation_Children()
     {
@@ -147,6 +161,7 @@ public class FocusNextElementActionTests
 
         Assert.Equal("After", (window.FocusManager?.GetFocusedElement() as Button)?.Content);
     }
+#endif
 
     [AvaloniaFact]
     public void Execute_Uses_TabOnceActiveElement_For_Once_Containers()
@@ -166,7 +181,9 @@ public class FocusNextElementActionTests
         };
 
         KeyboardNavigation.SetTabNavigation(onceContainer, KeyboardNavigationMode.Once);
+#if !UNO
         KeyboardNavigation.SetTabOnceActiveElement(onceContainer, onceSecond);
+#endif
 
         var window = new Window
         {
@@ -191,7 +208,12 @@ public class FocusNextElementActionTests
         Assert.True(before.Focus());
         action.Execute(before, null);
         Dispatcher.UIThread.RunJobs();
+#if UNO
+        // WinUI has no TabOnceActiveElement: a Once group is entered at its first element.
+        Assert.Equal("OnceFirst", (window.FocusManager?.GetFocusedElement() as Button)?.Content);
+#else
         Assert.Equal("OnceSecond", (window.FocusManager?.GetFocusedElement() as Button)?.Content);
+#endif
 
         action.Execute(onceSecond, null);
         Dispatcher.UIThread.RunJobs();
@@ -256,7 +278,11 @@ public class FocusNextElementActionTests
             Name = content,
             Width = 120,
             Height = 32,
+#if UNO
+            IsTabStop = true
+#else
             Focusable = true
+#endif
         };
     }
 }

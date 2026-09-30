@@ -1,0 +1,31 @@
+<compat:HeadlessTestWindow x:Class="Xaml.Interactions.UnitTests.Custom.DetachedFromVisualTreeTrigger001"
+                           xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                           xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                           xmlns:compat="using:Xaml.Behaviors.Uno.TestCompat"
+                           xmlns:i="using:Xaml.Interactivity"
+                           xmlns:ic="using:Xaml.Interactions.Core"
+                           xmlns:custom="using:Xaml.Interactions.Custom"
+                           xmlns:local="using:Xaml.Interactions.UnitTests.Custom">
+  <compat:HeadlessTestWindow.DataContext>
+    <local:DetachedTriggerBindingSource />
+  </compat:HeadlessTestWindow.DataContext>
+
+  <!-- TabView is the WinUI counterpart of the Avalonia TabControl. -->
+  <TabView x:Name="TargetTabs" x:FieldModifier="internal">
+    <TabView.TabItems>
+      <TabViewItem Header="Tab 1">
+        <TextBlock Text="Tab 1">
+          <i:Interaction.Behaviors>
+            <custom:DetachedFromVisualTreeTrigger>
+              <!-- WinUI clears the inherited DataContext before the element is unloaded: bind with x:Bind. -->
+              <ic:InvokeCommandAction Command="{x:Bind Source.DetachedCommand}" />
+            </custom:DetachedFromVisualTreeTrigger>
+          </i:Interaction.Behaviors>
+        </TextBlock>
+      </TabViewItem>
+      <TabViewItem Header="Tab 2">
+        <TextBlock Text="Tab 2" />
+      </TabViewItem>
+    </TabView.TabItems>
+  </TabView>
+</compat:HeadlessTestWindow>

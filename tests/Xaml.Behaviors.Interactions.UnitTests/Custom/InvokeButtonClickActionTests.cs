@@ -1,10 +1,21 @@
+#if UNO
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Xaml.Interactions.Custom;
+using Xaml.Interactions.UnitTests.Core;
+#else
 using Avalonia.Controls;
 using Avalonia.Headless.XUnit;
 using Avalonia.Xaml.Interactions.Custom;
 using Avalonia.Xaml.Interactions.UnitTests.Core;
+#endif
 using Xunit;
 
+#if UNO
+namespace Xaml.Interactions.UnitTests.Custom;
+#else
 namespace Avalonia.Xaml.Interactions.UnitTests.Custom;
+#endif
 
 public class InvokeButtonClickActionTests
 {
@@ -32,6 +43,8 @@ public class InvokeButtonClickActionTests
         Assert.Same(parameter, executedParameter);
     }
 
+#if !UNO
+    // WinUI click event arguments cannot be handled: ButtonBase executes the command after raising Click.
     [AvaloniaFact]
     public void Execute_Respects_Handled_Click_Event()
     {
@@ -51,6 +64,7 @@ public class InvokeButtonClickActionTests
         Assert.True(Assert.IsType<bool>(result));
         Assert.Equal(0, commandCallCount);
     }
+#endif
 
     [AvaloniaFact]
     public void Execute_Does_Not_Invoke_Disabled_Button()

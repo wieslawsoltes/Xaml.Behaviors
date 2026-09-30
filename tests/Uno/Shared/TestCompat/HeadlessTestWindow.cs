@@ -47,9 +47,6 @@ public partial class HeadlessTestWindow : ContentControl
     /// </summary>
     public void Show()
     {
-        // Like a new Avalonia window, the window starts a separate input sequence: clicks of a previous test at the
-        // same position must not continue into a double tap.
-        UnoHeadlessSession.Current.Mouse.Wait(TimeSpan.FromSeconds(1));
         UnoHeadlessSession.Current.Show(this);
         IsOpen = true;
         Opened?.Invoke(this, EventArgs.Empty);

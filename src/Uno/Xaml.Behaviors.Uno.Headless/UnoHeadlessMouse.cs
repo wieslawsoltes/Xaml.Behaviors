@@ -28,14 +28,16 @@ public enum UnoHeadlessMouseButton
 /// </summary>
 /// <remarks>
 /// Uno Platform applies injected mouse moves relative to the current position; this type tracks the position so moves
-/// are absolute. Every injected event advances the event time by one frame (16 ms), which the drag and drop manager
-/// requires; <see cref="Wait"/> lets more time pass. All members must be called on the UI thread; each one runs the
-/// queued UI work afterwards.
+/// are absolute. Every injected event advances the event time by one frame (16 ms; Uno Platform adds the time offset of
+/// an injected event to the time of the previous one), which the drag and drop manager and the gesture recognizers
+/// require; <see cref="Wait"/> lets more time pass, and showing new content starts a new input sequence. All members
+/// must be called on the UI thread; each one runs the queued UI work afterwards.
 /// </remarks>
 public sealed class UnoHeadlessMouse
 {
     private const uint FrameMilliseconds = 16;
     private const int WheelDelta = 120;
+    private const uint SequenceGapMilliseconds = 1000;
 
     private readonly UnoHeadlessSession _session;
     private InputInjector? _injector;
@@ -119,6 +121,12 @@ public sealed class UnoHeadlessMouse
         _session.EnsureThreadAccess();
         _idleTime = checked(_idleTime + (uint)Math.Ceiling(duration.TotalMilliseconds));
     }
+
+    /// <summary>
+    /// Starts a new input sequence (new content was shown): the next event is timed well after the previous ones, so the
+    /// gesture recognizers do not combine taps on the new content with earlier taps (for example into a double tap).
+    /// </summary>
+    internal void StartNewSequence() => _idleTime = Math.Max(_idleTime, SequenceGapMilliseconds);
 
     private void Inject(InjectedInputMouseInfo info)
     {
