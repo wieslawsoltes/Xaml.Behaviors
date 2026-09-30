@@ -41,9 +41,9 @@ public class ItemNudgeDropBehavior : StyledElementBehavior<ItemsControl>
     /// <inheritdoc />
     protected override void OnDetachedFromVisualTree()
     {
-        AssociatedObject?.RemoveHandler(DragDrop.DragLeaveEvent, OnDragLeave);
-        AssociatedObject?.RemoveHandler(DragDrop.DragOverEvent, OnDragOver);
-        AssociatedObject?.RemoveHandler(DragDrop.DropEvent, OnDrop);
+        AssociatedObject?.RemoveRoutedEventHandler(DragDrop.DragLeaveEvent, OnDragLeave);
+        AssociatedObject?.RemoveRoutedEventHandler(DragDrop.DragOverEvent, OnDragOver);
+        AssociatedObject?.RemoveRoutedEventHandler(DragDrop.DropEvent, OnDrop);
     }
     
     private void ApplyTranslation(Control control, double x, double y)

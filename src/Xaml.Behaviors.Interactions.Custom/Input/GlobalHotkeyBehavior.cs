@@ -57,7 +57,7 @@ public class GlobalHotkeyBehavior : StyledElementTrigger<Control>
     {
         if (_topLevel != null)
         {
-            _topLevel.RemoveHandler(InputElement.KeyDownEvent, OnKeyDown);
+            _topLevel.RemoveRoutedEventHandler(InputElement.KeyDownEvent, OnKeyDown);
             _topLevel = null;
         }
     }

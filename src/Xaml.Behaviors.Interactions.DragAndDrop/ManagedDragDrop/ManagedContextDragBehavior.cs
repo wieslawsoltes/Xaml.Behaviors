@@ -166,10 +166,10 @@ public class ManagedContextDragBehavior : StyledElementBehavior<Control>
     protected override void OnDetachedFromVisualTree()
     {
         var ao = AssociatedObject;
-        ao?.RemoveHandler(InputElement.PointerPressedEvent, OnPointerPressed);
-        ao?.RemoveHandler(InputElement.PointerReleasedEvent, OnPointerReleased);
-        ao?.RemoveHandler(InputElement.PointerMovedEvent, OnPointerMoved);
-        ao?.RemoveHandler(InputElement.PointerCaptureLostEvent, OnCaptureLost);
+        ao?.RemoveRoutedEventHandler(InputElement.PointerPressedEvent, OnPointerPressed);
+        ao?.RemoveRoutedEventHandler(InputElement.PointerReleasedEvent, OnPointerReleased);
+        ao?.RemoveRoutedEventHandler(InputElement.PointerMovedEvent, OnPointerMoved);
+        ao?.RemoveRoutedEventHandler(InputElement.PointerCaptureLostEvent, OnCaptureLost);
         DetachTopLevelHandlers();
         _topLevel = null;
     }
@@ -185,9 +185,9 @@ public class ManagedContextDragBehavior : StyledElementBehavior<Control>
     private void DetachTopLevelHandlers()
     {
         if (_topLevel is null) return;
-        _topLevel.RemoveHandler(InputElement.PointerMovedEvent, OnTopLevelPointerMoved);
-        _topLevel.RemoveHandler(InputElement.PointerReleasedEvent, OnTopLevelPointerReleased);
-        _topLevel.RemoveHandler(InputElement.PointerCaptureLostEvent, OnTopLevelPointerCaptureLost);
+        _topLevel.RemoveRoutedEventHandler(InputElement.PointerMovedEvent, OnTopLevelPointerMoved);
+        _topLevel.RemoveRoutedEventHandler(InputElement.PointerReleasedEvent, OnTopLevelPointerReleased);
+        _topLevel.RemoveRoutedEventHandler(InputElement.PointerCaptureLostEvent, OnTopLevelPointerCaptureLost);
     }
 
     private static DragDropEffects GetDesiredEffects(PointerEventArgs triggerEvent)

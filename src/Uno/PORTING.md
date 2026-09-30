@@ -51,7 +51,8 @@ portability analyzers know which files are shared.
    need `Microsoft.UI.Xaml.Controls.Control`.
 5. **Compat helpers** (internal, `src/Uno/Xaml.Behaviors.Interactivity/Compat`, visible to the other Uno
    assemblies through `InternalsVisibleTo`): `Dispatcher.UIThread` (`Post`, `Invoke`, `InvokeAsync`,
-   `CheckAccess`), `AnonymousObserver<T>`, `AvaloniaObjectExtensions.GetObservable<T>`, `GetNewValue`/`GetOldValue`,
+   `CheckAccess`), `DispatcherTimer`, routed event helpers, `StyledPropertyMetadata<T>`/`OverrideMetadata`,
+   `DragDrop`, `ILogical`/`LogicalTreeAttachmentEventArgs` (action tree), `AnonymousObserver<T>`, `AvaloniaObjectExtensions.GetObservable<T>`, `GetNewValue`/`GetOldValue`,
    `IsSet`, `SetCurrentValue`, `SetAndRaise`, the public `RoutingStrategies` enum and the `ResolveByName` marker.
    Extend them when the same Avalonia API is used in several places; otherwise use `#if UNO` locally.
 6. **Uno specifics to remember**
@@ -66,6 +67,17 @@ portability analyzers know which files are shared.
      and compare its value.
    - `IValueConverter.Convert` takes a language string instead of a `CultureInfo`.
    - `SetCurrentValue` sets a local value; temporary values use `DependencyPropertyValuePrecedences.Animations`.
+   - **Routed events**: keep `element.AddHandler(InputElement.XEvent, Handler, RoutingStrategies)` (the Uno compat
+     wraps the handler in the WinUI delegate type; `Tunnel` maps to `Preview*` events or `handledEventsToo`), but
+     **remove handlers with `RemoveRoutedEventHandler(...)`**. A method group passed to WinUI's instance
+     `UIElement.RemoveHandler(RoutedEvent, object)` binds to it through its natural delegate type and removes
+     nothing; Uno builds treat the corresponding warning (CS8974) as an error.
+   - Avalonia event argument names are aliased (`PointerPressedEventArgs` → `PointerRoutedEventArgs`,
+     `KeyEventArgs` → `KeyRoutedEventArgs`, `TextInputEventArgs` → `CharacterReceivedRoutedEventArgs`, …).
+     `GotFocusEvent`, `LostFocusEvent` and `TextInputEvent` are provided as static extension members on
+     `UIElement`, `DragDrop.*Event` by a compat `DragDrop` type.
+   - `XProperty.OverrideMetadata<T>(new StyledPropertyMetadata<TValue>(value))` works: the default is recorded
+     per type and applied as a local value by the base class constructors.
    - Routed events always bubble; `RoutingStrategies.Tunnel` maps to `Preview*` events where WinUI has them.
 7. **Excluding files** is fine when the feature has no WinUI counterpart (Avalonia templates, `TopLevel`
    specific features, notification managers, …). List them in `SharedSources.props` and in the project table
@@ -103,7 +115,7 @@ python3 build/UnoPort/uno_share.py src/Xaml.Behaviors.<Name>
 |---------|----------|-------|
 | Xaml.Behaviors.Interactivity | ✅ | Templates (`ITemplate`) and the C# 14 `Behaviors` extension are Avalonia only. |
 | Xaml.Behaviors.Interactions | ✅ Core, FileSystem, Network | Clipboard (`TopLevel.Clipboard`) and StorageProvider (`IStorageProvider`) are pending a port to `DataTransfer.Clipboard` / `Windows.Storage.Pickers`. Composite actions use the action tree (`Action.Host`). |
-| Xaml.Behaviors.Interactions.Events | ⏳ | |
+| Xaml.Behaviors.Interactions.Events | ✅ | Scroll gesture and IME client events have no WinUI counterpart. |
 | Xaml.Behaviors.Interactions.Responsive | ⏳ | |
 | Xaml.Behaviors.Interactions.Draggable | ⏳ | |
 | Xaml.Behaviors.Interactions.DragAndDrop | ⏳ | |

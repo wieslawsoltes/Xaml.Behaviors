@@ -43,8 +43,8 @@ public class PointerOverCursorBehavior : StyledElementBehavior<InputElement>
     {
         if (AssociatedObject is not null)
         {
-            AssociatedObject.RemoveHandler(InputElement.PointerEnteredEvent, OnPointerEntered);
-            AssociatedObject.RemoveHandler(InputElement.PointerExitedEvent, OnPointerExited);
+            AssociatedObject.RemoveRoutedEventHandler(InputElement.PointerEnteredEvent, OnPointerEntered);
+            AssociatedObject.RemoveRoutedEventHandler(InputElement.PointerExitedEvent, OnPointerExited);
         }
     }
 

@@ -1,6 +1,7 @@
 // Copyright (c) Wiesław Šoltés. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for details.
 using System;
+using Avalonia.Xaml.Interactivity;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
@@ -63,10 +64,10 @@ public class ListReorderDragBehavior : ItemDragBehavior
         base.OnDetachedFromVisualTree();
         if (AssociatedObject is not null)
         {
-            AssociatedObject.RemoveHandler(InputElement.PointerReleasedEvent, OnPointerReleased);
-            AssociatedObject.RemoveHandler(InputElement.PointerPressedEvent, OnPointerPressed);
-            AssociatedObject.RemoveHandler(InputElement.PointerMovedEvent, OnPointerMoved);
-            AssociatedObject.RemoveHandler(InputElement.PointerCaptureLostEvent, OnPointerCaptureLost);
+            AssociatedObject.RemoveRoutedEventHandler(InputElement.PointerReleasedEvent, OnPointerReleased);
+            AssociatedObject.RemoveRoutedEventHandler(InputElement.PointerPressedEvent, OnPointerPressed);
+            AssociatedObject.RemoveRoutedEventHandler(InputElement.PointerMovedEvent, OnPointerMoved);
+            AssociatedObject.RemoveRoutedEventHandler(InputElement.PointerCaptureLostEvent, OnPointerCaptureLost);
         }
     }
 

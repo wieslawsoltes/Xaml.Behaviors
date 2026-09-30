@@ -131,19 +131,19 @@ public class InlineEditBehavior : StyledElementBehavior<Control>
     {
         if (DisplayControl is not null)
         {
-            DisplayControl.RemoveHandler(InputElement.DoubleTappedEvent, OnDisplayActivate);
-            DisplayControl.RemoveHandler(InputElement.KeyDownEvent, OnDisplayKeyDown);
+            DisplayControl.RemoveRoutedEventHandler(InputElement.DoubleTappedEvent, OnDisplayActivate);
+            DisplayControl.RemoveRoutedEventHandler(InputElement.KeyDownEvent, OnDisplayKeyDown);
         }
 
         if (EditOnAssociatedObjectDoubleTapped && AssociatedObject is not null)
         {
-            AssociatedObject.RemoveHandler(InputElement.DoubleTappedEvent, OnAssociatedObjectActivate);
+            AssociatedObject.RemoveRoutedEventHandler(InputElement.DoubleTappedEvent, OnAssociatedObjectActivate);
         }
 
         if (EditControl is not null)
         {
-            EditControl.RemoveHandler(InputElement.KeyDownEvent, OnEditKeyDown);
-            EditControl.RemoveHandler(InputElement.LostFocusEvent, OnEditLostFocus);
+            EditControl.RemoveRoutedEventHandler(InputElement.KeyDownEvent, OnEditKeyDown);
+            EditControl.RemoveRoutedEventHandler(InputElement.LostFocusEvent, OnEditLostFocus);
         }
     }
 

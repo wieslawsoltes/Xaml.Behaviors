@@ -1,10 +1,20 @@
 ﻿// Copyright (c) Wiesław Šoltés. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for details.
+#if UNO
+using Microsoft.UI.Xaml.Input;
+using Microsoft.UI.Xaml;
+using Xaml.Interactivity;
+#else
 using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Xaml.Interactivity;
+#endif
 
+#if UNO
+namespace Xaml.Interactions.Events;
+#else
 namespace Avalonia.Xaml.Interactions.Events;
+#endif
 
 /// <summary>
 /// Behavior that listens for multiple pointer events.
@@ -34,9 +44,9 @@ public abstract class PointerEventsBehavior : InteractiveBehaviorBase
     {
         if (AssociatedObject is not null)
         {
-            AssociatedObject.RemoveHandler(InputElement.PointerPressedEvent, PointerPressed);
-            AssociatedObject.RemoveHandler(InputElement.PointerReleasedEvent, PointerReleased);
-            AssociatedObject.RemoveHandler(InputElement.PointerMovedEvent, PointerMoved);
+            AssociatedObject.RemoveRoutedEventHandler(InputElement.PointerPressedEvent, PointerPressed);
+            AssociatedObject.RemoveRoutedEventHandler(InputElement.PointerReleasedEvent, PointerReleased);
+            AssociatedObject.RemoveRoutedEventHandler(InputElement.PointerMovedEvent, PointerMoved);
         }
     }
 

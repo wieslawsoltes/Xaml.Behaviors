@@ -53,7 +53,7 @@ public class HideOnKeyPressedBehavior : StyledElementBehavior<Control>
     /// <inheritdoc />
     protected override void OnDetachedFromVisualTree()
     {
-        AssociatedObject?.RemoveHandler(InputElement.KeyDownEvent, AssociatedObject_KeyDown);
+        AssociatedObject?.RemoveRoutedEventHandler(InputElement.KeyDownEvent, AssociatedObject_KeyDown);
     }
 
     private void AssociatedObject_KeyDown(object? sender, KeyEventArgs e)

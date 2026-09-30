@@ -28,7 +28,7 @@ USING_MAP = {
     "Avalonia": ["Microsoft.UI.Xaml"],
     "Avalonia.Controls": ["Microsoft.UI.Xaml", "Microsoft.UI.Xaml.Controls"],
     "Avalonia.Controls.Primitives": ["Microsoft.UI.Xaml.Controls.Primitives"],
-    "Avalonia.Input": ["Microsoft.UI.Xaml.Input"],
+    "Avalonia.Input": ["Microsoft.UI.Xaml", "Microsoft.UI.Xaml.Input"],
     "Avalonia.Interactivity": ["Microsoft.UI.Xaml"],
     "Avalonia.Media": ["Microsoft.UI.Xaml.Media"],
     "Avalonia.Media.Imaging": ["Microsoft.UI.Xaml.Media.Imaging"],

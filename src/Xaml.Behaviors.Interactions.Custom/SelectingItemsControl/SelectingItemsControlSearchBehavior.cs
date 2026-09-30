@@ -112,8 +112,8 @@ public sealed class SelectingItemsControlSearchBehavior : StyledElementBehavior<
     {
         if (SearchBox is not null)
         {
-            SearchBox.RemoveHandler(InputElement.TextInputEvent, SearchBox_TextChanged);
-            SearchBox.RemoveHandler(TextBox.TextChangedEvent, SearchBox_TextChanged);
+            SearchBox.RemoveRoutedEventHandler(InputElement.TextInputEvent, SearchBox_TextChanged);
+            SearchBox.RemoveRoutedEventHandler(TextBox.TextChangedEvent, SearchBox_TextChanged);
         }
     }
 

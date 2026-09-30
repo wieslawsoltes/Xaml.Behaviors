@@ -98,10 +98,10 @@ public sealed class ContextDragWithDirectionBehavior : StyledElementBehavior<Con
     /// <inheritdoc />
     protected override void OnDetachedFromVisualTree()
     {
-        AssociatedObject?.RemoveHandler(InputElement.PointerPressedEvent, AssociatedObject_PointerPressed);
-        AssociatedObject?.RemoveHandler(InputElement.PointerReleasedEvent, AssociatedObject_PointerReleased);
-        AssociatedObject?.RemoveHandler(InputElement.PointerMovedEvent, AssociatedObject_PointerMoved);
-        AssociatedObject?.RemoveHandler(InputElement.PointerCaptureLostEvent, AssociatedObject_CaptureLost);
+        AssociatedObject?.RemoveRoutedEventHandler(InputElement.PointerPressedEvent, AssociatedObject_PointerPressed);
+        AssociatedObject?.RemoveRoutedEventHandler(InputElement.PointerReleasedEvent, AssociatedObject_PointerReleased);
+        AssociatedObject?.RemoveRoutedEventHandler(InputElement.PointerMovedEvent, AssociatedObject_PointerMoved);
+        AssociatedObject?.RemoveRoutedEventHandler(InputElement.PointerCaptureLostEvent, AssociatedObject_CaptureLost);
     }
 
     private async Task DoDragDrop(PointerPressedEventArgs triggerEvent, object? value, string direction)

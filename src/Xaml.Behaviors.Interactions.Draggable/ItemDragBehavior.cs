@@ -88,10 +88,10 @@ public class ItemDragBehavior : StyledElementBehavior<Control>
     {
         if (AssociatedObject is not null)
         {
-            AssociatedObject.RemoveHandler(InputElement.PointerReleasedEvent, PointerReleased);
-            AssociatedObject.RemoveHandler(InputElement.PointerPressedEvent, PointerPressed);
-            AssociatedObject.RemoveHandler(InputElement.PointerMovedEvent, PointerMoved);
-            AssociatedObject.RemoveHandler(InputElement.PointerCaptureLostEvent, PointerCaptureLost);
+            AssociatedObject.RemoveRoutedEventHandler(InputElement.PointerReleasedEvent, PointerReleased);
+            AssociatedObject.RemoveRoutedEventHandler(InputElement.PointerPressedEvent, PointerPressed);
+            AssociatedObject.RemoveRoutedEventHandler(InputElement.PointerMovedEvent, PointerMoved);
+            AssociatedObject.RemoveRoutedEventHandler(InputElement.PointerCaptureLostEvent, PointerCaptureLost);
         }
     }
 

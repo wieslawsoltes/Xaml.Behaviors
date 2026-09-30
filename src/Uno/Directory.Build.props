@@ -12,6 +12,13 @@
     <ImplicitUsings>disable</ImplicitUsings>
     <OutputType>Library</OutputType>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <!--
+      CS8974: a method group converted to object. On WinUI this silently binds method groups to
+      UIElement.RemoveHandler(RoutedEvent, object) and similar APIs; shared code must use the compat helpers.
+    -->
+    <WarningsAsErrors>$(WarningsAsErrors);CS8974</WarningsAsErrors>
+    <!-- CS1574: the shared XML documentation is Avalonia first; some crefs have no Uno Platform target. -->
+    <NoWarn>$(NoWarn);CS1574</NoWarn>
     <!-- Libraries do not need the app-level implicit packages of the Uno.Sdk. -->
     <UnoFeatures></UnoFeatures>
     <PackageTags>Uno;UnoPlatform;WinUI;Behavior;Action;Behaviors;Actions;Managed;C#;Interaction;Interactivity;Interactions;Xaml</PackageTags>
@@ -39,5 +46,16 @@
     <Using Include="Microsoft.UI.Xaml.UIElement" Alias="Visual" />
     <Using Include="Microsoft.UI.Xaml.UIElement" Alias="InputElement" />
     <Using Include="Microsoft.UI.Xaml.UIElement" Alias="Interactive" />
+    <!-- Avalonia input event arguments mapped to the WinUI routed event arguments. -->
+    <Using Include="Microsoft.UI.Xaml.Input.PointerRoutedEventArgs" Alias="PointerEventArgs" />
+    <Using Include="Microsoft.UI.Xaml.Input.PointerRoutedEventArgs" Alias="PointerPressedEventArgs" />
+    <Using Include="Microsoft.UI.Xaml.Input.PointerRoutedEventArgs" Alias="PointerReleasedEventArgs" />
+    <Using Include="Microsoft.UI.Xaml.Input.PointerRoutedEventArgs" Alias="PointerWheelEventArgs" />
+    <Using Include="Microsoft.UI.Xaml.Input.PointerRoutedEventArgs" Alias="PointerCaptureLostEventArgs" />
+    <Using Include="Microsoft.UI.Xaml.Input.KeyRoutedEventArgs" Alias="KeyEventArgs" />
+    <Using Include="Microsoft.UI.Xaml.Input.TappedRoutedEventArgs" Alias="TappedEventArgs" />
+    <Using Include="Microsoft.UI.Xaml.Input.CharacterReceivedRoutedEventArgs" Alias="TextInputEventArgs" />
+    <Using Include="Microsoft.UI.Xaml.RoutedEventArgs" Alias="FocusChangedEventArgs" />
+    <Using Include="Microsoft.UI.Xaml.RoutedEventArgs" Alias="GotFocusEventArgs" />
   </ItemGroup>
 </Project>

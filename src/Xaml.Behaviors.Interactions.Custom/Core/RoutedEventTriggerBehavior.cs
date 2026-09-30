@@ -143,7 +143,7 @@ public class RoutedEventTriggerBehavior : StyledElementTrigger<Interactive>
         var interactive = ComputeResolvedSourceInteractive();
         if (interactive is not null && RoutedEvent is not null && _isInitialized)
         {
-            interactive.RemoveHandler(RoutedEvent, Handler);
+            interactive.RemoveRoutedEventHandler(RoutedEvent, Handler);
             _isInitialized = false;
         }
     }

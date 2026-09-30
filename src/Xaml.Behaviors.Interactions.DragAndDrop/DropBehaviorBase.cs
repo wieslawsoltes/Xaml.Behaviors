@@ -36,10 +36,10 @@ public abstract class DropBehaviorBase : InvokeCommandBehaviorBase
         {
             DragDrop.SetAllowDrop(AssociatedObject, false);
         }
-        AssociatedObject?.RemoveHandler(DragDrop.DragEnterEvent, DragEnter);
-        AssociatedObject?.RemoveHandler(DragDrop.DragLeaveEvent, DragLeave);
-        AssociatedObject?.RemoveHandler(DragDrop.DragOverEvent, DragOver);
-        AssociatedObject?.RemoveHandler(DragDrop.DropEvent, Drop);
+        AssociatedObject?.RemoveRoutedEventHandler(DragDrop.DragEnterEvent, DragEnter);
+        AssociatedObject?.RemoveRoutedEventHandler(DragDrop.DragLeaveEvent, DragLeave);
+        AssociatedObject?.RemoveRoutedEventHandler(DragDrop.DragOverEvent, DragOver);
+        AssociatedObject?.RemoveRoutedEventHandler(DragDrop.DropEvent, Drop);
     }
 
     private void DragEnter(object? sender, DragEventArgs e)

@@ -38,7 +38,7 @@ public class HideOnLostFocusBehavior : StyledElementBehavior<Control>
     /// <inheritdoc />
     protected override void OnDetachedFromVisualTree()
     {
-        AssociatedObject?.RemoveHandler(InputElement.LostFocusEvent, AssociatedObject_LostFocus);
+        AssociatedObject?.RemoveRoutedEventHandler(InputElement.LostFocusEvent, AssociatedObject_LostFocus);
     }
 
     private void AssociatedObject_LostFocus(object? sender, RoutedEventArgs e)

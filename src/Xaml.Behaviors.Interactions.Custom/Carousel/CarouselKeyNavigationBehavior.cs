@@ -39,7 +39,7 @@ public class CarouselKeyNavigationBehavior : StyledElementBehavior<Carousel>
     /// <inheritdoc />
     protected override void OnDetaching()
     {
-        AssociatedObject?.RemoveHandler(InputElement.KeyDownEvent, OnKeyDown);
+        AssociatedObject?.RemoveRoutedEventHandler(InputElement.KeyDownEvent, OnKeyDown);
 
         base.OnDetaching();
     }

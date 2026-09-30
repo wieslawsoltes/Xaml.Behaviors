@@ -21,7 +21,7 @@ public class TextBoxSelectAllOnGotFocusBehavior : StyledElementBehavior<TextBox>
     /// <inheritdoc />
     protected override void OnDetachedFromVisualTree()
     {
-        AssociatedObject?.RemoveHandler(InputElement.GotFocusEvent, AssociatedObject_GotFocus);
+        AssociatedObject?.RemoveRoutedEventHandler(InputElement.GotFocusEvent, AssociatedObject_GotFocus);
     }
 
     private void AssociatedObject_GotFocus(object? sender, FocusChangedEventArgs e)

@@ -71,6 +71,13 @@ public abstract partial class Behavior : AvaloniaObject, IBehavior, IBehaviorEve
     /// </summary>
     public void Detach()
     {
+        // A behavior removed while its associated object stays loaded observes the same teardown as when the
+        // object unloads, so handlers subscribed on attach are released (the handlers are idempotent).
+        IBehaviorEventsHandler lifecycle = this;
+        lifecycle.UnloadedEventHandler();
+        lifecycle.DetachedFromVisualTreeEventHandler();
+        lifecycle.DetachedFromLogicalTreeEventHandler();
+
         OnDetaching();
 #if UNO
         UpdateActionsHost(null);

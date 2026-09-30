@@ -76,7 +76,7 @@ public class HorizontalScrollViewerBehavior : StyledElementBehavior<ScrollViewer
     {
         base.OnDetaching();
 
-        AssociatedObject!.RemoveHandler(InputElement.PointerWheelChangedEvent, OnPointerWheelChanged);
+        AssociatedObject!.RemoveRoutedEventHandler(InputElement.PointerWheelChangedEvent, OnPointerWheelChanged);
     }
 
     /// <summary>

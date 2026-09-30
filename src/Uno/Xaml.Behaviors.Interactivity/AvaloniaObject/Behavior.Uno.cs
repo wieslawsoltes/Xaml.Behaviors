@@ -10,6 +10,15 @@ namespace Xaml.Interactivity;
 public abstract partial class Behavior
 {
     /// <summary>
+    /// Initializes a new instance of the <see cref="Behavior"/> class.
+    /// </summary>
+    protected Behavior()
+    {
+        // WinUI has a single default value per dependency property: apply per type overrides.
+        PropertyMetadataOverrides.Apply(this);
+    }
+
+    /// <summary>
     /// Publishes the associated object to the actions of a trigger (WinUI has no logical tree).
     /// </summary>
     /// <param name="host">The associated object, or <c>null</c> when detaching.</param>

@@ -45,9 +45,9 @@ public abstract class TypedDragBehaviorBase : StyledElementBehavior<Control>
     /// <inheritdoc />
     protected override void OnDetachedFromVisualTree()
     {
-        AssociatedObject?.RemoveHandler(InputElement.PointerPressedEvent, AssociatedObject_PointerPressed);
-        AssociatedObject?.RemoveHandler(InputElement.PointerReleasedEvent, AssociatedObject_PointerReleased);
-        AssociatedObject?.RemoveHandler(InputElement.PointerMovedEvent, AssociatedObject_PointerMoved);
+        AssociatedObject?.RemoveRoutedEventHandler(InputElement.PointerPressedEvent, AssociatedObject_PointerPressed);
+        AssociatedObject?.RemoveRoutedEventHandler(InputElement.PointerReleasedEvent, AssociatedObject_PointerReleased);
+        AssociatedObject?.RemoveRoutedEventHandler(InputElement.PointerMovedEvent, AssociatedObject_PointerMoved);
     }
 
     /// <summary>

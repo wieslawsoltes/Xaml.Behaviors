@@ -66,8 +66,8 @@ public class InactivityTrigger : Trigger<Control>
 
         if (_topLevel != null)
         {
-            _topLevel.RemoveHandler(InputElement.PointerMovedEvent, OnInput);
-            _topLevel.RemoveHandler(InputElement.KeyDownEvent, OnInput);
+            _topLevel.RemoveRoutedEventHandler(InputElement.PointerMovedEvent, OnInput);
+            _topLevel.RemoveRoutedEventHandler(InputElement.KeyDownEvent, OnInput);
             _topLevel = null;
         }
     }

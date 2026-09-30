@@ -575,12 +575,12 @@ public class ClickEventTrigger : StyledElementTrigger<Control>
 
     private void UnregisterInputHandlers(Control sourceControl)
     {
-        sourceControl.RemoveHandler(InputElement.PointerPressedEvent, OnPointerPressed);
-        sourceControl.RemoveHandler(InputElement.PointerReleasedEvent, OnPointerReleased);
-        sourceControl.RemoveHandler(InputElement.PointerCaptureLostEvent, OnPointerCaptureLost);
-        sourceControl.RemoveHandler(InputElement.KeyDownEvent, OnKeyDown);
-        sourceControl.RemoveHandler(InputElement.KeyUpEvent, OnKeyUp);
-        sourceControl.RemoveHandler(InputElement.LostFocusEvent, OnLostFocus);
+        sourceControl.RemoveRoutedEventHandler(InputElement.PointerPressedEvent, OnPointerPressed);
+        sourceControl.RemoveRoutedEventHandler(InputElement.PointerReleasedEvent, OnPointerReleased);
+        sourceControl.RemoveRoutedEventHandler(InputElement.PointerCaptureLostEvent, OnPointerCaptureLost);
+        sourceControl.RemoveRoutedEventHandler(InputElement.KeyDownEvent, OnKeyDown);
+        sourceControl.RemoveRoutedEventHandler(InputElement.KeyUpEvent, OnKeyUp);
+        sourceControl.RemoveRoutedEventHandler(InputElement.LostFocusEvent, OnLostFocus);
     }
 
     private void DetachRootSubscription()

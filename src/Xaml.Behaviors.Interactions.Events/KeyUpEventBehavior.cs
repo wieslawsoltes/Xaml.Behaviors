@@ -1,10 +1,20 @@
 ﻿// Copyright (c) Wiesław Šoltés. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for details.
+#if UNO
+using Microsoft.UI.Xaml.Input;
+using Microsoft.UI.Xaml;
+using Xaml.Interactivity;
+#else
 using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Xaml.Interactivity;
+#endif
 
+#if UNO
+namespace Xaml.Interactions.Events;
+#else
 namespace Avalonia.Xaml.Interactions.Events;
+#endif
 
 /// <summary>
 /// Behavior that listens for the <see cref="InputElement.KeyUpEvent"/>.
@@ -27,7 +37,7 @@ public abstract class KeyUpEventBehavior : InteractiveBehaviorBase
     /// <inheritdoc />
     protected override void OnDetachedFromVisualTree()
     {
-        AssociatedObject?.RemoveHandler(InputElement.KeyUpEvent, KeyUp);
+        AssociatedObject?.RemoveRoutedEventHandler(InputElement.KeyUpEvent, KeyUp);
     }
 
     private void KeyUp(object? sender, KeyEventArgs e)

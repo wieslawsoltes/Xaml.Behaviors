@@ -1,9 +1,18 @@
 ﻿// Copyright (c) Wiesław Šoltés. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for details.
+#if UNO
+using Microsoft.UI.Xaml.Input;
+using Xaml.Interactivity;
+#else
 using Avalonia.Input;
 using Avalonia.Xaml.Interactivity;
+#endif
 
+#if UNO
+namespace Xaml.Interactions.Events;
+#else
 namespace Avalonia.Xaml.Interactions.Events;
+#endif
 
 /// <summary>
 /// Behavior that handles the <see cref="InputElement.LostFocusEvent"/>.
@@ -19,7 +28,7 @@ public abstract class LostFocusEventBehavior : InteractiveBehaviorBase
     /// <inheritdoc />
     protected override void OnDetachedFromVisualTree()
     {
-        AssociatedObject?.RemoveHandler(InputElement.LostFocusEvent, LostFocus);
+        AssociatedObject?.RemoveRoutedEventHandler(InputElement.LostFocusEvent, LostFocus);
     }
 
     private void LostFocus(object? sender, FocusChangedEventArgs e)

@@ -63,10 +63,10 @@ public abstract class DragAndDropEventsBehavior : StyledElementBehavior<Control>
     private void DetachEvents(Control targetControl)
     {
         DragDrop.SetAllowDrop(targetControl, false);
-        targetControl.RemoveHandler(DragDrop.DragEnterEvent, DragEnter);
-        targetControl.RemoveHandler(DragDrop.DragLeaveEvent, DragLeave);
-        targetControl.RemoveHandler(DragDrop.DragOverEvent, DragOver);
-        targetControl.RemoveHandler(DragDrop.DropEvent, Drop);
+        targetControl.RemoveRoutedEventHandler(DragDrop.DragEnterEvent, DragEnter);
+        targetControl.RemoveRoutedEventHandler(DragDrop.DragLeaveEvent, DragLeave);
+        targetControl.RemoveRoutedEventHandler(DragDrop.DragOverEvent, DragOver);
+        targetControl.RemoveRoutedEventHandler(DragDrop.DropEvent, Drop);
     }
 
     /// <inheritdoc />

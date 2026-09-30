@@ -16,7 +16,8 @@
       Helpers/ParseHelper.cs;
       Events/Handlers/MenuItemClickEventHandler.cs;
       Events/Handlers/ButtonClickEventHandler.cs;
-      Events/Handlers/FlyoutEventHandler.cs
+      Events/Handlers/FlyoutEventHandler.cs;
+      Events/RoutedEventHandlerExtensions.cs
     </UnoSharedSourceExcludes>
   </PropertyGroup>
 </Project>

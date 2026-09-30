@@ -67,10 +67,10 @@ public class MultiMouseDragElementBehavior : StyledElementBehavior<Control>
     {
         if (AssociatedObject is not null)
         {
-            AssociatedObject.RemoveHandler(InputElement.PointerPressedEvent, Pressed);
-            AssociatedObject.RemoveHandler(InputElement.PointerReleasedEvent, Released);
-            AssociatedObject.RemoveHandler(InputElement.PointerMovedEvent, Moved);
-            AssociatedObject.RemoveHandler(InputElement.PointerCaptureLostEvent, CaptureLost);
+            AssociatedObject.RemoveRoutedEventHandler(InputElement.PointerPressedEvent, Pressed);
+            AssociatedObject.RemoveRoutedEventHandler(InputElement.PointerReleasedEvent, Released);
+            AssociatedObject.RemoveRoutedEventHandler(InputElement.PointerMovedEvent, Moved);
+            AssociatedObject.RemoveRoutedEventHandler(InputElement.PointerCaptureLostEvent, CaptureLost);
         }
     }
 

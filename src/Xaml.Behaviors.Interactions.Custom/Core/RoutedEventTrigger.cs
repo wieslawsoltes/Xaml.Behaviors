@@ -69,6 +69,6 @@ public abstract class RoutedEventTrigger : RoutedEventTriggerBase
     {
         o.AddHandler(routedEvent, handler, routes, handledEventsToo);
 
-        return DisposableAction.Create(() => o.RemoveHandler(routedEvent, handler));
+        return DisposableAction.Create(() => o.RemoveRoutedEventHandler(routedEvent, handler));
     }
 }

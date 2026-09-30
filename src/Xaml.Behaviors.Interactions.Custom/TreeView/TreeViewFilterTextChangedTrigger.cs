@@ -36,7 +36,7 @@ public sealed class TreeViewFilterTextChangedTrigger : InteractiveTriggerBase
     /// <inheritdoc />
     protected override void OnDetachedFromVisualTree()
     {
-        SearchBox?.RemoveHandler(TextBox.TextChangedEvent, OnTextChanged);
+        SearchBox?.RemoveRoutedEventHandler(TextBox.TextChangedEvent, OnTextChanged);
     }
 
     private void OnTextChanged(object? sender, RoutedEventArgs e)

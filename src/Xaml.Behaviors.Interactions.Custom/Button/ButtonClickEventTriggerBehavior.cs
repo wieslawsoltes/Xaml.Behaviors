@@ -46,8 +46,8 @@ public class ButtonClickEventTriggerBehavior : StyledElementTrigger<Button>
         if (AssociatedObject is not null)
         {
             AssociatedObject.Click -= AssociatedObject_OnClick;
-            AssociatedObject.RemoveHandler(InputElement.KeyDownEvent, Button_OnKeyDown);
-            AssociatedObject.RemoveHandler(InputElement.KeyUpEvent, Button_OnKeyUp);
+            AssociatedObject.RemoveRoutedEventHandler(InputElement.KeyDownEvent, Button_OnKeyDown);
+            AssociatedObject.RemoveRoutedEventHandler(InputElement.KeyUpEvent, Button_OnKeyUp);
         }
     }
 

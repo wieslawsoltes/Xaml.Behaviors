@@ -9,6 +9,15 @@ namespace Xaml.Interactivity;
 /// </content>
 public abstract partial class Action
 {
+    /// <summary>
+    /// Initializes a new instance of the <see cref="Action"/> class.
+    /// </summary>
+    protected Action()
+    {
+        // WinUI has a single default value per dependency property: apply per type overrides.
+        PropertyMetadataOverrides.Apply(this);
+    }
+
     private DependencyObject? _host;
 
     /// <summary>
