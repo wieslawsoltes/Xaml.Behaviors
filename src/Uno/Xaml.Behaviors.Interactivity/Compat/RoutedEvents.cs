@@ -76,7 +76,7 @@ internal static class RoutedEventCompatExtensions
         => Add(element, routedEvent, handler, new HoldingEventHandler((s, e) => handler(s, e)), routes, handledEventsToo);
 
     public static void AddHandler(this UIElement element, RoutedEvent routedEvent, EventHandler<DragEventArgs> handler, RoutingStrategies routes = RoutingStrategies.Bubble, bool handledEventsToo = false)
-        => Add(element, routedEvent, handler, new DragEventHandler((s, e) => handler(s, e)), routes, handledEventsToo);
+        => Add(element, routedEvent, handler, WrapDragHandler(routedEvent, (s, e) => handler(s, e)), routes, handledEventsToo);
 
     public static void AddHandler(this UIElement element, RoutedEvent routedEvent, EventHandler<CharacterReceivedRoutedEventArgs> handler, RoutingStrategies routes = RoutingStrategies.Bubble, bool handledEventsToo = false)
         => Add(element, routedEvent, handler, new TypedEventHandler<UIElement, CharacterReceivedRoutedEventArgs>((s, e) => handler(s, e)), routes, handledEventsToo);
@@ -88,7 +88,7 @@ internal static class RoutedEventCompatExtensions
             : routedEvent == UIElement.DoubleTappedEvent ? new DoubleTappedEventHandler((s, e) => handler(s, e))
             : routedEvent == UIElement.RightTappedEvent ? new RightTappedEventHandler((s, e) => handler(s, e))
             : routedEvent == UIElement.HoldingEvent ? new HoldingEventHandler((s, e) => handler(s, e))
-            : IsDragEvent(routedEvent) ? new DragEventHandler((s, e) => handler(s, e))
+            : IsDragEvent(routedEvent) ? WrapDragHandler(routedEvent, (s, e) => handler(s, e))
             : new RoutedEventHandler((s, e) => handler(s, e));
         Add(element, routedEvent, handler, wrapper, routes, handledEventsToo);
     }
@@ -185,6 +185,21 @@ internal static class RoutedEventCompatExtensions
                 return;
             }
         }
+    }
+
+    // Drag enter/over handlers observe the Avalonia default effects (accept what the source allows).
+    private static DragEventHandler WrapDragHandler(RoutedEvent routedEvent, DragEventHandler handler)
+    {
+        if (routedEvent != UIElement.DragEnterEvent && routedEvent != UIElement.DragOverEvent)
+        {
+            return handler;
+        }
+
+        return (s, e) =>
+        {
+            DragEventArgsCompatExtensions.ApplyDefaultDragEffects(e);
+            handler(s, e);
+        };
     }
 
     // Avalonia DragLeave handlers may take plain RoutedEventArgs; WinUI needs the DragEventHandler delegate type.

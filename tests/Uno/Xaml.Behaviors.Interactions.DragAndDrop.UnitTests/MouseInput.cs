@@ -6,7 +6,7 @@ using Windows.Foundation;
 using Windows.UI.Input.Preview.Injection;
 using Xaml.Behaviors.Uno.Headless;
 
-namespace Xaml.Interactions.Draggable.UnitTests;
+namespace Xaml.Interactions.DragAndDrop.UnitTests;
 
 /// <summary>
 /// Injects mouse input in window coordinates and waits for the UI thread to process it.

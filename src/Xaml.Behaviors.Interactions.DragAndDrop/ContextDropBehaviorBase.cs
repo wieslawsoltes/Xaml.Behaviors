@@ -23,11 +23,18 @@ namespace Avalonia.Xaml.Interactions.DragAndDrop;
 /// </summary>
 public abstract partial class ContextDropBehaviorBase : StyledElementBehavior<Control>
 {
+#if UNO
+    /// <summary>
+    /// Identifies the application data format used to store context identifiers (a <c>DataPackage</c> format identifier).
+    /// </summary>
+    public static readonly string ContextDataTransferFormat = "Avalonia.Xaml.Interactions.DragAndDrop.Context";
+#else
     /// <summary>
     /// Identifies the application data format used to store context identifiers.
     /// </summary>
     public static readonly DataFormat<string> ContextDataTransferFormat =
         DataFormat.CreateStringApplicationFormat("Avalonia.Xaml.Interactions.DragAndDrop.Context");
+#endif
 
     /// <summary>
     /// Gets or sets context data provided to the drop handler.

@@ -7,6 +7,8 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using Xaml.Interactivity;
+using Windows.Foundation;
+using Key = Windows.System.VirtualKey;
 #else
 using Avalonia.Controls;
 using Avalonia.Input;
@@ -172,11 +174,12 @@ public abstract partial class ContextDragBehaviorBase : StyledElementBehavior<Co
             _triggerEvent is not null)
         {
             var point = e.GetPosition(null);
-            var diff = _dragStartPoint - point;
+            var diffX = _dragStartPoint.X - point.X;
+            var diffY = _dragStartPoint.Y - point.Y;
             var horizontalDragThreshold = HorizontalDragThreshold;
             var verticalDragThreshold = VerticalDragThreshold;
 
-            if (Math.Abs(diff.X) > horizontalDragThreshold || Math.Abs(diff.Y) > verticalDragThreshold)
+            if (Math.Abs(diffX) > horizontalDragThreshold || Math.Abs(diffY) > verticalDragThreshold)
             {
                 if (_lock)
                 {

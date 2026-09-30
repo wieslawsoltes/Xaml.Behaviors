@@ -7,6 +7,8 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using Xaml.Interactivity;
+using Windows.Foundation;
+using Microsoft.UI.Input;
 #else
 using Avalonia.Controls;
 using Avalonia.Input;
@@ -142,8 +144,9 @@ public abstract partial class TypedDragBehaviorBase : StyledElementBehavior<Cont
         if (properties.IsLeftButtonPressed && _triggerEvent is not null)
         {
             var point = e.GetPosition(null);
-            var diff = _dragStartPoint - point;
-            if (Math.Abs(diff.X) > 3 || Math.Abs(diff.Y) > 3)
+            var diffX = _dragStartPoint.X - point.X;
+            var diffY = _dragStartPoint.Y - point.Y;
+            if (Math.Abs(diffX) > 3 || Math.Abs(diffY) > 3)
             {
                 if (_lock)
                 {

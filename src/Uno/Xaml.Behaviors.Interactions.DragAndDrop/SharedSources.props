@@ -1,0 +1,20 @@
+<Project>
+  <!--
+    Files of src/Xaml.Behaviors.Interactions.DragAndDrop that are not compiled for Uno Platform (see src/Uno/PORTING.md).
+    Imported by the Uno project (source linking) and by the Avalonia project (Xaml.PortAnalyzers).
+  -->
+  <PropertyGroup>
+    <!--
+      ManagedDragDrop: the Avalonia in-process ("managed") drag and drop. Not ported:
+      - ManagedContextDropBehavior raises IDropHandler callbacks with DragEventArgs it creates itself; WinUI
+        DragEventArgs has no public constructor (only the framework raises them).
+      - DragPreviewWindow/DragPreviewService/ManagedDragDropService rely on a topmost transparent top-level Window and
+        TopLevel screen coordinates (PixelPoint), which Uno Platform does not have.
+      - The WinUI drag and drop used by ContextDragBehavior/ContextDropBehavior is already in-process on Uno Platform
+        (Skia, WebAssembly) and shows a drag visual, which is what the managed variant provides on Avalonia.
+    -->
+    <UnoSharedSourceExcludes>
+      ManagedDragDrop/**
+    </UnoSharedSourceExcludes>
+  </PropertyGroup>
+</Project>

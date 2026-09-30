@@ -2,6 +2,7 @@
 // Licensed under the MIT license. See LICENSE file in the project root for details.
 using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using Microsoft.UI.Xaml;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Foundation;
@@ -151,14 +152,21 @@ internal readonly struct DataTransferView(DataPackageView? view)
     /// </summary>
     /// <param name="format">The format.</param>
     /// <returns>The value or <c>null</c>.</returns>
-    public string? TryGetValue(DataFormat<string> format) => TryGetValue(format.Identifier) as string;
+    public string? TryGetValue(DataFormat<string> format) => TryGetValue(format.Identifier);
+
+    /// <summary>
+    /// Gets a string value of an application format.
+    /// </summary>
+    /// <param name="identifier">The format identifier.</param>
+    /// <returns>The value or <c>null</c>.</returns>
+    public string? TryGetValue(string identifier) => TryGetRaw(identifier) as string;
 
     /// <summary>
     /// Gets a value.
     /// </summary>
     /// <param name="identifier">The format identifier.</param>
     /// <returns>The value or <c>null</c>.</returns>
-    public object? TryGetValue(string identifier)
+    public object? TryGetRaw(string identifier)
     {
         if (view is null)
         {
@@ -224,16 +232,44 @@ internal readonly struct DataTransferView(DataPackageView? view)
 /// </summary>
 internal static class DragEventArgsCompatExtensions
 {
+    // Event arguments whose DragEffects were assigned by a handler.
+    private static readonly ConditionalWeakTable<DragEventArgs, object> s_assigned = new();
+
     extension(DragEventArgs e)
     {
         /// <summary>Gets the dragged data (Avalonia <c>DataTransfer</c>, WinUI <c>DataView</c>).</summary>
         public DataTransferView DataTransfer => new(e.DataView);
 
-        /// <summary>Gets or sets the accepted operation (Avalonia <c>DragEffects</c>, WinUI <c>AcceptedOperation</c>).</summary>
+        /// <summary>
+        /// Gets or sets the drag effects (Avalonia <c>DragEffects</c>, WinUI <c>AcceptedOperation</c>).
+        /// </summary>
+        /// <remarks>
+        /// Like on Avalonia, the effects start as the operations allowed by the drag source (WinUI
+        /// <c>AllowedOperations</c>) until a handler assigns them; assigned effects are the accepted operation.
+        /// </remarks>
         public DataPackageOperation DragEffects
         {
-            get => e.AcceptedOperation;
-            set => e.AcceptedOperation = value;
+            get => s_assigned.TryGetValue(e, out _) ? e.AcceptedOperation : e.AllowedOperations;
+            set
+            {
+                e.AcceptedOperation = value;
+                s_assigned.AddOrUpdate(e, s_marker);
+            }
+        }
+    }
+
+    private static readonly object s_marker = new();
+
+    /// <summary>
+    /// Applies the Avalonia default of drag enter/over events: the target accepts the operations allowed by the source
+    /// unless a handler changes the effects (WinUI targets reject drops unless <c>AcceptedOperation</c> is set).
+    /// </summary>
+    /// <param name="e">The event arguments.</param>
+    internal static void ApplyDefaultDragEffects(DragEventArgs e)
+    {
+        if (!s_assigned.TryGetValue(e, out _) && e.AcceptedOperation == DataPackageOperation.None)
+        {
+            e.AcceptedOperation = e.AllowedOperations;
         }
     }
 }

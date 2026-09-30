@@ -7,6 +7,7 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using Xaml.Interactivity;
+using Windows.Foundation;
 #else
 using Avalonia;
 using Avalonia.Controls;
@@ -160,11 +161,12 @@ public sealed partial class ContextDragWithDirectionBehavior : StyledElementBeha
         if (_captured && properties.IsLeftButtonPressed && _triggerEvent is not null)
         {
             var point = e.GetPosition(null);
-            var diff = _dragStartPoint - point;
+            var diffX = _dragStartPoint.X - point.X;
+            var diffY = _dragStartPoint.Y - point.Y;
             var horizontal = HorizontalDragThreshold;
             var vertical = VerticalDragThreshold;
 
-            if (Math.Abs(diff.X) > horizontal || Math.Abs(diff.Y) > vertical)
+            if (Math.Abs(diffX) > horizontal || Math.Abs(diffY) > vertical)
             {
                 if (_lock)
                 {
@@ -179,7 +181,7 @@ public sealed partial class ContextDragWithDirectionBehavior : StyledElementBeha
 
                 Handler?.BeforeDragDrop(sender, _triggerEvent, context);
 
-                await DoDragDrop(_triggerEvent, context, diff.Y > 0 ? "up" : "down");
+                await DoDragDrop(_triggerEvent, context, diffY > 0 ? "up" : "down");
 
                 Handler?.AfterDragDrop(sender, _triggerEvent, context);
 

@@ -83,7 +83,12 @@ public abstract class DropBehaviorBase : InvokeCommandBehaviorBase
             return;
         }
 
+#if UNO
+        if (AssociatedObject is not { Visibility: Visibility.Visible }
+            || AssociatedObject is Microsoft.UI.Xaml.Controls.Control { IsEnabled: false })
+#else
         if (AssociatedObject is not { IsVisible: true, IsEnabled: true })
+#endif
         {
             return;
         }
