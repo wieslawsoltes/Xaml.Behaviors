@@ -18,6 +18,8 @@ Modifications made for this redistribution:
   of the host (null-surface renderer), not the one on Uno's `master` branch.
 - The host runs its UI thread on its own event loop (`Hosting/HeadlessEventLoop.cs`) instead of the Skia runtime's
   internal `EventLoop`, and exposes `HeadlessHost.RunJobs()` to drain the queued UI work synchronously.
+- The host registers a keyboard input source (`Hosting/HeadlessKeyboardInputSource.cs`) and exposes
+  `HeadlessHost.RaiseKey()`/`RaiseCharacter()`, so keyboard input reaches the focused element like on other hosts.
 
 Unless required by applicable law or agreed to in writing, software distributed under the Apache
 License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either

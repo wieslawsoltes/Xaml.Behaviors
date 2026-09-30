@@ -35,6 +35,8 @@ public sealed class UnoHeadlessSession
     internal UnoHeadlessSession(UnoHeadlessSessionOptions options, Application application, Window window, DispatcherQueue dispatcherQueue, HeadlessHost host)
     {
         _host = host;
+        Keyboard = new UnoHeadlessKeyboard(this, host);
+        Mouse = new UnoHeadlessMouse(this);
         Options = options;
         Application = application;
         Window = window;
@@ -75,6 +77,16 @@ public sealed class UnoHeadlessSession
     /// Gets the dispatcher queue of the UI thread.
     /// </summary>
     public DispatcherQueue DispatcherQueue { get; }
+
+    /// <summary>
+    /// Gets the keyboard of the session.
+    /// </summary>
+    public UnoHeadlessKeyboard Keyboard { get; }
+
+    /// <summary>
+    /// Gets the mouse of the session.
+    /// </summary>
+    public UnoHeadlessMouse Mouse { get; }
 
     /// <summary>
     /// Gets a value indicating whether the calling thread is the UI thread.
@@ -231,7 +243,7 @@ public sealed class UnoHeadlessSession
 
     private const int MaxJobs = 100_000;
 
-    private void EnsureThreadAccess()
+    internal void EnsureThreadAccess()
     {
         if (!HasThreadAccess)
         {

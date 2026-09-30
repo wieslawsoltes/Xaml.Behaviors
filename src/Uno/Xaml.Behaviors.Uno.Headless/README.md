@@ -74,6 +74,31 @@ expressions resume on it. All UI tests share one UI thread and one window; async
 parallel can interleave at `await` points and replace each other's window content, so consider
 `[assembly: CollectionBehavior(DisableTestParallelization = true)]`.
 
+### Synchronous tests and input
+
+`Show` and `RunJobs` are the synchronous counterparts of `ShowAsync` and `WaitForIdleAsync` (like Avalonia's
+`Dispatcher.UIThread.RunJobs()`): they run the queued UI work (layout, loaded events, bindings, queued callbacks)
+on the UI thread before returning. `Keyboard` and `Mouse` simulate input:
+
+```csharp
+[UnoHeadlessFact]
+public void TextBox_Receives_Typed_Text()
+{
+    UnoHeadlessSession session = UnoHeadlessSession.Current;
+    TextBox textBox = new();
+    session.Show(new StackPanel { Children = { textBox } });
+
+    session.Mouse.Click(textBox);                     // window or element relative positions
+    session.Keyboard.TypeText("abc");                  // key presses with characters, to the focused element
+    session.Keyboard.Press(VirtualKey.Enter);          // PreviewKeyDown, KeyDown, KeyUp
+
+    Assert.Equal("abc", textBox.Text);
+}
+```
+
+Key events go through the regular Uno Platform keyboard pipeline to the focused element (the root element when nothing
+has focus). Mouse input is injected with `InputInjector`; `Mouse` tracks the pointer position so moves are absolute.
+
 ## Configuring the session
 
 The session starts with `UnoHeadlessSessionOptions.Default` (1024x768 raw pixels, scale 1, a minimal

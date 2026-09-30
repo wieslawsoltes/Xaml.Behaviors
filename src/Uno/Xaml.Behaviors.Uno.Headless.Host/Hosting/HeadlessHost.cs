@@ -23,6 +23,7 @@ namespace Uno.UI.Runtime.Skia.Headless;
 public class HeadlessHost : SkiaHost, ISkiaApplicationHost, IDisposable
 {
 	private readonly HeadlessEventLoop _eventLoop;
+	private readonly HeadlessKeyboard _keyboard = new();
 	private readonly ManualResetEvent _terminationGate = new(false);
 	private readonly CoreApplicationExtension _coreApplicationExtension;
 	private readonly HeadlessHostBuilder _hostBuilder;
@@ -85,6 +86,7 @@ public class HeadlessHost : SkiaHost, ISkiaApplicationHost, IDisposable
 		ApiExtensibility.Register(typeof(INativeWindowFactoryExtension), o => _windowFactory);
 		ApiExtensibility.Register(typeof(Uno.ApplicationModel.Core.ICoreApplicationExtension), o => _coreApplicationExtension);
 		ApiExtensibility.Register<DisplayInformation>(typeof(IDisplayInformationExtension), ResolveDisplayInformation);
+		ApiExtensibility.Register(typeof(Windows.UI.Core.IUnoKeyboardInputSource), _ => _keyboard.Create());
 
 		void Dispatch(System.Action d, NativeDispatcherPriority p)
 			=> _eventLoop.Schedule(d);
@@ -122,6 +124,27 @@ public class HeadlessHost : SkiaHost, ISkiaApplicationHost, IDisposable
 	/// <param name="maxItems">The maximum number of queued items to run.</param>
 	/// <returns>The number of items that ran.</returns>
 	public int RunJobs(int maxItems = 10_000) => _eventLoop.RunPending(maxItems);
+
+	/// <summary>
+	/// Presses or releases a key on the focused element of the host windows (the root element when nothing has focus),
+	/// through the regular keyboard pipeline: the preview (tunneling) and bubbling key events, then, for a key press
+	/// with a <paramref name="character"/>, the character received event. Must be called on the UI thread.
+	/// </summary>
+	/// <param name="key">The key.</param>
+	/// <param name="modifiers">The modifier keys held during the event.</param>
+	/// <param name="down"><see langword="true"/> for a key press, <see langword="false"/> for a key release.</param>
+	/// <param name="character">The character the key press produces, if any.</param>
+	/// <returns><see langword="true"/> when the key event was handled.</returns>
+	public bool RaiseKey(Windows.System.VirtualKey key, Windows.System.VirtualKeyModifiers modifiers, bool down, char? character = null)
+		=> _keyboard.RaiseKey(key, modifiers, down, character);
+
+	/// <summary>
+	/// Raises the character received (text input) event on the focused element of the host windows. Must be called
+	/// on the UI thread.
+	/// </summary>
+	/// <param name="character">The character.</param>
+	/// <returns><see langword="true"/> when the event was handled.</returns>
+	public bool RaiseCharacter(char character) => _keyboard.RaiseCharacter(character);
 
 	public void Dispose() => _terminationGate.Set();
 }
