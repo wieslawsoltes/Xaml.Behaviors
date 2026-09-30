@@ -50,6 +50,7 @@
   </Folder>
   <Folder Name="/tools/">
     <Project Path="src/Xaml.PropertyGenerator/Xaml.PropertyGenerator.csproj" />
+    <Project Path="src/Xaml.PropertyGenerator.CodeFixes/Xaml.PropertyGenerator.CodeFixes.csproj" />
   </Folder>
   <Folder Name="/tests/">
     <Project Path="tests/Xaml.Behaviors.Animations.UnitTests/Xaml.Behaviors.Animations.UnitTests.csproj" />

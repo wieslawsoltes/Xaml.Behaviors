@@ -103,6 +103,48 @@ be expressed as a constant (use `DefaultValueExpression`).
 Informational: an option that only exists on Avalonia (`Inherits`, `DefaultBindingMode`, `ResolveByName`,
 `AssignBinding`) is ignored on WinUI.
 
+## Migrating existing Avalonia code
+
+The package also contains analyzer **XPG1001** with a code fix that converts hand-written registrations into
+generated properties:
+
+```csharp
+// Before
+public static readonly StyledProperty<bool> IsActiveProperty =
+    AvaloniaProperty.Register<Owner, bool>(nameof(IsActive), defaultValue: true);
+
+public bool IsActive
+{
+    get => GetValue(IsActiveProperty);
+    set => SetValue(IsActiveProperty, value);
+}
+
+// After
+[StyledProperty(DefaultValue = true)]
+public partial bool IsActive { get; set; }
+```
+
+### XPG1001
+Reported (severity *Info*) only when the conversion preserves the public API and behavior:
+
+* `Register` / `RegisterDirect` owned by the containing type, named after the CLR property, with the same
+  accessibility as the CLR property;
+* only `defaultValue`, `inherits`, `defaultBindingMode` (and `enableDataValidation: false`) options;
+* accessors that only forward to `GetValue`/`SetValue` (casts allowed), or for direct properties
+  `get => _field; set => SetAndRaise(...)` and lazy `get => _field ??= new()`/`[]`;
+* backing fields that are not used anywhere else;
+* `[Content]`, `[ResolveByName]` and `[AssignBinding]` are folded into the attribute.
+
+Apply it to a whole solution deterministically (the fix-all provider processes each document in one pass):
+
+```bash
+dotnet format analyzers MySolution.slnx --diagnostics XPG1001 --severity info
+```
+
+The fix adds `partial` to the containing types and a `using Xaml.PropertyGenerator;` directive when the namespace
+is not already imported (for example through a global using). Preprocessor blocks that belonged only to the removed
+field are removed with it; unbalanced directives are kept.
+
 ## License
 
 MIT

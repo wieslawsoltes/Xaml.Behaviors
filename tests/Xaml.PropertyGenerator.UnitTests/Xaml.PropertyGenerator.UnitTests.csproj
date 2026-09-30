@@ -12,6 +12,7 @@
     <PackageReference Include="Avalonia" />
     <PackageReference Include="Avalonia.Headless.XUnit" />
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp" />
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" />
     <!-- WinUI reference assemblies for compile-only generator tests (not referenced by the test assembly). -->
     <PackageDownload Include="Uno.WinUI" Version="[$(UnoWinUIVersion)]" />
     <PackageDownload Include="Uno.Foundation" Version="[$(UnoWinUIVersion)]" />
@@ -38,6 +39,7 @@
                       OutputItemType="Analyzer"
                       ReferenceOutputAssembly="true"
                       PrivateAssets="all" />
+    <ProjectReference Include="..\..\src\Xaml.PropertyGenerator.CodeFixes\Xaml.PropertyGenerator.CodeFixes.csproj" />
   </ItemGroup>
 
 </Project>

@@ -28,6 +28,8 @@
 
   <ItemGroup>
     <None Include="$(TargetPath)" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
+    <None Include="$(MSBuildThisFileDirectory)../Xaml.PropertyGenerator.CodeFixes/bin/$(Configuration)/netstandard2.0/Xaml.PropertyGenerator.CodeFixes.dll"
+          Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
     <None Include="README.md" Pack="true" PackagePath="\" />
     <None Include="buildTransitive/**" Pack="true" PackagePath="buildTransitive" />
   </ItemGroup>
@@ -36,6 +38,11 @@
     <AdditionalFiles Include="AnalyzerReleases.Shipped.md" />
     <AdditionalFiles Include="AnalyzerReleases.Unshipped.md" />
   </ItemGroup>
+
+  <!-- Build the code fixes before packing so they ship in the same package. -->
+  <Target Name="BuildCodeFixesForPack" BeforeTargets="GenerateNuspec">
+    <MSBuild Projects="..\Xaml.PropertyGenerator.CodeFixes\Xaml.PropertyGenerator.CodeFixes.csproj" Targets="Build" Properties="Configuration=$(Configuration)" />
+  </Target>
 
   <Import Project="..\..\build\SignAssembly.props" />
   <Import Project="..\..\build\SourceLink.props" />
