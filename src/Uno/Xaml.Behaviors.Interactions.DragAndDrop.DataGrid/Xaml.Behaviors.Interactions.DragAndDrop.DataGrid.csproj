@@ -1,0 +1,36 @@
+<Project Sdk="Uno.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>$(UnoTargetFrameworks)</TargetFrameworks>
+    <AssemblyName>Xaml.Behaviors.Uno.Interactions.DragAndDrop.DataGrid</AssemblyName>
+    <!-- Not Xaml.Interactions.DragAndDrop: the Uno XAML generator emits GlobalStaticResources in the root namespace (clash with the DragAndDrop assembly). -->
+    <RootNamespace>Xaml.Behaviors.Uno.Interactions.DragAndDrop.DataGrid</RootNamespace>
+    <UnoSharedSourceProject>Xaml.Behaviors.Interactions.DragAndDrop.DataGrid</UnoSharedSourceProject>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <PackageId>Xaml.Behaviors.Uno.Interactions.DragAndDrop.DataGrid</PackageId>
+    <Description>DataGrid-specific drag-and-drop helpers for Uno Platform (WinUI) behaviors (Windows Community Toolkit DataGrid).</Description>
+    <PackageTags>$(PackageTags);DragAndDrop;DataGrid</PackageTags>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Using Include="Xaml.Interactivity" />
+    <!-- Avalonia DragDropEffects has the same values as the WinUI DataPackageOperation (None, Copy, Move, Link). -->
+    <Using Include="Windows.ApplicationModel.DataTransfer.DataPackageOperation" Alias="DragDropEffects" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- Uno Platform build of the Windows Community Toolkit DataGrid (WinUI has no built-in DataGrid). -->
+    <PackageReference Include="Uno.CommunityToolkit.WinUI.UI.Controls.DataGrid" />
+  </ItemGroup>
+
+  <!-- Avalonia-only sources, shared with the Avalonia build for the portability analyzers. -->
+  <Import Project="SharedSources.props" />
+
+  <ItemGroup>
+    <ProjectReference Include="..\Xaml.Behaviors.Interactivity\Xaml.Behaviors.Interactivity.csproj" />
+    <ProjectReference Include="..\Xaml.Behaviors.Interactions.DragAndDrop\Xaml.Behaviors.Interactions.DragAndDrop.csproj" />
+  </ItemGroup>
+
+</Project>
