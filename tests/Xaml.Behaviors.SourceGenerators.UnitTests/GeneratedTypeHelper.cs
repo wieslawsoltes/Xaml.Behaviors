@@ -1,7 +1,11 @@
 using System;
 using System.Linq;
 
+#if UNO
+namespace Xaml.Behaviors.SourceGenerators.UnitTests;
+#else
 namespace Avalonia.Xaml.Behaviors.SourceGenerators.UnitTests;
+#endif
 
 public static class GeneratedTypeHelper
 {
@@ -13,6 +17,13 @@ public static class GeneratedTypeHelper
 
     public static Type FindGeneratedType(string baseName, string? @namespace = null)
     {
+#if UNO
+        // The shared tests compile in the Xaml.* namespaces on Uno Platform (see build/UnoPort/uno_share.py).
+        if (@namespace is not null && @namespace.StartsWith("Avalonia.Xaml.", StringComparison.Ordinal))
+        {
+            @namespace = @namespace.Substring("Avalonia.".Length);
+        }
+#endif
         var assembly = typeof(TestControl).Assembly;
         var type = assembly
             .GetTypes()

@@ -9,7 +9,11 @@ using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.Diagnostics;
 using Xaml.Behaviors.SourceGenerators;
 
+#if UNO
+namespace Xaml.Behaviors.SourceGenerators.UnitTests;
+#else
 namespace Avalonia.Xaml.Behaviors.SourceGenerators.UnitTests;
+#endif
 
 /// <summary>
 /// The result of running the generator on a WinUI (Uno Platform) compilation.
@@ -85,6 +89,11 @@ public static class WinUIGeneratorTestHelper
                + Environment.NewLine + run.AllSources;
     }
 
+#if UNO
+    /// <summary>Gets the WinUI compilation references (used by the shared Avalonia-targeted generator scenarios).</summary>
+    public static IEnumerable<MetadataReference> References => GetReferences();
+
+#endif
     private static IEnumerable<MetadataReference> GetReferences()
     {
         var trusted = ((string)AppContext.GetData("TRUSTED_PLATFORM_ASSEMBLIES")!).Split(Path.PathSeparator);

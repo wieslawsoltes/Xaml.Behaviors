@@ -1,7 +1,11 @@
 using System.Linq;
 using Xunit;
 
+#if UNO
+namespace Xaml.Behaviors.SourceGenerators.UnitTests;
+#else
 namespace Avalonia.Xaml.Behaviors.SourceGenerators.UnitTests;
+#endif
 
 public class GranularMultiDataTriggerGeneratorTests
 {
@@ -30,8 +34,13 @@ namespace TestNamespace
         Assert.Empty(diagnostics);
         var generated = sources.FirstOrDefault(s => s.Contains("class TestMultiDataTrigger"));
         Assert.NotNull(generated);
+#if UNO
+        Assert.Contains("DependencyProperty.Register(nameof(Value1), typeof(string)", generated);
+        Assert.Contains("DependencyProperty.Register(nameof(Value2), typeof(int)", generated);
+#else
         Assert.Contains("public static readonly StyledProperty<string", generated);
         Assert.Contains("public static readonly StyledProperty<int> Value2Property", generated);
+#endif
         Assert.Contains("if (change.Property == Value1Property || change.Property == Value2Property)", generated);
     }
 
@@ -52,7 +61,12 @@ namespace TestNamespace
 }";
         var (diagnostics, _) = GeneratorTestHelper.RunGenerator(source);
 
+#if UNO
+        // WinUI reports the invalid base type with XBG036.
+        Assert.Contains(diagnostics, d => d.Id == "XBG036");
+#else
         Assert.Contains(diagnostics, d => d.Id == "XBG011");
+#endif
     }
 
     [Fact]

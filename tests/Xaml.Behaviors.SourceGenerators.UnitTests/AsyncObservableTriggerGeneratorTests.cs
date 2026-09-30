@@ -4,7 +4,11 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Xunit;
 
+#if UNO
+namespace Xaml.Behaviors.SourceGenerators.UnitTests;
+#else
 namespace Avalonia.Xaml.Behaviors.SourceGenerators.UnitTests;
+#endif
 
 public class AsyncObservableTriggerGeneratorTests
 {
@@ -101,7 +105,11 @@ public partial class Vm
         var (diagnostics, sources) = GeneratorTestHelper.RunGenerator(source);
 
         Assert.Empty(diagnostics);
+#if UNO
+        Assert.Contains(sources, s => s.Contains("LoadTaskAsyncTrigger") && s.Contains("PostOnUIThread("));
+#else
         Assert.Contains(sources, s => s.Contains("LoadTaskAsyncTrigger") && s.Contains("Dispatcher.UIThread.Post"));
+#endif
     }
 
     [Fact]
@@ -125,7 +133,11 @@ namespace TestNamespace
         var (diagnostics, sources) = GeneratorTestHelper.RunGenerator(source);
 
         Assert.Empty(diagnostics);
+#if UNO
+        Assert.Contains(sources, s => s.Contains("LoadTaskAsyncTrigger") && s.Contains("PostOnUIThread("));
+#else
         Assert.Contains(sources, s => s.Contains("LoadTaskAsyncTrigger") && s.Contains("Dispatcher.UIThread.Post"));
+#endif
     }
 
     [Fact]
@@ -414,7 +426,11 @@ public partial class Vm
         Assert.Empty(diagnostics);
 
         var classNames = sources
+#if UNO
+            .SelectMany(s => Regex.Matches(s, @"class\s+(?<name>\w+)\s*:\s*global::Xaml\.Interactivity\.StyledElementTrigger")
+#else
             .SelectMany(s => Regex.Matches(s, @"class\s+(?<name>\w+)\s*:\s*Avalonia\.Xaml\.Interactivity\.StyledElementTrigger")
+#endif
                 .Select(m => m.Groups["name"].Value))
             .Distinct()
             .ToList();
@@ -442,7 +458,11 @@ public partial class Vm
         Assert.Empty(diagnostics);
 
         var classNames = sources
+#if UNO
+            .SelectMany(s => Regex.Matches(s, @"class\s+(?<name>\w+)\s*:\s*global::Xaml\.Interactivity\.StyledElementTrigger")
+#else
             .SelectMany(s => Regex.Matches(s, @"class\s+(?<name>\w+)\s*:\s*Avalonia\.Xaml\.Interactivity\.StyledElementTrigger")
+#endif
                 .Select(m => m.Groups["name"].Value))
             .Distinct()
             .ToList();

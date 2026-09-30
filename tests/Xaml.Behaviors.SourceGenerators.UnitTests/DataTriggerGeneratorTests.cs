@@ -1,9 +1,17 @@
 using System;
+#if UNO
+using Xaml.Interactivity;
+#else
 using Avalonia.Headless.XUnit;
 using Avalonia.Xaml.Interactivity;
+#endif
 using Xunit;
 
+#if UNO
+namespace Xaml.Behaviors.SourceGenerators.UnitTests;
+#else
 namespace Avalonia.Xaml.Behaviors.SourceGenerators.UnitTests;
+#endif
 
 public class DataTriggerGeneratorTests
 {
