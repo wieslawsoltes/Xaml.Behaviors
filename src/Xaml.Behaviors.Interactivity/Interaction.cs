@@ -247,13 +247,7 @@ public partial class Interaction
     private static void Element_ActualThemeChanged(FrameworkElement sender, object args)
         => GetExistingBehaviors(sender)?.ActualThemeVariantChanged();
 
-    private static void RaiseAttached(BehaviorCollection behaviors)
-    {
-        behaviors.Initialized();
-        behaviors.AttachedToLogicalTree();
-        behaviors.AttachedToVisualTree();
-        behaviors.Loaded();
-    }
+    private static void RaiseAttached(BehaviorCollection behaviors) => behaviors.AttachedToLiveTree();
 
     private static void RaiseDetached(BehaviorCollection behaviors)
     {

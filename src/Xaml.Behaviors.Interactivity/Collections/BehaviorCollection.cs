@@ -190,6 +190,40 @@ public class BehaviorCollection : AvaloniaList<AvaloniaObject>
         DispatchBehaviorEvent(static handler => handler.ActualThemeVariantChangedEventHandler());
     }
 
+#if UNO
+    /// <summary>
+    /// Raises the attach phases of a WinUI <c>Loaded</c> event (initialized, logical tree, visual tree and loaded) as
+    /// a single host lifecycle event.
+    /// </summary>
+    /// <remarks>
+    /// Avalonia raises the phases as separate host events and synchronizes the behaviors added by an earlier handler
+    /// after the event being dispatched. WinUI raises them from one <c>Loaded</c> event, so the added behaviors are
+    /// synchronized after the existing behaviors are loaded.
+    /// </remarks>
+    internal void AttachedToLiveTree()
+    {
+        var wasSynchronizingCollection = _isSynchronizingCollection;
+        _isSynchronizingCollection = true;
+        try
+        {
+            Initialized();
+            AttachedToLogicalTree();
+            AttachedToVisualTree();
+            Loaded();
+        }
+        finally
+        {
+            _isSynchronizingCollection = wasSynchronizingCollection;
+            if (!wasSynchronizingCollection && _pendingSynchronizations.Count > 0)
+            {
+                var pending = _pendingSynchronizations.ToList();
+                _pendingSynchronizations.Clear();
+                SynchronizeBehaviorEvents(pending);
+            }
+        }
+    }
+#endif
+
     internal void Opened()
     {
         var wasSynchronizingCollection = _isSynchronizingCollection;
