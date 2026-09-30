@@ -18,13 +18,20 @@
     <PackageReference Include="ReactiveUI" />
   </ItemGroup>
 
-<!--  <Import Project="..\..\build\XamlPropertyGenerator.props" />
-  <Import Project="..\..\build\SignAssembly.props" />-->
+  <PropertyGroup>
+    <XamlPortEnabled>true</XamlPortEnabled>
+  </PropertyGroup>
+
+  <Import Project="..\..\build\XamlPropertyGenerator.props" />
+  <Import Project="..\..\build\XamlPort.props" />
+<!--  <Import Project="..\..\build\SignAssembly.props" />-->
   <Import Project="..\..\build\SourceLink.props" />
   <Import Project="..\..\build\TrimmingEnable.targets" />
 
   <ItemGroup>
     <ProjectReference Include="..\Xaml.Behaviors.Interactivity\Xaml.Behaviors.Interactivity.csproj" />
   </ItemGroup>
+
+  <Import Project="..\..\build\XamlPort.targets" />
 
 </Project>

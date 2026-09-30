@@ -1,29 +1,29 @@
 // Copyright (c) Wiesław Šoltés. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for details.
+#if UNO
+using Xaml.Interactivity;
+#else
 using Avalonia.Xaml.Interactivity;
+#endif
 using ReactiveUI;
 
+#if UNO
+namespace Xaml.Interactions.ReactiveUI;
+#else
 namespace Avalonia.Xaml.Interactions.ReactiveUI;
+#endif
 
 /// <summary>
 /// An action that resets the navigation stack.
 /// </summary>
-public class ClearNavigationStackAction : StyledElementAction
+public partial class ClearNavigationStackAction : StyledElementAction
 {
-    /// <summary>
-    /// Identifies the <seealso cref="Router"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<RoutingState?> RouterProperty =
-        AvaloniaProperty.Register<ClearNavigationStackAction, RoutingState?>(nameof(Router));
 
     /// <summary>
     /// Gets or sets the router used for navigation. This is an avalonia property.
     /// </summary>
-    public RoutingState? Router
-    {
-        get => GetValue(RouterProperty);
-        set => SetValue(RouterProperty, value);
-    }
+    [StyledProperty]
+    public partial RoutingState? Router { get; set; }
 
     /// <summary>
     /// Executes the action.
