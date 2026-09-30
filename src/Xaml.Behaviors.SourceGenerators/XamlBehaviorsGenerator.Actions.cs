@@ -115,7 +115,7 @@ namespace Xaml.Behaviors.SourceGenerators
             if (info.IsAwaitable)
             {
                 AppendProperty(sb, properties, info.ClassName, new PropertySpec("IsExecuting", "bool", "bool", PrivateSetter: true));
-                AppendProperty(sb, properties, info.ClassName, new PropertySpec("LastError", "System.Exception?", "System.Exception", PrivateSetter: true));
+                AppendProperty(sb, properties, info.ClassName, new PropertySpec("LastError", "System.Exception?", ExceptionPropertyTypeOf, PrivateSetter: true));
                 sb.AppendLine("        private int _taskVersion;");
                 sb.AppendLine();
             }

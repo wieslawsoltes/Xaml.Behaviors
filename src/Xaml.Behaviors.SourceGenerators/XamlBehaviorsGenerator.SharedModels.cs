@@ -10,6 +10,14 @@ namespace Xaml.Behaviors.SourceGenerators
 {
     public partial class XamlBehaviorsGenerator
     {
+        /// <summary>
+        /// The registered (<c>typeof</c>) type of <c>LastError</c> properties. WinUI registers dependency properties with
+        /// a trimming-annotated <see cref="System.Type"/>; <c>System.Exception</c> would pull trim warnings
+        /// (<c>Exception.TargetSite</c>) into user code, so the value is registered as <c>object</c> while the CLR
+        /// accessor stays typed. Avalonia ignores this value.
+        /// </summary>
+        private const string ExceptionPropertyTypeOf = "object";
+
         private record TriggerPropertyInfo(string Name, string Type, string FieldName, bool RequiresInternal, string? TypeOf = null)
         {
             public PropertySpec ToPropertySpec() => new(Name, Type, TypeOf ?? TrimNullableAnnotation(Type));

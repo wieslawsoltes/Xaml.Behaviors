@@ -95,7 +95,8 @@ public class WinUIGeneratorTests
         var source = run.AllSources;
         Assert.Contains("PostOnUIThread(() =>", source);
         Assert.Contains("global::Microsoft.UI.Dispatching.DispatcherQueue.GetForCurrentThread()", source);
-        Assert.Contains("nameof(LastError), typeof(System.Exception)", source);
+        Assert.Contains("nameof(LastError), typeof(object)", source);
+        Assert.Contains("public System.Exception? LastError", source);
     }
 
     [Fact]
