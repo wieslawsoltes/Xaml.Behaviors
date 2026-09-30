@@ -1,6 +1,7 @@
 // Copyright (c) Wiesław Šoltés. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for details.
 
+using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Composition;
@@ -129,16 +130,78 @@ namespace Xaml.PropertyGenerator.CodeFixes
         {
             var node = root.GetCurrentNode(original)!;
             var preserved = MigrationModel.GetPreservedLeadingTrivia(node);
-            if (preserved.Count > 0)
+            var next = node.GetLastToken().GetNextToken();
+            var nextLeading = RemoveOrphanedPragmaRestores(node, preserved.Count, next.LeadingTrivia);
+            if (preserved.Count > 0 || nextLeading != next.LeadingTrivia)
             {
                 // Move the directives (and disabled code) that belong to the surrounding code to the next token.
-                var next = node.GetLastToken().GetNextToken();
-                root = root.ReplaceToken(next, next.WithLeadingTrivia(preserved.AddRange(next.LeadingTrivia)));
+                root = root.ReplaceToken(next, next.WithLeadingTrivia(preserved.AddRange(nextLeading)));
                 node = root.GetCurrentNode(original)!;
             }
 
             return root.RemoveNode(node, SyntaxRemoveOptions.KeepNoTrivia)!;
         }
+
+        /// <summary>
+        /// Removes the <c>#pragma warning restore</c> directives that follow <paramref name="node"/> and restore warnings
+        /// disabled inside it: once the node is removed, they would restore a warning nothing disables.
+        /// </summary>
+        private static SyntaxTriviaList RemoveOrphanedPragmaRestores(SyntaxNode node, int preservedCount, SyntaxTriviaList nextLeading)
+        {
+            var preservedEnd = preservedCount > 0 ? node.GetLeadingTrivia()[preservedCount - 1].FullSpan.End : node.FullSpan.Start;
+            var disabled = new HashSet<string>(StringComparer.Ordinal);
+            foreach (var trivia in node.DescendantTrivia(descendIntoTrivia: false))
+            {
+                if (trivia.SpanStart >= preservedEnd &&
+                    trivia.GetStructure() is PragmaWarningDirectiveTriviaSyntax pragma &&
+                    pragma.DisableOrRestoreKeyword.IsKind(SyntaxKind.DisableKeyword))
+                {
+                    disabled.Add(PragmaCodes(pragma));
+                }
+                else if (trivia.SpanStart >= preservedEnd &&
+                         trivia.GetStructure() is PragmaWarningDirectiveTriviaSyntax restore)
+                {
+                    disabled.Remove(PragmaCodes(restore));
+                }
+            }
+
+            if (disabled.Count == 0)
+            {
+                return nextLeading;
+            }
+
+            var result = new List<SyntaxTrivia>(nextLeading.Count);
+            for (var i = 0; i < nextLeading.Count; i++)
+            {
+                var trivia = nextLeading[i];
+                if (trivia.GetStructure() is PragmaWarningDirectiveTriviaSyntax pragma &&
+                    pragma.DisableOrRestoreKeyword.IsKind(SyntaxKind.RestoreKeyword) &&
+                    disabled.Remove(PragmaCodes(pragma)))
+                {
+                    // Drop the indentation of the directive line as well.
+                    if (result.Count > 0 && result[result.Count - 1].IsKind(SyntaxKind.WhitespaceTrivia))
+                    {
+                        result.RemoveAt(result.Count - 1);
+                    }
+
+                    continue;
+                }
+
+                if (trivia.IsDirective)
+                {
+                    // Only the restore directives right after the node belong to it.
+                    result.AddRange(nextLeading.Skip(i));
+                    break;
+                }
+
+                result.Add(trivia);
+            }
+
+            return SyntaxFactory.TriviaList(result);
+        }
+
+        private static string PragmaCodes(PragmaWarningDirectiveTriviaSyntax pragma)
+            => string.Join(",", pragma.ErrorCodes.Select(static c => c.ToString().Trim()));
 
         private static MemberDeclarationSyntax BuildProperty(MigrationModel candidate, SyntaxTriviaList leading, SyntaxTriviaList trailing)
         {

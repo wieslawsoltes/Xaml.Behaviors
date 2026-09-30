@@ -215,6 +215,48 @@ public class MigrationTests
         Assert.Empty(compilation.GetDiagnostics().Where(static d => d.Severity == DiagnosticSeverity.Error));
     }
 
+    [Fact]
+    public async Task FixAll_Removes_Pragma_Restore_Of_Removed_Registration()
+    {
+        const string source = """
+            using Avalonia;
+
+            namespace Sample;
+
+            public partial class Owner : AvaloniaObject
+            {
+                /// <summary>Identifies the Count property.</summary>
+                public static readonly StyledProperty<int> CountProperty =
+            #pragma warning disable AVP1002
+                    AvaloniaProperty.Register<Owner, int>(nameof(Count));
+            #pragma warning restore AVP1002
+
+                /// <summary>Gets or sets the count.</summary>
+                public int Count
+                {
+                    get => GetValue(CountProperty);
+                    set => SetValue(CountProperty, value);
+                }
+
+            #pragma warning disable CS0169
+                private int _unused;
+            #pragma warning restore CS0169
+            }
+            """;
+
+        var fixedDocument = await FixAllAsync(CreateDocument(source));
+        var text = (await fixedDocument.GetTextAsync()).ToString();
+
+        Assert.Contains("[StyledProperty]", text);
+        Assert.DoesNotContain("AVP1002", text);
+        Assert.Contains("#pragma warning disable CS0169", text);
+        Assert.Contains("#pragma warning restore CS0169", text);
+        Assert.Contains("/// <summary>Gets or sets the count.</summary>", text);
+
+        var compilation = (await fixedDocument.Project.GetCompilationAsync())!;
+        Assert.Empty(compilation.GetDiagnostics().Where(static d => d.Severity == DiagnosticSeverity.Error));
+    }
+
     private static Document CreateDocument(string source)
     {
         var workspace = new AdhocWorkspace();
