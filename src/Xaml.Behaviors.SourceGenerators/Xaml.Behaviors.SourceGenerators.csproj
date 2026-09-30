@@ -12,8 +12,8 @@
 
   <PropertyGroup>
     <PackageId>Xaml.Behaviors.SourceGenerators</PackageId>
-    <Description>Source Generators for Xaml.Behaviors to create strongly-typed, AOT-friendly actions and triggers.</Description>
-    <PackageTags>Avalonia;Behavior;Action;Behaviors;Actions;Managed;C#;Interaction;Interactivity;Interactions;Xaml;SourceGenerator;AOT</PackageTags>
+    <Description>Source Generators for Xaml.Behaviors to create strongly-typed, AOT-friendly actions and triggers for Avalonia and Uno Platform (WinUI).</Description>
+    <PackageTags>Avalonia;Uno;UnoPlatform;WinUI;Behavior;Action;Behaviors;Actions;Managed;C#;Interaction;Interactivity;Interactions;Xaml;SourceGenerator;AOT</PackageTags>
     <IncludeBuildOutput>false</IncludeBuildOutput>
     <DevelopmentDependency>true</DevelopmentDependency>
     <NoWarn>$(NoWarn);NU5128;RS2007</NoWarn>
@@ -27,6 +27,8 @@
   <ItemGroup>
     <None Include="$(TargetPath)" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
     <None Include="$(TargetDir)$(AssemblyName).pdb" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" Condition="Exists('$(TargetDir)$(AssemblyName).pdb')" />
+    <!-- Surfaces the XamlBehaviorsSourceGeneratorPlatform override (Avalonia | WinUI) to the generator. -->
+    <None Include="buildTransitive/**" Pack="true" PackagePath="buildTransitive" />
   </ItemGroup>
 
   <ItemGroup>
