@@ -13,7 +13,7 @@ using Xunit;
 
 namespace Xaml.Behaviors.Animations.UnitTests;
 
-public class AnimationFactoryTests
+public class UnoAnimationFactoryTests
 {
     private static UnoHeadlessSession Session => UnoHeadlessSession.Current;
 

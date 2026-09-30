@@ -12,7 +12,7 @@ using Xunit;
 
 namespace Xaml.Behaviors.Animations.UnitTests;
 
-public class AnimationRunnerTests
+public class UnoAnimationRunnerTests
 {
     private static UnoHeadlessSession Session => UnoHeadlessSession.Current;
 

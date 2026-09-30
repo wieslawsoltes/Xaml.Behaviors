@@ -14,7 +14,7 @@ using Xunit;
 
 namespace Xaml.Behaviors.Animations.UnitTests;
 
-public class CompositionAnimationTests
+public class UnoCompositionAnimationTests
 {
     private const float MovementTolerance = 3f;
 
@@ -73,7 +73,7 @@ public class CompositionAnimationTests
         Assert.True(OrbitAnimation.UpdateCenterPoint(target));
         Assert.True(orbit.Rotate(target, new Point(10d, 5d), 0.5d));
 
-        Visual visual = TestHelpers.GetVisual(target);
+        CompositionVisual visual = TestHelpers.GetVisual(target);
         Assert.Equal(new Vector3(50f, 40f, 0f), visual.CenterPoint);
         Assert.True(CompositionAnimationHelpers.TryGetAxisAngle(orbit.Orientation, out Vector3 axis, out float angle));
         TestHelpers.AssertNear(axis, visual.RotationAxis);
@@ -118,7 +118,7 @@ public class CompositionAnimationTests
     {
         Border target = new() { Width = 100d, Height = 80d };
         await Session.ShowAsync(target);
-        Visual visual = TestHelpers.GetVisual(target);
+        CompositionVisual visual = TestHelpers.GetVisual(target);
 
         Assert.True(TiltAnimation.UpdateCenterPoint(target));
         Assert.True(TiltAnimation.Apply(target, new Point(100d, 40d), 5d));
@@ -212,7 +212,7 @@ public class CompositionAnimationTests
         Border target = new() { Width = 20d, Height = 20d };
         FadeAnimation.SetCustomFade(target, 0.2d, 0.6d, 60d);
         await Session.ShowAsync(target);
-        Visual visual = TestHelpers.GetVisual(target);
+        CompositionVisual visual = TestHelpers.GetVisual(target);
 
         await TestHelpers.WaitUntilAsync(() => MathF.Abs(visual.Opacity - 0.6f) < 0.0001f, "the fade completed");
     }
