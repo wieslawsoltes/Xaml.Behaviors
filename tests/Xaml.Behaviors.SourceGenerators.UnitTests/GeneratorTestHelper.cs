@@ -208,6 +208,12 @@ namespace Xaml.Behaviors.SourceGenerators
         var generatedSources = result.Results[0].GeneratedSources
             .Select(s => s.SourceText.ToString())
             .ToImmutableArray();
+#if UNO
+        if (generatedSources.Any(s => s.Contains("using Avalonia", StringComparison.Ordinal)))
+        {
+            throw new InvalidOperationException("The generator did not select the WinUI platform for the scenario.");
+        }
+#endif
 
         if (Environment.GetEnvironmentVariable("GENERATOR_TEST_DEBUG") == "1")
         {

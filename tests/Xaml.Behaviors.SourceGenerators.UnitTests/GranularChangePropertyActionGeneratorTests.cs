@@ -29,8 +29,13 @@ namespace TestNamespace
         var generated = sources.FirstOrDefault(s => s.Contains("class SetTestPropertyAction"));
         Assert.NotNull(generated);
         Assert.Contains("namespace TestNamespace", generated);
+#if UNO
+        Assert.Contains("DependencyProperty.Register(nameof(Value), typeof(string)", generated);
+        Assert.Contains("global::Xaml.Interactivity.IReversibleAction", generated);
+#else
         Assert.Contains("public static readonly StyledProperty<string", generated);
         Assert.Contains("Avalonia.Xaml.Interactivity.IReversibleAction", generated);
+#endif
         Assert.Contains("public object? ExecuteReversibly", generated);
         Assert.Contains("public object? Revert", generated);
         Assert.Contains("typedTarget.TestProperty = Value;", generated);
@@ -55,7 +60,11 @@ namespace TestNamespace
         Assert.Empty(diagnostics);
         var generated = sources.FirstOrDefault(s => s.Contains("class SetTestPropertyAction"));
         Assert.NotNull(generated);
+#if UNO
+        Assert.Contains("PostOnUIThread(() => typedTarget.TestProperty = Value);", generated);
+#else
         Assert.Contains("Dispatcher.UIThread.Post(() => typedTarget.TestProperty = Value);", generated);
+#endif
     }
 
     [Fact]

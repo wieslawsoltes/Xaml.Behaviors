@@ -33,8 +33,13 @@ namespace TestNamespace
         Assert.Empty(diagnostics);
         var generated = sources.FirstOrDefault(s => s.Contains("class TestInvokeCommandAction"));
         Assert.NotNull(generated);
+#if UNO
+        Assert.Contains("DependencyProperty.Register(nameof(Command), typeof(global::System.Windows.Input.ICommand)", generated);
+        Assert.Contains("DependencyProperty.Register(nameof(CommandParameter), typeof(object)", generated);
+#else
         Assert.Contains("public static readonly StyledProperty<global::System.Windows.Input.ICommand> CommandProperty", generated);
         Assert.Contains("public static readonly StyledProperty<object", generated);
+#endif
         Assert.Contains("if (command.CanExecute(this._commandParameter))", generated);
     }
 
@@ -62,7 +67,11 @@ namespace TestNamespace
         Assert.Empty(diagnostics);
         var generated = sources.FirstOrDefault(s => s.Contains("class TestInvokeCommandAction"));
         Assert.NotNull(generated);
+#if UNO
+        Assert.Contains("PostOnUIThread(() =>", generated);
+#else
         Assert.Contains("Dispatcher.UIThread.Post(() =>", generated);
+#endif
         Assert.Contains("command.Execute(this._commandParameter);", generated);
     }
 
@@ -87,7 +96,11 @@ namespace TestNamespace
         Assert.Empty(diagnostics);
         var generated = sources.FirstOrDefault(s => s.Contains("class TestInvokeCommandAction"));
         Assert.NotNull(generated);
+#if UNO
+        Assert.Contains("DependencyProperty.Register(nameof(Command), typeof(global::System.Windows.Input.ICommand)", generated);
+#else
         Assert.Contains("public static readonly StyledProperty<global::System.Windows.Input.ICommand> CommandProperty", generated);
+#endif
         Assert.DoesNotContain("CommandParameterProperty", generated);
         Assert.Contains("if (command.CanExecute(parameter))", generated);
     }
@@ -110,7 +123,12 @@ namespace TestNamespace
 }";
         var (diagnostics, _) = GeneratorTestHelper.RunGenerator(source);
 
+#if UNO
+        // WinUI reports the invalid base type with XBG036.
+        Assert.Contains(diagnostics, d => d.Id == "XBG036");
+#else
         Assert.Contains(diagnostics, d => d.Id == "XBG012");
+#endif
     }
 
     [Fact]

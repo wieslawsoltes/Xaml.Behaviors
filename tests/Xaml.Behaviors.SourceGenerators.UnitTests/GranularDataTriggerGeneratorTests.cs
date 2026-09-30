@@ -24,11 +24,19 @@ using Xaml.Behaviors.SourceGenerators;
         
         var stringTrigger = sources.FirstOrDefault(s => s.Contains("class StringDataTrigger"));
         Assert.True(stringTrigger is not null, "Sources: " + string.Join("\n----\n", sources));
+#if UNO
+        Assert.Contains("DependencyProperty.Register(nameof(Binding), typeof(string)", stringTrigger);
+#else
         Assert.Contains("public static readonly StyledProperty<string", stringTrigger);
+#endif
         
         var intTrigger = sources.FirstOrDefault(s => s.Contains("class Int32DataTrigger"));
         Assert.NotNull(intTrigger);
+#if UNO
+        Assert.Contains("DependencyProperty.Register(nameof(Binding), typeof(int)", intTrigger);
+#else
         Assert.Contains("public static readonly StyledProperty<int> BindingProperty", intTrigger);
+#endif
     }
 
     [Fact]

@@ -40,6 +40,21 @@ Projects that do not reference `Xaml.Behaviors.Uno.Interactivity` set
 Extend the compat layer when an Avalonia test API is used in several tests; use `#if UNO` in the test otherwise.
 Keyboard and mouse modifiers of mouse events are not simulated.
 
+## Source generator tests
+
+`Xaml.Behaviors.SourceGenerators.UnitTests` shares both kinds of tests of the Avalonia project:
+
+* runtime tests (`[AvaloniaFact]`) run the WinUI code the generator emits for the Uno project itself (the generator is
+  an analyzer of the project) on the headless session,
+* generator tests (`[Fact]`) run the same Avalonia-targeted scenarios through the WinUI emitter: under `UNO`,
+  `GeneratorTestHelper.RunGenerator` compiles them against the Uno.WinUI reference assemblies and
+  `Xaml.Behaviors.Uno.Interactivity` after translating the few Avalonia APIs they use
+  ([`WinUISourceTranslator`](Xaml.Behaviors.SourceGenerators.UnitTests/WinUISourceTranslator.cs)). Expectations on
+  the generated code that differ on WinUI (dependency property registrations, `PostOnUIThread`, `global::` base types,
+  WinUI diagnostics such as XBG036) are asserted in `#if UNO` blocks.
+
+The Uno-only generator tests live in its `WinUI` folder.
+
 ## Porting a test file
 
 1. Run `python3 build/UnoPort/uno_share.py <files>` on the Avalonia test files (namespaces `Avalonia.Xaml.X` →

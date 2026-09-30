@@ -4,6 +4,7 @@
     Pending files are listed under "not ported yet"; files that stay excluded name the reason.
   -->
   <PropertyGroup>
+    <!-- All files are shared; SetTagAction_Should_Restore_Latest_Avalonia_Source_Value stays Avalonia only (#if !UNO: WinUI has no value priorities). -->
     <UnoSharedTestExcludes></UnoSharedTestExcludes>
   </PropertyGroup>
 </Project>

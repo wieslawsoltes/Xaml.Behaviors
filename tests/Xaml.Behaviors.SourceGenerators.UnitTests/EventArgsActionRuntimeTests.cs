@@ -258,7 +258,6 @@ public class EventArgsActionRuntimeTests
         var props = new PointerPointProperties();
         return new PointerPressedEventArgs(source, pointer, source, new Point(10, 20), 0, props, modifiers, clickCount);
     }
-
 #endif
 
     private static async Task FlushDispatcherAsync()
