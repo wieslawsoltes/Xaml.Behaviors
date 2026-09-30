@@ -28,10 +28,18 @@ public partial class ObservableTriggerBehavior<T> : StyledElementTrigger
     /// <summary>
     /// Identifies the <seealso cref="Value"/> avalonia property.
     /// </summary>
+#if UNO
+    // The generator does not emit properties typed by a type parameter; WinUI only needs the value type for XAML.
+#pragma warning disable IL2087
+    public static readonly AvaloniaProperty ValueProperty =
+        AvaloniaProperty.Register(nameof(Value), typeof(T), typeof(ObservableTriggerBehavior<T>), new Microsoft.UI.Xaml.PropertyMetadata(default(T)));
+#pragma warning restore IL2087
+#else
     public static readonly StyledProperty<T?> ValueProperty =
 #pragma warning disable AVP1002
         AvaloniaProperty.Register<ObservableTriggerBehavior<T>, T?>(nameof(Value));
 #pragma warning restore AVP1002
+#endif
 
     private IDisposable? _subscription;
 

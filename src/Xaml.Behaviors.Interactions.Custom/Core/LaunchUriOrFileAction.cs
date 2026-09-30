@@ -35,7 +35,7 @@ public partial class LaunchUriOrFileAction : StyledElementAction
             return false;
         }
 
-        var target = GetValue(PathProperty);
+        var target = Path;
         if (string.IsNullOrWhiteSpace(target))
         {
             return false;

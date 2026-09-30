@@ -43,7 +43,11 @@ public partial class HideControlAction : StyledElementAction
 
         if (control.IsVisible)
         {
+#if UNO
+            control.Visibility = Visibility.Collapsed;
+#else
             control.SetCurrentValue(Visual.IsVisibleProperty, false);
+#endif
         }
 
         return true;

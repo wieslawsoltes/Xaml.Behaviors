@@ -30,6 +30,15 @@ public class FocusNextElementAction : StyledElementAction
             return null;
         }
 
+#if UNO
+        var topLevel = source.XamlRoot?.Content;
+        var current = (source.XamlRoot is { } xamlRoot ? FocusManager.GetFocusedElement(xamlRoot) : null) ?? source;
+        if (topLevel is not null
+            && FocusNavigationHelper.FindAdjacent(topLevel, current, FocusNavigationDirection.Next, wrap: false) is { } next)
+        {
+            next.Focus(FocusState.Keyboard);
+        }
+#else
         var topLevel = TopLevel.GetTopLevel(source);
         var current = topLevel?.FocusManager?.GetFocusedElement() ?? source;
         if (topLevel is not null
@@ -37,6 +46,7 @@ public class FocusNextElementAction : StyledElementAction
         {
             next.Focus(NavigationMethod.Tab, KeyModifiers.None);
         }
+#endif
 
         return null;
     }

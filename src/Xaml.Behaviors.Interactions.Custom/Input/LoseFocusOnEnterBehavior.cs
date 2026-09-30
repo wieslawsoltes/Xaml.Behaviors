@@ -45,8 +45,13 @@ public class LoseFocusOnEnterBehavior : StyledElementBehavior<Control>
     {
         if (e.Key == Key.Enter)
         {
+#if UNO
+            // WinUI cannot clear the focus: it moves to the root element of the XAML island when it is focusable.
+            AssociatedObject?.XamlRoot?.Content?.Focus(FocusState.Programmatic);
+#else
             var topLevel = TopLevel.GetTopLevel(AssociatedObject);
             topLevel?.FocusManager?.Focus(null, NavigationMethod.Unspecified, KeyModifiers.None);
+#endif
         }
     }
 }

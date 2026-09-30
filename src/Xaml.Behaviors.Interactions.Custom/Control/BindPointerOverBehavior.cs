@@ -44,6 +44,24 @@ public partial class BindPointerOverBehavior : DisposingBehavior<Control>
 		}
 
         var control = AssociatedObject;
+#if UNO
+        // WinUI has no IsPointerOver property: track the pointer enter/exit events instead.
+        control.PointerEntered += AssociatedObjectOnPointerEntered;
+        control.PointerExited += AssociatedObjectOnPointerExited;
+        control.PointerCanceled += AssociatedObjectOnPointerExited;
+
+        return DisposableAction.Create(() =>
+        {
+            control.PointerEntered -= AssociatedObjectOnPointerEntered;
+            control.PointerExited -= AssociatedObjectOnPointerExited;
+            control.PointerCanceled -= AssociatedObjectOnPointerExited;
+            IsPointerOver = false;
+        });
+
+        void AssociatedObjectOnPointerEntered(object? sender, PointerEventArgs e) => IsPointerOver = true;
+
+        void AssociatedObjectOnPointerExited(object? sender, PointerEventArgs e) => IsPointerOver = false;
+#else
         control.PropertyChanged += AssociatedObjectOnPropertyChanged;
 
         return DisposableAction.Create(() =>
@@ -59,5 +77,6 @@ public partial class BindPointerOverBehavior : DisposingBehavior<Control>
                 IsPointerOver = e.NewValue is true;
             }
         }
+#endif
 	}
 }

@@ -43,6 +43,21 @@ public partial class FocusBehavior : DisposingBehavior<Control>
             return DisposableAction.Empty;
         }
 
+#if UNO
+        var associatedObject = AssociatedObject;
+
+        void OnLostFocus(object? sender, RoutedEventArgs e)
+        {
+            // LostFocus bubbles on WinUI: only the associated object losing focus clears the flag.
+            if (ReferenceEquals(e.OriginalSource, associatedObject))
+            {
+                SetCurrentValue(IsFocusedProperty, false);
+            }
+        }
+
+        associatedObject.LostFocus += OnLostFocus;
+        var associatedObjectIsFocusedObservableDispose = DisposableAction.Create(() => associatedObject.LostFocus -= OnLostFocus);
+#else
         var associatedObjectIsFocusedObservableDispose = AssociatedObject.GetObservable(Avalonia.Input.InputElement.IsFocusedProperty)
             .Subscribe(new AnonymousObserver<bool>(
                 focused =>
@@ -52,8 +67,9 @@ public partial class FocusBehavior : DisposingBehavior<Control>
                         SetCurrentValue(IsFocusedProperty, false);
                     }
                 }));
+#endif
 
-        var isFocusedObservableDispose = this.GetObservable(IsFocusedProperty)
+        var isFocusedObservableDispose = this.GetObservable<bool>(IsFocusedProperty)
             .Subscribe(new AnonymousObserver<bool>(
                 focused =>
                 {

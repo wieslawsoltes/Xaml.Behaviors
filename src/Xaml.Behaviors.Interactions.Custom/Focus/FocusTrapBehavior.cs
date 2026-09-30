@@ -65,6 +65,16 @@ public partial class FocusTrapBehavior : Behavior<Control>
                 ? NavigationDirection.Previous
                 : NavigationDirection.Next;
 
+#if UNO
+            // WinUI: the focused element of the XAML island hosting the associated object.
+            var topLevel = AssociatedObject.XamlRoot?.Content;
+            if (AssociatedObject.XamlRoot is not { } xamlRoot)
+            {
+                return;
+            }
+
+            var currentFocus = FocusManager.GetFocusedElement(xamlRoot) as Control;
+#else
             var topLevel = TopLevel.GetTopLevel(AssociatedObject);
             var focusManager = topLevel?.FocusManager;
             if (focusManager == null)
@@ -73,6 +83,7 @@ public partial class FocusTrapBehavior : Behavior<Control>
             }
 
             var currentFocus = focusManager.GetFocusedElement() as Control;
+#endif
 
             if (currentFocus == null || !AssociatedObject.IsVisualAncestorOf(currentFocus))
             {

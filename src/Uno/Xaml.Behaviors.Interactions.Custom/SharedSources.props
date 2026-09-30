@@ -6,34 +6,18 @@
   -->
   <PropertyGroup>
     <UnoSharedSourceExcludes>
-      Actions/**;
       Animations/**;
       AutoCompleteBox/**;
       Automation/**;
-      Behaviors/**;
-      Button/**;
       Carousel/**;
-      Collections/**;
       Composition/**;
       ContextDialogs/**;
-      Control/**;
-      Converters/**;
-      Core/**;
-      Cursor/**;
-      Debugging/**;
       Dialog/**;
-      ExecuteCommand/**;
       FileUpload/**;
-      Focus/**;
-      Gestures/**;
-      Icon/**;
-      Input/**;
-      InputElement/**;
       ItemsControl/**;
       Layout/**;
       ListBox/**;
       ListBoxItem/**;
-      Logic/**;
       Multimedia/**;
       Notifications/**;
       Popup/**;
@@ -51,10 +35,43 @@
       Transitions/**;
       TreeView/**;
       TreeViewItem/**;
-      Validation/**;
-      ViewModel/**;
       Window/**;
       WriteableBitmap/**
+    </UnoSharedSourceExcludes>
+  </PropertyGroup>
+  <!-- General purpose folders: files without a WinUI counterpart (see src/Uno/PORTING.md). -->
+  <PropertyGroup>
+    <UnoSharedSourceExcludes>
+      $(UnoSharedSourceExcludes);
+      <!-- Avalonia style classes (StyledElement.Classes) have no WinUI counterpart. -->
+      Actions/AddClassAction.cs;
+      Actions/RemoveClassAction.cs;
+      Actions/ToggleClassAction.cs;
+      <!-- Needs RenderTargetBitmap encoding and TopLevel.StorageProvider (pending, like the Interactions StorageProvider port). -->
+      Actions/ScreenshotAction.cs;
+      <!-- WinUI raises no ResourcesChanged notification. -->
+      Core/ResourcesChangedBehavior.cs;
+      Core/ResourcesChangedTrigger.cs;
+      <!-- WinUI only exposes the element cursor through the protected UIElement.ProtectedCursor. -->
+      Cursor/**;
+      <!-- Adorner layer based highlighting; WinUI has no adorners. -->
+      Debugging/VisualDebugAdorner.cs;
+      Debugging/VisualDebugBehavior.cs;
+      <!-- Avalonia gesture recognizer and IME events without a WinUI routed event. -->
+      ExecuteCommand/ExecuteCommandOnPinch*.cs;
+      ExecuteCommand/ExecuteCommandOnPullGesture*.cs;
+      ExecuteCommand/ExecuteCommandOnScrollGesture*.cs;
+      ExecuteCommand/ExecuteCommandOnPointerTouchPadGesture*.cs;
+      ExecuteCommand/ExecuteCommandOnTextInputMethodClientRequestedBehavior.cs;
+      Gestures/Pinch*.cs;
+      Gestures/PullGesture*.cs;
+      Gestures/ScrollGesture*.cs;
+      Gestures/PointerTouchPadGesture*.cs;
+      InputElement/Triggers/TextInputMethodClientRequestedTrigger.cs;
+      <!-- Replaced by a FocusManager based helper next to the Uno project. -->
+      Focus/FocusNavigationHelper.cs;
+      <!-- WinUI has no NumericUpDown (NumberBox values are double). -->
+      Validation/NumericUpDownValidationBehavior.cs
     </UnoSharedSourceExcludes>
   </PropertyGroup>
 </Project>

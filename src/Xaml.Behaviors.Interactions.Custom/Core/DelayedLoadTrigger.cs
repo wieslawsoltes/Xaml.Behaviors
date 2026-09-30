@@ -46,7 +46,7 @@ public sealed partial class DelayedLoadTrigger : StyledElementTrigger<Control>
         DisposeTimer();
     }
 
-    private void OnTick(object? sender, EventArgs e)
+    private void OnTick(object? sender, object e)
     {
         Execute(parameter: null);
         DisposeTimer();

@@ -23,7 +23,7 @@ namespace Avalonia.Xaml.Interactions.Custom;
 /// An action that displays a <see cref="Popup"/> for the associated control when executed.
 /// </summary>
 /// <remarks>If the associated control is of type <see cref="Control"/> than popup inherits control <see cref="StyledElement.DataContext"/>.</remarks>
-public partial class PopupAction : Avalonia.Xaml.Interactivity.StyledElementAction
+public partial class PopupAction : StyledElementAction
 {
     private Popup? _popup;
 
@@ -50,19 +50,31 @@ public partial class PopupAction : Avalonia.Xaml.Interactivity.StyledElementActi
         {
             var parent = sender as Control;
 
+#if UNO
+            _popup = new Popup()
+            {
+                IsLightDismissEnabled = true
+            };
+#else
             _popup = new Popup()
             {
                 Placement = PlacementMode.Pointer, PlacementTarget = parent, IsLightDismissEnabled = true
             };
+#endif
 
             if (sender is Control control)
             {
                 BindToDataContext(control, _popup);
             }
 
+#if !UNO
             ((ISetLogicalParent)_popup).SetParent(parent);
+#endif
         }
 
+#if UNO
+        PlacePopup(_popup, sender as Control, parameter);
+#endif
         _popup.Child = Child;
         _popup.Open();
         return null;

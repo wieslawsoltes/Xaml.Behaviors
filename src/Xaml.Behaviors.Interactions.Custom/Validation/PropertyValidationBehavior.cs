@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Diagnostics.CodeAnalysis;
 #if UNO
+using System.Collections.ObjectModel;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Data;
@@ -42,8 +43,13 @@ public partial class PropertyValidationBehavior<TControl, TValue> : DisposingBeh
     /// <summary>
     /// Gets validation rules collection. This is an avalonia property.
     /// </summary>
+#if UNO
+    [DirectProperty(Lazy = true, Content = true)]
+    public partial ObservableCollection<IValidationRule<TValue>> Rules { get; }
+#else
     [DirectProperty(Lazy = true, Content = true)]
     public partial AvaloniaList<IValidationRule<TValue>> Rules { get; }
+#endif
 
     /// <summary>
     /// Gets or sets value indicating whether the property value is valid. This is an avalonia property.
@@ -65,6 +71,15 @@ public partial class PropertyValidationBehavior<TControl, TValue> : DisposingBeh
             return DisposableAction.Empty;
         }
 
+#if UNO
+        if (Property is not { } property)
+        {
+            return DisposableAction.Empty;
+        }
+
+        return SubscribeToChanges(AssociatedObject, property);
+    }
+#else
         if (Property is not AvaloniaProperty<TValue> property)
         {
             return DisposableAction.Empty;
@@ -133,6 +148,7 @@ public partial class PropertyValidationBehavior<TControl, TValue> : DisposingBeh
             subscribedRules.Clear();
         });
     }
+#endif
 
     /// <inheritdoc />
     protected override void OnLoaded()
@@ -144,10 +160,17 @@ public partial class PropertyValidationBehavior<TControl, TValue> : DisposingBeh
 
     private void Validate()
     {
+#if UNO
+        if (AssociatedObject is not null && Property is { } property)
+        {
+            Validate(AssociatedObject.GetValue(property) is TValue value ? value : default!);
+        }
+#else
         if (AssociatedObject is not null && Property is AvaloniaProperty<TValue> property)
         {
             Validate(AssociatedObject.GetValue<TValue>(property));
         }
+#endif
     }
 
     private void Validate(TValue value)
@@ -170,9 +193,12 @@ public partial class PropertyValidationBehavior<TControl, TValue> : DisposingBeh
         IsValid = valid;
         Error = errors.Count > 0 ? string.Join(Environment.NewLine, errors) : null;
 
+#if !UNO
+        // WinUI has no data validation error presentation; the errors are exposed through IsValid and Error.
         if (AssociatedObject is Control control)
         {
             DataValidationErrors.SetErrors(control, errors.Count > 0 ? errors : null);
         }
+#endif
     }
 }

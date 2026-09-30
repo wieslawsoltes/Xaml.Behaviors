@@ -17,10 +17,17 @@ namespace Avalonia.Xaml.Interactions.Custom;
 /// <summary>
 /// 
 /// </summary>
+#if UNO
+public class RightTappedGestureTrigger : RoutedEventTriggerBase<RightTappedRoutedEventArgs>
+{
+    /// <inheritdoc />
+    protected override RoutedEvent<RightTappedRoutedEventArgs> RoutedEvent
+#else
 public class RightTappedGestureTrigger : RoutedEventTriggerBase<TappedEventArgs>
 {
     /// <inheritdoc />
     protected override RoutedEvent<TappedEventArgs> RoutedEvent
+#endif
         => InputElement.RightTappedEvent;
 
     static RightTappedGestureTrigger()

@@ -3,6 +3,7 @@ using System.Collections.Specialized;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Xaml.Interactivity;
+using CaseList = Xaml.Interactions.Custom.CaseCollection;
 #else
 using Avalonia;
 using Avalonia.Collections;
@@ -10,6 +11,7 @@ using Avalonia.Controls;
 using Avalonia.LogicalTree;
 using Avalonia.Metadata;
 using Avalonia.Xaml.Interactivity;
+using CaseList = Avalonia.Collections.AvaloniaList<Avalonia.Xaml.Interactions.Custom.Case>;
 #endif
 
 #if UNO
@@ -34,7 +36,7 @@ public partial class SwitchCaseAction : StyledElementAction
     /// Gets the collection of cases.
     /// </summary>
     [StyledProperty(Content = true)]
-    public partial AvaloniaList<Case>? Cases { get; set; }
+    public partial CaseList? Cases { get; set; }
 
     /// <summary>
     /// Gets the actions to execute if no case matches.
@@ -47,7 +49,7 @@ public partial class SwitchCaseAction : StyledElementAction
     /// </summary>
     public SwitchCaseAction()
     {
-        SetCurrentValue(CasesProperty, new AvaloniaList<Case>());
+        SetCurrentValue(CasesProperty, new CaseList());
         SetCurrentValue(DefaultActionsProperty, new ActionCollection());
     }
 
@@ -58,8 +60,8 @@ public partial class SwitchCaseAction : StyledElementAction
 
         if (change.Property == CasesProperty)
         {
-            var oldCases = change.GetOldValue<AvaloniaList<Case>?>();
-            var newCases = change.GetNewValue<AvaloniaList<Case>?>();
+            var oldCases = change.GetOldValue<CaseList?>();
+            var newCases = change.GetNewValue<CaseList?>();
 
             if (oldCases is not null)
             {
@@ -142,7 +144,7 @@ public partial class SwitchCaseAction : StyledElementAction
         base.OnDetachedFromLogicalTree(e);
     }
 
-    private void AttachCasesToLogicalTree(System.Collections.IList? cases)
+    private void AttachCasesToLogicalTree(System.Collections.IEnumerable? cases)
     {
         if (cases is null)
         {
@@ -158,7 +160,7 @@ public partial class SwitchCaseAction : StyledElementAction
         }
     }
 
-    private void DetachCasesFromLogicalTree(System.Collections.IList? cases)
+    private void DetachCasesFromLogicalTree(System.Collections.IEnumerable? cases)
     {
         if (cases is null)
         {

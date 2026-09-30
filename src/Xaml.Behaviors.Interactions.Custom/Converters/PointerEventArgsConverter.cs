@@ -20,13 +20,14 @@ namespace Avalonia.Xaml.Interactions.Custom.Converters;
 /// <summary>
 /// Converter for <see cref="PointerEventArgs"/>.
 /// </summary>
-public class PointerEventArgsConverter : IValueConverter
+public partial class PointerEventArgsConverter : IValueConverter
 {
     /// <summary>
     /// Gets the instance of <see cref="PointerEventArgsConverter"/>.
     /// </summary>
     public static readonly PointerEventArgsConverter Instance = new();
 
+#if !UNO
     /// <inheritdoc />
     public object Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
     {
@@ -87,6 +88,7 @@ public class PointerEventArgsConverter : IValueConverter
     {
         return AvaloniaProperty.UnsetValue;
     }
+#endif
 
     /// <summary>
     /// Provides a cached instance of the converter.

@@ -47,6 +47,11 @@ public partial class LaunchUriAction : StyledElementAction
             return false;
         }
 
+#if UNO
+        // Fire and forget
+        _ = Windows.System.Launcher.LaunchUriAsync(uri);
+        return true;
+#else
         var topLevel = TopLevel.GetTopLevel(sender as Visual);
         if (topLevel?.Launcher is { } launcher)
         {
@@ -56,5 +61,6 @@ public partial class LaunchUriAction : StyledElementAction
         }
 
         return false;
+#endif
     }
 }

@@ -17,10 +17,17 @@ namespace Avalonia.Xaml.Interactions.Custom;
 /// <summary>
 /// 
 /// </summary>
+#if UNO
+public class DoubleTappedTrigger : RoutedEventTriggerBase<DoubleTappedRoutedEventArgs>
+{
+    /// <inheritdoc />
+    protected override RoutedEvent<DoubleTappedRoutedEventArgs> RoutedEvent
+#else
 public class DoubleTappedTrigger : RoutedEventTriggerBase<TappedEventArgs>
 {
     /// <inheritdoc />
-    protected override RoutedEvent<TappedEventArgs> RoutedEvent 
+    protected override RoutedEvent<TappedEventArgs> RoutedEvent
+#endif
         => InputElement.DoubleTappedEvent;
 
     static DoubleTappedTrigger()

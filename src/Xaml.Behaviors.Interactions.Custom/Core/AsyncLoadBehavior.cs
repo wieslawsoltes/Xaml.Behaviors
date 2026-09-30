@@ -44,7 +44,12 @@ public partial class AsyncLoadBehavior : Behavior<Control>
         base.OnAttached();
         if (AssociatedObject is not null)
         {
+#if UNO
+            // WinUI raises Loaded when the element joins the live (visual) tree.
+            AssociatedObject.Loaded += OnLoaded;
+#else
             AssociatedObject.AttachedToVisualTree += OnLoaded;
+#endif
         }
     }
 
@@ -53,17 +58,30 @@ public partial class AsyncLoadBehavior : Behavior<Control>
     {
         if (AssociatedObject is not null)
         {
+#if UNO
+            AssociatedObject.Loaded -= OnLoaded;
+#else
             AssociatedObject.AttachedToVisualTree -= OnLoaded;
+#endif
         }
         base.OnDetaching();
     }
 
+#if UNO
+    private void OnLoaded(object? sender, RoutedEventArgs e)
+    {
+        if (AssociatedObject is not null)
+        {
+            AssociatedObject.Loaded -= OnLoaded;
+        }
+#else
     private void OnLoaded(object? sender, VisualTreeAttachmentEventArgs e)
     {
         if (AssociatedObject is not null)
         {
             AssociatedObject.AttachedToVisualTree -= OnLoaded;
         }
+#endif
 
         _ = Dispatcher.UIThread.InvokeAsync(async () => await InvokeAsync());
     }

@@ -39,12 +39,8 @@ public partial class PropertyChangedTrigger : StyledElementTrigger
 
     private void OnBindingChanged(AvaloniaPropertyChangedEventArgs args)
     {
-        if (args.Sender is not PropertyChangedTrigger behavior)
-        {
-            return;
-        }
-
-        Dispatcher.UIThread.Post(() => behavior.Execute(args));
+        // Property changes of this behavior are always raised on this instance.
+        Dispatcher.UIThread.Post(() => Execute(args));
     }
 
     private void Execute(object? parameter)

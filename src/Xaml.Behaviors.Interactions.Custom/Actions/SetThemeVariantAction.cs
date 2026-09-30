@@ -4,6 +4,8 @@
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Xaml.Interactivity;
+using ThemeVariant = Microsoft.UI.Xaml.ElementTheme;
+using ThemeVariantScope = Microsoft.UI.Xaml.FrameworkElement;
 #else
 using Avalonia.Controls;
 using Avalonia.Styling;
@@ -48,7 +50,11 @@ public partial class SetThemeVariantAction : StyledElementAction
             return false;
         }
 
+#if UNO
+        target.RequestedTheme = ThemeVariant ?? Microsoft.UI.Xaml.ElementTheme.Default;
+#else
         target.SetCurrentValue(ThemeVariantScope.RequestedThemeVariantProperty, ThemeVariant);
+#endif
         return true;
     }
 }

@@ -4,6 +4,7 @@
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
+using SelectingItemsControl = Microsoft.UI.Xaml.Controls.Primitives.Selector;
 #else
 using Avalonia.Controls;
 using Avalonia.Controls.Primitives;

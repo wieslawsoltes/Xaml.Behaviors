@@ -20,7 +20,7 @@ namespace Avalonia.Xaml.Interactions.Custom;
 /// <summary>
 /// Focuses the associated or target control when executed.
 /// </summary>
-public partial class FocusControlAction : Avalonia.Xaml.Interactivity.StyledElementAction
+public partial class FocusControlAction : StyledElementAction
 {
 
     /// <summary>

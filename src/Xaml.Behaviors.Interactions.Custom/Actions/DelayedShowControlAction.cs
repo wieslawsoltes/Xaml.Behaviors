@@ -51,11 +51,15 @@ public sealed partial class DelayedShowControlAction : StyledElementAction
         }
 
         DispatcherTimer? timer = null;
-        void OnTick(object? s, EventArgs e)
+        void OnTick(object? s, object e)
         {
             timer!.Tick -= OnTick;
             timer.Stop();
+#if UNO
+            control.Visibility = Visibility.Visible;
+#else
             control.SetCurrentValue(Visual.IsVisibleProperty, true);
+#endif
         }
 
         timer = new DispatcherTimer { Interval = Delay };

@@ -19,7 +19,12 @@ namespace Avalonia.Xaml.Interactions.Custom;
 /// </summary>
 /// <typeparam name="T">Type of value to validate.</typeparam>
 [SuppressMessage("AvaloniaProperty", "AVP1002:AvaloniaProperty objects should not be owned by a generic type")]
+#if UNO
+// Uno's dependency object generator does not support generic types deriving directly from DependencyObject.
+public partial class MinValueValidationRule<T> : ValidationRuleBase, IValidationRule<T>
+#else
 public partial class MinValueValidationRule<T> : AvaloniaObject, IValidationRule<T>
+#endif
 {
 
     /// <summary>
