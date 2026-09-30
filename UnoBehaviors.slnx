@@ -11,6 +11,7 @@
     <File Path="build/UnoPort/api-compat.sh" />
     <File Path="src/Uno/Directory.Build.props" />
     <File Path="src/Uno/Directory.Build.targets" />
+    <File Path="src/Uno/PORTING.md" />
   </Folder>
   <Folder Name="/src/">
     <Project Path="src/Uno/Xaml.Behaviors.Interactivity/Xaml.Behaviors.Interactivity.csproj" />

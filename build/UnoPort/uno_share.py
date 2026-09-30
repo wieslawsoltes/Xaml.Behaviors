@@ -9,14 +9,16 @@ The transformations are idempotent and keep the Avalonia build byte-for-byte equ
 
   * namespace    `namespace Avalonia.Xaml.X;`  ->  `#if UNO namespace Xaml.X; #else ... #endif`
   * usings       `using Avalonia.*;` lines are wrapped in `#if UNO <winui usings> #else ... #endif`
-  * properties   `static readonly StyledProperty<T>/DirectProperty<,>/AttachedProperty<T> XProperty =`
-                 get an Uno twin declared as `DependencyProperty` (the registration expression is shared,
-                 see src/Uno/Xaml.Behaviors.Interactivity/Compat/AvaloniaProperty.cs)
-  * getters      `get => GetValue(XProperty);` -> `get => (T)GetValue(XProperty);`
   * partial      classes deriving directly from AvaloniaObject become `partial` (required by Uno's
                  DependencyObject source generator)
+  * getters      `get => GetValue(XProperty);` -> `get => (T)GetValue(XProperty);` for hand-written properties
+                 that the property generator cannot take over (WinUI GetValue returns object)
 
-Usage: uno_share.py <file-or-directory> [...]
+Property declarations are not duplicated: migrate them first with the Xaml.PropertyGenerator code fix
+(`dotnet format analyzers <project> --diagnostics XPG1001 --severity info`, see src/Uno/PORTING.md).
+The legacy `--property-twins` option emits `#if UNO` DependencyProperty twins for the remaining ones.
+
+Usage: uno_share.py [--property-twins] <file-or-directory> [...]
 """
 import os
 import re
@@ -155,6 +157,9 @@ def cleanup(text):
     return text.replace("#if UNO\n#else\n", "#if !UNO\n")
 
 
+PROPERTY_TWINS = False
+
+
 def process(path):
     raw = open(path, "rb").read()
     bom = raw.startswith(b"\xef\xbb\xbf")
@@ -162,7 +167,10 @@ def process(path):
     crlf = "\r\n" in text
     if crlf:
         text = text.replace("\r\n", "\n")
-    new = cleanup(ensure_uno_xaml_using(transform_partial(transform_getters(transform_properties(transform_usings(transform_namespace(text)))))))
+    text_in = transform_usings(transform_namespace(text))
+    if PROPERTY_TWINS:
+        text_in = ensure_uno_xaml_using(transform_properties(text_in))
+    new = cleanup(transform_partial(transform_getters(text_in)))
     if new == text:
         return False
     if crlf:
@@ -173,6 +181,10 @@ def process(path):
 
 
 def main(args):
+    global PROPERTY_TWINS
+    if "--property-twins" in args:
+        PROPERTY_TWINS = True
+        args = [a for a in args if a != "--property-twins"]
     changed = 0
     for a in args:
         if os.path.isdir(a):
