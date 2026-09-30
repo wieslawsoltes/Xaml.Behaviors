@@ -16,21 +16,7 @@
     <Using Include="Xaml.Interactivity" />
   </ItemGroup>
 
-  <PropertyGroup>
-    <!-- Avalonia-only sources (see PORTING.md). Uno replacements live next to this project file. -->
-    <UnoSharedSourceExcludes>
-      AvaloniaObjectBehaviorsExtensions.cs;
-      Templates/**;
-      StyledElement/StyledElementBehavior.cs;
-      StyledElement/StyledElementTrigger.cs;
-      StyledElement/StyledElementAction.cs;
-      Helpers/TemplatedParentHelper.cs;
-      Helpers/CommandCanExecuteIsEnabledBinder.cs;
-      Helpers/ParseHelper.cs;
-      Events/Handlers/MenuItemClickEventHandler.cs;
-      Events/Handlers/ButtonClickEventHandler.cs;
-      Events/Handlers/FlyoutEventHandler.cs
-    </UnoSharedSourceExcludes>
-  </PropertyGroup>
+  <!-- Avalonia-only sources, shared with the Avalonia build for the portability analyzers. -->
+  <Import Project="SharedSources.props" />
 
 </Project>

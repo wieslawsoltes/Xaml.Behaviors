@@ -1,0 +1,31 @@
+<Project>
+  <!--
+    Enables Xaml.PortAnalyzers (src/Xaml.PortAnalyzers) for an Avalonia project whose sources are shared with the
+    Uno Platform port. Opt in with <XamlPortEnabled>true</XamlPortEnabled> once the Uno twin project exists; the
+    shared/excluded files come from src/Uno/<ProjectName>/SharedSources.props.
+  -->
+  <PropertyGroup>
+    <_XamlPortUnoProjectDirectory>$(MSBuildThisFileDirectory)../src/Uno/$(MSBuildProjectName)/</_XamlPortUnoProjectDirectory>
+  </PropertyGroup>
+
+  <Import Project="$(_XamlPortUnoProjectDirectory)SharedSources.props"
+          Condition="'$(XamlPortEnabled)' == 'true' and Exists('$(_XamlPortUnoProjectDirectory)SharedSources.props')" />
+
+  <PropertyGroup Condition="'$(XamlPortEnabled)' == 'true'">
+    <XamlPortTargetSymbol>UNO</XamlPortTargetSymbol>
+    <XamlPortSharedSourceExcludes>$(UnoSharedSourceExcludes);Properties/**</XamlPortSharedSourceExcludes>
+    <XamlPortKnownSymbols>DOCFX</XamlPortKnownSymbols>
+    <!-- Projects that opted in must stay port clean: every portability finding breaks the build. -->
+    <WarningsAsErrors>$(WarningsAsErrors);XPORT001;XPORT002;XPORT003;XPORT004;XPORT005</WarningsAsErrors>
+  </PropertyGroup>
+
+  <ItemGroup Condition="'$(XamlPortEnabled)' == 'true'">
+    <ProjectReference Include="$(MSBuildThisFileDirectory)../src/Xaml.PortAnalyzers/Xaml.PortAnalyzers.csproj"
+                      OutputItemType="Analyzer" ReferenceOutputAssembly="false" PrivateAssets="all" />
+    <ProjectReference Include="$(MSBuildThisFileDirectory)../src/Xaml.PortAnalyzers.CodeFixes/Xaml.PortAnalyzers.CodeFixes.csproj"
+                      OutputItemType="Analyzer" ReferenceOutputAssembly="false" PrivateAssets="all" />
+    <AdditionalFiles Include="$(MSBuildThisFileDirectory)UnoPort/avalonia-to-uno.xamlport.json" />
+  </ItemGroup>
+
+  <Import Project="$(MSBuildThisFileDirectory)../src/Xaml.PortAnalyzers/buildTransitive/Xaml.PortAnalyzers.props" Condition="'$(XamlPortEnabled)' == 'true'" />
+</Project>

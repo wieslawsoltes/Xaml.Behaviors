@@ -1,0 +1,72 @@
+{
+  "$schema": "../../src/Xaml.PortAnalyzers/xamlport.schema.json",
+  "sourceNamespacePrefixes": [
+    "Avalonia"
+  ],
+  "mapped": {
+    "types": [
+      "Avalonia.AvaloniaObject",
+      "Avalonia.AvaloniaProperty",
+      "Avalonia.AvaloniaPropertyChangedEventArgs",
+      "Avalonia.StyledElement",
+      "Avalonia.Visual",
+      "Avalonia.Layout.Layoutable",
+      "Avalonia.Input.InputElement",
+      "Avalonia.Interactivity.Interactive",
+      "Avalonia.Controls.Control",
+      "Avalonia.Interactivity.RoutingStrategies",
+      "Avalonia.Controls.ResolveByNameAttribute",
+      "Avalonia.Threading.Dispatcher",
+      "Avalonia.Reactive.AnonymousObserver`1",
+      "Avalonia.Data.Converters.IValueConverter",
+      "Avalonia.AvaloniaObjectExtensions",
+      "Avalonia.AvaloniaPropertyChangedExtensions"
+    ],
+    "members": [
+      "Avalonia.AvaloniaObject.GetValue",
+      "Avalonia.AvaloniaObject.SetValue",
+      "Avalonia.AvaloniaObject.ClearValue",
+      "Avalonia.AvaloniaObject.SetCurrentValue",
+      "Avalonia.AvaloniaObject.IsSet",
+      "Avalonia.AvaloniaObject.SetAndRaise",
+      "Avalonia.AvaloniaObject.OnPropertyChanged",
+      "Avalonia.AvaloniaPropertyChangedEventArgs.Property",
+      "Avalonia.AvaloniaPropertyChangedEventArgs.OldValue",
+      "Avalonia.AvaloniaPropertyChangedEventArgs.NewValue",
+      "Avalonia.AvaloniaPropertyChangedEventArgs.GetOldValue",
+      "Avalonia.AvaloniaPropertyChangedEventArgs.GetNewValue",
+      "Avalonia.AvaloniaObjectExtensions.GetObservable",
+      "Avalonia.Threading.Dispatcher.UIThread",
+      "Avalonia.Threading.Dispatcher.Post",
+      "Avalonia.Threading.Dispatcher.InvokeAsync",
+      "Avalonia.Threading.Dispatcher.Invoke",
+      "Avalonia.Threading.Dispatcher.CheckAccess",
+      "Avalonia.Threading.Dispatcher.VerifyAccess",
+      "Avalonia.StyledElement.DataContext",
+      "Avalonia.Controls.Control.IsLoaded",
+      "Avalonia.StyledElement.OnPropertyChanged",
+      "Avalonia.Data.Converters.IValueConverter.Convert",
+      "Avalonia.Data.Converters.IValueConverter.ConvertBack",
+      "Avalonia.Collections.AvaloniaList.Count",
+      "Avalonia.Collections.AvaloniaList.Contains",
+      "Avalonia.Collections.AvaloniaList.Add",
+      "Avalonia.Collections.AvaloniaList.Remove",
+      "Avalonia.Collections.AvaloniaList.Clear",
+      "Avalonia.Collections.AvaloniaList.Insert",
+      "Avalonia.Collections.AvaloniaList.IndexOf",
+      "Avalonia.AvaloniaPropertyChangedExtensions.GetNewValue",
+      "Avalonia.AvaloniaPropertyChangedExtensions.GetOldValue"
+    ]
+  },
+  "renamedNamespaces": {
+    "Avalonia.Xaml.Interactivity": "Xaml.Interactivity",
+    "Avalonia.Xaml.Interactions.Core": "Xaml.Interactions.Core",
+    "Avalonia.Xaml.Interactions.Custom": "Xaml.Interactions.Custom",
+    "Avalonia.Xaml.Interactions.DragAndDrop": "Xaml.Interactions.DragAndDrop",
+    "Avalonia.Xaml.Interactions.Draggable": "Xaml.Interactions.Draggable",
+    "Avalonia.Xaml.Interactions.Events": "Xaml.Interactions.Events",
+    "Avalonia.Xaml.Interactions.Responsive": "Xaml.Interactions.Responsive",
+    "Avalonia.Xaml.Interactions.ReactiveUI": "Xaml.Interactions.ReactiveUI",
+    "Avalonia.Xaml.Interactions.Scripting": "Xaml.Interactions.Scripting"
+  }
+}
