@@ -10,79 +10,45 @@ namespace Xaml.Interactions.Custom;
 /// </content>
 /// <remarks>
 /// Avalonia raises <c>ScrollChanged</c> with the extent delta. WinUI raises <see cref="ScrollViewer.ViewChanged"/>
-/// for offset changes only, so extent changes are observed through the size of the scrolled content.
+/// for offset changes only, so extent changes are observed through <see cref="ScrollViewer.ExtentHeightProperty"/>.
 /// </remarks>
 public partial class AutoScrollToBottomBehavior
 {
-    private FrameworkElement? _scrollContent;
+    private long _extentHeightToken;
     private double _extentHeight;
 
     private void SubscribeScrollChanged(ScrollViewer scrollViewer)
     {
         _extentHeight = scrollViewer.ExtentHeight;
         scrollViewer.ViewChanged += OnViewChanged;
-        scrollViewer.SizeChanged += OnScrollViewerSizeChanged;
-        UpdateScrollContent(scrollViewer);
+        _extentHeightToken = scrollViewer.RegisterPropertyChangedCallback(ScrollViewer.ExtentHeightProperty, OnExtentHeightChanged);
     }
 
     private void UnsubscribeScrollChanged(ScrollViewer scrollViewer)
     {
         scrollViewer.ViewChanged -= OnViewChanged;
-        scrollViewer.SizeChanged -= OnScrollViewerSizeChanged;
-        SetScrollContent(null);
+        scrollViewer.UnregisterPropertyChangedCallback(ScrollViewer.ExtentHeightProperty, _extentHeightToken);
     }
 
     private void OnViewChanged(object? sender, ScrollViewerViewChangedEventArgs e)
     {
         if (!e.IsIntermediate)
         {
-            OnExtentMaybeChanged();
+            OnScrollChanged(extentDeltaY: 0);
         }
     }
 
-    private void OnScrollViewerSizeChanged(object sender, SizeChangedEventArgs e)
+    private void OnExtentHeightChanged(DependencyObject sender, DependencyProperty property)
     {
-        if (sender is ScrollViewer scrollViewer)
-        {
-            UpdateScrollContent(scrollViewer);
-        }
-    }
-
-    private void OnScrollContentSizeChanged(object sender, SizeChangedEventArgs e) => OnExtentMaybeChanged();
-
-    private void OnExtentMaybeChanged()
-    {
-        if (_scrollViewer is null)
+        if (sender is not ScrollViewer scrollViewer)
         {
             return;
         }
 
-        var extentHeight = _scrollViewer.ExtentHeight;
+        var extentHeight = scrollViewer.ExtentHeight;
         var extentDelta = extentHeight - _extentHeight;
         _extentHeight = extentHeight;
         OnScrollChanged(extentDelta);
-    }
-
-    private void UpdateScrollContent(ScrollViewer scrollViewer) => SetScrollContent(scrollViewer.Content as FrameworkElement);
-
-    private void SetScrollContent(FrameworkElement? content)
-    {
-        if (ReferenceEquals(_scrollContent, content))
-        {
-            return;
-        }
-
-        if (_scrollContent is not null)
-        {
-            _scrollContent.SizeChanged -= OnScrollContentSizeChanged;
-        }
-
-        _scrollContent = content;
-
-        if (_scrollContent is not null)
-        {
-            _scrollContent.SizeChanged += OnScrollContentSizeChanged;
-        }
     }
 
     private static bool IsScrolledToBottom(ScrollViewer scrollViewer)

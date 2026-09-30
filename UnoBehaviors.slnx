@@ -34,6 +34,7 @@
     <Project Path="tests/Uno/Xaml.Behaviors.Interactivity.UnitTests/Xaml.Behaviors.Interactivity.UnitTests.csproj" />
     <Project Path="tests/Uno/Xaml.Behaviors.Interactions.UnitTests/Xaml.Behaviors.Interactions.UnitTests.csproj" />
     <Project Path="tests/Uno/Xaml.Behaviors.Interactions.Events.UnitTests/Xaml.Behaviors.Interactions.Events.UnitTests.csproj" />
+    <Project Path="tests/Uno/Xaml.Behaviors.Interactions.Custom.General.UnitTests/Xaml.Behaviors.Interactions.Custom.General.UnitTests.csproj" />
     <Project Path="tests/Uno/Xaml.Behaviors.Uno.Headless.UnitTests/Xaml.Behaviors.Uno.Headless.UnitTests.csproj" />
     <Project Path="tests/Xaml.PropertyGenerator.UnitTests/Xaml.PropertyGenerator.UnitTests.csproj" />
     <Project Path="tests/Xaml.PortAnalyzers.UnitTests/Xaml.PortAnalyzers.UnitTests.csproj" />
