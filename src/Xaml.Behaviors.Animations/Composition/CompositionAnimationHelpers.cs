@@ -3,12 +3,23 @@
 using System;
 using System.Collections.Generic;
 using System.Numerics;
+#if UNO
+using Microsoft.UI.Xaml.Media.Animation;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Composition;
+#else
 using Avalonia.Animation;
 using Avalonia.Controls;
 using Avalonia.Rendering.Composition;
 using Avalonia.Rendering.Composition.Animations;
+#endif
 
+#if UNO
+namespace Xaml.Interactions.Custom;
+#else
 namespace Avalonia.Xaml.Interactions.Custom;
+#endif
 
 internal static class CompositionAnimationHelpers
 {
@@ -124,8 +135,14 @@ internal static class CompositionAnimationHelpers
 
     public static Vector3 GetLayoutOffset(Control element)
     {
+#if UNO
+        // WinUI composes Visual.Offset on top of the arranged position of the element, so composition offsets are
+        // already relative to the layout slot.
+        return Vector3.Zero;
+#else
         Rect bounds = element.Bounds;
         return new Vector3((float)bounds.X, (float)bounds.Y, 0f);
+#endif
     }
 
     public static Vector3 GetLayoutOffset(Control element, Vector3 relativeOffset)
@@ -156,6 +173,52 @@ internal static class CompositionAnimationHelpers
         ConfigureAndStartAnimation(visual, propertyName, duration, animation);
     }
 
+    public static void StartOrientationAnimation(CompositionVisual visual, Quaternion orientation, TimeSpan duration)
+    {
+#if UNO
+        // Uno Platform (Skia) implements neither QuaternionKeyFrameAnimation nor a CenterPoint for Visual.Orientation,
+        // so the orientation is animated as a rotation around its axis (RotationAxis/RotationAngle use CenterPoint).
+        if (TryGetAxisAngle(orientation, out Vector3 axis, out float angle))
+        {
+            visual.RotationAxis = axis;
+        }
+
+        ScalarKeyFrameAnimation animation = visual.Compositor.CreateScalarKeyFrameAnimation();
+        animation.InsertKeyFrame(1f, angle);
+        animation.Duration = duration;
+        visual.StartAnimation("RotationAngle", animation);
+#else
+        var animation = visual.Compositor.CreateQuaternionKeyFrameAnimation();
+        animation.InsertKeyFrame(1f, orientation);
+        animation.Duration = duration;
+        visual.StartAnimation("Orientation", animation);
+#endif
+    }
+
+#if UNO
+    internal static bool TryGetAxisAngle(Quaternion orientation, out Vector3 axis, out float angle)
+    {
+        Quaternion normalized = Quaternion.Normalize(orientation);
+        if (normalized.W < 0f)
+        {
+            normalized = Quaternion.Negate(normalized);
+        }
+
+        Vector3 vector = new(normalized.X, normalized.Y, normalized.Z);
+        float length = vector.Length();
+        if (length <= 1e-6f || float.IsNaN(length))
+        {
+            axis = Vector3.UnitZ;
+            angle = 0f;
+            return false;
+        }
+
+        axis = vector / length;
+        angle = 2f * MathF.Atan2(length, normalized.W);
+        return true;
+    }
+
+#endif
     private static void SetVector3Value(CompositionVisual visual, string propertyName, Vector3 value)
     {
         switch (propertyName)
@@ -195,7 +258,10 @@ internal static class CompositionAnimationHelpers
     {
         if (animation is KeyFrameAnimation keyFrameAnimation)
         {
+#if !UNO
+            // Normal is the default playback direction; Uno Platform does not implement KeyFrameAnimation.Direction.
             keyFrameAnimation.Direction = PlaybackDirection.Normal;
+#endif
             keyFrameAnimation.Duration = duration;
             keyFrameAnimation.IterationBehavior = AnimationIterationBehavior.Count;
             keyFrameAnimation.IterationCount = 1;

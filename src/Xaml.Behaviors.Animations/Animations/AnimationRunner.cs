@@ -2,10 +2,22 @@
 // Licensed under the MIT license. See LICENSE file in the project root for details.
 
 using System.Threading.Tasks;
+#if UNO
+using Microsoft.UI.Xaml.Media.Animation;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using PlatformAnimation = Microsoft.UI.Xaml.Media.Animation.Storyboard;
+#else
 using Avalonia.Animation;
 using Avalonia.Controls;
+using PlatformAnimation = Avalonia.Animation.Animation;
+#endif
 
+#if UNO
+namespace Xaml.Interactions.Custom;
+#else
 namespace Avalonia.Xaml.Interactions.Custom;
+#endif
 
 /// <summary>
 /// Builds and runs Avalonia animations independently of behaviors, actions, and triggers.
@@ -18,7 +30,7 @@ public static class AnimationRunner
     /// <param name="animation">The animation to run.</param>
     /// <param name="target">The target of the animation.</param>
     /// <returns>A task that completes when the animation finishes.</returns>
-    public static Task RunAsync(Animation.Animation animation, Animatable target)
+    public static Task RunAsync(PlatformAnimation animation, Animatable target)
     {
         return animation.RunAsync(target);
     }
@@ -29,7 +41,7 @@ public static class AnimationRunner
     /// <param name="animation">The animation to run.</param>
     /// <param name="target">The target of the animation.</param>
     /// <returns><c>true</c> when the animation was started; otherwise, <c>false</c>.</returns>
-    public static bool TryRun(Animation.Animation? animation, Animatable? target)
+    public static bool TryRun(PlatformAnimation? animation, Animatable? target)
     {
         return TryRunAsync(animation, target) is not null;
     }
@@ -40,7 +52,7 @@ public static class AnimationRunner
     /// <param name="animation">The animation to run.</param>
     /// <param name="target">The target of the animation.</param>
     /// <returns>The animation completion task, or <c>null</c> when the animation could not be started.</returns>
-    public static Task? TryRunAsync(Animation.Animation? animation, Animatable? target)
+    public static Task? TryRunAsync(PlatformAnimation? animation, Animatable? target)
     {
         return animation is not null && target is not null
             ? RunAsync(animation, target)
@@ -56,7 +68,7 @@ public static class AnimationRunner
     /// <returns><c>true</c> when an animation was started; otherwise, <c>false</c>.</returns>
     public static bool TryBuildAndRun(
         Control? control,
-        Animation.Animation? animation,
+        PlatformAnimation? animation,
         IAnimationBuilder? animationBuilder)
     {
         return TryBuildAndRunAsync(control, animation, animationBuilder) is not null;
@@ -71,7 +83,7 @@ public static class AnimationRunner
     /// <returns>The animation completion task, or <c>null</c> when no animation could be started.</returns>
     public static Task? TryBuildAndRunAsync(
         Control? control,
-        Animation.Animation? animation,
+        PlatformAnimation? animation,
         IAnimationBuilder? animationBuilder)
     {
         if (control is null)
@@ -79,7 +91,7 @@ public static class AnimationRunner
             return null;
         }
 
-        Animation.Animation? selectedAnimation = animation ?? animationBuilder?.Build(control);
+        PlatformAnimation? selectedAnimation = animation ?? animationBuilder?.Build(control);
         return TryRunAsync(selectedAnimation, control);
     }
 }

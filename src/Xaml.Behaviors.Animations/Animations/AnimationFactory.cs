@@ -2,10 +2,20 @@
 // Licensed under the MIT license. See LICENSE file in the project root for details.
 
 using System;
+#if UNO
+using Microsoft.UI.Xaml.Media.Animation;
+using PlatformAnimation = Microsoft.UI.Xaml.Media.Animation.Storyboard;
+#else
 using Avalonia.Animation;
 using Avalonia.Styling;
+using PlatformAnimation = Avalonia.Animation.Animation;
+#endif
 
+#if UNO
+namespace Xaml.Interactions.Custom;
+#else
 namespace Avalonia.Xaml.Interactions.Custom;
+#endif
 
 /// <summary>
 /// Creates commonly used Avalonia key-frame animations.
@@ -21,7 +31,7 @@ public static class AnimationFactory
     /// <exception cref="ArgumentOutOfRangeException">
     /// Thrown when <paramref name="initialDelay"/> or <paramref name="duration"/> is negative.
     /// </exception>
-    public static Animation.Animation CreateFadeIn(TimeSpan initialDelay, TimeSpan duration)
+    public static PlatformAnimation CreateFadeIn(TimeSpan initialDelay, TimeSpan duration)
     {
         ArgumentOutOfRangeException.ThrowIfLessThan(initialDelay, TimeSpan.Zero);
         ArgumentOutOfRangeException.ThrowIfLessThan(duration, TimeSpan.Zero);
@@ -40,7 +50,7 @@ public static class AnimationFactory
     /// <exception cref="ArgumentOutOfRangeException">
     /// Thrown when any supplied time is negative or the key times are not chronological.
     /// </exception>
-    public static Animation.Animation CreateFadeInTimeline(
+    public static PlatformAnimation CreateFadeInTimeline(
         TimeSpan initialDelay,
         TimeSpan fadeCompletionTime,
         TimeSpan totalDuration)
@@ -51,7 +61,18 @@ public static class AnimationFactory
         ArgumentOutOfRangeException.ThrowIfGreaterThan(initialDelay, fadeCompletionTime);
         ArgumentOutOfRangeException.ThrowIfGreaterThan(fadeCompletionTime, totalDuration);
 
-        return new Animation.Animation
+#if UNO
+        // Avalonia FillMode.None: the animated opacity is released when the storyboard completes.
+        return StoryboardFactory.Create(
+            FillBehavior.Stop,
+            StoryboardFactory.CreateDoubleKeyFrames(
+                "Opacity",
+                totalDuration,
+                (TimeSpan.Zero, 0d),
+                (initialDelay, 0d),
+                (fadeCompletionTime, 1d)));
+#else
+        return new PlatformAnimation
         {
             Duration = totalDuration,
             Children =
@@ -73,5 +94,6 @@ public static class AnimationFactory
                 }
             }
         };
+#endif
     }
 }

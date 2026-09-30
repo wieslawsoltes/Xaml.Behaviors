@@ -2,10 +2,20 @@
 // Licensed under the MIT license. See LICENSE file in the project root for details.
 
 using System.Numerics;
+#if UNO
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Composition;
+#else
 using Avalonia.Controls;
 using Avalonia.Rendering.Composition;
+#endif
 
+#if UNO
+namespace Xaml.Interactions.Custom;
+#else
 namespace Avalonia.Xaml.Interactions.Custom;
+#endif
 
 /// <summary>
 /// Applies composition-based parallax offsets without requiring a behavior.
@@ -59,11 +69,7 @@ public sealed class ParallaxAnimation
     public void Apply(Vector scrollOffset, double parallaxRatio)
     {
         Vector3 delta = CalculateOffset(scrollOffset, parallaxRatio);
-        Rect bounds = _target.Bounds;
-        _visual.Offset = new Vector3(
-            (float)bounds.Left + delta.X,
-            (float)bounds.Top + delta.Y,
-            delta.Z);
+        _visual.Offset = CompositionAnimationHelpers.GetLayoutOffset(_target, delta);
     }
 
     /// <summary>
