@@ -3,7 +3,9 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:i="using:Xaml.Interactivity"
       xmlns:ic="using:Xaml.Interactions.Core"
-      xmlns:ie="using:Xaml.Interactions.Events">
+      xmlns:ie="using:Xaml.Interactions.Events"
+      xmlns:icustom="using:Xaml.Interactions.Custom"
+      xmlns:idrag="using:Xaml.Interactions.Draggable">
   <ScrollViewer>
     <StackPanel Margin="24" Spacing="16" MaxWidth="720">
       <TextBlock Text="XAML Behaviors for Uno Platform" Style="{StaticResource TitleTextBlockStyle}" />
@@ -60,6 +62,49 @@
           </ic:TimerTrigger>
         </i:Interaction.Behaviors>
       </TextBlock>
+
+      <TextBlock Text="Custom: ShowControlAction and HideControlAction" Style="{StaticResource SubtitleTextBlockStyle}" />
+      <StackPanel Orientation="Horizontal" Spacing="8">
+        <Button Content="Hide">
+          <i:Interaction.Behaviors>
+            <ic:EventTriggerBehavior EventName="Click">
+              <icustom:HideControlAction TargetControl="{x:Bind ToggledBorder}" />
+            </ic:EventTriggerBehavior>
+          </i:Interaction.Behaviors>
+        </Button>
+        <Button Content="Show">
+          <i:Interaction.Behaviors>
+            <ic:EventTriggerBehavior EventName="Click">
+              <icustom:ShowControlAction TargetControl="{x:Bind ToggledBorder}" />
+            </ic:EventTriggerBehavior>
+          </i:Interaction.Behaviors>
+        </Button>
+        <Border x:Name="ToggledBorder" Width="120" Height="32" Background="CornflowerBlue" CornerRadius="4" />
+      </StackPanel>
+
+      <TextBlock Text="Custom: ShowPointerPositionBehavior" Style="{StaticResource SubtitleTextBlockStyle}" />
+      <Border Height="80" Background="WhiteSmoke" BorderBrush="Gray" BorderThickness="1" CornerRadius="4">
+        <i:Interaction.Behaviors>
+          <icustom:ShowPointerPositionBehavior TargetTextBlock="{x:Bind PointerPositionText}" />
+        </i:Interaction.Behaviors>
+        <TextBlock x:Name="PointerPositionText" Text="Move the pointer here" HorizontalAlignment="Center" VerticalAlignment="Center" />
+      </Border>
+
+      <TextBlock Text="Animations: FadeInBehavior" Style="{StaticResource SubtitleTextBlockStyle}" />
+      <TextBlock Text="This text fades in when the page loads.">
+        <i:Interaction.Behaviors>
+          <icustom:FadeInBehavior InitialDelay="0:0:0.5" Duration="0:0:2" />
+        </i:Interaction.Behaviors>
+      </TextBlock>
+
+      <TextBlock Text="Draggable: MouseDragElementBehavior" Style="{StaticResource SubtitleTextBlockStyle}" />
+      <Canvas Height="120" Background="WhiteSmoke">
+        <Border Canvas.Left="16" Canvas.Top="16" Width="64" Height="64" Background="Orange" CornerRadius="8">
+          <i:Interaction.Behaviors>
+            <idrag:MouseDragElementBehavior ConstrainToParentBounds="True" />
+          </i:Interaction.Behaviors>
+        </Border>
+      </Canvas>
 
       <TextBlock Text="Log" Style="{StaticResource SubtitleTextBlockStyle}" />
       <ItemsControl ItemsSource="{x:Bind ViewModel.Log}" />
