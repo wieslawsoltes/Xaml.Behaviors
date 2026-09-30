@@ -176,7 +176,7 @@ public class ActionsTests
         FlyoutBase.SetAttachedFlyout(button, flyout);
         await Session.ShowAsync(new StackPanel { Children = { button } });
 
-        Assert.True((bool)new ShowFlyoutAction().Execute(button, null));
+        Assert.Equal(true, new ShowFlyoutAction().Execute(button, null));
         await Session.WaitForIdleAsync();
         Assert.True(flyout.IsOpen);
 
