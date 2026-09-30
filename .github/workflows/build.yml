@@ -33,10 +33,10 @@ jobs:
           6.0.x
 
     - name: Build Release
-      run: dotnet build --configuration Release
+      run: dotnet build AvaloniaBehaviors.slnx --configuration Release
 
     - name: Test Release
-      run: dotnet test --configuration Release
+      run: dotnet test AvaloniaBehaviors.slnx --configuration Release
 
     - name: Check Documentation
       if: matrix.os == 'ubuntu-latest'
@@ -55,3 +55,26 @@ jobs:
         name: nuget-packages
         path: artifacts/NuGet
         if-no-files-found: error
+
+  uno:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+    name: Uno ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+
+    - name: Setup .NET SDKs
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: |
+          10.0.x
+
+    - name: Build Uno Release
+      run: dotnet build UnoBehaviors.slnx --configuration Release
+
+    - name: Test Uno Release
+      run: dotnet test UnoBehaviors.slnx --configuration Release --no-build

@@ -1,0 +1,29 @@
+<Solution>
+  <Folder Name="/build/">
+    <File Path="Directory.Build.props" />
+    <File Path="Directory.Packages.props" />
+    <File Path="global.json" />
+    <File Path="build/XamlPropertyGenerator.props" />
+    <File Path="build/UnoPort/uno_share.py" />
+    <File Path="build/UnoPort/api-compat.sh" />
+    <File Path="src/Uno/Directory.Build.props" />
+    <File Path="src/Uno/Directory.Build.targets" />
+  </Folder>
+  <Folder Name="/src/">
+    <Project Path="src/Uno/Xaml.Behaviors.Interactivity/Xaml.Behaviors.Interactivity.csproj" />
+  </Folder>
+  <Folder Name="/testing/">
+    <Project Path="src/Uno/Xaml.Behaviors.Uno.Headless.Host/Xaml.Behaviors.Uno.Headless.Host.csproj" />
+    <Project Path="src/Uno/Xaml.Behaviors.Uno.Headless/Xaml.Behaviors.Uno.Headless.csproj" />
+    <Project Path="src/Uno/Xaml.Behaviors.Uno.Headless.XUnit/Xaml.Behaviors.Uno.Headless.XUnit.csproj" />
+  </Folder>
+  <Folder Name="/tools/">
+    <Project Path="src/Xaml.PropertyGenerator/Xaml.PropertyGenerator.csproj" />
+    <Project Path="src/Xaml.PropertyGenerator.CodeFixes/Xaml.PropertyGenerator.CodeFixes.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/Uno/Xaml.Behaviors.Interactivity.UnitTests/Xaml.Behaviors.Interactivity.UnitTests.csproj" />
+    <Project Path="tests/Uno/Xaml.Behaviors.Uno.Headless.UnitTests/Xaml.Behaviors.Uno.Headless.UnitTests.csproj" />
+    <Project Path="tests/Xaml.PropertyGenerator.UnitTests/Xaml.PropertyGenerator.UnitTests.csproj" />
+  </Folder>
+</Solution>
