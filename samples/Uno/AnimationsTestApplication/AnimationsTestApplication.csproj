@@ -1,0 +1,33 @@
+<Project Sdk="Uno.Sdk">
+
+  <!--
+    Uno Platform twin of samples/AnimationsTestApplication (Skia desktop head). It shares the Avalonia sample's C#
+    sources (controls and view code-behind, see samples/Uno/README.md); every Avalonia view (.axaml) has a WinUI
+    twin (.xaml) at the same relative path. Like the Avalonia sample it only references the standalone animations
+    package (no behaviors or interactivity dependency).
+  -->
+  <PropertyGroup>
+    <TargetFrameworks>net10.0-desktop</TargetFrameworks>
+    <OutputType>Exe</OutputType>
+    <UnoSingleProject>true</UnoSingleProject>
+    <IsPackable>false</IsPackable>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <ApplicationTitle>Xaml.Behaviors.Animations Samples (Uno Platform)</ApplicationTitle>
+    <ApplicationId>com.wieslawsoltes.xamlbehaviors.uno.animations.sample</ApplicationId>
+    <ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
+    <ApplicationVersion>1</ApplicationVersion>
+    <UnoFeatures>SkiaRenderer</UnoFeatures>
+    <UnoSharedSampleProject>AnimationsTestApplication</UnoSharedSampleProject>
+  </PropertyGroup>
+
+  <!-- Files of the Avalonia sample that are not compiled for Uno Platform. -->
+  <Import Project="SharedSources.props" />
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\src\Uno\Xaml.Behaviors.Animations\Xaml.Behaviors.Animations.csproj" />
+  </ItemGroup>
+
+  <Import Project="..\UnoSharedSample.targets" />
+
+</Project>

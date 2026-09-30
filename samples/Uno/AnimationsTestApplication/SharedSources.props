@@ -1,0 +1,11 @@
+<Project>
+  <!--
+    Files of samples/AnimationsTestApplication that are not compiled for Uno Platform (see samples/Uno/README.md).
+    App.axaml.cs and Program.cs are always replaced by the Uno application (App.xaml.cs, Platforms/Desktop/Program.cs).
+    Every view and control is shared: the WinUI differences are handled with #if UNO blocks.
+  -->
+  <PropertyGroup>
+    <UnoSharedSampleExcludes>
+    </UnoSharedSampleExcludes>
+  </PropertyGroup>
+</Project>

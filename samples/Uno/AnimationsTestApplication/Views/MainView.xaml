@@ -1,0 +1,85 @@
+<UserControl x:Class="AnimationsTestApplication.Views.MainView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:controls="using:AnimationsTestApplication.Controls"
+             xmlns:pages="using:AnimationsTestApplication.Views.Pages"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             d:DesignWidth="1100"
+             d:DesignHeight="760">
+  <!--
+    Twin of MainView.axaml: the header and the sidebar tab control (SideBarTabControlStyle, SideBar.xaml; the tab item
+    font size of 15 is part of that style). Only the selected page is in the live tree, like the Avalonia TabControl,
+    so the entrance animations of a page play every time it is selected.
+  -->
+  <Grid Background="{ThemeResource SolidBackgroundFillColorBaseBrush}">
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="*" />
+    </Grid.RowDefinitions>
+    <Border Padding="20,14" Background="#512BD4">
+      <StackPanel Spacing="3">
+        <TextBlock Text="Xaml.Behaviors.Animations"
+                   Foreground="White"
+                   FontSize="24"
+                   FontWeight="SemiBold" />
+        <TextBlock Text="Standalone Avalonia animation APIs — no behaviors or interactivity dependency"
+                   Foreground="#E8E2FF"
+                   FontSize="14" />
+      </StackPanel>
+    </Border>
+    <controls:SingleSelectionTabControl Grid.Row="1"
+                                        SelectedIndex="0"
+                                        Style="{StaticResource SideBarTabControlStyle}">
+      <TabViewItem Header="Key-frame runner">
+        <pages:KeyFrameAnimationsView />
+      </TabViewItem>
+      <TabViewItem Header="Fluid move">
+        <pages:FluidMoveAnimationView />
+      </TabViewItem>
+      <TabViewItem Header="Fade">
+        <pages:FadeAnimationView />
+      </TabViewItem>
+      <TabViewItem Header="Sliding">
+        <pages:SlidingAnimationView />
+      </TabViewItem>
+      <TabViewItem Header="Scale">
+        <pages:ScaleAnimationView />
+      </TabViewItem>
+      <TabViewItem Header="Rotate">
+        <pages:RotateAnimationView />
+      </TabViewItem>
+      <TabViewItem Header="Attention catalog">
+        <pages:AttentionAnimationsView />
+      </TabViewItem>
+      <TabViewItem Header="Entrance catalog">
+        <pages:EntranceAnimationsView />
+      </TabViewItem>
+      <TabViewItem Header="Exit catalog">
+        <pages:ExitAnimationsView />
+      </TabViewItem>
+      <TabViewItem Header="Framer Motion">
+        <pages:FramerMotionAnimationsView />
+      </TabViewItem>
+      <TabViewItem Header="Special catalog">
+        <pages:SpecialAnimationsView />
+      </TabViewItem>
+      <TabViewItem Header="Selection indicator">
+        <pages:SelectionAnimationView />
+      </TabViewItem>
+      <TabViewItem Header="Orbit effect">
+        <pages:OrbitAnimationView />
+      </TabViewItem>
+      <TabViewItem Header="Tilt effect">
+        <pages:TiltAnimationView />
+      </TabViewItem>
+      <TabViewItem Header="Parallax effect">
+        <pages:ParallaxAnimationView />
+      </TabViewItem>
+      <TabViewItem Header="Transitions">
+        <pages:TransitionOperationsView />
+      </TabViewItem>
+    </controls:SingleSelectionTabControl>
+  </Grid>
+</UserControl>
