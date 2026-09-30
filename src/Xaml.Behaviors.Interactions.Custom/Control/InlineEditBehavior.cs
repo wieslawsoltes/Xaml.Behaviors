@@ -133,11 +133,31 @@ public partial class InlineEditBehavior : StyledElementBehavior<Control>
 
         DisplayControl.IsVisible = false;
         EditControl.IsVisible = true;
+#if UNO
+        // Uno Platform unfocuses the focused element when the pointer is released over content that cannot be focused,
+        // unless the focus changed after the pointer press was processed: a double tap on the display or associated
+        // control would end the edit right away. Focus the editor once the current input is processed.
+        var editControl = EditControl;
+        Dispatcher.UIThread.Post(() =>
+        {
+            if (!ReferenceEquals(EditControl, editControl) || !editControl.IsVisible)
+            {
+                return;
+            }
+
+            editControl.Focus();
+            if (editControl is TextBox tb)
+            {
+                tb.SelectAll();
+            }
+        });
+#else
         EditControl.Focus();
         if (EditControl is TextBox tb)
         {
             tb.SelectAll();
         }
+#endif
     }
 
     private void EndEdit()

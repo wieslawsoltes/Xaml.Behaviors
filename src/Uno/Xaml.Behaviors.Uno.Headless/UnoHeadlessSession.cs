@@ -229,6 +229,7 @@ public sealed class UnoHeadlessSession
         EnsureThreadAccess();
 
         Window.Content = element;
+        Mouse.StartNewSequence();
         RunJobs();
         if (!element.IsLoaded)
         {
@@ -266,6 +267,7 @@ public sealed class UnoHeadlessSession
         try
         {
             Window.Content = element;
+            Mouse.StartNewSequence();
 
             if (!element.IsLoaded)
             {

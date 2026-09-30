@@ -1,0 +1,143 @@
+<compat:HeadlessTestWindow x:Class="Xaml.Interactions.UnitTests.Custom.ClickEventTrigger001"
+                           xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                           xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                           xmlns:compat="using:Xaml.Behaviors.Uno.TestCompat"
+                           xmlns:i="using:Xaml.Interactivity"
+                           xmlns:ic="using:Xaml.Interactions.Core"
+                           xmlns:custom="using:Xaml.Interactions.Custom"
+                           Title="ClickEventTrigger001"
+                           Width="1000"
+                           Height="800">
+  <StackPanel Margin="10" Spacing="8">
+    <TextBox x:Name="FocusSource" x:FieldModifier="internal" Width="420" Text="Focus source for root key handling" />
+
+    <StackPanel Orientation="Horizontal" Spacing="8">
+      <Border x:Name="ReleaseTarget" x:FieldModifier="internal" Width="220" Height="70" Background="LightSteelBlue" IsTabStop="True">
+        <i:Interaction.Behaviors>
+          <custom:ClickEventTrigger ClickMode="Release">
+            <ic:CallMethodAction TargetObject="{x:Bind}" MethodName="OnReleaseClicked" />
+          </custom:ClickEventTrigger>
+        </i:Interaction.Behaviors>
+      </Border>
+      <Border x:Name="OutsideTarget" x:FieldModifier="internal" Width="220" Height="70" Background="LightGray" IsTabStop="True" />
+    </StackPanel>
+
+    <Border x:Name="PressTarget" x:FieldModifier="internal" Width="220" Height="70" Background="PeachPuff" IsTabStop="True">
+      <i:Interaction.Behaviors>
+        <custom:ClickEventTrigger ClickMode="Press" HandleEvent="False">
+          <ic:CallMethodAction TargetObject="{x:Bind}" MethodName="OnPressClicked" />
+        </custom:ClickEventTrigger>
+      </i:Interaction.Behaviors>
+    </Border>
+
+    <Border x:Name="ModifierTarget" x:FieldModifier="internal" Width="220" Height="70" Background="LightGoldenrodYellow" IsTabStop="True">
+      <i:Interaction.Behaviors>
+        <custom:ClickEventTrigger KeyModifiers="Control">
+          <ic:CallMethodAction TargetObject="{x:Bind}" MethodName="OnModifierClicked" />
+        </custom:ClickEventTrigger>
+      </i:Interaction.Behaviors>
+    </Border>
+
+    <StackPanel Orientation="Horizontal" Spacing="8">
+      <Border x:Name="SourceControlSourceTarget" x:FieldModifier="internal" Width="220" Height="70" Background="LightCyan" IsTabStop="True" />
+      <Border x:Name="SourceControlHostTarget" x:FieldModifier="internal" Width="220" Height="70" Background="PowderBlue" IsTabStop="True">
+        <i:Interaction.Behaviors>
+          <custom:ClickEventTrigger SourceControl="{x:Bind SourceControlSourceTarget}">
+            <ic:CallMethodAction TargetObject="{x:Bind}" MethodName="OnSourceControlClicked" />
+          </custom:ClickEventTrigger>
+        </i:Interaction.Behaviors>
+      </Border>
+    </StackPanel>
+
+    <StackPanel Orientation="Horizontal" Spacing="8">
+      <Button x:Name="HandledEventsTooSourceTarget" x:FieldModifier="internal" Width="220" Height="36" Content="HandledEventsToo button source" />
+      <Border x:Name="HandledEventsTooHostTarget" x:FieldModifier="internal" Width="220" Height="70" Background="SkyBlue" IsTabStop="True">
+        <i:Interaction.Behaviors>
+          <custom:ClickEventTrigger SourceControl="{x:Bind HandledEventsTooSourceTarget}">
+            <ic:CallMethodAction TargetObject="{x:Bind}" MethodName="OnHandledEventsTooClicked" />
+          </custom:ClickEventTrigger>
+        </i:Interaction.Behaviors>
+      </Border>
+    </StackPanel>
+
+    <StackPanel Orientation="Horizontal" Spacing="8">
+      <TextBox x:Name="HandledEventsTooTextBoxSourceTarget" x:FieldModifier="internal" Width="220" Text="HandledEventsToo TextBox source" />
+      <Border x:Name="HandledEventsTooTextBoxHostTarget" x:FieldModifier="internal" Width="220" Height="70" Background="CadetBlue" IsTabStop="True">
+        <i:Interaction.Behaviors>
+          <custom:ClickEventTrigger SourceControl="{x:Bind HandledEventsTooTextBoxSourceTarget}">
+            <ic:CallMethodAction TargetObject="{x:Bind}" MethodName="OnHandledEventsTooTextBoxClicked" />
+          </custom:ClickEventTrigger>
+        </i:Interaction.Behaviors>
+      </Border>
+    </StackPanel>
+
+    <StackPanel Orientation="Horizontal" Spacing="8">
+      <Button x:Name="HandleEventFalseButtonTarget" x:FieldModifier="internal" Width="220" Height="36" Content="HandleEvent=False button">
+        <i:Interaction.Behaviors>
+          <custom:ClickEventTrigger HandleEvent="False" HandledEventsToo="True">
+            <ic:CallMethodAction TargetObject="{x:Bind}" MethodName="OnHandleEventFalseButtonClicked" />
+          </custom:ClickEventTrigger>
+        </i:Interaction.Behaviors>
+      </Button>
+
+      <TextBox x:Name="HandleEventFalseTextBoxTarget" x:FieldModifier="internal" Width="220" Text="HandleEvent=False TextBox">
+        <i:Interaction.Behaviors>
+          <custom:ClickEventTrigger HandleEvent="False" HandledEventsToo="True">
+            <ic:CallMethodAction TargetObject="{x:Bind}" MethodName="OnHandleEventFalseTextBoxClicked" />
+          </custom:ClickEventTrigger>
+        </i:Interaction.Behaviors>
+      </TextBox>
+    </StackPanel>
+
+    <StackPanel Orientation="Horizontal" Spacing="8">
+      <Border x:Name="SpaceReleaseTarget" x:FieldModifier="internal" Width="220" Height="70" Background="AliceBlue" IsTabStop="True">
+        <i:Interaction.Behaviors>
+          <custom:ClickEventTrigger ClickMode="Release">
+            <ic:CallMethodAction TargetObject="{x:Bind}" MethodName="OnSpaceReleaseClicked" />
+          </custom:ClickEventTrigger>
+        </i:Interaction.Behaviors>
+      </Border>
+      <Border x:Name="SpacePressTarget" x:FieldModifier="internal" Width="220" Height="70" Background="LavenderBlush" IsTabStop="True">
+        <i:Interaction.Behaviors>
+          <custom:ClickEventTrigger ClickMode="Press">
+            <ic:CallMethodAction TargetObject="{x:Bind}" MethodName="OnSpacePressClicked" />
+          </custom:ClickEventTrigger>
+        </i:Interaction.Behaviors>
+      </Border>
+    </StackPanel>
+
+    <StackPanel Orientation="Horizontal" Spacing="8">
+      <Border x:Name="DefaultTarget" x:FieldModifier="internal" Width="220" Height="70" Background="Honeydew" IsTabStop="True">
+        <i:Interaction.Behaviors>
+          <custom:ClickEventTrigger IsDefault="True">
+            <ic:CallMethodAction TargetObject="{x:Bind}" MethodName="OnDefaultClicked" />
+          </custom:ClickEventTrigger>
+        </i:Interaction.Behaviors>
+      </Border>
+      <Border x:Name="CancelTarget" x:FieldModifier="internal" Width="220" Height="70" Background="MistyRose" IsTabStop="True">
+        <i:Interaction.Behaviors>
+          <custom:ClickEventTrigger IsCancel="True">
+            <ic:CallMethodAction TargetObject="{x:Bind}" MethodName="OnCancelClicked" />
+          </custom:ClickEventTrigger>
+        </i:Interaction.Behaviors>
+      </Border>
+    </StackPanel>
+
+    <Border x:Name="FlyoutTarget" x:FieldModifier="internal" Width="260" Height="70" Background="Thistle" IsTabStop="True">
+      <FlyoutBase.AttachedFlyout>
+        <!--
+          OverlayDismissEventPassThrough="True": the WinUI counterpart (OverlayInputPassThroughElement) is not
+          implemented by Uno Platform, the light dismiss layer consumes the press.
+        -->
+        <Flyout>
+          <TextBlock Margin="10" Text="Flyout content" />
+        </Flyout>
+      </FlyoutBase.AttachedFlyout>
+      <i:Interaction.Behaviors>
+        <custom:ClickEventTrigger>
+          <ic:CallMethodAction TargetObject="{x:Bind}" MethodName="OnFlyoutClicked" />
+        </custom:ClickEventTrigger>
+      </i:Interaction.Behaviors>
+    </Border>
+  </StackPanel>
+</compat:HeadlessTestWindow>

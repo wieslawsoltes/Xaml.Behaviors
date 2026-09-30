@@ -1,9 +1,17 @@
+#if UNO
+using Microsoft.UI.Dispatching;
+#else
 using Avalonia.Headless;
 using Avalonia.Headless.XUnit;
 using Avalonia.Threading;
+#endif
 using Xunit;
 
+#if UNO
+namespace Xaml.Interactions.UnitTests.Custom;
+#else
 namespace Avalonia.Xaml.Interactions.UnitTests.Custom;
+#endif
 
 public class DetachedFromVisualTreeTriggerTests
 {

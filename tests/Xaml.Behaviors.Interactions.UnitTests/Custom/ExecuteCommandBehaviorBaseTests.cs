@@ -1,10 +1,21 @@
+#if UNO
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Xaml.Interactions.Custom;
+using Xaml.Interactions.UnitTests.Core;
+#else
 using Avalonia.Controls;
 using Avalonia.Headless.XUnit;
 using Avalonia.Xaml.Interactions.Custom;
 using Avalonia.Xaml.Interactions.UnitTests.Core;
+#endif
 using Xunit;
 
+#if UNO
+namespace Xaml.Interactions.UnitTests.Custom;
+#else
 namespace Avalonia.Xaml.Interactions.UnitTests.Custom;
+#endif
 
 public class ExecuteCommandBehaviorBaseTests
 {

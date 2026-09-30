@@ -28,17 +28,19 @@ public enum UnoHeadlessMouseButton
 /// </summary>
 /// <remarks>
 /// Uno Platform applies injected mouse moves relative to the current position; this type tracks the position so moves
-/// are absolute. Every injected event advances the event time, which the drag and drop manager requires. All members
-/// must be called on the UI thread; each one runs the queued UI work afterwards.
+/// are absolute. Every injected event advances the event time by one frame (Uno Platform adds the time offset of an
+/// injected event to the time of the previous one), which the drag and drop manager and the gesture recognizers require.
+/// All members must be called on the UI thread; each one runs the queued UI work afterwards.
 /// </remarks>
 public sealed class UnoHeadlessMouse
 {
     private const uint FrameMilliseconds = 16;
     private const int WheelDelta = 120;
+    private const uint SequenceGapMilliseconds = 1000;
 
     private readonly UnoHeadlessSession _session;
     private InputInjector? _injector;
-    private uint _time;
+    private uint _nextTimeOffset = FrameMilliseconds;
 
     internal UnoHeadlessMouse(UnoHeadlessSession session) => _session = session;
 
@@ -106,12 +108,18 @@ public sealed class UnoHeadlessMouse
     public void Wheel(int notches)
         => Inject(new InjectedInputMouseInfo { MouseOptions = InjectedInputMouseOptions.Wheel, MouseData = unchecked((uint)(notches * WheelDelta)) });
 
+    /// <summary>
+    /// Starts a new input sequence: the next event is timed well after the previous ones, so the gesture recognizers do
+    /// not combine taps on newly shown content with earlier taps (for example into a double tap).
+    /// </summary>
+    internal void StartNewSequence() => _nextTimeOffset = SequenceGapMilliseconds;
+
     private void Inject(InjectedInputMouseInfo info)
     {
         _session.EnsureThreadAccess();
         _injector ??= InputInjector.TryCreate() ?? throw new InvalidOperationException("Input injection is not available.");
-        _time += FrameMilliseconds;
-        info.TimeOffsetInMilliseconds = _time;
+        info.TimeOffsetInMilliseconds = _nextTimeOffset;
+        _nextTimeOffset = FrameMilliseconds;
         _injector.InjectMouseInput([info]);
         _session.RunJobs();
     }

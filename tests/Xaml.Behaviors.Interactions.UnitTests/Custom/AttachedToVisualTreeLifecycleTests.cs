@@ -1,4 +1,15 @@
 using System;
+#if UNO
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Input;
+using Microsoft.UI.Xaml.Media;
+using Microsoft.UI.Dispatching;
+using Xaml.Interactions.Core;
+using Xaml.Interactions.Custom;
+using Xaml.Interactions.UnitTests.Core;
+using Xaml.Interactivity;
+#else
 using Avalonia.Controls;
 using Avalonia.Headless;
 using Avalonia.Headless.XUnit;
@@ -10,9 +21,14 @@ using Avalonia.Xaml.Interactions.Core;
 using Avalonia.Xaml.Interactions.Custom;
 using Avalonia.Xaml.Interactions.UnitTests.Core;
 using Avalonia.Xaml.Interactivity;
+#endif
 using Xunit;
 
+#if UNO
+namespace Xaml.Interactions.UnitTests.Custom;
+#else
 namespace Avalonia.Xaml.Interactions.UnitTests.Custom;
+#endif
 
 public class AttachedToVisualTreeLifecycleTests
 {
@@ -154,6 +170,10 @@ public class AttachedToVisualTreeLifecycleTests
         Assert.Equal(1, trigger.DisposedSubscriptions);
 
         panel.Children.Add(target);
+#if UNO
+        // WinUI raises Loaded for an element added to a loaded tree with the next layout pass.
+        Dispatcher.UIThread.RunJobs();
+#endif
 
         Assert.Equal(1, trigger.ActiveSubscriptions);
         Assert.Equal(2, trigger.CreatedSubscriptions);
@@ -182,6 +202,10 @@ public class AttachedToVisualTreeLifecycleTests
         Assert.Equal(1, behavior.DisposedSubscriptions);
 
         panel.Children.Add(target);
+#if UNO
+        // WinUI raises Loaded for an element added to a loaded tree with the next layout pass.
+        Dispatcher.UIThread.RunJobs();
+#endif
 
         Assert.Equal(1, behavior.ActiveSubscriptions);
         Assert.Equal(2, behavior.CreatedSubscriptions);

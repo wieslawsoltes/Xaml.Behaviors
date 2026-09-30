@@ -1,9 +1,18 @@
+#if UNO
+using Xaml.Interactions.Custom;
+using Xaml.Interactivity;
+#else
 using Avalonia.Headless.XUnit;
 using Avalonia.Xaml.Interactions.Custom;
 using Avalonia.Xaml.Interactivity;
+#endif
 using Xunit;
 
+#if UNO
+namespace Xaml.Interactions.UnitTests.Custom;
+#else
 namespace Avalonia.Xaml.Interactions.UnitTests.Custom;
+#endif
 
 public class ValidationRuleTests
 {
