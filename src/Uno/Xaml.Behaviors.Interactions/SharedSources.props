@@ -3,10 +3,15 @@
     Files of src/Xaml.Behaviors.Interactions that are not compiled for Uno Platform (see src/Uno/PORTING.md).
     Imported by the Uno project (source linking) and by the Avalonia project (Xaml.PortAnalyzers).
   -->
+  <!--
+    Clipboard (Avalonia IAsyncDataTransfer) and the storage converters (Avalonia stream/converter APIs) have Uno
+    implementations with the same public shape next to the Uno project; the storage provider types used by the shared
+    pickers are provided by src/Uno/Xaml.Behaviors.Interactions/StorageProvider/Platform.
+  -->
   <PropertyGroup>
     <UnoSharedSourceExcludes>
       Clipboard/**;
-      StorageProvider/**
+      StorageProvider/Converters/**
     </UnoSharedSourceExcludes>
   </PropertyGroup>
 </Project>

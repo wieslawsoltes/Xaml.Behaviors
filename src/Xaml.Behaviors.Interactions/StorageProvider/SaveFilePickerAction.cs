@@ -31,8 +31,13 @@ public partial class SaveFilePickerAction : PickerActionBase
     /// <summary>
     /// Identifies the <seealso cref="FileTypeChoices"/> avalonia property.
     /// </summary>
+#if UNO
+    public static readonly DependencyProperty FileTypeChoicesProperty =
+        DependencyProperty.Register(nameof(FileTypeChoices), typeof(string), typeof(OpenFilePickerAction), new PropertyMetadata(null));
+#else
     public static readonly StyledProperty<string?> FileTypeChoicesProperty =
         AvaloniaProperty.Register<OpenFilePickerAction, string?>(nameof(FileTypeChoices));
+#endif
 
     /// <summary>
     /// Gets or sets the default extension to be used to save the file. This is an avalonia property.

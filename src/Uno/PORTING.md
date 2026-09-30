@@ -46,6 +46,7 @@ portability analyzers know which files are shared.
    | `AvaloniaPropertyChangedEventArgs` | `DependencyPropertyChangedEventArgs` |
    | `Control`, `StyledElement`, `Layoutable` | `FrameworkElement` |
    | `Visual`, `InputElement`, `Interactive` | `UIElement` |
+   | `MenuItem` | `MenuFlyoutItem` |
 
    In shared code these names always mean the Avalonia concept. Uno-only files use fully qualified names when they
    need `Microsoft.UI.Xaml.Controls.Control`.
@@ -115,7 +116,7 @@ python3 build/UnoPort/uno_share.py src/Xaml.Behaviors.<Name>
 | Project | Uno port | Notes |
 |---------|----------|-------|
 | Xaml.Behaviors.Interactivity | ✅ | Templates (`ITemplate`) and the C# 14 `Behaviors` extension are Avalonia only. |
-| Xaml.Behaviors.Interactions | ✅ Core, FileSystem, Network | Clipboard (`TopLevel.Clipboard`) and StorageProvider (`IStorageProvider`) are pending a port to `DataTransfer.Clipboard` / `Windows.Storage.Pickers`. Composite actions use the action tree (`Action.Host`). |
+| Xaml.Behaviors.Interactions | ✅ | Clipboard uses a public `IClipboard`/`SystemClipboard` (DataTransfer.Clipboard); pickers use the Avalonia shaped `IStorageProvider`/options types backed by `SystemStorageProvider` (Windows.Storage.Pickers, no arbitrary start folder). Composite actions use the action tree (`Action.Host`). |
 | Xaml.Behaviors.Interactions.Events | ✅ | Scroll gesture and IME client events have no WinUI counterpart. |
 | Xaml.Behaviors.Interactions.Responsive | ⏳ | |
 | Xaml.Behaviors.Interactions.Draggable | ⏳ | |

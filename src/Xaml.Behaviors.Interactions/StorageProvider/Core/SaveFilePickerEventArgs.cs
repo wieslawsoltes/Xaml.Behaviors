@@ -1,7 +1,9 @@
 // Copyright (c) Wiesław Šoltés. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for details.
 using System;
-#if !UNO
+#if UNO
+using Windows.Storage;
+#else
 using Avalonia.Platform.Storage;
 #endif
 

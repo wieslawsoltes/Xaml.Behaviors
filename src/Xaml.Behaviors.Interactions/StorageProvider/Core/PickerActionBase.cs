@@ -9,6 +9,7 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Dispatching;
 using Xaml.Interactivity;
+using Windows.Storage;
 #else
 using Avalonia;
 using Avalonia.Controls;
@@ -164,6 +165,10 @@ public abstract partial class PickerActionBase : InvokeCommandActionBase
         }
     }
 
+#if UNO
+    // WinUI has no top level storage provider: the pickers are application wide.
+    private static IStorageProvider? ResolveFromObject(object? target) => SystemStorageProvider.Instance;
+#else
     private static IStorageProvider? ResolveFromObject(object? target)
     {
         return target switch
@@ -174,4 +179,5 @@ public abstract partial class PickerActionBase : InvokeCommandActionBase
             _ => null
         };
     }
+#endif
 }

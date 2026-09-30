@@ -2,7 +2,9 @@
 // Licensed under the MIT license. See LICENSE file in the project root for details.
 using System;
 using System.IO;
-#if !UNO
+#if UNO
+using Windows.Storage;
+#else
 using Avalonia.Platform.Storage;
 #endif
 

@@ -46,6 +46,7 @@
     <Using Include="Microsoft.UI.Xaml.UIElement" Alias="Visual" />
     <Using Include="Microsoft.UI.Xaml.UIElement" Alias="InputElement" />
     <Using Include="Microsoft.UI.Xaml.UIElement" Alias="Interactive" />
+    <Using Include="Microsoft.UI.Xaml.Controls.MenuFlyoutItem" Alias="MenuItem" />
     <!-- Avalonia input event arguments mapped to the WinUI routed event arguments. -->
     <Using Include="Microsoft.UI.Xaml.Input.PointerRoutedEventArgs" Alias="PointerEventArgs" />
     <Using Include="Microsoft.UI.Xaml.Input.PointerRoutedEventArgs" Alias="PointerPressedEventArgs" />
