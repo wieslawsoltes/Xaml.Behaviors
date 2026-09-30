@@ -22,7 +22,7 @@ namespace Uno.UI.Runtime.Skia.Headless;
 
 public class HeadlessHost : SkiaHost, ISkiaApplicationHost, IDisposable
 {
-	private readonly EventLoop _eventLoop;
+	private readonly HeadlessEventLoop _eventLoop;
 	private readonly ManualResetEvent _terminationGate = new(false);
 	private readonly CoreApplicationExtension _coreApplicationExtension;
 	private readonly HeadlessHostBuilder _hostBuilder;
@@ -41,7 +41,7 @@ public class HeadlessHost : SkiaHost, ISkiaApplicationHost, IDisposable
 		_appBuilder = appBuilder;
 		_hostBuilder = builder;
 
-		_eventLoop = new EventLoop();
+		_eventLoop = new HeadlessEventLoop();
 		_coreApplicationExtension = new CoreApplicationExtension(_terminationGate);
 	}
 
@@ -114,6 +114,14 @@ public class HeadlessHost : SkiaHost, ISkiaApplicationHost, IDisposable
 		return XamlRootMap.GetHostForRoot(xamlRoot) as HeadlessWindowWrapper
 			?? throw new InvalidOperationException($"The {nameof(XamlRoot)} is not associated with a {nameof(HeadlessWindowWrapper)} instance.");
 	}
+
+	/// <summary>
+	/// Runs the work queued on the UI thread (layout, loaded events, bindings, queued callbacks) until the queue is
+	/// empty or <paramref name="maxItems"/> items ran. Must be called on the UI thread.
+	/// </summary>
+	/// <param name="maxItems">The maximum number of queued items to run.</param>
+	/// <returns>The number of items that ran.</returns>
+	public int RunJobs(int maxItems = 10_000) => _eventLoop.RunPending(maxItems);
 
 	public void Dispose() => _terminationGate.Set();
 }

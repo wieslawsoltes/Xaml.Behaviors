@@ -7,6 +7,7 @@ using Microsoft.UI.Dispatching;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Uno.UI.Hosting;
+using Uno.UI.Runtime.Skia.Headless;
 
 namespace Xaml.Behaviors.Uno.Headless.Internal;
 
@@ -46,12 +47,15 @@ internal static class UnoHeadlessHostLauncher
     {
         try
         {
+            HeadlessHost? headlessHost = null;
             UnoPlatformHost host = UnoPlatformHostBuilder.Create()
-                .App(() => CreateApplication(options, started))
+                .App(() => CreateApplication(options, started, headlessHost!))
                 .UseHeadless(headless => headless
                     .WithSize(options.Width, options.Height)
                     .WithScale(options.Scale))
                 .Build();
+            headlessHost = host as HeadlessHost
+                ?? throw new InvalidOperationException("The Uno platform host is not the headless host.");
 
             // Blocks for the lifetime of the application.
             host.Run();
@@ -66,7 +70,7 @@ internal static class UnoHeadlessHostLauncher
 
     // Runs on the UI thread, from Application.Start. OnLaunched runs synchronously right after this returns,
     // so the window is created from a queued item, after the application has fully launched.
-    private static Application CreateApplication(UnoHeadlessSessionOptions options, TaskCompletionSource<UnoHeadlessSession> started)
+    private static Application CreateApplication(UnoHeadlessSessionOptions options, TaskCompletionSource<UnoHeadlessSession> started, HeadlessHost host)
     {
         Application application;
         try
@@ -90,7 +94,7 @@ internal static class UnoHeadlessHostLauncher
                 };
                 window.Activate();
 
-                started.TrySetResult(new UnoHeadlessSession(options, application, window, dispatcherQueue));
+                started.TrySetResult(new UnoHeadlessSession(options, application, window, dispatcherQueue, host));
             }
             catch (Exception exception)
             {

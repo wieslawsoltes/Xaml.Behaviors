@@ -5,6 +5,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.UI.Dispatching;
 using Microsoft.UI.Xaml;
+using Uno.UI.Runtime.Skia.Headless;
 using Xaml.Behaviors.Uno.Headless.Internal;
 
 namespace Xaml.Behaviors.Uno.Headless;
@@ -29,8 +30,11 @@ public sealed class UnoHeadlessSession
 {
     private static SessionStart? s_start;
 
-    internal UnoHeadlessSession(UnoHeadlessSessionOptions options, Application application, Window window, DispatcherQueue dispatcherQueue)
+    private readonly HeadlessHost _host;
+
+    internal UnoHeadlessSession(UnoHeadlessSessionOptions options, Application application, Window window, DispatcherQueue dispatcherQueue, HeadlessHost host)
     {
+        _host = host;
         Options = options;
         Application = application;
         Window = window;
@@ -175,6 +179,65 @@ public sealed class UnoHeadlessSession
     /// </summary>
     /// <returns>A task that completes once an item queued at <see cref="DispatcherQueuePriority.Low"/> priority has run.</returns>
     public Task WaitForIdleAsync() => DispatcherQueueInvoker.YieldAsync(DispatcherQueue);
+
+    /// <summary>
+    /// Runs the work queued on the UI thread (layout, loaded events, bindings, queued callbacks), including the work it
+    /// queues, until the queue is empty. The synchronous counterpart of <see cref="WaitForIdleAsync"/>, like Avalonia's
+    /// <c>Dispatcher.UIThread.RunJobs()</c>.
+    /// </summary>
+    /// <returns>The number of queued items that ran.</returns>
+    /// <exception cref="InvalidOperationException">The caller is not on the UI thread.</exception>
+    public int RunJobs()
+    {
+        EnsureThreadAccess();
+        var total = 0;
+        int count;
+        do
+        {
+            count = _host.RunJobs();
+            total += count;
+        }
+        while (count > 0 && total < MaxJobs);
+
+        return total;
+    }
+
+    /// <summary>
+    /// Sets <paramref name="element"/> as the content of the session <see cref="Window"/> and runs the queued UI work
+    /// until it is loaded. The synchronous counterpart of <see cref="ShowAsync{TElement}(TElement, CancellationToken)"/>.
+    /// </summary>
+    /// <typeparam name="TElement">The element type.</typeparam>
+    /// <param name="element">The element to show.</param>
+    /// <returns><paramref name="element"/>.</returns>
+    /// <exception cref="InvalidOperationException">The caller is not on the UI thread, or the element did not load.</exception>
+    public TElement Show<TElement>(TElement element)
+        where TElement : FrameworkElement
+    {
+        ArgumentNullException.ThrowIfNull(element);
+        EnsureThreadAccess();
+
+        Window.Content = element;
+        RunJobs();
+        if (!element.IsLoaded)
+        {
+            element.UpdateLayout();
+            RunJobs();
+        }
+
+        return element.IsLoaded
+            ? element
+            : throw new InvalidOperationException("The element was not loaded after running the queued UI work.");
+    }
+
+    private const int MaxJobs = 100_000;
+
+    private void EnsureThreadAccess()
+    {
+        if (!HasThreadAccess)
+        {
+            throw new InvalidOperationException("This member must be called on the UI thread (for example from an [UnoHeadlessFact] test).");
+        }
+    }
 
     private async Task<TElement> ShowCoreAsync<TElement>(TElement element, CancellationToken cancellationToken)
         where TElement : FrameworkElement

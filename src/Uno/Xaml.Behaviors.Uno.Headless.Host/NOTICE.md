@@ -16,6 +16,8 @@ Modifications made for this redistribution:
   `Uno.WinUI` packages: it compiles against the `uno-runtime/net10.0/skia` implementation assemblies.
 - The C# sources are kept as close to upstream as possible. They are the `release/stable/6.7` version
   of the host (null-surface renderer), not the one on Uno's `master` branch.
+- The host runs its UI thread on its own event loop (`Hosting/HeadlessEventLoop.cs`) instead of the Skia runtime's
+  internal `EventLoop`, and exposes `HeadlessHost.RunJobs()` to drain the queued UI work synchronously.
 
 Unless required by applicable law or agreed to in writing, software distributed under the Apache
 License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
