@@ -1,0 +1,50 @@
+<UserControl x:Class="Xaml.Behaviors.Uno.XamlPages.Pages.BehaviorsPage"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:i="using:Xaml.Interactivity"
+             xmlns:ic="using:Xaml.Interactions.Core"
+             xmlns:ie="using:Xaml.Interactions.Events">
+  <StackPanel>
+    <Button x:Name="IncrementButton" Content="Increment">
+      <i:Interaction.Behaviors>
+        <ic:EventTriggerBehavior EventName="Click">
+          <ic:InvokeCommandAction Command="{Binding IncrementCommand}" CommandParameter="from-xaml" />
+        </ic:EventTriggerBehavior>
+      </i:Interaction.Behaviors>
+    </Button>
+
+    <Button x:Name="ResetButton" Content="Reset">
+      <i:Interaction.Behaviors>
+        <ic:EventTriggerBehavior EventName="Click">
+          <ic:CallMethodAction TargetObject="{Binding}" MethodName="Reset" />
+        </ic:EventTriggerBehavior>
+      </i:Interaction.Behaviors>
+    </Button>
+
+    <Button x:Name="ChangeButton" Content="Change">
+      <i:Interaction.Behaviors>
+        <ic:EventTriggerBehavior EventName="Click">
+          <ic:ChangePropertyAction TargetObject="{Binding ElementName=Target}" PropertyName="Width" Value="42" />
+        </ic:EventTriggerBehavior>
+      </i:Interaction.Behaviors>
+    </Button>
+
+    <Border x:Name="Target" Width="10" Height="10" />
+
+    <TextBlock x:Name="StatusText" Text="{Binding Status}">
+      <i:Interaction.Behaviors>
+        <ic:DataTriggerBehavior Binding="{Binding Count}" ComparisonCondition="GreaterThanOrEqual" Value="2">
+          <ic:ChangePropertyAction PropertyName="Text" Value="many" />
+        </ic:DataTriggerBehavior>
+      </i:Interaction.Behaviors>
+    </TextBlock>
+
+    <TextBox x:Name="FocusBox">
+      <i:Interaction.Behaviors>
+        <ie:GotFocusEventTrigger>
+          <ic:InvokeCommandAction Command="{Binding IncrementCommand}" CommandParameter="focus" />
+        </ie:GotFocusEventTrigger>
+      </i:Interaction.Behaviors>
+    </TextBox>
+  </StackPanel>
+</UserControl>

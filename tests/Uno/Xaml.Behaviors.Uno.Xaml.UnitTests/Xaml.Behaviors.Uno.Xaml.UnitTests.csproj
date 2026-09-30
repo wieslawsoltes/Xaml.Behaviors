@@ -1,0 +1,26 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!-- Consumes the headless host through a ProjectReference, so import its buildTransitive files like a package consumer would get them. -->
+  <Import Project="..\..\..\src\Uno\Xaml.Behaviors.Uno.Headless.Host\buildTransitive\Xaml.Behaviors.Uno.Headless.Host.props" />
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <OutputType>Exe</OutputType>
+    <IsPackable>False</IsPackable>
+    <Nullable>enable</Nullable>
+    <AssemblyName>Xaml.Behaviors.Uno.Xaml.UnitTests</AssemblyName>
+    <RootNamespace>Xaml.Behaviors.Uno.Xaml.UnitTests</RootNamespace>
+  </PropertyGroup>
+
+  <Import Project="..\..\..\build\XUnit.props" />
+  <Import Project="..\..\..\build\SignAssembly.props" />
+  <Import Project="..\..\..\build\XamlPropertyGenerator.props" />
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\src\Uno\Xaml.Behaviors.Uno.Headless.XUnit\Xaml.Behaviors.Uno.Headless.XUnit.csproj" />
+    <ProjectReference Include="..\..\..\tests\Uno\Xaml.Behaviors.Uno.XamlPages\Xaml.Behaviors.Uno.XamlPages.csproj" />
+  </ItemGroup>
+
+  <Import Project="..\..\..\src\Uno\Xaml.Behaviors.Uno.Headless.Host\buildTransitive\Xaml.Behaviors.Uno.Headless.Host.targets" />
+
+</Project>
