@@ -79,6 +79,24 @@ public class XamlPageTests
     }
 
     [UnoHeadlessFact]
+    public async Task Style_Behaviors_Template_Creates_Behaviors_Per_Element()
+    {
+        var viewModel = new PagesViewModel();
+        var page = new TemplatePage { DataContext = viewModel };
+        await Session.ShowAsync(page);
+        await Session.WaitForIdleAsync();
+        var first = Find<Button>(page, "First");
+        var second = Find<Button>(page, "Second");
+
+        Click(first);
+        Click(second);
+
+        Assert.Equal(2, viewModel.Count);
+        Assert.Equal(["styled", "styled"], viewModel.Parameters);
+        Assert.NotSame(global::Xaml.Interactivity.Interaction.GetBehaviors(first), global::Xaml.Interactivity.Interaction.GetBehaviors(second));
+    }
+
+    [UnoHeadlessFact]
     public async Task Events_Trigger_Declared_In_Xaml_Fires()
     {
         var (page, viewModel) = await ShowPageAsync();

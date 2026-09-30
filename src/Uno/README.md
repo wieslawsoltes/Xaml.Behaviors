@@ -55,5 +55,6 @@ Namespaces follow the Avalonia ones without the `Avalonia.` prefix: `Avalonia.Xa
 * **Clipboard and pickers** use the application wide WinUI services (`SystemClipboard`, `SystemStorageProvider`).
   The `Clipboard` and `StorageProvider` properties accept other implementations, for example in tests. WinUI pickers
   cannot open an arbitrary start folder.
-* **Templates** (`BehaviorCollectionTemplate` and friends) and the Avalonia only controls/features listed in
-  PORTING.md are not available.
+* **Templates**: instead of Avalonia's `BehaviorCollectionTemplate`, set the attached `i:Interaction.BehaviorsTemplate`
+  (for example from a style setter) to a `DataTemplate` whose root is an `i:BehaviorCollectionHost` containing the
+  behaviors; every element gets its own collection. The other Avalonia only features are listed in PORTING.md.

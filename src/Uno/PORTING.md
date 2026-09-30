@@ -115,7 +115,7 @@ python3 build/UnoPort/uno_share.py src/Xaml.Behaviors.<Name>
 
 | Project | Uno port | Notes |
 |---------|----------|-------|
-| Xaml.Behaviors.Interactivity | ✅ | Templates (`ITemplate`) and the C# 14 `Behaviors` extension are Avalonia only. |
+| Xaml.Behaviors.Interactivity | ✅ | Avalonia templates (`ITemplate`) are replaced by `Interaction.BehaviorsTemplate` + `BehaviorCollectionHost` on Uno; the C# 14 `Behaviors` extension is Avalonia only. |
 | Xaml.Behaviors.Interactions | ✅ | Clipboard uses a public `IClipboard`/`SystemClipboard` (DataTransfer.Clipboard); pickers use the Avalonia shaped `IStorageProvider`/options types backed by `SystemStorageProvider` (Windows.Storage.Pickers, no arbitrary start folder). Composite actions use the action tree (`Action.Host`). |
 | Xaml.Behaviors.Interactions.Events | ✅ | Scroll gesture and IME client events have no WinUI counterpart. |
 | Xaml.Behaviors.Interactions.Responsive | ⏳ | |
