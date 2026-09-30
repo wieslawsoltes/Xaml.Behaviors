@@ -1,0 +1,9 @@
+<Project>
+  <!--
+    Files of tests/Xaml.Behaviors.SourceGenerators.UnitTests that are not compiled for Uno Platform.
+    Pending files are listed under "not ported yet"; files that stay excluded name the reason.
+  -->
+  <PropertyGroup>
+    <UnoSharedTestExcludes></UnoSharedTestExcludes>
+  </PropertyGroup>
+</Project>

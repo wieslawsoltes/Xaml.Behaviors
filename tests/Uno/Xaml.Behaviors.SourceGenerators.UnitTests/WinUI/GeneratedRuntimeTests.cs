@@ -11,7 +11,7 @@ using Xaml.Behaviors.Uno.Headless.XUnit;
 using Xaml.Interactivity;
 using Xunit;
 
-namespace Xaml.Behaviors.SourceGenerators.UnitTests;
+namespace Xaml.Behaviors.SourceGenerators.UnitTests.WinUI;
 
 /// <summary>
 /// Runtime tests of the WinUI code emitted by <c>Xaml.Behaviors.SourceGenerators</c> on Uno Platform (headless).

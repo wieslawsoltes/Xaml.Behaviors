@@ -1,9 +1,17 @@
 using System;
 using System.Linq;
+#if UNO
+using Microsoft.UI.Xaml;
+#else
 using Avalonia.Interactivity;
+#endif
 using Xunit;
 
+#if UNO
+namespace Xaml.Behaviors.SourceGenerators.UnitTests;
+#else
 namespace Avalonia.Xaml.Behaviors.SourceGenerators.UnitTests;
+#endif
 
 public class EventArgsActionGeneratorTests
 {

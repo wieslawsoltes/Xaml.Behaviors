@@ -3,7 +3,11 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using Xunit;
 
+#if UNO
+namespace Xaml.Behaviors.SourceGenerators.UnitTests;
+#else
 namespace Avalonia.Xaml.Behaviors.SourceGenerators.UnitTests;
+#endif
 
 public class EventCommandGeneratorTests
 {

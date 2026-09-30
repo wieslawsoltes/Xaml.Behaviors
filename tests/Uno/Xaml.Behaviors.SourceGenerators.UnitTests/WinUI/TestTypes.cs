@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Xaml.Interactivity;
 
-namespace Xaml.Behaviors.SourceGenerators.UnitTests;
+namespace Xaml.Behaviors.SourceGenerators.UnitTests.WinUI;
 
 /// <summary>
 /// View model whose members are turned into generated actions and triggers.

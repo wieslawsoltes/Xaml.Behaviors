@@ -2,7 +2,11 @@ using System.Linq;
 using Microsoft.CodeAnalysis;
 using Xunit;
 
+#if UNO
+namespace Xaml.Behaviors.SourceGenerators.UnitTests;
+#else
 namespace Avalonia.Xaml.Behaviors.SourceGenerators.UnitTests;
+#endif
 
 /// <summary>
 /// Compile-only tests of the WinUI / Uno Platform emission (sources compiled against the Uno.WinUI reference

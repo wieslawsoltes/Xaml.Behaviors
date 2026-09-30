@@ -1,7 +1,11 @@
 using System.Linq;
 using Xunit;
 
+#if UNO
+namespace Xaml.Behaviors.SourceGenerators.UnitTests;
+#else
 namespace Avalonia.Xaml.Behaviors.SourceGenerators.UnitTests;
+#endif
 
 public class GranularChangePropertyActionGeneratorTests
 {
