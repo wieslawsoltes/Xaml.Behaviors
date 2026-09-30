@@ -13,6 +13,14 @@ namespace Avalonia.Xaml.Interactivity;
 /// <summary>
 /// Represents a collection of <see cref="Condition"/> objects.
 /// </summary>
+/// <remarks>
+/// On Uno Platform the collection is a <c>DependencyObjectCollection&lt;Condition&gt;</c> so the conditions inherit the
+/// data context of the owning behavior.
+/// </remarks>
+#if UNO
+public class ConditionCollection : Microsoft.UI.Xaml.DependencyObjectCollection<Condition>
+#else
 public class ConditionCollection : AvaloniaList<Condition>
+#endif
 {
 }

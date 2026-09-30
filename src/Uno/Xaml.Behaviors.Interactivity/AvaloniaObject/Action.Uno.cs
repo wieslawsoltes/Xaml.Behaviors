@@ -7,7 +7,7 @@ namespace Xaml.Interactivity;
 /// <content>
 /// Uno Platform specific members that mirror the Avalonia property system API used by derived types.
 /// </content>
-public abstract partial class Action : IDependencyPropertyChangedHandler
+public abstract partial class Action
 {
     private DependencyObject? _host;
 
@@ -55,12 +55,13 @@ public abstract partial class Action : IDependencyPropertyChangedHandler
         _host = null;
     }
 
-    void IDependencyPropertyChangedHandler.OnDependencyPropertyChanged(DependencyPropertyChangedEventArgs e)
-        => OnPropertyChanged(e);
-
     /// <summary>
-    /// Called when the value of a dependency property declared by this library changes.
+    /// Called when the value of a dependency property declared with the generated property attributes changes.
     /// </summary>
+    /// <remarks>
+    /// Mirrors Avalonia's <c>OnPropertyChanged(AvaloniaPropertyChangedEventArgs)</c>; the generated
+    /// dependency properties route their change notifications here.
+    /// </remarks>
     /// <param name="change">The change details.</param>
     protected virtual void OnPropertyChanged(DependencyPropertyChangedEventArgs change)
     {

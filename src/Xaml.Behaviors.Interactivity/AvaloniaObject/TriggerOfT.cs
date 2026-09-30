@@ -17,7 +17,7 @@ public abstract class Trigger<T> : Trigger where T : AvaloniaObject
     /// <summary>
     /// Gets the object to which this behavior is attached.
     /// </summary>
-    public new T? AssociatedObject => base.AssociatedObject as T;
+    public new T? AssociatedObject => base.AssociatedObject is T value ? value : default;
 
     /// <summary>
     /// Called after the behavior is attached to the <see cref="IBehavior.AssociatedObject"/>.

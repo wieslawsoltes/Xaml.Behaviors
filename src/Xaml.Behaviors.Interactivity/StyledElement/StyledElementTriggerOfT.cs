@@ -1,4 +1,4 @@
-// Copyright (c) Wiesław Šoltés. All rights reserved.
+﻿// Copyright (c) Wiesław Šoltés. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for details.
 using System;
 
@@ -17,7 +17,7 @@ public abstract class StyledElementTrigger<T> : StyledElementTrigger where T : A
     /// <summary>
     /// Gets the object to which this behavior is attached.
     /// </summary>
-    public new T? AssociatedObject => base.AssociatedObject as T;
+    public new T? AssociatedObject => base.AssociatedObject is T value ? value : default;
 
     /// <summary>
     /// Called after the behavior is attached to the <see cref="IBehavior.AssociatedObject"/>.

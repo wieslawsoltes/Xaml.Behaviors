@@ -175,7 +175,7 @@ public class BehaviorCollection : AvaloniaList<AvaloniaObject>
         DispatchBehaviorEvent(static handler => handler.InitializedEventHandler());
     }
 
-    internal void DataContextChanged()
+    internal void NotifyDataContextChanged()
     {
         DispatchBehaviorEvent(static handler => handler.DataContextChangedEventHandler());
     }

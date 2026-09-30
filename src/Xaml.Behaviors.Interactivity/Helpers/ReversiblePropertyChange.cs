@@ -1,4 +1,4 @@
-// Copyright (c) Wiesław Šoltés. All rights reserved.
+﻿// Copyright (c) Wiesław Šoltés. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for details.
 using System;
 using System.Collections.Generic;
@@ -294,9 +294,17 @@ public sealed class ReversiblePropertyChange<TTarget, TValue>
 
         var targetObject = (object)target;
         var avaloniaObject = targetObject as AvaloniaObject;
+#if UNO
+        // The typed (generated) path stays trim safe on Uno Platform: WinUI has no property registry, so the
+        // value is applied and restored through the typed accessors instead of an animation value overlay.
+        AvaloniaProperty? avaloniaProperty = null;
+        const bool isDirect = false;
+#else
         var avaloniaProperty = avaloniaObject is not null
             ? AvaloniaPropertyRegistry.Instance.FindRegistered(avaloniaObject, _propertyName)
             : null;
+        var isDirect = avaloniaProperty?.IsDirect == true;
+#endif
 
         return _change.Apply(
             targetObject,
@@ -304,7 +312,7 @@ public sealed class ReversiblePropertyChange<TTarget, TValue>
             TryGetValue,
             SetValue,
             SetTemporaryValue,
-            avaloniaProperty?.IsDirect == true);
+            isDirect);
 
         bool TryGetValue(out object? currentValue)
         {
@@ -322,7 +330,11 @@ public sealed class ReversiblePropertyChange<TTarget, TValue>
         {
             reversion = avaloniaProperty is null
                 ? null
+#if UNO
+                : null;
+#else
                 : avaloniaObject!.SetValue(avaloniaProperty, newValue, BindingPriority.Animation);
+#endif
             return reversion is not null;
         }
     }

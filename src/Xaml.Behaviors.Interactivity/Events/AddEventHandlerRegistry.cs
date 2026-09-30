@@ -1,4 +1,4 @@
-// Copyright (c) Wiesław Šoltés. All rights reserved.
+﻿// Copyright (c) Wiesław Šoltés. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for details.
 using System;
 using System.Collections.Generic;
@@ -26,6 +26,31 @@ public static class AddEventHandlerRegistry
 
     static AddEventHandlerRegistry()
     {
+#if UNO
+        Register(new DelegateAddEventHandler<Microsoft.UI.Xaml.Controls.Primitives.ButtonBase, RoutedEventHandler>(
+            "Click",
+            static h => (s, e) => h(s, e),
+            static (o, h) => o.Click += h,
+            static (o, h) => o.Click -= h));
+
+        Register(new DelegateAddEventHandler<MenuFlyoutItem, RoutedEventHandler>(
+            nameof(MenuFlyoutItem.Click),
+            static h => (s, e) => h(s, e),
+            static (o, h) => o.Click += h,
+            static (o, h) => o.Click -= h));
+
+        Register(new DelegateAddEventHandler<Microsoft.UI.Xaml.Controls.Primitives.FlyoutBase, EventHandler<object>>(
+            "Opened",
+            static h => (s, e) => h(s, e),
+            static (o, h) => o.Opened += h,
+            static (o, h) => o.Opened -= h));
+
+        Register(new DelegateAddEventHandler<Microsoft.UI.Xaml.Controls.Primitives.FlyoutBase, EventHandler<object>>(
+            "Closed",
+            static h => (s, e) => h(s, e),
+            static (o, h) => o.Closed += h,
+            static (o, h) => o.Closed -= h));
+#else
         // Register(new ButtonClickEventHandler());
 
         Register(new FuncAddEventHandler<Button, RoutedEventArgs>(
@@ -49,6 +74,7 @@ public static class AddEventHandlerRegistry
             "ToolTipClosing",
             ToolTip.AddToolTipClosingHandler,
             ToolTip.RemoveToolTipClosingHandler));
+#endif
     }
 
     /// <summary>

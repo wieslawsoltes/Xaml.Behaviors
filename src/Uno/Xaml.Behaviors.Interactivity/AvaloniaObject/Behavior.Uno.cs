@@ -7,19 +7,8 @@ namespace Xaml.Interactivity;
 /// <content>
 /// Uno Platform specific members that mirror the Avalonia property system API used by derived types.
 /// </content>
-public abstract partial class Behavior : IDependencyPropertyChangedHandler
+public abstract partial class Behavior
 {
-    void IDependencyPropertyChangedHandler.OnDependencyPropertyChanged(DependencyPropertyChangedEventArgs e)
-    {
-        if (e.Property == Trigger.ActionsProperty || e.Property == StyledElementTrigger.ActionsProperty)
-        {
-            (e.OldValue as ActionCollection)?.SetHost(null);
-            (e.NewValue as ActionCollection)?.SetHost(AssociatedObject);
-        }
-
-        OnPropertyChanged(e);
-    }
-
     /// <summary>
     /// Publishes the associated object to the actions of a trigger (WinUI has no logical tree).
     /// </summary>
@@ -33,8 +22,12 @@ public abstract partial class Behavior : IDependencyPropertyChangedHandler
     }
 
     /// <summary>
-    /// Called when the value of a dependency property declared by this library changes.
+    /// Called when the value of a dependency property declared with the generated property attributes changes.
     /// </summary>
+    /// <remarks>
+    /// Mirrors Avalonia's <c>OnPropertyChanged(AvaloniaPropertyChangedEventArgs)</c>; the generated
+    /// dependency properties route their change notifications here.
+    /// </remarks>
     /// <param name="change">The change details.</param>
     protected virtual void OnPropertyChanged(DependencyPropertyChangedEventArgs change)
     {

@@ -18,13 +18,13 @@ public abstract class StyledElementBehavior<T> : StyledElementBehavior where T :
     /// <summary>
     /// Gets the object to which this behavior is attached.
     /// </summary>
-    public new T? AssociatedObject => base.AssociatedObject as T;
+    public new T? AssociatedObject => base.AssociatedObject is T value ? value : default;
 
     /// <summary>
-    /// Called after the behavior is attached to the <see cref="StyledElementBehavior.AssociatedObject"/>.
+    /// Called after the behavior is attached to the <see cref="IBehavior.AssociatedObject"/>.
     /// </summary>
     /// <remarks>
-    /// Override this to hook up functionality to the <see cref="StyledElementBehavior.AssociatedObject"/>
+    /// Override this to hook up functionality to the <see cref="IBehavior.AssociatedObject"/>
     /// </remarks>
     protected override void OnAttached()
     {

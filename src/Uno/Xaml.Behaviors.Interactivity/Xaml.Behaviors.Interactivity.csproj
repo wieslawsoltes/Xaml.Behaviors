@@ -26,6 +26,7 @@
       StyledElement/StyledElementAction.cs;
       Helpers/TemplatedParentHelper.cs;
       Helpers/CommandCanExecuteIsEnabledBinder.cs;
+      Helpers/ParseHelper.cs;
       Events/Handlers/MenuItemClickEventHandler.cs;
       Events/Handlers/ButtonClickEventHandler.cs;
       Events/Handlers/FlyoutEventHandler.cs

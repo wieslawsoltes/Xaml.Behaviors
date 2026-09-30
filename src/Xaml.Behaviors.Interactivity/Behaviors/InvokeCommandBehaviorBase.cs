@@ -57,7 +57,7 @@ public abstract partial class InvokeCommandBehaviorBase : StyledElementBehavior<
 
     /// <summary>
     /// Gets or sets a value indicating whether the associated control's
-    /// <see cref="Avalonia.Input.InputElement.IsEnabled"/> property should follow <see cref="CanExecuteCommand"/>.
+    /// <c>IsEnabled</c> property should follow <see cref="CanExecuteCommand"/>.
     /// </summary>
     [StyledProperty]
     public partial bool UseCommandCanExecuteForIsEnabled { get; set; }
@@ -166,10 +166,14 @@ public abstract partial class InvokeCommandBehaviorBase : StyledElementBehavior<
                 parameter,
                 typeof(object),
                 InputConverterParameter,
+#if UNO
+                InputConverterLanguage ?? string.Empty);
+#else
                 InputConverterLanguage is not null
                     ? 
                     new System.Globalization.CultureInfo(InputConverterLanguage)
                     : System.Globalization.CultureInfo.CurrentCulture);
+#endif
         }
         else
         {

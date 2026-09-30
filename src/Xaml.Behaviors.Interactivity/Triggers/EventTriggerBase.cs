@@ -215,7 +215,12 @@ public abstract partial class EventTriggerBase : StyledElementTrigger
         if (resolvedSource is Control element && !IsElementLoaded(element))
         {
             _isLoadedEventRegistered = true;
+#if UNO
+            // WinUI raises Loaded when the element joins the live visual tree.
+            element.Loaded += Element_Loaded;
+#else
             element.AttachedToVisualTree += AttachedToVisualTree;
+#endif
         }
     }
 
@@ -224,9 +229,17 @@ public abstract partial class EventTriggerBase : StyledElementTrigger
         _isLoadedEventRegistered = false;
         if (resolvedSource is Control element)
         {
+#if UNO
+            element.Loaded -= Element_Loaded;
+#else
             element.AttachedToVisualTree -= AttachedToVisualTree; 
+#endif
         }
     }
+
+#if UNO
+    private void Element_Loaded(object sender, RoutedEventArgs e) => AttachedToVisualTree(sender, e);
+#endif
 
     /// <summary>
     /// Raised when the control is attached to a rooted visual tree.
@@ -252,5 +265,9 @@ public abstract partial class EventTriggerBase : StyledElementTrigger
         Interaction.ExecuteActions(_resolvedSource, Actions, eventArgs);
     }
 
+#if UNO
+    private static bool IsElementLoaded(Control element) => element.IsLoaded;
+#else
     private static bool IsElementLoaded(Control element) => element.Parent is not null;
+#endif
 }

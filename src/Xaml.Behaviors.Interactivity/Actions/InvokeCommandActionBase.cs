@@ -58,7 +58,7 @@ public abstract partial class InvokeCommandActionBase : StyledElementAction, IAc
 
     /// <summary>
     /// Gets or sets a value indicating whether the control associated with the hosting trigger should have its
-    /// <see cref="InputElement.IsEnabled"/> property follow <see cref="CanExecuteCommand"/>.
+    /// <c>IsEnabled</c> property follow <see cref="CanExecuteCommand"/>.
     /// </summary>
     [StyledProperty]
     public partial bool UseCommandCanExecuteForIsEnabled { get; set; }
@@ -161,10 +161,14 @@ public abstract partial class InvokeCommandActionBase : StyledElementAction, IAc
                 parameter,
                 typeof(object),
                 InputConverterParameter,
+#if UNO
+                InputConverterLanguage ?? string.Empty);
+#else
                 InputConverterLanguage is not null
                     ? 
                     new System.Globalization.CultureInfo(InputConverterLanguage)
                     : System.Globalization.CultureInfo.CurrentCulture);
+#endif
         }
         else
         {

@@ -26,6 +26,7 @@
   -->
   <ItemGroup Condition="'$(UnoPortAliases)' != 'false'">
     <Using Include="Microsoft.UI.Xaml.DependencyObject" Alias="AvaloniaObject" />
+    <Using Include="Microsoft.UI.Xaml.DependencyProperty" Alias="AvaloniaProperty" />
     <Using Include="Microsoft.UI.Xaml.DependencyPropertyChangedEventArgs" Alias="AvaloniaPropertyChangedEventArgs" />
     <!--
       Avalonia element hierarchy mapped to its closest WinUI counterparts. In the shared sources these names

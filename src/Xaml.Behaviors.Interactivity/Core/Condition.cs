@@ -20,6 +20,24 @@ namespace Avalonia.Xaml.Interactivity;
 /// </summary>
 public partial class Condition : AvaloniaObject
 {
+#if UNO
+    /// <summary>
+    /// Gets or sets the value to compare. This is a dependency property.
+    /// </summary>
+    /// <remarks>
+    /// WinUI applies a binding assigned in XAML to this property, so its value is the bound value that is compared
+    /// (Avalonia assigns the binding itself and evaluates it into <see cref="BindingValue"/>).
+    /// </remarks>
+    [StyledProperty]
+    public partial object? Binding { get; set; }
+
+    /// <summary>
+    /// Identifies the value compared by the condition; on Uno Platform the same property as <see cref="BindingProperty"/>.
+    /// </summary>
+    internal static DependencyProperty BindingValueProperty => BindingProperty;
+
+    internal object? BindingValue => Binding;
+#else
     private IDisposable? _bindingSubscription;
 
     /// <summary>
@@ -27,6 +45,7 @@ public partial class Condition : AvaloniaObject
     /// </summary>
     [StyledProperty(AssignBinding = true)]
     public partial BindingBase? Binding { get; set; }
+#endif
 
     /// <summary>
     /// Gets or sets the type of comparison that is performed. This is an avalonia property.
@@ -52,6 +71,18 @@ public partial class Condition : AvaloniaObject
     [StyledProperty]
     public partial string? SourceName { get; set; }
 
+#if UNO
+    /// <summary>
+    /// Called when the value of a dependency property of the condition changes.
+    /// </summary>
+    /// <param name="change">The change details.</param>
+    protected virtual void OnPropertyChanged(AvaloniaPropertyChangedEventArgs change)
+    {
+        if (change.Property == BindingProperty && change.NewValue is not null && Property is not null)
+        {
+            throw new InvalidOperationException("Condition cannot use both Property and Binding.");
+        }
+#else
     [StyledProperty]
     internal partial object? BindingValue { get; set; }
 
@@ -80,6 +111,7 @@ public partial class Condition : AvaloniaObject
                 SetValue(BindingValueProperty, null);
             }
         }
+#endif
 
         if (change.Property == PropertyProperty &&
             change.GetNewValue<AvaloniaProperty?>() is not null &&
