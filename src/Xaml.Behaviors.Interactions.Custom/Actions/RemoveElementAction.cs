@@ -5,6 +5,8 @@ using System.Collections;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Xaml.Interactivity;
+// WinUI's single child decorator is Border.
+using Decorator = Microsoft.UI.Xaml.Controls.Border;
 #else
 using Avalonia.Controls;
 using Avalonia.Controls.Presenters;
@@ -83,11 +85,19 @@ public partial class RemoveElementAction : StyledElementAction
             }
         }
 
+#if UNO
+        if (parent is ItemsControl itemsControl && itemsControl.Items.Contains(element))
+        {
+            itemsControl.Items.Remove(element);
+            return true;
+        }
+#else
         if (parent is ItemsControl itemsControl && itemsControl.Items is IList list && list.Contains(element))
         {
             list.Remove(element);
             return true;
         }
+#endif
 
         return false;
     }

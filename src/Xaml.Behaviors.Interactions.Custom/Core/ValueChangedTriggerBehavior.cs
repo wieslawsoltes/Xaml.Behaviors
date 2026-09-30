@@ -40,14 +40,10 @@ public partial class ValueChangedTriggerBehavior : StyledElementTrigger
 
     private void OnValueChanged(AvaloniaPropertyChangedEventArgs args)
     {
-        if (args.Sender is not ValueChangedTriggerBehavior behavior)
-        {
-            return;
-        }
-
+        // Property changes of this behavior are always raised on this instance.
         Dispatcher.UIThread.Post(() =>
         {
-            behavior.Execute(args);
+            Execute(args);
         });
     }
 

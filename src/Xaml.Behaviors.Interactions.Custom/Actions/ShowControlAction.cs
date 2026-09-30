@@ -43,7 +43,11 @@ public partial class ShowControlAction : StyledElementAction
 
         if (!control.IsVisible)
         {
+#if UNO
+            control.Visibility = Visibility.Visible;
+#else
             control.SetCurrentValue(Visual.IsVisibleProperty, true);
+#endif
         }
 
         return true;

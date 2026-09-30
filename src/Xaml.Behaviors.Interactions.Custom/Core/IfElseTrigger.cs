@@ -60,14 +60,10 @@ public partial class IfElseTrigger : StyledElementTrigger
 
     private void OnConditionChanged(AvaloniaPropertyChangedEventArgs args)
     {
-        if (args.Sender is not IfElseTrigger behavior)
-        {
-            return;
-        }
-
+        // Property changes of this behavior are always raised on this instance.
         Dispatcher.UIThread.Post(() =>
         {
-            behavior.Execute(parameter: args);
+            Execute(parameter: args);
         });
     }
 

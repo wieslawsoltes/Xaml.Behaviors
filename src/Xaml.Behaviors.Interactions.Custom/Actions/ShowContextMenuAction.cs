@@ -41,6 +41,15 @@ public partial class ShowContextMenuAction : StyledElementAction
         }
 
         var control = TargetControl ?? sender as Control;
+#if UNO
+        var contextMenu = control?.ContextFlyout;
+        if (control is null || contextMenu is null)
+        {
+            return false;
+        }
+
+        contextMenu.ShowAt(control);
+#else
         var contextMenu = control?.ContextMenu;
         if (control is null || contextMenu is null)
         {
@@ -48,6 +57,7 @@ public partial class ShowContextMenuAction : StyledElementAction
         }
 
         contextMenu.Open(control);
+#endif
         return true;
     }
 }

@@ -67,7 +67,7 @@ public partial class BindingTriggerBehavior : StyledElementTrigger
             var newValue = change.GetNewValue<BindingBase?>();
             if (newValue is not null)
             {
-                _dispose = Bind(BindingValueProperty, newValue);
+                _dispose = this.Bind(BindingValueProperty, newValue);
             }
         }
     }
@@ -90,14 +90,10 @@ public partial class BindingTriggerBehavior : StyledElementTrigger
 
     private void OnValueChanged(AvaloniaPropertyChangedEventArgs args)
     {
-        if (args.Sender is not BindingTriggerBehavior behavior)
-        {
-            return;
-        }
-
+        // Property changes of this behavior are always raised on this instance.
         Dispatcher.UIThread.Post(() =>
         {
-            behavior.Execute(parameter: args);
+            Execute(parameter: args);
         });
     }
 

@@ -41,7 +41,11 @@ public partial class ScrollToControlAction : StyledElementAction
             return false;
         }
 
+#if UNO
+        target.StartBringIntoView();
+#else
         target.BringIntoView();
+#endif
         return true;
     }
 }

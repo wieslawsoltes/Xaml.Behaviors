@@ -55,7 +55,17 @@ public partial class SetEnabledAction : StyledElementAction
             return false;
         }
 
+#if UNO
+        // WinUI declares IsEnabled on Control.
+        if (control is not Microsoft.UI.Xaml.Controls.Control enabledControl)
+        {
+            return false;
+        }
+
+        enabledControl.IsEnabled = IsEnabledValue;
+#else
         control.SetCurrentValue(InputElement.IsEnabledProperty, IsEnabledValue);
+#endif
         return true;
     }
 }

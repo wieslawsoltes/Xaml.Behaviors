@@ -23,7 +23,7 @@ namespace Avalonia.Xaml.Interactions.Custom;
 /// An action that will change a specified Avalonia property to a specified value when invoked.
 /// </summary>
 [RequiresUnreferencedCode("This functionality is not compatible with trimming.")]
-public partial class ChangeAvaloniaPropertyAction : Avalonia.Xaml.Interactivity.StyledElementAction
+public partial class ChangeAvaloniaPropertyAction : StyledElementAction
 {
 
     /// <summary>
@@ -76,7 +76,11 @@ public partial class ChangeAvaloniaPropertyAction : Avalonia.Xaml.Interactivity.
         try
         {
             object? result = null;
+#if UNO
+            var propertyType = GetPropertyType(targetObject, targetProperty);
+#else
             var propertyType = targetProperty.PropertyType;
+#endif
             var propertyTypeInfo = propertyType.GetTypeInfo();
             if (Value is null)
             {
@@ -115,7 +119,11 @@ public partial class ChangeAvaloniaPropertyAction : Avalonia.Xaml.Interactivity.
                     CultureInfo.CurrentCulture,
                     "Cannot assign value of type {0} to property {1} of type {2}. The {1} property can be assigned only values of type {2}.",
                     Value?.GetType().Name ?? "null",
+#if UNO
+                    nameof(TargetProperty),
+#else
                     targetProperty.Name,
+#endif
                     targetObject.GetType().Name),
                 innerException);
         }
@@ -130,6 +138,7 @@ public partial class ChangeAvaloniaPropertyAction : Avalonia.Xaml.Interactivity.
         {
             throw new ArgumentNullException(nameof(targetProperty));
         }
+#if !UNO
         else if (targetProperty.IsReadOnly)
         {
             throw new ArgumentException(string.Format(
@@ -137,5 +146,6 @@ public partial class ChangeAvaloniaPropertyAction : Avalonia.Xaml.Interactivity.
                 "Property {0} is read-only.",
                 targetProperty.Name));
         }
+#endif
     }
 }

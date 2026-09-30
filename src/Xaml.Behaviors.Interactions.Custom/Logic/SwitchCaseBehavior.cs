@@ -104,14 +104,10 @@ public partial class SwitchCaseBehavior : StyledElementTrigger
 
     private void OnValueChanged(AvaloniaPropertyChangedEventArgs args)
     {
-        if (args.Sender is not SwitchCaseBehavior behavior)
-        {
-            return;
-        }
-
+        // Property changes of this behavior are always raised on this instance.
         Dispatcher.UIThread.Post(() =>
         {
-            behavior.Execute(parameter: args);
+            Execute(parameter: args);
         });
     }
 

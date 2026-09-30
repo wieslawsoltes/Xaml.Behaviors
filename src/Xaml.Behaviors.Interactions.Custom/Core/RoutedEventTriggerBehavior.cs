@@ -67,15 +67,16 @@ public partial class RoutedEventTriggerBehavior : StyledElementTrigger<Interacti
 
     private void OnValueChanged(AvaloniaPropertyChangedEventArgs args)
     {
-        if (args.Sender is not RoutedEventTriggerBehavior behavior || behavior.AssociatedObject is null)
+        // Property changes of this behavior are always raised on this instance.
+        if (AssociatedObject is null)
         {
             return;
         }
 
-        if (behavior._isInitialized && behavior._isAttached)
+        if (_isInitialized && _isAttached)
         {
-            behavior.RemoveHandler();
-            behavior.AddHandler();
+            RemoveHandler();
+            AddHandler();
         }
     }
 
@@ -91,10 +92,15 @@ public partial class RoutedEventTriggerBehavior : StyledElementTrigger<Interacti
     {
         _isAttached = false;
 
+#if UNO
+        // WinUI has no top level element that stays attached while its content is unloaded.
+        RemoveHandler();
+#else
         if (AssociatedObject is not TopLevel || ComputeResolvedSourceInteractive() is not TopLevel)
         {
             RemoveHandler();
         }
+#endif
     }
 
     /// <inheritdoc />
