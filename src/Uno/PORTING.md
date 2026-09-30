@@ -127,7 +127,7 @@ python3 build/UnoPort/uno_share.py src/Xaml.Behaviors.<Name>
 | Xaml.Behaviors.Interactions.Scripting | ⏳ | |
 | Xaml.Behaviors.Animations | ⏳ | |
 | Xaml.Behaviors (single assembly) | ⏳ | |
-| Xaml.Behaviors.SourceGenerators | ⏳ | Same generator project, WinUI emitter. |
+| Xaml.Behaviors.SourceGenerators | ✅ | Same generator project; platform strategy (`IXamlPlatform`) with Avalonia and WinUI emitters, override with `XamlBehaviorsSourceGeneratorPlatform`. See `docfx/articles/source-generators/uno-platform.md`. |
 
 ## Tooling
 
