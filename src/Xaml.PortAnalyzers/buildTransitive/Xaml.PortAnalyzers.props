@@ -1,0 +1,18 @@
+<Project>
+  <!--
+    Xaml.PortAnalyzers: surfaces the port settings to the analyzers (as build_property.* analyzer config values).
+    Consumers only set the properties below in their project (or Directory.Build.props):
+
+      XamlPortTargetSymbol           preprocessor symbol marking the port target (default: UNO)
+      XamlPortSharedSourceExcludes   ';'-separated globs (relative to the project directory) of files not shared with the port
+      XamlPortKnownSymbols           extra known preprocessor symbols for XPORT003 (wildcards '*' and '?' allowed)
+
+    Port maps are passed as <AdditionalFiles Include="my.xamlport.json" />.
+  -->
+  <ItemGroup>
+    <CompilerVisibleProperty Include="XamlPortTargetSymbol" />
+    <CompilerVisibleProperty Include="XamlPortSharedSourceExcludes" />
+    <CompilerVisibleProperty Include="XamlPortKnownSymbols" />
+    <CompilerVisibleProperty Include="MSBuildProjectDirectory" />
+  </ItemGroup>
+</Project>

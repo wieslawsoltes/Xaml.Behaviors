@@ -10,6 +10,11 @@
     <Project Path="build/build/_build.csproj" />
       <File Path="NuGet.Config" />
   </Folder>
+  <Folder Name="/analyzers/">
+    <Project Path="src/Xaml.PortAnalyzers.CodeFixes/Xaml.PortAnalyzers.CodeFixes.csproj" />
+    <Project Path="src/Xaml.PortAnalyzers/Xaml.PortAnalyzers.csproj" />
+    <Project Path="tests/Xaml.PortAnalyzers.UnitTests/Xaml.PortAnalyzers.UnitTests.csproj" />
+  </Folder>
   <Folder Name="/build/git/">
     <File Path=".gitattributes" />
     <File Path=".gitignore" />

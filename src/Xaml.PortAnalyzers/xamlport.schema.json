@@ -1,0 +1,55 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://raw.githubusercontent.com/wieslawsoltes/Xaml.Behaviors/master/src/Xaml.PortAnalyzers/xamlport.schema.json",
+  "title": "Xaml.PortAnalyzers port map",
+  "description": "Declares which symbols of the source platform (e.g. Avalonia) exist on the port target (e.g. Uno Platform). Used by XPORT002. Pass the file to the compiler as <AdditionalFiles Include=\"name.xamlport.json\" />.",
+  "type": "object",
+  "additionalProperties": false,
+  "definitions": {
+    "names": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 },
+      "uniqueItems": true
+    },
+    "section": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "types": {
+          "$ref": "#/definitions/names",
+          "description": "Fully qualified type names without type arguments, e.g. \"Avalonia.Controls.Control\". Generic types may also use the arity suffix, e.g. \"Avalonia.StyledProperty`1\"."
+        },
+        "namespaces": {
+          "$ref": "#/definitions/names",
+          "description": "Namespaces; an entry also covers every nested namespace."
+        },
+        "members": {
+          "$ref": "#/definitions/names",
+          "description": "Members as \"Namespace.Type.Member\" (all overloads) or \"Namespace.Type.*\" (every member of the type)."
+        }
+      }
+    }
+  },
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "sourceNamespacePrefixes": {
+      "$ref": "#/definitions/names",
+      "description": "Only symbols in these namespaces (or nested namespaces) are checked. Defaults to [\"Avalonia\"]."
+    },
+    "mapped": {
+      "$ref": "#/definitions/section",
+      "description": "Symbols that exist on the port target under the same name (natively, through aliases or compatibility shims). A mapped namespace makes all of its types and members available and allows 'using' it."
+    },
+    "unsupported": {
+      "$ref": "#/definitions/section",
+      "description": "Symbols that do not exist on the port target. Takes precedence over 'mapped'. An unsupported type makes its members and nested types unsupported too."
+    },
+    "renamedNamespaces": {
+      "type": "object",
+      "description": "Namespaces whose types are ported under another namespace name (source name to port name). Their types and members are treated as mapped, but 'using' directives and namespace qualifiers naming them must be guarded.",
+      "additionalProperties": { "type": "string", "minLength": 1 }
+    }
+  }
+}

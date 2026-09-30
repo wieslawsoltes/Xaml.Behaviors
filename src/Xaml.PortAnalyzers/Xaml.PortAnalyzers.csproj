@@ -1,0 +1,77 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <LangVersion>latest</LangVersion>
+    <IsRoslynComponent>true</IsRoslynComponent>
+    <EnforceExtendedAnalyzerRules>true</EnforceExtendedAnalyzerRules>
+    <Nullable>enable</Nullable>
+    <IsTrimmable>false</IsTrimmable>
+    <EnableTrimAnalyzer>false</EnableTrimAnalyzer>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <PackageId>Xaml.PortAnalyzers</PackageId>
+    <Description>Roslyn analyzers and code fixes that keep Avalonia sources shared with an Uno Platform / WinUI port (compiled with a port preprocessor symbol such as UNO) portable, catching port breakage while building the Avalonia projects.</Description>
+    <PackageTags>Avalonia;Uno;UnoPlatform;WinUI;Port;Porting;Portability;Analyzer;Roslyn;CodeFix;Xaml</PackageTags>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <IncludeBuildOutput>false</IncludeBuildOutput>
+    <DevelopmentDependency>true</DevelopmentDependency>
+    <SuppressDependenciesWhenPacking>true</SuppressDependenciesWhenPacking>
+    <NoWarn>$(NoWarn);NU5128;RS2007</NoWarn>
+    <TargetsForTfmSpecificContentInPackage>$(TargetsForTfmSpecificContentInPackage);_XamlPortAddAnalyzersToPackage</TargetsForTfmSpecificContentInPackage>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- Roslyn 4.8 (VS 17.8 / .NET 8 SDK) is the minimum compiler host the package supports. -->
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" VersionOverride="4.8.0" PrivateAssets="all" />
+    <PackageReference Include="Microsoft.CodeAnalysis.Analyzers" PrivateAssets="all" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- Built first and packed next to the analyzer assembly; never referenced by the analyzers themselves. -->
+    <ProjectReference Include="..\Xaml.PortAnalyzers.CodeFixes\Xaml.PortAnalyzers.CodeFixes.csproj"
+                      ReferenceOutputAssembly="false"
+                      PrivateAssets="all" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="Xaml.PortAnalyzers.UnitTests" Key="00240000048000009400000006020000002400005253413100040000010001002940ed211918fcf63c506fad1d3f7f958b21ff8f06fd2089398296173f9ca93a69b9b380a828bf13fa80d1745beeb917ec3692f4d10e44b4c941619fc7bbd5052b26880697e6fa3f0ce322c4fa902d20b67a48b4144371218f6d39ad39145ea1fe5484052dd51a2ee62af3acd0759bcf92aaefec03978ded3cfaa84798e92de8" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="buildTransitive\Xaml.PortAnalyzers.props" Pack="true" PackagePath="buildTransitive" />
+    <None Include="buildTransitive\Xaml.PortAnalyzers.targets" Pack="true" PackagePath="buildTransitive" />
+    <None Include="README.md" Pack="true" PackagePath="" />
+    <None Include="xamlport.schema.json" Pack="true" PackagePath="" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <AdditionalFiles Include="AnalyzerReleases.Shipped.md" />
+    <AdditionalFiles Include="AnalyzerReleases.Unshipped.md" />
+  </ItemGroup>
+
+  <!--
+    Packs the analyzer assembly and the code fix assembly (built by the ProjectReference above) into
+    analyzers/dotnet/cs. The pdbs are moved to the symbol package (snupkg) by NuGet.
+  -->
+  <Target Name="_XamlPortAddAnalyzersToPackage">
+    <MSBuild Projects="..\Xaml.PortAnalyzers.CodeFixes\Xaml.PortAnalyzers.CodeFixes.csproj"
+             Targets="GetTargetPath"
+             Properties="Configuration=$(Configuration)">
+      <Output TaskParameter="TargetOutputs" ItemName="_XamlPortAnalyzerAssembly" />
+    </MSBuild>
+    <ItemGroup>
+      <_XamlPortAnalyzerAssembly Include="$(TargetPath)" />
+      <TfmSpecificPackageFile Include="@(_XamlPortAnalyzerAssembly)" PackagePath="analyzers/dotnet/cs" />
+      <TfmSpecificPackageFile Include="@(_XamlPortAnalyzerAssembly->'%(RootDir)%(Directory)%(Filename).pdb')"
+                              Condition="Exists('%(RootDir)%(Directory)%(Filename).pdb')"
+                              PackagePath="analyzers/dotnet/cs" />
+    </ItemGroup>
+  </Target>
+
+  <Import Project="..\..\build\SignAssembly.props" />
+  <Import Project="..\..\build\SourceLink.props" />
+
+</Project>
