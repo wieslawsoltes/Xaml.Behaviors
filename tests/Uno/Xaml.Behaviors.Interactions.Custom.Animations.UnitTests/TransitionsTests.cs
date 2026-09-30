@@ -81,7 +81,7 @@ public class TransitionsTests
         Border target = new();
         RecordingAction action = new();
         TransitionsChangedTrigger trigger = new();
-        trigger.Actions.Add(action);
+        trigger.Actions!.Add(action);
         Interaction.GetBehaviors(target).Add(trigger);
         await Session.ShowAsync(target);
         await Session.WaitForIdleAsync();

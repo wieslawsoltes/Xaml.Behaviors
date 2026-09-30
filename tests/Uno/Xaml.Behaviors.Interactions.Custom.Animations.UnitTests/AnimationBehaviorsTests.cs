@@ -133,7 +133,7 @@ public class AnimationBehaviorsTests
         Border target = new() { Width = 10d, Height = 10d };
         RecordingAction action = new();
         AnimationCompletedTrigger trigger = new() { Animation = TestSupport.CreateOpacityStoryboard(0.5d, 60) };
-        trigger.Actions.Add(action);
+        trigger.Actions!.Add(action);
         Interaction.GetBehaviors(target).Add(trigger);
 
         await Session.ShowAsync(target);
@@ -150,7 +150,7 @@ public class AnimationBehaviorsTests
         Border target = new();
         RecordingAction action = new();
         AnimationCompletedTrigger trigger = new();
-        trigger.Actions.Add(action);
+        trigger.Actions!.Add(action);
         Interaction.GetBehaviors(target).Add(trigger);
 
         await Session.ShowAsync(target);
@@ -165,7 +165,7 @@ public class AnimationBehaviorsTests
         RecordingAction action = new();
         OpacityAnimationBuilder builder = new(0.45d);
         RunAnimationTrigger trigger = new() { AnimationBuilder = builder };
-        trigger.Actions.Add(action);
+        trigger.Actions!.Add(action);
         Interaction.GetBehaviors(target).Add(trigger);
 
         await Session.ShowAsync(target);
@@ -181,7 +181,7 @@ public class AnimationBehaviorsTests
         Border target = new();
         RecordingAction action = new();
         RunAnimationTrigger trigger = new();
-        trigger.Actions.Add(action);
+        trigger.Actions!.Add(action);
         Interaction.GetBehaviors(target).Add(trigger);
 
         await Session.ShowAsync(target);
