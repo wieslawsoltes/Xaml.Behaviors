@@ -5,6 +5,7 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Input;
+using Windows.Foundation;
 using Xaml.Interactivity;
 #else
 using Avalonia.Controls;
@@ -29,7 +30,9 @@ public partial class GridDragBehavior : StyledElementBehavior<Control>
     private bool _enableDrag;
     private Control? _parent;
     private Control? _draggedContainer;
+#if !UNO
     private Control? _adorner;
+#endif
     private bool _captured;
         
     /// <summary>
@@ -80,6 +83,8 @@ public partial class GridDragBehavior : StyledElementBehavior<Control>
         }
     }
 
+#if !UNO
+    // Adorners (unused): WinUI has no adorner layer.
     private void AddAdorner(Control control)
     {
         var layer = AdornerLayer.GetAdornerLayer(control);
@@ -109,6 +114,7 @@ public partial class GridDragBehavior : StyledElementBehavior<Control>
         ((ISetLogicalParent) _adorner).SetParent(null);
         _adorner = null;
     }
+#endif
 
     private void Pressed(object? sender, PointerPressedEventArgs e)
     {
@@ -126,6 +132,10 @@ public partial class GridDragBehavior : StyledElementBehavior<Control>
             // AddAdorner(_draggedContainer);
 
             _captured = true;
+#if UNO
+            // Avalonia captures the pointer implicitly on press; WinUI only does so for touch.
+            AssociatedObject.CapturePointer(e.Pointer);
+#endif
         }
     }
 

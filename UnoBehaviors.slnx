@@ -19,6 +19,7 @@
     <Project Path="src/Uno/Xaml.Behaviors.Interactions.Events/Xaml.Behaviors.Interactions.Events.csproj" />
     <Project Path="src/Uno/Xaml.Behaviors.Interactions.Custom/Xaml.Behaviors.Interactions.Custom.csproj" />
     <Project Path="src/Uno/Xaml.Behaviors.Interactions.Responsive/Xaml.Behaviors.Interactions.Responsive.csproj" />
+    <Project Path="src/Uno/Xaml.Behaviors.Interactions.Draggable/Xaml.Behaviors.Interactions.Draggable.csproj" />
   </Folder>
   <Folder Name="/testing/">
     <Project Path="src/Uno/Xaml.Behaviors.Uno.Headless.Host/Xaml.Behaviors.Uno.Headless.Host.csproj" />
@@ -36,6 +37,7 @@
     <Project Path="tests/Uno/Xaml.Behaviors.Interactions.UnitTests/Xaml.Behaviors.Interactions.UnitTests.csproj" />
     <Project Path="tests/Uno/Xaml.Behaviors.Interactions.Events.UnitTests/Xaml.Behaviors.Interactions.Events.UnitTests.csproj" />
     <Project Path="tests/Uno/Xaml.Behaviors.Interactions.Responsive.UnitTests/Xaml.Behaviors.Interactions.Responsive.UnitTests.csproj" />
+    <Project Path="tests/Uno/Xaml.Behaviors.Interactions.Draggable.UnitTests/Xaml.Behaviors.Interactions.Draggable.UnitTests.csproj" />
     <Project Path="tests/Uno/Xaml.Behaviors.Uno.Headless.UnitTests/Xaml.Behaviors.Uno.Headless.UnitTests.csproj" />
     <Project Path="tests/Xaml.PropertyGenerator.UnitTests/Xaml.PropertyGenerator.UnitTests.csproj" />
     <Project Path="tests/Xaml.PortAnalyzers.UnitTests/Xaml.PortAnalyzers.UnitTests.csproj" />

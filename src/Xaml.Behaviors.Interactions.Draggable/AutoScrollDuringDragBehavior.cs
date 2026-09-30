@@ -97,13 +97,24 @@ public partial class AutoScrollDuringDragBehavior : StyledElementBehavior<Scroll
 
         var pos = e.GetPosition(AssociatedObject);
         var bounds = AssociatedObject.Bounds;
+#if UNO
+        var offsetX = AssociatedObject.HorizontalOffset;
+        var offsetY = AssociatedObject.VerticalOffset;
+        var extentWidth = AssociatedObject.ExtentWidth;
+        var extentHeight = AssociatedObject.ExtentHeight;
+#else
         var offset = AssociatedObject.Offset;
         var extent = AssociatedObject.Extent;
+        var offsetX = offset.X;
+        var offsetY = offset.Y;
+        var extentWidth = extent.Width;
+        var extentHeight = extent.Height;
+#endif
         var delta = ScrollDelta;
         var threshold = EdgeDistance;
 
-        double newX = offset.X;
-        double newY = offset.Y;
+        double newX = offsetX;
+        double newY = offsetY;
 
         if (pos.X < threshold)
         {
@@ -111,7 +122,7 @@ public partial class AutoScrollDuringDragBehavior : StyledElementBehavior<Scroll
         }
         else if (pos.X > bounds.Width - threshold)
         {
-            newX = Math.Min(newX + delta, Math.Max(extent.Width - bounds.Width, 0));
+            newX = Math.Min(newX + delta, Math.Max(extentWidth - bounds.Width, 0));
         }
 
         if (pos.Y < threshold)
@@ -120,12 +131,16 @@ public partial class AutoScrollDuringDragBehavior : StyledElementBehavior<Scroll
         }
         else if (pos.Y > bounds.Height - threshold)
         {
-            newY = Math.Min(newY + delta, Math.Max(extent.Height - bounds.Height, 0));
+            newY = Math.Min(newY + delta, Math.Max(extentHeight - bounds.Height, 0));
         }
 
-        if (Math.Abs(newX - offset.X) > double.Epsilon || Math.Abs(newY - offset.Y) > double.Epsilon)
+        if (Math.Abs(newX - offsetX) > double.Epsilon || Math.Abs(newY - offsetY) > double.Epsilon)
         {
+#if UNO
+            AssociatedObject.ChangeView(newX, newY, null, true);
+#else
             AssociatedObject.Offset = new Vector(newX, newY);
+#endif
         }
     }
 }

@@ -7,6 +7,7 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
+using Windows.Foundation;
 using Xaml.Interactivity;
 #else
 using Avalonia.Collections;
@@ -38,7 +39,11 @@ public partial class MultiMouseDragElementBehavior : StyledElementBehavior<Contr
     /// Gets the collection of controls that should be dragged together. This is an avalonia property.
     /// </summary>
     [DirectProperty(Lazy = true, Content = true)]
+#if UNO
+    public partial System.Collections.ObjectModel.ObservableCollection<FrameworkElement> TargetControls { get; }
+#else
     public partial AvaloniaList<Control> TargetControls { get; }
+#endif
 
     /// <summary>
     /// Gets or sets whether dragging should be constrained to the bounds of the parent control.
@@ -86,6 +91,10 @@ public partial class MultiMouseDragElementBehavior : StyledElementBehavior<Contr
             }
 
             _captured = true;
+#if UNO
+            // Avalonia captures the pointer implicitly on press; WinUI only does so for touch.
+            AssociatedObject.CapturePointer(e.Pointer);
+#endif
         }
     }
 

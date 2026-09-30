@@ -6,6 +6,7 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
+using Windows.Foundation;
 using Xaml.Interactivity;
 #else
 using Avalonia.Controls;
@@ -81,6 +82,10 @@ public partial class MouseDragElementBehavior : StyledElementBehavior<Control>
             }
 
             _captured = true;
+#if UNO
+            // Avalonia captures the pointer implicitly on press; WinUI only does so for touch.
+            AssociatedObject.CapturePointer(e.Pointer);
+#endif
         }
     }
 
