@@ -40,7 +40,7 @@
   </ItemGroup>
 
   <!-- Build the code fixes before packing so they ship in the same package. -->
-  <Target Name="BuildCodeFixesForPack" BeforeTargets="GenerateNuspec">
+  <Target Name="BuildCodeFixesForPack" BeforeTargets="GenerateNuspec" Condition="'$(NoBuild)' != 'true'">
     <MSBuild Projects="..\Xaml.PropertyGenerator.CodeFixes\Xaml.PropertyGenerator.CodeFixes.csproj" Targets="Build" Properties="Configuration=$(Configuration)" />
   </Target>
 
