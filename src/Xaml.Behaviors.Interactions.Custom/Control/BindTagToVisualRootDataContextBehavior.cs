@@ -28,7 +28,12 @@ public class BindTagToVisualRootDataContextBehavior : DisposingBehavior<Control>
     /// <returns>A disposable that clears the binding.</returns>
     protected override IDisposable OnAttachedOverride()
     {
+#if UNO
+        // WinUI: the root element of the XAML island hosting the control.
+        var visualRoot = AssociatedObject?.XamlRoot?.Content as StyledElement;
+#else
         var visualRoot = TopLevel.GetTopLevel(AssociatedObject);
+#endif
         if (visualRoot is not null)
         {
             return BindDataContextToTag(visualRoot, AssociatedObject);

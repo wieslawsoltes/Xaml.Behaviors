@@ -51,7 +51,7 @@ public partial class BoundsObserverBehavior : DisposingBehavior<Control>
     {
         if (AssociatedObject is not null)
         {
-            return this.GetObservable(BoundsProperty)
+            return this.GetObservable<Rect>(BoundsProperty)
                 .Subscribe(new AnonymousObserver<Rect>(bounds =>
                 {
                     Width = bounds.Width;

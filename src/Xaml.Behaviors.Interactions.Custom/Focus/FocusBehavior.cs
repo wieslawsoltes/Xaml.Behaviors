@@ -53,7 +53,7 @@ public partial class FocusBehavior : DisposingBehavior<Control>
                     }
                 }));
 
-        var isFocusedObservableDispose = this.GetObservable(IsFocusedProperty)
+        var isFocusedObservableDispose = this.GetObservable<bool>(IsFocusedProperty)
             .Subscribe(new AnonymousObserver<bool>(
                 focused =>
                 {

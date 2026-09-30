@@ -9,18 +9,12 @@
       Animations/**;
       AutoCompleteBox/**;
       Automation/**;
-      Behaviors/**;
-      Button/**;
       Carousel/**;
-      Collections/**;
       Composition/**;
       ContextDialogs/**;
-      Control/**;
-      Converters/**;
       Cursor/**;
       Debugging/**;
       Dialog/**;
-      ExecuteCommand/**;
       FileUpload/**;
       Focus/**;
       Gestures/**;
@@ -67,7 +61,13 @@
       Actions/ScreenshotAction.cs;
       <!-- WinUI raises no ResourcesChanged notification. -->
       Core/ResourcesChangedBehavior.cs;
-      Core/ResourcesChangedTrigger.cs
+      Core/ResourcesChangedTrigger.cs;
+      <!-- Avalonia gesture recognizer and IME events without a WinUI routed event. -->
+      ExecuteCommand/ExecuteCommandOnPinch*.cs;
+      ExecuteCommand/ExecuteCommandOnPullGesture*.cs;
+      ExecuteCommand/ExecuteCommandOnScrollGesture*.cs;
+      ExecuteCommand/ExecuteCommandOnPointerTouchPadGesture*.cs;
+      ExecuteCommand/ExecuteCommandOnTextInputMethodClientRequestedBehavior.cs
     </UnoSharedSourceExcludes>
   </PropertyGroup>
 </Project>

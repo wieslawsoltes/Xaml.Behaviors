@@ -35,7 +35,7 @@ public partial class ButtonHideFlyoutBehavior : DisposingBehavior<Button>
     /// <returns>A disposable that removes the subscription.</returns>
     protected override IDisposable OnAttachedOverride()
     {
-        return this.GetObservable(IsFlyoutOpenProperty)
+        return this.GetObservable<bool>(IsFlyoutOpenProperty)
             .Subscribe(new AnonymousObserver<bool>(isOpen =>
             {
                 if (!isOpen)

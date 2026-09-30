@@ -1,6 +1,7 @@
 // Copyright (c) Wiesław Šoltés. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for details.
 using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using Windows.Foundation;
 
@@ -22,6 +23,19 @@ internal static class UIElementCompatExtensions
             get => element.Visibility == Visibility.Visible;
             set => element.Visibility = value ? Visibility.Visible : Visibility.Collapsed;
         }
+
+        /// <summary>
+        /// Gets a value indicating whether the element is enabled (Avalonia <c>InputElement.IsEnabled</c>).
+        /// </summary>
+        /// <remarks>WinUI declares <c>IsEnabled</c> on <see cref="Control"/>; other elements are always enabled.</remarks>
+        public bool IsEnabled => element is not Control control || control.IsEnabled;
+
+        /// <summary>
+        /// Gets a value indicating whether the element is effectively enabled (Avalonia
+        /// <c>InputElement.IsEffectivelyEnabled</c>).
+        /// </summary>
+        /// <remarks>WinUI <see cref="Control.IsEnabled"/> already reflects the enabled state of the ancestors.</remarks>
+        public bool IsEffectivelyEnabled => element is not Control control || control.IsEnabled;
     }
 
     /// <summary>

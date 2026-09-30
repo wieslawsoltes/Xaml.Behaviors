@@ -49,11 +49,15 @@ public sealed partial class DelayedLoadBehavior : AttachedToVisualTreeBehavior<C
         return new DisposableAction(DisposeTimer);
     }
 
-    private void OnTick(object? sender, EventArgs e)
+    private void OnTick(object? sender, object e)
     {
         if (AssociatedObject is not null)
         {
+#if UNO
+            AssociatedObject.Visibility = Visibility.Visible;
+#else
             AssociatedObject.SetCurrentValue(Visual.IsVisibleProperty, true);
+#endif
         }
         DisposeTimer();
     }

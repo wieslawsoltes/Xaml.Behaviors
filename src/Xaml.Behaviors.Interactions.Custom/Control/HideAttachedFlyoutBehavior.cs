@@ -27,8 +27,13 @@ public class HideAttachedFlyoutBehavior : DisposingBehavior<Control>
     /// <summary>
     /// Gets or sets a value indicating whether the flyout is open.
     /// </summary>
+#if UNO
+    public static readonly AvaloniaProperty IsFlyoutOpenProperty =
+        AvaloniaProperty.Register(nameof(IsFlyoutOpen), typeof(bool), typeof(HideAttachedFlyoutBehavior), new Microsoft.UI.Xaml.PropertyMetadata(false));
+#else
     public static readonly StyledProperty<bool> IsFlyoutOpenProperty =
         AvaloniaProperty.Register<ButtonHideFlyoutBehavior, bool>(nameof(IsFlyoutOpen));
+#endif
 
     /// <summary>
     /// 
@@ -45,7 +50,7 @@ public class HideAttachedFlyoutBehavior : DisposingBehavior<Control>
     /// <returns>A disposable that removes the subscription.</returns>
     protected override IDisposable OnAttachedOverride()
     {
-       return this.GetObservable(IsFlyoutOpenProperty)
+       return this.GetObservable<bool>(IsFlyoutOpenProperty)
             .Subscribe(new AnonymousObserver<bool>(
                 isOpen =>
                 {

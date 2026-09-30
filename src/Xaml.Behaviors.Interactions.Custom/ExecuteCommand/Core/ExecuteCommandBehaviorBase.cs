@@ -30,8 +30,13 @@ public abstract partial class ExecuteCommandBehaviorBase : AttachedToVisualTreeB
     /// <summary>
     /// 
     /// </summary>
+#if UNO
+    public static readonly AvaloniaProperty FocusControlProperty =
+        AvaloniaProperty.Register(nameof(FocusControl), typeof(Control), typeof(ExecuteCommandBehaviorBase), new PropertyMetadata(null));
+#else
     public static readonly StyledProperty<Control?> FocusControlProperty =
         AvaloniaProperty.Register<ExecuteCommandBehaviorBase, Control?>(nameof(CommandParameter));
+#endif
 
     /// <summary>
     /// Initializes a new instance of the <see cref="ExecuteCommandBehaviorBase"/> class.
@@ -44,8 +49,14 @@ public abstract partial class ExecuteCommandBehaviorBase : AttachedToVisualTreeB
     /// <summary>
     /// 
     /// </summary>
+#if UNO
+    // WinUI has no top level element type: the root element to focus (defaults to XamlRoot.Content).
+    [StyledProperty]
+    public partial UIElement? TopLevel { get; set; }
+#else
     [StyledProperty]
     public partial TopLevel? TopLevel { get; set; }
+#endif
     
     /// <summary>
     /// 
@@ -137,7 +148,11 @@ public abstract partial class ExecuteCommandBehaviorBase : AttachedToVisualTreeB
 
         if (FocusTopLevel)
         {
+#if UNO
+            Dispatcher.UIThread.Post(() => (TopLevel ?? AssociatedObject?.XamlRoot?.Content)?.Focus());
+#else
             Dispatcher.UIThread.Post(() => (TopLevel ?? AssociatedObject?.GetSelfAndLogicalAncestors().LastOrDefault() as TopLevel)?.Focus());
+#endif
         }
 
         if (FocusControl is { } focusControl)
