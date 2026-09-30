@@ -7,7 +7,7 @@ namespace Xaml.Interactivity;
 /// <summary>
 /// Uno Platform counterpart of the Avalonia <c>DragDrop</c> helpers used by the shared sources.
 /// </summary>
-internal static class DragDrop
+internal static partial class DragDrop
 {
     /// <summary>Gets the drag enter event.</summary>
     public static RoutedEvent DragEnterEvent => UIElement.DragEnterEvent;

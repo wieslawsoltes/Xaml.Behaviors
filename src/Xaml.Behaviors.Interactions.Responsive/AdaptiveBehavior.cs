@@ -1,9 +1,11 @@
 ﻿// Copyright (c) Wiesław Šoltés. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for details.
 using System;
+using System.Collections.Generic;
 #if UNO
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Windows.Foundation;
 using Xaml.Interactivity;
 #else
 using Avalonia.Collections;
@@ -22,6 +24,11 @@ namespace Avalonia.Xaml.Interactions.Responsive;
 /// <summary>
 /// Observes <see cref="StyledElementBehavior{T}.AssociatedObject"/> control or <see cref="SourceControl"/> control <see cref="Visual.Bounds"/> property changes and if triggered sets or removes style classes when conditions from <see cref="AdaptiveClassSetter"/> are met.
 /// </summary>
+/// <remarks>
+/// WinUI has no style classes: on Uno Platform adding or removing a class (or pseudo class) moves the target control
+/// to the visual state of the same name (leading <c>:</c> removed, PascalCase accepted) and back to its <c>Not{Name}</c>,
+/// <c>Normal</c> or <c>Default</c> state (see <c>VisualStateManager</c>).
+/// </remarks>
 public partial class AdaptiveBehavior : StyledElementBehavior<Control>
 {
     private IDisposable? _disposable;
@@ -41,8 +48,15 @@ public partial class AdaptiveBehavior : StyledElementBehavior<Control>
     /// <summary>
     /// Gets adaptive class setters collection. This is an avalonia property.
     /// </summary>
+    /// <remarks>
+    /// On Uno Platform the setters are a <c>DependencyObjectCollection</c> so they inherit the data context of the behavior.
+    /// </remarks>
     [DirectProperty(Lazy = true, Content = true)]
+#if UNO
+    public partial DependencyObjectCollection<AdaptiveClassSetter> Setters { get; }
+#else
     public partial AvaloniaList<AdaptiveClassSetter> Setters { get; }
+#endif
 
     /// <inheritdoc/>
     protected override void OnAttachedToVisualTree()
@@ -94,7 +108,7 @@ public partial class AdaptiveBehavior : StyledElementBehavior<Control>
             }));
     }
 
-    private void Execute(Control? sourceControl, AvaloniaList<AdaptiveClassSetter>? setters, Rect bounds)
+    private void Execute(Control? sourceControl, IList<AdaptiveClassSetter>? setters, Rect bounds)
     {
         if (sourceControl is null || setters is null)
         {

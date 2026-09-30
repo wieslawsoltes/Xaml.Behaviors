@@ -88,6 +88,7 @@ internal static class RoutedEventCompatExtensions
             : routedEvent == UIElement.DoubleTappedEvent ? new DoubleTappedEventHandler((s, e) => handler(s, e))
             : routedEvent == UIElement.RightTappedEvent ? new RightTappedEventHandler((s, e) => handler(s, e))
             : routedEvent == UIElement.HoldingEvent ? new HoldingEventHandler((s, e) => handler(s, e))
+            : IsDragEvent(routedEvent) ? new DragEventHandler((s, e) => handler(s, e))
             : new RoutedEventHandler((s, e) => handler(s, e));
         Add(element, routedEvent, handler, wrapper, routes, handledEventsToo);
     }
@@ -185,6 +186,13 @@ internal static class RoutedEventCompatExtensions
             }
         }
     }
+
+    // Avalonia DragLeave handlers may take plain RoutedEventArgs; WinUI needs the DragEventHandler delegate type.
+    private static bool IsDragEvent(RoutedEvent routedEvent)
+        => routedEvent == UIElement.DragEnterEvent
+           || routedEvent == UIElement.DragOverEvent
+           || routedEvent == UIElement.DragLeaveEvent
+           || routedEvent == UIElement.DropEvent;
 
     private static RoutedEvent? GetPreviewEvent(RoutedEvent routedEvent)
     {

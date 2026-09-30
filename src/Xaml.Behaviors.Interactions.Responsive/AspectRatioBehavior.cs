@@ -1,9 +1,11 @@
 // Copyright (c) Wiesław Šoltés. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for details.
 using System;
+using System.Collections.Generic;
 #if UNO
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Windows.Foundation;
 using Xaml.Interactivity;
 #else
 using Avalonia.Collections;
@@ -23,6 +25,11 @@ namespace Avalonia.Xaml.Interactions.Responsive;
 /// Observes bounds changes of a control (or a specified source) and conditionally adds or removes classes
 /// based on <see cref="AspectRatioClassSetter"/> rules.
 /// </summary>
+/// <remarks>
+/// WinUI has no style classes: on Uno Platform adding or removing a class (or pseudo class) moves the target control
+/// to the visual state of the same name (leading <c>:</c> removed, PascalCase accepted) and back to its <c>Not{Name}</c>,
+/// <c>Normal</c> or <c>Default</c> state (see <c>VisualStateManager</c>).
+/// </remarks>
 public partial class AspectRatioBehavior : StyledElementBehavior<Control>
 {
     private IDisposable? _disposable;
@@ -42,8 +49,15 @@ public partial class AspectRatioBehavior : StyledElementBehavior<Control>
     /// <summary>
     /// Gets aspect ratio class setters collection. This is an avalonia property.
     /// </summary>
+    /// <remarks>
+    /// On Uno Platform the setters are a <c>DependencyObjectCollection</c> so they inherit the data context of the behavior.
+    /// </remarks>
     [DirectProperty(Lazy = true, Content = true)]
+#if UNO
+    public partial DependencyObjectCollection<AspectRatioClassSetter> Setters { get; }
+#else
     public partial AvaloniaList<AspectRatioClassSetter> Setters { get; }
+#endif
 
     /// <inheritdoc />
     protected override void OnAttachedToVisualTree()
@@ -90,7 +104,7 @@ public partial class AspectRatioBehavior : StyledElementBehavior<Control>
             .Subscribe(new AnonymousObserver<Rect>(bounds => Execute(sourceControl, Setters, bounds)));
     }
 
-    private void Execute(Control? sourceControl, AvaloniaList<AspectRatioClassSetter>? setters, Rect bounds)
+    private void Execute(Control? sourceControl, IList<AspectRatioClassSetter>? setters, Rect bounds)
     {
         if (sourceControl is null || setters is null)
         {
