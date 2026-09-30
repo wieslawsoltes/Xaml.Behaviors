@@ -8,7 +8,6 @@ using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 using IBrush = Microsoft.UI.Xaml.Media.Brush;
-using TemplatedControl = Microsoft.UI.Xaml.Controls.Control;
 #else
 using Avalonia.Controls;
 using Avalonia.Controls.Primitives;

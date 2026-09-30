@@ -58,5 +58,25 @@
     <Using Include="Microsoft.UI.Xaml.Input.CharacterReceivedRoutedEventArgs" Alias="TextInputEventArgs" />
     <Using Include="Microsoft.UI.Xaml.RoutedEventArgs" Alias="FocusChangedEventArgs" />
     <Using Include="Microsoft.UI.Xaml.RoutedEventArgs" Alias="GotFocusEventArgs" />
+    <!--
+      Avalonia input, geometry, animation and drag and drop names. They are identical in every Uno project so the
+      combined Xaml.Behaviors.Uno assembly compiles the sources with the same meaning as the individual packages.
+      DragDropEffects has the same values as DataPackageOperation (None, Copy, Move, Link); the Alt and Meta
+      KeyModifiers are provided as static extension members (Compat/PointerCompat.cs).
+    -->
+    <Using Include="Windows.System.VirtualKey" Alias="Key" />
+    <Using Include="Windows.System.VirtualKeyModifiers" Alias="KeyModifiers" />
+    <Using Include="Microsoft.UI.Xaml.Input.FocusNavigationDirection" Alias="NavigationDirection" />
+    <Using Include="Windows.Foundation.Point" Alias="Point" />
+    <!-- Avalonia.Vector (pointer deltas, scroll offsets) maps to a WinUI point with double precision. -->
+    <Using Include="Windows.Foundation.Point" Alias="Vector" />
+    <Using Include="Windows.Foundation.Rect" Alias="Rect" />
+    <Using Include="Windows.Foundation.Size" Alias="Size" />
+    <Using Include="Microsoft.UI.Xaml.Controls.Control" Alias="TemplatedControl" />
+    <Using Include="Microsoft.UI.Xaml.DependencyObject" Alias="Animatable" />
+    <Using Include="Microsoft.UI.Composition.Visual" Alias="CompositionVisual" />
+    <Using Include="Microsoft.UI.Xaml.Media.Animation.Transition" Alias="TransitionBase" />
+    <Using Include="Microsoft.UI.Xaml.Media.Animation.TransitionCollection" Alias="Transitions" />
+    <Using Include="Windows.ApplicationModel.DataTransfer.DataPackageOperation" Alias="DragDropEffects" />
   </ItemGroup>
 </Project>

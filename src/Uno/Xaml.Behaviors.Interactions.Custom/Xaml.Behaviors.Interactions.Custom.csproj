@@ -16,18 +16,6 @@
     <Using Include="Xaml.Interactivity" />
   </ItemGroup>
 
-  <!--
-    Avalonia input and geometry names used by the shared sources, mapped to their WinUI counterparts
-    (the member names used by the shared sources exist in both enums).
-  -->
-  <ItemGroup>
-    <Using Include="Windows.System.VirtualKey" Alias="Key" />
-    <Using Include="Windows.System.VirtualKeyModifiers" Alias="KeyModifiers" />
-    <Using Include="Microsoft.UI.Xaml.Input.FocusNavigationDirection" Alias="NavigationDirection" />
-    <Using Include="Windows.Foundation.Point" Alias="Point" />
-    <Using Include="Windows.Foundation.Rect" Alias="Rect" />
-  </ItemGroup>
-
   <!-- Avalonia-only sources, shared with the Avalonia build for the portability analyzers. -->
   <Import Project="SharedSources.props" />
 

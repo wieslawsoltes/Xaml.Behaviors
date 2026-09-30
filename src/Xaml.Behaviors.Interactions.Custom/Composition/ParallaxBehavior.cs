@@ -6,7 +6,6 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
 using Xaml.Interactivity;
-using Vector = Windows.Foundation.Point;
 #else
 using Avalonia.Controls;
 using Avalonia.Xaml.Interactivity;

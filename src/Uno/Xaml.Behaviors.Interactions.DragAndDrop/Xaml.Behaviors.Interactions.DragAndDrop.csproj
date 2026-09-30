@@ -14,8 +14,6 @@
 
   <ItemGroup>
     <Using Include="Xaml.Interactivity" />
-    <!-- Avalonia DragDropEffects has the same values as the WinUI DataPackageOperation (None, Copy, Move, Link). -->
-    <Using Include="Windows.ApplicationModel.DataTransfer.DataPackageOperation" Alias="DragDropEffects" />
   </ItemGroup>
 
   <!-- Avalonia-only sources, shared with the Avalonia build for the portability analyzers. -->

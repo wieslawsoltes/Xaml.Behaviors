@@ -32,25 +32,19 @@ internal enum MouseButton
 }
 
 /// <summary>
-/// Uno Platform counterpart of the Avalonia <c>KeyModifiers</c> flags, expressed as WinUI
-/// <see cref="VirtualKeyModifiers"/> so they compare with <see cref="PointerRoutedEventArgs.KeyModifiers"/>.
+/// Uno Platform counterparts of the Avalonia <c>KeyModifiers</c> flags that WinUI names differently. The shared sources
+/// use the global <c>KeyModifiers</c> alias of <see cref="VirtualKeyModifiers"/>.
 /// </summary>
-internal static class KeyModifiers
+internal static class KeyModifiersCompatExtensions
 {
-    /// <summary>No modifier.</summary>
-    public const VirtualKeyModifiers None = VirtualKeyModifiers.None;
+    extension(VirtualKeyModifiers)
+    {
+        /// <summary>Gets the Alt key (<see cref="VirtualKeyModifiers.Menu"/> on WinUI).</summary>
+        public static VirtualKeyModifiers Alt => VirtualKeyModifiers.Menu;
 
-    /// <summary>The Alt key (<c>Menu</c> on WinUI).</summary>
-    public const VirtualKeyModifiers Alt = VirtualKeyModifiers.Menu;
-
-    /// <summary>The Control key.</summary>
-    public const VirtualKeyModifiers Control = VirtualKeyModifiers.Control;
-
-    /// <summary>The Shift key.</summary>
-    public const VirtualKeyModifiers Shift = VirtualKeyModifiers.Shift;
-
-    /// <summary>The Meta key (<c>Windows</c> on WinUI).</summary>
-    public const VirtualKeyModifiers Meta = VirtualKeyModifiers.Windows;
+        /// <summary>Gets the Meta key (<see cref="VirtualKeyModifiers.Windows"/> on WinUI).</summary>
+        public static VirtualKeyModifiers Meta => VirtualKeyModifiers.Windows;
+    }
 }
 
 /// <summary>

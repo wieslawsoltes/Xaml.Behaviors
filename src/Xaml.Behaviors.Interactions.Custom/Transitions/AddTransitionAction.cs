@@ -5,7 +5,6 @@ using Microsoft.UI.Xaml.Media.Animation;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Xaml.Interactivity;
-using TransitionBase = Microsoft.UI.Xaml.Media.Animation.Transition;
 #else
 using Avalonia.Animation;
 using Avalonia.Controls;
