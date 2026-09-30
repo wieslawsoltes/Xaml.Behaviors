@@ -6,23 +6,41 @@ using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
+#if UNO
+using Microsoft.UI.Dispatching;
+using Xaml.Interactivity;
+#else
 using Avalonia.Threading;
-using Microsoft.CodeAnalysis.CSharp.Scripting;
 using Avalonia.Xaml.Interactivity;
+#endif
+using Microsoft.CodeAnalysis.CSharp.Scripting;
 using Microsoft.CodeAnalysis.Scripting;
 
+#if UNO
+namespace Xaml.Interactions.Scripting;
+#else
 namespace Avalonia.Xaml.Interactions.Scripting;
+#endif
 
 /// <summary>
 /// Executes a C# script using Roslyn scripting API.
 /// </summary>
 [RequiresUnreferencedCode("This functionality is not compatible with trimming.")]
-public class ExecuteScriptAction : StyledElementAction
+public partial class ExecuteScriptAction : StyledElementAction
 {
     private static string[] s_imports = [
         "System",
         "System.Collections.Generic",
         "System.Linq",
+#if UNO
+        // The WinUI namespaces matching the Avalonia imports below.
+        "System.Collections.ObjectModel",
+        "Microsoft.UI.Xaml",
+        "Microsoft.UI.Xaml.Controls",
+        "Microsoft.UI.Xaml.Media",
+        "Microsoft.UI.Xaml.Input",
+        "Microsoft.UI.Xaml.Markup"
+#else
         "Avalonia",
         "Avalonia.Collections",
         "Avalonia.Controls",
@@ -32,22 +50,14 @@ public class ExecuteScriptAction : StyledElementAction
         "Avalonia.Reactive",
         "Avalonia.Input",
         "Avalonia.Markup.Xaml"
+#endif
     ];
-    
-    /// <summary>
-    /// Identifies the <see cref="Script"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<string?> ScriptProperty =
-        AvaloniaProperty.Register<ExecuteScriptAction, string?>(nameof(Script));
 
     /// <summary>
     /// Gets or sets the C# script to execute. This is an avalonia property.
     /// </summary>
-    public string? Script
-    {
-        get => GetValue(ScriptProperty);
-        set => SetValue(ScriptProperty, value);
-    }
+    [StyledProperty]
+    public partial string? Script { get; set; }
 
     /// <summary>
     /// Run script using Dispatcher.UIThread.InvokeAsync instead Task.Run.

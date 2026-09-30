@@ -1,0 +1,35 @@
+<Project Sdk="Uno.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>$(UnoTargetFrameworks)</TargetFrameworks>
+    <AssemblyName>Xaml.Behaviors.Uno.Interactions.Scripting</AssemblyName>
+    <RootNamespace>Xaml.Interactions.Scripting</RootNamespace>
+    <UnoSharedSourceProject>Xaml.Behaviors.Interactions.Scripting</UnoSharedSourceProject>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <PackageId>Xaml.Behaviors.Uno.Interactions.Scripting</PackageId>
+    <Description>Execute C# scripts at runtime to add dynamic behavior on Uno Platform (WinUI).</Description>
+    <PackageTags>Uno;UnoPlatform;WinUI;Behavior;Action;Scripting;Roslyn;Xaml</PackageTags>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Using Include="Xaml.Interactivity" />
+  </ItemGroup>
+
+  <!-- Avalonia-only sources, shared with the Avalonia build for the portability analyzers. -->
+  <Import Project="SharedSources.props" />
+
+  <!--
+    Roslyn scripting compiles and runs code at runtime: it works where the runtime supports dynamic code
+    (Skia desktop/headless, JIT based targets), not on AOT-only targets (iOS, WebAssembly AOT).
+  -->
+  <ItemGroup>
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Scripting" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Xaml.Behaviors.Interactivity\Xaml.Behaviors.Interactivity.csproj" />
+  </ItemGroup>
+
+</Project>
