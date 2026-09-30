@@ -7,51 +7,9 @@
     <UnoSharedTestExcludes></UnoSharedTestExcludes>
   </PropertyGroup>
 
-  <!-- (root): not ported yet. -->
-  <PropertyGroup>
-    <UnoSharedTestExcludes>$(UnoSharedTestExcludes);
-      HeadlessWindowExtensions.cs;
-    </UnoSharedTestExcludes>
-  </PropertyGroup>
+  <!-- (root): ported. -->
 
-  <!-- Core: not ported yet. -->
-  <PropertyGroup>
-    <UnoSharedTestExcludes>$(UnoSharedTestExcludes);
-      Core/ActionLogicalTreeLifetimeTests.cs;
-      Core/ChangePropertyAction001.axaml.cs;
-      Core/ChangePropertyAction002.axaml.cs;
-      Core/ChangePropertyActionTests.cs;
-      Core/Command.cs;
-      Core/DataTriggerBehavior001.axaml.cs;
-      Core/DataTriggerBehavior002.axaml.cs;
-      Core/DataTriggerBehavior003.axaml.cs;
-      Core/DataTriggerBehavior004.axaml.cs;
-      Core/DataTriggerBehaviorTests.cs;
-      Core/EventTriggerBehavior001.axaml.cs;
-      Core/EventTriggerBehavior002.axaml.cs;
-      Core/EventTriggerBehavior003.axaml.cs;
-      Core/EventTriggerBehavior004.axaml.cs;
-      Core/EventTriggerBehavior005.axaml.cs;
-      Core/EventTriggerBehaviorTests.cs;
-      Core/InvokeCommandAction001.axaml.cs;
-      Core/InvokeCommandAction002.axaml.cs;
-      Core/InvokeCommandAction003.axaml.cs;
-      Core/InvokeCommandAction004.axaml.cs;
-      Core/InvokeCommandActionTests.cs;
-      Core/ItemDragBehaviorHorizontal.axaml.cs;
-      Core/ItemDragBehaviorTests.cs;
-      Core/ItemDragBehaviorVertical.axaml.cs;
-      Core/ListReorderDragBehaviorWindow.axaml.cs;
-      Core/MultiDataTriggerBehavior001.axaml.cs;
-      Core/MultiDataTriggerBehavior002.axaml.cs;
-      Core/MultiDataTriggerBehavior003.axaml.cs;
-      Core/MultiDataTriggerBehaviorTests.cs;
-      Core/ObservableCommand.cs;
-      Core/PickerActionBaseTests.cs;
-      Core/PickerBehaviorBaseTests.cs;
-      Core/TestValueConverter.cs;
-    </UnoSharedTestExcludes>
-  </PropertyGroup>
+  <!-- Core: ported. -->
 
   <!-- Custom: not ported yet. -->
   <PropertyGroup>
@@ -88,10 +46,5 @@
     </UnoSharedTestExcludes>
   </PropertyGroup>
 
-  <!-- Events: not ported yet. -->
-  <PropertyGroup>
-    <UnoSharedTestExcludes>$(UnoSharedTestExcludes);
-      Events/EventTriggerDetachTests.cs;
-    </UnoSharedTestExcludes>
-  </PropertyGroup>
+  <!-- Events: ported. -->
 </Project>

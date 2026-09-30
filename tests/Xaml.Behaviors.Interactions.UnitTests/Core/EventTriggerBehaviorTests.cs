@@ -1,10 +1,19 @@
 using System;
+#if UNO
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+#else
 using Avalonia.Controls;
 using Avalonia.Headless;
 using Avalonia.Headless.XUnit;
+#endif
 using Xunit;
 
+#if UNO
+namespace Xaml.Interactions.UnitTests.Core;
+#else
 namespace Avalonia.Xaml.Interactions.UnitTests.Core;
+#endif
 
 public class EventTriggerBehaviorTests
 {
@@ -74,12 +83,19 @@ public class EventTriggerBehaviorTests
 
         window.Show();
         flyout.ShowAt(window.TargetButton);
+#if UNO
+        // WinUI raises the flyout Opened and Closed events asynchronously.
+        Dispatcher.UIThread.RunJobs();
+#endif
 
         Assert.Equal(1, source.OpenedCount);
         Assert.Same(EventArgs.Empty, source.OpenedParameter);
         Assert.Equal(0, source.ClosedCount);
 
         flyout.Hide();
+#if UNO
+        Dispatcher.UIThread.RunJobs();
+#endif
 
         Assert.Equal(1, source.ClosedCount);
         Assert.Same(EventArgs.Empty, source.ClosedParameter);

@@ -1,5 +1,15 @@
 using System;
 using System.ComponentModel;
+#if UNO
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Controls.Primitives;
+using Microsoft.UI.Xaml.Input;
+using Xaml.Interactions.Core;
+using Microsoft.UI.Dispatching;
+using Xaml.Interactions.Custom;
+using Xaml.Interactivity;
+#else
 using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
 using Avalonia.Headless.XUnit;
@@ -8,9 +18,14 @@ using Avalonia.Xaml.Interactions.Core;
 using Avalonia.Threading;
 using Avalonia.Xaml.Interactions.Custom;
 using Avalonia.Xaml.Interactivity;
+#endif
 using Xunit;
 
+#if UNO
+namespace Xaml.Interactions.UnitTests.Core;
+#else
 namespace Avalonia.Xaml.Interactions.UnitTests.Core;
+#endif
 
 public class ActionLogicalTreeLifetimeTests
 {
@@ -30,22 +45,37 @@ public class ActionLogicalTreeLifetimeTests
         window.Show();
 
         Assert.Equal(1, command.SubscriptionCount);
+#if UNO
+        Assert.Same(target, action.Host);
+        Assert.Same(target, trigger.Actions!.Host);
+#else
         Assert.Same(trigger, action.Parent);
         Assert.Same(target, trigger.Parent);
+#endif
 
         window.Content = null;
         Dispatcher.UIThread.RunJobs();
 
         Assert.Equal(0, command.SubscriptionCount);
+#if UNO
+        Assert.Null(action.Host);
+        Assert.Null(trigger.Actions!.Host);
+#else
         Assert.Null(action.Parent);
         Assert.Null(trigger.Parent);
+#endif
 
         window.Content = target;
         Dispatcher.UIThread.RunJobs();
 
         Assert.Equal(1, command.SubscriptionCount);
+#if UNO
+        Assert.Same(target, action.Host);
+        Assert.Same(target, trigger.Actions!.Host);
+#else
         Assert.Same(trigger, action.Parent);
         Assert.Same(target, trigger.Parent);
+#endif
 
         window.Close();
     }
@@ -71,8 +101,13 @@ public class ActionLogicalTreeLifetimeTests
         Dispatcher.UIThread.RunJobs();
 
         Assert.Equal(0, command.SubscriptionCount);
+#if UNO
+        Assert.Null(action.Host);
+        Assert.Null(trigger.Actions!.Host);
+#else
         Assert.Null(action.Parent);
         Assert.Null(trigger.Parent);
+#endif
     }
 
     [AvaloniaFact]
@@ -95,8 +130,13 @@ public class ActionLogicalTreeLifetimeTests
         Interaction.GetBehaviors(target).Remove(trigger);
 
         Assert.Equal(0, command.SubscriptionCount);
+#if UNO
+        Assert.Null(action.Host);
+        Assert.Null(trigger.Actions!.Host);
+#else
         Assert.Null(action.Parent);
         Assert.Null(trigger.Parent);
+#endif
 
         window.Close();
     }
@@ -119,14 +159,26 @@ public class ActionLogicalTreeLifetimeTests
         window.Show();
 
         Assert.Equal(1, firstCommand.SubscriptionCount);
+#if UNO
+        Assert.Same(target, firstAction.Host);
+#else
         Assert.Same(trigger, firstAction.Parent);
+#endif
 
         trigger.Actions = new ActionCollection { secondAction };
 
         Assert.Equal(0, firstCommand.SubscriptionCount);
+#if UNO
+        Assert.Null(firstAction.Host);
+#else
         Assert.Null(firstAction.Parent);
+#endif
         Assert.Equal(1, secondCommand.SubscriptionCount);
+#if UNO
+        Assert.Same(target, secondAction.Host);
+#else
         Assert.Same(trigger, secondAction.Parent);
+#endif
 
         window.Close();
     }
@@ -156,13 +208,22 @@ public class ActionLogicalTreeLifetimeTests
         window.Show();
 
         Assert.Equal(1, command.SubscriptionCount);
+#if UNO
+        Assert.Same(target, childAction.Host);
+#else
         Assert.Same(ResolveExpectedChildParent(container, kind), childAction.Parent);
+#endif
 
         Interaction.GetBehaviors(target).Remove(trigger);
 
         Assert.Equal(0, command.SubscriptionCount);
+#if UNO
+        Assert.Null(container.Host);
+        Assert.Null(childAction.Host);
+#else
         Assert.Null(container.Parent);
         Assert.Null(childAction.Parent);
+#endif
 
         window.Close();
     }
@@ -187,14 +248,26 @@ public class ActionLogicalTreeLifetimeTests
         window.Show();
 
         Assert.Equal(1, firstCommand.SubscriptionCount);
+#if UNO
+        Assert.Same(target, firstAction.Host);
+#else
         Assert.Same(group, firstAction.Parent);
+#endif
 
         group.Actions = new ActionCollection { secondAction };
 
         Assert.Equal(0, firstCommand.SubscriptionCount);
+#if UNO
+        Assert.Null(firstAction.Host);
+#else
         Assert.Null(firstAction.Parent);
+#endif
         Assert.Equal(1, secondCommand.SubscriptionCount);
+#if UNO
+        Assert.Same(target, secondAction.Host);
+#else
         Assert.Same(group, secondAction.Parent);
+#endif
 
         window.Close();
     }
@@ -205,12 +278,21 @@ public class ActionLogicalTreeLifetimeTests
         var command = new ObservableCommand { CanExecuteResult = false };
         var window = CreateWindow();
         var target = CreateTarget();
+#if UNO
+        // WinUI Border has no IsEnabled (only controls have).
+        var indicator = new ContentControl();
+#else
         var indicator = new Border();
+#endif
         var trigger = new ClickEventTrigger();
         var group = new AsyncActionGroup();
         var action = CreateCommandAction(command);
 
+#if UNO
+        indicator.Bind(Microsoft.UI.Xaml.Controls.Control.IsEnabledProperty, action.GetObservable<bool>(InvokeCommandActionBase.CanExecuteCommandProperty));
+#else
         indicator.Bind(InputElement.IsEnabledProperty, action.GetObservable(InvokeCommandActionBase.CanExecuteCommandProperty));
+#endif
         group.Actions!.Add(action);
         trigger.Actions!.Add(group);
         Interaction.GetBehaviors(target).Add(trigger);
@@ -315,14 +397,23 @@ public class ActionLogicalTreeLifetimeTests
         Dispatcher.UIThread.RunJobs();
 
         Assert.Equal(1, command.SubscriptionCount);
+#if UNO
+        Assert.Same(popupTarget, action.Host);
+#else
         Assert.Same(trigger, action.Parent);
+#endif
 
         popup.IsOpen = false;
         Dispatcher.UIThread.RunJobs();
 
         Assert.Equal(0, command.SubscriptionCount);
+#if UNO
+        Assert.Null(action.Host);
+        Assert.Null(trigger.Actions!.Host);
+#else
         Assert.Null(action.Parent);
         Assert.Null(trigger.Parent);
+#endif
 
         window.Close();
     }
@@ -339,14 +430,24 @@ public class ActionLogicalTreeLifetimeTests
         Interaction.GetBehaviors(window).Add(trigger);
 
         Assert.Equal(1, command.SubscriptionCount);
+#if UNO
+        Assert.Same(window, trigger.Actions!.Host);
+        Assert.Same(window, action.Host);
+#else
         Assert.Same(window, trigger.Parent);
         Assert.Same(window, action.Parent);
+#endif
 
         Interaction.GetBehaviors(window).Remove(trigger);
 
         Assert.Equal(0, command.SubscriptionCount);
+#if UNO
+        Assert.Null(trigger.Actions!.Host);
+        Assert.Null(action.Host);
+#else
         Assert.Null(trigger.Parent);
         Assert.Null(action.Parent);
+#endif
     }
 
     private static Window CreateWindow()
@@ -358,6 +459,18 @@ public class ActionLogicalTreeLifetimeTests
         };
     }
 
+#if UNO
+    // WinUI Border has no IsEnabled and is not focusable: the target is a focusable content control.
+    private static ContentControl CreateTarget()
+    {
+        return new ContentControl
+        {
+            Width = 160,
+            Height = 60,
+            IsTabStop = true
+        };
+    }
+#else
     private static Border CreateTarget()
     {
         return new Border
@@ -367,6 +480,7 @@ public class ActionLogicalTreeLifetimeTests
             Focusable = true
         };
     }
+#endif
 
     private static InvokeCommandAction CreateCommandAction(ObservableCommand command)
     {
@@ -427,6 +541,7 @@ public class ActionLogicalTreeLifetimeTests
         }
     }
 
+#if !UNO
     private static StyledElement ResolveExpectedChildParent(StyledElementAction container, NestedActionContainerKind kind)
     {
         if (container is SwitchCaseAction switchCaseAction && kind == NestedActionContainerKind.SwitchCaseCaseActions)
@@ -436,6 +551,7 @@ public class ActionLogicalTreeLifetimeTests
 
         return container;
     }
+#endif
 
     public enum NestedActionContainerKind
     {

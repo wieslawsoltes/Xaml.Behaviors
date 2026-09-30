@@ -155,6 +155,15 @@ public partial class DataTriggerBehavior : StyledElementTrigger
             return;
         }
 
+#if UNO
+        // The bindings of the behavior resolve through the data context inherited when the associated object enters
+        // the tree: evaluate from the initialized event (raised when it is loaded), not from changes queued before.
+        if (!IsInitializedNotified)
+        {
+            return;
+        }
+#endif
+
         if (!IsEnabled)
         {
             return;

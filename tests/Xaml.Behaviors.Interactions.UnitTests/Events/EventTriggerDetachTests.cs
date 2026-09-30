@@ -1,16 +1,32 @@
 using System.Collections.Generic;
+#if UNO
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Dispatching;
+using Xaml.Interactions.Events;
+using Xaml.Interactivity;
+#else
 using Avalonia.Controls;
 using Avalonia.Headless.XUnit;
 using Avalonia.Threading;
 using Avalonia.Xaml.Interactions.Events;
 using Avalonia.Xaml.Interactivity;
+#endif
 using Xunit;
 
+#if UNO
+namespace Xaml.Interactions.UnitTests.Events;
+#else
 namespace Avalonia.Xaml.Interactions.UnitTests.Events;
+#endif
 
 public class EventTriggerDetachTests
 {
+#if UNO
+    private sealed class RecordingAction : global::Xaml.Interactivity.Action
+#else
     private sealed class RecordingAction : Avalonia.Xaml.Interactivity.Action
+#endif
     {
         public List<object?> Parameters { get; } = [];
 

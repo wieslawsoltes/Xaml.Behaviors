@@ -28,8 +28,9 @@ public enum UnoHeadlessMouseButton
 /// </summary>
 /// <remarks>
 /// Uno Platform applies injected mouse moves relative to the current position; this type tracks the position so moves
-/// are absolute. Every injected event advances the event time, which the drag and drop manager requires. All members
-/// must be called on the UI thread; each one runs the queued UI work afterwards.
+/// are absolute. Every injected event advances the event time by one frame (16 ms), which the drag and drop manager
+/// requires; <see cref="Wait"/> lets more time pass. All members must be called on the UI thread; each one runs the
+/// queued UI work afterwards.
 /// </remarks>
 public sealed class UnoHeadlessMouse
 {
@@ -38,7 +39,7 @@ public sealed class UnoHeadlessMouse
 
     private readonly UnoHeadlessSession _session;
     private InputInjector? _injector;
-    private uint _time;
+    private uint _idleTime;
 
     internal UnoHeadlessMouse(UnoHeadlessSession session) => _session = session;
 
@@ -106,12 +107,26 @@ public sealed class UnoHeadlessMouse
     public void Wheel(int notches)
         => Inject(new InjectedInputMouseInfo { MouseOptions = InjectedInputMouseOptions.Wheel, MouseData = unchecked((uint)(notches * WheelDelta)) });
 
+    /// <summary>
+    /// Lets time pass without input: the next injected event is <paramref name="duration"/> later than the previous
+    /// one, so it does not continue a gesture of the previous input (for example a double tap of two clicks made by
+    /// different tests at the same position).
+    /// </summary>
+    /// <param name="duration">The time without input.</param>
+    public void Wait(TimeSpan duration)
+    {
+        ArgumentOutOfRangeException.ThrowIfLessThan(duration, TimeSpan.Zero);
+        _session.EnsureThreadAccess();
+        _idleTime = checked(_idleTime + (uint)Math.Ceiling(duration.TotalMilliseconds));
+    }
+
     private void Inject(InjectedInputMouseInfo info)
     {
         _session.EnsureThreadAccess();
         _injector ??= InputInjector.TryCreate() ?? throw new InvalidOperationException("Input injection is not available.");
-        _time += FrameMilliseconds;
-        info.TimeOffsetInMilliseconds = _time;
+        // The offset is relative to the previous injected event (Uno Platform adds it to the previous timestamp).
+        info.TimeOffsetInMilliseconds = FrameMilliseconds + _idleTime;
+        _idleTime = 0;
         _injector.InjectMouseInput([info]);
         _session.RunJobs();
     }

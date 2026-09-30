@@ -74,6 +74,10 @@ internal sealed class ReversiblePropertyChange
             return false;
         }
 
+#if UNO
+        temporarySetter = WithStackTemporarySetter(target, temporarySetter);
+#endif
+
         if (_frame is not null && ReferenceEquals(_target, target))
         {
             if (TryGetStack(target, out var existingStack))
@@ -233,6 +237,36 @@ internal sealed class ReversiblePropertyChange
         return true;
     }
 
+#if UNO
+    /// <summary>
+    /// Falls back to the temporary setter of the property stack when <paramref name="temporarySetter"/> cannot set
+    /// temporary values.
+    /// </summary>
+    /// <remarks>
+    /// The typed (source generated) changes cannot set temporary values on Uno Platform (WinUI has no property
+    /// registry): when the property is already changed through temporary values by a reflection based change, the
+    /// typed change joins the stack with the temporary setter of that change.
+    /// </remarks>
+    private TrySetTemporaryValue WithStackTemporarySetter(object target, TrySetTemporaryValue temporarySetter)
+    {
+        if (!TryGetStack(target, out var propertyStack) ||
+            !propertyStack.UseTemporaryValues ||
+            propertyStack.Frames.Count == 0)
+        {
+            return temporarySetter;
+        }
+
+        var stackTemporarySetter = propertyStack.Frames[0].TemporarySetter;
+        if (ReferenceEquals(stackTemporarySetter, temporarySetter))
+        {
+            return temporarySetter;
+        }
+
+        return (object? value, out IDisposable? reversion) =>
+            temporarySetter(value, out reversion) || stackTemporarySetter(value, out reversion);
+    }
+
+#endif
     private bool TryGetStack(object target, out PropertyStack propertyStack)
     {
         if (s_propertyStacks.TryGetValue(target, out var propertyStacks) &&

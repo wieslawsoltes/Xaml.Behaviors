@@ -1,7 +1,11 @@
 ﻿using System;
 using System.Windows.Input;
 
+#if UNO
+namespace Xaml.Interactions.UnitTests.Core;
+#else
 namespace Avalonia.Xaml.Interactions.UnitTests.Core;
+#endif
 
 internal class Command(Action<object?> execute, Func<object?, bool>? canExecute = null)
     : ICommand

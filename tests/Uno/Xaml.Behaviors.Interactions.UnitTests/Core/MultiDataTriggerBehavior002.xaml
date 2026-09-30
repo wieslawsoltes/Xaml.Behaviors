@@ -1,0 +1,78 @@
+<compat:HeadlessTestWindow x:Class="Xaml.Interactions.UnitTests.Core.MultiDataTriggerBehavior002"
+                           xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                           xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                           xmlns:compat="using:Xaml.Behaviors.Uno.TestCompat"
+                           xmlns:i="using:Xaml.Interactivity"
+                           xmlns:ic="using:Xaml.Interactions.Core"
+                           xmlns:primitives="using:Microsoft.UI.Xaml.Controls.Primitives"
+                           Title="MultiDataTriggerBehavior002"
+                           Width="320">
+  <StackPanel Margin="16">
+    <TextBlock x:Name="TargetTextBlock" x:FieldModifier="internal"
+               Text="">
+      <i:Interaction.Behaviors>
+        <ic:MultiDataTriggerBehavior>
+          <ic:MultiDataTriggerBehavior.Conditions>
+            <i:Condition Property="{x:Bind primitives:RangeBase.ValueProperty}"
+                         SourceName="TargetSlider"
+                         ComparisonCondition="GreaterThanOrEqual"
+                         Value="50" />
+            <i:Condition Property="{x:Bind primitives:ToggleButton.IsCheckedProperty}"
+                         SourceName="TargetCheckBox"
+                         Value="True" />
+          </ic:MultiDataTriggerBehavior.Conditions>
+          <ic:ChangePropertyAction PropertyName="Text"
+                                   Value="Ready" />
+        </ic:MultiDataTriggerBehavior>
+        <ic:MultiDataTriggerBehavior>
+          <ic:MultiDataTriggerBehavior.Conditions>
+            <i:Condition Property="{x:Bind primitives:RangeBase.ValueProperty}"
+                         SourceName="TargetSlider"
+                         ComparisonCondition="GreaterThanOrEqual"
+                         Value="50" />
+            <i:Condition Property="{x:Bind primitives:ToggleButton.IsCheckedProperty}"
+                         SourceName="TargetCheckBox"
+                         Value="False" />
+          </ic:MultiDataTriggerBehavior.Conditions>
+          <ic:ChangePropertyAction PropertyName="Text"
+                                   Value="Checkbox unchecked" />
+        </ic:MultiDataTriggerBehavior>
+        <ic:MultiDataTriggerBehavior>
+          <ic:MultiDataTriggerBehavior.Conditions>
+            <i:Condition Property="{x:Bind primitives:RangeBase.ValueProperty}"
+                         SourceName="TargetSlider"
+                         ComparisonCondition="LessThan"
+                         Value="50" />
+            <i:Condition Property="{x:Bind primitives:ToggleButton.IsCheckedProperty}"
+                         SourceName="TargetCheckBox"
+                         Value="True" />
+          </ic:MultiDataTriggerBehavior.Conditions>
+          <ic:ChangePropertyAction PropertyName="Text"
+                                   Value="Slider too low" />
+        </ic:MultiDataTriggerBehavior>
+        <ic:MultiDataTriggerBehavior>
+          <ic:MultiDataTriggerBehavior.Conditions>
+            <i:Condition Property="{x:Bind primitives:RangeBase.ValueProperty}"
+                         SourceName="TargetSlider"
+                         ComparisonCondition="LessThan"
+                         Value="50" />
+            <i:Condition Property="{x:Bind primitives:ToggleButton.IsCheckedProperty}"
+                         SourceName="TargetCheckBox"
+                         Value="False" />
+          </ic:MultiDataTriggerBehavior.Conditions>
+          <ic:ChangePropertyAction PropertyName="Text"
+                                   Value="Move slider and check" />
+        </ic:MultiDataTriggerBehavior>
+      </i:Interaction.Behaviors>
+    </TextBlock>
+    <CheckBox x:Name="TargetCheckBox" x:FieldModifier="internal"
+              Content="Enabled"
+              Margin="0,8,0,0" />
+    <Slider x:Name="TargetSlider" x:FieldModifier="internal"
+            Minimum="0"
+            Maximum="100"
+            SmallChange="25"
+            Value="0"
+            Margin="0,8,0,0" />
+  </StackPanel>
+</compat:HeadlessTestWindow>

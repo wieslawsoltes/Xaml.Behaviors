@@ -36,9 +36,11 @@ Projects that do not reference `Xaml.Behaviors.Uno.Interactivity` set
 | `KeyPressQwerty(PhysicalKey, RawInputModifiers)` | a key press **and release** on the focused element (WinUI buttons click on key up) |
 | `MouseDown/MouseUp/MouseMove/MouseWheel(point, …)` | `UnoHeadlessSession.Mouse` (absolute positions relative to the element) |
 | `FindControl<T>(name)` | `FrameworkElement.FindName` |
+| `TranslatePoint(point, relativeTo)` | `TransformToVisual` (`CoreTestCompat`) |
 
 Extend the compat layer when an Avalonia test API is used in several tests; use `#if UNO` in the test otherwise.
-Keyboard and mouse modifiers of mouse events are not simulated.
+Keyboard and mouse modifiers of mouse events are not simulated. Like a new Avalonia window, `HeadlessTestWindow.Show`
+starts a separate input sequence (clicks of a previous test do not continue into a double tap).
 
 ## Source generator tests
 

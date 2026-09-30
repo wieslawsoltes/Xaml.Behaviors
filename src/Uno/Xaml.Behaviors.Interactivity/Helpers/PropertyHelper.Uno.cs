@@ -2,7 +2,9 @@
 // Licensed under the MIT license. See LICENSE file in the project root for details.
 using System;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using Microsoft.UI.Xaml;
 
 namespace Xaml.Interactivity;
@@ -17,7 +19,8 @@ internal static partial class PropertyHelper
     private const BindingFlags StaticMemberFlags = BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.DeclaredOnly;
 
     private static readonly ConcurrentDictionary<(Type Type, string Name), DependencyProperty?> s_properties = new();
-    private static readonly ConcurrentDictionary<(Type Type, string Name), Type?> s_ownerTypes = new();
+    private static readonly ConcurrentDictionary<(Type Type, string OwnerTypeName, string Name), (Type? OwnerType, DependencyProperty? Property)> s_attachedProperties = new();
+    private static readonly ConditionalWeakTable<DependencyObject, Dictionary<DependencyProperty, List<TemporaryValue>>> s_temporaryValues = new();
 
     internal static DependencyProperty? FindRegisteredProperty(DependencyObject dependencyObject, string propertyName)
         => s_properties.GetOrAdd((dependencyObject.GetType(), propertyName), static key => FindStaticProperty(key.Type, key.Name + "Property"));
@@ -29,20 +32,26 @@ internal static partial class PropertyHelper
             return null;
         }
 
-        var ownerType = FindOwnerType(targetObject.GetType(), ownerTypeName);
-        return ownerType is null
-            ? null
-            : s_properties.GetOrAdd((ownerType, name), static key => FindStaticProperty(key.Type, key.Name + "Property"));
+        return ResolveAttachedProperty(targetObject.GetType(), ownerTypeName, name).Property;
     }
 
     private static Type GetPropertyType(DependencyProperty property, DependencyObject dependencyObject, string propertyName)
     {
         if (TrySplitAttachedName(propertyName, out var ownerTypeName, out var name))
         {
-            var getter = FindOwnerType(dependencyObject.GetType(), ownerTypeName)?.GetMethod("Get" + name, BindingFlags.Public | BindingFlags.Static);
+            var ownerType = ResolveAttachedProperty(dependencyObject.GetType(), ownerTypeName, name).OwnerType;
+            var getter = ownerType?.GetMethod("Get" + name, BindingFlags.Public | BindingFlags.Static);
             if (getter is not null)
             {
                 return getter.ReturnType;
+            }
+
+            // An owner qualified property of the element itself, e.g. (TextBox.FontSize).
+            if (ownerType is not null &&
+                ownerType.IsInstanceOfType(dependencyObject) &&
+                dependencyObject.GetType().GetRuntimeProperty(name) is { } ownerClrProperty)
+            {
+                return ownerClrProperty.PropertyType;
             }
         }
         else if (dependencyObject.GetType().GetRuntimeProperty(propertyName) is { } clrProperty)
@@ -57,8 +66,20 @@ internal static partial class PropertyHelper
     {
         if (TrySplitAttachedName(propertyName, out var ownerTypeName, out var name))
         {
-            var ownerType = FindOwnerType(dependencyObject.GetType(), ownerTypeName);
-            return ownerType?.GetMethod("Set" + name, BindingFlags.Public | BindingFlags.Static) is null;
+            var ownerType = ResolveAttachedProperty(dependencyObject.GetType(), ownerTypeName, name).OwnerType;
+            if (ownerType?.GetMethod("Set" + name, BindingFlags.Public | BindingFlags.Static) is not null)
+            {
+                return false;
+            }
+
+            // An owner qualified property of the element itself, e.g. (TextBox.FontSize), is set like a regular property.
+            if (ownerType is null || !ownerType.IsInstanceOfType(dependencyObject))
+            {
+                return true;
+            }
+
+            var ownerClrProperty = dependencyObject.GetType().GetRuntimeProperty(name);
+            return ownerClrProperty is not null && ownerClrProperty.SetMethod is not { IsPublic: true };
         }
 
         var clrProperty = dependencyObject.GetType().GetRuntimeProperty(propertyName);
@@ -68,11 +89,64 @@ internal static partial class PropertyHelper
     // WinUI has no field backed (direct) dependency properties.
     private static bool IsDirectProperty(DependencyProperty property) => false;
 
+    /// <summary>
+    /// Sets a temporary value (Avalonia: a value with the animation priority) that is removed when the returned
+    /// disposable is disposed.
+    /// </summary>
+    /// <remarks>
+    /// WinUI has a single animation value per property, so the temporary values of a property are stacked like the
+    /// Avalonia animation values: the newest one is effective and removing an older one keeps it; removing the
+    /// effective one applies the previous one, or clears the animation value when none is left.
+    /// </remarks>
     internal static IDisposable? SetTemporaryValue(DependencyObject dependencyObject, DependencyProperty property, object? value)
     {
+        var values = s_temporaryValues.GetOrCreateValue(dependencyObject);
+        if (!values.TryGetValue(property, out var stack))
+        {
+            stack = [];
+            values.Add(property, stack);
+        }
+
+        var entry = new TemporaryValue(value);
+        stack.Add(entry);
         dependencyObject.SetValue(property, value, DependencyPropertyValuePrecedences.Animations);
-        return DisposableAction.Create(() =>
-            dependencyObject.SetValue(property, DependencyProperty.UnsetValue, DependencyPropertyValuePrecedences.Animations));
+        return DisposableAction.Create(() => RemoveTemporaryValue(dependencyObject, property, entry));
+    }
+
+    private static void RemoveTemporaryValue(DependencyObject dependencyObject, DependencyProperty property, TemporaryValue entry)
+    {
+        if (!s_temporaryValues.TryGetValue(dependencyObject, out var values) ||
+            !values.TryGetValue(property, out var stack))
+        {
+            return;
+        }
+
+        var index = stack.IndexOf(entry);
+        if (index < 0)
+        {
+            return;
+        }
+
+        stack.RemoveAt(index);
+        if (index < stack.Count)
+        {
+            // A newer temporary value is effective.
+            return;
+        }
+
+        if (stack.Count > 0)
+        {
+            dependencyObject.SetValue(property, stack[^1].Value, DependencyPropertyValuePrecedences.Animations);
+            return;
+        }
+
+        values.Remove(property);
+        if (values.Count == 0)
+        {
+            s_temporaryValues.Remove(dependencyObject);
+        }
+
+        dependencyObject.SetValue(property, DependencyProperty.UnsetValue, DependencyPropertyValuePrecedences.Animations);
     }
 
     private static bool TrySplitAttachedName(string propertyName, out string ownerTypeName, out string name)
@@ -108,16 +182,27 @@ internal static partial class PropertyHelper
         return null;
     }
 
-    private static Type? FindOwnerType(Type targetType, string ownerTypeName)
-        => s_ownerTypes.GetOrAdd((targetType, ownerTypeName), static key => ResolveOwnerType(key.Type, key.Name));
+    private static (Type? OwnerType, DependencyProperty? Property) ResolveAttachedProperty(Type targetType, string ownerTypeName, string name)
+        => s_attachedProperties.GetOrAdd((targetType, ownerTypeName, name), static key => FindAttachedProperty(key.Type, key.OwnerTypeName, key.Name));
 
-    private static Type? ResolveOwnerType(Type targetType, string ownerTypeName)
+    /// <summary>
+    /// Resolves an owner qualified property name, e.g. <c>(Grid.Column)</c> or <c>(TextBox.FontSize)</c>.
+    /// </summary>
+    /// <remarks>
+    /// Like the Avalonia lookup (registered attached properties of the target type, then inherited properties of an
+    /// owner in the hierarchy of the target), the owner is a type of the target hierarchy or any type with that name,
+    /// whatever its accessibility, that declares the <c>{Name}Property</c> dependency property; types with the same
+    /// name that do not declare the property are skipped.
+    /// </remarks>
+    private static (Type? OwnerType, DependencyProperty? Property) FindAttachedProperty(Type targetType, string ownerTypeName, string name)
     {
+        var memberName = name + "Property";
         for (var current = targetType; current is not null; current = current.BaseType)
         {
-            if (current.Name == ownerTypeName || current.FullName == ownerTypeName)
+            if ((current.Name == ownerTypeName || current.FullName == ownerTypeName) &&
+                FindStaticProperty(current, memberName) is { } hierarchyProperty)
             {
-                return current;
+                return (current, hierarchyProperty);
             }
         }
 
@@ -125,9 +210,10 @@ internal static partial class PropertyHelper
         {
             if (ownerTypeName.Contains('.'))
             {
-                if (assembly.GetType(ownerTypeName, throwOnError: false, ignoreCase: false) is { } exact)
+                if (assembly.GetType(ownerTypeName, throwOnError: false, ignoreCase: false) is { } exact &&
+                    FindStaticProperty(exact, memberName) is { } exactProperty)
                 {
-                    return exact;
+                    return (exact, exactProperty);
                 }
 
                 continue;
@@ -145,13 +231,20 @@ internal static partial class PropertyHelper
 
             foreach (var type in types)
             {
-                if (type is { IsPublic: true } && type.Name == ownerTypeName)
+                if (type is not null &&
+                    type.Name == ownerTypeName &&
+                    FindStaticProperty(type, memberName) is { } property)
                 {
-                    return type;
+                    return (type, property);
                 }
             }
         }
 
-        return null;
+        return (null, null);
+    }
+
+    private sealed class TemporaryValue(object? value)
+    {
+        public object? Value { get; } = value;
     }
 }
