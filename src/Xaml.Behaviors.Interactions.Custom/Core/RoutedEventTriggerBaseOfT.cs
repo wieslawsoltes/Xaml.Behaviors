@@ -34,15 +34,40 @@ public abstract class RoutedEventTriggerBase<T> : RoutedEventTriggerBase where T
     {
         if (AssociatedObject is Interactive interactive)
         {
+            var routedEvent = RoutedEvent;
+            var routes = EventRoutingStrategy;
+#if !UNO
+            if (TryGetEmulatedDirectRoutes(routedEvent, routes, out var emulatedRoutes))
+            {
+                return interactive.AddDisposableHandler(routedEvent, DirectHandler, emulatedRoutes);
+            }
+#endif
+            // The Uno Platform compat layer filters a Direct-only subscription by the original source itself.
             var disposable = interactive.AddDisposableHandler(
-                RoutedEvent, 
-                Handler, 
-                EventRoutingStrategy);
+                routedEvent,
+                Handler,
+                routes);
             return disposable;
         }
 
         return DisposableAction.Empty;
     }
+
+#if !UNO
+    /// <summary>
+    /// Forwards to <see cref="Handler"/> the events raised by the element the handler is subscribed to, which
+    /// emulates a <see cref="RoutingStrategies.Direct"/>-only subscription to a tunneling or bubbling event.
+    /// </summary>
+    /// <param name="sender">The element the handler is subscribed to.</param>
+    /// <param name="e">The event arguments.</param>
+    private void DirectHandler(object? sender, T e)
+    {
+        if (ReferenceEquals(e.Source, sender))
+        {
+            Handler(sender, e);
+        }
+    }
+#endif
 
     /// <summary>
     /// 
