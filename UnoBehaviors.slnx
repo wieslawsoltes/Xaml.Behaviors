@@ -17,6 +17,7 @@
     <File Path="tests/Uno/UnoSharedTests.targets" />
   </Folder>
   <Folder Name="/samples/">
+    <Project Path="samples/Uno/AnimationsTestApplication/AnimationsTestApplication.csproj" />
     <Project Path="samples/Uno/BehaviorsTestApplication/BehaviorsTestApplication.csproj" />
   </Folder>
   <Folder Name="/src/">
