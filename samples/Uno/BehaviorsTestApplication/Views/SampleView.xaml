@@ -1,0 +1,22 @@
+<UserControl x:Class="BehaviorsTestApplication.Views.SampleView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:i="using:Xaml.Interactivity"
+             xmlns:ic="using:Xaml.Interactions.Core"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             Background="{StaticResource GrayBrush}">
+  <i:Interaction.Behaviors>
+    <!-- Avalonia AttachedToVisualTree/DetachedFromVisualTree: the WinUI Loaded/Unloaded events. -->
+    <ic:EventTriggerBehavior EventName="Loaded">
+      <ic:InvokeCommandAction Command="{x:Bind ViewModel.LoadedCommand}" />
+    </ic:EventTriggerBehavior>
+    <ic:EventTriggerBehavior EventName="Unloaded">
+      <ic:InvokeCommandAction Command="{x:Bind ViewModel.UnloadedCommand}" />
+    </ic:EventTriggerBehavior>
+  </i:Interaction.Behaviors>
+  <TextBlock Text="Click anywhere..."
+             HorizontalAlignment="Center"
+             VerticalAlignment="Center" />
+</UserControl>

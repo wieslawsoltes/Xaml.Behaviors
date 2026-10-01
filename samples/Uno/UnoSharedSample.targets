@@ -7,7 +7,8 @@
                                  compiled for Uno, usually in a SharedSources.props next to the project
     and imports this file. The shared C# sources (view models, models, behaviors, converters and the code-behind of
     the views) compile with the UNO symbol and the port aliases of src/Uno. Every Avalonia view (.axaml) has a WinUI
-    twin (.xaml) at the same relative path next to the Uno project, which shares the view's code-behind (.axaml.cs).
+    twin (.xaml) at the same relative path next to the Uno project, which shares the view's code-behind (.axaml.cs);
+    the code-behind of a view without a twin is not compiled.
     See samples/Uno/README.md.
   -->
   <PropertyGroup>
@@ -23,6 +24,17 @@
     <Compile Include="$(_UnoSharedSampleRoot)**/*.cs"
              Exclude="$(_UnoSharedSampleRoot)bin/**;$(_UnoSharedSampleRoot)obj/**;$(_UnoSharedSampleRoot)Properties/**;$(_UnoSharedSampleRoot)Program.cs;$(_UnoSharedSampleRoot)App.axaml.cs;$(_UnoSharedSampleExcludes)"
              Link="Shared/%(RecursiveDir)%(Filename)%(Extension)" />
+
+    <!--
+      The code-behind of a view (X.axaml.cs) only compiles for Uno once the view has its WinUI twin (X.xaml at the same
+      relative path next to the Uno project): the Uno XAML generator provides InitializeComponent from the twin. Views
+      that are not ported yet are therefore excluded automatically, and porting a view never edits a shared list.
+    -->
+    <_UnoSharedSampleXamlTwin Include="**/*.xaml" Exclude="bin/**;obj/**" />
+    <_UnoSharedSampleViewCodeBehind Include="$(_UnoSharedSampleRoot)**/*.axaml.cs"
+                                    Exclude="$(_UnoSharedSampleRoot)bin/**;$(_UnoSharedSampleRoot)obj/**" />
+    <_UnoSharedSampleViewCodeBehind Remove="@(_UnoSharedSampleXamlTwin->'$(_UnoSharedSampleRoot)%(RecursiveDir)%(Filename).axaml.cs')" />
+    <Compile Remove="@(_UnoSharedSampleViewCodeBehind)" />
   </ItemGroup>
 
   <Import Project="$(MSBuildThisFileDirectory)../../src/Uno/UnoPortAliases.props" />

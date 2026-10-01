@@ -8,7 +8,7 @@ using ReactiveUI.Builder;
 namespace BehaviorsTestApplication;
 
 /// <summary>
-/// The application and its composition root.
+/// The application and its composition root (Uno Platform counterpart of the Avalonia <c>App</c>).
 /// </summary>
 public partial class App : Application
 {
@@ -23,13 +23,16 @@ public partial class App : Application
     /// <inheritdoc />
     protected override void OnLaunched(LaunchActivatedEventArgs args)
     {
-        var window = new Window { Title = "XAML Behaviors (Uno Platform)" };
+        var window = new Window { Title = "XamlBehaviors Test Application" };
 
         RxAppBuilder.CreateReactiveUIBuilder()
             .WithUno(window)
             .BuildApp();
 
-        window.Content = new MainPage { DataContext = new MainViewModel() };
+        // Avalonia: MainWindow { DataContext = new MainWindowViewModel() } hosting MainView. A WinUI window has no data
+        // context, so the view model is the data context of MainView.
+        window.Content = new MainView { DataContext = new MainWindowViewModel() };
+        window.AppWindow.Resize(new Windows.Graphics.SizeInt32 { Width = 1000, Height = 700 });
         window.Activate();
     }
 }
