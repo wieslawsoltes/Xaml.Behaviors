@@ -39,6 +39,17 @@ public partial class ThemeVariantTrigger : StyledElementTrigger<StyledElement>
         Evaluate();
     }
 
+#if UNO
+    /// <inheritdoc />
+    protected override void OnLoaded()
+    {
+        base.OnLoaded();
+
+        // WinUI applies the x:Bind values of the actions when the view loads, after the trigger was attached.
+        Evaluate();
+    }
+#endif
+
     /// <inheritdoc />
     protected override void OnActualThemeVariantChangedEvent()
     {
@@ -64,6 +75,12 @@ public partial class ThemeVariantTrigger : StyledElementTrigger<StyledElement>
         }
 
 #if UNO
+        // Evaluated once the associated object is initialized (loaded), see OnLoaded.
+        if (!IsInitializedNotified)
+        {
+            return;
+        }
+
         if (AssociatedObject.ActualTheme == ThemeVariant)
 #else
         if (AssociatedObject.ActualThemeVariant == ThemeVariant)

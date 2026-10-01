@@ -273,6 +273,24 @@ public class ControlsTests
     }
 
     [UnoHeadlessFact]
+    public async Task ThemeVariantTrigger_Executes_With_Action_Values_Assigned_When_Loading()
+    {
+        // WinUI assigns the x:Bind values of a view (here the action's Tip) when it is loading, after the trigger was
+        // attached: the initial evaluation must see them.
+        var border = new Border { RequestedTheme = ElementTheme.Dark };
+        var trigger = new ThemeVariantTrigger { ThemeVariant = ElementTheme.Dark }.AttachTo(border);
+        var action = new SetToolTipTipAction();
+        trigger.Actions!.Add(action);
+        border.Loading += (_, _) => action.Tip = "dark";
+
+        // Views are created before they are shown (for example the pages of a tab control): queued work runs first.
+        await Session.WaitForIdleAsync();
+        await Session.ShowAsync(border);
+
+        Assert.True(await WaitUntilAsync(() => Equals(ToolTipService.GetToolTip(border), "dark")));
+    }
+
+    [UnoHeadlessFact]
     public async Task ToolTip_Actions_Set_And_Open_The_ToolTip()
     {
         var button = new Button { Content = "b" };
