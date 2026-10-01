@@ -27,11 +27,24 @@ public partial class BindingTriggerBehavior : StyledElementTrigger
 
     private IDisposable? _dispose;
 
+#if UNO
+    /// <summary>
+    /// Gets or sets the value that the <see cref="BindingTriggerBehavior"/> will listen to. This is a dependency property.
+    /// </summary>
+    /// <remarks>
+    /// WinUI applies a binding written in XAML to this property (there is no <c>[AssignBinding]</c>), so its value is
+    /// the bound value that is compared, for example <c>Binding="{x:Bind Slider.Value, Mode=OneWay}"</c>. A
+    /// <see cref="BindingBase"/> value (assigned in code) is evaluated like on Avalonia and its value is compared.
+    /// </remarks>
+    [StyledProperty]
+    public partial object? Binding { get; set; }
+#else
     /// <summary>
     /// Gets or sets the bound object that the <see cref="BindingTriggerBehavior"/> will listen to. This is an avalonia property.
     /// </summary>
     [StyledProperty(AssignBinding = true)]
     public partial BindingBase? Binding { get; set; }
+#endif
 
     /// <summary>
     /// Gets or sets the type of comparison to be performed between <see cref="BindingTriggerBehavior.Binding"/> and <see cref="BindingTriggerBehavior.Value"/>. This is an avalonia property.
@@ -63,12 +76,25 @@ public partial class BindingTriggerBehavior : StyledElementTrigger
         if (change.Property == BindingProperty)
         {
             _dispose?.Dispose();
+            _dispose = null;
 
+#if UNO
+            if (change.NewValue is BindingBase newValue)
+            {
+                _dispose = this.Bind(BindingValueProperty, newValue);
+            }
+            else
+            {
+                // The value of a binding applied by WinUI (XAML) is the compared value.
+                BindingValue = change.NewValue;
+            }
+#else
             var newValue = change.GetNewValue<BindingBase?>();
             if (newValue is not null)
             {
                 _dispose = this.Bind(BindingValueProperty, newValue);
             }
+#endif
         }
     }
 

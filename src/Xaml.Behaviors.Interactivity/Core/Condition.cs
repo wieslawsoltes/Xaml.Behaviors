@@ -20,26 +20,20 @@ namespace Avalonia.Xaml.Interactivity;
 /// </summary>
 public partial class Condition : AvaloniaObject
 {
+    private IDisposable? _bindingSubscription;
+
 #if UNO
     /// <summary>
     /// Gets or sets the value to compare. This is a dependency property.
     /// </summary>
     /// <remarks>
-    /// WinUI applies a binding assigned in XAML to this property, so its value is the bound value that is compared
-    /// (Avalonia assigns the binding itself and evaluates it into <see cref="BindingValue"/>).
+    /// WinUI applies a binding assigned in XAML to this property (there is no <c>[AssignBinding]</c>), so its value is
+    /// the bound value that is compared, for example <c>Binding="{x:Bind ViewModel.Count, Mode=OneWay}"</c>. A
+    /// <see cref="BindingBase"/> value (assigned in code) is evaluated like on Avalonia and its value is compared.
     /// </remarks>
     [StyledProperty]
     public partial object? Binding { get; set; }
-
-    /// <summary>
-    /// Identifies the value compared by the condition; on Uno Platform the same property as <see cref="BindingProperty"/>.
-    /// </summary>
-    internal static DependencyProperty BindingValueProperty => BindingProperty;
-
-    internal object? BindingValue => Binding;
 #else
-    private IDisposable? _bindingSubscription;
-
     /// <summary>
     /// Gets or sets the bound object to compare. This is an avalonia property.
     /// </summary>
@@ -71,6 +65,9 @@ public partial class Condition : AvaloniaObject
     [StyledProperty]
     public partial string? SourceName { get; set; }
 
+    [StyledProperty]
+    internal partial object? BindingValue { get; set; }
+
 #if UNO
     /// <summary>
     /// Called when the value of a dependency property of the condition changes.
@@ -80,14 +77,27 @@ public partial class Condition : AvaloniaObject
     {
         RaisePropertyChanged(change);
 
-        if (change.Property == BindingProperty && change.NewValue is not null && Property is not null)
+        if (change.Property == BindingProperty)
         {
-            throw new InvalidOperationException("Condition cannot use both Property and Binding.");
+            if (change.NewValue is not null && Property is not null)
+            {
+                throw new InvalidOperationException("Condition cannot use both Property and Binding.");
+            }
+
+            _bindingSubscription?.Dispose();
+            _bindingSubscription = null;
+
+            if (change.NewValue is BindingBase newBinding)
+            {
+                _bindingSubscription = this.Bind(BindingValueProperty, newBinding);
+            }
+            else
+            {
+                // The value of a binding applied by WinUI (XAML) is the compared value.
+                SetValue(BindingValueProperty, change.NewValue);
+            }
         }
 #else
-    [StyledProperty]
-    internal partial object? BindingValue { get; set; }
-
     /// <inheritdoc />
     protected override void OnPropertyChanged(AvaloniaPropertyChangedEventArgs change)
     {

@@ -217,6 +217,73 @@ public class CoreTests
     }
 
     [UnoHeadlessFact]
+    public async Task BindingBehavior_Pushes_A_Bound_Value_And_Follows_Its_Changes()
+    {
+        var vm = new TestViewModel { Name = "bound" };
+        var target = new TextBlock();
+        var border = new Border { Child = target };
+        var behavior = new BindingBehavior
+        {
+            TargetObject = target,
+            TargetProperty = TextBlock.TextProperty,
+            Binding = "first",
+        };
+        Interaction.GetBehaviors(border).Add(behavior);
+        var host = new StackPanel { Children = { border } };
+        await Session.ShowAsync(host);
+        await Session.WaitForIdleAsync();
+
+        Assert.Equal("first", target.Text);
+
+        behavior.Binding = "second";
+        Assert.Equal("second", target.Text);
+
+        // A binding object replaces the value.
+        behavior.Binding = new Binding { Source = vm, Path = new PropertyPath(nameof(TestViewModel.Name)) };
+        await Session.WaitForIdleAsync();
+        Assert.Equal("bound", target.Text);
+
+        behavior.Binding = "third";
+        Assert.Equal("third", target.Text);
+
+        // The target object can be assigned after the behavior was attached (x:Bind).
+        var other = new TextBlock();
+        host.Children.Add(other);
+        behavior.TargetObject = other;
+        Assert.Equal("third", other.Text);
+        Assert.Equal(string.Empty, target.Text);
+
+        Interaction.GetBehaviors(border).Remove(behavior);
+        await Session.WaitForIdleAsync();
+        Assert.Equal(string.Empty, other.Text);
+
+        behavior.Binding = "detached";
+        Assert.Equal(string.Empty, other.Text);
+    }
+
+    [UnoHeadlessFact]
+    public async Task BindingTriggerBehavior_Compares_A_Bound_Value()
+    {
+        var border = new Border();
+        var trigger = new BindingTriggerBehavior
+        {
+            Binding = 1,
+            ComparisonCondition = ComparisonConditionType.Equal,
+            Value = 3,
+        };
+        var action = new RecordingAction();
+        trigger.Actions!.Add(action);
+        Interaction.GetBehaviors(border).Add(trigger);
+        await Session.ShowAsync(border);
+        await Session.WaitForIdleAsync();
+        Assert.Empty(action.Parameters);
+
+        trigger.Binding = 3;
+        await Session.WaitForIdleAsync();
+        Assert.NotEmpty(action.Parameters);
+    }
+
+    [UnoHeadlessFact]
     public async Task ObservableTriggerBehavior_Executes_With_The_Produced_Value()
     {
         var observable = new TestObservable<int>();
