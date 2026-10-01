@@ -45,7 +45,6 @@ public partial class RxVoidInteractionTriggerBehavior : InteractionTriggerBehavi
 /// </summary>
 public partial class ObjectNotNullValidationRule : NotNullValidationRule<object>
 {
-{
 }
 
 /// <summary>
