@@ -16,7 +16,6 @@ Platform, how they were resolved, and the WinUI differences that affect behavior
 | [#383](https://github.com/wieslawsoltes/Xaml.Behaviors/issues/383) | Uno | `AddItemToItemsControlAction`/`InsertItemToItemsControlAction` cannot create a new item per execution (WinUI templates only create elements, no `ObjectTemplate`). | Fix: an item factory provided by the view model. |
 | [#384](https://github.com/wieslawsoltes/Xaml.Behaviors/issues/384) | Uno | `ItemsControl` container triggers miss the containers prepared before they attach. | Fix: report the realized elements when attaching. |
 | [#388](https://github.com/wieslawsoltes/Xaml.Behaviors/issues/388) | Uno | `Xaml.PropertyGenerator` emits IL2087/IL2111 trimming warnings for generic and `Type` properties. | Fix: annotations or justified suppressions on the generated registrations. |
-| [#389](https://github.com/wieslawsoltes/Xaml.Behaviors/issues/389) | samples | The FilesPreview, FluidMoveBehavior and StartBuiltAnimationAction sample pages do not work (on both platforms). | Fix the sample pages. |
 | [#390](https://github.com/wieslawsoltes/Xaml.Behaviors/issues/390) | Uno headless | Injected mouse wheel input is not delivered and mouse events carry no key modifiers in the headless session. | Fix: a headless pointer input source in the host. |
 
 ## Fixed during the port
@@ -39,6 +38,7 @@ Platform, how they were resolved, and the WinUI differences that affect behavior
 | `ItemsControlContainerEventsBehavior` (Avalonia, [#385](https://github.com/wieslawsoltes/Xaml.Behaviors/issues/385)) | Detaching re-subscribed `PreparingContainer` instead of unsubscribing (the behavior kept receiving it, twice after re-attaching). | Unsubscribes in the dispose action. |
 | `CollectionChangedTrigger`, `CollectionChangedBehavior` (both, [#386](https://github.com/wieslawsoltes/Xaml.Behaviors/issues/386)) | A `Collection` set before attaching was observed twice (actions ran twice per change) and still observed after detaching. | Observe the collection only while attached, through one tracked subscription. |
 | `ListReorderDragBehavior` (both, [#387](https://github.com/wieslawsoltes/Xaml.Behaviors/issues/387)) | Removing the placeholder also ended the drag, so a move without a target or to another target stopped the placeholder (it stayed on the first target or never appeared). | Removing the placeholder is separate from the drag reset (release/capture lost only). |
+| FilesPreview, FluidMoveBehavior, StartBuiltAnimationAction samples (both, [#389](https://github.com/wieslawsoltes/Xaml.Behaviors/issues/389)) | `AddPreviewFilesAction` ignored a list without `ItemsSource`; `FluidMoveBehavior` did nothing on an `ItemsControl` and lost the positions of recreated containers; the built animation targeted the `Text` of the `Button`. | `AddPreviewFilesAction` fills `Items` without an `ItemsSource`; `FluidMoveBehavior` animates the items panel of an `ItemsControl` and tracks containers by their item; the page runs the action on the `TextBlock` (`ObservableStreamBehavior` + command). |
 
 ## ReactiveUI 25 (System.Reactive flavor)
 

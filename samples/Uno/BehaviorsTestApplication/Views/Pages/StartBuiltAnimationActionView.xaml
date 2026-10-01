@@ -8,14 +8,20 @@
              xmlns:icustom="using:Xaml.Interactions.Custom"
              mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="150">
   <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="12">
-    <TextBlock x:Name="AnimatedText" Text="" FontSize="24" />
-    <Button x:Name="StartButton" Content="Start Animation">
+    <!--
+      StartBuiltAnimationAction animates the sender of its trigger: the stream behavior runs it on the TextBlock
+      (an EventTriggerBehavior on the button would animate the Text property of the Button).
+      The view model is a CustomAnimatorViewModel (set in the constructor of the view).
+    -->
+    <TextBlock x:Name="AnimatedText" Text="" FontSize="24">
       <i:Interaction.Behaviors>
-        <ic:EventTriggerBehavior EventName="Click" SourceObject="{x:Bind StartButton}">
-          <!-- The view model is a CustomAnimatorViewModel (set in the constructor of the view). -->
-          <icustom:StartBuiltAnimationAction AnimationBuilder="{x:Bind ViewModel.AnimationBuilder}" />
-        </ic:EventTriggerBehavior>
+        <ic:ObservableStreamBehavior Source="{x:Bind ViewModel.AnimationRequests}">
+          <ic:ObservableStreamBehavior.Actions>
+            <icustom:StartBuiltAnimationAction AnimationBuilder="{x:Bind ViewModel.AnimationBuilder}" />
+          </ic:ObservableStreamBehavior.Actions>
+        </ic:ObservableStreamBehavior>
       </i:Interaction.Behaviors>
-    </Button>
+    </TextBlock>
+    <Button x:Name="StartButton" Content="Start Animation" Command="{x:Bind ViewModel.StartAnimationCommand}" />
   </StackPanel>
 </UserControl>

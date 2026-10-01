@@ -315,6 +315,33 @@ public class DragAndDropTests
     }
 
     [UnoHeadlessFact]
+    public async Task AddPreviewFilesAction_Adds_Files_To_Items_Without_ItemsSource()
+    {
+        var input = RequireInput();
+        var file = await CreateFileAsync();
+        var source = CreateBox();
+        var target = CreateBox(200);
+        var results = new List<DataPackageOperation>();
+        MakeDragSource(source, data => data.SetStorageItems([file]), results);
+        var list = new ItemsControl();
+        var action = new AddPreviewFilesAction { ItemsControl = list };
+        var executed = new List<object>();
+        target.AllowDrop = true;
+        target.DragOver += (_, e) =>
+        {
+            executed.Add(action.Execute(target, e));
+            e.AcceptedOperation = DataPackageOperation.Copy;
+        };
+        await Session.ShowAsync(new Grid { Children = { source, target, list } });
+
+        await DragAsync(input, source, target, () => results.Count == 1);
+
+        Assert.Contains(true, executed);
+        var item = Assert.IsAssignableFrom<IStorageItem>(Assert.Single(list.Items));
+        Assert.Equal(file.Path, item.Path);
+    }
+
+    [UnoHeadlessFact]
     public async Task ContentControlFilesDropBehavior_Shows_Content_During_Drag()
     {
         var input = RequireInput();

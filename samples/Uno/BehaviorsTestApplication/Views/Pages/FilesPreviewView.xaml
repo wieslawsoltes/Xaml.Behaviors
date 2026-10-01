@@ -6,7 +6,14 @@
              xmlns:i="using:Xaml.Interactivity"
              xmlns:idd="using:Xaml.Interactions.DragAndDrop"
              xmlns:ie="using:Xaml.Interactions.Events"
+             xmlns:storage="using:Windows.Storage"
              mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="450">
+
+  <UserControl.Resources>
+    <DataTemplate x:Key="StorageItemTemplate" x:DataType="storage:IStorageItem">
+      <TextBlock Text="{x:Bind Name}" />
+    </DataTemplate>
+  </UserControl.Resources>
 
   <!-- Avalonia {DynamicResource SystemAccentColor} (a color converted to a brush): the WinUI accent brush. -->
   <StackPanel Margin="5" Spacing="12">
@@ -17,7 +24,7 @@
       </i:Interaction.Behaviors>
       <TextBlock Text="Drag files here" HorizontalAlignment="Center" VerticalAlignment="Center" />
     </Border>
-    <ItemsControl ItemsSource="{x:Bind PreviewBehavior.PreviewFiles}" />
+    <ItemsControl ItemsSource="{x:Bind PreviewBehavior.PreviewFiles}" ItemTemplate="{StaticResource StorageItemTemplate}" />
 
     <TextBlock Text="DragOverEventTrigger + AddPreviewFilesAction" HorizontalAlignment="Center" Margin="0,20,0,0"/>
     <!-- WinUI raises DragOver only on elements that allow drop (FilesPreviewBehavior sets it itself). -->
@@ -29,6 +36,7 @@
       </i:Interaction.Behaviors>
       <TextBlock Text="Drag files here" HorizontalAlignment="Center" VerticalAlignment="Center" />
     </Border>
-    <ItemsControl x:Name="ActionList" />
+    <!-- Without an ItemsSource, AddPreviewFilesAction adds the files to the Items of the list. -->
+    <ItemsControl x:Name="ActionList" ItemTemplate="{StaticResource StorageItemTemplate}" />
   </StackPanel>
 </UserControl>
