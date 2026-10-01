@@ -32,7 +32,7 @@ public class HideAttachedFlyoutBehavior : DisposingBehavior<Control>
         AvaloniaProperty.Register(nameof(IsFlyoutOpen), typeof(bool), typeof(HideAttachedFlyoutBehavior), new Microsoft.UI.Xaml.PropertyMetadata(false));
 #else
     public static readonly StyledProperty<bool> IsFlyoutOpenProperty =
-        AvaloniaProperty.Register<ButtonHideFlyoutBehavior, bool>(nameof(IsFlyoutOpen));
+        AvaloniaProperty.Register<HideAttachedFlyoutBehavior, bool>(nameof(IsFlyoutOpen));
 #endif
 
     /// <summary>
