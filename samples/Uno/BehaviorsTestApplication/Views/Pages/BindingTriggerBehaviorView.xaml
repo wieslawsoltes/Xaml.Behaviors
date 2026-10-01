@@ -19,21 +19,20 @@
                Stroke="{StaticResource GrayBrush}"
                StrokeThickness="5">
       <i:Interaction.Behaviors>
-        <!-- Avalonia: Binding="{Binding #Slider.Value}" (the binding object is assigned, not applied). -->
-        <icustom:BindingTriggerBehavior ComparisonCondition="GreaterThan"
+        <!--
+          Avalonia: Binding="{Binding #Slider.Value}" (the binding object is assigned to the behavior). WinUI XAML applies
+          bindings to dependency properties, so a compiled binding assigns a binding object created by SampleBindings.
+        -->
+        <icustom:BindingTriggerBehavior Binding="{x:Bind converters:SampleBindings.Create(Slider, 'Value')}"
+                                        ComparisonCondition="GreaterThan"
                                         Value="50">
-          <icustom:BindingTriggerBehavior.Binding>
-            <Binding Path="Value" ElementName="Slider" />
-          </icustom:BindingTriggerBehavior.Binding>
           <ic:ChangePropertyAction TargetObject="{x:Bind DataTriggerRectangle}"
                                    PropertyName="Fill"
                                    Value="{StaticResource YellowBrush}" />
         </icustom:BindingTriggerBehavior>
-        <icustom:BindingTriggerBehavior ComparisonCondition="LessThanOrEqual"
+        <icustom:BindingTriggerBehavior Binding="{x:Bind converters:SampleBindings.Create(Slider, 'Value')}"
+                                        ComparisonCondition="LessThanOrEqual"
                                         Value="50">
-          <icustom:BindingTriggerBehavior.Binding>
-            <Binding Path="Value" ElementName="Slider" />
-          </icustom:BindingTriggerBehavior.Binding>
           <ic:ChangePropertyAction TargetObject="{x:Bind DataTriggerRectangle}"
                                    PropertyName="Fill"
                                    Value="{StaticResource BlueBrush}" />

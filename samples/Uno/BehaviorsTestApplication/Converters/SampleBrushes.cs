@@ -43,11 +43,27 @@ public sealed partial class BrushFromNameConverter : IValueConverter
 }
 
 /// <summary>
-/// Dependency properties for bindings in templates (Avalonia: <c>{x:Static TemplatedControl.BackgroundProperty}</c>);
-/// WinUI XAML has no <c>x:Static</c>, and compiled bindings are not evaluated in behavior templates.
+/// Values for bindings in behavior templates, where compiled bindings are not evaluated and element names of the view
+/// are not in scope: dependency properties (Avalonia: <c>{x:Static TemplatedControl.BackgroundProperty}</c>, WinUI XAML
+/// has no <c>x:Static</c>) and an element of the view (Avalonia: <c>{Binding $parent[ItemsControl]}</c>).
 /// </summary>
-public sealed partial class SampleProperties
+public sealed partial class SampleProperties : DependencyObject
 {
+    /// <summary>
+    /// Identifies the <see cref="Element"/> dependency property.
+    /// </summary>
+    public static readonly DependencyProperty ElementProperty =
+        DependencyProperty.Register(nameof(Element), typeof(DependencyObject), typeof(SampleProperties), new PropertyMetadata(null));
+
+    /// <summary>
+    /// Gets or sets an element of the view, assigned by a compiled binding of the view.
+    /// </summary>
+    public DependencyObject? Element
+    {
+        get => (DependencyObject?)GetValue(ElementProperty);
+        set => SetValue(ElementProperty, value);
+    }
+
     /// <summary>
     /// Gets the <see cref="Control.BackgroundProperty"/>.
     /// </summary>

@@ -11,7 +11,7 @@
              mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="450">
   <UserControl.Resources>
     <converters:BrushFromNameConverter x:Key="BrushFromNameConverter" />
-    <converters:SampleProperties x:Key="SampleProperties" />
+    <converters:SampleProperties x:Key="SampleProperties" x:Name="SampleProperties" Element="{x:Bind ItemsHost}" />
   </UserControl.Resources>
   <!--
     Avalonia: a style on the item containers sets the behaviors with a BehaviorCollectionTemplate. WinUI has no styles
@@ -31,8 +31,12 @@
             <DataTemplate>
               <i:BehaviorCollectionHost>
                 <ic:EventTriggerBehavior EventName="PointerPressed">
-                  <!-- Avalonia: TargetObject="{Binding $parent[ItemsControl]}", TargetProperty="{x:Static TemplatedControl.BackgroundProperty}". -->
-                  <icustom:ChangeAvaloniaPropertyAction TargetObject="{Binding ElementName=ItemsHost}"
+                  <!--
+                    Avalonia: TargetObject="{Binding $parent[ItemsControl]}", TargetProperty="{x:Static TemplatedControl.BackgroundProperty}".
+                    The element names of the view are not in scope of the template (and WinUI has no ancestor bindings):
+                    the SampleProperties resource holds the ItemsControl and the dependency property.
+                  -->
+                  <icustom:ChangeAvaloniaPropertyAction TargetObject="{Binding Element, Source={StaticResource SampleProperties}}"
                                                         TargetProperty="{Binding ControlBackground, Source={StaticResource SampleProperties}}"
                                                         Value="{Binding Color, Converter={StaticResource BrushFromNameConverter}}" />
                 </ic:EventTriggerBehavior>
