@@ -7,7 +7,21 @@ Platform, how they were resolved, and the WinUI differences that affect behavior
 
 All issues found while porting the libraries, tests and samples
 ([#376](https://github.com/wieslawsoltes/Xaml.Behaviors/issues/376)–[#390](https://github.com/wieslawsoltes/Xaml.Behaviors/issues/390))
-are fixed; see the table below. Report new issues on [GitHub](https://github.com/wieslawsoltes/Xaml.Behaviors/issues).
+are fixed; see the table below. Issues found while documenting the
+[behavior differences](behavior-differences.md) are tracked here:
+
+| Issue | Area | Problem |
+|-------|------|---------|
+| [#391](https://github.com/wieslawsoltes/Xaml.Behaviors/issues/391) | Routed events (Uno) | `RoutingStrategies.Direct` behaves like `Bubble`: Direct triggers also fire for events raised by child elements. |
+| [#392](https://github.com/wieslawsoltes/Xaml.Behaviors/issues/392) | `ExecuteCommandBehaviorBase` (Avalonia) | `FocusControlProperty` is registered with the name `CommandParameter`. |
+| [#393](https://github.com/wieslawsoltes/Xaml.Behaviors/issues/393) | `HideAttachedFlyoutBehavior` (Avalonia) | `IsFlyoutOpenProperty` is registered with the `ButtonHideFlyoutBehavior` owner. |
+| [#394](https://github.com/wieslawsoltes/Xaml.Behaviors/issues/394) | `TextInputTrigger` (Avalonia) | `TextProperty` is registered with the `KeyDownTrigger` owner. |
+| [#395](https://github.com/wieslawsoltes/Xaml.Behaviors/issues/395) | Pointer triggers and command behaviors (Uno) | An emulated `Tunnel` subscription receives handled events: triggers set `Handled = false` on them and `ExecuteCommandOnPointer*Behavior` skips them. |
+| [#396](https://github.com/wieslawsoltes/Xaml.Behaviors/issues/396) | `PropertyValidationBehavior` (Uno) | Custom validation rules do not trigger revalidation when their properties change (only built-in rules do). |
+| [#397](https://github.com/wieslawsoltes/Xaml.Behaviors/issues/397) | `ScreenshotAction` (Uno) | Not ported yet. |
+| [#398](https://github.com/wieslawsoltes/Xaml.Behaviors/issues/398) | Packaging (Uno) | The Uno packages are not marked trimmable or AOT-compatible and are not checked by the trim analyzers. |
+
+Report new issues on [GitHub](https://github.com/wieslawsoltes/Xaml.Behaviors/issues).
 
 ## Fixed during the port
 
