@@ -32,5 +32,13 @@
     </UnoSharedTestExcludes>
   </PropertyGroup>
 
-  <!-- Events: ported. -->
+  <!--
+    Events: DragEventTriggerTests raises Avalonia DragEventArgs; WinUI DragEventArgs cannot be created. The Uno
+    counterpart (DragEventTriggerTests in tests/Uno/Xaml.Behaviors.Interactions.DragAndDrop.UnitTests) drives real drags.
+  -->
+  <PropertyGroup>
+    <UnoSharedTestExcludes>$(UnoSharedTestExcludes);
+      Events/DragEventTriggerTests.cs;
+    </UnoSharedTestExcludes>
+  </PropertyGroup>
 </Project>

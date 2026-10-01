@@ -205,6 +205,17 @@ public partial class ClickEventTrigger : StyledElementTrigger<Control>
 
     private void OnPointerCaptureLost(object? sender, PointerCaptureLostEventArgs e)
     {
+#if UNO
+        // WinUI has no tunneling route: controls such as Button release the capture in their own release handler,
+        // before the routed release handler of this trigger runs. A capture lost by the release itself keeps the
+        // press so that the release handler completes the click.
+        if (_ownsPointerCapture
+            && e.GetCurrentPoint(null).Properties.PointerUpdateKind == Microsoft.UI.Input.PointerUpdateKind.LeftButtonReleased)
+        {
+            _ownsPointerCapture = false;
+            return;
+        }
+#endif
         if (_ownsPointerCapture)
         {
             _isPressed = false;

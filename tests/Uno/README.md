@@ -18,7 +18,7 @@ the reasons are next to each exclusion (`SharedTests.props` or `#if !UNO`).
 | Avalonia test project | Tests | Run on Uno | Excluded on Uno |
 |-----------------------|------:|-----------:|-----------------|
 | `Xaml.Behaviors.Interactivity.UnitTests` | 130 | 121 | 9: action collection templates (element styles), TopLevel close, `AttachedToVisualTree`/`Initialized` events, action initialization state |
-| `Xaml.Behaviors.Interactions.UnitTests` | 164 | 150 | 14: direct (field-backed) properties, managed drag and drop, runtime XAML loader, `WindowClosedEvent`, tunneling pointer route, `KeyboardNavigationMode.None`, handled click events, tool tip opening/closing events |
+| `Xaml.Behaviors.Interactions.UnitTests` | 176 | 158 | 18: direct (field-backed) properties, managed drag and drop, runtime XAML loader, `WindowClosedEvent`, tunneling pointer route, `KeyboardNavigationMode.None`, handled click events, tool tip opening/closing events, raised drag events (WinUI `DragEventArgs` cannot be created; the DragAndDrop twin drives real drags) |
 | `Xaml.Behaviors.Animations.UnitTests` | 43 | 43 | – |
 | `Xaml.Behaviors.SourceGenerators.UnitTests` | 232 | 231 | 1: Avalonia value priorities (runtime); the generator scenarios run through the WinUI emitter |
 | `Xaml.Behaviors.SourceGenerators.IntegrationTests` | 2 | – | NuGet package scenarios, skipped on Avalonia as well |

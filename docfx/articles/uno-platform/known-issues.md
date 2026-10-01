@@ -8,13 +8,9 @@ Platform, how they were resolved, and the WinUI differences that affect behavior
 | Issue | Platform | Summary | Workaround / possible fix |
 |-------|----------|---------|---------------------------|
 | [#376](https://github.com/wieslawsoltes/Xaml.Behaviors/issues/376) | Uno | `ChangeAvaloniaPropertyAction` cannot convert string values for properties without a default value (`Border.Background`): WinUI dependency properties do not expose their type, the type is inferred from the default value. | Pass typed values (`{StaticResource BlackBrush}`). Fix: infer the type from Uno's bindable metadata or an explicit value type. |
-| [#377](https://github.com/wieslawsoltes/Xaml.Behaviors/issues/377) | Uno | `ClickEventTrigger` with a `Button` source control prevents other `HandledEventsToo` triggers from firing. | Fix: register the handled-events pointer handlers with the WinUI typed delegates. |
-| [#378](https://github.com/wieslawsoltes/Xaml.Behaviors/issues/378) | Uno | Data context changes raised before the element loads reach behaviors before their `x:Bind` values are set. | Fix: replay the data context notification after `Loaded`. |
 | [#379](https://github.com/wieslawsoltes/Xaml.Behaviors/issues/379) | both | `ContextDragBehavior` only starts a drag when the pressed element shares its `DataContext` (text content of a `Button` has its own). | Use a `TextBlock` as content. Fix: compare the visual ancestry instead of data contexts. |
-| [#381](https://github.com/wieslawsoltes/Xaml.Behaviors/issues/381) | both | Drag event triggers do not fire when a drop handler on the same element handles the event. | Attach the triggers to a parent. Fix: observe handled drag events. |
 | [#382](https://github.com/wieslawsoltes/Xaml.Behaviors/issues/382) | Uno | `BindingBehavior`/`BindingTriggerBehavior`/`Condition.Binding` cannot receive a binding written in XAML (WinUI applies bindings, there is no `[AssignBinding]`). | Create the binding in code. Fix: Uno-only source/path properties or value semantics. |
 | [#383](https://github.com/wieslawsoltes/Xaml.Behaviors/issues/383) | Uno | `AddItemToItemsControlAction`/`InsertItemToItemsControlAction` cannot create a new item per execution (WinUI templates only create elements, no `ObjectTemplate`). | Fix: an item factory provided by the view model. |
-| [#384](https://github.com/wieslawsoltes/Xaml.Behaviors/issues/384) | Uno | `ItemsControl` container triggers miss the containers prepared before they attach. | Fix: report the realized elements when attaching. |
 | [#388](https://github.com/wieslawsoltes/Xaml.Behaviors/issues/388) | Uno | `Xaml.PropertyGenerator` emits IL2087/IL2111 trimming warnings for generic and `Type` properties. | Fix: annotations or justified suppressions on the generated registrations. |
 | [#390](https://github.com/wieslawsoltes/Xaml.Behaviors/issues/390) | Uno headless | Injected mouse wheel input is not delivered and mouse events carry no key modifiers in the headless session. | Fix: a headless pointer input source in the host. |
 
@@ -39,6 +35,10 @@ Platform, how they were resolved, and the WinUI differences that affect behavior
 | `CollectionChangedTrigger`, `CollectionChangedBehavior` (both, [#386](https://github.com/wieslawsoltes/Xaml.Behaviors/issues/386)) | A `Collection` set before attaching was observed twice (actions ran twice per change) and still observed after detaching. | Observe the collection only while attached, through one tracked subscription. |
 | `ListReorderDragBehavior` (both, [#387](https://github.com/wieslawsoltes/Xaml.Behaviors/issues/387)) | Removing the placeholder also ended the drag, so a move without a target or to another target stopped the placeholder (it stayed on the first target or never appeared). | Removing the placeholder is separate from the drag reset (release/capture lost only). |
 | FilesPreview, FluidMoveBehavior, StartBuiltAnimationAction samples (both, [#389](https://github.com/wieslawsoltes/Xaml.Behaviors/issues/389)) | `AddPreviewFilesAction` ignored a list without `ItemsSource`; `FluidMoveBehavior` did nothing on an `ItemsControl` and lost the positions of recreated containers; the built animation targeted the `Text` of the `Button`. | `AddPreviewFilesAction` fills `Items` without an `ItemsSource`; `FluidMoveBehavior` animates the items panel of an `ItemsControl` and tracks containers by their item; the page runs the action on the `TextBlock` (`ObservableStreamBehavior` + command). |
+| `ClickEventTrigger` (Uno, [#377](https://github.com/wieslawsoltes/Xaml.Behaviors/issues/377)) | A trigger using a `Button` as source control never clicked: the button releases the pointer capture in its own release handler, before the routed handler of the trigger, which cancelled the press. | A capture lost by the release itself keeps the press. |
+| Behavior lifecycle (Uno, [#378](https://github.com/wieslawsoltes/Xaml.Behaviors/issues/378)) | Data context changes raised before the element loaded reached the behaviors before their `x:Bind` values were set. | A change raised before the behaviors are loaded is delivered once, after the `Loaded` lifecycle. |
+| Drag event triggers (both, [#381](https://github.com/wieslawsoltes/Xaml.Behaviors/issues/381)) | `DragEnterEventTrigger`, `DragOverEventTrigger`, `DropEventTrigger` and `DragLeaveEventTrigger` did not fire when a drop handler on the same element handled the event. | The triggers also receive handled events (no public API change). |
+| `ItemsControl` container triggers (Uno, [#384](https://github.com/wieslawsoltes/Xaml.Behaviors/issues/384)) | The triggers subscribed to the `ItemsRepeater` when it loaded, after the first layout pass prepared the initial elements. | The triggers subscribe as soon as they are attached. |
 
 ## ReactiveUI 25 (System.Reactive flavor)
 
@@ -67,7 +67,8 @@ describe how the port maps them.
 
 * **Lifecycle:** WinUI has no logical tree, `Initialized` or `AttachedToVisualTree`; the Avalonia lifecycle is raised
   from `Loaded`/`Unloaded`. Behaviors declared in XAML are attached when the view is created, and `x:Bind` values are
-  applied when it loads — evaluate in `OnLoaded` (or later) when an `x:Bind` value is needed.
+  applied when it loads — evaluate in `OnLoaded` (or later) when an `x:Bind` value is needed. Data context changes
+  raised before the element loads are delivered once, after `OnLoaded`.
 * **Routed events:** always bubble; `RoutingStrategies.Tunnel` maps to `Preview*` key events or handled events.
   `Button.Click` is not a routed event (use `TappedEvent` for routed triggers). WinUI buttons click on key **up**.
 * **Bindings:** no `StringFormat`, `x:Static`, `x:TypeArguments`, `#name`/`$parent[...]`, `OneWayToSource`, or default

@@ -18,12 +18,15 @@ namespace Avalonia.Xaml.Interactions.Events;
 /// <summary>
 /// Trigger that listens for the <see cref="DragDrop.DragOverEvent"/>.
 /// </summary>
+/// <remarks>
+/// The trigger also receives handled events, so it fires when a drop handler on the same element handles the drag.
+/// </remarks>
 public sealed class DragOverEventTrigger : InteractiveTriggerBase
 {
     /// <inheritdoc />
     protected override void OnAttachedToVisualTree()
     {
-        AssociatedObject?.AddHandler(DragDrop.DragOverEvent, OnDragOver, RoutingStrategies);
+        AssociatedObject?.AddHandler(DragDrop.DragOverEvent, OnDragOver, RoutingStrategies, handledEventsToo: true);
     }
 
     /// <inheritdoc />
