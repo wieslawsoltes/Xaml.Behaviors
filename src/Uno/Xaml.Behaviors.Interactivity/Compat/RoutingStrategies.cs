@@ -10,8 +10,11 @@ namespace Xaml.Interactivity;
 /// <remarks>
 /// <para>
 /// WinUI routed events always bubble. On Uno Platform <see cref="Tunnel"/> maps to the <c>Preview*</c>
-/// counterpart of an event when one exists (for example <c>PreviewKeyDown</c>); otherwise the handler also
-/// receives the events the controls handled, after them.
+/// counterpart of an event when one exists (for example <c>PreviewKeyDown</c>); otherwise (pointer events, or
+/// <see cref="Tunnel"/> combined with <see cref="Bubble"/>) the handler also receives the events the controls
+/// handled, after them. Like an Avalonia tunnel handler, which runs before the controls, it sees such an event as not
+/// handled; the handled flag is restored when the handler returns, so the handler can only set it. The emulated
+/// tunnel handlers run in bubbling order (from the source up), after the handlers of the controls.
 /// </para>
 /// <para>
 /// <see cref="Direct"/> alone only reacts to events raised on the associated element itself: the handler runs

@@ -83,7 +83,7 @@ portability analyzers know which files are shared.
    - `XProperty.OverrideMetadata<T>(new StyledPropertyMetadata<TValue>(value))` works: the default is recorded
      per type and applied as a local value by the base class constructors.
    - Routed events always bubble; `RoutingStrategies.Tunnel` maps to `Preview*` events where WinUI has them (and to
-     handled events otherwise); `Direct` alone only delivers the events raised on the element itself
+     handled events otherwise, presented to the handler as not handled and restored afterwards); `Direct` alone only delivers the events raised on the element itself
      (`OriginalSource` is the element; `PointerEntered`/`PointerExited` are already raised per element and
      `PointerCaptureLost` is delivered for the captures the element held, see `Compat/DirectRouteFilter.cs`).
 7. **Excluding files** is fine when the feature has no WinUI counterpart (Avalonia templates, `TopLevel`

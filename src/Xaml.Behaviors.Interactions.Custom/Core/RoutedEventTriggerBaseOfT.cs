@@ -65,7 +65,13 @@ public abstract class RoutedEventTriggerBase<T> : RoutedEventTriggerBase where T
     /// <param name="e"></param>
     protected void Execute(T e)
     {
-        e.Handled = MarkAsHandled;
+        // Only sets the flag: an event handled by another handler (received with handledEventsToo, as the emulated
+        // tunnel route of Uno Platform does) must stay handled.
+        if (MarkAsHandled)
+        {
+            e.Handled = true;
+        }
+
         Interaction.ExecuteActions(AssociatedObject, Actions, e);
     }
 

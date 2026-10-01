@@ -55,13 +55,18 @@ internal static class UIElementRoutedEventCompat
 /// <remarks>
 /// WinUI routed events always bubble. <see cref="RoutingStrategies.Tunnel"/> subscribes to the <c>Preview*</c>
 /// counterpart when WinUI has one (key events) and otherwise also receives handled events, which is what an
-/// Avalonia tunnel handler observes before the controls handle the event. A <see cref="RoutingStrategies.Direct"/>
+/// Avalonia tunnel handler observes before the controls handle the event: the handler sees such an event as not
+/// handled, and the handled flag is restored after it returns. A <see cref="RoutingStrategies.Direct"/>
 /// subscription without <see cref="RoutingStrategies.Bubble"/> and <see cref="RoutingStrategies.Tunnel"/> only
 /// receives the events raised on the element itself (<see cref="DirectRouteFilter"/>).
 /// </remarks>
 internal static class RoutedEventCompatExtensions
 {
     private static readonly ConditionalWeakTable<UIElement, List<Subscription>> s_subscriptions = new();
+
+    // The events an emulated tunnel handler marked as handled, with the element and the event of that handler (Uno
+    // Platform reuses the arguments of a pointer release for the capture lost event that follows it).
+    private static readonly ConditionalWeakTable<RoutedEventArgs, TunnelHandler> s_tunnelHandled = new();
 
     public static void AddHandler(this UIElement element, RoutedEvent routedEvent, EventHandler<PointerRoutedEventArgs> handler, RoutingStrategies routes = RoutingStrategies.Bubble, bool handledEventsToo = false)
         => Add(element, routedEvent, handler, routes, handledEventsToo, static h => new PointerEventHandler((s, e) => h(s, e)));
@@ -166,6 +171,7 @@ internal static class RoutedEventCompatExtensions
         var tunnel = (routes & RoutingStrategies.Tunnel) != 0;
         var bubble = (routes & (RoutingStrategies.Bubble | RoutingStrategies.Direct)) != 0;
         var actualEvent = routedEvent;
+        var emulatedTunnel = false;
 
         if (tunnel && !bubble && GetPreviewEvent(routedEvent) is { } previewEvent)
         {
@@ -173,19 +179,22 @@ internal static class RoutedEventCompatExtensions
         }
         else if (tunnel)
         {
+            emulatedTunnel = !handledEventsToo;
             handledEventsToo = true;
         }
 
         var filter = IsDirectOnly(routes) ? DirectRouteFilter.Create(element, routedEvent) : null;
-        var routedHandler = filter is null
-            ? handler
-            : (s, e) =>
+        var routedHandler = filter is not null
+            ? (s, e) =>
             {
                 if (filter.Accepts(e))
                 {
                     handler(s, e);
                 }
-            };
+            }
+            : emulatedTunnel
+                ? EmulateTunnel(element, routedEvent, handler)
+                : handler;
 
         var wrapper = createWrapper(routedHandler);
         element.AddHandler(actualEvent, wrapper, handledEventsToo);
@@ -207,6 +216,40 @@ internal static class RoutedEventCompatExtensions
             }
         }
     }
+
+    // WinUI has no tunnel phase for most events (pointer events, or a Tunnel | Bubble subscription), so the emulated
+    // tunnel handler also receives the events the controls already handled, after them. An Avalonia tunnel handler
+    // runs before the controls: the handler sees the event as not handled yet, and the flag set by the controls is
+    // restored afterwards, so the handler can mark the event as handled but never un-handles it.
+    // When an emulated tunnel handler marks the event as handled, the following emulated tunnel handlers of the same
+    // element are skipped, as Avalonia stops delivering a handled event to handlers added without handledEventsToo.
+    // Across elements the handlers run in bubbling order (the Avalonia tunnel phase runs from the root), so the
+    // handlers of the ancestors are not skipped.
+    private static EventHandler<TEventArgs> EmulateTunnel<TEventArgs>(UIElement element, RoutedEvent routedEvent, EventHandler<TEventArgs> handler)
+        where TEventArgs : RoutedEventArgs
+        => (s, e) =>
+        {
+            if (s_tunnelHandled.TryGetValue(e, out var handledBy) && handledBy.Matches(element, routedEvent))
+            {
+                return;
+            }
+
+            var handledBefore = e.Handled;
+            e.Handled = false;
+            try
+            {
+                handler(s, e);
+            }
+            finally
+            {
+                if (e.Handled)
+                {
+                    s_tunnelHandled.AddOrUpdate(e, new TunnelHandler(element, routedEvent));
+                }
+
+                e.Handled = handledBefore || e.Handled;
+            }
+        };
 
     // Direct without Bubble or Tunnel: the handler only receives the events raised on the element itself. Combined
     // with Bubble (the Avalonia default) or Tunnel, the events of the descendants are delivered as well.
@@ -275,5 +318,15 @@ internal static class RoutedEventCompatExtensions
         public RoutedEvent? Requested { get; init; }
 
         public DirectRouteFilter? Filter { get; init; }
+    }
+
+    // The element and the event of the emulated tunnel handler that marked an event as handled.
+    private sealed class TunnelHandler(UIElement element, RoutedEvent routedEvent)
+    {
+        private readonly WeakReference<UIElement> _element = new(element);
+        private readonly RoutedEvent _routedEvent = routedEvent;
+
+        public bool Matches(UIElement handlerElement, RoutedEvent handlerEvent)
+            => handlerEvent == _routedEvent && _element.TryGetTarget(out var target) && ReferenceEquals(target, handlerElement);
     }
 }

@@ -495,6 +495,89 @@ public class InputTests
         Assert.Empty(hostAction.Parameters);
     }
 
+    // Regression tests for https://github.com/wieslawsoltes/Xaml.Behaviors/issues/395: the emulated tunnel route (no
+    // Preview event on WinUI) delivers the events a control handled; a trigger must not un-handle them, and the command
+    // behaviors run their command like during the Avalonia tunnel phase.
+
+    [UnoHeadlessFact]
+    public void Tunnel_PointerPressedTrigger_Does_Not_Unhandle_The_Button_Press()
+    {
+        var button = new Button { Content = "button", Width = 100, Height = 40 };
+        var trigger = new PointerPressedTrigger { EventRoutingStrategy = RoutingStrategies.Tunnel };
+        var action = new RecordingAction();
+        trigger.Actions!.Add(action);
+        Interaction.GetBehaviors(button).Add(trigger);
+        var host = new Border { Child = button };
+        var hostPressed = 0;
+        host.PointerPressed += (_, _) => hostPressed++;
+        Session.Show(new StackPanel { Children = { host } });
+
+        Session.Mouse.Click(button);
+
+        Assert.False(trigger.MarkAsHandled);
+        Assert.Single(action.Parameters);
+        Assert.Equal(0, hostPressed);
+    }
+
+    [UnoHeadlessFact]
+    public void Tunnel_PointerPressedTrigger_MarkAsHandled_Handles_The_Press()
+    {
+        var target = new Border { Width = 100, Height = 40, Background = new SolidColorBrush(Microsoft.UI.Colors.Red) };
+        var trigger = new PointerPressedTrigger { EventRoutingStrategy = RoutingStrategies.Tunnel, MarkAsHandled = true };
+        trigger.Actions!.Add(new RecordingAction());
+        Interaction.GetBehaviors(target).Add(trigger);
+        var host = new Border { Child = target };
+        var hostPressed = 0;
+        host.PointerPressed += (_, _) => hostPressed++;
+        Session.Show(new StackPanel { Children = { host } });
+
+        Session.Mouse.Click(target);
+
+        Assert.Equal(0, hostPressed);
+    }
+
+    [UnoHeadlessFact]
+    public void Tunnel_ExecuteCommandOnPointerPressedBehavior_Executes_For_A_Press_The_Button_Handles()
+    {
+        var button = new Button { Content = "button", Width = 100, Height = 40 };
+        var command = new RecordingCommand();
+        var unmarked = new RecordingCommand();
+        var bubble = new RecordingCommand();
+        Interaction.GetBehaviors(button).Add(new ExecuteCommandOnPointerPressedBehavior { Command = command, EventRoutingStrategy = RoutingStrategies.Tunnel });
+        Interaction.GetBehaviors(button).Add(new ExecuteCommandOnPointerPressedBehavior { Command = unmarked, EventRoutingStrategy = RoutingStrategies.Tunnel, MarkAsHandled = false });
+        Interaction.GetBehaviors(button).Add(new ExecuteCommandOnPointerPressedBehavior { Command = bubble });
+        var host = new Border { Child = button };
+        var hostPressed = 0;
+        host.PointerPressed += (_, _) => hostPressed++;
+        Session.Show(new StackPanel { Children = { host } });
+
+        Session.Mouse.Click(button);
+
+        // The first tunnel behavior marks the press as handled (as the button does): the second one does not run,
+        // like on Avalonia, and the bubbling behavior skips the handled press.
+        Assert.Single(command.Parameters);
+        Assert.Empty(unmarked.Parameters);
+        Assert.Empty(bubble.Parameters);
+        Assert.Equal(0, hostPressed);
+    }
+
+    [UnoHeadlessFact]
+    public void Tunnel_ExecuteCommandOnPointerPressedBehavior_Without_MarkAsHandled_Keeps_The_Press_Handled()
+    {
+        var button = new Button { Content = "button", Width = 100, Height = 40 };
+        var command = new RecordingCommand();
+        Interaction.GetBehaviors(button).Add(new ExecuteCommandOnPointerPressedBehavior { Command = command, EventRoutingStrategy = RoutingStrategies.Tunnel, MarkAsHandled = false });
+        var host = new Border { Child = button };
+        var hostPressed = 0;
+        host.PointerPressed += (_, _) => hostPressed++;
+        Session.Show(new StackPanel { Children = { host } });
+
+        Session.Mouse.Click(button);
+
+        Assert.Single(command.Parameters);
+        Assert.Equal(0, hostPressed);
+    }
+
     [UnoHeadlessFact]
     public async Task TextInputTrigger_Filters_By_Text()
     {

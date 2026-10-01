@@ -198,4 +198,51 @@ public class RoutedEventCompatTests
 
         Assert.Equal(1, buttonLost);
     }
+
+    // Regression tests for https://github.com/wieslawsoltes/Xaml.Behaviors/issues/395: the emulated tunnel route of
+    // the pointer events presents the events the controls handled as not handled yet, and never un-handles them.
+
+    [UnoHeadlessFact]
+    public void Emulated_Tunnel_Handler_Sees_A_Handled_Press_As_Not_Handled_And_Keeps_It_Handled()
+    {
+        var button = new Button { Content = "button", Width = 80, Height = 40 };
+        var host = new Border { Child = button };
+        var seen = new List<string>();
+        button.AddHandler(UIElement.PointerPressedEvent, (EventHandler<PointerRoutedEventArgs>)((_, e) =>
+        {
+            seen.Add($"tunnel:{e.Handled}");
+            e.Handled = false;
+        }), RoutingStrategies.Tunnel);
+        button.AddHandler(UIElement.PointerPressedEvent, (EventHandler<PointerRoutedEventArgs>)((_, e) => seen.Add($"tunnel-handled-too:{e.Handled}")), RoutingStrategies.Tunnel, handledEventsToo: true);
+        var hostPressed = 0;
+        host.PointerPressed += (_, _) => hostPressed++;
+        Session.Show(new StackPanel { Children = { host } });
+
+        Session.Mouse.Click(button);
+
+        Assert.Equal(["tunnel:False", "tunnel-handled-too:True"], seen);
+        Assert.Equal(0, hostPressed);
+    }
+
+    [UnoHeadlessFact]
+    public void Emulated_Tunnel_Handler_That_Handles_The_Event_Skips_The_Next_Tunnel_Handlers_Of_The_Element()
+    {
+        var target = new Border { Width = 80, Height = 40, Background = Brush(Microsoft.UI.Colors.Red) };
+        var host = new Border { Child = target };
+        var seen = new List<string>();
+        target.AddHandler(UIElement.PointerPressedEvent, (EventHandler<PointerRoutedEventArgs>)((_, e) =>
+        {
+            seen.Add("first");
+            e.Handled = true;
+        }), RoutingStrategies.Tunnel);
+        target.AddHandler(UIElement.PointerPressedEvent, (EventHandler<PointerRoutedEventArgs>)((_, _) => seen.Add("second")), RoutingStrategies.Tunnel);
+        target.AddHandler(UIElement.PointerPressedEvent, (EventHandler<PointerRoutedEventArgs>)((_, _) => seen.Add("handled-too")), RoutingStrategies.Tunnel, handledEventsToo: true);
+        host.AddHandler(UIElement.PointerPressedEvent, (EventHandler<PointerRoutedEventArgs>)((_, _) => seen.Add("host-tunnel")), RoutingStrategies.Tunnel);
+        host.AddHandler(UIElement.PointerPressedEvent, (EventHandler<PointerRoutedEventArgs>)((_, _) => seen.Add("host-bubble")), RoutingStrategies.Bubble);
+        Session.Show(new StackPanel { Children = { host } });
+
+        Session.Mouse.Click(target);
+
+        Assert.Equal(["first", "handled-too", "host-tunnel"], seen);
+    }
 }
