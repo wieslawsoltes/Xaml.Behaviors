@@ -3,7 +3,10 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:i="using:Xaml.Interactivity"
              xmlns:ic="using:Xaml.Interactions.Core"
-             xmlns:ie="using:Xaml.Interactions.Events">
+             xmlns:ie="using:Xaml.Interactions.Events"
+             xmlns:icustom="using:Xaml.Interactions.Custom"
+             xmlns:media="using:Microsoft.UI.Xaml.Media"
+             xmlns:controls="using:Microsoft.UI.Xaml.Controls">
   <StackPanel>
     <Button x:Name="IncrementButton" Content="Increment">
       <i:Interaction.Behaviors>
@@ -30,6 +33,20 @@
     </Button>
 
     <Border x:Name="Target" Width="10" Height="10" />
+
+    <!-- Border.Background has neither a default nor a current value: the property type is given explicitly. -->
+    <Button x:Name="BackgroundButton" Content="Background">
+      <i:Interaction.Behaviors>
+        <ic:EventTriggerBehavior EventName="Click">
+          <icustom:ChangeAvaloniaPropertyAction TargetObject="{x:Bind BackgroundTarget}"
+                                                TargetProperty="{x:Bind controls:Border.BackgroundProperty}"
+                                                TargetPropertyType="media:Brush"
+                                                Value="Black" />
+        </ic:EventTriggerBehavior>
+      </i:Interaction.Behaviors>
+    </Button>
+
+    <Border x:Name="BackgroundTarget" Width="10" Height="10" />
 
     <TextBlock x:Name="StatusText" Text="{Binding Status}">
       <i:Interaction.Behaviors>

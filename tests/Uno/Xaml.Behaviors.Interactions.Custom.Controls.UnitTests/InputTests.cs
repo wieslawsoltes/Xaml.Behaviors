@@ -39,28 +39,9 @@ public class InputTests
         injector.InjectMouseInput([new InjectedInputMouseInfo { MouseOptions = InjectedInputMouseOptions.LeftUp }]);
     }
 
-    /// <summary>
-    /// Counts the key presses that reach the element (the headless host may not deliver injected keyboard input).
-    /// </summary>
-    private static System.Func<int> CountKeyDowns(UIElement element)
-    {
-        var count = 0;
-        element.AddHandler(UIElement.PreviewKeyDownEvent, new Microsoft.UI.Xaml.Input.KeyEventHandler((_, _) => count++), true);
-        return () => count;
-    }
-
-    private static void PressKey(InputInjector injector, VirtualKey key)
-    {
-        injector.InjectKeyboardInput([new InjectedInputKeyboardInfo { VirtualKey = (ushort)key }]);
-        injector.InjectKeyboardInput([new InjectedInputKeyboardInfo { VirtualKey = (ushort)key, KeyOptions = InjectedInputKeyOptions.KeyUp }]);
-    }
-
     [UnoHeadlessFact]
     public async Task CarouselKeyNavigationBehavior_Navigates_With_Arrow_Keys()
     {
-        var injector = CreateInjector();
-        Assert.SkipWhen(injector is null, "Input injection is not available.");
-
         var flipView = new FlipView { Width = 200, Height = 100 };
         flipView.Items.Add("a");
         flipView.Items.Add("b");
@@ -70,23 +51,17 @@ public class InputTests
         flipView.SelectedIndex = 0;
         flipView.Focus(FocusState.Programmatic);
         await Session.WaitForIdleAsync();
-        var keyDowns = CountKeyDowns(flipView);
 
-        PressKey(injector!, VirtualKey.Down);
-        await Session.WaitForIdleAsync();
-        Assert.SkipWhen(keyDowns() == 0, "Injected keyboard input is not delivered by the headless host.");
+        Session.Keyboard.Press(VirtualKey.Down);
         Assert.True(await WaitUntilAsync(() => flipView.SelectedIndex == 1));
 
-        PressKey(injector!, VirtualKey.Up);
+        Session.Keyboard.Press(VirtualKey.Up);
         Assert.True(await WaitUntilAsync(() => flipView.SelectedIndex == 0));
     }
 
     [UnoHeadlessFact]
     public async Task TabControlKeyNavigationBehavior_Navigates_With_Arrow_Keys()
     {
-        var injector = CreateInjector();
-        Assert.SkipWhen(injector is null, "Input injection is not available.");
-
         var tabView = new TabView();
         tabView.TabItems.Add(new TabViewItem { Header = "a" });
         tabView.TabItems.Add(new TabViewItem { Header = "b" });
@@ -95,18 +70,15 @@ public class InputTests
         tabView.SelectedIndex = 0;
         ((TabViewItem)tabView.TabItems[0]).Focus(FocusState.Programmatic);
         await Session.WaitForIdleAsync();
-        var keyDowns = CountKeyDowns(tabView);
 
-        PressKey(injector!, VirtualKey.Right);
-        await Session.WaitForIdleAsync();
-        Assert.SkipWhen(keyDowns() == 0, "Injected keyboard input is not delivered by the headless host.");
+        Session.Keyboard.Press(VirtualKey.Right);
         Assert.True(await WaitUntilAsync(() => tabView.SelectedIndex == 1));
 
-        PressKey(injector!, VirtualKey.Right);
+        Session.Keyboard.Press(VirtualKey.Right);
         await Session.WaitForIdleAsync();
         Assert.Equal(1, tabView.SelectedIndex);
 
-        PressKey(injector!, VirtualKey.Left);
+        Session.Keyboard.Press(VirtualKey.Left);
         Assert.True(await WaitUntilAsync(() => tabView.SelectedIndex == 0));
     }
 
@@ -151,9 +123,6 @@ public class InputTests
     [UnoHeadlessFact]
     public async Task HorizontalScrollViewerBehavior_Scrolls_Horizontally_On_Wheel()
     {
-        var injector = CreateInjector();
-        Assert.SkipWhen(injector is null, "Input injection is not available.");
-
         var scrollViewer = new ScrollViewer
         {
             Width = 200,
@@ -170,10 +139,10 @@ public class InputTests
         var wheels = 0;
         scrollViewer.AddHandler(UIElement.PointerWheelChangedEvent, new Microsoft.UI.Xaml.Input.PointerEventHandler((_, _) => wheels++), true);
 
-        MoveTo(injector!, scrollViewer, new Point(50, 50));
-        injector!.InjectMouseInput([new InjectedInputMouseInfo { MouseOptions = InjectedInputMouseOptions.Wheel, MouseData = unchecked((uint)-120) }]);
+        Session.Mouse.MoveTo(new Point(50, 50), scrollViewer);
+        Session.Mouse.Wheel(-1);
         await Session.WaitForIdleAsync();
-        Assert.SkipWhen(wheels == 0, "Injected mouse wheel input is not delivered by the headless host.");
+        Assert.Equal(1, wheels);
 
         // One page (the viewport width) to the right.
         Assert.True(await WaitUntilAsync(() => scrollViewer.HorizontalOffset >= 199));

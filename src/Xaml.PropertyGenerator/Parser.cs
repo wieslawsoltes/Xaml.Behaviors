@@ -2,6 +2,7 @@
 // Licensed under the MIT license. See LICENSE file in the project root for details.
 
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Globalization;
 using System.Linq;
 using System.Text;
@@ -18,6 +19,8 @@ namespace Xaml.PropertyGenerator
         public const string AvaloniaObjectName = "Avalonia.AvaloniaObject";
         public const string WinUIDependencyObjectName = "Microsoft.UI.Xaml.DependencyObject";
         public const string WinUIChangedEventArgsName = "Microsoft.UI.Xaml.DependencyPropertyChangedEventArgs";
+        public const string DynamicallyAccessedMembersAttributeName = "System.Diagnostics.CodeAnalysis.DynamicallyAccessedMembersAttribute";
+        public const string UnconditionalSuppressMessageAttributeName = "System.Diagnostics.CodeAnalysis.UnconditionalSuppressMessageAttribute";
 
         private static readonly SymbolDisplayFormat s_typeFormat =
             SymbolDisplayFormat.FullyQualifiedFormat.WithMiscellaneousOptions(
@@ -99,7 +102,8 @@ namespace Xaml.PropertyGenerator
                 AssignBinding: GetBool(args, "AssignBinding"),
                 Lazy: lazy,
                 HasChangedHook: HasChangedHook(owner, symbol.Name, 2),
-                HostType: string.Empty);
+                HostType: string.Empty,
+                Trimming: GetTrimming(owner, symbol.Type));
 
             return new CandidateModel(CreateTypeModel(platform, owner, syntax, property, context.SemanticModel.Compilation), diagnostics.ToEquatableArray());
         }
@@ -162,7 +166,8 @@ namespace Xaml.PropertyGenerator
                     AssignBinding: false,
                     Lazy: false,
                     HasChangedHook: HasChangedHook(owner, name, 3),
-                    HostType: hostType);
+                    HostType: hostType,
+                    Trimming: GetTrimming(owner, valueType));
 
                 yield return new CandidateModel(CreateTypeModel(platform, owner, syntax, property, compilation), diagnostics.ToEquatableArray());
             }
@@ -232,6 +237,8 @@ namespace Xaml.PropertyGenerator
                 owner.ToDisplayString(s_typeOfFormat),
                 CollectUsings(syntax),
                 FindChangedMethod(compilation, owner),
+                compilation.GetTypeByMetadataName(DynamicallyAccessedMembersAttributeName) is not null &&
+                compilation.GetTypeByMetadataName(UnconditionalSuppressMessageAttributeName) is not null,
                 new[] { property }.ToEquatableArray());
         }
 
@@ -254,6 +261,114 @@ namespace Xaml.PropertyGenerator
             }
 
             return builder.ToString();
+        }
+
+        /// <summary>
+        /// Collects what the WinUI registration of a property of the given type needs for trimming: WinUI/Uno Platform
+        /// annotates the property type of <c>DependencyProperty.Register</c> with <c>[DynamicallyAccessedMembers]</c>.
+        /// </summary>
+        private static TrimmingModel GetTrimming(INamedTypeSymbol owner, ITypeSymbol type)
+        {
+            if (type is ITypeParameterSymbol { DeclaringType: { } declaringType } typeParameter)
+            {
+                // typeof(T) of a generic parameter needs the same annotation on T (IL2087). Keep an existing annotation.
+                if (HasDynamicallyAccessedMembers(typeParameter.GetAttributes()))
+                {
+                    return TrimmingModel.None;
+                }
+
+                var level = -1;
+                for (var current = owner; current is not null; current = current.ContainingType)
+                {
+                    level++;
+                }
+
+                for (var current = owner; current is not null; current = current.ContainingType, level--)
+                {
+                    if (SymbolEqualityComparer.Default.Equals(current, declaringType))
+                    {
+                        return new TrimmingModel(level, typeParameter.Name, false);
+                    }
+                }
+
+                return TrimmingModel.None;
+            }
+
+            return HasAnnotatedMembers(type) ? new TrimmingModel(-1, string.Empty, true) : TrimmingModel.None;
+        }
+
+        /// <summary>
+        /// Determines whether the constructors, public fields or public properties of a type (the members the WinUI
+        /// annotation keeps) carry <c>[DynamicallyAccessedMembers]</c> annotations, for example
+        /// <c>System.Type.TypeInitializer</c>; the trimmer then reports IL2111 for the registration.
+        /// </summary>
+        private static bool HasAnnotatedMembers(ITypeSymbol type)
+        {
+            if (type is not INamedTypeSymbol named)
+            {
+                return false;
+            }
+
+            foreach (var constructor in named.InstanceConstructors)
+            {
+                if (HasAnnotatedParameters(constructor))
+                {
+                    return true;
+                }
+            }
+
+            for (var current = named; current is not null; current = current.BaseType)
+            {
+                foreach (var member in current.GetMembers())
+                {
+                    if (member.DeclaredAccessibility != Accessibility.Public)
+                    {
+                        continue;
+                    }
+
+                    switch (member)
+                    {
+                        case IFieldSymbol field when HasDynamicallyAccessedMembers(field.GetAttributes()):
+                            return true;
+                        case IPropertySymbol property when IsAnnotated(property.GetMethod) || IsAnnotated(property.SetMethod):
+                            return true;
+                    }
+                }
+            }
+
+            return false;
+
+            static bool IsAnnotated(IMethodSymbol? method)
+                => method is not null &&
+                   (HasDynamicallyAccessedMembers(method.GetAttributes()) ||
+                    HasDynamicallyAccessedMembers(method.GetReturnTypeAttributes()) ||
+                    HasAnnotatedParameters(method));
+
+            static bool HasAnnotatedParameters(IMethodSymbol method)
+            {
+                foreach (var parameter in method.Parameters)
+                {
+                    if (HasDynamicallyAccessedMembers(parameter.GetAttributes()))
+                    {
+                        return true;
+                    }
+                }
+
+                return false;
+            }
+        }
+
+        private static bool HasDynamicallyAccessedMembers(ImmutableArray<AttributeData> attributes)
+        {
+            foreach (var attribute in attributes)
+            {
+                if (attribute.AttributeClass?.ToDisplayString() == DynamicallyAccessedMembersAttributeName)
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         private static string? FindChangedMethod(Compilation compilation, INamedTypeSymbol owner)

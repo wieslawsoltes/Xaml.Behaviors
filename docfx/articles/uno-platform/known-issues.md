@@ -5,11 +5,9 @@ Platform, how they were resolved, and the WinUI differences that affect behavior
 
 ## Tracked issues
 
-| Issue | Platform | Summary | Workaround / possible fix |
-|-------|----------|---------|---------------------------|
-| [#376](https://github.com/wieslawsoltes/Xaml.Behaviors/issues/376) | Uno | `ChangeAvaloniaPropertyAction` cannot convert string values for properties without a default value (`Border.Background`): WinUI dependency properties do not expose their type, the type is inferred from the default value. | Pass typed values (`{StaticResource BlackBrush}`). Fix: infer the type from Uno's bindable metadata or an explicit value type. |
-| [#388](https://github.com/wieslawsoltes/Xaml.Behaviors/issues/388) | Uno | `Xaml.PropertyGenerator` emits IL2087/IL2111 trimming warnings for generic and `Type` properties. | Fix: annotations or justified suppressions on the generated registrations. |
-| [#390](https://github.com/wieslawsoltes/Xaml.Behaviors/issues/390) | Uno headless | Injected mouse wheel input is not delivered and mouse events carry no key modifiers in the headless session. | Fix: a headless pointer input source in the host. |
+All issues found while porting the libraries, tests and samples
+([#376](https://github.com/wieslawsoltes/Xaml.Behaviors/issues/376)–[#390](https://github.com/wieslawsoltes/Xaml.Behaviors/issues/390))
+are fixed; see the table below. Report new issues on [GitHub](https://github.com/wieslawsoltes/Xaml.Behaviors/issues).
 
 ## Fixed during the port
 
@@ -39,6 +37,9 @@ Platform, how they were resolved, and the WinUI differences that affect behavior
 | `ContextDragBehavior`, `ContextDragWithDirectionBehavior` (both, [#379](https://github.com/wieslawsoltes/Xaml.Behaviors/issues/379)) | A drag only started when the pressed element shared the drag source's `DataContext`, so pressing the text of a `Button` or other templated content did nothing. | A press starts the drag when it comes from the drag source or one of its visual descendants that is not inside a nested drag source. |
 | `BindingBehavior`, `BindingTriggerBehavior`, `Condition` (Uno, [#382](https://github.com/wieslawsoltes/Xaml.Behaviors/issues/382)) | `Binding` could not receive a binding written in XAML: WinUI applies the binding instead of assigning it (there is no `[AssignBinding]`), so the samples created binding objects in code. | `Binding` is an `object` property on Uno Platform with value semantics: the behaviors use the bound value (`BindingBehavior` pushes it to the target property), a `BindingBase` assigned in code is still applied. |
 | `AddItemToItemsControlAction`, `InsertItemToItemsControlAction` (Uno, [#383](https://github.com/wieslawsoltes/Xaml.Behaviors/issues/383)) | The actions could not create a new item per execution (WinUI templates only create UI elements, there is no `ObjectTemplate`): the samples added the same item on every click. | Uno-only `ItemFactory` property (`IItemFactory.CreateItem()`), used instead of `Item`; the samples (including the ObjectTemplate page) declare a view model item factory. |
+| `ChangeAvaloniaPropertyAction` (Uno, [#376](https://github.com/wieslawsoltes/Xaml.Behaviors/issues/376)) | String values were not converted for properties without a default value (`Border.Background`): WinUI dependency properties do not expose their type (Uno's bindable metadata is looked up by property name, which a `DependencyProperty` does not expose either). | The type is also inferred from the current value (strings only, unconvertible strings are assigned as is); the Uno-only `TargetPropertyType` sets it explicitly. |
+| Headless session (Uno, [#390](https://github.com/wieslawsoltes/Xaml.Behaviors/issues/390)) | Injected mouse wheel input was not delivered (Uno Platform reads the wheel rotation from `DeltaY`, not `MouseData`) and mouse events carried no keyboard modifiers (`InputInjector.InjectMouseInput` raises none). | The host injects mouse input with modifiers and the WinUI wheel data (`HeadlessHost.InjectMouseInput`); `UnoHeadlessMouse` passes the modifiers held on `UnoHeadlessKeyboard` and the ones given to its members. |
+| `Xaml.PropertyGenerator` WinUI output ([#388](https://github.com/wieslawsoltes/Xaml.Behaviors/issues/388)) | IL2087/IL2111 trimming warnings for properties typed with a generic parameter (validation rules) or `System.Type` (`TypedDragBehaviorBase.DataType`). | Generic parameters get the `[DynamicallyAccessedMembers]` annotation of `DependencyProperty.Register`; `Type` properties are registered through a helper with a justified IL2111 suppression. |
 
 ## ReactiveUI 25 (System.Reactive flavor)
 
@@ -91,8 +92,9 @@ Upstream behavior of Uno Platform 6.7 that affects behaviors and samples (worth 
   emits `Windows.Foundation.Point` for `RenderTransformOrigin`, which does not compile inside a `*.Windows` namespace.
 * The Uno Community Toolkit `DataGrid` does not load with an element (`TextBlock`) column header.
 * `InputInjector` applies absolute mouse moves relative to the current position and needs advancing event times
-  (`UnoHeadlessSession.Mouse` handles both); keyboard injection raises nothing without a keyboard input source (the
-  headless host provides one).
+  (`UnoHeadlessSession.Mouse` handles both), reads the wheel rotation from `DeltaY`/`DeltaX` instead of `MouseData` and
+  injects mouse input without keyboard modifiers (the headless host injects both); keyboard injection raises nothing
+  without a keyboard input source (the headless host provides one).
 * Composition animations run on the real time clock (`Compositor.GlobalPlaybackRate` is not implemented).
 * `UIElement.OpacityTransition`, `QuaternionKeyFrameAnimation` and `Visual.Orientation` with `CenterPoint` are not
   implemented; `DisplayArea` and the screen size are not available on Skia desktop.

@@ -367,11 +367,8 @@ public class ClickEventTriggerTests
         window.Click(window.ModifierTarget);
         Assert.Equal(0, window.ModifierClicks);
 
-#if !UNO
-        // The Uno headless mouse input carries no keyboard modifiers.
         window.Click(window.ModifierTarget, MouseButton.Left, RawInputModifiers.Control);
         Assert.Equal(1, window.ModifierClicks);
-#endif
     }
 
     [AvaloniaFact]

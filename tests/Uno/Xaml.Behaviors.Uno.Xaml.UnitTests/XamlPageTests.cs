@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Automation.Peers;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Media;
 using Xaml.Behaviors.Uno.Headless;
 using Xaml.Behaviors.Uno.Headless.XUnit;
 using Xaml.Behaviors.Uno.XamlPages;
@@ -63,6 +64,17 @@ public class XamlPageTests
         Click(Find<Button>(page, "ChangeButton"));
 
         Assert.Equal(42d, Find<Border>(page, "Target").Width);
+    }
+
+    [UnoHeadlessFact]
+    public async Task ChangeAvaloniaPropertyAction_Converts_Strings_With_A_Property_Type_Declared_In_Xaml()
+    {
+        var (page, _) = await ShowPageAsync();
+
+        Click(Find<Button>(page, "BackgroundButton"));
+
+        var brush = Assert.IsType<SolidColorBrush>(Find<Border>(page, "BackgroundTarget").Background);
+        Assert.Equal(Microsoft.UI.Colors.Black, brush.Color);
     }
 
     [UnoHeadlessFact]

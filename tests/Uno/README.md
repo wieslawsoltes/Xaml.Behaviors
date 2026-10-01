@@ -55,7 +55,8 @@ Projects that do not reference `Xaml.Behaviors.Uno.Interactivity` set
 | `TranslatePoint(point, relativeTo)` | `TransformToVisual` (`CoreTestCompat`) |
 
 Extend the compat layer when an Avalonia test API is used in several tests; use `#if UNO` in the test otherwise.
-Keyboard and mouse modifiers of mouse events are not simulated. Like a new Avalonia window, `HeadlessTestWindow.Show`
+The `RawInputModifiers` keyboard modifiers of the mouse methods are passed to the mouse events
+(`PointerRoutedEventArgs.KeyModifiers`); they do not press keys. Like a new Avalonia window, `HeadlessTestWindow.Show`
 starts a separate input sequence (clicks of a previous test do not continue into a double tap).
 
 ## Source generator tests

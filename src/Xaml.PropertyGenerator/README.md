@@ -74,6 +74,24 @@ Every property also gets a `{Name}Property` identifier field with the accessibil
   it. This mirrors Avalonia's `OnPropertyChanged(AvaloniaPropertyChangedEventArgs)` override so shared change
   handling keeps working.
 
+### Trimming (WinUI / Uno Platform)
+
+Uno Platform annotates the property type parameter of `DependencyProperty.Register`/`RegisterAttached` with
+`[DynamicallyAccessedMembers]` (constructors, public fields and public properties). The WinUI output keeps trimmed
+builds free of warnings:
+
+* A **generic type parameter** used as property type (`public partial T? Minimum { get; set; }`) gets the same
+  annotation on the generated partial declaration (`partial class Rule<[DynamicallyAccessedMembers(...)] T>`), so
+  `typeof(T)` satisfies it (IL2087). The attributes of partial type parameters are merged; a type parameter that is
+  already annotated is left as declared. Like any annotated generic parameter, generic code that passes its own type
+  parameter as `T` must annotate it too.
+* A property type whose kept members carry their own annotations, such as `System.Type`
+  (`Type.TypeInitializer`), is registered through a private `Register{Name}Property()` helper with a justified
+  `[UnconditionalSuppressMessage("Trimming", "IL2111")]`: those requirements only concern binding paths that go
+  through such members, not bindings to the property value.
+
+The Avalonia output is unchanged.
+
 ### Platform selection
 
 The platform is detected from the base type (`Avalonia.AvaloniaObject` or `Microsoft.UI.Xaml.DependencyObject`)

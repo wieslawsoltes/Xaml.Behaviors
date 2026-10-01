@@ -11,17 +11,29 @@ namespace Xaml.Behaviors.Uno.Headless;
 /// nothing has focus) through the regular Uno Platform keyboard pipeline: <c>PreviewKeyDown</c>, <c>KeyDown</c> and, for
 /// keys producing a character, <c>CharacterReceived</c>.
 /// </summary>
-/// <remarks>All members must be called on the UI thread.</remarks>
+/// <remarks>
+/// The keyboard tracks the modifier keys pressed with <see cref="KeyDown"/> and not released yet
+/// (<see cref="Modifiers"/>): key and mouse events carry them in addition to the modifiers passed to the members. All
+/// members must be called on the UI thread.
+/// </remarks>
 public sealed class UnoHeadlessKeyboard
 {
     private readonly UnoHeadlessSession _session;
     private readonly HeadlessHost _host;
+    private VirtualKeyModifiers _left;
+    private VirtualKeyModifiers _right;
 
     internal UnoHeadlessKeyboard(UnoHeadlessSession session, HeadlessHost host)
     {
         _session = session;
         _host = host;
     }
+
+    /// <summary>
+    /// Gets the modifier keys that are held: pressed with <see cref="KeyDown"/> and not released with
+    /// <see cref="KeyUp"/>.
+    /// </summary>
+    public VirtualKeyModifiers Modifiers => _left | _right;
 
     /// <summary>
     /// Raises the key down events of <paramref name="key"/>.
@@ -33,7 +45,8 @@ public sealed class UnoHeadlessKeyboard
     public bool KeyDown(VirtualKey key, VirtualKeyModifiers modifiers = VirtualKeyModifiers.None, char? character = null)
     {
         _session.EnsureThreadAccess();
-        return _host.RaiseKey(key, modifiers, down: true, character);
+        UpdateModifiers(key, down: true);
+        return _host.RaiseKey(key, modifiers | Modifiers, down: true, character);
     }
 
     /// <summary>
@@ -45,7 +58,8 @@ public sealed class UnoHeadlessKeyboard
     public bool KeyUp(VirtualKey key, VirtualKeyModifiers modifiers = VirtualKeyModifiers.None)
     {
         _session.EnsureThreadAccess();
-        return _host.RaiseKey(key, modifiers, down: false, character: null);
+        UpdateModifiers(key, down: false);
+        return _host.RaiseKey(key, modifiers | Modifiers, down: false, character: null);
     }
 
     /// <summary>
@@ -75,11 +89,37 @@ public sealed class UnoHeadlessKeyboard
         foreach (var character in text)
         {
             var (key, modifiers) = ToKey(character);
-            _host.RaiseKey(key, modifiers, down: true, character);
-            _host.RaiseKey(key, modifiers, down: false, character: null);
+            _host.RaiseKey(key, modifiers | Modifiers, down: true, character);
+            _host.RaiseKey(key, modifiers | Modifiers, down: false, character: null);
         }
 
         _session.RunJobs();
+    }
+
+    private void UpdateModifiers(VirtualKey key, bool down)
+    {
+        // The generic keys (Control, Shift, Menu) count as the left keys.
+        var (modifier, isRight) = key switch
+        {
+            VirtualKey.Control or VirtualKey.LeftControl => (VirtualKeyModifiers.Control, false),
+            VirtualKey.RightControl => (VirtualKeyModifiers.Control, true),
+            VirtualKey.Shift or VirtualKey.LeftShift => (VirtualKeyModifiers.Shift, false),
+            VirtualKey.RightShift => (VirtualKeyModifiers.Shift, true),
+            VirtualKey.Menu or VirtualKey.LeftMenu => (VirtualKeyModifiers.Menu, false),
+            VirtualKey.RightMenu => (VirtualKeyModifiers.Menu, true),
+            VirtualKey.LeftWindows => (VirtualKeyModifiers.Windows, false),
+            VirtualKey.RightWindows => (VirtualKeyModifiers.Windows, true),
+            _ => (VirtualKeyModifiers.None, false),
+        };
+
+        if (isRight)
+        {
+            _right = down ? _right | modifier : _right & ~modifier;
+        }
+        else
+        {
+            _left = down ? _left | modifier : _left & ~modifier;
+        }
     }
 
     private static (VirtualKey Key, VirtualKeyModifiers Modifiers) ToKey(char character) => character switch

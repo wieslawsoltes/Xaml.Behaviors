@@ -65,6 +65,81 @@ public class InputTests
     }
 
     [UnoHeadlessFact]
+    public void Mouse_Wheel_Raises_PointerWheelChanged_With_The_Wheel_Delta()
+    {
+        var wheels = new List<(int Delta, bool IsHorizontal)>();
+        var target = new Border { Width = 50, Height = 50, Background = new SolidColorBrush(Microsoft.UI.Colors.Red) };
+        target.PointerWheelChanged += (_, e) =>
+        {
+            var properties = e.GetCurrentPoint(target).Properties;
+            wheels.Add((properties.MouseWheelDelta, properties.IsHorizontalMouseWheel));
+        };
+        Session.Show(new StackPanel { Children = { target } });
+
+        Session.Mouse.MoveTo(new Point(25, 25), target);
+        Session.Mouse.Wheel(1);
+        Session.Mouse.Wheel(-2);
+        Session.Mouse.HorizontalWheel(1);
+
+        Assert.Equal([(120, false), (-240, false), (120, true)], wheels);
+    }
+
+    [UnoHeadlessFact]
+    public void Mouse_Events_Carry_The_Given_Modifiers()
+    {
+        var modifiers = new List<VirtualKeyModifiers>();
+        var target = new Border { Width = 50, Height = 50, Background = new SolidColorBrush(Microsoft.UI.Colors.Red) };
+        target.PointerPressed += (_, e) => modifiers.Add(e.KeyModifiers);
+        target.PointerReleased += (_, e) => modifiers.Add(e.KeyModifiers);
+        target.PointerWheelChanged += (_, e) => modifiers.Add(e.KeyModifiers);
+        Session.Show(new StackPanel { Children = { target } });
+
+        Session.Mouse.Click(target, modifiers: VirtualKeyModifiers.Shift);
+        Session.Mouse.Wheel(1, VirtualKeyModifiers.Control | VirtualKeyModifiers.Menu);
+        Session.Mouse.Click(target);
+
+        Assert.Equal(
+            [
+                VirtualKeyModifiers.Shift,
+                VirtualKeyModifiers.Shift,
+                VirtualKeyModifiers.Control | VirtualKeyModifiers.Menu,
+                VirtualKeyModifiers.None,
+                VirtualKeyModifiers.None,
+            ],
+            modifiers);
+    }
+
+    [UnoHeadlessFact]
+    public void Mouse_Events_Carry_The_Modifiers_Held_On_The_Keyboard()
+    {
+        var modifiers = new List<VirtualKeyModifiers>();
+        var target = new Border { Width = 50, Height = 50, Background = new SolidColorBrush(Microsoft.UI.Colors.Red) };
+        target.PointerPressed += (_, e) => modifiers.Add(e.KeyModifiers);
+        target.PointerWheelChanged += (_, e) => modifiers.Add(e.KeyModifiers);
+        Session.Show(new StackPanel { Children = { target } });
+
+        Session.Keyboard.KeyDown(VirtualKey.Control);
+        Session.Keyboard.KeyDown(VirtualKey.RightShift);
+        Assert.Equal(VirtualKeyModifiers.Control | VirtualKeyModifiers.Shift, Session.Keyboard.Modifiers);
+        Session.Mouse.Click(target);
+        Session.Mouse.MoveTo(new Point(10, 10), target);
+        Session.Mouse.Wheel(1, VirtualKeyModifiers.Menu);
+        Session.Keyboard.KeyUp(VirtualKey.RightShift);
+        Session.Keyboard.KeyUp(VirtualKey.Control);
+        Session.Mouse.Wait(TimeSpan.FromSeconds(1));
+        Session.Mouse.Click(target);
+
+        Assert.Equal(VirtualKeyModifiers.None, Session.Keyboard.Modifiers);
+        Assert.Equal(
+            [
+                VirtualKeyModifiers.Control | VirtualKeyModifiers.Shift,
+                VirtualKeyModifiers.Control | VirtualKeyModifiers.Shift | VirtualKeyModifiers.Menu,
+                VirtualKeyModifiers.None,
+            ],
+            modifiers);
+    }
+
+    [UnoHeadlessFact]
     public void Mouse_Wait_Separates_Clicks_Into_Single_Taps()
     {
         var doubleTaps = 0;

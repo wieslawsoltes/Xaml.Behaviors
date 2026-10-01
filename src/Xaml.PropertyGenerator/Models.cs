@@ -102,6 +102,24 @@ namespace Xaml.PropertyGenerator
         }
     }
 
+    /// <summary>
+    /// Trimming information of a property type, used by the WinUI emitter: WinUI/Uno Platform annotates the property
+    /// type parameter of <c>DependencyProperty.Register</c> with <c>[DynamicallyAccessedMembers]</c>.
+    /// </summary>
+    /// <param name="TypeParameterLevel">
+    /// The index (outermost first) of the containing type declaring the type parameter used as property type that must
+    /// be annotated, or -1.
+    /// </param>
+    /// <param name="TypeParameterName">The name of that type parameter.</param>
+    /// <param name="HasAnnotatedMembers">
+    /// The property type has members with <c>[DynamicallyAccessedMembers]</c> annotations (for example
+    /// <see cref="System.Type"/>), which the registration exposes to reflection (IL2111).
+    /// </param>
+    internal sealed record TrimmingModel(int TypeParameterLevel, string TypeParameterName, bool HasAnnotatedMembers)
+    {
+        public static TrimmingModel None { get; } = new(-1, string.Empty, false);
+    }
+
     /// <summary>A generated property.</summary>
     internal sealed record PropertyModel(
         PropertyKind Kind,
@@ -122,7 +140,8 @@ namespace Xaml.PropertyGenerator
         bool AssignBinding,
         bool Lazy,
         bool HasChangedHook,
-        string HostType);
+        string HostType,
+        TrimmingModel Trimming);
 
     /// <summary>All generated properties of one type.</summary>
     internal sealed record TypeModel(
@@ -133,6 +152,7 @@ namespace Xaml.PropertyGenerator
         string OwnerType,
         string Usings,
         string? ChangedMethod,
+        bool HasTrimmingAttributes,
         EquatableArray<PropertyModel> Properties);
 
     /// <summary>The result of analyzing one annotated declaration.</summary>

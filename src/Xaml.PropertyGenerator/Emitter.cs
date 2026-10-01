@@ -11,6 +11,24 @@ namespace Xaml.PropertyGenerator
         private const string WinUIDependencyProperty = "global::Microsoft.UI.Xaml.DependencyProperty";
         private const string WinUIPropertyMetadata = "global::Microsoft.UI.Xaml.PropertyMetadata";
 
+        /// <summary>The annotation of the property type parameter of WinUI/Uno Platform <c>DependencyProperty.Register</c>.</summary>
+        private const string WinUIDynamicallyAccessedMembers =
+            "global::System.Diagnostics.CodeAnalysis.DynamicallyAccessedMembers(" +
+            "global::System.Diagnostics.CodeAnalysis.DynamicallyAccessedMemberTypes.PublicConstructors | " +
+            "global::System.Diagnostics.CodeAnalysis.DynamicallyAccessedMemberTypes.NonPublicConstructors | " +
+            "global::System.Diagnostics.CodeAnalysis.DynamicallyAccessedMemberTypes.PublicFields | " +
+            "global::System.Diagnostics.CodeAnalysis.DynamicallyAccessedMemberTypes.PublicProperties)";
+
+        /// <summary>
+        /// The suppression of IL2111 for registrations of property types with annotated members (for example
+        /// <see cref="System.Type"/>, whose <c>TypeInitializer</c> getter requires the constructors of the instance).
+        /// </summary>
+        private const string WinUIAnnotatedMembersSuppression =
+            "[global::System.Diagnostics.CodeAnalysis.UnconditionalSuppressMessage(\"Trimming\", \"IL2111\", Justification = " +
+            "\"WinUI keeps the constructors, public fields and public properties of the property type for reflection based " +
+            "bindings. Some of these members carry their own DynamicallyAccessedMembers requirements, which only matter to " +
+            "binding paths that go through them; binding to the property value itself does not access them.\")]";
+
         private static readonly string[] s_avaloniaBindingModes =
         {
             "Default", "OneWay", "TwoWay", "OneTime", "OneWayToSource",
@@ -46,7 +64,7 @@ namespace Xaml.PropertyGenerator
                 }
 
                 Indent(sb, depth).Append("partial ").Append(declaration.Keyword.Replace("static ", string.Empty))
-                    .Append(' ').Append(declaration.Name).Append(declaration.TypeParameters).Append('\n');
+                    .Append(' ').Append(declaration.Name).Append(TypeParameters(type, declaration, i)).Append('\n');
                 Indent(sb, depth).Append("{\n");
                 depth++;
             }
@@ -78,6 +96,43 @@ namespace Xaml.PropertyGenerator
             }
 
             return sb.ToString();
+        }
+
+        /// <summary>
+        /// The type parameter list of a containing type declaration. On WinUI, type parameters used as property types
+        /// get the <c>[DynamicallyAccessedMembers]</c> annotation of the <c>DependencyProperty.Register</c> property type
+        /// parameter (the attributes of partial type parameters are merged), so <c>typeof(T)</c> satisfies it (IL2087).
+        /// </summary>
+        private static string TypeParameters(TypeModel type, TypeDeclarationModel declaration, int level)
+        {
+            if (type.Platform != TargetPlatform.WinUI || !type.HasTrimmingAttributes || declaration.TypeParameters.Length == 0)
+            {
+                return declaration.TypeParameters;
+            }
+
+            var names = declaration.TypeParameters.Substring(1, declaration.TypeParameters.Length - 2).Split(',');
+            var sb = new StringBuilder("<");
+            for (var i = 0; i < names.Length; i++)
+            {
+                var name = names[i].Trim();
+                if (i > 0)
+                {
+                    sb.Append(", ");
+                }
+
+                foreach (var property in type.Properties)
+                {
+                    if (property.Trimming.TypeParameterLevel == level && property.Trimming.TypeParameterName == name)
+                    {
+                        sb.Append('[').Append(WinUIDynamicallyAccessedMembers).Append("] ");
+                        break;
+                    }
+                }
+
+                sb.Append(name);
+            }
+
+            return sb.Append('>').ToString();
         }
 
         private static void EmitAvalonia(StringBuilder sb, int depth, TypeModel type, PropertyModel p)
@@ -264,7 +319,19 @@ namespace Xaml.PropertyGenerator
             var callback = BuildWinUICallback(type, p);
 
             FieldDoc(sb, depth, p, "dependency");
-            Indent(sb, depth).Append(p.FieldAccessibility).Append(" static readonly ").Append(WinUIDependencyProperty).Append(' ').Append(field).Append(" =\n");
+            Indent(sb, depth).Append(p.FieldAccessibility).Append(" static readonly ").Append(WinUIDependencyProperty).Append(' ').Append(field);
+            if (p.Trimming.HasAnnotatedMembers && type.HasTrimmingAttributes)
+            {
+                // The registration runs in a helper method that can carry the suppression (field initializers cannot).
+                sb.Append(" = Register").Append(field).Append("();\n\n");
+                Indent(sb, depth).Append(WinUIAnnotatedMembersSuppression).Append('\n');
+                Indent(sb, depth).Append("private static ").Append(WinUIDependencyProperty).Append(" Register").Append(field).Append("() =>\n");
+            }
+            else
+            {
+                sb.Append(" =\n");
+            }
+
             Indent(sb, depth + 1).Append(WinUIDependencyProperty).Append(p.Kind == PropertyKind.Attached ? ".RegisterAttached(\"" + p.Name + "\"" : ".Register(nameof(" + p.Name + ")")
                 .Append(", typeof(").Append(p.TypeOfType).Append("), typeof(").Append(owner).Append("), new ").Append(WinUIPropertyMetadata).Append('(').Append(defaultValue);
             if (callback is not null)

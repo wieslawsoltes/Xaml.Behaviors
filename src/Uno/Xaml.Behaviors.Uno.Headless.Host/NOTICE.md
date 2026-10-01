@@ -20,6 +20,9 @@ Modifications made for this redistribution:
   internal `EventLoop`, and exposes `HeadlessHost.RunJobs()` to drain the queued UI work synchronously.
 - The host registers a keyboard input source (`Hosting/HeadlessKeyboardInputSource.cs`) and exposes
   `HeadlessHost.RaiseKey()`/`RaiseCharacter()`, so keyboard input reaches the focused element like on other hosts.
+- The host exposes `HeadlessHost.InjectMouseInput()` (`Hosting/HeadlessMouseInput.cs`): mouse input injected with
+  keyboard modifiers (the public `InputInjector.InjectMouseInput` raises pointer events without modifiers) and with the
+  WinUI wheel rotation in `MouseData` (Uno Platform reads it from `DeltaY`/`DeltaX`).
 
 Unless required by applicable law or agreed to in writing, software distributed under the Apache
 License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either

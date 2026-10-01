@@ -101,6 +101,19 @@ has focus). Mouse input is injected with `InputInjector`; `Mouse` tracks the poi
 Every injected mouse event is one frame (16 ms) after the previous one, so clicks at the same position form double taps;
 `Mouse.Wait(duration)` lets time pass without input (for example to start an independent input sequence).
 
+`Mouse.Wheel(notches)` and `Mouse.HorizontalWheel(notches)` raise `PointerWheelChanged` (a wheel delta of 120 per
+notch). Mouse events carry keyboard modifiers (`PointerRoutedEventArgs.KeyModifiers`): the modifier keys held with
+`Keyboard.KeyDown` (until `Keyboard.KeyUp`, see `Keyboard.Modifiers`) and the modifiers passed to the mouse members:
+
+```csharp
+session.Keyboard.KeyDown(VirtualKey.Control);     // also updates the key state (InputKeyboardSource)
+session.Mouse.Click(target);                       // KeyModifiers == Control
+session.Keyboard.KeyUp(VirtualKey.Control);
+
+session.Mouse.Click(target, modifiers: VirtualKeyModifiers.Shift);
+session.Mouse.Wheel(-1, VirtualKeyModifiers.Control);
+```
+
 ## Configuring the session
 
 The session starts with `UnoHeadlessSessionOptions.Default` (1024x768 raw pixels, scale 1, a minimal

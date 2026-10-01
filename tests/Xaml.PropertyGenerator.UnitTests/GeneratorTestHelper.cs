@@ -1,11 +1,14 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.Loader;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
+using Microsoft.CodeAnalysis.Diagnostics;
 
 namespace Xaml.PropertyGenerator.UnitTests;
 
@@ -24,19 +27,43 @@ internal static class GeneratorTestHelper
 {
     private static readonly CSharpParseOptions s_parseOptions = new(LanguageVersion.Preview);
 
-    public static GeneratorRun Run(string source, TestPlatform platform)
+    public static GeneratorRun Run(string source, TestPlatform platform) => Run(source, platform, out _);
+
+    /// <summary>
+    /// Runs the generator and the trim analyzer of the .NET SDK (ILLink.RoslynAnalyzer, the analyzer behind
+    /// <c>EnableTrimAnalyzer</c>) on the output and returns the trimming warnings (IL*).
+    /// </summary>
+    public static ImmutableArray<Diagnostic> GetTrimWarnings(string source, TestPlatform platform, bool runGenerator = true)
     {
-        var compilation = CSharpCompilation.Create(
+        Compilation compilation = CreateCompilation(source, platform);
+        if (runGenerator)
+        {
+            Run(source, platform, out compilation);
+        }
+
+        var analyzers = new AnalyzerFileReference(GetMetadata("ILLinkAnalyzerPath"), new AnalyzerLoader())
+            .GetAnalyzers(LanguageNames.CSharp);
+        var options = new AnalyzerOptions([], new TrimAnalyzerOptionsProvider());
+        var diagnostics = compilation.WithAnalyzers(analyzers, options).GetAnalyzerDiagnosticsAsync().GetAwaiter().GetResult();
+        return diagnostics.Where(static d => d.Id.StartsWith("IL", StringComparison.Ordinal)).ToImmutableArray();
+    }
+
+    private static CSharpCompilation CreateCompilation(string source, TestPlatform platform)
+        => CSharpCompilation.Create(
             "GeneratorTests",
             [CSharpSyntaxTree.ParseText(source, s_parseOptions)],
             GetReferences(platform),
             new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary, nullableContextOptions: NullableContextOptions.Enable));
 
+    private static GeneratorRun Run(string source, TestPlatform platform, out Compilation output)
+    {
+        var compilation = CreateCompilation(source, platform);
+
         GeneratorDriver driver = CSharpGeneratorDriver.Create(
             [new PropertyGenerator().AsSourceGenerator()],
             parseOptions: s_parseOptions);
 
-        driver = driver.RunGeneratorsAndUpdateCompilation(compilation, out var output, out var diagnostics);
+        driver = driver.RunGeneratorsAndUpdateCompilation(compilation, out output, out var diagnostics);
         var result = driver.GetRunResult();
         var generated = string.Join(
             "\n",
@@ -82,6 +109,34 @@ internal static class GeneratorTestHelper
                  })
         {
             yield return MetadataReference.CreateFromFile(Path.Combine(root, package, version, "lib", "net10.0", file));
+        }
+    }
+
+    private sealed class AnalyzerLoader : IAnalyzerAssemblyLoader
+    {
+        public void AddDependencyLocation(string fullPath)
+        {
+        }
+
+        [UnconditionalSuppressMessage("Trimming", "IL2026", Justification = "Test code loading the trim analyzer of the SDK; never trimmed.")]
+        public Assembly LoadFromPath(string fullPath) => AssemblyLoadContext.Default.LoadFromAssemblyPath(fullPath);
+    }
+
+    private sealed class TrimAnalyzerOptionsProvider : AnalyzerConfigOptionsProvider
+    {
+        public override AnalyzerConfigOptions GlobalOptions { get; } = new TrimAnalyzerOptions();
+
+        public override AnalyzerConfigOptions GetOptions(SyntaxTree tree) => GlobalOptions;
+
+        public override AnalyzerConfigOptions GetOptions(AdditionalText textFile) => GlobalOptions;
+    }
+
+    private sealed class TrimAnalyzerOptions : AnalyzerConfigOptions
+    {
+        public override bool TryGetValue(string key, [NotNullWhen(true)] out string? value)
+        {
+            value = key == "build_property.EnableTrimAnalyzer" ? "true" : null;
+            return value is not null;
         }
     }
 

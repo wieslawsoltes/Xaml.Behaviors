@@ -77,7 +77,12 @@ public partial class ChangeAvaloniaPropertyAction : StyledElementAction
         {
             object? result = null;
 #if UNO
-            var propertyType = GetPropertyType(targetObject, targetProperty);
+            var propertyType = GetPropertyType(targetObject, targetProperty, out var isExactType);
+            if (!isExactType)
+            {
+                targetObject.SetValue(targetProperty, ConvertToInferredType(Value, propertyType));
+                return;
+            }
 #else
             var propertyType = targetProperty.PropertyType;
 #endif
