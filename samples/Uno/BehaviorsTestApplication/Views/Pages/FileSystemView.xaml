@@ -1,0 +1,74 @@
+<UserControl x:Class="BehaviorsTestApplication.Views.Pages.FileSystemView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:i="using:Xaml.Interactivity"
+             xmlns:ic="using:Xaml.Interactions.Core"
+             xmlns:ifs="using:Xaml.Interactions.FileSystem"
+             xmlns:vm="using:BehaviorsTestApplication.ViewModels"
+             xmlns:converters="using:BehaviorsTestApplication.Converters"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450">
+    <UserControl.DataContext>
+        <vm:FileSystemViewModel />
+    </UserControl.DataContext>
+
+    <i:Interaction.Behaviors>
+        <ifs:FileSystemWatcherTrigger Path="{x:Bind ViewModel.TargetPath, Mode=OneWay}" IncludeSubdirectories="True">
+            <ic:InvokeCommandAction Command="{x:Bind ViewModel.LogEventCommand}" PassEventArgsToCommand="True" />
+        </ifs:FileSystemWatcherTrigger>
+    </i:Interaction.Behaviors>
+
+    <ScrollViewer>
+        <StackPanel Spacing="20" Margin="20">
+            <TextBlock Text="FileSystem Interactions" FontSize="24" FontWeight="Bold" />
+
+            <StackPanel Spacing="10">
+                <TextBlock Text="Target Path (Directory):" />
+                <TextBox Text="{x:Bind ViewModel.TargetPath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+
+                <TextBlock Text="File Content:" />
+                <TextBox Text="{x:Bind ViewModel.FileContent, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+            </StackPanel>
+
+            <!-- Avalonia WrapPanel.Styles (Button margin 0,0,10,10): the margin is set on every button. -->
+            <WrapPanel Orientation="Horizontal">
+                <Button Content="Create Directory" Margin="0,0,10,10">
+                    <i:Interaction.Behaviors>
+                        <ic:EventTriggerBehavior EventName="Click">
+                            <ifs:CreateDirectoryAction Path="{x:Bind ViewModel.TargetPath, Mode=OneWay}" />
+                        </ic:EventTriggerBehavior>
+                    </i:Interaction.Behaviors>
+                </Button>
+
+                <Button Content="Delete Directory" Margin="0,0,10,10">
+                    <i:Interaction.Behaviors>
+                        <ic:EventTriggerBehavior EventName="Click">
+                            <ifs:DeleteDirectoryAction Path="{x:Bind ViewModel.TargetPath, Mode=OneWay}" Recursive="True" />
+                        </ic:EventTriggerBehavior>
+                    </i:Interaction.Behaviors>
+                </Button>
+
+                <Button Content="Write 'test.txt'" Margin="0,0,10,10">
+                    <i:Interaction.Behaviors>
+                        <ic:EventTriggerBehavior EventName="Click">
+                            <ifs:WriteTextToFileAction Path="{x:Bind converters:SamplePathFormat.TestFile(ViewModel.TargetPath), Mode=OneWay}"
+                                                       Text="{x:Bind ViewModel.FileContent, Mode=OneWay}" />
+                        </ic:EventTriggerBehavior>
+                    </i:Interaction.Behaviors>
+                </Button>
+
+                <Button Content="Delete 'test.txt'" Margin="0,0,10,10">
+                    <i:Interaction.Behaviors>
+                        <ic:EventTriggerBehavior EventName="Click">
+                            <ifs:DeleteFileAction Path="{x:Bind converters:SamplePathFormat.TestFile(ViewModel.TargetPath), Mode=OneWay}" />
+                        </ic:EventTriggerBehavior>
+                    </i:Interaction.Behaviors>
+                </Button>
+            </WrapPanel>
+
+            <TextBlock Text="Watcher Logs:" FontWeight="Bold" />
+            <ListView ItemsSource="{x:Bind ViewModel.Logs, Mode=OneWay}" Height="200" />
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>

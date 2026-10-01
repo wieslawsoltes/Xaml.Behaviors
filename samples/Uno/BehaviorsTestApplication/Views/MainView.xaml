@@ -58,7 +58,7 @@
           <controls:PendingSampleView Header="SelectAllOnFocusBehavior" />
         </TabViewItem>
         <TabViewItem Header="FocusNextElementAction" Style="{StaticResource SidebarTabViewItemStyle}">
-          <controls:PendingSampleView Header="FocusNextElementAction" />
+          <pages:FocusNextElementActionView />
         </TabViewItem>
         <TabViewItem Header="WindowDragMoveBehavior" Style="{StaticResource SidebarTabViewItemStyle}">
           <controls:PendingSampleView Header="WindowDragMoveBehavior" />
@@ -187,7 +187,7 @@
           <controls:PendingSampleView Header="ComboBoxValidationBehavior" />
         </TabViewItem>
         <TabViewItem Header="FocusControlBehavior" Style="{StaticResource SidebarTabViewItemStyle}">
-          <controls:PendingSampleView Header="FocusControlBehavior" />
+          <pages:FocusControlBehaviorView />
         </TabViewItem>
         <TabViewItem Header="FocusOnAttachedBehavior" Style="{StaticResource SidebarTabViewItemStyle}">
           <controls:PendingSampleView Header="FocusOnAttachedBehavior" />
@@ -307,7 +307,7 @@
           <controls:PendingSampleView Header="Sliding Animation" />
         </TabViewItem>
         <TabViewItem Header="Fade Animation" Style="{StaticResource SidebarTabViewItemStyle}">
-          <controls:PendingSampleView Header="Fade Animation" />
+          <pages:FadeAnimationView />
         </TabViewItem>
         <TabViewItem Header="Scale Animation" Style="{StaticResource SidebarTabViewItemStyle}">
           <controls:PendingSampleView Header="Scale Animation" />
@@ -349,7 +349,7 @@
           <controls:PendingSampleView Header="RunAnimationTrigger" />
         </TabViewItem>
         <TabViewItem Header="FluidMoveBehavior" Style="{StaticResource SidebarTabViewItemStyle}">
-          <controls:PendingSampleView Header="FluidMoveBehavior" />
+          <pages:FluidMoveBehaviorView />
         </TabViewItem>
         <TabViewItem Header="SelectingItemsControlBehavior" Style="{StaticResource SidebarTabViewItemStyle}">
           <controls:PendingSampleView Header="SelectingItemsControlBehavior" />
@@ -400,7 +400,7 @@
           <controls:PendingSampleView Header="SetClipboardDataObjectAction" />
         </TabViewItem>
         <TabViewItem Header="FocusControlAction" Style="{StaticResource SidebarTabViewItemStyle}">
-          <controls:PendingSampleView Header="FocusControlAction" />
+          <pages:FocusControlActionView />
         </TabViewItem>
         <TabViewItem Header="Hide/ShowControlAction" Style="{StaticResource SidebarTabViewItemStyle}">
           <controls:PendingSampleView Header="Hide/ShowControlAction" />
@@ -430,7 +430,7 @@
           <controls:PendingSampleView Header="Dialog Actions" />
         </TabViewItem>
         <TabViewItem Header="File Drop Handler" Style="{StaticResource SidebarTabViewItemStyle}">
-          <controls:PendingSampleView Header="File Drop Handler" />
+          <pages:FileDropHandlerView />
         </TabViewItem>
         <TabViewItem Header="Upload File" Style="{StaticResource SidebarTabViewItemStyle}">
           <controls:PendingSampleView Header="Upload File" />
@@ -445,7 +445,7 @@
           <controls:PendingSampleView Header="DragDrop Commands" />
         </TabViewItem>
         <TabViewItem Header="Files Preview" Style="{StaticResource SidebarTabViewItemStyle}">
-          <controls:PendingSampleView Header="Files Preview" />
+          <pages:FilesPreviewView />
         </TabViewItem>
         <TabViewItem Header="TypedDragBehavior" Style="{StaticResource SidebarTabViewItemStyle}">
           <controls:PendingSampleView Header="TypedDragBehavior" />
@@ -484,7 +484,7 @@
           <pages:InteractionTriggerBehaviorView />
         </TabViewItem>
         <TabViewItem Header="Flyout Binding" Style="{StaticResource SidebarTabViewItemStyle}">
-          <controls:PendingSampleView Header="Flyout Binding" />
+          <pages:FlyoutBindingView />
         </TabViewItem>
         <TabViewItem Header="KeyTrigger" Style="{StaticResource SidebarTabViewItemStyle}">
           <controls:PendingSampleView Header="KeyTrigger" />
@@ -526,7 +526,7 @@
           <controls:PendingSampleView Header="AutoCompleteBox" />
         </TabViewItem>
         <TabViewItem Header="FocusAutoCompleteBoxTextBoxBehavior" Style="{StaticResource SidebarTabViewItemStyle}">
-          <controls:PendingSampleView Header="FocusAutoCompleteBoxTextBoxBehavior" />
+          <pages:FocusAutoCompleteBoxTextBoxBehaviorView />
         </TabViewItem>
         <TabViewItem Header="TabControl Navigation" Style="{StaticResource SidebarTabViewItemStyle}">
           <controls:PendingSampleView Header="TabControl Navigation" />
@@ -568,7 +568,7 @@
           <controls:PendingSampleView Header="SizeChangedTrigger" />
         </TabViewItem>
         <TabViewItem Header="FadeInBehavior" Style="{StaticResource SidebarTabViewItemStyle}">
-          <controls:PendingSampleView Header="FadeInBehavior" />
+          <pages:FadeInBehaviorView />
         </TabViewItem>
         <TabViewItem Header="DelayedLoadBehavior" Style="{StaticResource SidebarTabViewItemStyle}">
           <controls:PendingSampleView Header="DelayedLoadBehavior" />
@@ -619,7 +619,7 @@
           <pages:EventsBehaviorsView />
         </TabViewItem>
         <TabViewItem Header="Focus Event Triggers" Style="{StaticResource SidebarTabViewItemStyle}">
-          <controls:PendingSampleView Header="Focus Event Triggers" />
+          <pages:FocusEventTriggersView />
         </TabViewItem>
         <TabViewItem Header="Key Event Triggers" Style="{StaticResource SidebarTabViewItemStyle}">
           <controls:PendingSampleView Header="Key Event Triggers" />
@@ -730,7 +730,7 @@
           <controls:PendingSampleView Header="UnloadedTrigger" />
         </TabViewItem>
         <TabViewItem Header="FileSystem" Style="{StaticResource SidebarTabViewItemStyle}">
-          <controls:PendingSampleView Header="FileSystem" />
+          <pages:FileSystemView />
         </TabViewItem>
         <TabViewItem Header="Network" Style="{StaticResource SidebarTabViewItemStyle}">
           <controls:PendingSampleView Header="Network" />
