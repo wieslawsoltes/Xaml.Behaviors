@@ -1,0 +1,64 @@
+<UserControl x:Class="BehaviorsTestApplication.Views.Pages.SplitViewStateBehaviorView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:i="using:Xaml.Interactivity"
+             xmlns:ic="using:Xaml.Interactions.Core"
+             xmlns:icustom="using:Xaml.Interactions.Custom"
+             mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="450">
+
+  <SplitView x:Name="DemoSplitView" PanePlacement="Left">
+    <i:Interaction.Behaviors>
+      <!--
+        Avalonia: SourceControl="{Binding $parent[TopLevel]}". WinUI has no ancestor bindings and no top level element in
+        the visual tree; without a source control the behavior observes the size of the split view, which fills the page.
+      -->
+      <icustom:SplitViewStateBehavior>
+        <icustom:SplitViewStateSetter MinWidth="0" MaxWidth="500"
+                                      DisplayMode="CompactOverlay"
+                                      IsPaneOpen="False" />
+        <icustom:SplitViewStateSetter MinWidth="500" MaxWidth="800"
+                                      DisplayMode="Inline"
+                                      IsPaneOpen="False" />
+        <icustom:SplitViewStateSetter MinWidth="800" MaxWidth="Infinity"
+                                      DisplayMode="Inline"
+                                      IsPaneOpen="True" />
+      </icustom:SplitViewStateBehavior>
+      <icustom:SplitViewPaneOpeningTrigger>
+        <ic:ChangePropertyAction TargetObject="{x:Bind EventText}" PropertyName="Text" Value="Pane opening" />
+      </icustom:SplitViewPaneOpeningTrigger>
+      <icustom:SplitViewPaneOpenedTrigger>
+        <ic:ChangePropertyAction TargetObject="{x:Bind EventText}" PropertyName="Text" Value="Pane opened" />
+      </icustom:SplitViewPaneOpenedTrigger>
+      <icustom:SplitViewPaneClosingTrigger>
+        <ic:ChangePropertyAction TargetObject="{x:Bind EventText}" PropertyName="Text" Value="Pane closing" />
+      </icustom:SplitViewPaneClosingTrigger>
+      <icustom:SplitViewPaneClosedTrigger>
+        <ic:ChangePropertyAction TargetObject="{x:Bind EventText}" PropertyName="Text" Value="Pane closed" />
+      </icustom:SplitViewPaneClosedTrigger>
+    </i:Interaction.Behaviors>
+
+    <SplitView.Pane>
+      <Border Background="LightGray" Padding="10">
+        <TextBlock Text="Pane content" />
+      </Border>
+    </SplitView.Pane>
+
+    <!-- Avalonia: DockPanel (button docked at the top, the text fills the rest); WinUI has no DockPanel. -->
+    <Grid>
+      <Grid.RowDefinitions>
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="*" />
+      </Grid.RowDefinitions>
+      <Button Grid.Row="0" Content="Toggle Pane">
+        <i:Interaction.Behaviors>
+          <ic:EventTriggerBehavior EventName="Click">
+            <icustom:SplitViewTogglePaneAction TargetSplitView="{x:Bind DemoSplitView}" />
+          </ic:EventTriggerBehavior>
+        </i:Interaction.Behaviors>
+      </Button>
+      <TextBlock x:Name="EventText" Grid.Row="1" Margin="5" Text="" />
+    </Grid>
+  </SplitView>
+</UserControl>

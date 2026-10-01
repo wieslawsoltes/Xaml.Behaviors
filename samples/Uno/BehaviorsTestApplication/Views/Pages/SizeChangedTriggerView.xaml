@@ -1,0 +1,23 @@
+<UserControl x:Class="BehaviorsTestApplication.Views.Pages.SizeChangedTriggerView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:i="using:Xaml.Interactivity"
+             xmlns:ic="using:Xaml.Interactions.Core"
+             xmlns:icustom="using:Xaml.Interactions.Custom"
+             xmlns:converters="using:BehaviorsTestApplication.Converters"
+             mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="200">
+  <StackPanel Spacing="5">
+    <Slider x:Name="WidthSlider" Minimum="100" Maximum="300" Value="150" Width="200" />
+    <Border x:Name="Target" Background="LightGray" Height="80" Width="{x:Bind WidthSlider.Value, Mode=OneWay}">
+      <i:Interaction.Behaviors>
+        <icustom:SizeChangedTrigger>
+          <ic:CallMethodAction TargetObject="{x:Bind ViewModel}" MethodName="IncrementCount" />
+        </icustom:SizeChangedTrigger>
+      </i:Interaction.Behaviors>
+    </Border>
+    <!-- Avalonia: StringFormat={}Size changed count: {0} (WinUI bindings have no StringFormat; x:Bind calls a formatter). -->
+    <TextBlock Text="{x:Bind converters:SampleFormat.SizeChangedCount(ViewModel.Count), Mode=OneWay}" />
+  </StackPanel>
+</UserControl>

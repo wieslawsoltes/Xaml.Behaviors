@@ -1,0 +1,61 @@
+<UserControl x:Class="BehaviorsTestApplication.Views.Pages.TransitionsActionsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:i="using:Xaml.Interactivity"
+             xmlns:ic="using:Xaml.Interactions.Core"
+             xmlns:icustom="using:Xaml.Interactions.Custom"
+             mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="200">
+  <UserControl.Resources>
+    <!--
+      Avalonia: DoubleTransition on Layoutable.WidthProperty (0:0:0.3). WinUI element transitions (UIElement.Transitions)
+      are theme transitions: the reposition transition animates the layout move of the centered border when its width
+      changes.
+    -->
+    <RepositionThemeTransition x:Key="WidthTransition" />
+  </UserControl.Resources>
+  <StackPanel Margin="5" Spacing="5">
+    <Border x:Name="ActionBorder"
+            Background="Gray"
+            Width="100"
+            Height="40" />
+    <StackPanel Orientation="Horizontal" Spacing="5">
+      <Button Content="Add">
+        <i:Interaction.Behaviors>
+          <ic:EventTriggerBehavior EventName="Click">
+            <icustom:AddTransitionAction Transition="{StaticResource WidthTransition}" StyledElement="{x:Bind ActionBorder}" />
+          </ic:EventTriggerBehavior>
+        </i:Interaction.Behaviors>
+      </Button>
+      <Button Content="Remove">
+        <i:Interaction.Behaviors>
+          <ic:EventTriggerBehavior EventName="Click">
+            <icustom:RemoveTransitionAction Transition="{StaticResource WidthTransition}" StyledElement="{x:Bind ActionBorder}" />
+          </ic:EventTriggerBehavior>
+        </i:Interaction.Behaviors>
+      </Button>
+      <Button Content="Clear">
+        <i:Interaction.Behaviors>
+          <ic:EventTriggerBehavior EventName="Click">
+            <icustom:ClearTransitionsAction StyledElement="{x:Bind ActionBorder}" />
+          </ic:EventTriggerBehavior>
+        </i:Interaction.Behaviors>
+      </Button>
+      <Button Content="Grow">
+        <i:Interaction.Behaviors>
+          <ic:EventTriggerBehavior EventName="Click">
+            <ic:ChangePropertyAction TargetObject="{x:Bind ActionBorder}" PropertyName="Width" Value="200" />
+          </ic:EventTriggerBehavior>
+        </i:Interaction.Behaviors>
+      </Button>
+      <Button Content="Reset">
+        <i:Interaction.Behaviors>
+          <ic:EventTriggerBehavior EventName="Click">
+            <ic:ChangePropertyAction TargetObject="{x:Bind ActionBorder}" PropertyName="Width" Value="100" />
+          </ic:EventTriggerBehavior>
+        </i:Interaction.Behaviors>
+      </Button>
+    </StackPanel>
+  </StackPanel>
+</UserControl>

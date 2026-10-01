@@ -1,0 +1,11 @@
+<!--
+  Not available: ToggleClassAction toggles an Avalonia style class (StyledElement.Classes) matched by a style selector
+  (Button.active); WinUI has no style classes and no selectors, and the class actions are not part of the Uno port.
+-->
+<UserControl x:Class="BehaviorsTestApplication.Views.Pages.ToggleClassActionView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:controls="using:BehaviorsTestApplication.Controls">
+  <controls:NotAvailableOnUnoView Title="ToggleClassAction"
+                                  Reason="ToggleClassAction toggles an Avalonia style class (StyledElement.Classes) matched by a style selector; WinUI has no style classes or style selectors." />
+</UserControl>

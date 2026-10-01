@@ -1,0 +1,11 @@
+<!--
+  Not available: VisualDebugBehavior flashes a highlight in the Avalonia adorner layer (VisualDebugAdorner); WinUI has no
+  adorners, and the visual debug behavior is not part of the Uno port.
+-->
+<UserControl x:Class="BehaviorsTestApplication.Views.Pages.VisualDebugBehaviorView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:controls="using:BehaviorsTestApplication.Controls">
+  <controls:NotAvailableOnUnoView Title="VisualDebugBehavior"
+                                  Reason="VisualDebugBehavior draws its highlight in the Avalonia adorner layer (VisualDebugAdorner); WinUI has no adorner layer." />
+</UserControl>
