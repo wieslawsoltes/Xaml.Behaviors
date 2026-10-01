@@ -1,0 +1,78 @@
+<UserControl x:Class="BehaviorsTestApplication.Views.Pages.MultiDataTriggerBehaviorView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:i="using:Xaml.Interactivity"
+             xmlns:ic="using:Xaml.Interactions.Core">
+  <StackPanel Spacing="12">
+    <TextBlock Text="Use the slider and checkbox together. Each MultiDataTrigger reacts only when every condition in its collection is satisfied."
+               TextWrapping="Wrap" />
+    <Border BorderThickness="1"
+            BorderBrush="{ThemeResource ControlStrokeColorDefaultBrush}"
+            Padding="12">
+      <StackPanel Spacing="8">
+        <TextBlock Text="Combined state:"
+                   FontWeight="SemiBold" />
+        <TextBlock x:Name="TargetTextBlock"
+                   FontSize="24">
+          <i:Interaction.Behaviors>
+            <ic:MultiDataTrigger>
+              <ic:MultiDataTrigger.Conditions>
+                <i:Condition Binding="{x:Bind TargetSlider.Value, Mode=OneWay}"
+                             ComparisonCondition="GreaterThanOrEqual"
+                             Value="50" />
+                <i:Condition Binding="{x:Bind TargetCheckBox.IsChecked, Mode=OneWay}"
+                             ComparisonCondition="Equal"
+                             Value="True" />
+              </ic:MultiDataTrigger.Conditions>
+              <ic:ChangePropertyAction PropertyName="Text"
+                                       Value="Ready" />
+            </ic:MultiDataTrigger>
+            <ic:MultiDataTriggerBehavior>
+              <ic:MultiDataTriggerBehavior.Conditions>
+                <i:Condition Binding="{x:Bind TargetSlider.Value, Mode=OneWay}"
+                             ComparisonCondition="GreaterThanOrEqual"
+                             Value="50" />
+                <i:Condition Binding="{x:Bind TargetCheckBox.IsChecked, Mode=OneWay}"
+                             ComparisonCondition="Equal"
+                             Value="False" />
+              </ic:MultiDataTriggerBehavior.Conditions>
+              <ic:ChangePropertyAction PropertyName="Text"
+                                       Value="Checkbox unchecked" />
+            </ic:MultiDataTriggerBehavior>
+            <ic:MultiDataTriggerBehavior>
+              <ic:MultiDataTriggerBehavior.Conditions>
+                <i:Condition Binding="{x:Bind TargetSlider.Value, Mode=OneWay}"
+                             ComparisonCondition="LessThan"
+                             Value="50" />
+                <i:Condition Binding="{x:Bind TargetCheckBox.IsChecked, Mode=OneWay}"
+                             ComparisonCondition="Equal"
+                             Value="True" />
+              </ic:MultiDataTriggerBehavior.Conditions>
+              <ic:ChangePropertyAction PropertyName="Text"
+                                       Value="Slider too low" />
+            </ic:MultiDataTriggerBehavior>
+            <ic:MultiDataTriggerBehavior>
+              <ic:MultiDataTriggerBehavior.Conditions>
+                <i:Condition Binding="{x:Bind TargetSlider.Value, Mode=OneWay}"
+                             ComparisonCondition="LessThan"
+                             Value="50" />
+                <i:Condition Binding="{x:Bind TargetCheckBox.IsChecked, Mode=OneWay}"
+                             ComparisonCondition="Equal"
+                             Value="False" />
+              </ic:MultiDataTriggerBehavior.Conditions>
+              <ic:ChangePropertyAction PropertyName="Text"
+                                       Value="Move slider and check" />
+            </ic:MultiDataTriggerBehavior>
+          </i:Interaction.Behaviors>
+        </TextBlock>
+        <CheckBox x:Name="TargetCheckBox"
+                  Content="Enabled" />
+        <Slider x:Name="TargetSlider"
+                Minimum="0"
+                Maximum="100"
+                SmallChange="25"
+                Value="0" />
+      </StackPanel>
+    </Border>
+  </StackPanel>
+</UserControl>

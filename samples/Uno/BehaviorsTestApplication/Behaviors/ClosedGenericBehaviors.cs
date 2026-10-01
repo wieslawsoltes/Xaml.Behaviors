@@ -31,3 +31,10 @@ public partial class NavigateToDetailPageAction : NavigateToAction<DetailPageVie
 public partial class NavigateToHomePageAndResetAction : NavigateToAndResetAction<HomePageViewModel>
 {
 }
+
+/// <summary>
+/// <see cref="NotNullValidationRule{T}"/> for <see cref="object"/> values (Avalonia: <c>x:TypeArguments="system:Object"</c>).
+/// </summary>
+public partial class ObjectNotNullValidationRule : NotNullValidationRule<object>
+{
+}
