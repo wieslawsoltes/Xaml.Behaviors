@@ -1,0 +1,42 @@
+<UserControl x:Class="BehaviorsTestApplication.Views.Pages.OrbitEffectBehaviorView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:i="using:Xaml.Interactivity"
+             xmlns:icustom="using:Xaml.Interactions.Custom"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="600">
+  <ScrollViewer>
+    <StackPanel Spacing="20" Margin="20">
+      <TextBlock Text="OrbitEffectBehavior" FontSize="24" FontWeight="Bold" />
+      <TextBlock Text="Click and drag the cards below to rotate them in 3D space." />
+
+      <!-- Avalonia: WrapPanel and BoxShadow="0 5 15 0 #50000000" (WinUI has neither; VariableSizedWrapGrid wraps). -->
+      <VariableSizedWrapGrid Orientation="Horizontal">
+        <Border Width="200" Height="120" Background="#3498db" CornerRadius="10" Margin="10">
+          <i:Interaction.Behaviors>
+            <icustom:OrbitEffectBehavior Sensitivity="0.5" />
+          </i:Interaction.Behaviors>
+          <TextBlock Text="Drag Me" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center"
+                     FontWeight="Bold" FontSize="20" />
+        </Border>
+
+        <Border Width="200" Height="120" Background="#e74c3c" CornerRadius="10" Margin="10">
+          <i:Interaction.Behaviors>
+            <icustom:OrbitEffectBehavior Sensitivity="1.0" />
+          </i:Interaction.Behaviors>
+          <TextBlock Text="Fast Orbit" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center"
+                     FontWeight="Bold" FontSize="20" />
+        </Border>
+
+        <Border Width="200" Height="120" Background="#2ecc71" CornerRadius="10" Margin="10">
+          <i:Interaction.Behaviors>
+            <icustom:OrbitEffectBehavior Sensitivity="0.2" />
+          </i:Interaction.Behaviors>
+          <TextBlock Text="Slow Orbit" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center"
+                     FontWeight="Bold" FontSize="20" />
+        </Border>
+      </VariableSizedWrapGrid>
+    </StackPanel>
+  </ScrollViewer>
+</UserControl>

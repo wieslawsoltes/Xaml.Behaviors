@@ -8,7 +8,7 @@ namespace BehaviorsTestApplication.Converters;
 /// Formatting functions for compiled bindings (<c>{x:Bind converters:SampleFormat.Value(...)}</c>): WinUI bindings have
 /// no <c>StringFormat</c>.
 /// </summary>
-public static class SampleFormat
+public static partial class SampleFormat
 {
     /// <summary>
     /// Formats a value like the Avalonia binding <c>StringFormat={} Value: {0}</c>.

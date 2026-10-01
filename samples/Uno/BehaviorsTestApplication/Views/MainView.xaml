@@ -67,10 +67,10 @@
           <controls:PendingSampleView Header="TiltEffectBehavior" />
         </TabViewItem>
         <TabViewItem Header="OrbitEffectBehavior" Style="{StaticResource SidebarTabViewItemStyle}">
-          <controls:PendingSampleView Header="OrbitEffectBehavior" />
+          <pages:OrbitEffectBehaviorView />
         </TabViewItem>
         <TabViewItem Header="ParallaxBehavior" Style="{StaticResource SidebarTabViewItemStyle}">
-          <controls:PendingSampleView Header="ParallaxBehavior" />
+          <pages:ParallaxBehaviorView />
         </TabViewItem>
         <TabViewItem Header="ConditionalAction" Style="{StaticResource SidebarTabViewItemStyle}">
           <controls:PendingSampleView Header="ConditionalAction" />
@@ -97,7 +97,7 @@
           <controls:PendingSampleView Header="Debounce &amp; Throttle" />
         </TabViewItem>
         <TabViewItem Header="ObservableStreamBehavior" Style="{StaticResource SidebarTabViewItemStyle}">
-          <controls:PendingSampleView Header="ObservableStreamBehavior" />
+          <pages:ObservableStreamBehaviorView />
         </TabViewItem>
         <TabViewItem Header="AsyncActionGroup" Style="{StaticResource SidebarTabViewItemStyle}">
           <controls:PendingSampleView Header="AsyncActionGroup" />
@@ -367,7 +367,7 @@
           <controls:PendingSampleView Header="TemplateBinding" />
         </TabViewItem>
         <TabViewItem Header="OneTime Binding" Style="{StaticResource SidebarTabViewItemStyle}">
-          <controls:PendingSampleView Header="OneTime Binding" />
+          <pages:OneTimeBinding />
         </TabViewItem>
         <TabViewItem Header="Pointer Triggers" Style="{StaticResource SidebarTabViewItemStyle}">
           <controls:PendingSampleView Header="Pointer Triggers" />
@@ -385,7 +385,7 @@
           <controls:PendingSampleView Header="Storage Provider" />
         </TabViewItem>
         <TabViewItem Header="Picker CanExecuteCommand" Style="{StaticResource SidebarTabViewItemStyle}">
-          <controls:PendingSampleView Header="Picker CanExecuteCommand" />
+          <pages:PickerCanExecuteCommandView />
         </TabViewItem>
         <TabViewItem Header="Clipboard" Style="{StaticResource SidebarTabViewItemStyle}">
           <controls:PendingSampleView Header="Clipboard" />
