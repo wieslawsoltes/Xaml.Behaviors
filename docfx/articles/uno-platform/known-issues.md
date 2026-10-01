@@ -7,14 +7,8 @@ Platform, how they were resolved, and the WinUI differences that affect behavior
 
 All issues found while porting the libraries, tests and samples
 ([#376](https://github.com/wieslawsoltes/Xaml.Behaviors/issues/376)–[#390](https://github.com/wieslawsoltes/Xaml.Behaviors/issues/390)) and while documenting the
-[behavior differences](behavior-differences.md) ([#391](https://github.com/wieslawsoltes/Xaml.Behaviors/issues/391)–[#399](https://github.com/wieslawsoltes/Xaml.Behaviors/issues/399)) are fixed; see the
-table below. Open issues:
-
-| Issue | Area | Problem |
-|-------|------|---------|
-| [#400](https://github.com/wieslawsoltes/Xaml.Behaviors/issues/400) | Routed event behaviors (Avalonia) | A routing strategy that does not match the event's routes never fires: `ExecuteCommandOnPointerEntered/Exited/CaptureLostBehavior` (default `Bubble` on Direct events), and an explicit `Direct` on a bubbling event outside the `RoutedEventTriggerBase` triggers. |
-
-Report new issues on [GitHub](https://github.com/wieslawsoltes/Xaml.Behaviors/issues).
+[behavior differences](behavior-differences.md) ([#391](https://github.com/wieslawsoltes/Xaml.Behaviors/issues/391)–[#401](https://github.com/wieslawsoltes/Xaml.Behaviors/issues/401)) are fixed; see the
+table below. Report new issues on [GitHub](https://github.com/wieslawsoltes/Xaml.Behaviors/issues).
 
 ## Fixed during the port
 
@@ -56,6 +50,8 @@ Report new issues on [GitHub](https://github.com/wieslawsoltes/Xaml.Behaviors/is
 | `ScreenshotAction` (Uno, [#397](https://github.com/wieslawsoltes/Xaml.Behaviors/issues/397)) | Not ported. | Ported with WinUI `RenderTargetBitmap`, `BitmapEncoder` and the Interactions storage provider (new `StorageProvider` property on both platforms). |
 | Packaging (Uno, [#398](https://github.com/wieslawsoltes/Xaml.Behaviors/issues/398)) | The Uno packages were not marked trimmable or AOT-compatible. | `build/TrimmingEnable.targets` is imported for the packable Uno libraries; trim/AOT warnings are errors. |
 | `KeyTrigger`, `KeyDownTrigger`, `KeyUpTrigger` (Avalonia, [#399](https://github.com/wieslawsoltes/Xaml.Behaviors/issues/399)) | Never fired with the default `Direct` routing: Avalonia only invokes Direct-only handlers for direct events. | A Direct-only subscription of a `RoutedEventTriggerBase` trigger to a tunneling/bubbling event uses that route, filtered by `e.Source == element`. |
+| Routed event behaviors (Avalonia, [#400](https://github.com/wieslawsoltes/Xaml.Behaviors/issues/400)) | A routing strategy that did not match the event's routes never fired: `ExecuteCommandOnPointerEntered/Exited/CaptureLostBehavior` (default `Bubble` on Direct events) and an explicit `Direct` on a bubbling event in the Events, ExecuteCommand and Show behaviors. | One internal routing adapter (`RoutingStrategiesAdapter`) used by every behavior with a user-supplied routing strategy: `Direct` alone on a tunneling/bubbling event uses that route filtered by `e.Source == element`; `Tunnel`/`Bubble` on a Direct event subscribe with `Direct`. |
+| `ScrollGestureEndedEventBehavior` (Avalonia, [#401](https://github.com/wieslawsoltes/Xaml.Behaviors/issues/401)) | Raising `ScrollGestureEndedEvent` threw `ArgumentException` (the handler was typed `ScrollGestureEventArgs`). | Delivered with `ScrollGestureEndedEventArgs` through a new `OnScrollGestureEnded` overload; the old overload is obsolete. |
 
 ## ReactiveUI 25 (System.Reactive flavor)
 

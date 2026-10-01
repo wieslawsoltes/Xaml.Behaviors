@@ -151,6 +151,11 @@ and map it (`src/Uno/Xaml.Behaviors.Interactivity/Compat/RoutedEvents.cs`):
 | `Tunnel` only, other events | the bubbling event with handled events included; the handler sees them as not handled yet (see below) |
 | `Tunnel` + `Bubble` | one bubbling subscription with handled events included: one invocation per event, not two |
 
+On Avalonia the behaviors adapt a routing strategy that does not match the event's routes the same way
+([#399](https://github.com/wieslawsoltes/Xaml.Behaviors/issues/399), [#400](https://github.com/wieslawsoltes/Xaml.Behaviors/issues/400)): `Direct` alone on a tunneling or bubbling event only handles the events raised by the
+element itself, and `Bubble` or `Tunnel` on a Direct event (`PointerEntered`, `PointerExited`, `PointerCaptureLost`)
+handles that event. A strategy therefore selects the same events on both platforms.
+
 Consequences:
 
 * A tunnel handler runs after the handlers of the element and its descendants, not before them. It can no longer
