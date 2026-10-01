@@ -91,7 +91,7 @@
           <controls:PendingSampleView Header="AutoScrollToBottomBehavior" />
         </TabViewItem>
         <TabViewItem Header="CallMethodAction" Style="{StaticResource SidebarTabViewItemStyle}">
-          <controls:PendingSampleView Header="CallMethodAction" />
+          <pages:CallMethodActionView />
         </TabViewItem>
         <TabViewItem Header="Debounce &amp; Throttle" Style="{StaticResource SidebarTabViewItemStyle}">
           <controls:PendingSampleView Header="Debounce &amp; Throttle" />
@@ -124,7 +124,7 @@
           <controls:PendingSampleView Header="ClipboardMonitorBehavior" />
         </TabViewItem>
         <TabViewItem Header="ChangePropertyAction" Style="{StaticResource SidebarTabViewItemStyle}">
-          <controls:PendingSampleView Header="ChangePropertyAction" />
+          <pages:ChangePropertyActionView />
         </TabViewItem>
         <TabViewItem Header="DataTriggerBehavior" Style="{StaticResource SidebarTabViewItemStyle}">
           <controls:PendingSampleView Header="DataTriggerBehavior" />
@@ -157,7 +157,7 @@
           <controls:PendingSampleView Header="LoadedTrigger" />
         </TabViewItem>
         <TabViewItem Header="InvokeCommandAction" Style="{StaticResource SidebarTabViewItemStyle}">
-          <controls:PendingSampleView Header="InvokeCommandAction" />
+          <pages:InvokeCommandActionView />
         </TabViewItem>
         <TabViewItem Header="AutoFocusBehavior" Style="{StaticResource SidebarTabViewItemStyle}">
           <controls:PendingSampleView Header="AutoFocusBehavior" />

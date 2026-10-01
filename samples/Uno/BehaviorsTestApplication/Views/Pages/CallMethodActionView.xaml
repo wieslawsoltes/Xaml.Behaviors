@@ -1,0 +1,54 @@
+<UserControl x:Class="BehaviorsTestApplication.Views.Pages.CallMethodActionView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:i="using:Xaml.Interactivity"
+             xmlns:ic="using:Xaml.Interactions.Core"
+             mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="450">
+  <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="*" />
+      <RowDefinition Height="Auto" />
+    </Grid.RowDefinitions>
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition Width="30*" />
+      <ColumnDefinition Width="5" />
+      <ColumnDefinition Width="30*" />
+      <ColumnDefinition Width="5" />
+      <ColumnDefinition Width="30*" />
+    </Grid.ColumnDefinitions>
+    <Border Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="5"
+            Margin="5"
+            Background="{StaticResource PinkBrush}"
+            BorderBrush="{StaticResource GrayBrush}"
+            BorderThickness="5">
+      <TextBlock Text="{x:Bind ViewModel.Count, Mode=OneWay}"
+                 FontSize="100"
+                 VerticalAlignment="Center"
+                 HorizontalAlignment="Center"
+                 Foreground="{StaticResource YellowBrush}" />
+    </Border>
+    <Button x:Name="DecrementButton" Content="Decrement" Grid.Row="1" Grid.Column="0" Margin="5,0,0,5">
+      <i:Interaction.Behaviors>
+        <ic:EventTriggerBehavior EventName="Click" SourceObject="{x:Bind DecrementButton}">
+          <ic:CallMethodAction TargetObject="{x:Bind ViewModel}" MethodName="DecrementCount" />
+        </ic:EventTriggerBehavior>
+      </i:Interaction.Behaviors>
+    </Button>
+    <Button x:Name="ResetButton" Content="Reset" Grid.Row="1" Grid.Column="2" Margin="0,0,0,5">
+      <i:Interaction.Behaviors>
+        <ic:EventTriggerBehavior EventName="Click" SourceObject="{x:Bind ResetButton}">
+          <ic:ChangePropertyAction TargetObject="{x:Bind ViewModel}" PropertyName="Count" Value="0" />
+        </ic:EventTriggerBehavior>
+      </i:Interaction.Behaviors>
+    </Button>
+    <Button x:Name="IncrementButton" Content="Increment" Grid.Row="1" Grid.Column="4" Margin="0,0,5,5">
+      <i:Interaction.Behaviors>
+        <ic:EventTriggerBehavior EventName="Click" SourceObject="{x:Bind IncrementButton}">
+          <ic:CallMethodAction TargetObject="{x:Bind ViewModel}" MethodName="IncrementCount" />
+        </ic:EventTriggerBehavior>
+      </i:Interaction.Behaviors>
+    </Button>
+  </Grid>
+</UserControl>
