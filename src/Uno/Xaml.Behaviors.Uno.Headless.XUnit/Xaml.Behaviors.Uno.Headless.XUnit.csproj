@@ -6,6 +6,11 @@
     <RootNamespace>Xaml.Behaviors.Uno.Headless.XUnit</RootNamespace>
     <!-- Not an Avalonia-shared-source project: no port type aliases. -->
     <UnoPortAliases>false</UnoPortAliases>
+    <!--
+      Not trimmable: test infrastructure (never trimmed or AOT published) on top of the non-trimmable headless host;
+      xUnit discovers and runs tests through reflection.
+    -->
+    <IsTrimmable>false</IsTrimmable>
   </PropertyGroup>
 
   <PropertyGroup>

@@ -88,7 +88,11 @@ portability analyzers know which files are shared.
    specific features, notification managers, …). List them in `SharedSources.props` and in the project table
    below with the reason.
 8. **Reflection**: do not add new reflection. Porting an existing reflection based feature (for example property
-   access by name) with the same `[RequiresUnreferencedCode]` contract is acceptable.
+   access by name) with the same `[RequiresUnreferencedCode]` contract is acceptable. Like the Avalonia libraries,
+   the packable Uno libraries import `build/TrimmingEnable.targets` (from `src/Uno/Directory.Build.targets`): they
+   are marked `IsTrimmable`/`IsAotCompatible` and the IL2xxx/IL3xxx analyzer warnings are errors. Annotate with
+   `[DynamicallyAccessedMembers]` or flow the `[RequiresUnreferencedCode]`/`[RequiresDynamicCode]` of the Avalonia
+   twin instead of suppressing. The headless test harness projects opt out with `<IsTrimmable>false</IsTrimmable>`.
 
 ## Workflow for a project
 
