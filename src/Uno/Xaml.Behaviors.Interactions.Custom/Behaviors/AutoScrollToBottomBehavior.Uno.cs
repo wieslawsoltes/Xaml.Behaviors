@@ -17,6 +17,22 @@ public partial class AutoScrollToBottomBehavior
     private long _extentHeightToken;
     private double _extentHeight;
 
+    /// <inheritdoc />
+    /// <remarks>
+    /// WinUI attaches the behaviors when XAML sets them, before the view assigns the items: an Avalonia
+    /// <c>ItemsControl.Items</c> follows a later <c>ItemsSource</c>, a WinUI item collection does not. Without an
+    /// explicit <see cref="ItemsSource"/>, the items source of the control is observed when the control is loaded.
+    /// </remarks>
+    protected override void OnAttachedToVisualTree()
+    {
+        base.OnAttachedToVisualTree();
+
+        if (_items is null)
+        {
+            UpdateItemsSource(ItemsSource);
+        }
+    }
+
     private void SubscribeScrollChanged(ScrollViewer scrollViewer)
     {
         _extentHeight = scrollViewer.ExtentHeight;

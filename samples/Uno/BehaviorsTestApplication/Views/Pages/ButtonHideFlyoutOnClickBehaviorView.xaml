@@ -1,0 +1,26 @@
+<UserControl x:Class="BehaviorsTestApplication.Views.Pages.ButtonHideFlyoutOnClickBehaviorView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:i="using:Xaml.Interactivity"
+             xmlns:ic="using:Xaml.Interactions.Core"
+             xmlns:icustom="using:Xaml.Interactions.Custom"
+             mc:Ignorable="d" d:DesignWidth="300" d:DesignHeight="150">
+  <Button x:Name="Target" Content="Open Flyout" Width="120">
+    <Button.Flyout>
+      <Flyout Placement="Bottom">
+        <Button Content="Close">
+          <i:Interaction.Behaviors>
+            <icustom:ButtonHideFlyoutOnClickBehavior />
+          </i:Interaction.Behaviors>
+        </Button>
+      </Flyout>
+    </Button.Flyout>
+    <i:Interaction.Behaviors>
+      <ic:EventTriggerBehavior EventName="Click" SourceObject="{x:Bind Target}">
+        <icustom:ShowFlyoutAction TargetControl="{x:Bind Target}" Flyout="{x:Bind Target.Flyout}" />
+      </ic:EventTriggerBehavior>
+    </i:Interaction.Behaviors>
+  </Button>
+</UserControl>

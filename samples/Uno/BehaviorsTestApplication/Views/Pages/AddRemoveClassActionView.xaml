@@ -1,0 +1,11 @@
+<!--
+  Not available: AddClassAction and RemoveClassAction change Avalonia style classes (StyledElement.Classes); WinUI has no
+  style classes and the actions are not part of the Uno port (src/Uno/Xaml.Behaviors.Interactions.Custom/SharedSources.props).
+-->
+<UserControl x:Class="BehaviorsTestApplication.Views.Pages.AddRemoveClassActionView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:controls="using:BehaviorsTestApplication.Controls">
+  <controls:NotAvailableOnUnoView Title="Add/RemoveClassAction"
+                                  Reason="AddClassAction and RemoveClassAction change Avalonia style classes; WinUI has no style classes (the responsive behaviors map classes to visual states instead, see AdaptiveBehavior)." />
+</UserControl>

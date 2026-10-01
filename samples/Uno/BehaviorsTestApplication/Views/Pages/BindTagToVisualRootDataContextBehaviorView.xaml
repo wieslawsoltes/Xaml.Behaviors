@@ -1,0 +1,30 @@
+<UserControl x:Class="BehaviorsTestApplication.Views.Pages.BindTagToVisualRootDataContextBehaviorView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:i="using:Xaml.Interactivity"
+             xmlns:ic="using:Xaml.Interactions.Core"
+             xmlns:icustom="using:Xaml.Interactions.Custom"
+             xmlns:converters="using:BehaviorsTestApplication.Converters"
+             mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="180">
+  <i:Interaction.Behaviors>
+    <ic:EventTriggerBehavior EventName="Click" SourceObject="{x:Bind IncrementButton}">
+      <ic:CallMethodAction TargetObject="{x:Bind ViewModel}" MethodName="IncrementCount" />
+    </ic:EventTriggerBehavior>
+  </i:Interaction.Behaviors>
+  <StackPanel Spacing="5" HorizontalAlignment="Center">
+    <Button x:Name="IncrementButton" Content="Increment Count" />
+    <TextBlock Text="{x:Bind converters:SampleFormat.Count(ViewModel.Count), Mode=OneWay}" />
+    <!--
+      Avalonia: Text="{Binding $self.((vm:MainWindowViewModel)Tag).Count}" with an ItemViewModel data context: the text
+      binds to the Tag (the data context of the visual root, set by the behavior) of the TextBlock itself.
+    -->
+    <TextBlock DataContext="{x:Bind ViewModel.Items[0], Mode=OneWay}"
+               Text="{Binding Tag.Count, RelativeSource={RelativeSource Self}}">
+      <i:Interaction.Behaviors>
+        <icustom:BindTagToVisualRootDataContextBehavior />
+      </i:Interaction.Behaviors>
+    </TextBlock>
+  </StackPanel>
+</UserControl>

@@ -1,0 +1,29 @@
+<UserControl x:Class="BehaviorsTestApplication.Views.Pages.ActualThemeVariantChangedTriggerView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:i="using:Xaml.Interactivity"
+             xmlns:ic="using:Xaml.Interactions.Core"
+             xmlns:icustom="using:Xaml.Interactions.Custom"
+             xmlns:converters="using:BehaviorsTestApplication.Converters"
+             mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="200">
+  <!--
+    Avalonia ThemeVariantScope: every WinUI element is a theme scope (RequestedTheme); the theme background shows the
+    actual theme of the scope.
+  -->
+  <Grid x:Name="Scope" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <i:Interaction.Behaviors>
+      <icustom:ThemeVariantBehavior ThemeVariant="{Binding SelectedItem, ElementName=Selector}" />
+      <icustom:ActualThemeVariantChangedTrigger>
+        <ic:ChangePropertyAction TargetObject="{x:Bind MessageText}" PropertyName="Text" Value="Theme Changed" />
+      </icustom:ActualThemeVariantChangedTrigger>
+    </i:Interaction.Behaviors>
+    <StackPanel Spacing="5">
+      <!-- Avalonia: <ThemeVariant> items (WinUI XAML cannot create enum items). -->
+      <ComboBox x:Name="Selector" ItemsSource="{x:Bind converters:SampleItems.ThemeVariants}" SelectedIndex="0" />
+      <!-- Avalonia binds #Scope.ActualThemeVariant; WinUI ActualTheme raises no change notification for bindings. -->
+      <TextBlock x:Name="MessageText" Text="{x:Bind Scope.ActualTheme}" />
+    </StackPanel>
+  </Grid>
+</UserControl>

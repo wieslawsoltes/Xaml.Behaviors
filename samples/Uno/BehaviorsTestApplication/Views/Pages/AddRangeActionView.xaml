@@ -1,0 +1,39 @@
+<UserControl x:Class="BehaviorsTestApplication.Views.Pages.AddRangeActionView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:i="using:Xaml.Interactivity"
+             xmlns:ic="using:Xaml.Interactions.Core"
+             xmlns:icustom="using:Xaml.Interactions.Custom"
+             xmlns:converters="using:BehaviorsTestApplication.Converters"
+             xmlns:vm="using:BehaviorsTestApplication.ViewModels"
+             mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="450">
+  <StackPanel Spacing="10" Margin="5">
+    <StackPanel Orientation="Horizontal" Spacing="5">
+      <Button Content="Add Range">
+        <i:Interaction.Behaviors>
+          <ic:EventTriggerBehavior EventName="Click">
+            <!-- Avalonia: a generic:List (x:TypeArguments) of two ItemViewModel (x:Arguments) created by the XAML. -->
+            <icustom:AddRangeAction Target="{x:Bind ViewModel.Items, Mode=OneWay}"
+                                    Items="{x:Bind converters:SampleItems.AddedRange}" />
+          </ic:EventTriggerBehavior>
+        </i:Interaction.Behaviors>
+      </Button>
+      <Button Content="Clear">
+        <i:Interaction.Behaviors>
+          <ic:EventTriggerBehavior EventName="Click">
+            <icustom:ClearCollectionAction Target="{x:Bind ViewModel.Items, Mode=OneWay}" />
+          </ic:EventTriggerBehavior>
+        </i:Interaction.Behaviors>
+      </Button>
+    </StackPanel>
+    <ItemsControl ItemsSource="{x:Bind ViewModel.Items, Mode=OneWay}" Margin="0,5">
+      <ItemsControl.ItemTemplate>
+        <DataTemplate x:DataType="vm:ItemViewModel">
+          <TextBlock Text="{x:Bind Value, Mode=OneWay}" Margin="5" />
+        </DataTemplate>
+      </ItemsControl.ItemTemplate>
+    </ItemsControl>
+  </StackPanel>
+</UserControl>

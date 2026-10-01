@@ -1,0 +1,50 @@
+<UserControl x:Class="BehaviorsTestApplication.Views.Pages.ButtonClickEventTriggerBehaviorView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:i="using:Xaml.Interactivity"
+             xmlns:ic="using:Xaml.Interactions.Core"
+             xmlns:icustom="using:Xaml.Interactions.Custom"
+             mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="450">
+  <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="*" />
+      <RowDefinition Height="Auto" />
+    </Grid.RowDefinitions>
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition Width="30*" />
+      <ColumnDefinition Width="5" />
+      <ColumnDefinition Width="30*" />
+      <ColumnDefinition Width="5" />
+      <ColumnDefinition Width="30*" />
+    </Grid.ColumnDefinitions>
+    <Canvas Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="5"
+            Margin="5"
+            Background="{StaticResource GrayBrush}">
+      <!-- Avalonia binds Canvas.Left TwoWay; the ellipse never changes it, so OneWay is equivalent. -->
+      <Ellipse Canvas.Left="{x:Bind ViewModel.Position, Mode=OneWay}"
+               Canvas.Top="200"
+               Fill="{StaticResource RedBrush}"
+               Stroke="{StaticResource YellowBrush}"
+               StrokeThickness="5"
+               Height="100" Width="100" />
+    </Canvas>
+    <Button Content="Left (Hold Control), Reset (Hold Shift), Right (Hold Control+Shift)"
+            Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="5"
+            Margin="5,0,0,5">
+      <i:Interaction.Behaviors>
+        <!-- Avalonia KeyModifiers: the WinUI VirtualKeyModifiers (Control, Shift). -->
+        <icustom:ButtonClickEventTriggerBehavior KeyModifiers="Control">
+          <ic:InvokeCommandAction Command="{x:Bind ViewModel.MoveLeftCommand}" />
+        </icustom:ButtonClickEventTriggerBehavior>
+        <icustom:ButtonClickEventTriggerBehavior KeyModifiers="Shift">
+          <ic:InvokeCommandAction Command="{x:Bind ViewModel.ResetMoveCommand}" />
+        </icustom:ButtonClickEventTriggerBehavior>
+        <icustom:ButtonClickEventTriggerBehavior KeyModifiers="Control,Shift">
+          <ic:InvokeCommandAction Command="{x:Bind ViewModel.MoveRightCommand}" />
+        </icustom:ButtonClickEventTriggerBehavior>
+      </i:Interaction.Behaviors>
+    </Button>
+  </Grid>
+</UserControl>

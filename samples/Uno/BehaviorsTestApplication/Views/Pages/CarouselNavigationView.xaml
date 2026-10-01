@@ -1,0 +1,45 @@
+<UserControl x:Class="BehaviorsTestApplication.Views.Pages.CarouselNavigationView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:i="using:Xaml.Interactivity"
+             xmlns:icustom="using:Xaml.Interactions.Custom"
+             mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="450">
+  <StackPanel Orientation="Vertical" Spacing="4">
+    <TextBlock>An items control that displays its items as pages that fill the control.</TextBlock>
+
+    <Grid MaxWidth="660" HorizontalAlignment="Stretch" Margin="0,16,0,0">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="Auto" />
+        <ColumnDefinition Width="*" />
+        <ColumnDefinition Width="Auto" />
+      </Grid.ColumnDefinitions>
+      <Button Grid.Column="0" VerticalAlignment="Center" Padding="10,20" Margin="4">
+        <Path Data="M20,11V13H8L13.5,18.5L12.08,19.92L4.16,12L12.08,4.08L13.5,5.5L8,11H20Z" Fill="Black" />
+        <i:Interaction.Behaviors>
+          <icustom:ButtonClickEventTriggerBehavior>
+            <icustom:CarouselPreviousAction Carousel="{x:Bind carousel}" />
+          </icustom:ButtonClickEventTriggerBehavior>
+        </i:Interaction.Behaviors>
+      </Button>
+      <!-- Avalonia Carousel: the WinUI FlipView (the Carousel behaviors and actions target it on Uno Platform). -->
+      <FlipView x:Name="carousel" Grid.Column="1">
+        <i:Interaction.Behaviors>
+          <icustom:CarouselKeyNavigationBehavior Orientation="Horizontal" />
+        </i:Interaction.Behaviors>
+        <Image Source="ms-appx:///Assets/delicate-arch-896885_640.jpg" />
+        <Image Source="ms-appx:///Assets/hirsch-899118_640.jpg" />
+        <Image Source="ms-appx:///Assets/maple-leaf-888807_640.jpg" />
+      </FlipView>
+      <Button x:Name="right" Grid.Column="2" VerticalAlignment="Center" Padding="10,20" Margin="4">
+        <Path Data="M4,11V13H16L10.5,18.5L11.92,19.92L19.84,12L11.92,4.08L10.5,5.5L16,11H4Z" Fill="Black" />
+        <i:Interaction.Behaviors>
+          <icustom:ButtonClickEventTriggerBehavior>
+            <icustom:CarouselNextAction Carousel="{x:Bind carousel}" />
+          </icustom:ButtonClickEventTriggerBehavior>
+        </i:Interaction.Behaviors>
+      </Button>
+    </Grid>
+  </StackPanel>
+</UserControl>

@@ -1,0 +1,26 @@
+<UserControl x:Class="BehaviorsTestApplication.Views.Pages.AutoScrollToBottomBehaviorView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:i="using:Xaml.Interactivity"
+             xmlns:icustom="using:Xaml.Interactions.Custom"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450">
+  <Grid Margin="10">
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="*" />
+      <RowDefinition Height="Auto" />
+    </Grid.RowDefinitions>
+    <TextBlock Grid.Row="0" Text="AutoScrollToBottomBehavior" FontWeight="Bold" Margin="0,0,0,10" />
+
+    <!-- Avalonia ListBox: the WinUI ListView (the code-behind fills its items). -->
+    <ListView Grid.Row="1" x:Name="ItemsListBox" Background="LightGray">
+      <i:Interaction.Behaviors>
+        <icustom:AutoScrollToBottomBehavior />
+      </i:Interaction.Behaviors>
+    </ListView>
+
+    <Button Grid.Row="2" x:Name="AddItemButton" Content="Add Item" Margin="0,10,0,0" Click="AddItemButton_Click" />
+  </Grid>
+</UserControl>

@@ -1,0 +1,41 @@
+<UserControl x:Class="BehaviorsTestApplication.Views.Pages.AutomationView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:mux="using:Microsoft.UI.Xaml.Controls"
+             xmlns:i="using:Xaml.Interactivity"
+             xmlns:ic="using:Xaml.Interactions.Core"
+             xmlns:icustom="using:Xaml.Interactions.Custom"
+             mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="450">
+  <StackPanel Margin="5" Spacing="10">
+    <Button x:Name="TargetButton" Content="Automation Button">
+      <i:Interaction.Behaviors>
+        <!-- Avalonia Name="InitialName": the name of the behavior (not its AutomationName). -->
+        <icustom:AutomationNameBehavior x:Name="InitialName" />
+        <icustom:AutomationNameChangedTrigger>
+          <!-- Avalonia: TargetProperty="{x:Static TextBlock.TextProperty}". -->
+          <icustom:ChangeAvaloniaPropertyAction TargetObject="{x:Bind OutputText}"
+                                                TargetProperty="{x:Bind mux:TextBlock.TextProperty}"
+                                                Value="Name changed" />
+        </icustom:AutomationNameChangedTrigger>
+      </i:Interaction.Behaviors>
+    </Button>
+    <TextBlock x:Name="OutputText" Text="Waiting" />
+    <Button Content="Set Automation Id">
+      <i:Interaction.Behaviors>
+        <ic:EventTriggerBehavior EventName="Click">
+          <icustom:SetAutomationIdAction TargetControl="{x:Bind TargetButton}"
+                                         AutomationId="AutoButton" />
+        </ic:EventTriggerBehavior>
+      </i:Interaction.Behaviors>
+    </Button>
+    <Button Content="Invoke Click">
+      <i:Interaction.Behaviors>
+        <ic:EventTriggerBehavior EventName="Click">
+          <icustom:InvokeButtonClickAction TargetButton="{x:Bind TargetButton}" />
+        </ic:EventTriggerBehavior>
+      </i:Interaction.Behaviors>
+    </Button>
+  </StackPanel>
+</UserControl>

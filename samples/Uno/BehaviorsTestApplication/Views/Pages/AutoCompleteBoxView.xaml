@@ -1,0 +1,31 @@
+<UserControl x:Class="BehaviorsTestApplication.Views.Pages.AutoCompleteBoxView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:i="using:Xaml.Interactivity"
+             xmlns:icustom="using:Xaml.Interactions.Custom"
+             mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="200">
+  <!--
+    Avalonia AutoCompleteBox: the WinUI AutoSuggestBox (the AutoCompleteBox behaviors target it on Uno Platform). An
+    AutoSuggestBox shows its items as given (MinimumPrefixLength="0", no filtering).
+  -->
+  <StackPanel Spacing="4" Margin="5">
+    <AutoSuggestBox Width="200"
+                    ItemsSource="{x:Bind ViewModel.Suggestions, Mode=OneWay}"
+                    x:Name="Box1">
+      <i:Interaction.Behaviors>
+        <icustom:AutoCompleteBoxOpenDropDownOnFocusBehavior />
+      </i:Interaction.Behaviors>
+    </AutoSuggestBox>
+    <AutoSuggestBox Width="200"
+                    ItemsSource="{x:Bind ViewModel.Suggestions, Mode=OneWay}"
+                    x:Name="Box2">
+      <i:Interaction.Behaviors>
+        <icustom:AutoCompleteBoxSelectionChangedTrigger>
+          <icustom:ClearAutoCompleteBoxSelectionAction AutoCompleteBox="{x:Bind Box2}" />
+        </icustom:AutoCompleteBoxSelectionChangedTrigger>
+      </i:Interaction.Behaviors>
+    </AutoSuggestBox>
+  </StackPanel>
+</UserControl>
