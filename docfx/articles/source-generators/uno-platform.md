@@ -36,6 +36,9 @@ public partial class MainViewModel
 
 Classes generated for framework types (assembly attributes) are placed in the namespace of the type that declares the member, e.g. `Button.Click` is declared on `ButtonBase`, so the trigger is `Microsoft.UI.Xaml.Controls.Primitives.ButtonBaseClickTrigger`.
 
+> [!IMPORTANT]
+> The Uno XAML generator is itself a source generator, and source generators do not see each other's output. XAML in the assembly that runs `Xaml.Behaviors.SourceGenerators` cannot reference the generated types (`UXAML0001`, the type could not be found). Generate the actions and triggers in a separate library (for example the view model library) and reference it from the application, as the `SourceGeneratorSample.Core` project of the Uno samples does. The XAML above assumes that `SubmitAction` comes from such a library.
+
 ## Platform selection
 
 The platform is resolved per compilation:
@@ -46,7 +49,7 @@ The platform is resolved per compilation:
 | only `Microsoft.UI.Xaml.DependencyObject` is available | WinUI / Uno Platform |
 | neither | Avalonia |
 
-Set the `XamlBehaviorsSourceGeneratorPlatform` MSBuild property (`Avalonia` or `WinUI`) to force a platform. The package surfaces it to the generator through `buildTransitive/Xaml.Behaviors.SourceGenerators.props`.
+Set the `XamlBehaviorsSourceGeneratorPlatform` MSBuild property (`Avalonia`, or `WinUI`/`Uno`) to force a platform; it wins over the detection. The package surfaces it to the generator through `buildTransitive/Xaml.Behaviors.SourceGenerators.props`.
 
 ```xml
 <PropertyGroup>
@@ -60,10 +63,12 @@ Set the `XamlBehaviorsSourceGeneratorPlatform` MSBuild property (`Avalonia` or `
 | --- | --- | --- |
 | Base classes | `Avalonia.Xaml.Interactivity.StyledElementAction` / `StyledElementTrigger` | `Xaml.Interactivity.StyledElementAction` / `StyledElementTrigger` |
 | Properties | `StyledProperty<T>` registered with `AvaloniaProperty.Register` | `DependencyProperty.Register` with a typed CLR accessor; changes are routed to `OnPropertyChanged(DependencyPropertyChangedEventArgs)` |
-| `UseDispatcher` | `Dispatcher.UIThread.Post` / `Invoke` | `DispatcherQueue.TryEnqueue`, using the queue of the thread that created the action/trigger (synchronous invocation for reversible change property actions waits for the UI thread) |
+| `UseDispatcher` | `Dispatcher.UIThread.Post` / `Invoke` | `DispatcherQueue.TryEnqueue`, using the queue of the thread that created the action/trigger, then `DependencyObject.DispatcherQueue`, then the queue of the current thread (synchronous invocation for reversible change property actions waits for the UI thread). Without a queue, or when enqueueing fails, the work runs inline. |
 | Event triggers | Subscribes with a handler matching the event delegate | Same; works with `RoutedEventHandler`, `TypedEventHandler<TSender, TResult>`, `EventHandler<T>` and custom delegates |
 | `SourceName` lookup | Logical tree name scopes | `FrameworkElement.FindName`, walking `Parent`/`VisualTreeHelper.GetParent` |
-| Property triggers | `GetObservable` on a styled/direct property | `RegisterPropertyChangedCallback` for a `DependencyProperty` (static field or static property, e.g. `TextBox.TextProperty`), or `INotifyPropertyChanged` for plain CLR properties |
+| Property triggers | `GetObservable` on a styled/direct property | `RegisterPropertyChangedCallback` for a `DependencyProperty` (static field or static property, e.g. `TextBox.TextProperty`), or `INotifyPropertyChanged` for plain CLR properties (evaluated on every `PropertyChanged` for the property name or an empty name, even when the value did not change) |
+| Reversible change property actions | Animation priority overlay; `Revert` restores the latest source value | The value is set as a local value through the typed setter (it replaces a binding); `Revert` restores the captured value |
+| `IsSet` checks (event command `Parameter`, async/observable trigger overrides) | Any non-default value source | Local values only (including bindings), not style setters |
 
 Generated code only uses public WinUI APIs and the public `Xaml.Interactivity` runtime, so it compiles in any Uno Platform head.
 
@@ -73,4 +78,8 @@ Generated code only uses public WinUI APIs and the public `Xaml.Interactivity` r
 * A dependency property identifier must be declared on a `DependencyObject` (the observed type); identifiers declared on static helper classes report [XBG038](diagnostics.md#xbg038-dependency-property-owner-is-not-a-dependencyobject).
 * `[GenerateTypedMultiDataTrigger]` and `[GenerateTypedInvokeCommandAction]` types must derive from `Xaml.Interactivity.StyledElementTrigger` / `StyledElementAction` ([XBG036](diagnostics.md#xbg036-invalid-winui-base-type)).
 * `SourceName` only resolves elements on `FrameworkElement` hosts ([XBG022](diagnostics.md#xbg022-sourcename-not-available) is reported otherwise).
+* `[GeneratePropertyTrigger]` on an instance field, or on a static member that is neither an Avalonia property nor a `DependencyProperty`, still reports [XBG019](diagnostics.md#xbg019-invalid-avalonia-property).
+* When the generator cannot find the CLR type of a dependency property (no CLR property and no `Get{Name}` accessor), the trigger's `Value` is typed `object?`.
 * `LastError` properties are registered with the `object` property type (the CLR accessor stays `Exception?`) so that trimming annotations of `DependencyProperty.Register` do not produce warnings in user projects.
+
+See [Behavior differences: Uno Platform vs Avalonia](../uno-platform/behavior-differences.md#sourcegenerators) for the differences of the runtime packages.

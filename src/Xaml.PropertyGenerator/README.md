@@ -46,9 +46,9 @@ public partial class Tags
 | Attribute | Avalonia | WinUI / Uno Platform |
 |-----------|----------|----------------------|
 | `[StyledProperty]` | `StyledProperty<T>` + `AvaloniaProperty.Register` | `DependencyProperty.Register` |
-| `[DirectProperty]` | `DirectProperty<TOwner, T>` + `field` backed accessors using `SetAndRaise` | `DependencyProperty` kept in sync with a `field` backing store |
-| `[DirectProperty(Lazy = true)]` | `get => field ??= new T()` | value created on first access and stored in the dependency property (so it inherits the data context) |
-| `[AttachedProperty]` | `AttachedProperty<T>` + `Get{Name}`/`Set{Name}` | `DependencyProperty.RegisterAttached` + `Get{Name}`/`Set{Name}` |
+| `[DirectProperty]` | `DirectProperty<TOwner, T>` + `field` backed accessors using `SetAndRaise` | `DependencyProperty` kept in sync with a `field` backing store; a non-public setter does not make it read-only (`SetValue` and bindings still write it) |
+| `[DirectProperty(Lazy = true)]` | `get => field ??= new T()` | value created on first access and stored in the dependency property (so it inherits the data context); storing it raises the change hooks |
+| `[AttachedProperty]` | `AttachedProperty<T>` + `Get{Name}`/`Set{Name}` | `DependencyProperty.RegisterAttached` + `Get{Name}`/`Set{Name}`; the default `HostType` is `DependencyObject` and a static owner class is allowed |
 
 Every property also gets a `{Name}Property` identifier field with the accessibility of the property.
 
@@ -57,7 +57,7 @@ Every property also gets a `{Name}Property` identifier field with the accessibil
 | Option | Notes |
 |--------|-------|
 | `DefaultValue` | Any attribute constant (enum values, `typeof`, primitives, strings). |
-| `DefaultValueExpression` | C# expression for non-constant defaults. It is evaluated in the generated file, which repeats the `using` directives of the declaring file. |
+| `DefaultValueExpression` | C# expression for non-constant defaults. It is evaluated in the generated file, which repeats the `using` directives of the declaring file. On WinUI a direct property evaluates it twice: once for the (shared) metadata default and once per instance for the field. |
 | `DefaultBindingMode` | Avalonia only. WinUI has no default binding mode per property (reported as info `XPG0005`). |
 | `Inherits` | Avalonia only (value inheritance). |
 | `Content` | Avalonia `[Content]` on the property, WinUI `[ContentProperty(Name = ...)]` on the class. |
@@ -70,9 +70,11 @@ Every property also gets a `{Name}Property` identifier field with the accessibil
   `static partial void On{Name}Changed(THost element, T oldValue, T newValue)` (attached properties) are called on
   both platforms when you implement them.
 * On WinUI, if the type or a base type declares an accessible
-  `OnPropertyChanged(DependencyPropertyChangedEventArgs)` method, every generated property routes its changes to
-  it. This mirrors Avalonia's `OnPropertyChanged(AvaloniaPropertyChangedEventArgs)` override so shared change
-  handling keeps working.
+  `OnPropertyChanged(DependencyPropertyChangedEventArgs)` method, every generated instance property routes its
+  changes to it (attached properties do not). This mirrors Avalonia's
+  `OnPropertyChanged(AvaloniaPropertyChangedEventArgs)` override so shared change handling keeps working.
+* On WinUI the dependency property callback runs, in order: the direct property field update, `On{Name}Changed`, then
+  `OnPropertyChanged`. The attached property hook casts the object to `HostType`.
 
 ### Trimming (WinUI / Uno Platform)
 
@@ -96,7 +98,8 @@ The Avalonia output is unchanged.
 
 The platform is detected from the base type (`Avalonia.AvaloniaObject` or `Microsoft.UI.Xaml.DependencyObject`)
 and falls back to the referenced assemblies. Override it with the MSBuild property
-`<XamlPropertyGeneratorPlatform>Avalonia|WinUI</XamlPropertyGeneratorPlatform>`.
+`<XamlPropertyGeneratorPlatform>Avalonia|WinUI</XamlPropertyGeneratorPlatform>` (`Uno` is accepted as `WinUI`); the
+override wins over the detection.
 
 The attributes are generated into your compilation as internal, embedded and conditional types: they are never
 visible to other assemblies (even with `InternalsVisibleTo`) and never persisted in metadata.

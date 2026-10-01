@@ -114,6 +114,17 @@ session.Mouse.Click(target, modifiers: VirtualKeyModifiers.Shift);
 session.Mouse.Wheel(-1, VirtualKeyModifiers.Control);
 ```
 
+### Notes
+
+* `Keyboard.KeyDown` and `Keyboard.KeyUp` only raise the key event; `Press` and `TypeText` also run the queued UI
+  work. `TypeText` maps `a`–`z`, `A`–`Z` (with Shift), `0`–`9`, space, Enter and Tab to virtual keys; other characters
+  raise `CharacterReceived` with `VirtualKey.None`.
+* The UI work queue runs in FIFO order and ignores dispatcher priorities. An exception thrown by queued work is logged
+  by the event loop; it is not rethrown to `RunJobs` or to the test.
+* Headless windows produce no pixel output (frames are rendered to a null surface).
+* The default application (`ApplicationFactory` not set) has no `XamlControlsResources`: add them in your own
+  application class when the tests need the control templates.
+
 ## Configuring the session
 
 The session starts with `UnoHeadlessSessionOptions.Default` (1024x768 raw pixels, scale 1, a minimal

@@ -26,7 +26,8 @@ Every Avalonia sample application has a Uno Platform twin with the same name and
 | Gesture Advanced (pinch), Pull, Scroll and TouchPad gesture triggers | Avalonia gesture recognizers without a WinUI routed event |
 | Notifications, ShowNotificationAction | Avalonia notification managers |
 | NumericUpDownValidationBehavior | WinUI has no `NumericUpDown` |
-| RenderTargetBitmap, ScreenshotAction | immediate mode drawing into an Avalonia `RenderTargetBitmap` |
+| RenderTargetBitmap | immediate mode drawing into an Avalonia `RenderTargetBitmap` |
+| ScreenshotAction | not ported yet (`RenderTargetBitmap` encoding and a storage provider) |
 | ResourcesChangedBehavior, ResourcesChangedTrigger | WinUI raises no resources changed notification |
 | Screens | Avalonia Screens API (`DisplayArea` is not implemented by Uno Platform) |
 | VisualDebugBehavior | Avalonia adorner layer |

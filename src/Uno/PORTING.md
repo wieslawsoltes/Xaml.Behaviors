@@ -50,11 +50,14 @@ portability analyzers know which files are shared.
 
    In shared code these names always mean the Avalonia concept. Uno-only files use fully qualified names when they
    need `Microsoft.UI.Xaml.Controls.Control`.
-5. **Compat helpers** (internal, `src/Uno/Xaml.Behaviors.Interactivity/Compat`, visible to the other Uno
-   assemblies through `InternalsVisibleTo`): `Dispatcher.UIThread` (`Post`, `Invoke`, `InvokeAsync`,
-   `CheckAccess`), `DispatcherTimer`, routed event helpers, `StyledPropertyMetadata<T>`/`OverrideMetadata`,
-   `DragDrop`, `ILogical`/`LogicalTreeAttachmentEventArgs` (action tree), `AnonymousObserver<T>`, `AvaloniaObjectExtensions.GetObservable<T>`, `GetNewValue`/`GetOldValue`,
-   `IsSet`, `SetCurrentValue`, `SetAndRaise`, the public `RoutingStrategies` enum and the `ResolveByName` marker.
+5. **Compat helpers** (`src/Uno/Xaml.Behaviors.Interactivity/Compat`, internal unless noted, visible to the other
+   Uno assemblies through `InternalsVisibleTo`): `Dispatcher.UIThread` (`Post`, `Invoke`, `InvokeAsync`,
+   `CheckAccess`), routed event helpers, `StyledPropertyMetadata<T>`/`OverrideMetadata`, `DragDrop`, `ILogical`
+   (action tree), `AnonymousObserver<T>`, `AvaloniaObjectExtensions.GetObservable<T>`, `GetNewValue`/`GetOldValue`,
+   `IsSet`, `SetCurrentValue`, `SetAndRaise`, style classes (visual states), `TopLevel` and the `ResolveByName`
+   marker. The shared code uses WinUI's own `DispatcherTimer`. Public compat types (part of the API):
+   `RoutingStrategies`, `KeyGesture`, `RoutedEvent<TEventArgs>` and `LogicalTreeAttachmentEventArgs`; public Uno-only
+   Interactivity types outside `Compat`: `BehaviorCollectionHost`, `DelegateAddEventHandler<TTarget, THandler>`.
    Extend them when the same Avalonia API is used in several places; otherwise use `#if UNO` locally.
 6. **Uno specifics to remember**
    - Classes deriving directly from `DependencyObject` (`AvaloniaObject`) must be `partial` (Uno's
@@ -79,7 +82,8 @@ portability analyzers know which files are shared.
      `UIElement`, `DragDrop.*Event` by a compat `DragDrop` type.
    - `XProperty.OverrideMetadata<T>(new StyledPropertyMetadata<TValue>(value))` works: the default is recorded
      per type and applied as a local value by the base class constructors.
-   - Routed events always bubble; `RoutingStrategies.Tunnel` maps to `Preview*` events where WinUI has them.
+   - Routed events always bubble; `RoutingStrategies.Tunnel` maps to `Preview*` events where WinUI has them (and to
+     handled events otherwise); `Direct` subscribes like `Bubble`, without a source filter.
 7. **Excluding files** is fine when the feature has no WinUI counterpart (Avalonia templates, `TopLevel`
    specific features, notification managers, …). List them in `SharedSources.props` and in the project table
    below with the reason.
@@ -115,19 +119,22 @@ python3 build/UnoPort/uno_share.py src/Xaml.Behaviors.<Name>
 
 ## Status
 
+[Behavior differences: Uno Platform vs Avalonia](../../docfx/articles/uno-platform/behavior-differences.md) documents
+the user-visible differences of every package.
+
 | Project | Uno port | Notes |
 |---------|----------|-------|
-| Xaml.Behaviors.Interactivity | ✅ | Avalonia templates (`ITemplate`) are replaced by `Interaction.BehaviorsTemplate` + `BehaviorCollectionHost` on Uno; the C# 14 `Behaviors` extension is Avalonia only. |
+| Xaml.Behaviors.Interactivity | ✅ | `BehaviorCollectionTemplate` is replaced by `Interaction.BehaviorsTemplate` + `BehaviorCollectionHost` on Uno; `ActionCollectionTemplate`, `ObjectTemplate` and `NotificationTemplate` have no counterpart (`Templates/**`); the C# 14 `Behaviors` extension is Avalonia only. `StyledElementBehavior`/`Trigger`/`Action` derive from `Behavior`/`Trigger`/`Action` (no `StyledElement`). `EventTriggerBehavior` has no `ToolTipOpening`/`ToolTipClosing` events. |
 | Xaml.Behaviors.Interactions | ✅ | Clipboard uses a public `IClipboard`/`SystemClipboard` (DataTransfer.Clipboard); pickers use the Avalonia shaped `IStorageProvider`/options types backed by `SystemStorageProvider` (Windows.Storage.Pickers, no arbitrary start folder). Composite actions use the action tree (`Action.Host`). |
 | Xaml.Behaviors.Interactions.Events | ✅ | Scroll gesture and IME client events have no WinUI counterpart. |
 | Xaml.Behaviors.Interactions.Responsive | ✅ | Style classes map to visual states (`VisualStateManager`): adding a class moves the control to the state of the same name, removing it to `Not{Name}`, `Normal` or `Default`. Bounds come from `ActualOffset` and the actual size. |
 | Xaml.Behaviors.Interactions.Draggable | ✅ | `SelectionAdorner` is excluded (no adorner layer); the list reorder placeholder is shown in a non-interactive `Popup`. Pointer capture on press, `TranslateTransform` instead of transform operations, `ChangeView` for scrolling. |
 | Xaml.Behaviors.Interactions.DragAndDrop | ✅ | `ManagedDragDrop/**` is excluded (it builds `DragEventArgs` and top-level windows; the WinUI drag is already in-process on Uno Skia/WASM). `DragDropEffects` is `DataPackageOperation`; drop targets that do not set effects accept what the source allows. |
-| Xaml.Behaviors.Interactions.DragAndDrop.DataGrid | ✅ | Built against the Uno maintained `Uno.CommunityToolkit.WinUI.UI.Controls.DataGrid`. |
-| Xaml.Behaviors.Interactions.Custom | ✅ | Every folder is ported. Excluded (no WinUI counterpart): style class actions, `ScreenshotAction`, resources changed triggers, `Cursor/**` (only the protected `ProtectedCursor` exists), visual debug adorner, pinch/pull/scroll/touch pad gestures, IME client events, `NumericUpDownValidationBehavior`, `Notifications/**`, `Screen/**`, `CenterWindowBehavior`, `WindowDragMoveBehavior`, the RenderTarget drawing behaviors and `ItemsControlPreparingContainerTrigger`. Controls map to their WinUI counterparts (`AutoSuggestBox`, `FlipView`, `TabView`, `ContentDialog`, `ItemsRepeater`, `Selector`, …). |
+| Xaml.Behaviors.Interactions.DragAndDrop.DataGrid | ✅ | Built against the Uno maintained `Uno.CommunityToolkit.WinUI.UI.Controls.DataGrid`. The row classes map to visual states; the adorner based `Styles.axaml` row indicators are not ported. |
+| Xaml.Behaviors.Interactions.Custom | ✅ | Every folder is ported. Excluded (no WinUI counterpart): style class actions, resources changed triggers, `Cursor/**` (only the protected `ProtectedCursor` exists), visual debug adorner, pinch/pull/scroll/touch pad gestures, IME client events, `NumericUpDownValidationBehavior`, `Notifications/**`, `Screen/**`, `CenterWindowBehavior`, `WindowDragMoveBehavior`, the RenderTarget drawing behaviors and `ItemsControlPreparingContainerTrigger`; `ScreenshotAction` is not ported yet (`RenderTargetBitmap` encoding and a storage provider). Controls map to their WinUI counterparts (`AutoSuggestBox`, `FlipView`, `TabView`, `ContentDialog`, `ItemsRepeater`, `Selector`, `ListViewBase`, …). |
 | Xaml.Behaviors.Interactions.ReactiveUI | ✅ | Depends on `ReactiveUI.Reactive` 25.1 (the System.Reactive flavor of ReactiveUI, like `ReactiveUI.Uno.Reactive`). |
 | Xaml.Behaviors.Interactions.Scripting | ✅ | Same `[RequiresUnreferencedCode]` contract; needs a runtime with dynamic code (not AOT-only targets). |
-| Xaml.Behaviors.Animations | ✅ | Avalonia `Animation` becomes a WinUI `Storyboard` (`PlatformAnimation` alias); composition offsets are relative to the layout position on Uno Skia; tilt/orbit rotate around an axis; the selection indicator starts explicit key frame animations (no implicit animations on Uno). |
+| Xaml.Behaviors.Animations | ✅ | Avalonia `Animation` becomes a WinUI `Storyboard` (`PlatformAnimation` alias); composition offsets are relative to the layout position on Uno Platform; tilt/orbit rotate around an axis; the selection indicator starts explicit key frame animations (no implicit animations on Uno). |
 | Xaml.Behaviors (single assembly) | ✅ | `src/Uno/Xaml.Behaviors` (`Xaml.Behaviors.Uno`) compiles exactly the sources of the Interactivity, Animations, Interactions, Custom, DragAndDrop, Draggable, Events and Responsive Uno projects. |
 | Xaml.Behaviors.Avalonia (meta package) | ✅ | `src/Uno/Xaml.Behaviors.All` (`Xaml.Behaviors.Uno.All`) references the same packages. |
 | Xaml.Behaviors.SourceGenerators | ✅ | Same generator project; platform strategy (`IXamlPlatform`) with Avalonia and WinUI emitters, override with `XamlBehaviorsSourceGeneratorPlatform`. See `docfx/articles/source-generators/uno-platform.md`. |

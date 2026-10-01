@@ -52,46 +52,39 @@ Namespaces follow the Avalonia ones without the `Avalonia.` prefix: `Avalonia.Xa
 
 ## Differences from the Avalonia packages
 
-* **Lifecycle**: WinUI has no logical tree, `Initialized` or `AttachedToVisualTree` notifications. Behaviors receive
+[Behavior differences: Uno Platform vs Avalonia](../../docfx/articles/uno-platform/behavior-differences.md) lists
+every member that behaves differently, the Uno-only API and the features that are not available, with the reasons.
+The essentials:
+
+* **Lifecycle**: WinUI has no logical tree, `Initialized` or `AttachedToVisualTree`. Behaviors receive
   `OnInitializedEvent`, `OnAttachedToLogicalTree`, `OnAttachedToVisualTree` and `OnLoaded` (in that order) from
-  `FrameworkElement.Loaded`, and the detach notifications in reverse order from `Unloaded`. A data context change
-  raised before the element loads (when `x:Bind` values are not applied yet) reaches `OnDataContextChangedEvent` once,
-  after `OnLoaded`.
+  `FrameworkElement.Loaded`, and the detach notifications in reverse order from `Unloaded`. `x:Bind` values are set
+  when the view loads; a data context change raised before that reaches `OnDataContextChangedEvent` once, after
+  `OnLoaded`. `OnResourcesChangedEvent` is never raised.
 * **Element names**: `[ResolveByName]` does not exist in WinUI XAML; use `{Binding ElementName=...}` or `{x:Bind}`.
-* **Bindings as values**: WinUI applies a binding assigned to a property (there is no `[AssignBinding]`), so the
-  behaviors use the bound value. `Condition.Binding`, `DataTriggerBehavior.Binding` and
-  `BindingTriggerBehavior.Binding` compare it; `BindingBehavior.Binding` sets it to `TargetProperty` of `TargetObject`
-  and updates the target when it changes (one way, the value is cleared when the behavior leaves the visual tree). On
-  Uno Platform `Condition.Binding`, `BindingTriggerBehavior.Binding` and `BindingBehavior.Binding` are `object`
-  properties: a `BindingBase` assigned in code is still applied like on Avalonia.
+* **Bindings as values**: WinUI applies a binding assigned to a property (there is no `[AssignBinding]`).
+  `Condition.Binding`, `BindingTriggerBehavior.Binding` and `BindingBehavior.Binding` are `object` properties that
+  receive the bound value (like `DataTriggerBehavior.Binding`); a `BindingBase` assigned in code is still applied.
+  `BindingBehavior` pushes the value one way to `TargetProperty` and clears it when it leaves the visual tree.
 
   ```xml
   <icustom:BindingBehavior TargetObject="{x:Bind TargetText}"
                            TargetProperty="{x:Bind mux:TextBlock.TextProperty}"
                            Binding="{x:Bind SourceBox.Text, Mode=OneWay}" />
-  <icustom:BindingTriggerBehavior Binding="{x:Bind Slider.Value, Mode=OneWay}" ComparisonCondition="GreaterThan" Value="50">
-    <ic:ChangePropertyAction PropertyName="Text" Value="high" />
-  </icustom:BindingTriggerBehavior>
   ```
-* **Routed events**: WinUI routed events always bubble. `RoutingStrategies.Tunnel` uses the `Preview*` event when one
-  exists (key events) and otherwise also receives handled events.
-* **Default binding modes and value inheritance** are Avalonia features; on WinUI specify `Mode=TwoWay` explicitly.
-* **Clipboard and pickers** use the application wide WinUI services (`SystemClipboard`, `SystemStorageProvider`).
-  The `Clipboard` and `StorageProvider` properties accept other implementations, for example in tests. WinUI pickers
-  cannot open an arbitrary start folder.
+* **XAML**: no default `TwoWay` binding modes or value inheritance (write `Mode=TwoWay`), no `StringFormat`,
+  `x:Static` or `x:TypeArguments` (use closed generic subclasses), no `XmlnsDefinition` (use `using:` namespaces).
+* **Routed events** always bubble: `RoutingStrategies.Tunnel` uses the `Preview*` key events or also receives handled
+  events, and `Direct` subscribes like `Bubble`. `GotFocus`/`LostFocus` and `Button.Click` are not routed.
+* **Property system**: `SetCurrentValue` and `OverrideMetadata` defaults set local values; temporary values use
+  `DependencyPropertyValuePrecedences.Animations`.
+* **Style classes** map to visual states (`VisualStateManager`); the class actions are not available.
+* **Controls** map to their WinUI counterparts (`ListView`/`Selector`, `TabView`, `AutoSuggestBox`, `FlipView`,
+  `ContentDialog`, `ItemsRepeater`, `ElementTheme`).
+* **Clipboard and pickers** use the application wide WinUI services (`SystemClipboard`, `SystemStorageProvider`); the
+  `Clipboard` and `StorageProvider` properties accept other implementations. The system pickers ignore the start
+  folder, title and overwrite prompt.
 * **Templates**: instead of Avalonia's `BehaviorCollectionTemplate`, set the attached `i:Interaction.BehaviorsTemplate`
-  (for example from a style setter) to a `DataTemplate` whose root is an `i:BehaviorCollectionHost` containing the
-  behaviors; every element gets its own collection. The other Avalonia only features are listed in PORTING.md.
-* **New items per execution**: Avalonia's `AddItemToItemsControlAction` and `InsertItemToItemsControlAction` build a
-  new item from an `ObjectTemplate` assigned to `Item`. WinUI templates only create UI elements, so on Uno Platform the
-  actions have an `ItemFactory` property (`Xaml.Interactions.Custom.IItemFactory`, `object? CreateItem()`) that
-  creates the item on every execution and takes precedence over `Item`. Implement the factory in the view model layer
-  and declare it in XAML or bind it with `x:Bind`:
-
-  ```xml
-  <icustom:AddItemToItemsControlAction ItemsControl="{x:Bind ItemsControl}">
-    <icustom:AddItemToItemsControlAction.ItemFactory>
-      <vm:ItemViewModelFactory Value="Added Item" Color="Black" />
-    </icustom:AddItemToItemsControlAction.ItemFactory>
-  </icustom:AddItemToItemsControlAction>
-  ```
+  to a `DataTemplate` whose root is an `i:BehaviorCollectionHost`; every element gets its own collection.
+* **New items per execution**: `AddItemToItemsControlAction` and `InsertItemToItemsControlAction` have an
+  `ItemFactory` property (`IItemFactory.CreateItem()`) instead of an `ObjectTemplate` item.

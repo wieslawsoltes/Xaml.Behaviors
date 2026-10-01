@@ -63,24 +63,31 @@ requires Avalonia 12.1.3.
 
 ## WinUI differences
 
-These are differences of the WinUI API, not bugs; `src/Uno/README.md` and the status table of `src/Uno/PORTING.md`
-describe how the port maps them.
+These are differences of the WinUI API, not bugs. [Behavior Differences](behavior-differences.md) lists every
+affected behavior, trigger and action, the Uno-only API and the features that are not available; the status table of
+`src/Uno/PORTING.md` describes how the port maps them.
 
 * **Lifecycle:** WinUI has no logical tree, `Initialized` or `AttachedToVisualTree`; the Avalonia lifecycle is raised
   from `Loaded`/`Unloaded`. Behaviors declared in XAML are attached when the view is created, and `x:Bind` values are
   applied when it loads — evaluate in `OnLoaded` (or later) when an `x:Bind` value is needed. Data context changes
   raised before the element loads are delivered once, after `OnLoaded`.
-* **Routed events:** always bubble; `RoutingStrategies.Tunnel` maps to `Preview*` key events or handled events.
+* **Routed events:** always bubble; `RoutingStrategies.Tunnel` maps to `Preview*` key events or handled events, and
+  `Direct` subscribes like `Bubble` (events of descendants are received too).
   `Button.Click` is not a routed event (use `TappedEvent` for routed triggers). WinUI buttons click on key **up**.
 * **Bindings:** no `StringFormat`, `x:Static`, `x:TypeArguments`, `#name`/`$parent[...]`, `OneWayToSource`, or default
   `TwoWay` modes; `x:Bind` defaults to `OneTime`. Generic behaviors are used through closed subclasses.
-* **Features without a WinUI counterpart:** style classes, element cursors (only `ProtectedCursor`), adorners,
-  Avalonia gesture recognizers (pinch, pull, scroll, touch pad), notification managers, `NumericUpDown`, Screens,
-  `Window.BeginMoveDrag`, immediate mode drawing into a `RenderTargetBitmap`, resources changed notifications,
-  `ObjectTemplate` (the item actions use an `ItemFactory` instead), the managed drag and drop. The behaviors built on
-  them are not part of the Uno packages.
-* **Controls:** `ListView` instead of `ListBox` (Uno's `ListBox` produces `ContentPresenter` containers), `TabView`,
-  `AutoSuggestBox`, `FlipView`, `ContentDialog`, `NumberBox`, `ItemsRepeater` for the container triggers.
+* **Features without a WinUI counterpart:** element cursors (only `ProtectedCursor`), Avalonia gesture recognizers
+  (pinch, pull, scroll, touch pad), IME client events, notification managers, `NumericUpDown`, Screens,
+  `Window.BeginMoveDrag`, immediate mode drawing into a `RenderTargetBitmap`, resources changed notifications, an event
+  before an `ItemsRepeater` prepares a container, `ObjectTemplate` (the item actions use an `ItemFactory` instead) and
+  the managed drag and drop. The behaviors built on them are not part of the Uno packages.
+* **Style classes and adorners:** the style class actions (`AddClassAction`, `RemoveClassAction`, `ToggleClassAction`),
+  `VisualDebugBehavior` and `SelectionAdorner` are not available. The other behaviors that use style classes
+  (Responsive, the Draggable `:dragging` class, the tree view and data grid drop handlers) change visual states of the
+  same name instead, and `ListReorderDragBehavior` shows its placeholder in a `Popup`.
+* **Controls:** `ListView` instead of `ListBox` (Uno's `ListBox` produces `ContentPresenter` containers; the
+  select-all and scroll-to-item behaviors require a `ListViewBase`), `TabView`, `AutoSuggestBox`, `FlipView`,
+  `ContentDialog` (dialog triggers and `ShowDialogAction`), `NumberBox`, `ItemsRepeater` for the container triggers.
 
 ## Uno Platform limitations found
 

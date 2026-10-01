@@ -1,4 +1,6 @@
 - name: Overview
   href: index.md
+- name: Behavior Differences
+  href: behavior-differences.md
 - name: Known Issues and Differences
   href: known-issues.md

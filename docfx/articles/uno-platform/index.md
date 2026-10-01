@@ -2,7 +2,8 @@
 
 XAML Behaviors is also available for [Uno Platform](https://platform.uno) (WinUI API). The Uno Platform packages are
 built from the same sources as the Avalonia packages, so behaviors, triggers and actions keep their names and
-behavior; namespaces drop the `Avalonia.` prefix (`Avalonia.Xaml.Interactivity` → `Xaml.Interactivity`).
+behavior where WinUI allows it; namespaces drop the `Avalonia.` prefix (`Avalonia.Xaml.Interactivity` →
+`Xaml.Interactivity`).
 
 | Package | Contents |
 |---------|----------|
@@ -31,9 +32,13 @@ behavior; namespaces drop the `Avalonia.` prefix (`Avalonia.Xaml.Interactivity` 
 </Page>
 ```
 
+See [Behavior Differences](behavior-differences.md) for every member that behaves differently on Uno Platform, the
+Uno-only API (for example `Interaction.BehaviorsTemplate`, `ItemFactory`, `TargetPropertyType`) and the features that
+are not available, with the reasons.
+
 The repository documents the port in more detail:
 
-* `src/Uno/README.md` — packages, usage and the behavior differences from Avalonia.
+* `src/Uno/README.md` — packages, usage and a summary of the differences from Avalonia.
 * `src/Uno/PORTING.md` — how the sources are shared and the status of every project.
 * `tests/Uno/README.md` and `samples/Uno/README.md` — the shared tests and the Uno twins of the sample applications.
 * `src/Uno/Xaml.Behaviors.Uno.Headless/README.md` — headless Uno Platform UI tests with xUnit v3.

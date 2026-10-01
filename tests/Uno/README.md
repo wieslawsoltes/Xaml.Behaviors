@@ -50,7 +50,7 @@ Projects that do not reference `Xaml.Behaviors.Uno.Interactivity` set
 | `Dispatcher.UIThread.RunJobs()` | `UnoHeadlessSession.RunJobs()`: runs the queued UI work synchronously |
 | `CaptureRenderedFrame()?.Save(…)` | runs the queued work and the layout; no image (returns `null`) |
 | `KeyPressQwerty(PhysicalKey, RawInputModifiers)` | a key press **and release** on the focused element (WinUI buttons click on key up) |
-| `MouseDown/MouseUp/MouseMove/MouseWheel(point, …)` | `UnoHeadlessSession.Mouse` (absolute positions relative to the element) |
+| `MouseDown/MouseUp/MouseMove/MouseWheel(point, …)` | `UnoHeadlessSession.Mouse` (absolute positions relative to the element); `MouseWheel` uses `delta.Y` rounded to whole notches (no horizontal wheel), `XButton1`/`XButton2` press the left button |
 | `FindControl<T>(name)` | `FrameworkElement.FindName` |
 | `TranslatePoint(point, relativeTo)` | `TransformToVisual` (`CoreTestCompat`) |
 
