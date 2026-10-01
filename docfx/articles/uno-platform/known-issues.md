@@ -11,7 +11,6 @@ Platform, how they were resolved, and the WinUI differences that affect behavior
 | [#377](https://github.com/wieslawsoltes/Xaml.Behaviors/issues/377) | Uno | `ClickEventTrigger` with a `Button` source control prevents other `HandledEventsToo` triggers from firing. | Fix: register the handled-events pointer handlers with the WinUI typed delegates. |
 | [#378](https://github.com/wieslawsoltes/Xaml.Behaviors/issues/378) | Uno | Data context changes raised before the element loads reach behaviors before their `x:Bind` values are set. | Fix: replay the data context notification after `Loaded`. |
 | [#379](https://github.com/wieslawsoltes/Xaml.Behaviors/issues/379) | both | `ContextDragBehavior` only starts a drag when the pressed element shares its `DataContext` (text content of a `Button` has its own). | Use a `TextBlock` as content. Fix: compare the visual ancestry instead of data contexts. |
-| [#380](https://github.com/wieslawsoltes/Xaml.Behaviors/issues/380) | both | `SaveFilePickerAction.FileTypeChoicesProperty` is registered with the `OpenFilePickerAction` owner. | Fix: register with `SaveFilePickerAction`. |
 | [#381](https://github.com/wieslawsoltes/Xaml.Behaviors/issues/381) | both | Drag event triggers do not fire when a drop handler on the same element handles the event. | Attach the triggers to a parent. Fix: observe handled drag events. |
 | [#382](https://github.com/wieslawsoltes/Xaml.Behaviors/issues/382) | Uno | `BindingBehavior`/`BindingTriggerBehavior`/`Condition.Binding` cannot receive a binding written in XAML (WinUI applies bindings, there is no `[AssignBinding]`). | Create the binding in code. Fix: Uno-only source/path properties or value semantics. |
 | [#383](https://github.com/wieslawsoltes/Xaml.Behaviors/issues/383) | Uno | `AddItemToItemsControlAction`/`InsertItemToItemsControlAction` cannot create a new item per execution (WinUI templates only create elements, no `ObjectTemplate`). | Fix: an item factory provided by the view model. |
@@ -39,6 +38,7 @@ Platform, how they were resolved, and the WinUI differences that affect behavior
 | `BindTagToVisualRootDataContextBehavior` (both) | Never bound the tag when declared in XAML (no visual root yet when attached). | Also binds when attached to the visual tree. |
 | ReactiveUI (Uno) | The behaviors were built against ReactiveUI 23 while ReactiveUI.Uno requires 25.1 (`TypeLoadException` for `Interaction`). | Both platforms use ReactiveUI 25.1 (see below). |
 | `Xaml.PropertyGenerator` code fix | Orphaned `#pragma warning restore` lines after migrating a registration. | Removed with the registration. |
+| `SaveFilePickerAction` (both, [#380](https://github.com/wieslawsoltes/Xaml.Behaviors/issues/380)) | `FileTypeChoicesProperty` was registered with the `OpenFilePickerAction` owner (bindings by name missed its changes). | Registered with `SaveFilePickerAction`. |
 
 ## ReactiveUI 25
 
