@@ -22,7 +22,9 @@
         <Setter Property="CanDragTabs" Value="False" />
         <Setter Property="CanReorderTabs" Value="False" />
         <Setter Property="TabWidthMode" Value="SizeToContent" />
-        <!-- Like the Avalonia TabControl, the selected content fills the content area. -->
+        <!-- Like the Avalonia TabControl, the control and its selected content fill the available space. -->
+        <Setter Property="HorizontalAlignment" Value="Stretch" />
+        <Setter Property="VerticalAlignment" Value="Stretch" />
         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
         <Setter Property="VerticalContentAlignment" Value="Stretch" />
       </Style>

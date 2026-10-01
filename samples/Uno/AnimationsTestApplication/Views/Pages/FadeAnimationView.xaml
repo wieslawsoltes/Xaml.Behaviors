@@ -9,7 +9,8 @@
     <TabViewItem Header="Fade In">
       <!-- Avalonia ClipToBounds: a non-scrolling ScrollViewer clips its content on WinUI. -->
       <ScrollViewer HorizontalScrollMode="Disabled" VerticalScrollMode="Disabled"
-                    HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Disabled">
+                    HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Disabled"
+                    HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch">
         <Border x:Name="Border1"
                 Background="LightBlue"
                 custom:FadeAnimation.FadeIn="1000">
@@ -25,7 +26,8 @@
     <TabViewItem Header="Fade Out">
       <!-- Avalonia ClipToBounds: a non-scrolling ScrollViewer clips its content on WinUI. -->
       <ScrollViewer HorizontalScrollMode="Disabled" VerticalScrollMode="Disabled"
-                    HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Disabled">
+                    HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Disabled"
+                    HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch">
         <Border x:Name="Border2"
                 Background="LightGreen"
                 custom:FadeAnimation.FadeOut="1000">

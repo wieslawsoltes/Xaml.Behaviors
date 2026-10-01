@@ -24,8 +24,19 @@ public partial class App : Application
     protected override void OnLaunched(LaunchActivatedEventArgs args)
     {
         var window = new MainWindow();
-        // The Avalonia window is 1100x760; WinUI windows are sized through their AppWindow.
-        window.AppWindow.Resize(new SizeInt32 { Width = 1100, Height = 760 });
+        if (window.Content is FrameworkElement content)
+        {
+            content.Loaded += (_, _) => Resize(window, content);
+        }
+
         window.Activate();
+    }
+
+    private static void Resize(Window window, FrameworkElement content)
+    {
+        // The Avalonia window is 1100x760 device independent pixels; WinUI windows are sized through their AppWindow
+        // in physical pixels, so the size is scaled by the rasterization scale of the window's content.
+        double scale = content.XamlRoot?.RasterizationScale ?? 1d;
+        window.AppWindow.Resize(new SizeInt32 { Width = (int)(1100 * scale), Height = (int)(760 * scale) });
     }
 }

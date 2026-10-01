@@ -90,6 +90,9 @@
     <Setter Property="CanReorderTabs" Value="False" />
     <Setter Property="Background" Value="Transparent" />
     <Setter Property="Padding" Value="0" />
+    <!-- The default TabView style aligns the control to the top. -->
+    <Setter Property="HorizontalAlignment" Value="Stretch" />
+    <Setter Property="VerticalAlignment" Value="Stretch" />
     <Setter Property="HorizontalContentAlignment" Value="Stretch" />
     <Setter Property="VerticalContentAlignment" Value="Stretch" />
     <Setter Property="Template">

@@ -10,7 +10,8 @@
     <TabViewItem Header="Left">
       <!-- Avalonia ClipToBounds: a non-scrolling ScrollViewer clips its content on WinUI. -->
       <ScrollViewer HorizontalScrollMode="Disabled" VerticalScrollMode="Disabled"
-                    HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Disabled">
+                    HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Disabled"
+                    HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch">
         <Border x:Name="Border1"
                 Background="Transparent"
                 custom:SlidingAnimation.Left="500">
@@ -26,7 +27,8 @@
     <TabViewItem Header="Right">
       <!-- Avalonia ClipToBounds: a non-scrolling ScrollViewer clips its content on WinUI. -->
       <ScrollViewer HorizontalScrollMode="Disabled" VerticalScrollMode="Disabled"
-                    HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Disabled">
+                    HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Disabled"
+                    HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch">
         <Border x:Name="Border2"
                 Background="Transparent"
                 custom:SlidingAnimation.Right="500">
@@ -42,7 +44,8 @@
     <TabViewItem Header="Top">
       <!-- Avalonia ClipToBounds: a non-scrolling ScrollViewer clips its content on WinUI. -->
       <ScrollViewer HorizontalScrollMode="Disabled" VerticalScrollMode="Disabled"
-                    HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Disabled">
+                    HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Disabled"
+                    HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch">
         <Border x:Name="Border3"
                 Background="Transparent"
                 custom:SlidingAnimation.Top="500">
@@ -58,7 +61,8 @@
     <TabViewItem Header="Bottom">
       <!-- Avalonia ClipToBounds: a non-scrolling ScrollViewer clips its content on WinUI. -->
       <ScrollViewer HorizontalScrollMode="Disabled" VerticalScrollMode="Disabled"
-                    HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Disabled">
+                    HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Disabled"
+                    HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch">
         <Border x:Name="Border4"
                 Background="Transparent"
                 custom:SlidingAnimation.Bottom="500">
