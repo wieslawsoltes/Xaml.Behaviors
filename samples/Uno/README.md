@@ -105,12 +105,10 @@ share the code-behind (`.axaml.cs`). `Views/Pages/CallMethodActionView`, `Change
 
 ### Known limitations
 
-* `Xaml.Behaviors.Uno.Interactions.ReactiveUI` is built against ReactiveUI 23, while `ReactiveUI.Uno` 25 brings
-  ReactiveUI 25 (`Interaction<,>` and `IViewFor<>` moved to `ReactiveUI.Binding`, commands use
-  `ReactiveUI.Primitives.RxVoid` instead of `System.Reactive.Unit`). `InteractionTriggerBehavior` fails to load
-  (TypeLoadException), so that sample is marked not available; members of the navigation actions whose ReactiveUI
-  signatures changed (for example `NavigateBack.Execute(Unit)`) may fail at run time. Shared view models alias
-  `Unit` to `RxVoid` on Uno.
+* ReactiveUI.Uno brings ReactiveUI 25 (`Interaction<,>` and `IViewFor<>` live in `ReactiveUI.Binding`, commands use
+  `ReactiveUI.Primitives.RxVoid` instead of `System.Reactive.Unit`); `Xaml.Behaviors.Uno.Interactions.ReactiveUI` is
+  built against the same ReactiveUI version. Shared view models alias `Unit` to `RxVoid` on Uno, and generic
+  ReactiveUI behaviors are closed in `Behaviors/ClosedGenericBehaviors.cs` (`RxVoidInteractionTriggerBehavior`).
 * The Uno sample references `System.Reactive` explicitly (ReactiveUI 25 no longer depends on it).
 
 ## Source generated behaviors in XAML

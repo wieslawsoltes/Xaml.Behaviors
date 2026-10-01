@@ -31,3 +31,11 @@ public partial class NavigateToDetailPageAction : NavigateToAction<DetailPageVie
 public partial class NavigateToHomePageAndResetAction : NavigateToAndResetAction<HomePageViewModel>
 {
 }
+
+/// <summary>
+/// <see cref="InteractionTriggerBehavior{TInput, TOutput}"/> for interactions without input and output (Avalonia:
+/// <c>x:TypeArguments="reactive:Unit, reactive:Unit"</c>; ReactiveUI 25 uses <see cref="ReactiveUI.Primitives.RxVoid"/>).
+/// </summary>
+public partial class RxVoidInteractionTriggerBehavior : InteractionTriggerBehavior<ReactiveUI.Primitives.RxVoid, ReactiveUI.Primitives.RxVoid>
+{
+}

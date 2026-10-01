@@ -2,7 +2,7 @@
 // Licensed under the MIT license. See LICENSE file in the project root for details.
 using System;
 using System.Collections.Generic;
-using System.Reactive.Concurrency;
+using ReactiveUI.Primitives.Concurrency;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
 using global::ReactiveUI;
@@ -17,7 +17,7 @@ namespace Xaml.Interactions.ReactiveUI.UnitTests;
 
 public sealed class TestScreen : IScreen
 {
-    public RoutingState Router { get; } = new(ImmediateScheduler.Instance);
+    public RoutingState Router { get; } = new(ImmediateSequencer.Instance);
 }
 
 public class FirstViewModel(IScreen screen) : ReactiveObject, IRoutableViewModel
@@ -173,7 +173,7 @@ public class ReactiveUIActionsTests
     [UnoHeadlessFact]
     public async Task InteractionTriggerBehavior_ExecutesActionsWhileAttached()
     {
-        Interaction<string, int> interaction = new(ImmediateScheduler.Instance);
+        Interaction<string, int> interaction = new(ImmediateSequencer.Instance);
         Border element = new();
         RecordingAction action = new();
         InteractionTriggerBehavior<string, int> trigger = new() { Interaction = interaction };

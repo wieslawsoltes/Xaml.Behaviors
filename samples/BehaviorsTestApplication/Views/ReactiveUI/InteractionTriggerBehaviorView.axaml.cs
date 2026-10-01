@@ -18,6 +18,13 @@ public partial class InteractionTriggerBehaviorView : UserControl
         DataContext = new InteractionTriggerBehaviorViewModel();
     }
 
+#if UNO
+    /// <summary>
+    /// Gets the view model for the compiled bindings (x:Bind) of the Uno Platform view.
+    /// </summary>
+    public InteractionTriggerBehaviorViewModel? ViewModel => DataContext as InteractionTriggerBehaviorViewModel;
+#endif
+
 #if !UNO
     private void InitializeComponent()
     {
