@@ -21,6 +21,10 @@ namespace Avalonia.Xaml.Interactions.Events;
 /// </summary>
 public abstract class PointerEventsBehavior : InteractiveBehaviorBase
 {
+    private System.IDisposable? _pressedSubscription;
+    private System.IDisposable? _releasedSubscription;
+    private System.IDisposable? _movedSubscription;
+
     static PointerEventsBehavior()
     {
         RoutingStrategiesProperty.OverrideMetadata<PointerEventsBehavior>(
@@ -31,23 +35,30 @@ public abstract class PointerEventsBehavior : InteractiveBehaviorBase
     /// <inheritdoc />
     protected override void OnAttachedToVisualTree()
     {
+        DisposeSubscriptions();
+
         if (AssociatedObject is not null)
         {
-            AssociatedObject.AddHandler(InputElement.PointerPressedEvent, PointerPressed, RoutingStrategies);
-            AssociatedObject.AddHandler(InputElement.PointerReleasedEvent, PointerReleased, RoutingStrategies);
-            AssociatedObject.AddHandler(InputElement.PointerMovedEvent, PointerMoved, RoutingStrategies);
-        } 
+            _pressedSubscription = AssociatedObject.AddDisposableRoutedEventHandler(InputElement.PointerPressedEvent, PointerPressed, RoutingStrategies);
+            _releasedSubscription = AssociatedObject.AddDisposableRoutedEventHandler(InputElement.PointerReleasedEvent, PointerReleased, RoutingStrategies);
+            _movedSubscription = AssociatedObject.AddDisposableRoutedEventHandler(InputElement.PointerMovedEvent, PointerMoved, RoutingStrategies);
+        }
     }
 
     /// <inheritdoc />
     protected override void OnDetachedFromVisualTree()
     {
-        if (AssociatedObject is not null)
-        {
-            AssociatedObject.RemoveRoutedEventHandler(InputElement.PointerPressedEvent, PointerPressed);
-            AssociatedObject.RemoveRoutedEventHandler(InputElement.PointerReleasedEvent, PointerReleased);
-            AssociatedObject.RemoveRoutedEventHandler(InputElement.PointerMovedEvent, PointerMoved);
-        }
+        DisposeSubscriptions();
+    }
+
+    private void DisposeSubscriptions()
+    {
+        _pressedSubscription?.Dispose();
+        _pressedSubscription = null;
+        _releasedSubscription?.Dispose();
+        _releasedSubscription = null;
+        _movedSubscription?.Dispose();
+        _movedSubscription = null;
     }
 
     private void PointerPressed(object? sender, PointerPressedEventArgs e)

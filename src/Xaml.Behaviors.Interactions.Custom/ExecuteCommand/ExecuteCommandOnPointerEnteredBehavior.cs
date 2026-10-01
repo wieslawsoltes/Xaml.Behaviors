@@ -29,7 +29,7 @@ public class ExecuteCommandOnPointerEnteredBehavior : ExecuteCommandRoutedEventB
     {
         var control = SourceControl ?? AssociatedObject;
         var dispose = control?
-            .AddDisposableHandler(
+            .AddDisposableRoutedEventHandler(
                 InputElement.PointerEnteredEvent,
                 OnPointerEntered,
                 EventRoutingStrategy);

@@ -36,7 +36,7 @@ public class ExecuteCommandOnGotFocusBehavior : ExecuteCommandRoutedEventBehavio
     {
         var control = SourceControl ?? AssociatedObject;
         var dispose = control?
-            .AddDisposableHandler(
+            .AddDisposableRoutedEventHandler(
                 InputElement.GotFocusEvent,
                 OnGotFocus,
                 EventRoutingStrategy);

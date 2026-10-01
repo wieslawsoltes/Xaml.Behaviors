@@ -22,6 +22,8 @@ namespace Avalonia.Xaml.Interactions.Events;
 /// </summary>
 public abstract class TextInputMethodClientRequestedEventBehavior : InteractiveBehaviorBase
 {
+    private System.IDisposable? _subscription;
+
     static TextInputMethodClientRequestedEventBehavior()
     {
         RoutingStrategiesProperty.OverrideMetadata<TextInputMethodClientRequestedEventBehavior>(
@@ -32,13 +34,15 @@ public abstract class TextInputMethodClientRequestedEventBehavior : InteractiveB
     /// <inheritdoc />
     protected override void OnAttachedToVisualTree()
     {
-        AssociatedObject?.AddHandler(InputElement.TextInputMethodClientRequestedEvent, TextInputMethodClientRequested, RoutingStrategies);
+        _subscription?.Dispose();
+        _subscription = AssociatedObject?.AddDisposableRoutedEventHandler(InputElement.TextInputMethodClientRequestedEvent, TextInputMethodClientRequested, RoutingStrategies);
     }
 
     /// <inheritdoc />
     protected override void OnDetachedFromVisualTree()
     {
-        AssociatedObject?.RemoveRoutedEventHandler(InputElement.TextInputMethodClientRequestedEvent, TextInputMethodClientRequested);
+        _subscription?.Dispose();
+        _subscription = null;
     }
 
     private void TextInputMethodClientRequested(object? sender, TextInputMethodClientRequestedEventArgs e)

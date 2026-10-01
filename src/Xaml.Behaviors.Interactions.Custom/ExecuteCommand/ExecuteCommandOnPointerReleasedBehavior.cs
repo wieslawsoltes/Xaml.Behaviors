@@ -29,7 +29,7 @@ public class ExecuteCommandOnPointerReleasedBehavior : ExecuteCommandRoutedEvent
     {
         var control = SourceControl ?? AssociatedObject;
         var dispose = control?
-            .AddDisposableHandler(
+            .AddDisposableRoutedEventHandler(
                 InputElement.PointerReleasedEvent,
                 OnPointerReleased,
                 EventRoutingStrategy);

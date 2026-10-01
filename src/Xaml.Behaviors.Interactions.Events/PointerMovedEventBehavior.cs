@@ -21,6 +21,8 @@ namespace Avalonia.Xaml.Interactions.Events;
 /// </summary>
 public abstract class PointerMovedEventBehavior : InteractiveBehaviorBase
 {
+    private System.IDisposable? _subscription;
+
     static PointerMovedEventBehavior()
     {
         RoutingStrategiesProperty.OverrideMetadata<PointerMovedEventBehavior>(
@@ -31,13 +33,15 @@ public abstract class PointerMovedEventBehavior : InteractiveBehaviorBase
     /// <inheritdoc />
     protected override void OnAttachedToVisualTree()
     {
-        AssociatedObject?.AddHandler(InputElement.PointerMovedEvent, PointerMoved, RoutingStrategies);
+        _subscription?.Dispose();
+        _subscription = AssociatedObject?.AddDisposableRoutedEventHandler(InputElement.PointerMovedEvent, PointerMoved, RoutingStrategies);
     }
 
     /// <inheritdoc />
     protected override void OnDetachedFromVisualTree()
     {
-        AssociatedObject?.RemoveRoutedEventHandler(InputElement.PointerMovedEvent, PointerMoved);
+        _subscription?.Dispose();
+        _subscription = null;
     }
 
     private void PointerMoved(object? sender, PointerEventArgs e)

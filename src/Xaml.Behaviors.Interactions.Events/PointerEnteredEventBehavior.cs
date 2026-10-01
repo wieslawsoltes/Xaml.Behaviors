@@ -21,6 +21,8 @@ namespace Avalonia.Xaml.Interactions.Events;
 /// </summary>
 public abstract class PointerEnteredEventBehavior : InteractiveBehaviorBase
 {
+    private System.IDisposable? _subscription;
+
     static PointerEnteredEventBehavior()
     {
         RoutingStrategiesProperty.OverrideMetadata<PointerEnteredEventBehavior>(
@@ -31,13 +33,15 @@ public abstract class PointerEnteredEventBehavior : InteractiveBehaviorBase
     /// <inheritdoc />
     protected override void OnAttachedToVisualTree()
     {
-        AssociatedObject?.AddHandler(InputElement.PointerEnteredEvent, PointerEnter, RoutingStrategies);
+        _subscription?.Dispose();
+        _subscription = AssociatedObject?.AddDisposableRoutedEventHandler(InputElement.PointerEnteredEvent, PointerEnter, RoutingStrategies);
     }
 
     /// <inheritdoc />
     protected override void OnDetachedFromVisualTree()
     {
-        AssociatedObject?.RemoveRoutedEventHandler(InputElement.PointerEnteredEvent, PointerEnter);
+        _subscription?.Dispose();
+        _subscription = null;
     }
 
     private void PointerEnter(object? sender, PointerEventArgs e)

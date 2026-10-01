@@ -55,7 +55,7 @@ public partial class ShowOnKeyDownBehavior : ShowBehaviorBase
         return DisposableAction.Create(() => element.RemoveRoutedEventHandler(InputElement.KeyDownEvent, AssociatedObject_KeyDown));
 #else
         var dispose = AssociatedObject?
-            .AddDisposableHandler(
+            .AddDisposableRoutedEventHandler(
                 InputElement.KeyDownEvent, 
                 AssociatedObject_KeyDown, 
                 EventRoutingStrategy);

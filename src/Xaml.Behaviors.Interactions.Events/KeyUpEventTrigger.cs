@@ -21,6 +21,8 @@ namespace Avalonia.Xaml.Interactions.Events;
 /// </summary>
 public class KeyUpEventTrigger : InteractiveTriggerBase
 {
+    private System.IDisposable? _subscription;
+
     static KeyUpEventTrigger()
     {
         RoutingStrategiesProperty.OverrideMetadata<KeyUpEventTrigger>(
@@ -31,13 +33,15 @@ public class KeyUpEventTrigger : InteractiveTriggerBase
     /// <inheritdoc />
     protected override void OnAttachedToVisualTree()
     {
-        AssociatedObject?.AddHandler(InputElement.KeyUpEvent, OnKeyUp, RoutingStrategies);
+        _subscription?.Dispose();
+        _subscription = AssociatedObject?.AddDisposableRoutedEventHandler(InputElement.KeyUpEvent, OnKeyUp, RoutingStrategies);
     }
 
     /// <inheritdoc />
     protected override void OnDetachedFromVisualTree()
     {
-        AssociatedObject?.RemoveRoutedEventHandler(InputElement.KeyUpEvent, OnKeyUp);
+        _subscription?.Dispose();
+        _subscription = null;
     }
 
     private void OnKeyUp(object? sender, KeyEventArgs e)

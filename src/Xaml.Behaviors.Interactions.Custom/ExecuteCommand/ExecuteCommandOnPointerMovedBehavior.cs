@@ -29,7 +29,7 @@ public class ExecuteCommandOnPointerMovedBehavior : ExecuteCommandRoutedEventBeh
     {
         var control = SourceControl ?? AssociatedObject;
         var dispose = control?
-            .AddDisposableHandler(
+            .AddDisposableRoutedEventHandler(
                 InputElement.PointerMovedEvent,
                 OnPointerMoved,
                 EventRoutingStrategy);

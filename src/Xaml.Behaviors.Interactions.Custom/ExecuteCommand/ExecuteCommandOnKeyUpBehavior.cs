@@ -29,7 +29,7 @@ public class ExecuteCommandOnKeyUpBehavior : ExecuteCommandOnKeyBehaviorBase
     {
         var control = SourceControl ?? AssociatedObject;
         var dispose = control?
-            .AddDisposableHandler(
+            .AddDisposableRoutedEventHandler(
                 InputElement.KeyUpEvent,
                 OnKeyUp,
                 EventRoutingStrategy);

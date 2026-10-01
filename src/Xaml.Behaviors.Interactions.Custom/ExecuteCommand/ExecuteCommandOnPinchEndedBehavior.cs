@@ -29,7 +29,7 @@ public class ExecuteCommandOnPinchEndedBehavior : ExecuteCommandRoutedEventBehav
     {
         var control = SourceControl ?? AssociatedObject;
         var dispose = control?
-            .AddDisposableHandler(
+            .AddDisposableRoutedEventHandler(
                 InputElement.PinchEndedEvent,
                 OnPinchEnded,
                 EventRoutingStrategy);

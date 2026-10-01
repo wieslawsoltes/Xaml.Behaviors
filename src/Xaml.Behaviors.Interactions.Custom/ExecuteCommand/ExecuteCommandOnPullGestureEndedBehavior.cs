@@ -29,7 +29,7 @@ public class ExecuteCommandOnPullGestureEndedBehavior : ExecuteCommandRoutedEven
     {
         var control = SourceControl ?? AssociatedObject;
         var dispose = control?
-            .AddDisposableHandler(
+            .AddDisposableRoutedEventHandler(
                 InputElement.PullGestureEndedEvent,
                 OnPullGestureEnded,
                 EventRoutingStrategy);

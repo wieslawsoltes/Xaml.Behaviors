@@ -21,16 +21,20 @@ namespace Avalonia.Xaml.Interactions.Events;
 /// </summary>
 public class RightTappedEventTrigger : InteractiveTriggerBase
 {
+    private System.IDisposable? _subscription;
+
     /// <inheritdoc />
     protected override void OnAttachedToVisualTree()
     {
-        AssociatedObject?.AddHandler(InputElement.RightTappedEvent, OnRightTapped, RoutingStrategies);
+        _subscription?.Dispose();
+        _subscription = AssociatedObject?.AddDisposableRoutedEventHandler(InputElement.RightTappedEvent, OnRightTapped, RoutingStrategies);
     }
 
     /// <inheritdoc />
     protected override void OnDetachedFromVisualTree()
     {
-        AssociatedObject?.RemoveRoutedEventHandler(InputElement.RightTappedEvent, OnRightTapped);
+        _subscription?.Dispose();
+        _subscription = null;
     }
 
     private void OnRightTapped(object? sender, RoutedEventArgs e)

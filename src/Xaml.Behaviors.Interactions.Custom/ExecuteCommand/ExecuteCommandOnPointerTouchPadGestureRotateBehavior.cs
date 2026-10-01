@@ -29,7 +29,7 @@ public class ExecuteCommandOnPointerTouchPadGestureRotateBehavior : ExecuteComma
     {
         var control = SourceControl ?? AssociatedObject;
         var dispose = control?
-            .AddDisposableHandler(
+            .AddDisposableRoutedEventHandler(
                 InputElement.PointerTouchPadGestureRotateEvent,
                 OnPointerTouchPadGestureRotate,
                 EventRoutingStrategy);

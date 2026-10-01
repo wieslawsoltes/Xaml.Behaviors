@@ -34,6 +34,7 @@ public partial class ClickEventTrigger : StyledElementTrigger<Control>
     private bool _ownsPointerCapture;
     private Control? _resolvedSourceControl;
     private IInputElement? _rootInputElement;
+    private System.IDisposable[]? _inputSubscriptions;
 
     /// <summary>
     /// Gets or sets the source control from which this trigger listens for click semantics.
@@ -530,21 +531,31 @@ public partial class ClickEventTrigger : StyledElementTrigger<Control>
     {
         var inputRoutingStrategies = RoutingStrategies;
 
-        sourceControl.AddHandler(InputElement.PointerPressedEvent, OnPointerPressed, inputRoutingStrategies, HandledEventsToo);
-        sourceControl.AddHandler(InputElement.PointerReleasedEvent, OnPointerReleased, inputRoutingStrategies, HandledEventsToo);
+        // The routing adapter subscribes on the routes the events are raised on, so a Direct-only routing strategy
+        // handles the input events raised by the source control itself.
+        _inputSubscriptions =
+        [
+            sourceControl.AddDisposableRoutedEventHandler(InputElement.PointerPressedEvent, OnPointerPressed, inputRoutingStrategies, HandledEventsToo),
+            sourceControl.AddDisposableRoutedEventHandler(InputElement.PointerReleasedEvent, OnPointerReleased, inputRoutingStrategies, HandledEventsToo),
+            sourceControl.AddDisposableRoutedEventHandler(InputElement.KeyDownEvent, OnKeyDown, inputRoutingStrategies, HandledEventsToo),
+            sourceControl.AddDisposableRoutedEventHandler(InputElement.KeyUpEvent, OnKeyUp, inputRoutingStrategies, HandledEventsToo),
+        ];
         sourceControl.AddHandler(InputElement.PointerCaptureLostEvent, OnPointerCaptureLost, EventRoutingStrategies.Direct, HandledEventsToo);
-        sourceControl.AddHandler(InputElement.KeyDownEvent, OnKeyDown, inputRoutingStrategies, HandledEventsToo);
-        sourceControl.AddHandler(InputElement.KeyUpEvent, OnKeyUp, inputRoutingStrategies, HandledEventsToo);
         sourceControl.AddHandler(InputElement.LostFocusEvent, OnLostFocus, EventRoutingStrategies.Bubble, HandledEventsToo);
     }
 
     private void UnregisterInputHandlers(Control sourceControl)
     {
-        sourceControl.RemoveRoutedEventHandler(InputElement.PointerPressedEvent, OnPointerPressed);
-        sourceControl.RemoveRoutedEventHandler(InputElement.PointerReleasedEvent, OnPointerReleased);
+        if (_inputSubscriptions is { } subscriptions)
+        {
+            _inputSubscriptions = null;
+            foreach (var subscription in subscriptions)
+            {
+                subscription.Dispose();
+            }
+        }
+
         sourceControl.RemoveRoutedEventHandler(InputElement.PointerCaptureLostEvent, OnPointerCaptureLost);
-        sourceControl.RemoveRoutedEventHandler(InputElement.KeyDownEvent, OnKeyDown);
-        sourceControl.RemoveRoutedEventHandler(InputElement.KeyUpEvent, OnKeyUp);
         sourceControl.RemoveRoutedEventHandler(InputElement.LostFocusEvent, OnLostFocus);
     }
 

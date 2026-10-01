@@ -29,7 +29,7 @@ public class ExecuteCommandOnScrollGestureInertiaStartingBehavior : ExecuteComma
     {
         var control = SourceControl ?? AssociatedObject;
         var dispose = control?
-            .AddDisposableHandler(
+            .AddDisposableRoutedEventHandler(
                 InputElement.ScrollGestureInertiaStartingEvent,
                 OnScrollGestureInertiaStarting,
                 EventRoutingStrategy);

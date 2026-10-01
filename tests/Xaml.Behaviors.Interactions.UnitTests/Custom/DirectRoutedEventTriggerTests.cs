@@ -159,29 +159,30 @@ public class DirectRoutedEventTriggerTests
         RoutedEvent.Register<DirectRoutedEventTriggerTests, RoutedEventArgs>("TunnelOnly", RoutingStrategies.Tunnel);
 
     [AvaloniaFact]
-    public void TryGetEmulatedDirectRoutes_Maps_Direct_Only_Subscriptions_To_Routed_Events()
+    public void RoutingStrategiesAdapter_Maps_Subscriptions_To_The_Routes_Of_The_Event()
     {
         // Direct alone on a tunneling and bubbling or a bubbling event: the bubble route, filtered by source.
-        Assert.True(RoutedEventTriggerBase.TryGetEmulatedDirectRoutes(InputElement.KeyDownEvent, RoutingStrategies.Direct, out var routes));
-        Assert.Equal(RoutingStrategies.Bubble, routes);
-        Assert.True(RoutedEventTriggerBase.TryGetEmulatedDirectRoutes(InputElement.GotFocusEvent, RoutingStrategies.Direct, out routes));
-        Assert.Equal(RoutingStrategies.Bubble, routes);
-
-        // Direct events, and subscriptions that include Tunnel or Bubble, are unchanged.
-        Assert.False(RoutedEventTriggerBase.TryGetEmulatedDirectRoutes(InputElement.PointerEnteredEvent, RoutingStrategies.Direct, out routes));
-        Assert.Equal(RoutingStrategies.Direct, routes);
-        Assert.False(RoutedEventTriggerBase.TryGetEmulatedDirectRoutes(InputElement.KeyDownEvent, RoutingStrategies.Direct | RoutingStrategies.Bubble, out routes));
-        Assert.Equal(RoutingStrategies.Direct | RoutingStrategies.Bubble, routes);
-        Assert.False(RoutedEventTriggerBase.TryGetEmulatedDirectRoutes(InputElement.KeyDownEvent, RoutingStrategies.Tunnel, out routes));
-        Assert.Equal(RoutingStrategies.Tunnel, routes);
-        Assert.False(RoutedEventTriggerBase.TryGetEmulatedDirectRoutes(InputElement.KeyDownEvent, RoutingStrategies.Bubble, out routes));
-        Assert.Equal(RoutingStrategies.Bubble, routes);
-        Assert.False(RoutedEventTriggerBase.TryGetEmulatedDirectRoutes(InputElement.KeyDownEvent, (RoutingStrategies)0, out routes));
-        Assert.Equal((RoutingStrategies)0, routes);
+        AssertRoutes(InputElement.KeyDownEvent, RoutingStrategies.Direct, RoutingStrategies.Bubble, sourceOnly: true);
+        AssertRoutes(InputElement.GotFocusEvent, RoutingStrategies.Direct, RoutingStrategies.Bubble, sourceOnly: true);
 
         // A tunnel-only event is emulated on the tunnel route.
-        Assert.True(RoutedEventTriggerBase.TryGetEmulatedDirectRoutes(TunnelOnlyEvent, RoutingStrategies.Direct, out routes));
-        Assert.Equal(RoutingStrategies.Tunnel, routes);
+        AssertRoutes(TunnelOnlyEvent, RoutingStrategies.Direct, RoutingStrategies.Tunnel, sourceOnly: true);
+
+        // Tunnel or Bubble without Direct on a direct event (https://github.com/wieslawsoltes/Xaml.Behaviors/issues/400):
+        // the direct route.
+        AssertRoutes(InputElement.PointerEnteredEvent, RoutingStrategies.Bubble, RoutingStrategies.Direct, sourceOnly: false);
+        AssertRoutes(InputElement.PointerExitedEvent, RoutingStrategies.Tunnel, RoutingStrategies.Direct, sourceOnly: false);
+        AssertRoutes(InputElement.PointerCaptureLostEvent, RoutingStrategies.Tunnel | RoutingStrategies.Bubble, RoutingStrategies.Direct, sourceOnly: false);
+
+        // Every other combination is unchanged.
+        AssertRoutes(InputElement.PointerEnteredEvent, RoutingStrategies.Direct, RoutingStrategies.Direct, sourceOnly: false);
+        AssertRoutes(InputElement.PointerEnteredEvent, RoutingStrategies.Direct | RoutingStrategies.Bubble, RoutingStrategies.Direct | RoutingStrategies.Bubble, sourceOnly: false);
+        AssertRoutes(InputElement.PointerEnteredEvent, (RoutingStrategies)0, (RoutingStrategies)0, sourceOnly: false);
+        AssertRoutes(InputElement.KeyDownEvent, RoutingStrategies.Direct | RoutingStrategies.Bubble, RoutingStrategies.Direct | RoutingStrategies.Bubble, sourceOnly: false);
+        AssertRoutes(InputElement.KeyDownEvent, RoutingStrategies.Tunnel, RoutingStrategies.Tunnel, sourceOnly: false);
+        AssertRoutes(InputElement.KeyDownEvent, RoutingStrategies.Bubble, RoutingStrategies.Bubble, sourceOnly: false);
+        AssertRoutes(InputElement.KeyDownEvent, RoutingStrategies.Tunnel | RoutingStrategies.Bubble, RoutingStrategies.Tunnel | RoutingStrategies.Bubble, sourceOnly: false);
+        AssertRoutes(InputElement.KeyDownEvent, (RoutingStrategies)0, (RoutingStrategies)0, sourceOnly: false);
     }
 
     [AvaloniaFact]
@@ -227,6 +228,18 @@ public class DirectRoutedEventTriggerTests
         Assert.Equal(1, action.ExecutionCount);
 
         window.Close();
+    }
+
+    private static void AssertRoutes(
+        RoutedEvent routedEvent,
+        RoutingStrategies routes,
+        RoutingStrategies expectedRoutes,
+        bool sourceOnly)
+    {
+        var actualRoutes = RoutingStrategiesAdapter.GetSubscriptionRoutes(routedEvent, routes, out var actualSourceOnly);
+
+        Assert.Equal(expectedRoutes, actualRoutes);
+        Assert.Equal(sourceOnly, actualSourceOnly);
     }
 
     private sealed class ClickRoutedEventTrigger : RoutedEventTrigger

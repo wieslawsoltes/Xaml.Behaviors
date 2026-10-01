@@ -23,16 +23,20 @@ namespace Avalonia.Xaml.Interactions.Events;
 /// </remarks>
 public sealed class DropEventTrigger : InteractiveTriggerBase
 {
+    private System.IDisposable? _subscription;
+
     /// <inheritdoc />
     protected override void OnAttachedToVisualTree()
     {
-        AssociatedObject?.AddHandler(DragDrop.DropEvent, OnDrop, RoutingStrategies, handledEventsToo: true);
+        _subscription?.Dispose();
+        _subscription = AssociatedObject?.AddDisposableRoutedEventHandler(DragDrop.DropEvent, OnDrop, RoutingStrategies, handledEventsToo: true);
     }
 
     /// <inheritdoc />
     protected override void OnDetachedFromVisualTree()
     {
-        AssociatedObject?.RemoveRoutedEventHandler(DragDrop.DropEvent, OnDrop);
+        _subscription?.Dispose();
+        _subscription = null;
     }
 
     private void OnDrop(object? sender, DragEventArgs e)

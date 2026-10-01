@@ -19,16 +19,20 @@ namespace Avalonia.Xaml.Interactions.Events;
 /// </summary>
 public class ScrollGestureEventTrigger : InteractiveTriggerBase
 {
+    private System.IDisposable? _subscription;
+
     /// <inheritdoc />
     protected override void OnAttachedToVisualTree()
     {
-        AssociatedObject?.AddHandler(InputElement.ScrollGestureEvent, OnScrollGesture, RoutingStrategies);
+        _subscription?.Dispose();
+        _subscription = AssociatedObject?.AddDisposableRoutedEventHandler(InputElement.ScrollGestureEvent, OnScrollGesture, RoutingStrategies);
     }
 
     /// <inheritdoc />
     protected override void OnDetachedFromVisualTree()
     {
-        AssociatedObject?.RemoveRoutedEventHandler(InputElement.ScrollGestureEvent, OnScrollGesture);
+        _subscription?.Dispose();
+        _subscription = null;
     }
 
     private void OnScrollGesture(object? sender, ScrollGestureEventArgs e)

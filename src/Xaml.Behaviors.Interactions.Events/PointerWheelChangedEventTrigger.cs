@@ -21,6 +21,8 @@ namespace Avalonia.Xaml.Interactions.Events;
 /// </summary>
 public class PointerWheelChangedEventTrigger : InteractiveTriggerBase
 {
+    private System.IDisposable? _subscription;
+
     static PointerWheelChangedEventTrigger()
     {
         RoutingStrategiesProperty.OverrideMetadata<PointerWheelChangedEventTrigger>(
@@ -31,13 +33,15 @@ public class PointerWheelChangedEventTrigger : InteractiveTriggerBase
     /// <inheritdoc />
     protected override void OnAttachedToVisualTree()
     {
-        AssociatedObject?.AddHandler(InputElement.PointerWheelChangedEvent, OnPointerWheelChanged, RoutingStrategies);
+        _subscription?.Dispose();
+        _subscription = AssociatedObject?.AddDisposableRoutedEventHandler(InputElement.PointerWheelChangedEvent, OnPointerWheelChanged, RoutingStrategies);
     }
 
     /// <inheritdoc />
     protected override void OnDetachedFromVisualTree()
     {
-        AssociatedObject?.RemoveRoutedEventHandler(InputElement.PointerWheelChangedEvent, OnPointerWheelChanged);
+        _subscription?.Dispose();
+        _subscription = null;
     }
 
     private void OnPointerWheelChanged(object? sender, PointerWheelEventArgs e)

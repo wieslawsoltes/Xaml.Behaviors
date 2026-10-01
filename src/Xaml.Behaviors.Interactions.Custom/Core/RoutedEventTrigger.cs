@@ -33,41 +33,13 @@ public abstract class RoutedEventTrigger : RoutedEventTriggerBase
     {
         if (AssociatedObject is Interactive interactive)
         {
-            var routedEvent = RoutedEvent;
-            var routes = EventRoutingStrategy;
-#if !UNO
-            if (TryGetEmulatedDirectRoutes(routedEvent, routes, out var emulatedRoutes))
-            {
-                return AddDisposableHandler(interactive, routedEvent, DirectHandler, emulatedRoutes);
-            }
-#endif
-            // The Uno Platform compat layer filters a Direct-only subscription by the original source itself.
-            var disposable = AddDisposableHandler(
-                interactive,
-                routedEvent,
-                Handler,
-                routes);
-            return disposable;
+            // The routing adapter subscribes on the routes the event is raised on, so a Direct-only subscription to a
+            // tunneling or bubbling event handles the events raised by the element itself.
+            return interactive.AddDisposableUntypedRoutedEventHandler(RoutedEvent, Handler, EventRoutingStrategy);
         }
 
         return DisposableAction.Empty;
     }
-
-#if !UNO
-    /// <summary>
-    /// Forwards to <see cref="Handler"/> the events raised by the element the handler is subscribed to, which
-    /// emulates a <see cref="RoutingStrategies.Direct"/>-only subscription to a tunneling or bubbling event.
-    /// </summary>
-    /// <param name="sender">The element the handler is subscribed to.</param>
-    /// <param name="e">The event arguments.</param>
-    private void DirectHandler(object? sender, RoutedEventArgs e)
-    {
-        if (ReferenceEquals(e.Source, sender))
-        {
-            Handler(sender, e);
-        }
-    }
-#endif
 
     /// <summary>
     /// 
@@ -92,17 +64,5 @@ public abstract class RoutedEventTrigger : RoutedEventTriggerBase
     {
         e.Handled = MarkAsHandled;
         Interaction.ExecuteActions(AssociatedObject, Actions, e);
-    }
-
-    private static IDisposable AddDisposableHandler(
-        Interactive o, 
-        RoutedEvent routedEvent,
-        EventHandler<RoutedEventArgs> handler,
-        RoutingStrategies routes = RoutingStrategies.Direct | RoutingStrategies.Bubble,
-        bool handledEventsToo = false)
-    {
-        o.AddHandler(routedEvent, handler, routes, handledEventsToo);
-
-        return DisposableAction.Create(() => o.RemoveRoutedEventHandler(routedEvent, handler));
     }
 }

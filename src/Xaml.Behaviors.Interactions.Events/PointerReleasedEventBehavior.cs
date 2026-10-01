@@ -21,6 +21,8 @@ namespace Avalonia.Xaml.Interactions.Events;
 /// </summary>
 public abstract class PointerReleasedEventBehavior : InteractiveBehaviorBase
 {
+    private System.IDisposable? _subscription;
+
     static PointerReleasedEventBehavior()
     {
         RoutingStrategiesProperty.OverrideMetadata<PointerReleasedEventBehavior>(
@@ -31,13 +33,15 @@ public abstract class PointerReleasedEventBehavior : InteractiveBehaviorBase
     /// <inheritdoc />
     protected override void OnAttachedToVisualTree()
     {
-        AssociatedObject?.AddHandler(InputElement.PointerReleasedEvent, PointerReleased, RoutingStrategies);
+        _subscription?.Dispose();
+        _subscription = AssociatedObject?.AddDisposableRoutedEventHandler(InputElement.PointerReleasedEvent, PointerReleased, RoutingStrategies);
     }
 
     /// <inheritdoc />
     protected override void OnDetachedFromVisualTree()
     {
-        AssociatedObject?.RemoveRoutedEventHandler(InputElement.PointerReleasedEvent, PointerReleased);
+        _subscription?.Dispose();
+        _subscription = null;
     }
 
     private void PointerReleased(object? sender, PointerReleasedEventArgs e)
