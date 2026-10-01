@@ -80,3 +80,16 @@ Namespaces follow the Avalonia ones without the `Avalonia.` prefix: `Avalonia.Xa
 * **Templates**: instead of Avalonia's `BehaviorCollectionTemplate`, set the attached `i:Interaction.BehaviorsTemplate`
   (for example from a style setter) to a `DataTemplate` whose root is an `i:BehaviorCollectionHost` containing the
   behaviors; every element gets its own collection. The other Avalonia only features are listed in PORTING.md.
+* **New items per execution**: Avalonia's `AddItemToItemsControlAction` and `InsertItemToItemsControlAction` build a
+  new item from an `ObjectTemplate` assigned to `Item`. WinUI templates only create UI elements, so on Uno Platform the
+  actions have an `ItemFactory` property (`Xaml.Interactions.Custom.IItemFactory`, `object? CreateItem()`) that
+  creates the item on every execution and takes precedence over `Item`. Implement the factory in the view model layer
+  and declare it in XAML or bind it with `x:Bind`:
+
+  ```xml
+  <icustom:AddItemToItemsControlAction ItemsControl="{x:Bind ItemsControl}">
+    <icustom:AddItemToItemsControlAction.ItemFactory>
+      <vm:ItemViewModelFactory Value="Added Item" Color="Black" />
+    </icustom:AddItemToItemsControlAction.ItemFactory>
+  </icustom:AddItemToItemsControlAction>
+  ```

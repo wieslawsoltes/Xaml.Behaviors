@@ -12,7 +12,6 @@ Platform, how they were resolved, and the WinUI differences that affect behavior
 | [#378](https://github.com/wieslawsoltes/Xaml.Behaviors/issues/378) | Uno | Data context changes raised before the element loads reach behaviors before their `x:Bind` values are set. | Fix: replay the data context notification after `Loaded`. |
 | [#380](https://github.com/wieslawsoltes/Xaml.Behaviors/issues/380) | both | `SaveFilePickerAction.FileTypeChoicesProperty` is registered with the `OpenFilePickerAction` owner. | Fix: register with `SaveFilePickerAction`. |
 | [#381](https://github.com/wieslawsoltes/Xaml.Behaviors/issues/381) | both | Drag event triggers do not fire when a drop handler on the same element handles the event. | Attach the triggers to a parent. Fix: observe handled drag events. |
-| [#383](https://github.com/wieslawsoltes/Xaml.Behaviors/issues/383) | Uno | `AddItemToItemsControlAction`/`InsertItemToItemsControlAction` cannot create a new item per execution (WinUI templates only create elements, no `ObjectTemplate`). | Fix: an item factory provided by the view model. |
 | [#384](https://github.com/wieslawsoltes/Xaml.Behaviors/issues/384) | Uno | `ItemsControl` container triggers miss the containers prepared before they attach. | Fix: report the realized elements when attaching. |
 | [#385](https://github.com/wieslawsoltes/Xaml.Behaviors/issues/385) | Avalonia | `ItemsControlContainerEventsBehavior` re-subscribes `PreparingContainer` instead of unsubscribing when detached. | Fix: `-=` in the dispose action. |
 | [#386](https://github.com/wieslawsoltes/Xaml.Behaviors/issues/386) | both | `CollectionChangedTrigger`/`CollectionChangedBehavior` subscribe twice when `Collection` is set before attaching. | Fix: subscribe only while attached. |
@@ -39,6 +38,7 @@ Platform, how they were resolved, and the WinUI differences that affect behavior
 | `Xaml.PropertyGenerator` code fix | Orphaned `#pragma warning restore` lines after migrating a registration. | Removed with the registration. |
 | `ContextDragBehavior`, `ContextDragWithDirectionBehavior` (both, [#379](https://github.com/wieslawsoltes/Xaml.Behaviors/issues/379)) | A drag only started when the pressed element shared the drag source's `DataContext`, so pressing the text of a `Button` or other templated content did nothing. | A press starts the drag when it comes from the drag source or one of its visual descendants that is not inside a nested drag source. |
 | `BindingBehavior`, `BindingTriggerBehavior`, `Condition` (Uno, [#382](https://github.com/wieslawsoltes/Xaml.Behaviors/issues/382)) | `Binding` could not receive a binding written in XAML: WinUI applies the binding instead of assigning it (there is no `[AssignBinding]`), so the samples created binding objects in code. | `Binding` is an `object` property on Uno Platform with value semantics: the behaviors use the bound value (`BindingBehavior` pushes it to the target property), a `BindingBase` assigned in code is still applied. |
+| `AddItemToItemsControlAction`, `InsertItemToItemsControlAction` (Uno, [#383](https://github.com/wieslawsoltes/Xaml.Behaviors/issues/383)) | The actions could not create a new item per execution (WinUI templates only create UI elements, there is no `ObjectTemplate`): the samples added the same item on every click. | Uno-only `ItemFactory` property (`IItemFactory.CreateItem()`), used instead of `Item`; the samples (including the ObjectTemplate page) declare a view model item factory. |
 
 ## ReactiveUI 25
 
@@ -67,7 +67,8 @@ describe how the port maps them.
 * **Features without a WinUI counterpart:** style classes, element cursors (only `ProtectedCursor`), adorners,
   Avalonia gesture recognizers (pinch, pull, scroll, touch pad), notification managers, `NumericUpDown`, Screens,
   `Window.BeginMoveDrag`, immediate mode drawing into a `RenderTargetBitmap`, resources changed notifications,
-  `ObjectTemplate`, the managed drag and drop. The behaviors built on them are not part of the Uno packages.
+  `ObjectTemplate` (the item actions use an `ItemFactory` instead), the managed drag and drop. The behaviors built on
+  them are not part of the Uno packages.
 * **Controls:** `ListView` instead of `ListBox` (Uno's `ListBox` produces `ContentPresenter` containers), `TabView`,
   `AutoSuggestBox`, `FlipView`, `ContentDialog`, `NumberBox`, `ItemsRepeater` for the container triggers.
 

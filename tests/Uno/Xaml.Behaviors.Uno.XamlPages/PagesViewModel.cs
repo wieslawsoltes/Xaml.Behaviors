@@ -2,6 +2,7 @@
 // Licensed under the MIT license. See LICENSE file in the project root for details.
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
@@ -27,6 +28,8 @@ public sealed class PagesViewModel : INotifyPropertyChanged
     public ICommand IncrementCommand { get; }
 
     public List<object?> Parameters { get; } = [];
+
+    public ObservableCollection<object> Items { get; } = [];
 
     public int Count
     {

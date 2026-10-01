@@ -38,6 +38,18 @@ public sealed partial class InsertItemToItemsControlAction : StyledElementAction
     [StyledProperty(Content = true)]
     public partial object? Item { get; set; }
 
+#if UNO
+    /// <summary>
+    /// Gets or sets the factory that creates a new item on every execution. This is a dependency property.
+    /// </summary>
+    /// <remarks>
+    /// Uno Platform counterpart of an Avalonia <c>ObjectTemplate</c> assigned to <see cref="Item"/>: WinUI templates only
+    /// create UI elements. When set, the created item is used instead of <see cref="Item"/>.
+    /// </remarks>
+    [StyledProperty]
+    public partial IItemFactory? ItemFactory { get; set; }
+#endif
+
     /// <summary>
     /// Gets or sets item index to insert.
     /// </summary>
@@ -52,7 +64,11 @@ public sealed partial class InsertItemToItemsControlAction : StyledElementAction
             return false;
         }
 
+#if UNO
+        var item = ItemFactory is { } itemFactory ? itemFactory.CreateItem() : Item;
+#else
         var item = Item;
+#endif
         if (item is null)
         {
             return false;

@@ -48,6 +48,52 @@ public class ItemsTests
     }
 
     [UnoHeadlessFact]
+    public void Item_Actions_Create_A_New_Item_Per_Execution_From_The_Item_Factory()
+    {
+        var items = new ObservableCollection<object>();
+        var itemsControl = new ItemsControl { ItemsSource = items };
+        var addFactory = new CountingItemFactory("added");
+        var insertFactory = new CountingItemFactory("inserted");
+        var add = new AddItemToItemsControlAction { ItemsControl = itemsControl, Item = "ignored", ItemFactory = addFactory };
+        var insert = new InsertItemToItemsControlAction { ItemsControl = itemsControl, Index = 0, ItemFactory = insertFactory };
+
+        Assert.Equal(true, add.Execute(null, null));
+        Assert.Equal(true, add.Execute(null, null));
+        Assert.Equal(true, insert.Execute(null, null));
+
+        Assert.Equal(["inserted 1", "added 1", "added 2"], items);
+        Assert.Equal(2, addFactory.Count);
+        Assert.Equal(1, insertFactory.Count);
+    }
+
+    [UnoHeadlessFact]
+    public void Item_Actions_Add_Nothing_When_The_Item_Factory_Returns_Null()
+    {
+        var items = new ObservableCollection<object>();
+        var itemsControl = new ItemsControl { ItemsSource = items };
+        var factory = new CountingItemFactory(null);
+
+        Assert.Equal(false, new AddItemToItemsControlAction { ItemsControl = itemsControl, ItemFactory = factory }.Execute(null, null));
+        Assert.Equal(false, new InsertItemToItemsControlAction { ItemsControl = itemsControl, ItemFactory = factory }.Execute(null, null));
+        Assert.Empty(items);
+
+        // Without a factory the actions use Item.
+        Assert.Equal(true, new AddItemToItemsControlAction { ItemsControl = itemsControl, Item = "item" }.Execute(null, null));
+        Assert.Equal(["item"], items);
+    }
+
+    private sealed class CountingItemFactory(string? prefix) : IItemFactory
+    {
+        public int Count { get; private set; }
+
+        public object? CreateItem()
+        {
+            Count++;
+            return prefix is null ? null : $"{prefix} {Count}";
+        }
+    }
+
+    [UnoHeadlessFact]
     public async Task RemoveItemInItemsControlAction_Removes_The_Data_Context_Of_An_Item()
     {
         var items = new ObservableCollection<string> { "a", "b" };

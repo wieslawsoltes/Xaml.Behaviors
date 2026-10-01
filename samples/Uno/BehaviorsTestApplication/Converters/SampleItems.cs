@@ -31,12 +31,4 @@ public static class SampleItems
         ElementTheme.Dark,
         ElementTheme.Light,
     ];
-
-    /// <summary>
-    /// Creates an item (Avalonia: <c>&lt;vm:ItemViewModel&gt;&lt;x:Arguments&gt;…</c>).
-    /// </summary>
-    /// <param name="value">The item value.</param>
-    /// <param name="color">The item color.</param>
-    /// <returns>The item.</returns>
-    public static ItemViewModel Create(string value, string color) => new(value, color);
 }
