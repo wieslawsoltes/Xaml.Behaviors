@@ -8,6 +8,34 @@ Every Avalonia sample application has a Uno Platform twin with the same name and
 | `samples/AnimationsTestApplication` | `samples/Uno/AnimationsTestApplication` |
 | `samples/SourceGeneratorSample` | `samples/Uno/SourceGeneratorSample` |
 
+## Status
+
+| Avalonia sample | Views | Uno Platform twin |
+|-----------------|------:|-------------------|
+| `BehaviorsTestApplication` | 231 pages (234 tabs) + shell, ReactiveUI, dialog and control views | every view has a twin; 212 pages are real ports, 19 show `NotAvailableOnUnoView` |
+| `AnimationsTestApplication` | 16 pages + shell | every page is a real port |
+| `SourceGeneratorSample` | 11 pages + shell | every page is a real port (generated behaviors in `SourceGeneratorSample.Core`) |
+
+`BehaviorsTestApplication` pages whose feature has no WinUI counterpart (see the status table of
+[PORTING.md](../../src/Uno/PORTING.md)) show the reason instead of the sample:
+
+| Page | Reason |
+|------|--------|
+| Add/RemoveClassAction, ToggleClassAction | Avalonia style classes and selectors |
+| Cursor Behavior, Drawn Cursor | WinUI exposes the element cursor only through the protected `ProtectedCursor` |
+| Gesture Advanced (pinch), Pull, Scroll and TouchPad gesture triggers | Avalonia gesture recognizers without a WinUI routed event |
+| Notifications, ShowNotificationAction | Avalonia notification managers |
+| NumericUpDownValidationBehavior | WinUI has no `NumericUpDown` |
+| ObjectTemplate | WinUI templates only create UI elements |
+| RenderTargetBitmap, ScreenshotAction | immediate mode drawing into an Avalonia `RenderTargetBitmap` |
+| ResourcesChangedBehavior, ResourcesChangedTrigger | WinUI raises no resources changed notification |
+| Screens | Avalonia Screens API (`DisplayArea` is not implemented by Uno Platform) |
+| VisualDebugBehavior | Avalonia adorner layer |
+| WindowDragMoveBehavior | `Window.BeginMoveDrag` |
+
+The "Managed (Preview)" tab of the DragAndDrop page is not available either (managed drag and drop, see PORTING.md).
+Pages that are real ports adapt Avalonia-only details (controls, bindings, layout) with comments in their `.xaml`.
+
 ## How sharing works
 
 A Uno sample is an `Uno.Sdk` application (`net10.0-desktop`, Skia desktop head) that shares the C# sources of its
