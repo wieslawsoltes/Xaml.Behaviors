@@ -55,56 +55,56 @@ internal static class UIElementRoutedEventCompat
 /// <remarks>
 /// WinUI routed events always bubble. <see cref="RoutingStrategies.Tunnel"/> subscribes to the <c>Preview*</c>
 /// counterpart when WinUI has one (key events) and otherwise also receives handled events, which is what an
-/// Avalonia tunnel handler observes before the controls handle the event.
+/// Avalonia tunnel handler observes before the controls handle the event. A <see cref="RoutingStrategies.Direct"/>
+/// subscription without <see cref="RoutingStrategies.Bubble"/> and <see cref="RoutingStrategies.Tunnel"/> only
+/// receives the events raised on the element itself (<see cref="DirectRouteFilter"/>).
 /// </remarks>
 internal static class RoutedEventCompatExtensions
 {
     private static readonly ConditionalWeakTable<UIElement, List<Subscription>> s_subscriptions = new();
 
     public static void AddHandler(this UIElement element, RoutedEvent routedEvent, EventHandler<PointerRoutedEventArgs> handler, RoutingStrategies routes = RoutingStrategies.Bubble, bool handledEventsToo = false)
-        => Add(element, routedEvent, handler, new PointerEventHandler((s, e) => handler(s, e)), routes, handledEventsToo);
+        => Add(element, routedEvent, handler, routes, handledEventsToo, static h => new PointerEventHandler((s, e) => h(s, e)));
 
     public static void AddHandler(this UIElement element, RoutedEvent routedEvent, EventHandler<KeyRoutedEventArgs> handler, RoutingStrategies routes = RoutingStrategies.Bubble, bool handledEventsToo = false)
-        => Add(element, routedEvent, handler, new KeyEventHandler((s, e) => handler(s, e)), routes, handledEventsToo);
+        => Add(element, routedEvent, handler, routes, handledEventsToo, static h => new KeyEventHandler((s, e) => h(s, e)));
 
     public static void AddHandler(this UIElement element, RoutedEvent routedEvent, EventHandler<TappedRoutedEventArgs> handler, RoutingStrategies routes = RoutingStrategies.Bubble, bool handledEventsToo = false)
-        => Add(element, routedEvent, handler, new TappedEventHandler((s, e) => handler(s, e)), routes, handledEventsToo);
+        => Add(element, routedEvent, handler, routes, handledEventsToo, static h => new TappedEventHandler((s, e) => h(s, e)));
 
     public static void AddHandler(this UIElement element, RoutedEvent routedEvent, EventHandler<DoubleTappedRoutedEventArgs> handler, RoutingStrategies routes = RoutingStrategies.Bubble, bool handledEventsToo = false)
-        => Add(element, routedEvent, handler, new DoubleTappedEventHandler((s, e) => handler(s, e)), routes, handledEventsToo);
+        => Add(element, routedEvent, handler, routes, handledEventsToo, static h => new DoubleTappedEventHandler((s, e) => h(s, e)));
 
     public static void AddHandler(this UIElement element, RoutedEvent routedEvent, EventHandler<RightTappedRoutedEventArgs> handler, RoutingStrategies routes = RoutingStrategies.Bubble, bool handledEventsToo = false)
-        => Add(element, routedEvent, handler, new RightTappedEventHandler((s, e) => handler(s, e)), routes, handledEventsToo);
+        => Add(element, routedEvent, handler, routes, handledEventsToo, static h => new RightTappedEventHandler((s, e) => h(s, e)));
 
     public static void AddHandler(this UIElement element, RoutedEvent routedEvent, EventHandler<HoldingRoutedEventArgs> handler, RoutingStrategies routes = RoutingStrategies.Bubble, bool handledEventsToo = false)
-        => Add(element, routedEvent, handler, new HoldingEventHandler((s, e) => handler(s, e)), routes, handledEventsToo);
+        => Add(element, routedEvent, handler, routes, handledEventsToo, static h => new HoldingEventHandler((s, e) => h(s, e)));
 
     public static void AddHandler(this UIElement element, RoutedEvent routedEvent, EventHandler<DragEventArgs> handler, RoutingStrategies routes = RoutingStrategies.Bubble, bool handledEventsToo = false)
-        => Add(element, routedEvent, handler, WrapDragHandler(routedEvent, (s, e) => handler(s, e)), routes, handledEventsToo);
+        => Add(element, routedEvent, handler, routes, handledEventsToo, h => WrapDragHandler(routedEvent, (s, e) => h(s, e)));
 
     public static void AddHandler(this UIElement element, RoutedEvent routedEvent, EventHandler<CharacterReceivedRoutedEventArgs> handler, RoutingStrategies routes = RoutingStrategies.Bubble, bool handledEventsToo = false)
-        => Add(element, routedEvent, handler, new TypedEventHandler<UIElement, CharacterReceivedRoutedEventArgs>((s, e) => handler(s, e)), routes, handledEventsToo);
+        => Add(element, routedEvent, handler, routes, handledEventsToo, static h => new TypedEventHandler<UIElement, CharacterReceivedRoutedEventArgs>((s, e) => h(s, e)));
 
     public static void AddHandler(this UIElement element, RoutedEvent routedEvent, EventHandler<RoutedEventArgs> handler, RoutingStrategies routes = RoutingStrategies.Bubble, bool handledEventsToo = false)
-    {
-        // Avalonia handlers may take plain routed event arguments; WinUI only invokes the typed delegate of the event.
-        Delegate wrapper = routedEvent == UIElement.TappedEvent ? new TappedEventHandler((s, e) => handler(s, e))
-            : routedEvent == UIElement.DoubleTappedEvent ? new DoubleTappedEventHandler((s, e) => handler(s, e))
-            : routedEvent == UIElement.RightTappedEvent ? new RightTappedEventHandler((s, e) => handler(s, e))
-            : routedEvent == UIElement.HoldingEvent ? new HoldingEventHandler((s, e) => handler(s, e))
-            : IsDragEvent(routedEvent) ? WrapDragHandler(routedEvent, (s, e) => handler(s, e))
-            : IsKeyEvent(routedEvent) ? new KeyEventHandler((s, e) => handler(s, e))
-            : IsPointerEvent(routedEvent) ? new PointerEventHandler((s, e) => handler(s, e))
-            : routedEvent == UIElement.CharacterReceivedEvent ? new TypedEventHandler<UIElement, CharacterReceivedRoutedEventArgs>((s, e) => handler(s, e))
-            : new RoutedEventHandler((s, e) => handler(s, e));
-        Add(element, routedEvent, handler, wrapper, routes, handledEventsToo);
-    }
+        => Add(element, routedEvent, handler, routes, handledEventsToo, h => CreateWrapper(routedEvent, h));
 
     public static void AddHandler(this UIElement element, ClrRoutedEvent routedEvent, EventHandler<RoutedEventArgs> handler, RoutingStrategies routes = RoutingStrategies.Bubble, bool handledEventsToo = false)
     {
-        _ = routes;
+        // WinUI focus events bubble but can be neither handled nor tunneled: only the Direct source filter applies.
         _ = handledEventsToo;
-        RoutedEventHandler wrapper = (s, e) => handler(s, e);
+        var filter = IsDirectOnly(routes) ? DirectRouteFilter.Create(element, null) : null;
+        RoutedEventHandler wrapper = filter is null
+            ? (s, e) => handler(s, e)
+            : (s, e) =>
+            {
+                if (filter.Accepts(e))
+                {
+                    handler(s, e);
+                }
+            };
+
         switch (routedEvent.Name)
         {
             case "GotFocus":
@@ -160,7 +160,8 @@ internal static class RoutedEventCompatExtensions
         }
     }
 
-    private static void Add(UIElement element, RoutedEvent routedEvent, Delegate handler, Delegate wrapper, RoutingStrategies routes, bool handledEventsToo)
+    private static void Add<TEventArgs>(UIElement element, RoutedEvent routedEvent, EventHandler<TEventArgs> handler, RoutingStrategies routes, bool handledEventsToo, Func<EventHandler<TEventArgs>, Delegate> createWrapper)
+        where TEventArgs : RoutedEventArgs
     {
         var tunnel = (routes & RoutingStrategies.Tunnel) != 0;
         var bubble = (routes & (RoutingStrategies.Bubble | RoutingStrategies.Direct)) != 0;
@@ -175,8 +176,20 @@ internal static class RoutedEventCompatExtensions
             handledEventsToo = true;
         }
 
+        var filter = IsDirectOnly(routes) ? DirectRouteFilter.Create(element, routedEvent) : null;
+        var routedHandler = filter is null
+            ? handler
+            : (s, e) =>
+            {
+                if (filter.Accepts(e))
+                {
+                    handler(s, e);
+                }
+            };
+
+        var wrapper = createWrapper(routedHandler);
         element.AddHandler(actualEvent, wrapper, handledEventsToo);
-        GetSubscriptions(element).Add(new Subscription(actualEvent, null, handler, wrapper) { Requested = routedEvent });
+        GetSubscriptions(element).Add(new Subscription(actualEvent, null, handler, wrapper) { Requested = routedEvent, Filter = filter });
     }
 
     private static void Remove(UIElement element, RoutedEvent routedEvent, Delegate handler)
@@ -188,11 +201,30 @@ internal static class RoutedEventCompatExtensions
             if (subscription.Requested == routedEvent && Equals(subscription.Handler, handler))
             {
                 element.RemoveHandler(subscription.RoutedEvent!, subscription.Wrapper);
+                subscription.Filter?.Detach();
                 subscriptions.RemoveAt(i);
                 return;
             }
         }
     }
+
+    // Direct without Bubble or Tunnel: the handler only receives the events raised on the element itself. Combined
+    // with Bubble (the Avalonia default) or Tunnel, the events of the descendants are delivered as well.
+    private static bool IsDirectOnly(RoutingStrategies routes)
+        => (routes & RoutingStrategies.Direct) != 0
+           && (routes & (RoutingStrategies.Bubble | RoutingStrategies.Tunnel)) == 0;
+
+    // Avalonia handlers may take plain routed event arguments; WinUI only invokes the typed delegate of the event.
+    private static Delegate CreateWrapper(RoutedEvent routedEvent, EventHandler<RoutedEventArgs> handler)
+        => routedEvent == UIElement.TappedEvent ? new TappedEventHandler((s, e) => handler(s, e))
+            : routedEvent == UIElement.DoubleTappedEvent ? new DoubleTappedEventHandler((s, e) => handler(s, e))
+            : routedEvent == UIElement.RightTappedEvent ? new RightTappedEventHandler((s, e) => handler(s, e))
+            : routedEvent == UIElement.HoldingEvent ? new HoldingEventHandler((s, e) => handler(s, e))
+            : IsDragEvent(routedEvent) ? WrapDragHandler(routedEvent, (s, e) => handler(s, e))
+            : IsKeyEvent(routedEvent) ? new KeyEventHandler((s, e) => handler(s, e))
+            : IsPointerEvent(routedEvent) ? new PointerEventHandler((s, e) => handler(s, e))
+            : routedEvent == UIElement.CharacterReceivedEvent ? new TypedEventHandler<UIElement, CharacterReceivedRoutedEventArgs>((s, e) => handler(s, e))
+            : new RoutedEventHandler((s, e) => handler(s, e));
 
     // Drag enter/over handlers observe the Avalonia default effects (accept what the source allows).
     private static DragEventHandler WrapDragHandler(RoutedEvent routedEvent, DragEventHandler handler)
@@ -241,5 +273,7 @@ internal static class RoutedEventCompatExtensions
     private sealed record Subscription(RoutedEvent? RoutedEvent, ClrRoutedEvent? ClrEvent, Delegate Handler, Delegate Wrapper)
     {
         public RoutedEvent? Requested { get; init; }
+
+        public DirectRouteFilter? Filter { get; init; }
     }
 }

@@ -6,6 +6,7 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
+using Windows.Foundation;
 using Windows.System;
 using Xaml.Behaviors.Uno.Headless;
 using Xaml.Behaviors.Uno.Headless.XUnit;
@@ -353,6 +354,145 @@ public class InputTests
         Assert.Single(keyUpAction.Parameters);
         Assert.Single(keyTriggerAction.Parameters);
         Assert.Single(gestureAction.Parameters);
+    }
+
+    // Regression tests for https://github.com/wieslawsoltes/Xaml.Behaviors/issues/391: the default Direct routing
+    // strategy of the routed event triggers ignores the events raised by the descendants of the element.
+
+    [UnoHeadlessFact]
+    public void Direct_KeyDownTrigger_Ignores_Keys_Raised_By_A_Child()
+    {
+        var textBox = new TextBox();
+        var border = new Border { Child = textBox };
+        var trigger = new KeyDownTrigger();
+        var bubbleTrigger = new KeyDownTrigger { EventRoutingStrategy = RoutingStrategies.Bubble };
+        var action = new RecordingAction();
+        var bubbleAction = new RecordingAction();
+        trigger.Actions!.Add(action);
+        bubbleTrigger.Actions!.Add(bubbleAction);
+        Interaction.GetBehaviors(border).Add(trigger);
+        Interaction.GetBehaviors(border).Add(bubbleTrigger);
+        Session.Show(border);
+        textBox.Focus(FocusState.Programmatic);
+
+        Session.Keyboard.Press(VirtualKey.F5);
+
+        Assert.Equal(RoutingStrategies.Direct, trigger.EventRoutingStrategy);
+        Assert.Empty(action.Parameters);
+        Assert.Single(bubbleAction.Parameters);
+    }
+
+    [UnoHeadlessFact]
+    public void Direct_KeyDownTrigger_Fires_For_Keys_Raised_By_The_Element()
+    {
+        var textBox = new TextBox();
+        var trigger = new KeyDownTrigger { Key = VirtualKey.F5 };
+        var action = new RecordingAction();
+        trigger.Actions!.Add(action);
+        Interaction.GetBehaviors(textBox).Add(trigger);
+        Session.Show(new Border { Child = textBox });
+        textBox.Focus(FocusState.Programmatic);
+
+        Session.Keyboard.Press(VirtualKey.F5);
+
+        Assert.IsType<KeyRoutedEventArgs>(Assert.Single(action.Parameters));
+    }
+
+    [UnoHeadlessFact]
+    public void Direct_GotFocusTrigger_Ignores_The_Focus_Of_A_Child()
+    {
+        var child = new Button { Content = "child" };
+        var host = new ContentControl { Content = child, IsTabStop = true };
+        var trigger = new GotFocusTrigger { EventRoutingStrategy = RoutingStrategies.Direct };
+        var action = new RecordingAction();
+        trigger.Actions!.Add(action);
+        Interaction.GetBehaviors(host).Add(trigger);
+        var other = new Button { Content = "other" };
+        Session.Show(new StackPanel { Children = { host, other } });
+
+        child.Focus(FocusState.Programmatic);
+        Session.RunJobs();
+        Assert.Empty(action.Parameters);
+
+        other.Focus(FocusState.Programmatic);
+        Session.RunJobs();
+        host.Focus(FocusState.Programmatic);
+        Session.RunJobs();
+        Assert.Single(action.Parameters);
+    }
+
+    [UnoHeadlessFact]
+    public void Direct_PointerPressedTrigger_Filters_By_Source()
+    {
+        var child = new Border { Width = 40, Height = 40, Background = new SolidColorBrush(Microsoft.UI.Colors.Red) };
+        var parent = new Border { Width = 100, Height = 100, Background = new SolidColorBrush(Microsoft.UI.Colors.Green), Child = child };
+        var trigger = new PointerPressedTrigger { EventRoutingStrategy = RoutingStrategies.Direct };
+        var action = new RecordingAction();
+        trigger.Actions!.Add(action);
+        Interaction.GetBehaviors(parent).Add(trigger);
+        Session.Show(new StackPanel { Children = { parent } });
+
+        Session.Mouse.Click(child);
+        Assert.Empty(action.Parameters);
+
+        Session.Mouse.Click(parent, new Point(5, 5));
+        Assert.Single(action.Parameters);
+    }
+
+    [UnoHeadlessFact]
+    public void Direct_PointerEntered_And_Exited_Triggers_Fire_When_The_Pointer_Enters_Through_A_Child()
+    {
+        // A button: the pointer enters its template (the text is the original source), not the button itself.
+        var button = new Button { Content = "button", Width = 100, Height = 40 };
+        var entered = new PointerEnteredTrigger();
+        var exited = new PointerExitedTrigger();
+        var enteredAction = new RecordingAction();
+        var exitedAction = new RecordingAction();
+        entered.Actions!.Add(enteredAction);
+        exited.Actions!.Add(exitedAction);
+        Interaction.GetBehaviors(button).Add(entered);
+        Interaction.GetBehaviors(button).Add(exited);
+        Session.Show(new StackPanel { Children = { button } });
+        Session.Mouse.MoveTo(new Point(500, 500));
+
+        Session.Mouse.MoveTo(new Point(50, 20), button);
+        Session.Mouse.MoveTo(new Point(55, 22), button);
+        Session.Mouse.MoveTo(new Point(500, 500));
+
+        Assert.Single(enteredAction.Parameters);
+        Assert.Single(exitedAction.Parameters);
+    }
+
+    [UnoHeadlessFact]
+    public void Direct_PointerCaptureLostTrigger_Ignores_The_Captures_Of_A_Child()
+    {
+        // The child captures the pointer on press; the capture is released (and lost) on release.
+        var text = new TextBlock { Text = "child" };
+        var child = new Border { Width = 100, Height = 40, Background = new SolidColorBrush(Microsoft.UI.Colors.Red), Child = text };
+        var pressed = new PointerPressedTrigger();
+        pressed.Actions!.Add(new CapturePointerAction { TargetControl = child });
+        var host = new Border { Padding = new Thickness(10), Background = new SolidColorBrush(Microsoft.UI.Colors.Green), Child = child };
+        var hostTrigger = new PointerCaptureLostTrigger();
+        var hostBubbleTrigger = new PointerCaptureLostTrigger { EventRoutingStrategy = RoutingStrategies.Bubble };
+        var childTrigger = new PointerCaptureLostTrigger();
+        var hostAction = new RecordingAction();
+        var hostBubbleAction = new RecordingAction();
+        var childAction = new RecordingAction();
+        hostTrigger.Actions!.Add(hostAction);
+        hostBubbleTrigger.Actions!.Add(hostBubbleAction);
+        childTrigger.Actions!.Add(childAction);
+        Interaction.GetBehaviors(child).Add(pressed);
+        Interaction.GetBehaviors(child).Add(childTrigger);
+        Interaction.GetBehaviors(host).Add(hostTrigger);
+        Interaction.GetBehaviors(host).Add(hostBubbleTrigger);
+        Session.Show(new StackPanel { Children = { host } });
+
+        // Pressed on the text: the original source of the capture lost event is the text, not the child.
+        Session.Mouse.Click(text, new Point(5, 5));
+
+        Assert.Single(childAction.Parameters);
+        Assert.Single(hostBubbleAction.Parameters);
+        Assert.Empty(hostAction.Parameters);
     }
 
     [UnoHeadlessFact]
