@@ -1,0 +1,94 @@
+<UserControl xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:custom="using:Xaml.Interactions.Custom"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="AnimationsTestApplication.Views.Pages.RotateAnimationView">
+  <TabView>
+    <TabViewItem Header="Rotate Clockwise">
+      <Grid>
+        <Border x:Name="Border1"
+                Background="Lavender"
+                custom:RotateAnimation.RotateClockwise="2000">
+          <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="6">
+            <TextBlock Text="TextBlock" FontSize="16"/>
+            <CheckBox IsChecked="True" Content="CheckBox" />
+            <TextBlock Text="TextBlock" FontSize="16"/>
+            <TextBox Text="TextBox" Width="200"/>
+          </StackPanel>
+        </Border>
+      </Grid>
+    </TabViewItem>
+    <TabViewItem Header="Rotate Counter-Clockwise">
+      <Grid>
+        <Border x:Name="Border2"
+                Background="Thistle"
+                custom:RotateAnimation.RotateCounterClockwise="2000">
+          <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="6">
+            <TextBlock Text="TextBlock" FontSize="16"/>
+            <CheckBox IsChecked="True" Content="CheckBox" />
+            <TextBlock Text="TextBlock" FontSize="16"/>
+            <TextBox Text="TextBox" Width="200"/>
+          </StackPanel>
+        </Border>
+      </Grid>
+    </TabViewItem>
+    <TabViewItem Header="Rotate In">
+      <Grid>
+        <Border x:Name="Border3"
+                Background="PaleGreen"
+                custom:RotateAnimation.RotateIn="1000">
+          <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="6">
+            <TextBlock Text="TextBlock" FontSize="16"/>
+            <CheckBox IsChecked="True" Content="CheckBox" />
+            <TextBlock Text="TextBlock" FontSize="16"/>
+            <TextBox Text="TextBox" Width="200"/>
+          </StackPanel>
+        </Border>
+      </Grid>
+    </TabViewItem>
+    <TabViewItem Header="Rotate Out">
+      <Grid>
+        <Border x:Name="Border4"
+                Background="PaleTurquoise"
+                custom:RotateAnimation.RotateOut="1000">
+          <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="6">
+            <TextBlock Text="TextBlock" FontSize="16"/>
+            <CheckBox IsChecked="True" Content="CheckBox" />
+            <TextBlock Text="TextBlock" FontSize="16"/>
+            <TextBox Text="TextBox" Width="200"/>
+          </StackPanel>
+        </Border>
+      </Grid>
+    </TabViewItem>
+    <TabViewItem Header="Flip">
+      <Grid>
+        <Border x:Name="Border5"
+                Background="PeachPuff"
+                custom:RotateAnimation.Flip="1000">
+          <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="6">
+            <TextBlock Text="TextBlock" FontSize="16"/>
+            <CheckBox IsChecked="True" Content="CheckBox" />
+            <TextBlock Text="TextBlock" FontSize="16"/>
+            <TextBox Text="TextBox" Width="200"/>
+          </StackPanel>
+        </Border>
+      </Grid>
+    </TabViewItem>
+    <TabViewItem Header="Swing">
+      <Grid>
+        <Border x:Name="Border6"
+                Background="MistyRose"
+                custom:RotateAnimation.Swing="1000">
+          <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="6">
+            <TextBlock Text="TextBlock" FontSize="16"/>
+            <CheckBox IsChecked="True" Content="CheckBox" />
+            <TextBlock Text="TextBlock" FontSize="16"/>
+            <TextBox Text="TextBox" Width="200"/>
+          </StackPanel>
+        </Border>
+      </Grid>
+    </TabViewItem>
+  </TabView>
+</UserControl>
