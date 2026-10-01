@@ -32,3 +32,5 @@
   href: network/toc.yml
 - name: Source Generators
   href: source-generators/toc.yml
+- name: Uno Platform
+  href: uno-platform/toc.yml
