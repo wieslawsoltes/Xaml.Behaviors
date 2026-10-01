@@ -17,13 +17,6 @@ public static partial class SampleFormat
     public static string SizeChangedCount(int value) => string.Format(CultureInfo.CurrentCulture, "Size changed count: {0}", value);
 
     /// <summary>
-    /// Formats a count like the Avalonia binding <c>StringFormat={}Count: {0}</c>.
-    /// </summary>
-    /// <param name="value">The count.</param>
-    /// <returns>The formatted text.</returns>
-    public static string Count(int value) => string.Format(CultureInfo.CurrentCulture, "Count: {0}", value);
-
-    /// <summary>
     /// Formats a path like the Avalonia binding <c>StringFormat='Path: {0}'</c>.
     /// </summary>
     /// <param name="value">The path.</param>
