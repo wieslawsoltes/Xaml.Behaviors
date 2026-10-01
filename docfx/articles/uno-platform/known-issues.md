@@ -19,7 +19,6 @@ Platform, how they were resolved, and the WinUI differences that affect behavior
 | [#385](https://github.com/wieslawsoltes/Xaml.Behaviors/issues/385) | Avalonia | `ItemsControlContainerEventsBehavior` re-subscribes `PreparingContainer` instead of unsubscribing when detached. | Fix: `-=` in the dispose action. |
 | [#386](https://github.com/wieslawsoltes/Xaml.Behaviors/issues/386) | both | `CollectionChangedTrigger`/`CollectionChangedBehavior` subscribe twice when `Collection` is set before attaching. | Fix: subscribe only while attached. |
 | [#387](https://github.com/wieslawsoltes/Xaml.Behaviors/issues/387) | both | `ListReorderDragBehavior` ends the drag whenever the placeholder is removed. | Fix: separate placeholder removal from the drag reset. |
-| [#388](https://github.com/wieslawsoltes/Xaml.Behaviors/issues/388) | Uno | `Xaml.PropertyGenerator` emits IL2087/IL2111 trimming warnings for generic and `Type` properties. | Fix: annotations or justified suppressions on the generated registrations. |
 | [#389](https://github.com/wieslawsoltes/Xaml.Behaviors/issues/389) | samples | The FilesPreview, FluidMoveBehavior and StartBuiltAnimationAction sample pages do not work (on both platforms). | Fix the sample pages. |
 | [#390](https://github.com/wieslawsoltes/Xaml.Behaviors/issues/390) | Uno headless | Injected mouse wheel input is not delivered and mouse events carry no key modifiers in the headless session. | Fix: a headless pointer input source in the host. |
 
@@ -39,6 +38,7 @@ Platform, how they were resolved, and the WinUI differences that affect behavior
 | `BindTagToVisualRootDataContextBehavior` (both) | Never bound the tag when declared in XAML (no visual root yet when attached). | Also binds when attached to the visual tree. |
 | ReactiveUI (Uno) | The behaviors were built against ReactiveUI 23 while ReactiveUI.Uno requires 25.1 (`TypeLoadException` for `Interaction`). | Both platforms use ReactiveUI 25.1 (see below). |
 | `Xaml.PropertyGenerator` code fix | Orphaned `#pragma warning restore` lines after migrating a registration. | Removed with the registration. |
+| `Xaml.PropertyGenerator` WinUI output ([#388](https://github.com/wieslawsoltes/Xaml.Behaviors/issues/388)) | IL2087/IL2111 trimming warnings for properties typed with a generic parameter (validation rules) or `System.Type` (`TypedDragBehaviorBase.DataType`). | Generic parameters get the `[DynamicallyAccessedMembers]` annotation of `DependencyProperty.Register`; `Type` properties are registered through a helper with a justified IL2111 suppression. |
 
 ## ReactiveUI 25
 
