@@ -10,6 +10,13 @@ public partial class ItemViewModel : ViewModelBase
         _color = color;
     }
 
+#if UNO
+    // WinUI XAML has no x:Arguments: the Uno views create items with this constructor and property setters.
+    public ItemViewModel() : this(string.Empty)
+    {
+    }
+#endif
+
     [Reactive]
     public partial string? Value { get; set; }
 

@@ -247,7 +247,7 @@
           <controls:PendingSampleView Header="AddItemToItemsControlAction" />
         </TabViewItem>
         <TabViewItem Header="InsertItemToItemsControlAction" Style="{StaticResource SidebarTabViewItemStyle}">
-          <controls:PendingSampleView Header="InsertItemToItemsControlAction" />
+          <pages:InsertItemToItemsControlActionView />
         </TabViewItem>
         <TabViewItem Header="ObjectTemplate" Style="{StaticResource SidebarTabViewItemStyle}">
           <controls:PendingSampleView Header="ObjectTemplate" />
@@ -403,7 +403,7 @@
           <controls:PendingSampleView Header="FocusControlAction" />
         </TabViewItem>
         <TabViewItem Header="Hide/ShowControlAction" Style="{StaticResource SidebarTabViewItemStyle}">
-          <controls:PendingSampleView Header="Hide/ShowControlAction" />
+          <pages:HideShowControlActionView />
         </TabViewItem>
         <TabViewItem Header="ShowHideFlyoutAction" Style="{StaticResource SidebarTabViewItemStyle}">
           <controls:PendingSampleView Header="ShowHideFlyoutAction" />
@@ -472,7 +472,7 @@
           <controls:PendingSampleView Header="Drawn Cursor" />
         </TabViewItem>
         <TabViewItem Header="IfElseTrigger" Style="{StaticResource SidebarTabViewItemStyle}">
-          <controls:PendingSampleView Header="IfElseTrigger" />
+          <pages:IfElseTriggerView />
         </TabViewItem>
         <TabViewItem Header="ExecuteScriptAction" Style="{StaticResource SidebarTabViewItemStyle}">
           <controls:PendingSampleView Header="ExecuteScriptAction" />
@@ -550,7 +550,7 @@
           <controls:PendingSampleView Header="BoundsObserverBehavior" />
         </TabViewItem>
         <TabViewItem Header="HideAttachedFlyoutBehavior" Style="{StaticResource SidebarTabViewItemStyle}">
-          <controls:PendingSampleView Header="HideAttachedFlyoutBehavior" />
+          <pages:HideAttachedFlyoutBehaviorView />
         </TabViewItem>
         <TabViewItem Header="ButtonHideFlyoutBehavior" Style="{StaticResource SidebarTabViewItemStyle}">
           <controls:PendingSampleView Header="ButtonHideFlyoutBehavior" />
@@ -559,10 +559,10 @@
           <controls:PendingSampleView Header="ButtonHideFlyoutOnClickBehavior" />
         </TabViewItem>
         <TabViewItem Header="HideOnKeyPressedBehavior" Style="{StaticResource SidebarTabViewItemStyle}">
-          <controls:PendingSampleView Header="HideOnKeyPressedBehavior" />
+          <pages:HideOnKeyPressedBehaviorView />
         </TabViewItem>
         <TabViewItem Header="HideOnLostFocusBehavior" Style="{StaticResource SidebarTabViewItemStyle}">
-          <controls:PendingSampleView Header="HideOnLostFocusBehavior" />
+          <pages:HideOnLostFocusBehaviorView />
         </TabViewItem>
         <TabViewItem Header="SizeChangedTrigger" Style="{StaticResource SidebarTabViewItemStyle}">
           <controls:PendingSampleView Header="SizeChangedTrigger" />
@@ -664,7 +664,7 @@
           <controls:PendingSampleView Header="Gesture Triggers" />
         </TabViewItem>
         <TabViewItem Header="Icon Sample" Style="{StaticResource SidebarTabViewItemStyle}">
-          <controls:PendingSampleView Header="Icon Sample" />
+          <pages:IconView />
         </TabViewItem>
         <TabViewItem Header="Automation" Style="{StaticResource SidebarTabViewItemStyle}">
           <controls:PendingSampleView Header="Automation" />
@@ -706,10 +706,10 @@
           <controls:PendingSampleView Header="DisposableAction" />
         </TabViewItem>
         <TabViewItem Header="InitializedBehavior" Style="{StaticResource SidebarTabViewItemStyle}">
-          <controls:PendingSampleView Header="InitializedBehavior" />
+          <pages:InitializedBehaviorView />
         </TabViewItem>
         <TabViewItem Header="InitializedTrigger" Style="{StaticResource SidebarTabViewItemStyle}">
-          <controls:PendingSampleView Header="InitializedTrigger" />
+          <pages:InitializedTriggerView />
         </TabViewItem>
         <TabViewItem Header="InvokeCommandActionBase" Style="{StaticResource SidebarTabViewItemStyle}">
           <controls:PendingSampleView Header="InvokeCommandActionBase" />
@@ -754,7 +754,7 @@
           <controls:PendingSampleView Header="BreakAction" />
         </TabViewItem>
         <TabViewItem Header="InactivityTrigger" Style="{StaticResource SidebarTabViewItemStyle}">
-          <controls:PendingSampleView Header="InactivityTrigger" />
+          <pages:InactivityTriggerView />
         </TabViewItem>
       </controls:SingleSelectionTabControl.TabItems>
     </controls:SingleSelectionTabControl>

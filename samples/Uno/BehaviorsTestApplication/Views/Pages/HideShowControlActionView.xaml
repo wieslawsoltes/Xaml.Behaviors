@@ -1,0 +1,27 @@
+<UserControl x:Class="BehaviorsTestApplication.Views.Pages.HideShowControlActionView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:i="using:Xaml.Interactivity"
+             xmlns:ic="using:Xaml.Interactions.Core"
+             xmlns:icustom="using:Xaml.Interactions.Custom"
+             mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="450">
+  <StackPanel>
+    <StackPanel Orientation="Horizontal" Spacing="5">
+      <Button x:Name="HideButton" Content="Hide" Margin="5" />
+      <Button x:Name="ShowButton" Content="Show" Margin="5" />
+    </StackPanel>
+    <Border x:Name="Target" Background="LightGray" Margin="5" Padding="10">
+      <TextBlock Text="Target control" />
+    </Border>
+  </StackPanel>
+  <i:Interaction.Behaviors>
+    <ic:EventTriggerBehavior SourceObject="{x:Bind HideButton}" EventName="Click">
+      <icustom:HideControlAction TargetControl="{x:Bind Target}" />
+    </ic:EventTriggerBehavior>
+    <ic:EventTriggerBehavior SourceObject="{x:Bind ShowButton}" EventName="Click">
+      <icustom:ShowControlAction TargetControl="{x:Bind Target}" />
+    </ic:EventTriggerBehavior>
+  </i:Interaction.Behaviors>
+</UserControl>

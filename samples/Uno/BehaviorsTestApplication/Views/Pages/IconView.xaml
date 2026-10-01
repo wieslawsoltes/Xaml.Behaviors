@@ -1,0 +1,33 @@
+<UserControl x:Class="BehaviorsTestApplication.Views.Pages.IconView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:i="using:Xaml.Interactivity"
+             xmlns:ic="using:Xaml.Interactions.Core"
+             xmlns:icustom="using:Xaml.Interactions.Custom"
+             xmlns:wuxc="using:Microsoft.UI.Xaml.Controls"
+             mc:Ignorable="d" d:DesignWidth="200" d:DesignHeight="150">
+  <StackPanel Spacing="10" Margin="5">
+    <PathIcon x:Name="DemoIcon" Width="40" Height="40" Foreground="Black">
+      <i:Interaction.Behaviors>
+        <icustom:PathIconDataBehavior Data="{x:Bind ViewModel.PlusIcon}" />
+        <icustom:PathIconDataChangedTrigger>
+          <!--
+            Avalonia: TargetProperty="{x:Static TemplatedControl.ForegroundProperty}" Value="Red"; the WinUI PathIcon is
+            an IconElement, and the action assigns the brush as is (WinUI dependency properties expose no value type).
+          -->
+          <icustom:ChangeAvaloniaPropertyAction TargetProperty="{x:Bind wuxc:IconElement.ForegroundProperty}"
+                                                Value="{StaticResource RedBrush}" />
+        </icustom:PathIconDataChangedTrigger>
+      </i:Interaction.Behaviors>
+    </PathIcon>
+    <Button Content="Switch Icon">
+      <i:Interaction.Behaviors>
+        <ic:EventTriggerBehavior EventName="Click">
+          <icustom:SetPathIconDataAction PathIcon="{x:Bind DemoIcon}" Data="{x:Bind ViewModel.MinusIcon}" />
+        </ic:EventTriggerBehavior>
+      </i:Interaction.Behaviors>
+    </Button>
+  </StackPanel>
+</UserControl>
