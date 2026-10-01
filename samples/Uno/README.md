@@ -12,7 +12,7 @@ Every Avalonia sample application has a Uno Platform twin with the same name and
 
 | Avalonia sample | Views | Uno Platform twin |
 |-----------------|------:|-------------------|
-| `BehaviorsTestApplication` | 231 pages (234 tabs) + shell, ReactiveUI, dialog and control views | every view has a twin; 213 pages are real ports, 18 show `NotAvailableOnUnoView` |
+| `BehaviorsTestApplication` | 231 pages (234 tabs) + shell, ReactiveUI, dialog and control views | every view has a twin; 214 pages are real ports, 17 show `NotAvailableOnUnoView` |
 | `AnimationsTestApplication` | 16 pages + shell | every page is a real port |
 | `SourceGeneratorSample` | 11 pages + shell | every page is a real port (generated behaviors in `SourceGeneratorSample.Core`) |
 
@@ -27,7 +27,6 @@ Every Avalonia sample application has a Uno Platform twin with the same name and
 | Notifications, ShowNotificationAction | Avalonia notification managers |
 | NumericUpDownValidationBehavior | WinUI has no `NumericUpDown` |
 | RenderTargetBitmap | immediate mode drawing into an Avalonia `RenderTargetBitmap` |
-| ScreenshotAction | not ported yet (`RenderTargetBitmap` encoding and a storage provider) |
 | ResourcesChangedBehavior, ResourcesChangedTrigger | WinUI raises no resources changed notification |
 | Screens | Avalonia Screens API (`DisplayArea` is not implemented by Uno Platform) |
 | VisualDebugBehavior | Avalonia adorner layer |

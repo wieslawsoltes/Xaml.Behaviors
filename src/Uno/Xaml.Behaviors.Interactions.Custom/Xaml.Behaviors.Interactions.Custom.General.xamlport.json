@@ -53,7 +53,14 @@
       "Avalonia.Styling.ThemeVariant",
       "Avalonia.Controls.ThemeVariantScope",
       "Avalonia.Collections.AvaloniaList",
-      "Avalonia.Controls.ISetLogicalParent"
+      "Avalonia.Controls.ISetLogicalParent",
+      // Storage provider types of the Uno Interactions package (src/Uno/Xaml.Behaviors.Interactions/StorageProvider),
+      // used by ScreenshotAction.
+      "Avalonia.Platform.Storage.FilePickerFileType",
+      "Avalonia.Platform.Storage.FilePickerSaveOptions",
+      "Avalonia.Platform.Storage.IStorageFile",
+      "Avalonia.Platform.Storage.IStorageProvider",
+      "Avalonia.Platform.Storage.PickerOptions"
     ],
     "members": [
       // WinUI members with the same name.
@@ -137,7 +144,13 @@
       "Avalonia.Visual.IsVisible",
       "Avalonia.VisualTree.VisualExtensions.FindAncestorOfType",
       "Avalonia.VisualTree.VisualExtensions.FindDescendantOfType",
-      "Avalonia.VisualTree.VisualExtensions.IsVisualAncestorOf"
+      "Avalonia.VisualTree.VisualExtensions.IsVisualAncestorOf",
+      // Storage provider members of the Uno Interactions package (ScreenshotAction).
+      "Avalonia.Platform.Storage.FilePickerSaveOptions.DefaultExtension",
+      "Avalonia.Platform.Storage.FilePickerSaveOptions.FileTypeChoices",
+      "Avalonia.Platform.Storage.IStorageProvider.SaveFilePickerAsync",
+      "Avalonia.Platform.Storage.PickerOptions.SuggestedFileName",
+      "Avalonia.Platform.Storage.PickerOptions.Title"
     ]
   }
 }

@@ -1,15 +1,13 @@
 // Copyright (c) Wiesław Šoltés. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for details.
 using System;
+using System.Threading.Tasks;
 #if UNO
 using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Media;
-using Microsoft.UI.Xaml.Media.Imaging;
+using Xaml.Interactions.Core;
 using Xaml.Interactivity;
 #else
 using Avalonia.Controls;
-using Avalonia.Media;
 using Avalonia.Media.Imaging;
 using Avalonia.Platform.Storage;
 using Avalonia.Xaml.Interactivity;
@@ -26,6 +24,8 @@ namespace Avalonia.Xaml.Interactions.Custom;
 /// </summary>
 public partial class ScreenshotAction : StyledElementAction
 {
+    private const string SaveScreenshotTitle = "Save Screenshot";
+    private const string DefaultFileName = "screenshot.png";
 
     /// <summary>
     /// Gets or sets the target control to capture. If null, the associated object is used.
@@ -38,6 +38,13 @@ public partial class ScreenshotAction : StyledElementAction
     /// </summary>
     [StyledProperty]
     public partial string? FileName { get; set; }
+
+    /// <summary>
+    /// Gets or sets the storage provider used to pick the screenshot file. If null, the storage provider of the
+    /// top level of the target control is used. This is an avalonia property.
+    /// </summary>
+    [StyledProperty]
+    public partial IStorageProvider? StorageProvider { get; set; }
 
     /// <inheritdoc />
     public override object Execute(object? sender, object? parameter)
@@ -53,40 +60,50 @@ public partial class ScreenshotAction : StyledElementAction
             return false;
         }
 
+#if UNO
+        // WinUI has no top level storage provider (the pickers are application wide); the target must be loaded so
+        // that RenderTargetBitmap can render it.
+        if (target.XamlRoot is null)
+        {
+            return false;
+        }
+
+        var storageProvider = StorageProvider ?? SystemStorageProvider.Instance;
+#else
         var topLevel = TopLevel.GetTopLevel(target);
         if (topLevel is null)
         {
             return false;
         }
 
-        CaptureAsync(target, topLevel);
+        var storageProvider = StorageProvider ?? topLevel.StorageProvider;
+#endif
+
+        _ = CaptureAsync(target, storageProvider);
         return true;
     }
 
-    private async void CaptureAsync(Control target, TopLevel topLevel)
+    private async Task CaptureAsync(Control target, IStorageProvider storageProvider)
     {
         try
         {
-            // Render the control to a bitmap
-            var pixelSize = new PixelSize((int)target.Bounds.Width, (int)target.Bounds.Height);
-            // Use default DPI or target's DPI? 
-            // For simplicity, we use 96 DPI (Vector(1,1) * 96) or just Vector(96, 96).
-            // RenderTargetBitmap expects DPI.
-            var bitmap = new RenderTargetBitmap(pixelSize, new Vector(96, 96));
-            bitmap.Render(target);
-
-            var file = await topLevel.StorageProvider.SaveFilePickerAsync(new FilePickerSaveOptions
+            var screenshot = await RenderAsync(target);
+            if (screenshot is null)
             {
-                Title = "Save Screenshot",
+                return;
+            }
+
+            var file = await storageProvider.SaveFilePickerAsync(new FilePickerSaveOptions
+            {
+                Title = SaveScreenshotTitle,
                 DefaultExtension = "png",
-                SuggestedFileName = FileName ?? "screenshot.png",
-                FileTypeChoices = new[] { FilePickerFileTypes.ImagePng }
+                SuggestedFileName = FileName ?? DefaultFileName,
+                FileTypeChoices = [PngFileType]
             });
 
             if (file is not null)
             {
-                using var stream = await file.OpenWriteAsync();
-                bitmap.Save(stream);
+                await SaveAsync(screenshot, file);
             }
         }
         catch (Exception ex)
@@ -94,4 +111,25 @@ public partial class ScreenshotAction : StyledElementAction
             System.Diagnostics.Debug.WriteLine($"Screenshot failed: {ex}");
         }
     }
+
+#if !UNO
+    private static FilePickerFileType PngFileType => FilePickerFileTypes.ImagePng;
+
+    /// <summary>
+    /// Renders the control into a bitmap of its size in device independent pixels (96 DPI).
+    /// </summary>
+    private static Task<RenderTargetBitmap?> RenderAsync(Control target)
+    {
+        var pixelSize = new PixelSize((int)target.Bounds.Width, (int)target.Bounds.Height);
+        var bitmap = new RenderTargetBitmap(pixelSize, new Vector(96, 96));
+        bitmap.Render(target);
+        return Task.FromResult<RenderTargetBitmap?>(bitmap);
+    }
+
+    private static async Task SaveAsync(RenderTargetBitmap bitmap, IStorageFile file)
+    {
+        using var stream = await file.OpenWriteAsync();
+        bitmap.Save(stream);
+    }
+#endif
 }
