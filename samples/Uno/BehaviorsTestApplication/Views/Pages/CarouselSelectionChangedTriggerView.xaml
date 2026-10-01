@@ -1,0 +1,24 @@
+<UserControl x:Class="BehaviorsTestApplication.Views.Pages.CarouselSelectionChangedTriggerView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:i="using:Xaml.Interactivity"
+             xmlns:ic="using:Xaml.Interactions.Core"
+             xmlns:icustom="using:Xaml.Interactions.Custom"
+             mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="200">
+  <StackPanel Spacing="5">
+    <TextBlock x:Name="MessageText" Text="Select a page" />
+    <!-- Avalonia Carousel: the WinUI FlipView (CarouselSelectionChangedTrigger handles Selector.SelectionChanged). -->
+    <FlipView SelectedIndex="0" Height="400">
+      <i:Interaction.Behaviors>
+        <icustom:CarouselSelectionChangedTrigger>
+          <ic:ChangePropertyAction TargetObject="{x:Bind MessageText}" PropertyName="Text" Value="Selection Changed" />
+        </icustom:CarouselSelectionChangedTrigger>
+      </i:Interaction.Behaviors>
+      <Image Source="ms-appx:///Assets/delicate-arch-896885_640.jpg" />
+      <Image Source="ms-appx:///Assets/hirsch-899118_640.jpg" />
+      <Image Source="ms-appx:///Assets/maple-leaf-888807_640.jpg" />
+    </FlipView>
+  </StackPanel>
+</UserControl>

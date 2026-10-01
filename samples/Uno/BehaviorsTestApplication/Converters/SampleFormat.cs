@@ -16,4 +16,25 @@ public static class SampleFormat
     /// <param name="value">The value.</param>
     /// <returns>The formatted text.</returns>
     public static string Value(int value) => string.Format(CultureInfo.CurrentCulture, " Value: {0}", value);
+
+    /// <summary>
+    /// Formats a value like the Avalonia binding <c>StringFormat='HasData: {0}'</c> (ClipboardMonitorBehaviorView).
+    /// </summary>
+    /// <param name="value">The value.</param>
+    /// <returns>The formatted text.</returns>
+    public static string HasData(bool value) => string.Format(CultureInfo.CurrentCulture, "HasData: {0}", value);
+
+    /// <summary>
+    /// Formats a value like the Avalonia binding <c>StringFormat='Current Text: {0}'</c> (DebounceThrottleActionView).
+    /// </summary>
+    /// <param name="value">The value.</param>
+    /// <returns>The formatted text.</returns>
+    public static string CurrentText(string? value) => string.Format(CultureInfo.CurrentCulture, "Current Text: {0}", value);
+
+    /// <summary>
+    /// Formats a value like the Avalonia binding <c>StringFormat='Debounced Output: {0}'</c> (DebounceThrottleActionView).
+    /// </summary>
+    /// <param name="value">The value.</param>
+    /// <returns>The formatted text.</returns>
+    public static string DebouncedOutput(string? value) => string.Format(CultureInfo.CurrentCulture, "Debounced Output: {0}", value);
 }

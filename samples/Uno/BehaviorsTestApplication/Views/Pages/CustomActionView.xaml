@@ -1,0 +1,54 @@
+<UserControl x:Class="BehaviorsTestApplication.Views.Pages.CustomActionView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:i="using:Xaml.Interactivity"
+             xmlns:ic="using:Xaml.Interactions.Core"
+             xmlns:icustom="using:Xaml.Interactions.Custom"
+             mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="450">
+  <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="*" />
+    </Grid.RowDefinitions>
+    <!-- A WinUI TextBlock has no background: the Avalonia TextBlock background is drawn by a Border. -->
+    <Border Grid.Row="0"
+            Margin="5"
+            Background="{StaticResource GrayBrush}">
+      <TextBlock Text="Move Pointer"
+                 x:Name="Position"
+                 Foreground="{StaticResource YellowBrush}"
+                 FontSize="14"
+                 TextAlignment="Center"
+                 HorizontalAlignment="Stretch"
+                 VerticalAlignment="Stretch" />
+    </Border>
+    <Border x:Name="Border"
+            Grid.Row="1"
+            Margin="5,0,5,5"
+            Background="{StaticResource GrayBrush}"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch">
+      <i:Interaction.Behaviors>
+        <icustom:ShowPointerPositionBehavior TargetTextBlock="{x:Bind Position}" />
+        <ic:EventTriggerBehavior EventName="PointerPressed" SourceObject="{x:Bind Border}">
+          <icustom:PopupAction>
+            <Border DataContext="{x:Bind ViewModel.Count, Mode=OneWay}"
+                    Width="300" Height="200"
+                    Background="Yellow"
+                    BorderBrush="Red"
+                    BorderThickness="1"
+                    Padding="5">
+              <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Count: " Foreground="Red" />
+                <TextBlock Text="{Binding}" Foreground="Red" />
+              </StackPanel>
+            </Border>
+          </icustom:PopupAction>
+        </ic:EventTriggerBehavior>
+      </i:Interaction.Behaviors>
+      <TextBlock Text="Click Me" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20" />
+    </Border>
+  </Grid>
+</UserControl>

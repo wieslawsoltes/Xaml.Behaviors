@@ -31,3 +31,19 @@ public partial class NavigateToDetailPageAction : NavigateToAction<DetailPageVie
 public partial class NavigateToHomePageAndResetAction : NavigateToAndResetAction<HomePageViewModel>
 {
 }
+
+/// <summary>
+/// <see cref="NotNullValidationRule{T}"/> for <see cref="object"/> values
+/// (Avalonia: <c>x:TypeArguments="system:Object"</c>, ComboBoxValidationBehaviorView).
+/// </summary>
+public partial class ObjectNotNullValidationRule : NotNullValidationRule<object>
+{
+}
+
+/// <summary>
+/// <see cref="RangeValidationRule{T}"/> for nullable <see cref="System.DateTimeOffset"/> values
+/// (Avalonia: <c>x:TypeArguments="system:Nullable(system:DateTimeOffset)"</c>, DatePickerValidationBehaviorView).
+/// </summary>
+public partial class NullableDateTimeOffsetRangeValidationRule : RangeValidationRule<System.DateTimeOffset?>
+{
+}
