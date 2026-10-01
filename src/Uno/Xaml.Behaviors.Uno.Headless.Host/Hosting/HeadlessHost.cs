@@ -146,5 +146,21 @@ public class HeadlessHost : SkiaHost, ISkiaApplicationHost, IDisposable
 	/// <returns><see langword="true"/> when the event was handled.</returns>
 	public bool RaiseCharacter(char character) => _keyboard.RaiseCharacter(character);
 
+	/// <summary>
+	/// Injects mouse input like <see cref="Windows.UI.Input.Preview.Injection.InputInjector.InjectMouseInput(System.Collections.Generic.IEnumerable{Windows.UI.Input.Preview.Injection.InjectedInputMouseInfo})"/>, with the
+	/// keyboard modifiers held during the event (<c>PointerRoutedEventArgs.KeyModifiers</c>). The wheel rotation is read
+	/// from <see cref="Windows.UI.Input.Preview.Injection.InjectedInputMouseInfo.MouseData"/> like on WinUI when the
+	/// deltas are not set. Must be called on the UI thread.
+	/// </summary>
+	/// <param name="injector">The injector (its mouse state tracks the position and the pressed buttons).</param>
+	/// <param name="info">The mouse input.</param>
+	/// <param name="modifiers">The modifier keys held during the event.</param>
+	public void InjectMouseInput(Windows.UI.Input.Preview.Injection.InputInjector injector, Windows.UI.Input.Preview.Injection.InjectedInputMouseInfo info, Windows.System.VirtualKeyModifiers modifiers)
+	{
+		ArgumentNullException.ThrowIfNull(injector);
+		ArgumentNullException.ThrowIfNull(info);
+		HeadlessMouseInput.Inject(injector, info, modifiers);
+	}
+
 	public void Dispose() => _terminationGate.Set();
 }

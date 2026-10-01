@@ -36,7 +36,7 @@ public sealed class UnoHeadlessSession
     {
         _host = host;
         Keyboard = new UnoHeadlessKeyboard(this, host);
-        Mouse = new UnoHeadlessMouse(this);
+        Mouse = new UnoHeadlessMouse(this, host);
         Options = options;
         Application = application;
         Window = window;

@@ -101,27 +101,27 @@ internal static class HeadlessInput
 
     /// <summary>Moves the mouse to a position relative to <paramref name="topLevel"/>.</summary>
     public static void MouseMove(this UIElement topLevel, Point point, RawInputModifiers modifiers = RawInputModifiers.None)
-        => Session.Mouse.MoveTo(point, topLevel);
+        => Session.Mouse.MoveTo(point, topLevel, ToKeyModifiers(modifiers));
 
     /// <summary>Moves the mouse to a position relative to <paramref name="topLevel"/> and presses a button.</summary>
     public static void MouseDown(this UIElement topLevel, Point point, MouseButton button, RawInputModifiers modifiers = RawInputModifiers.None)
     {
-        Session.Mouse.MoveTo(point, topLevel);
-        Session.Mouse.Down(ToButton(button));
+        Session.Mouse.MoveTo(point, topLevel, ToKeyModifiers(modifiers));
+        Session.Mouse.Down(ToButton(button), ToKeyModifiers(modifiers));
     }
 
     /// <summary>Moves the mouse to a position relative to <paramref name="topLevel"/> and releases a button.</summary>
     public static void MouseUp(this UIElement topLevel, Point point, MouseButton button, RawInputModifiers modifiers = RawInputModifiers.None)
     {
-        Session.Mouse.MoveTo(point, topLevel);
-        Session.Mouse.Up(ToButton(button));
+        Session.Mouse.MoveTo(point, topLevel, ToKeyModifiers(modifiers));
+        Session.Mouse.Up(ToButton(button), ToKeyModifiers(modifiers));
     }
 
-    /// <summary>Rotates the mouse wheel at a position relative to <paramref name="topLevel"/>.</summary>
+    /// <summary>Rotates the vertical mouse wheel at a position relative to <paramref name="topLevel"/>.</summary>
     public static void MouseWheel(this UIElement topLevel, Point point, Vector delta, RawInputModifiers modifiers = RawInputModifiers.None)
     {
-        Session.Mouse.MoveTo(point, topLevel);
-        Session.Mouse.Wheel((int)Math.Round(delta.Y));
+        Session.Mouse.MoveTo(point, topLevel, ToKeyModifiers(modifiers));
+        Session.Mouse.Wheel((int)Math.Round(delta.Y), ToKeyModifiers(modifiers));
     }
 
     /// <summary>Finds a named element (Avalonia <c>FindControl</c>).</summary>

@@ -19,7 +19,6 @@ Platform, how they were resolved, and the WinUI differences that affect behavior
 | [#386](https://github.com/wieslawsoltes/Xaml.Behaviors/issues/386) | both | `CollectionChangedTrigger`/`CollectionChangedBehavior` subscribe twice when `Collection` is set before attaching. | Fix: subscribe only while attached. |
 | [#387](https://github.com/wieslawsoltes/Xaml.Behaviors/issues/387) | both | `ListReorderDragBehavior` ends the drag whenever the placeholder is removed. | Fix: separate placeholder removal from the drag reset. |
 | [#389](https://github.com/wieslawsoltes/Xaml.Behaviors/issues/389) | samples | The FilesPreview, FluidMoveBehavior and StartBuiltAnimationAction sample pages do not work (on both platforms). | Fix the sample pages. |
-| [#390](https://github.com/wieslawsoltes/Xaml.Behaviors/issues/390) | Uno headless | Injected mouse wheel input is not delivered and mouse events carry no key modifiers in the headless session. | Fix: a headless pointer input source in the host. |
 
 ## Fixed during the port
 
@@ -38,6 +37,7 @@ Platform, how they were resolved, and the WinUI differences that affect behavior
 | ReactiveUI (Uno) | The behaviors were built against ReactiveUI 23 while ReactiveUI.Uno requires 25.1 (`TypeLoadException` for `Interaction`). | Both platforms use ReactiveUI 25.1 (see below). |
 | `Xaml.PropertyGenerator` code fix | Orphaned `#pragma warning restore` lines after migrating a registration. | Removed with the registration. |
 | `ChangeAvaloniaPropertyAction` (Uno, [#376](https://github.com/wieslawsoltes/Xaml.Behaviors/issues/376)) | String values were not converted for properties without a default value (`Border.Background`): WinUI dependency properties do not expose their type (Uno's bindable metadata is looked up by property name, which a `DependencyProperty` does not expose either). | The type is also inferred from the current value (strings only, unconvertible strings are assigned as is); the Uno-only `TargetPropertyType` sets it explicitly. |
+| Headless session (Uno, [#390](https://github.com/wieslawsoltes/Xaml.Behaviors/issues/390)) | Injected mouse wheel input was not delivered (Uno Platform reads the wheel rotation from `DeltaY`, not `MouseData`) and mouse events carried no keyboard modifiers (`InputInjector.InjectMouseInput` raises none). | The host injects mouse input with modifiers and the WinUI wheel data (`HeadlessHost.InjectMouseInput`); `UnoHeadlessMouse` passes the modifiers held on `UnoHeadlessKeyboard` and the ones given to its members. |
 | `Xaml.PropertyGenerator` WinUI output ([#388](https://github.com/wieslawsoltes/Xaml.Behaviors/issues/388)) | IL2087/IL2111 trimming warnings for properties typed with a generic parameter (validation rules) or `System.Type` (`TypedDragBehaviorBase.DataType`). | Generic parameters get the `[DynamicallyAccessedMembers]` annotation of `DependencyProperty.Register`; `Type` properties are registered through a helper with a justified IL2111 suppression. |
 
 ## ReactiveUI 25
@@ -81,8 +81,9 @@ Upstream behavior of Uno Platform 6.7 that affects behaviors and samples (worth 
   emits `Windows.Foundation.Point` for `RenderTransformOrigin`, which does not compile inside a `*.Windows` namespace.
 * The Uno Community Toolkit `DataGrid` does not load with an element (`TextBlock`) column header.
 * `InputInjector` applies absolute mouse moves relative to the current position and needs advancing event times
-  (`UnoHeadlessSession.Mouse` handles both); keyboard injection raises nothing without a keyboard input source (the
-  headless host provides one).
+  (`UnoHeadlessSession.Mouse` handles both), reads the wheel rotation from `DeltaY`/`DeltaX` instead of `MouseData` and
+  injects mouse input without keyboard modifiers (the headless host injects both); keyboard injection raises nothing
+  without a keyboard input source (the headless host provides one).
 * Composition animations run on the real time clock (`Compositor.GlobalPlaybackRate` is not implemented).
 * `UIElement.OpacityTransition`, `QuaternionKeyFrameAnimation` and `Visual.Orientation` with `CenterPoint` are not
   implemented; `DisplayArea` and the screen size are not available on Skia desktop.
