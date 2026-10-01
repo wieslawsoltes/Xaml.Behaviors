@@ -7,12 +7,12 @@ Platform, how they were resolved, and the WinUI differences that affect behavior
 
 All issues found while porting the libraries, tests and samples
 ([#376](https://github.com/wieslawsoltes/Xaml.Behaviors/issues/376)–[#390](https://github.com/wieslawsoltes/Xaml.Behaviors/issues/390)) and while documenting the
-[behavior differences](behavior-differences.md) ([#391](https://github.com/wieslawsoltes/Xaml.Behaviors/issues/391)–[#398](https://github.com/wieslawsoltes/Xaml.Behaviors/issues/398)) are fixed; see the
+[behavior differences](behavior-differences.md) ([#391](https://github.com/wieslawsoltes/Xaml.Behaviors/issues/391)–[#399](https://github.com/wieslawsoltes/Xaml.Behaviors/issues/399)) are fixed; see the
 table below. Open issues:
 
 | Issue | Area | Problem |
 |-------|------|---------|
-| [#399](https://github.com/wieslawsoltes/Xaml.Behaviors/issues/399) | Routed event triggers (Avalonia) | With the default `Direct` routing, `KeyTrigger`, `KeyDownTrigger`, `KeyUpTrigger` and the other triggers for bubbling events never fire on Avalonia. |
+| [#400](https://github.com/wieslawsoltes/Xaml.Behaviors/issues/400) | Routed event behaviors (Avalonia) | A routing strategy that does not match the event's routes never fires: `ExecuteCommandOnPointerEntered/Exited/CaptureLostBehavior` (default `Bubble` on Direct events), and an explicit `Direct` on a bubbling event outside the `RoutedEventTriggerBase` triggers. |
 
 Report new issues on [GitHub](https://github.com/wieslawsoltes/Xaml.Behaviors/issues).
 
@@ -55,6 +55,7 @@ Report new issues on [GitHub](https://github.com/wieslawsoltes/Xaml.Behaviors/is
 | `PropertyValidationBehavior` (Uno, [#396](https://github.com/wieslawsoltes/Xaml.Behaviors/issues/396)) | Custom validation rules could not trigger revalidation when their properties changed. | `IValidationRuleChanged` is public: custom rules raise `Changed` to revalidate. |
 | `ScreenshotAction` (Uno, [#397](https://github.com/wieslawsoltes/Xaml.Behaviors/issues/397)) | Not ported. | Ported with WinUI `RenderTargetBitmap`, `BitmapEncoder` and the Interactions storage provider (new `StorageProvider` property on both platforms). |
 | Packaging (Uno, [#398](https://github.com/wieslawsoltes/Xaml.Behaviors/issues/398)) | The Uno packages were not marked trimmable or AOT-compatible. | `build/TrimmingEnable.targets` is imported for the packable Uno libraries; trim/AOT warnings are errors. |
+| `KeyTrigger`, `KeyDownTrigger`, `KeyUpTrigger` (Avalonia, [#399](https://github.com/wieslawsoltes/Xaml.Behaviors/issues/399)) | Never fired with the default `Direct` routing: Avalonia only invokes Direct-only handlers for direct events. | A Direct-only subscription of a `RoutedEventTriggerBase` trigger to a tunneling/bubbling event uses that route, filtered by `e.Source == element`. |
 
 ## ReactiveUI 25 (System.Reactive flavor)
 

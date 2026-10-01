@@ -145,7 +145,7 @@ and map it (`src/Uno/Xaml.Behaviors.Interactivity/Compat/RoutedEvents.cs`):
 | `RoutingStrategies` value | Uno Platform subscription |
 |---------------------------|---------------------------|
 | `Bubble` | the bubbling WinUI event |
-| `Direct` alone | the bubbling WinUI event, filtered to the events raised on the element itself (`OriginalSource` is the element). `PointerEntered`/`PointerExited` are raised by Uno once per element entered or left and are not filtered; `PointerCaptureLost` is delivered when the element itself loses a capture. |
+| `Direct` alone | only events raised by the element itself, as on Avalonia ([#391](https://github.com/wieslawsoltes/Xaml.Behaviors/issues/391), [#399](https://github.com/wieslawsoltes/Xaml.Behaviors/issues/399)): the bubbling WinUI event filtered by `OriginalSource`. `PointerEntered`/`PointerExited` are raised by Uno once per element entered or left and are not filtered; `PointerCaptureLost` is delivered when the element itself loses a capture. |
 | `Direct` + `Bubble` | the bubbling WinUI event (descendants included) |
 | `Tunnel` only, key events | `PreviewKeyDown`/`PreviewKeyUp` |
 | `Tunnel` only, other events | the bubbling event with handled events included; the handler sees them as not handled yet (see below) |
@@ -566,7 +566,7 @@ on Avalonia (`TargetControl`, `TargetObject`, `SourceControl`, `ItemsControl`, `
 | `CapturePointerAction` | Captures the pointer of the event for its `OriginalSource`. |
 | `ReleasePointerCaptureAction` | Releases only a capture held by the event's `OriginalSource` or one of its ancestors. |
 | `TextInputTrigger.Text` | `CharacterReceived` delivers one character per event, so a `Text` longer than one character never matches. |
-| `KeyTrigger`, `KeyDownTrigger`, `KeyUpTrigger` | `Key` is a `VirtualKey`, `Gesture` a Uno `KeyGesture`. The default `Direct` only fires for keys raised on the element itself (the focused element). On Avalonia the default `Direct` never fires for key events ([#399](https://github.com/wieslawsoltes/Xaml.Behaviors/issues/399)). |
+| `KeyTrigger`, `KeyDownTrigger`, `KeyUpTrigger` | `Key` is a `VirtualKey`, `Gesture` a Uno `KeyGesture`. The default `Direct` only fires for keys raised on the element itself, as on Avalonia. |
 | `KeyGestureTrigger` | Default `Tunnel` + `Bubble`: one bubbling key subscription with handled events. |
 | `PointerPressedTrigger`, `PointerReleasedTrigger`, `PointerMovedTrigger`, `PointerWheelChangedTrigger` | Default `Tunnel` + `Bubble` includes handled events (presented as not handled); `MarkAsHandled = false` leaves `Handled` unchanged. |
 | `GotFocusTrigger`, `LostFocusTrigger` | CLR events: `EventRoutingStrategy` and `MarkAsHandled` have no effect. |
