@@ -202,6 +202,91 @@ public class LogicTests
     }
 
     [UnoHeadlessFact]
+    public async Task PropertyValidationBehavior_Revalidates_When_A_Custom_Rule_Changes()
+    {
+        // Issue #396: custom rules opt in to revalidation through the public IValidationRuleChanged contract.
+        var textBox = new TextBox { Text = "abcd" };
+        var behavior = new PropertyValidationBehavior<TextBox, string> { Property = TextBox.TextProperty };
+        var maxLength = new MaxLengthTestRule { MaxLength = 10 };
+        var forbidden = new ForbiddenTextTestRule();
+        behavior.Rules.Add(maxLength);
+        behavior.Rules.Add(forbidden);
+        Interaction.GetBehaviors(textBox).Add(behavior);
+        await Session.ShowAsync(textBox);
+        await Session.WaitForIdleAsync();
+        Assert.True(behavior.IsValid);
+        Assert.Equal(1, maxLength.SubscriberCount);
+
+        // A dependency property of a user-defined DependencyObject rule.
+        maxLength.MaxLength = 2;
+        Assert.False(behavior.IsValid);
+        Assert.Equal("too long", behavior.Error);
+
+        maxLength.MaxLength = 4;
+        Assert.True(behavior.IsValid);
+        Assert.Null(behavior.Error);
+
+        // A CLR property of a user-defined plain rule.
+        forbidden.Forbidden = "abcd";
+        Assert.False(behavior.IsValid);
+        Assert.Equal("forbidden", behavior.Error);
+
+        forbidden.Forbidden = null;
+        Assert.True(behavior.IsValid);
+
+        // Detaching stops observing the rules.
+        Interaction.GetBehaviors(textBox).Remove(behavior);
+        Assert.Equal(0, maxLength.SubscriberCount);
+        maxLength.MaxLength = 1;
+        Assert.True(behavior.IsValid);
+    }
+
+    [UnoHeadlessFact]
+    public async Task PropertyValidationBehavior_Revalidates_When_The_Rules_Collection_Changes()
+    {
+        var textBox = new TextBox { Text = "abcd" };
+        var behavior = new PropertyValidationBehavior<TextBox, string> { Property = TextBox.TextProperty };
+        Interaction.GetBehaviors(textBox).Add(behavior);
+        await Session.ShowAsync(textBox);
+        await Session.WaitForIdleAsync();
+        Assert.True(behavior.IsValid);
+
+        // Add: the new rule is evaluated and observed.
+        var tooShort = new MaxLengthTestRule { MaxLength = 2, ErrorMessage = "first" };
+        behavior.Rules.Add(tooShort);
+        Assert.False(behavior.IsValid);
+        Assert.Equal("first", behavior.Error);
+        Assert.Equal(1, tooShort.SubscriberCount);
+
+        // Replace: the replaced rule is no longer observed.
+        var longEnough = new MaxLengthTestRule { MaxLength = 10, ErrorMessage = "second" };
+        behavior.Rules[0] = longEnough;
+        Assert.True(behavior.IsValid);
+        Assert.Equal(0, tooShort.SubscriberCount);
+        Assert.Equal(1, longEnough.SubscriberCount);
+
+        longEnough.MaxLength = 3;
+        Assert.False(behavior.IsValid);
+        Assert.Equal("second", behavior.Error);
+
+        // Remove: revalidates without the removed rule, which is no longer observed.
+        behavior.Rules.Remove(longEnough);
+        Assert.True(behavior.IsValid);
+        Assert.Null(behavior.Error);
+        Assert.Equal(0, longEnough.SubscriberCount);
+
+        // A built-in rule is evaluated when it is added.
+        behavior.Rules.Add(new MinLengthValidationRule { Length = 10, ErrorMessage = "short" });
+        Assert.False(behavior.IsValid);
+        Assert.Equal("short", behavior.Error);
+
+        // Clear.
+        behavior.Rules.Clear();
+        Assert.True(behavior.IsValid);
+        Assert.Null(behavior.Error);
+    }
+
+    [UnoHeadlessFact]
     public async Task SliderValidationBehavior_Uses_Generic_Range_Rules()
     {
         var slider = new Slider { Minimum = 0, Maximum = 100, Value = 50 };

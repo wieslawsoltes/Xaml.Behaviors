@@ -13,7 +13,8 @@ namespace Xaml.Interactions.Custom;
 /// <remarks>
 /// Avalonia observes <c>AvaloniaObject.PropertyChanged</c> of the associated object and of the rules. WinUI
 /// observes a single property with <see cref="DependencyObject.RegisterPropertyChangedCallback"/>; the rules
-/// report their changes through <see cref="IValidationRuleChanged"/>.
+/// (built-in or custom) report their changes through the public <see cref="IValidationRuleChanged"/> interface.
+/// Adding, removing or replacing rules in <see cref="Rules"/> also revalidates.
 /// </remarks>
 public partial class PropertyValidationBehavior<TControl, TValue>
 {
@@ -105,16 +106,4 @@ public partial class PropertyValidationBehavior<TControl, TValue>
             DetachRules();
         });
     }
-}
-
-/// <summary>
-/// Raised by the validation rules when one of their properties changes (Uno Platform counterpart of the Avalonia
-/// <c>AvaloniaObject.PropertyChanged</c> event used to revalidate).
-/// </summary>
-internal interface IValidationRuleChanged
-{
-    /// <summary>
-    /// Occurs when a property of the rule changes.
-    /// </summary>
-    event EventHandler? Changed;
 }

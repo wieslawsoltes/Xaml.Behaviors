@@ -273,3 +273,51 @@ internal static class TestInput
         }
     }
 }
+
+/// <summary>
+/// A user-defined dependency object validation rule (generated dependency properties) that opts in to revalidation
+/// through the public <see cref="IValidationRuleChanged"/> contract.
+/// </summary>
+public partial class MaxLengthTestRule : DependencyObject, IValidationRule<string>, IValidationRuleChanged
+{
+    private EventHandler? _changed;
+
+    public event EventHandler? Changed
+    {
+        add { _changed += value; SubscriberCount++; }
+        remove { _changed -= value; SubscriberCount--; }
+    }
+
+    public int SubscriberCount { get; private set; }
+
+    [StyledProperty(DefaultValue = int.MaxValue)]
+    public partial int MaxLength { get; set; }
+
+    [StyledProperty(DefaultValue = "too long")]
+    public partial string? ErrorMessage { get; set; }
+
+    public bool Validate(string? value) => value is null || value.Length <= MaxLength;
+
+    // The generated properties route their changes here.
+    private void OnPropertyChanged(DependencyPropertyChangedEventArgs e) => _changed?.Invoke(this, EventArgs.Empty);
+}
+
+/// <summary>
+/// A user-defined plain CLR validation rule that raises <see cref="IValidationRuleChanged.Changed"/> from its setters.
+/// </summary>
+public sealed class ForbiddenTextTestRule : IValidationRule<string>, IValidationRuleChanged
+{
+    private string? _forbidden;
+
+    public event EventHandler? Changed;
+
+    public string? Forbidden
+    {
+        get => _forbidden;
+        set { _forbidden = value; Changed?.Invoke(this, EventArgs.Empty); }
+    }
+
+    public string? ErrorMessage { get; set; } = "forbidden";
+
+    public bool Validate(string? value) => value != Forbidden;
+}
