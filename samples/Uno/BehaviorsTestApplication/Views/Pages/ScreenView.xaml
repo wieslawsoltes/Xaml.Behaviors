@@ -1,0 +1,11 @@
+<!--
+  Not available: ScreensChangedTrigger, ActiveScreenBehavior and RequestScreenDetailsAction (Screen/**) use the Avalonia
+  Screens API; the WinUI DisplayArea API is not implemented by Uno Platform (see src/Uno/PORTING.md).
+-->
+<UserControl x:Class="BehaviorsTestApplication.Views.Pages.ScreenView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:controls="using:BehaviorsTestApplication.Controls">
+  <controls:NotAvailableOnUnoView Title="Screens"
+                                  Reason="ScreensChangedTrigger and RequestScreenDetailsAction use the Avalonia Screens API (monitors, working areas, scaling); the WinUI DisplayArea API is not implemented by Uno Platform." />
+</UserControl>

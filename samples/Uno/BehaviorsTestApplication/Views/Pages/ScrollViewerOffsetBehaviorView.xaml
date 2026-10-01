@@ -1,0 +1,23 @@
+<UserControl x:Class="BehaviorsTestApplication.Views.Pages.ScrollViewerOffsetBehaviorView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:i="using:Xaml.Interactivity"
+             xmlns:icustom="using:Xaml.Interactions.Custom"
+             mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="250">
+  <StackPanel Spacing="10">
+    <Slider x:Name="OffsetSlider" Minimum="0" Maximum="400" Width="200" />
+    <ScrollViewer Height="150">
+      <i:Interaction.Behaviors>
+        <icustom:ScrollViewerOffsetBehavior VerticalOffset="{x:Bind OffsetSlider.Value, Mode=OneWay}" />
+      </i:Interaction.Behaviors>
+      <StackPanel Spacing="20">
+        <Border Height="40" Background="LightGray" />
+        <Border Height="40" Background="LightGray" />
+        <Border Height="40" Background="LightGray" />
+        <Border Height="600" Background="LightGray" />
+      </StackPanel>
+    </ScrollViewer>
+  </StackPanel>
+</UserControl>

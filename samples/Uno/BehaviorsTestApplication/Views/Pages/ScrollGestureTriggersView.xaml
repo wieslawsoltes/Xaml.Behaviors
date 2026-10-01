@@ -1,0 +1,11 @@
+<!--
+  Not available: the scroll gesture triggers (Gestures/ScrollGesture*.cs) are not part of the Uno port; WinUI has no
+  scroll gesture routed events (see src/Uno/PORTING.md).
+-->
+<UserControl x:Class="BehaviorsTestApplication.Views.Pages.ScrollGestureTriggersView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:controls="using:BehaviorsTestApplication.Controls">
+  <controls:NotAvailableOnUnoView Title="Scroll Gesture Triggers"
+                                  Reason="ScrollGestureGestureTrigger, ScrollGestureEndedGestureTrigger and ScrollGestureInertiaStartingGestureTrigger handle the Avalonia scroll gesture recognizer events; WinUI has no scroll gesture routed events." />
+</UserControl>

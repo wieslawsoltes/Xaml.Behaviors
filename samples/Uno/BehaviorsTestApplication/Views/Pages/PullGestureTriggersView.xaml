@@ -1,0 +1,11 @@
+<!--
+  Not available: the pull gesture triggers (Gestures/PullGesture*.cs) are not part of the Uno port; WinUI has no pull
+  gesture recognizer or routed event (see src/Uno/PORTING.md).
+-->
+<UserControl x:Class="BehaviorsTestApplication.Views.Pages.PullGestureTriggersView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:controls="using:BehaviorsTestApplication.Controls">
+  <controls:NotAvailableOnUnoView Title="Pull Gesture Triggers"
+                                  Reason="PullGestureGestureTrigger and PullGestureEndedGestureTrigger handle the Avalonia pull gesture recognizer events; WinUI has no pull gesture recognizer or routed event." />
+</UserControl>

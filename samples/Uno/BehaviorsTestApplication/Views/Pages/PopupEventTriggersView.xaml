@@ -1,0 +1,37 @@
+<UserControl x:Class="BehaviorsTestApplication.Views.Pages.PopupEventTriggersView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:i="using:Xaml.Interactivity"
+             xmlns:ic="using:Xaml.Interactions.Core"
+             xmlns:icustom="using:Xaml.Interactions.Custom"
+             mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="200">
+  <i:Interaction.Behaviors>
+    <ic:EventTriggerBehavior EventName="Click" SourceObject="{x:Bind OpenButton}">
+      <icustom:ShowPopupAction TargetControl="{x:Bind OpenButton}" Popup="{x:Bind DemoPopup}" />
+    </ic:EventTriggerBehavior>
+  </i:Interaction.Behaviors>
+  <StackPanel>
+    <Button x:Name="OpenButton" Content="Open Popup" Margin="5" />
+    <TextBlock x:Name="StatusText" Margin="5" />
+    <!-- Avalonia Placement="Bottom" (relative to the PlacementTarget set by ShowPopupAction). -->
+    <Popup x:Name="DemoPopup" DesiredPlacement="Bottom">
+      <i:Interaction.Behaviors>
+        <icustom:PopupOpenedTrigger>
+          <ic:ChangePropertyAction TargetObject="{x:Bind StatusText}" PropertyName="Text" Value="Popup opened" />
+        </icustom:PopupOpenedTrigger>
+        <icustom:PopupClosedTrigger>
+          <ic:ChangePropertyAction TargetObject="{x:Bind StatusText}" PropertyName="Text" Value="Popup closed" />
+        </icustom:PopupClosedTrigger>
+      </i:Interaction.Behaviors>
+      <Border Background="LightYellow" Padding="10">
+        <Button Content="Close">
+          <i:Interaction.Behaviors>
+            <icustom:ButtonHidePopupOnClickBehavior />
+          </i:Interaction.Behaviors>
+        </Button>
+      </Border>
+    </Popup>
+  </StackPanel>
+</UserControl>

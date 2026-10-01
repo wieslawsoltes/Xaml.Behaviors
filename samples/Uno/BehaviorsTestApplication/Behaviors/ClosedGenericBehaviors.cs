@@ -45,4 +45,25 @@ public partial class RxVoidInteractionTriggerBehavior : InteractionTriggerBehavi
 /// </summary>
 public partial class ObjectNotNullValidationRule : NotNullValidationRule<object>
 {
+{
+}
+
+/// <summary>
+/// <see cref="PropertyValidationBehavior{TControl, TValue}"/> for the <see cref="Microsoft.UI.Xaml.Controls.TextBox.Text"/>
+/// property (Avalonia: <c>x:TypeArguments="TextBox, sys:String"</c> and <c>Property="{x:Static TextBox.TextProperty}"</c>).
+/// </summary>
+/// <remarks>
+/// The behavior subscribes to <see cref="PropertyValidationBehavior{TControl, TValue}.Property"/> when it is attached,
+/// which happens while the XAML is parsed, before <c>x:Bind</c> assigns its values (WinUI XAML has no
+/// <c>x:Static</c>): the validated property is therefore set here.
+/// </remarks>
+public partial class TextBoxTextPropertyValidationBehavior : PropertyValidationBehavior<Microsoft.UI.Xaml.Controls.TextBox, string>
+{
+    /// <summary>
+    /// Initializes a new instance of the <see cref="TextBoxTextPropertyValidationBehavior"/> class.
+    /// </summary>
+    public TextBoxTextPropertyValidationBehavior()
+    {
+        Property = Microsoft.UI.Xaml.Controls.TextBox.TextProperty;
+    }
 }

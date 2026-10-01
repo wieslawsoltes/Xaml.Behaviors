@@ -1,0 +1,26 @@
+<UserControl xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:i="using:Xaml.Interactivity"
+             xmlns:ic="using:Xaml.Interactions.Core"
+             xmlns:icustom="using:Xaml.Interactions.Custom"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="BehaviorsTestApplication.Views.Pages.ScrollToControlActionView">
+    <ScrollViewer Height="200">
+        <StackPanel Spacing="10">
+            <TextBlock Text="ScrollToControlAction" FontWeight="Bold" />
+            <Button Content="Scroll to Bottom">
+                <i:Interaction.Behaviors>
+                    <ic:EventTriggerBehavior EventName="Click">
+                        <icustom:ScrollToControlAction TargetControl="{x:Bind BottomText}" />
+                    </ic:EventTriggerBehavior>
+                </i:Interaction.Behaviors>
+            </Button>
+            <Border Height="500" Background="LightGray">
+                <TextBlock Text="Spacer" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+            </Border>
+            <TextBlock x:Name="BottomText" Text="Bottom of the page" />
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>

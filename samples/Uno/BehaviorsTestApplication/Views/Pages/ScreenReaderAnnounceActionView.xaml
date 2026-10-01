@@ -1,0 +1,36 @@
+<UserControl xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:i="using:Xaml.Interactivity"
+             xmlns:ic="using:Xaml.Interactions.Core"
+             xmlns:icustom="using:Xaml.Interactions.Custom"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="BehaviorsTestApplication.Views.Pages.ScreenReaderAnnounceActionView">
+  <!-- WinUI: ScreenReaderAnnounceAction raises a UI Automation notification event on the element's automation peer. -->
+  <StackPanel Spacing="10" Margin="10">
+    <TextBlock Text="ScreenReaderAnnounceAction" FontWeight="Bold" FontSize="18" />
+    <TextBlock Text="Click the button to announce a message to the screen reader." />
+
+    <Button Content="Announce 'Hello World'">
+      <i:Interaction.Behaviors>
+        <i:BehaviorCollection>
+          <ic:EventTriggerBehavior EventName="Click">
+            <icustom:ScreenReaderAnnounceAction Message="Hello World" />
+          </ic:EventTriggerBehavior>
+        </i:BehaviorCollection>
+      </i:Interaction.Behaviors>
+    </Button>
+
+    <TextBox x:Name="MessageInput" Text="Custom Message" />
+    <Button Content="Announce Custom Message">
+      <i:Interaction.Behaviors>
+        <i:BehaviorCollection>
+          <ic:EventTriggerBehavior EventName="Click">
+            <icustom:ScreenReaderAnnounceAction Message="{x:Bind MessageInput.Text, Mode=OneWay}" />
+          </ic:EventTriggerBehavior>
+        </i:BehaviorCollection>
+      </i:Interaction.Behaviors>
+    </Button>
+  </StackPanel>
+</UserControl>
