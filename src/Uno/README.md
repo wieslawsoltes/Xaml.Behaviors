@@ -54,7 +54,9 @@ Namespaces follow the Avalonia ones without the `Avalonia.` prefix: `Avalonia.Xa
 
 * **Lifecycle**: WinUI has no logical tree, `Initialized` or `AttachedToVisualTree` notifications. Behaviors receive
   `OnInitializedEvent`, `OnAttachedToLogicalTree`, `OnAttachedToVisualTree` and `OnLoaded` (in that order) from
-  `FrameworkElement.Loaded`, and the detach notifications in reverse order from `Unloaded`.
+  `FrameworkElement.Loaded`, and the detach notifications in reverse order from `Unloaded`. A data context change
+  raised before the element loads (when `x:Bind` values are not applied yet) reaches `OnDataContextChangedEvent` once,
+  after `OnLoaded`.
 * **Element names**: `[ResolveByName]` does not exist in WinUI XAML; use `{Binding ElementName=...}` or `{x:Bind}`.
 * **Bindings as values**: WinUI applies a binding assigned to a property; `Condition.Binding` and
   `DataTriggerBehavior.Binding` therefore compare the bound value.

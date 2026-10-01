@@ -40,6 +40,9 @@ public class BehaviorCollection : AvaloniaList<AvaloniaObject>
     private bool _hasObservedLogicalAttachment;
     private bool _hasObservedVisualAttachment;
     private bool _hasObservedLoaded;
+#if UNO
+    private bool _hasPendingDataContextChange;
+#endif
 
     /// <summary>
     /// Initializes a new instance of the <see cref="BehaviorCollection"/> class.
@@ -131,6 +134,9 @@ public class BehaviorCollection : AvaloniaList<AvaloniaObject>
         _hasObservedLogicalAttachment = false;
         _hasObservedVisualAttachment = false;
         _hasObservedLoaded = false;
+#if UNO
+        _hasPendingDataContextChange = false;
+#endif
     }
 
     internal void AttachedToVisualTree()
@@ -192,6 +198,26 @@ public class BehaviorCollection : AvaloniaList<AvaloniaObject>
 
 #if UNO
     /// <summary>
+    /// Raises the data context notification of a WinUI <c>DataContextChanged</c> event.
+    /// </summary>
+    /// <remarks>
+    /// WinUI raises <c>DataContextChanged</c> when the data context is assigned or inherited, often before the element
+    /// loads, and applies the <c>x:Bind</c> values of a view when it loads. A change raised before the behaviors are
+    /// loaded is therefore delivered once, after the <c>Loaded</c> lifecycle, so that the behaviors observe the data
+    /// context with their <c>x:Bind</c> values set.
+    /// </remarks>
+    internal void DataContextChanged()
+    {
+        if (!_hasObservedLoaded)
+        {
+            _hasPendingDataContextChange = true;
+            return;
+        }
+
+        NotifyDataContextChanged();
+    }
+
+    /// <summary>
     /// Raises the attach phases of a WinUI <c>Loaded</c> event (initialized, logical tree, visual tree and loaded) as
     /// a single host lifecycle event.
     /// </summary>
@@ -220,6 +246,12 @@ public class BehaviorCollection : AvaloniaList<AvaloniaObject>
                 _pendingSynchronizations.Clear();
                 SynchronizeBehaviorEvents(pending);
             }
+        }
+
+        if (_hasPendingDataContextChange && _hasObservedLoaded)
+        {
+            _hasPendingDataContextChange = false;
+            NotifyDataContextChanged();
         }
     }
 #endif

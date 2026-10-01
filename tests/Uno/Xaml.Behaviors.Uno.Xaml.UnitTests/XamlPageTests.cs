@@ -106,4 +106,24 @@ public class XamlPageTests
 
         Assert.Contains("focus", viewModel.Parameters);
     }
+
+    // Regression test for https://github.com/wieslawsoltes/Xaml.Behaviors/issues/378: the data context is assigned
+    // before the page loads, while x:Bind values are applied when it loads.
+    [UnoHeadlessFact]
+    public async Task DataContext_Change_Before_Load_Reaches_Behavior_With_XBind_Values()
+    {
+        var page = new DataContextPage { DataContext = new PagesViewModel() };
+        await Session.ShowAsync(page);
+        await Session.WaitForIdleAsync();
+        var behavior = Assert.IsType<DataContextMessageBehavior>(
+            Assert.Single(global::Xaml.Interactivity.Interaction.GetBehaviors(Find<Border>(page, "Target"))));
+
+        Assert.Equal("DataContext Changed", Find<TextBlock>(page, "MessageText").Text);
+        Assert.Equal(1, behavior.Notifications);
+
+        page.DataContext = new PagesViewModel();
+        await Session.WaitForIdleAsync();
+
+        Assert.Equal(2, behavior.Notifications);
+    }
 }

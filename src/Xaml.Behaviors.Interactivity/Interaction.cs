@@ -242,7 +242,7 @@ public partial class Interaction
     }
 
     private static void Element_DataContextChanged(FrameworkElement sender, DataContextChangedEventArgs args)
-        => GetExistingBehaviors(sender)?.NotifyDataContextChanged();
+        => GetExistingBehaviors(sender)?.DataContextChanged();
 
     private static void Element_ActualThemeChanged(FrameworkElement sender, object args)
         => GetExistingBehaviors(sender)?.ActualThemeVariantChanged();

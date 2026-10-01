@@ -8,7 +8,6 @@ Platform, how they were resolved, and the WinUI differences that affect behavior
 | Issue | Platform | Summary | Workaround / possible fix |
 |-------|----------|---------|---------------------------|
 | [#376](https://github.com/wieslawsoltes/Xaml.Behaviors/issues/376) | Uno | `ChangeAvaloniaPropertyAction` cannot convert string values for properties without a default value (`Border.Background`): WinUI dependency properties do not expose their type, the type is inferred from the default value. | Pass typed values (`{StaticResource BlackBrush}`). Fix: infer the type from Uno's bindable metadata or an explicit value type. |
-| [#378](https://github.com/wieslawsoltes/Xaml.Behaviors/issues/378) | Uno | Data context changes raised before the element loads reach behaviors before their `x:Bind` values are set. | Fix: replay the data context notification after `Loaded`. |
 | [#379](https://github.com/wieslawsoltes/Xaml.Behaviors/issues/379) | both | `ContextDragBehavior` only starts a drag when the pressed element shares its `DataContext` (text content of a `Button` has its own). | Use a `TextBlock` as content. Fix: compare the visual ancestry instead of data contexts. |
 | [#380](https://github.com/wieslawsoltes/Xaml.Behaviors/issues/380) | both | `SaveFilePickerAction.FileTypeChoicesProperty` is registered with the `OpenFilePickerAction` owner. | Fix: register with `SaveFilePickerAction`. |
 | [#381](https://github.com/wieslawsoltes/Xaml.Behaviors/issues/381) | both | Drag event triggers do not fire when a drop handler on the same element handles the event. | Attach the triggers to a parent. Fix: observe handled drag events. |
@@ -39,6 +38,7 @@ Platform, how they were resolved, and the WinUI differences that affect behavior
 | ReactiveUI (Uno) | The behaviors were built against ReactiveUI 23 while ReactiveUI.Uno requires 25.1 (`TypeLoadException` for `Interaction`). | Both platforms use ReactiveUI 25.1 (see below). |
 | `Xaml.PropertyGenerator` code fix | Orphaned `#pragma warning restore` lines after migrating a registration. | Removed with the registration. |
 | `ClickEventTrigger` (Uno, [#377](https://github.com/wieslawsoltes/Xaml.Behaviors/issues/377)) | A trigger using a `Button` as source control never clicked: the button releases the pointer capture in its own release handler, before the routed handler of the trigger, which cancelled the press. | A capture lost by the release itself keeps the press. |
+| Behavior lifecycle (Uno, [#378](https://github.com/wieslawsoltes/Xaml.Behaviors/issues/378)) | Data context changes raised before the element loaded reached the behaviors before their `x:Bind` values were set. | A change raised before the behaviors are loaded is delivered once, after the `Loaded` lifecycle. |
 
 ## ReactiveUI 25
 
@@ -59,7 +59,8 @@ describe how the port maps them.
 
 * **Lifecycle:** WinUI has no logical tree, `Initialized` or `AttachedToVisualTree`; the Avalonia lifecycle is raised
   from `Loaded`/`Unloaded`. Behaviors declared in XAML are attached when the view is created, and `x:Bind` values are
-  applied when it loads — evaluate in `OnLoaded` (or later) when an `x:Bind` value is needed.
+  applied when it loads — evaluate in `OnLoaded` (or later) when an `x:Bind` value is needed. Data context changes
+  raised before the element loads are delivered once, after `OnLoaded`.
 * **Routed events:** always bubble; `RoutingStrategies.Tunnel` maps to `Preview*` key events or handled events.
   `Button.Click` is not a routed event (use `TappedEvent` for routed triggers). WinUI buttons click on key **up**.
 * **Bindings:** no `StringFormat`, `x:Static`, `x:TypeArguments`, `#name`/`$parent[...]`, `OneWayToSource`, or default
