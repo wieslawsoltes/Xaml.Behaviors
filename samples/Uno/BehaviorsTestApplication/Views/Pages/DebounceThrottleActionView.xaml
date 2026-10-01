@@ -1,0 +1,47 @@
+<UserControl x:Class="BehaviorsTestApplication.Views.Pages.DebounceThrottleActionView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:i="using:Xaml.Interactivity"
+             xmlns:ic="using:Xaml.Interactions.Core"
+             xmlns:converters="using:BehaviorsTestApplication.Converters"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450">
+  <StackPanel Spacing="20" Margin="20">
+    <TextBlock Text="Debounce &amp; Throttle Actions" FontSize="20" FontWeight="Bold" />
+
+    <!-- Debounce Example -->
+    <Border BorderBrush="Gray" BorderThickness="1" Padding="10" CornerRadius="5">
+      <StackPanel Spacing="10">
+        <TextBlock Text="Debounce Example (Type in the box, updates after 500ms delay)" FontWeight="SemiBold" />
+        <TextBox x:Name="SearchBox" PlaceholderText="Type something..." />
+        <TextBlock Text="{x:Bind converters:SampleFormat.CurrentText(SearchBox.Text), Mode=OneWay}" />
+        <TextBlock x:Name="DebouncedText" Text="Debounced Output: " Foreground="Green" />
+        <i:Interaction.Behaviors>
+          <ic:EventTriggerBehavior EventName="TextChanged" SourceObject="{x:Bind SearchBox}">
+            <ic:DebounceAction Delay="0:0:0.5">
+               <ic:ChangePropertyAction TargetObject="{x:Bind DebouncedText}" PropertyName="Text" Value="{x:Bind converters:SampleFormat.DebouncedOutput(SearchBox.Text), Mode=OneWay}" />
+            </ic:DebounceAction>
+          </ic:EventTriggerBehavior>
+        </i:Interaction.Behaviors>
+      </StackPanel>
+    </Border>
+
+    <!-- Throttle Example -->
+    <Border BorderBrush="Gray" BorderThickness="1" Padding="10" CornerRadius="5">
+      <StackPanel Spacing="10">
+        <TextBlock Text="Throttle Example (Click rapidly, updates only every 1 second)" FontWeight="SemiBold" />
+        <Button x:Name="ThrottleButton" Content="Click Me Rapidly!" />
+        <TextBlock x:Name="ThrottleCountText" Text="Clicks Processed: 0" Foreground="Blue" />
+        <i:Interaction.Behaviors>
+          <ic:EventTriggerBehavior EventName="Click" SourceObject="{x:Bind ThrottleButton}">
+            <ic:ThrottleAction Interval="0:0:1">
+               <!-- Avalonia: {Binding $parent[UserControl]}; {x:Bind} (no path) is the view itself. -->
+               <ic:CallMethodAction TargetObject="{x:Bind}" MethodName="IncrementThrottleCount" />
+            </ic:ThrottleAction>
+          </ic:EventTriggerBehavior>
+        </i:Interaction.Behaviors>
+      </StackPanel>
+    </Border>
+  </StackPanel>
+</UserControl>

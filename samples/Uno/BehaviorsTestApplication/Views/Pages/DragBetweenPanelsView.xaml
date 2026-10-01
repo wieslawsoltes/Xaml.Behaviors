@@ -1,0 +1,45 @@
+<UserControl x:Class="BehaviorsTestApplication.Views.Pages.DragBetweenPanelsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:i="using:Xaml.Interactivity"
+             xmlns:ic="using:Xaml.Interactions.Core"
+             xmlns:ie="using:Xaml.Interactions.Events"
+             xmlns:idd="using:Xaml.Interactions.DragAndDrop"
+             mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="300">
+  <Grid Margin="5">
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition Width="*" />
+      <ColumnDefinition Width="*" />
+    </Grid.ColumnDefinitions>
+    <StackPanel x:Name="LeftPanel" Background="LightGray" Margin="5">
+      <i:Interaction.Behaviors>
+        <idd:PanelDropBehavior />
+      </i:Interaction.Behaviors>
+      <TextBlock Text="Left Panel" Margin="5" />
+      <Rectangle Width="40" Height="40" Fill="Red" Margin="5">
+        <i:Interaction.Behaviors>
+          <idd:PanelDragBehavior />
+        </i:Interaction.Behaviors>
+      </Rectangle>
+      <Rectangle Width="40" Height="40" Fill="Blue" Margin="5">
+        <i:Interaction.Behaviors>
+          <idd:PanelDragBehavior />
+        </i:Interaction.Behaviors>
+      </Rectangle>
+    </StackPanel>
+    <StackPanel x:Name="RightPanel" Grid.Column="1" Background="LightGray" Margin="5">
+      <i:Interaction.Behaviors>
+        <idd:PanelDropBehavior />
+        <ie:DragEnterEventTrigger>
+          <ic:ChangePropertyAction TargetObject="{x:Bind InfoText}" PropertyName="Text" Value="Drag Enter" />
+        </ie:DragEnterEventTrigger>
+        <ie:DropEventTrigger>
+          <ic:ChangePropertyAction TargetObject="{x:Bind InfoText}" PropertyName="Text" Value="Dropped" />
+        </ie:DropEventTrigger>
+      </i:Interaction.Behaviors>
+      <TextBlock x:Name="InfoText" Text="Right Panel" Margin="5" />
+    </StackPanel>
+  </Grid>
+</UserControl>

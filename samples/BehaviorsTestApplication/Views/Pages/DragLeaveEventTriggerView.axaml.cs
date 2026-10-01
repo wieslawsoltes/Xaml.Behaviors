@@ -1,9 +1,16 @@
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
+#if UNO
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Input;
+using Microsoft.UI.Xaml.Markup;
+#else
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
+#endif
 
 namespace BehaviorsTestApplication.Views.Pages;
 
@@ -27,6 +34,8 @@ public partial class DragLeaveEventTriggerView : UserControl
         }
     }
 
+#if !UNO
+    // Uno Platform: the Start drag button of the WinUI view uses ContextDragBehavior instead of this handler.
     private async void OnStartDrag(object? sender, PointerPressedEventArgs e)
     {
         if (sender is not Control control)
@@ -38,9 +47,12 @@ public partial class DragLeaveEventTriggerView : UserControl
         data.Add(DataTransferItem.Create(DataFormat.Text, "DragLeave sample"));
         await DragDrop.DoDragDropAsync(e, data, DragDropEffects.Copy);
     }
+#endif
 
+#if !UNO
     private void InitializeComponent()
     {
         AvaloniaXamlLoader.Load(this);
     }
+#endif
 }

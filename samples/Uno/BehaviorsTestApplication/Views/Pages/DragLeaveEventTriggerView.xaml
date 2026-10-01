@@ -1,0 +1,48 @@
+<UserControl x:Class="BehaviorsTestApplication.Views.Pages.DragLeaveEventTriggerView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:i="using:Xaml.Interactivity"
+             xmlns:ic="using:Xaml.Interactions.Core"
+             xmlns:ie="using:Xaml.Interactions.Events"
+             xmlns:idd="using:Xaml.Interactions.DragAndDrop"
+             mc:Ignorable="d"
+             d:DesignWidth="360"
+             d:DesignHeight="300">
+  <!-- The view is its own data context (shared code-behind): x:Bind binds to the view. -->
+  <Grid Margin="16" RowSpacing="12">
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="*" />
+      <RowDefinition Height="Auto" />
+    </Grid.RowDefinitions>
+    <TextBlock Text="Start a drag, move it over the drop zone, then leave to fire DragLeaveEventTrigger." TextWrapping="Wrap" />
+    <!--
+      Avalonia starts the drag from a code-behind PointerPressed handler (DragDrop.DoDragDropAsync with a text
+      DataTransfer); WinUI drags start from a drag source, so the button uses ContextDragBehavior with the same text.
+    -->
+    <Button Grid.Row="1" Content="Start drag" HorizontalAlignment="Left">
+      <i:Interaction.Behaviors>
+        <idd:ContextDragBehavior Context="DragLeave sample" />
+      </i:Interaction.Behaviors>
+    </Button>
+    <Border Grid.Row="2"
+            x:Name="DropZone"
+            AllowDrop="True"
+            Background="Lavender"
+            BorderBrush="Purple"
+            BorderThickness="1"
+            CornerRadius="6"
+            Padding="24">
+      <i:Interaction.Behaviors>
+        <ie:DragLeaveEventTrigger>
+          <ic:CallMethodAction TargetObject="{x:Bind}" MethodName="OnDragLeave" />
+        </ie:DragLeaveEventTrigger>
+      </i:Interaction.Behaviors>
+      <TextBlock Text="Drag over this area, then leave" HorizontalAlignment="Center" VerticalAlignment="Center" TextWrapping="Wrap" />
+    </Border>
+    <ListView Grid.Row="3" ItemsSource="{x:Bind Events}" Height="100" />
+  </Grid>
+</UserControl>
