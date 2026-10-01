@@ -56,8 +56,8 @@ public abstract class ItemsControlContainerEventsBehavior : DisposingBehavior<It
 
         return DisposableAction.Create(() =>
         {
-            itemsControl.PreparingContainer += ItemsControlOnPreparingContainer;
-            itemsControl.ContainerPrepared -= ItemsControlOnContainerPrepared;
+            itemsControl.PreparingContainer -= ItemsControlOnPreparingContainer;
+            itemsControl.ContainerPrepared -=ItemsControlOnContainerPrepared;
             itemsControl.ContainerIndexChanged -= ItemsControlOnContainerIndexChanged;
             itemsControl.ContainerClearing -= ItemsControlOnContainerClearing;
         });

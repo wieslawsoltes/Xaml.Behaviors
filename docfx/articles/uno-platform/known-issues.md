@@ -15,7 +15,6 @@ Platform, how they were resolved, and the WinUI differences that affect behavior
 | [#382](https://github.com/wieslawsoltes/Xaml.Behaviors/issues/382) | Uno | `BindingBehavior`/`BindingTriggerBehavior`/`Condition.Binding` cannot receive a binding written in XAML (WinUI applies bindings, there is no `[AssignBinding]`). | Create the binding in code. Fix: Uno-only source/path properties or value semantics. |
 | [#383](https://github.com/wieslawsoltes/Xaml.Behaviors/issues/383) | Uno | `AddItemToItemsControlAction`/`InsertItemToItemsControlAction` cannot create a new item per execution (WinUI templates only create elements, no `ObjectTemplate`). | Fix: an item factory provided by the view model. |
 | [#384](https://github.com/wieslawsoltes/Xaml.Behaviors/issues/384) | Uno | `ItemsControl` container triggers miss the containers prepared before they attach. | Fix: report the realized elements when attaching. |
-| [#385](https://github.com/wieslawsoltes/Xaml.Behaviors/issues/385) | Avalonia | `ItemsControlContainerEventsBehavior` re-subscribes `PreparingContainer` instead of unsubscribing when detached. | Fix: `-=` in the dispose action. |
 | [#386](https://github.com/wieslawsoltes/Xaml.Behaviors/issues/386) | both | `CollectionChangedTrigger`/`CollectionChangedBehavior` subscribe twice when `Collection` is set before attaching. | Fix: subscribe only while attached. |
 | [#387](https://github.com/wieslawsoltes/Xaml.Behaviors/issues/387) | both | `ListReorderDragBehavior` ends the drag whenever the placeholder is removed. | Fix: separate placeholder removal from the drag reset. |
 | [#388](https://github.com/wieslawsoltes/Xaml.Behaviors/issues/388) | Uno | `Xaml.PropertyGenerator` emits IL2087/IL2111 trimming warnings for generic and `Type` properties. | Fix: annotations or justified suppressions on the generated registrations. |
@@ -39,6 +38,7 @@ Platform, how they were resolved, and the WinUI differences that affect behavior
 | ReactiveUI (Uno) | The behaviors were built against ReactiveUI 23 while ReactiveUI.Uno requires 25.1 (`TypeLoadException` for `Interaction`). | Both platforms use ReactiveUI 25.1 (see below). |
 | `Xaml.PropertyGenerator` code fix | Orphaned `#pragma warning restore` lines after migrating a registration. | Removed with the registration. |
 | `SaveFilePickerAction` (both, [#380](https://github.com/wieslawsoltes/Xaml.Behaviors/issues/380)) | `FileTypeChoicesProperty` was registered with the `OpenFilePickerAction` owner (bindings by name missed its changes). | Registered with `SaveFilePickerAction`. |
+| `ItemsControlContainerEventsBehavior` (Avalonia, [#385](https://github.com/wieslawsoltes/Xaml.Behaviors/issues/385)) | Detaching re-subscribed `PreparingContainer` instead of unsubscribing (the behavior kept receiving it, twice after re-attaching). | Unsubscribes in the dispose action. |
 
 ## ReactiveUI 25
 
