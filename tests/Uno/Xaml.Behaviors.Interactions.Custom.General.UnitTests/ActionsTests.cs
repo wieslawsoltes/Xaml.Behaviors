@@ -94,6 +94,84 @@ public class ActionsTests
     }
 
     [UnoHeadlessFact]
+    public void ChangeAvaloniaPropertyAction_Converts_Strings_With_An_Explicit_Property_Type()
+    {
+        // Border.Background has no default value and no current value: the type cannot be inferred.
+        var border = new Border();
+        var action = new ChangeAvaloniaPropertyAction
+        {
+            TargetObject = border,
+            TargetProperty = Border.BackgroundProperty,
+            TargetPropertyType = typeof(Brush),
+            Value = "Black",
+        };
+
+        Assert.True((bool)action.Execute(null, null));
+
+        var brush = Assert.IsType<SolidColorBrush>(border.Background);
+        Assert.Equal(Microsoft.UI.Colors.Black, brush.Color);
+    }
+
+    [UnoHeadlessFact]
+    public void ChangeAvaloniaPropertyAction_Explicit_Property_Type_Rejects_Invalid_Values()
+    {
+        var border = new Border();
+        var action = new ChangeAvaloniaPropertyAction
+        {
+            TargetProperty = FrameworkElement.WidthProperty,
+            TargetPropertyType = typeof(double),
+            Value = "not a number",
+        };
+
+        Assert.Throws<ArgumentException>(() => action.Execute(border, null));
+    }
+
+    [UnoHeadlessFact]
+    public void ChangeAvaloniaPropertyAction_Infers_The_Type_From_The_Current_Value()
+    {
+        var border = new Border { Background = new SolidColorBrush(Microsoft.UI.Colors.Gray) };
+
+        Assert.True((bool)new ChangeAvaloniaPropertyAction { TargetProperty = Border.BackgroundProperty, Value = "White" }.Execute(border, null));
+
+        var brush = Assert.IsType<SolidColorBrush>(border.Background);
+        Assert.Equal(Microsoft.UI.Colors.White, brush.Color);
+    }
+
+    [UnoHeadlessFact]
+    public void ChangeAvaloniaPropertyAction_Assigns_Other_Values_Of_The_Property_Type_When_The_Type_Is_Inferred()
+    {
+        // The inferred type (SolidColorBrush) is more derived than the property type (Brush).
+        var border = new Border { Background = new SolidColorBrush(Microsoft.UI.Colors.Gray) };
+        var gradient = new LinearGradientBrush();
+
+        Assert.True((bool)new ChangeAvaloniaPropertyAction { TargetProperty = Border.BackgroundProperty, Value = gradient }.Execute(border, null));
+
+        Assert.Same(gradient, border.Background);
+    }
+
+    [UnoHeadlessFact]
+    public void ChangeAvaloniaPropertyAction_Assigns_Strings_That_Do_Not_Convert_To_The_Inferred_Type()
+    {
+        // ContentControl.Content is an object property: its current value does not restrict the new value.
+        var contentControl = new ContentControl { Content = new Button() };
+
+        Assert.True((bool)new ChangeAvaloniaPropertyAction { TargetProperty = ContentControl.ContentProperty, Value = "text" }.Execute(contentControl, null));
+
+        Assert.Equal("text", contentControl.Content);
+    }
+
+    [UnoHeadlessFact]
+    public void ChangeAvaloniaPropertyAction_Assigns_Values_When_The_Type_Is_Unknown()
+    {
+        var border = new Border();
+        var brush = new SolidColorBrush(Microsoft.UI.Colors.Red);
+
+        Assert.True((bool)new ChangeAvaloniaPropertyAction { TargetProperty = Border.BackgroundProperty, Value = brush }.Execute(border, null));
+
+        Assert.Same(brush, border.Background);
+    }
+
+    [UnoHeadlessFact]
     public void SetThemeVariantAction_Sets_RequestedTheme()
     {
         var border = new Border();

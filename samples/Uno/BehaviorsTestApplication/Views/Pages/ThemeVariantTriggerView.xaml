@@ -20,18 +20,19 @@
       <Border x:Name="TargetBorder" Width="120" Height="80" Background="Gray">
         <i:Interaction.Behaviors>
           <!--
-            The values are brushes: WinUI Border.Background has no default value, so ChangeAvaloniaPropertyAction cannot
-            infer the property type to convert "Black" and "White".
+            WinUI dependency properties do not expose their type: ChangeAvaloniaPropertyAction infers it from the
+            current Background ("Gray") to convert "Black" and "White". Set TargetPropertyType="media:Brush"
+            (xmlns:media="using:Microsoft.UI.Xaml.Media") when the property has neither a default nor a current value.
           -->
           <icustom:ThemeVariantTrigger ThemeVariant="Dark">
             <icustom:ChangeAvaloniaPropertyAction TargetObject="{x:Bind TargetBorder}"
                                                   TargetProperty="{x:Bind wuxc:Border.BackgroundProperty}"
-                                                  Value="{StaticResource BlackBrush}" />
+                                                  Value="Black" />
           </icustom:ThemeVariantTrigger>
           <icustom:ThemeVariantTrigger ThemeVariant="Light">
             <icustom:ChangeAvaloniaPropertyAction TargetObject="{x:Bind TargetBorder}"
                                                   TargetProperty="{x:Bind wuxc:Border.BackgroundProperty}"
-                                                  Value="{StaticResource WhiteBrush}" />
+                                                  Value="White" />
           </icustom:ThemeVariantTrigger>
         </i:Interaction.Behaviors>
       </Border>

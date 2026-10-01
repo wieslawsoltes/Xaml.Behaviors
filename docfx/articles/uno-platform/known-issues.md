@@ -7,7 +7,6 @@ Platform, how they were resolved, and the WinUI differences that affect behavior
 
 | Issue | Platform | Summary | Workaround / possible fix |
 |-------|----------|---------|---------------------------|
-| [#376](https://github.com/wieslawsoltes/Xaml.Behaviors/issues/376) | Uno | `ChangeAvaloniaPropertyAction` cannot convert string values for properties without a default value (`Border.Background`): WinUI dependency properties do not expose their type, the type is inferred from the default value. | Pass typed values (`{StaticResource BlackBrush}`). Fix: infer the type from Uno's bindable metadata or an explicit value type. |
 | [#377](https://github.com/wieslawsoltes/Xaml.Behaviors/issues/377) | Uno | `ClickEventTrigger` with a `Button` source control prevents other `HandledEventsToo` triggers from firing. | Fix: register the handled-events pointer handlers with the WinUI typed delegates. |
 | [#378](https://github.com/wieslawsoltes/Xaml.Behaviors/issues/378) | Uno | Data context changes raised before the element loads reach behaviors before their `x:Bind` values are set. | Fix: replay the data context notification after `Loaded`. |
 | [#379](https://github.com/wieslawsoltes/Xaml.Behaviors/issues/379) | both | `ContextDragBehavior` only starts a drag when the pressed element shares its `DataContext` (text content of a `Button` has its own). | Use a `TextBlock` as content. Fix: compare the visual ancestry instead of data contexts. |
@@ -38,6 +37,7 @@ Platform, how they were resolved, and the WinUI differences that affect behavior
 | `BindTagToVisualRootDataContextBehavior` (both) | Never bound the tag when declared in XAML (no visual root yet when attached). | Also binds when attached to the visual tree. |
 | ReactiveUI (Uno) | The behaviors were built against ReactiveUI 23 while ReactiveUI.Uno requires 25.1 (`TypeLoadException` for `Interaction`). | Both platforms use ReactiveUI 25.1 (see below). |
 | `Xaml.PropertyGenerator` code fix | Orphaned `#pragma warning restore` lines after migrating a registration. | Removed with the registration. |
+| `ChangeAvaloniaPropertyAction` (Uno, [#376](https://github.com/wieslawsoltes/Xaml.Behaviors/issues/376)) | String values were not converted for properties without a default value (`Border.Background`): WinUI dependency properties do not expose their type (Uno's bindable metadata is looked up by property name, which a `DependencyProperty` does not expose either). | The type is also inferred from the current value (strings only, unconvertible strings are assigned as is); the Uno-only `TargetPropertyType` sets it explicitly. |
 | `Xaml.PropertyGenerator` WinUI output ([#388](https://github.com/wieslawsoltes/Xaml.Behaviors/issues/388)) | IL2087/IL2111 trimming warnings for properties typed with a generic parameter (validation rules) or `System.Type` (`TypedDragBehaviorBase.DataType`). | Generic parameters get the `[DynamicallyAccessedMembers]` annotation of `DependencyProperty.Register`; `Type` properties are registered through a helper with a justified IL2111 suppression. |
 
 ## ReactiveUI 25
