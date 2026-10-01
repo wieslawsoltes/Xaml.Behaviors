@@ -8,11 +8,11 @@
     <TextBox x:Name="TargetTextBox" Text="Initial Text" />
     <Button Content="Trigger" Command="{x:Bind ViewModel.TriggerCommand}">
       <i:Interaction.Behaviors>
-        <behaviors:RxVoidInteractionTriggerBehavior Interaction="{x:Bind ViewModel.TestInteraction}">
+        <behaviors:UnitInteractionTriggerBehavior Interaction="{x:Bind ViewModel.TestInteraction}">
           <ic:ChangePropertyAction TargetObject="{x:Bind TargetTextBox}"
                                    PropertyName="Text"
                                    Value="Triggered" />
-        </behaviors:RxVoidInteractionTriggerBehavior>
+        </behaviors:UnitInteractionTriggerBehavior>
       </i:Interaction.Behaviors>
     </Button>
   </StackPanel>

@@ -6,6 +6,7 @@ using Xaml.Interactivity;
 using Avalonia.Xaml.Interactivity;
 #endif
 using ReactiveUI;
+using ReactiveUI.Reactive;
 
 #if UNO
 namespace Xaml.Interactions.ReactiveUI;

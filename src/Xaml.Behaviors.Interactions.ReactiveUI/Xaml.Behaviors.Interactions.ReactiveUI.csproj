@@ -15,7 +15,7 @@
 
   <ItemGroup>
     <PackageReference Include="Avalonia" />
-    <PackageReference Include="ReactiveUI" />
+    <PackageReference Include="ReactiveUI.Reactive" />
   </ItemGroup>
 
   <PropertyGroup>

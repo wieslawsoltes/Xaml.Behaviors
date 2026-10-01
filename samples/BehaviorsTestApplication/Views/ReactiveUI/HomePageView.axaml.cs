@@ -5,7 +5,7 @@ using Avalonia.Markup.Xaml;
 #endif
 using BehaviorsTestApplication.ViewModels;
 #if !UNO
-using ReactiveUI.Avalonia;
+using ReactiveUI.Avalonia.Reactive;
 #endif
 
 namespace BehaviorsTestApplication.Views.Pages;

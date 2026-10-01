@@ -40,17 +40,25 @@ Platform, how they were resolved, and the WinUI differences that affect behavior
 | ReactiveUI (Uno) | The behaviors were built against ReactiveUI 23 while ReactiveUI.Uno requires 25.1 (`TypeLoadException` for `Interaction`). | Both platforms use ReactiveUI 25.1 (see below). |
 | `Xaml.PropertyGenerator` code fix | Orphaned `#pragma warning restore` lines after migrating a registration. | Removed with the registration. |
 
-## ReactiveUI 25
+## ReactiveUI 25 (System.Reactive flavor)
 
-The ReactiveUI packages use ReactiveUI 25.1 on both platforms (`ReactiveUI.Avalonia` 12.1.5, `ReactiveUI.Uno` 25.0.0).
-ReactiveUI 25 moved `Interaction<TInput, TOutput>` and `IViewFor<T>` to `ReactiveUI.Binding`, commands use
-`ReactiveUI.Primitives.RxVoid` instead of `System.Reactive.Unit`, `Interaction.Handle` returns a task and the package
-no longer depends on System.Reactive (reference it explicitly for `Subject`, `Observable`, ...).
+The ReactiveUI behaviors use the System.Reactive flavor of ReactiveUI 25.1 on both platforms: `ReactiveUI.Reactive`
+25.1.1 (with System.Reactive 7), `ReactiveUI.Avalonia.Reactive` 12.1.5 and `ReactiveUI.Uno.Reactive` 25.0.0. Commands keep
+`System.Reactive.Unit` and the System.Reactive operators and schedulers. The types moved to the flavor's namespaces:
 
-**Breaking change:** `InteractionTriggerBehavior<TInput, TOutput>.Interaction` is a
-`ReactiveUI.Binding.Interaction<TInput, TOutput>`. In XAML, use `RxVoid` instead of `Unit` as type argument:
-`x:TypeArguments="reactive:RxVoid, reactive:RxVoid"` with `xmlns:reactive="clr-namespace:ReactiveUI.Primitives;assembly=ReactiveUI.Primitives"`.
-`ReactiveUI.Avalonia` 12.1.5 requires Avalonia 12.1.3.
+| Type | Namespace |
+|------|-----------|
+| `ReactiveObject`, `ReactiveCommand`, `RoutingState`, `IScreen`, `IRoutableViewModel`, `RaiseAndSetIfChanged` | `ReactiveUI.Reactive` |
+| `Interaction<TInput, TOutput>`, `IViewFor<T>` | `ReactiveUI.Binding.Reactive` |
+| `ReactiveUserControl<T>`, `RoutedViewHost`, `UseReactiveUI` | `ReactiveUI.Avalonia.Reactive` / `ReactiveUI.Uno.Reactive` |
+
+`Interaction.Handle` returns a task. Source generators that emit `RaiseAndSetIfChanged` without the namespace (for example
+ReactiveGenerator) need `<Using Include="ReactiveUI.Reactive" />` in the project.
+
+**Breaking change:** the `Router`, `ViewModel` and `Interaction` properties of the ReactiveUI behaviors use the types of
+`ReactiveUI.Reactive`/`ReactiveUI.Binding.Reactive`. In XAML, reference `RoutedViewHost` from
+`clr-namespace:ReactiveUI.Avalonia.Reactive;assembly=ReactiveUI.Avalonia.Reactive`. `ReactiveUI.Avalonia.Reactive` 12.1.5
+requires Avalonia 12.1.3.
 
 ## WinUI differences
 

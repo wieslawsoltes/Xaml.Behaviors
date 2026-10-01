@@ -34,9 +34,9 @@ public partial class NavigateToHomePageAndResetAction : NavigateToAndResetAction
 
 /// <summary>
 /// <see cref="InteractionTriggerBehavior{TInput, TOutput}"/> for interactions without input and output (Avalonia:
-/// <c>x:TypeArguments="reactive:Unit, reactive:Unit"</c>; ReactiveUI 25 uses <see cref="ReactiveUI.Primitives.RxVoid"/>).
+/// <c>x:TypeArguments="reactive:Unit, reactive:Unit"</c>).
 /// </summary>
-public partial class RxVoidInteractionTriggerBehavior : InteractionTriggerBehavior<ReactiveUI.Primitives.RxVoid, ReactiveUI.Primitives.RxVoid>
+public partial class UnitInteractionTriggerBehavior : InteractionTriggerBehavior<System.Reactive.Unit, System.Reactive.Unit>
 {
 }
 

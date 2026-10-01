@@ -4,6 +4,7 @@ using BehaviorsTestApplication.ViewModels;
 using BehaviorsTestApplication.Views;
 using Microsoft.UI.Xaml;
 using ReactiveUI.Builder;
+using ReactiveUI.Reactive.Builder;
 
 namespace BehaviorsTestApplication;
 

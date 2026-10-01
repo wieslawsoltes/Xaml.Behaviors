@@ -7,7 +7,7 @@
                                   xmlns:i="using:Xaml.Interactivity"
                                   xmlns:ic="using:Xaml.Interactions.Core"
                                   xmlns:irx="using:Xaml.Interactions.ReactiveUI"
-                                  xmlns:rxui="using:ReactiveUI.Uno"
+                                  xmlns:rxui="using:ReactiveUI.Uno.Reactive"
                                   xmlns:behaviors="using:BehaviorsTestApplication.Behaviors"
                                   xmlns:views="using:BehaviorsTestApplication.Views.Pages"
                                   mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="450">

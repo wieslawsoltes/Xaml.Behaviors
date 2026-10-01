@@ -19,8 +19,6 @@
   <ItemGroup>
     <ProjectReference Include="..\..\..\src\Uno\Xaml.Behaviors.Uno.Headless.XUnit\Xaml.Behaviors.Uno.Headless.XUnit.csproj" />
     <ProjectReference Include="..\..\..\src\Uno\Xaml.Behaviors.Interactions.ReactiveUI\Xaml.Behaviors.Interactions.ReactiveUI.csproj" />
-    <!-- ReactiveUI 25 no longer depends on System.Reactive; the tests use its schedulers and operators. -->
-    <PackageReference Include="System.Reactive" />
   </ItemGroup>
 
   <Import Project="..\..\..\src\Uno\Xaml.Behaviors.Uno.Headless.Host\buildTransitive\Xaml.Behaviors.Uno.Headless.Host.targets" />

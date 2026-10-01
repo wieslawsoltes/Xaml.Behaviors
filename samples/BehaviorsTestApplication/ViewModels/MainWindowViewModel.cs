@@ -26,6 +26,7 @@ using Avalonia.Platform.Storage;
 using Avalonia.Xaml.Interactions.Custom;
 #endif
 using ReactiveUI;
+using ReactiveUI.Reactive;
 
 namespace BehaviorsTestApplication.ViewModels;
 

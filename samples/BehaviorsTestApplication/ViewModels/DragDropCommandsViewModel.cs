@@ -6,6 +6,7 @@ using Microsoft.UI.Xaml.Input;
 using Avalonia.Input;
 #endif
 using ReactiveUI;
+using ReactiveUI.Reactive;
 
 namespace BehaviorsTestApplication.ViewModels;
 

@@ -1,5 +1,5 @@
 using Avalonia;
-using ReactiveUI.Avalonia;
+using ReactiveUI.Avalonia.Reactive;
 using System;
 
 namespace SourceGeneratorSample

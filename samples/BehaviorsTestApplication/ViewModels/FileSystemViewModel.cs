@@ -1,7 +1,8 @@
 using System.Collections.ObjectModel;
 using System.IO;
 using ReactiveUI;
-using ReactiveUI.Primitives;
+using ReactiveUI.Reactive;
+using System.Reactive;
 
 namespace BehaviorsTestApplication.ViewModels;
 
@@ -29,7 +30,7 @@ public class FileSystemViewModel : ViewModelBase
         set => this.RaiseAndSetIfChanged(ref _logs, value);
     }
 
-    public ReactiveCommand<object?, RxVoid> LogEventCommand { get; }
+    public ReactiveCommand<object?, Unit> LogEventCommand { get; }
 
     public FileSystemViewModel()
     {

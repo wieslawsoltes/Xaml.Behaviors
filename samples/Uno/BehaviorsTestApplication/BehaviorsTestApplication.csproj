@@ -38,12 +38,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="ReactiveUI.Uno" />
-    <!--
-      ReactiveUI 25 (ReactiveUI.Uno) replaced System.Reactive with ReactiveUI.Primitives; the shared view models use
-      System.Reactive (Subject, Observable.Interval), like the Avalonia sample through ReactiveUI 23.
-    -->
-    <PackageReference Include="System.Reactive" />
+    <PackageReference Include="ReactiveUI.Uno.Reactive" />
+    <!-- ReactiveGenerator emits RaiseAndSetIfChanged calls, which the System.Reactive flavor of ReactiveUI declares in ReactiveUI.Reactive. -->
+    <Using Include="ReactiveUI.Reactive" />
     <PackageReference Include="ReactiveGenerator">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>

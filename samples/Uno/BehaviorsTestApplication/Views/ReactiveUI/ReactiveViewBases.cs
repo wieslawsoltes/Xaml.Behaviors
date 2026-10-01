@@ -1,7 +1,7 @@
 // Copyright (c) Wiesław Šoltés. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for details.
 using BehaviorsTestApplication.ViewModels;
-using ReactiveUI.Uno;
+using ReactiveUI.Uno.Reactive;
 
 namespace BehaviorsTestApplication.Views.Pages;
 

@@ -2,6 +2,7 @@
 // Licensed under the MIT license. See LICENSE file in the project root for details.
 using Microsoft.UI.Xaml;
 using ReactiveUI.Builder;
+using ReactiveUI.Reactive.Builder;
 using SourceGeneratorSample.ViewModels;
 using SourceGeneratorSample.Views;
 

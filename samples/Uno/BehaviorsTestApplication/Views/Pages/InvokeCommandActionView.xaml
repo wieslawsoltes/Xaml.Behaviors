@@ -5,7 +5,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:i="using:Xaml.Interactivity"
              xmlns:ic="using:Xaml.Interactions.Core"
-             xmlns:reactive="using:ReactiveUI.Primitives"
+             xmlns:reactive="using:System.Reactive"
              mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="450">
   <Grid>
     <Grid.RowDefinitions>
@@ -38,9 +38,9 @@
     <Button x:Name="ResetMoveButton" Content="Reset Move" Grid.Row="1" Grid.Column="2" Margin="0,0,0,5">
       <i:Interaction.Behaviors>
         <ic:EventTriggerBehavior EventName="Click" SourceObject="{x:Bind ResetMoveButton}">
-          <!-- Avalonia: {x:Static reactive:Unit.Default}; ReactiveUI 25 commands take ReactiveUI.Primitives.RxVoid. -->
+          <!-- Avalonia: {x:Static reactive:Unit.Default}; ReactiveUI 25 commands take System.Reactive.Unit. -->
           <ic:InvokeCommandAction Command="{x:Bind ViewModel.ResetMoveCommand}"
-                                  CommandParameter="{x:Bind reactive:RxVoid.Default}" />
+                                  CommandParameter="{x:Bind reactive:Unit.Default}" />
         </ic:EventTriggerBehavior>
       </i:Interaction.Behaviors>
     </Button>

@@ -1,5 +1,6 @@
 using ReactiveUI;
-using ReactiveUI.Primitives;
+using ReactiveUI.Reactive;
+using System.Reactive;
 
 namespace BehaviorsTestApplication.ViewModels;
 
@@ -34,7 +35,7 @@ public class NetworkViewModel : ViewModelBase
         set => this.RaiseAndSetIfChanged(ref _isNetworkAvailable, value);
     }
 
-    public ReactiveCommand<bool, RxVoid> UpdateNetworkStatusCommand { get; }
+    public ReactiveCommand<bool, Unit> UpdateNetworkStatusCommand { get; }
 
     public NetworkViewModel()
     {

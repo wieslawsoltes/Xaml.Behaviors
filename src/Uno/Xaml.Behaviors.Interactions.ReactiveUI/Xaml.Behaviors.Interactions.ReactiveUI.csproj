@@ -26,8 +26,8 @@
     routing hosts) are an application choice and are intentionally not referenced by this library.
   -->
   <ItemGroup>
-    <!-- ReactiveUI.Uno, the Uno Platform integration of ReactiveUI, requires ReactiveUI 25.1. -->
-    <PackageReference Include="ReactiveUI" />
+    <!-- The System.Reactive flavor of ReactiveUI 25.1, like ReactiveUI.Uno.Reactive (the Uno Platform integration). -->
+    <PackageReference Include="ReactiveUI.Reactive" />
   </ItemGroup>
 
   <ItemGroup>

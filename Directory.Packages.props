@@ -31,12 +31,11 @@
     <PackageVersion Include="Microsoft.CodeAnalysis.Workspaces.MSBuild" Version="5.0.0" />
     <PackageVersion Include="Microsoft.CodeAnalysis.Analyzers" Version="3.11.0" />
     <PackageVersion Include="NuGet.Packaging" Version="6.12.5" />
-    <PackageVersion Include="ReactiveUI.Avalonia" Version="12.1.5" />
-    <PackageVersion Include="ReactiveUI.Uno" Version="25.0.0" />
+    <!-- The System.Reactive flavor of ReactiveUI (Unit, IScheduler, System.Reactive operators). -->
+    <PackageVersion Include="ReactiveUI.Avalonia.Reactive" Version="12.1.5" />
+    <PackageVersion Include="ReactiveUI.Uno.Reactive" Version="25.0.0" />
     <PackageVersion Include="ReactiveGenerator" Version="0.12.0" />
-    <PackageVersion Include="ReactiveUI" Version="25.1.1" />
-    <!-- ReactiveUI 25 no longer depends on System.Reactive; the samples and tests use its operators and subjects. -->
-    <PackageVersion Include="System.Reactive" Version="6.1.0" />
+    <PackageVersion Include="ReactiveUI.Reactive" Version="25.1.1" />
     <PackageVersion Include="System.Collections.Immutable" Version="8.0.0" />
     <PackageVersion Include="System.Security.Cryptography.Xml" Version="9.0.18" />
     <PackageVersion Include="xunit.v3.assert" Version="3.2.2" />

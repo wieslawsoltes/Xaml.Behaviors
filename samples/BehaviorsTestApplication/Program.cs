@@ -1,7 +1,7 @@
 ﻿using System;
 using Avalonia;
 using Avalonia.Xaml.Interactivity;
-using ReactiveUI.Avalonia;
+using ReactiveUI.Avalonia.Reactive;
 
 namespace BehaviorsTestApplication;
 

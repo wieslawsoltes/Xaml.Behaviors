@@ -14,7 +14,7 @@ behavior; namespaces drop the `Avalonia.` prefix (`Avalonia.Xaml.Interactivity` 
 | `Xaml.Behaviors.Uno.Interactions.Draggable` | Drag behaviors |
 | `Xaml.Behaviors.Uno.Interactions.DragAndDrop` (+ `.DataGrid`) | Drag and drop behaviors |
 | `Xaml.Behaviors.Uno.Animations` | Storyboard, composition and transition helpers |
-| `Xaml.Behaviors.Uno.Interactions.ReactiveUI` | ReactiveUI navigation and interaction behaviors (ReactiveUI 25.1) |
+| `Xaml.Behaviors.Uno.Interactions.ReactiveUI` | ReactiveUI navigation and interaction behaviors (`ReactiveUI.Reactive` 25.1) |
 | `Xaml.Behaviors.Uno.Interactions.Scripting` | C# scripting actions |
 | `Xaml.Behaviors.Uno` / `Xaml.Behaviors.Uno.All` | Single assembly / meta package |
 

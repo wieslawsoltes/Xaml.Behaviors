@@ -8,6 +8,7 @@ using Xaml.Interactivity;
 using Avalonia.Xaml.Interactivity;
 #endif
 using ReactiveUI;
+using ReactiveUI.Reactive;
 using Splat;
 
 #if UNO

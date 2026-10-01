@@ -4,7 +4,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="using:BehaviorsTestApplication.ViewModels"
-             xmlns:reactive="using:ReactiveUI.Primitives"
+             xmlns:reactive="using:System.Reactive"
              x:DataType="vm:MainWindowViewModel"
              mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="450">
   <Design.DataContext>
@@ -30,7 +30,7 @@
       <Interaction.Behaviors>
         <EventTriggerBehavior EventName="Click" SourceObject="ResetMoveButton">
           <InvokeCommandAction Command="{Binding ResetMoveCommand}"
-                                  CommandParameter="{x:Static reactive:RxVoid.Default}"  />
+                                  CommandParameter="{x:Static reactive:Unit.Default}"  />
         </EventTriggerBehavior>
       </Interaction.Behaviors>
     </Button>
