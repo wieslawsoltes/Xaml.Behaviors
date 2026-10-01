@@ -145,7 +145,7 @@
           <controls:PendingSampleView Header="PropertyChangedTrigger" />
         </TabViewItem>
         <TabViewItem Header="EventTriggerBehavior" Style="{StaticResource SidebarTabViewItemStyle}">
-          <controls:PendingSampleView Header="EventTriggerBehavior" />
+          <pages:EventTriggerBehaviorView />
         </TabViewItem>
         <TabViewItem Header="TimerTrigger" Style="{StaticResource SidebarTabViewItemStyle}">
           <controls:PendingSampleView Header="TimerTrigger" />
@@ -286,22 +286,22 @@
           <controls:PendingSampleView Header="SplitView" />
         </TabViewItem>
         <TabViewItem Header="EditableListBox" Style="{StaticResource SidebarTabViewItemStyle}">
-          <controls:PendingSampleView Header="EditableListBox" />
+          <pages:EditableListBoxView />
         </TabViewItem>
         <TabViewItem Header="EditableDraggableListBox" Style="{StaticResource SidebarTabViewItemStyle}">
-          <controls:PendingSampleView Header="EditableDraggableListBox" />
+          <pages:EditableDraggableListBoxView />
         </TabViewItem>
         <TabViewItem Header="EditableListBox DoubleTap" Style="{StaticResource SidebarTabViewItemStyle}">
           <controls:PendingSampleView Header="EditableListBox DoubleTap" />
         </TabViewItem>
         <TabViewItem Header="EditableTree" Style="{StaticResource SidebarTabViewItemStyle}">
-          <controls:PendingSampleView Header="EditableTree" />
+          <pages:EditableTreeViewView />
         </TabViewItem>
         <TabViewItem Header="EditableTree DoubleTap" Style="{StaticResource SidebarTabViewItemStyle}">
-          <controls:PendingSampleView Header="EditableTree DoubleTap" />
+          <pages:EditableDoubleTappedTreeViewView />
         </TabViewItem>
         <TabViewItem Header="Editable Drag TreeView" Style="{StaticResource SidebarTabViewItemStyle}">
-          <controls:PendingSampleView Header="Editable Drag TreeView" />
+          <pages:EditableDragTreeViewView />
         </TabViewItem>
         <TabViewItem Header="Sliding Animation" Style="{StaticResource SidebarTabViewItemStyle}">
           <controls:PendingSampleView Header="Sliding Animation" />
@@ -316,16 +316,16 @@
           <controls:PendingSampleView Header="Rotate Animation" />
         </TabViewItem>
         <TabViewItem Header="Entrance Animations" Style="{StaticResource SidebarTabViewItemStyle}">
-          <controls:PendingSampleView Header="Entrance Animations" />
+          <pages:EntranceAnimationsView />
         </TabViewItem>
         <TabViewItem Header="Attention Animations" Style="{StaticResource SidebarTabViewItemStyle}">
           <controls:PendingSampleView Header="Attention Animations" />
         </TabViewItem>
         <TabViewItem Header="Exit Animations" Style="{StaticResource SidebarTabViewItemStyle}">
-          <controls:PendingSampleView Header="Exit Animations" />
+          <pages:ExitAnimationsView />
         </TabViewItem>
         <TabViewItem Header="Framer Motion Animations" Style="{StaticResource SidebarTabViewItemStyle}">
-          <controls:PendingSampleView Header="Framer Motion Animations" />
+          <pages:FramerMotionAnimationsView />
         </TabViewItem>
         <TabViewItem Header="Special Animations" Style="{StaticResource SidebarTabViewItemStyle}">
           <controls:PendingSampleView Header="Special Animations" />
@@ -376,7 +376,7 @@
           <controls:PendingSampleView Header="KeyGestureTrigger" />
         </TabViewItem>
         <TabViewItem Header="ExecuteCommand Behaviors" Style="{StaticResource SidebarTabViewItemStyle}">
-          <controls:PendingSampleView Header="ExecuteCommand Behaviors" />
+          <pages:ExecuteCommandBehaviorsView />
         </TabViewItem>
         <TabViewItem Header="ButtonExecuteCommandOnKeyDownBehavior" Style="{StaticResource SidebarTabViewItemStyle}">
           <controls:PendingSampleView Header="ButtonExecuteCommandOnKeyDownBehavior" />
@@ -475,7 +475,7 @@
           <controls:PendingSampleView Header="IfElseTrigger" />
         </TabViewItem>
         <TabViewItem Header="ExecuteScriptAction" Style="{StaticResource SidebarTabViewItemStyle}">
-          <controls:PendingSampleView Header="ExecuteScriptAction" />
+          <pages:ExecuteScriptActionView />
         </TabViewItem>
         <TabViewItem Header="Observable Trigger" Style="{StaticResource SidebarTabViewItemStyle}">
           <pages:ObservableTriggerBehaviorView />
@@ -616,7 +616,7 @@
           <controls:PendingSampleView Header="Window Interactions" />
         </TabViewItem>
         <TabViewItem Header="Events Behaviors" Style="{StaticResource SidebarTabViewItemStyle}">
-          <controls:PendingSampleView Header="Events Behaviors" />
+          <pages:EventsBehaviorsView />
         </TabViewItem>
         <TabViewItem Header="Focus Event Triggers" Style="{StaticResource SidebarTabViewItemStyle}">
           <controls:PendingSampleView Header="Focus Event Triggers" />

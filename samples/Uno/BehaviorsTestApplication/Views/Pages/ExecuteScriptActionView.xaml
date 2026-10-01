@@ -1,0 +1,38 @@
+<UserControl x:Class="BehaviorsTestApplication.Views.Pages.ExecuteScriptActionView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:i="using:Xaml.Interactivity"
+             xmlns:ic="using:Xaml.Interactions.Core"
+             xmlns:iscript="using:Xaml.Interactions.Scripting"
+             mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="450">
+  <StackPanel Spacing="5">
+    <!--
+      The scripts import the WinUI namespaces on Uno Platform: Control is Microsoft.UI.Xaml.Controls.Control, which has
+      no Bounds (Avalonia: (Sender as Control).Bounds), so the default script prints the actual size instead.
+    -->
+    <TextBox x:Name="ScriptTextBox" Text="Console.WriteLine((Sender as Control).ActualSize);" />
+    <Button Content="Execute Script">
+      <i:Interaction.Behaviors>
+        <ic:EventTriggerBehavior EventName="Click">
+          <iscript:ExecuteScriptAction Script="{x:Bind ScriptTextBox.Text, Mode=OneWay}" />
+        </ic:EventTriggerBehavior>
+      </i:Interaction.Behaviors>
+    </Button>
+    <Button Content="Execute Script - System.Console.WriteLine">
+      <i:Interaction.Behaviors>
+        <ic:EventTriggerBehavior EventName="Click">
+          <iscript:ExecuteScriptAction Script="System.Console.WriteLine(&quot;Hi from script.&quot;);" />
+        </ic:EventTriggerBehavior>
+      </i:Interaction.Behaviors>
+    </Button>
+    <Button Content="Execute Script - Access Globals">
+      <i:Interaction.Behaviors>
+        <ic:EventTriggerBehavior EventName="Click">
+          <iscript:ExecuteScriptAction Script="System.Console.WriteLine(Sender);" />
+        </ic:EventTriggerBehavior>
+      </i:Interaction.Behaviors>
+    </Button>
+  </StackPanel>
+</UserControl>
