@@ -22,6 +22,9 @@
           <!--
             The values are brushes: WinUI Border.Background has no default value, so ChangeAvaloniaPropertyAction cannot
             infer the property type to convert "Black" and "White".
+            The triggers evaluate the theme when they are attached, while the page is created; the x:Bind values of
+            the actions (TargetProperty) are only applied when the page loads, so the initial evaluation changes
+            nothing and the border stays gray until the selected theme changes.
           -->
           <icustom:ThemeVariantTrigger ThemeVariant="Dark">
             <icustom:ChangeAvaloniaPropertyAction TargetObject="{x:Bind TargetBorder}"
