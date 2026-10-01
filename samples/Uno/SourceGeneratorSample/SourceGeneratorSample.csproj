@@ -1,0 +1,47 @@
+<Project Sdk="Uno.Sdk">
+
+  <!-- Surfaces XamlBehaviorsSourceGeneratorPlatform to the generator, like the package's buildTransitive props. -->
+  <Import Project="..\..\..\src\Xaml.Behaviors.SourceGenerators\buildTransitive\Xaml.Behaviors.SourceGenerators.props" />
+
+  <!--
+    Uno Platform twin of samples/SourceGeneratorSample (Skia desktop head). The views are WinUI .xaml twins of the
+    .axaml views and share their code-behind (UnoSharedSample.targets); App and Program are the Uno composition root and
+    desktop head. The view models, models and converters, with the actions and triggers generated for them, are compiled
+    by SourceGeneratorSample.Core (the Uno XAML generator cannot see types generated in its own assembly).
+    See samples/Uno/README.md.
+  -->
+  <PropertyGroup>
+    <TargetFrameworks>net10.0-desktop</TargetFrameworks>
+    <OutputType>Exe</OutputType>
+    <UnoSingleProject>true</UnoSingleProject>
+    <IsPackable>false</IsPackable>
+    <Nullable>enable</Nullable>
+    <RootNamespace>SourceGeneratorSample</RootNamespace>
+    <ApplicationTitle>Source Generator Sample (Uno Platform)</ApplicationTitle>
+    <ApplicationId>com.wieslawsoltes.xamlbehaviors.uno.sourcegeneratorsample</ApplicationId>
+    <ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
+    <ApplicationVersion>1</ApplicationVersion>
+    <UnoFeatures>SkiaRenderer</UnoFeatures>
+    <!-- The generator also runs here in its WinUI mode (detected automatically; explicit for clarity). -->
+    <XamlBehaviorsSourceGeneratorPlatform>WinUI</XamlBehaviorsSourceGeneratorPlatform>
+    <EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
+    <CompilerGeneratedFilesOutputPath>$(BaseIntermediateOutputPath)\GeneratedFiles</CompilerGeneratedFilesOutputPath>
+    <UnoSharedSampleProject>SourceGeneratorSample</UnoSharedSampleProject>
+  </PropertyGroup>
+
+  <Import Project="SharedSources.props" />
+
+  <ItemGroup>
+    <PackageReference Include="ReactiveUI.Uno" VersionOverride="25.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\SourceGeneratorSample.Core\SourceGeneratorSample.Core.csproj" />
+    <!-- The single assembly package (Xaml.Behaviors.Uno), the twin of src/Xaml.Behaviors used by the Avalonia sample. -->
+    <ProjectReference Include="..\..\..\src\Uno\Xaml.Behaviors\Xaml.Behaviors.csproj" />
+    <ProjectReference Include="..\..\..\src\Xaml.Behaviors.SourceGenerators\Xaml.Behaviors.SourceGenerators.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
+  </ItemGroup>
+
+  <Import Project="..\UnoSharedSample.targets" />
+
+</Project>

@@ -18,6 +18,8 @@
   </Folder>
   <Folder Name="/samples/">
     <Project Path="samples/Uno/BehaviorsTestApplication/BehaviorsTestApplication.csproj" />
+    <Project Path="samples/Uno/SourceGeneratorSample.Core/SourceGeneratorSample.Core.csproj" />
+    <Project Path="samples/Uno/SourceGeneratorSample/SourceGeneratorSample.csproj" />
   </Folder>
   <Folder Name="/src/">
     <Project Path="src/Uno/Xaml.Behaviors.Interactivity/Xaml.Behaviors.Interactivity.csproj" />

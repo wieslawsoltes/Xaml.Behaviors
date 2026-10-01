@@ -1,0 +1,20 @@
+<UserControl x:Class="SourceGeneratorSample.Views.Pages.EventCommandPage"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:i="using:Xaml.Interactivity"
+             xmlns:primitives="using:Microsoft.UI.Xaml.Controls.Primitives">
+  <!--
+    WinUI twin of EventCommandPage.axaml. Click is declared on ButtonBase in WinUI (ButtonBaseClickEventCommandTrigger)
+    and the routed event arguments expose the sender as OriginalSource (Avalonia: Source).
+  -->
+  <StackPanel Spacing="10">
+    <TextBlock Text="Event Command Trigger" FontWeight="Bold" />
+    <Button Content="Click to run command">
+      <i:Interaction.Behaviors>
+        <primitives:ButtonBaseClickEventCommandTrigger Command="{x:Bind ViewModel.EventCommand}"
+                                                       ParameterPath="OriginalSource" />
+      </i:Interaction.Behaviors>
+    </Button>
+    <TextBlock Text="{x:Bind ViewModel.EventCommandMessage, Mode=OneWay}" />
+  </StackPanel>
+</UserControl>

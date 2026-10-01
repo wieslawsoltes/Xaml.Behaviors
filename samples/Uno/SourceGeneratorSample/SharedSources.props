@@ -1,0 +1,15 @@
+<Project>
+  <!--
+    Files of samples/SourceGeneratorSample that are not compiled by the application (see samples/Uno/README.md).
+    App.axaml.cs and Program.cs are always replaced by the Uno Platform application (UnoSharedSample.targets).
+    The view models, models and converters are compiled by SourceGeneratorSample.Core, where the behaviors source
+    generator runs, so that the WinUI views can use the generated actions and triggers.
+  -->
+  <PropertyGroup>
+    <UnoSharedSampleExcludes>
+      ViewModels/**;
+      Models/**;
+      Converters/**
+    </UnoSharedSampleExcludes>
+  </PropertyGroup>
+</Project>

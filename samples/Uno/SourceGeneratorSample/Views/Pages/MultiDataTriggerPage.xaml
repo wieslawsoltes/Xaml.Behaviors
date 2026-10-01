@@ -1,0 +1,25 @@
+<UserControl x:Class="SourceGeneratorSample.Views.Pages.MultiDataTriggerPage"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:i="using:Xaml.Interactivity"
+             xmlns:vm="using:SourceGeneratorSample.ViewModels"
+             xmlns:controls="using:Microsoft.UI.Xaml.Controls">
+  <!-- WinUI twin of MultiDataTriggerPage.axaml; NumberBox is the WinUI counterpart of NumericUpDown. -->
+  <StackPanel Spacing="10">
+    <TextBlock Text="MultiDataTrigger" FontWeight="Bold" />
+    <StackPanel Orientation="Horizontal" Spacing="5">
+      <CheckBox IsChecked="{x:Bind ViewModel.IsBusy, Mode=TwoWay}" Content="Is Valid (Busy)" />
+      <NumberBox Value="{x:Bind ViewModel.Count, Mode=TwoWay}" Minimum="0" Maximum="10" SpinButtonPlacementMode="Inline" />
+      <TextBlock Text="Valid &amp; Count &lt; 3" VerticalAlignment="Center">
+        <i:Interaction.Behaviors>
+          <vm:ValidationTrigger IsValid="{x:Bind ViewModel.IsBusy, Mode=OneWay}" RetryCount="{x:Bind ViewModel.Count, Mode=OneWay}">
+            <controls:TextBlockSetForegroundAction Value="Red" />
+          </vm:ValidationTrigger>
+          <vm:ValidationResetTrigger IsValid="{x:Bind ViewModel.IsBusy, Mode=OneWay}" RetryCount="{x:Bind ViewModel.Count, Mode=OneWay}">
+            <controls:TextBlockSetForegroundAction Value="Black" />
+          </vm:ValidationResetTrigger>
+        </i:Interaction.Behaviors>
+      </TextBlock>
+    </StackPanel>
+  </StackPanel>
+</UserControl>

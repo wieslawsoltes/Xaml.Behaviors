@@ -1,0 +1,11 @@
+<Project>
+  <!--
+    Files of samples/SourceGeneratorSample that are not compiled by SourceGeneratorSample.Core (see samples/Uno/README.md):
+    the code-behind of the views is compiled with their WinUI twins by the application (samples/Uno/SourceGeneratorSample).
+  -->
+  <PropertyGroup>
+    <UnoSharedSampleExcludes>
+      Views/**
+    </UnoSharedSampleExcludes>
+  </PropertyGroup>
+</Project>

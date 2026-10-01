@@ -1,0 +1,27 @@
+<UserControl x:Class="SourceGeneratorSample.Views.Pages.ExternalSamplesPage"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:i="using:Xaml.Interactivity"
+             xmlns:vm="using:SourceGeneratorSample.ViewModels"
+             xmlns:m="using:SourceGeneratorSample.Models"
+             xmlns:primitives="using:Microsoft.UI.Xaml.Controls.Primitives">
+  <StackPanel Spacing="10">
+    <TextBlock Text="External Action &amp; Trigger" FontWeight="Bold" />
+    <Button Content="Call External Method">
+      <i:Interaction.Behaviors>
+        <primitives:ButtonBaseClickTrigger>
+          <m:ExternalMethodAction TargetObject="{x:Bind ViewModel.ExternalObject}" />
+        </primitives:ButtonBaseClickTrigger>
+      </i:Interaction.Behaviors>
+    </Button>
+
+    <Button Content="Raise External Event" Command="{x:Bind ViewModel.TriggerExternalCommand}">
+      <i:Interaction.Behaviors>
+        <m:ExternalEventTrigger SourceObject="{x:Bind ViewModel.ExternalObject}">
+          <vm:SetExternalEventMessageAction TargetObject="{x:Bind ViewModel}" Value="External Event Received!" />
+        </m:ExternalEventTrigger>
+      </i:Interaction.Behaviors>
+    </Button>
+    <TextBlock Text="{x:Bind ViewModel.ExternalEventMessage, Mode=OneWay}" />
+  </StackPanel>
+</UserControl>
