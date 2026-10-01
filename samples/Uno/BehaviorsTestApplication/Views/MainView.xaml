@@ -103,13 +103,13 @@
           <controls:PendingSampleView Header="AsyncActionGroup" />
         </TabViewItem>
         <TabViewItem Header="FocusTrapBehavior" Style="{StaticResource SidebarTabViewItemStyle}">
-          <controls:PendingSampleView Header="FocusTrapBehavior" />
+          <pages:FocusTrapBehaviorView />
         </TabViewItem>
         <TabViewItem Header="ScreenReaderAnnounceAction" Style="{StaticResource SidebarTabViewItemStyle}">
           <controls:PendingSampleView Header="ScreenReaderAnnounceAction" />
         </TabViewItem>
         <TabViewItem Header="GlobalHotkeyBehavior" Style="{StaticResource SidebarTabViewItemStyle}">
-          <controls:PendingSampleView Header="GlobalHotkeyBehavior" />
+          <pages:GlobalHotkeyBehaviorView />
         </TabViewItem>
         <TabViewItem Header="VisualDebugBehavior" Style="{StaticResource SidebarTabViewItemStyle}">
           <controls:PendingSampleView Header="VisualDebugBehavior" />
@@ -190,22 +190,22 @@
           <pages:FocusControlBehaviorView />
         </TabViewItem>
         <TabViewItem Header="FocusOnAttachedBehavior" Style="{StaticResource SidebarTabViewItemStyle}">
-          <controls:PendingSampleView Header="FocusOnAttachedBehavior" />
+          <pages:FocusOnAttachedBehaviorView />
         </TabViewItem>
         <TabViewItem Header="FocusOnAttachedToVisualTreeBehavior" Style="{StaticResource SidebarTabViewItemStyle}">
-          <controls:PendingSampleView Header="FocusOnAttachedToVisualTreeBehavior" />
+          <pages:FocusOnAttachedToVisualTreeBehaviorView />
         </TabViewItem>
         <TabViewItem Header="FocusOnPointerMovedBehavior" Style="{StaticResource SidebarTabViewItemStyle}">
-          <controls:PendingSampleView Header="FocusOnPointerMovedBehavior" />
+          <pages:FocusOnPointerMovedBehaviorView />
         </TabViewItem>
         <TabViewItem Header="FocusOnPointerPressedBehavior" Style="{StaticResource SidebarTabViewItemStyle}">
-          <controls:PendingSampleView Header="FocusOnPointerPressedBehavior" />
+          <pages:FocusOnPointerPressedBehaviorView />
         </TabViewItem>
         <TabViewItem Header="FocusOnVisibleBehavior" Style="{StaticResource SidebarTabViewItemStyle}">
-          <controls:PendingSampleView Header="FocusOnVisibleBehavior" />
+          <pages:FocusOnVisibleBehaviorView />
         </TabViewItem>
         <TabViewItem Header="FocusSelectedItemBehavior" Style="{StaticResource SidebarTabViewItemStyle}">
-          <controls:PendingSampleView Header="FocusSelectedItemBehavior" />
+          <pages:FocusSelectedItemBehaviorView />
         </TabViewItem>
         <TabViewItem Header="RoutedEventTriggerBehavior" Style="{StaticResource SidebarTabViewItemStyle}">
           <controls:PendingSampleView Header="RoutedEventTriggerBehavior" />
@@ -391,10 +391,10 @@
           <controls:PendingSampleView Header="Clipboard" />
         </TabViewItem>
         <TabViewItem Header="GetClipboardDataAction" Style="{StaticResource SidebarTabViewItemStyle}">
-          <controls:PendingSampleView Header="GetClipboardDataAction" />
+          <pages:GetClipboardDataActionView />
         </TabViewItem>
         <TabViewItem Header="GetClipboardFormatsAction" Style="{StaticResource SidebarTabViewItemStyle}">
-          <controls:PendingSampleView Header="GetClipboardFormatsAction" />
+          <pages:GetClipboardFormatsActionView />
         </TabViewItem>
         <TabViewItem Header="SetClipboardDataObjectAction" Style="{StaticResource SidebarTabViewItemStyle}">
           <controls:PendingSampleView Header="SetClipboardDataObjectAction" />
@@ -634,10 +634,10 @@
           <controls:PendingSampleView Header="DragLeaveEventTrigger" />
         </TabViewItem>
         <TabViewItem Header="Gesture Event Triggers" Style="{StaticResource SidebarTabViewItemStyle}">
-          <controls:PendingSampleView Header="Gesture Event Triggers" />
+          <pages:GestureEventTriggersView />
         </TabViewItem>
         <TabViewItem Header="Gesture Advanced Triggers" Style="{StaticResource SidebarTabViewItemStyle}">
-          <controls:PendingSampleView Header="Gesture Advanced Triggers" />
+          <pages:GestureAdvancedTriggersView />
         </TabViewItem>
         <TabViewItem Header="Pull Gesture Triggers" Style="{StaticResource SidebarTabViewItemStyle}">
           <controls:PendingSampleView Header="Pull Gesture Triggers" />
@@ -652,7 +652,7 @@
           <controls:PendingSampleView Header="Popup Event Triggers" />
         </TabViewItem>
         <TabViewItem Header="Focus Triggers" Style="{StaticResource SidebarTabViewItemStyle}">
-          <controls:PendingSampleView Header="Focus Triggers" />
+          <pages:FocusTriggersView />
         </TabViewItem>
         <TabViewItem Header="Key Input Triggers" Style="{StaticResource SidebarTabViewItemStyle}">
           <controls:PendingSampleView Header="Key Input Triggers" />
@@ -661,7 +661,7 @@
           <controls:PendingSampleView Header="Pointer Extra Triggers" />
         </TabViewItem>
         <TabViewItem Header="Gesture Triggers" Style="{StaticResource SidebarTabViewItemStyle}">
-          <controls:PendingSampleView Header="Gesture Triggers" />
+          <pages:GestureTriggersView />
         </TabViewItem>
         <TabViewItem Header="Icon Sample" Style="{StaticResource SidebarTabViewItemStyle}">
           <controls:PendingSampleView Header="Icon Sample" />

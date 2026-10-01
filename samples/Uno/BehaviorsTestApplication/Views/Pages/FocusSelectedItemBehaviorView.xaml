@@ -1,0 +1,14 @@
+<UserControl x:Class="BehaviorsTestApplication.Views.Pages.FocusSelectedItemBehaviorView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:i="using:Xaml.Interactivity"
+             xmlns:icustom="using:Xaml.Interactions.Custom"
+             mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="200">
+  <ListView ItemsSource="{x:Bind ViewModel.Items, Mode=OneWay}" SelectedIndex="0" Width="200">
+    <i:Interaction.Behaviors>
+      <icustom:FocusSelectedItemBehavior />
+    </i:Interaction.Behaviors>
+  </ListView>
+</UserControl>
