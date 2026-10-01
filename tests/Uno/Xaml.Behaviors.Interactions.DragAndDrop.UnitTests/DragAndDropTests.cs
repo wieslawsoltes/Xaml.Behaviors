@@ -64,6 +64,25 @@ public class DragAndDropTests
         await Session.WaitForIdleAsync();
     }
 
+    private static T? FindDescendant<T>(DependencyObject element) where T : class, DependencyObject
+    {
+        for (var i = 0; i < VisualTreeHelper.GetChildrenCount(element); i++)
+        {
+            var child = VisualTreeHelper.GetChild(element, i);
+            if (child is T found)
+            {
+                return found;
+            }
+
+            if (FindDescendant<T>(child) is { } descendant)
+            {
+                return descendant;
+            }
+        }
+
+        return null;
+    }
+
     /// <summary>Makes <paramref name="source"/> a WinUI drag source providing data written by <paramref name="fill"/>.</summary>
     private static void MakeDragSource(UIElement source, Action<DataPackage> fill, List<DataPackageOperation> results)
     {
@@ -165,6 +184,70 @@ public class DragAndDropTests
         await DragAsync(input, other, target, () => false);
 
         Assert.Empty(otherHandler.Calls);
+    }
+
+    /// <summary>
+    /// The text of a button with string content is a <see cref="TextBlock"/> whose data context is the content string
+    /// (issue #379): pressing it must start the drag of the button.
+    /// </summary>
+    [UnoHeadlessFact]
+    public async Task ContextDragBehavior_Drags_From_Button_Text_With_Own_DataContext()
+    {
+        var input = RequireInput();
+        var source = new Button
+        {
+            Content = "Drag me",
+            DataContext = "source-data",
+            Width = 120,
+            Height = 60,
+            HorizontalAlignment = HorizontalAlignment.Left,
+            VerticalAlignment = VerticalAlignment.Top,
+        };
+        var target = CreateBox(200);
+        var dragHandler = new RecordingDragHandler();
+        var dropHandler = new RecordingDropHandler();
+        Interaction.GetBehaviors(source).Add(new ContextDragBehavior { Handler = dragHandler });
+        Interaction.GetBehaviors(target).Add(new ContextDropBehavior { Handler = dropHandler });
+        await Session.ShowAsync(new Grid { Children = { source, target } });
+
+        var text = FindDescendant<TextBlock>(source);
+        Assert.NotNull(text);
+        Assert.Equal("Drag me", text.DataContext);
+
+        await input.PressAndMoveAsync(MouseInput.Center(text), MouseInput.Center(target), steps: 10);
+        await input.UpAsync();
+        await WaitUntilAsync(() => dragHandler.Calls.Count == 2);
+
+        Assert.Equal(["Before", "After"], dragHandler.Calls.Select(c => c.Name).ToArray());
+        Assert.Equal("source-data", dropHandler.SourceContext);
+    }
+
+    [UnoHeadlessFact]
+    public async Task ContextDragWithDirectionBehavior_Drags_From_Button_Text_With_Own_DataContext()
+    {
+        var input = RequireInput();
+        var source = new Button
+        {
+            Content = "Drag me",
+            Width = 120,
+            Height = 60,
+            HorizontalAlignment = HorizontalAlignment.Left,
+            VerticalAlignment = VerticalAlignment.Top,
+        };
+        var target = CreateBox(200);
+        var dragHandler = new RecordingDragHandler();
+        Interaction.GetBehaviors(source).Add(new ContextDragWithDirectionBehavior { Context = "payload", Handler = dragHandler });
+        Interaction.GetBehaviors(target).Add(new DragDropCommandsBehavior { DropCommand = new RecordingCommand() });
+        await Session.ShowAsync(new Grid { Children = { source, target } });
+
+        var text = FindDescendant<TextBlock>(source);
+        Assert.NotNull(text);
+
+        await input.PressAndMoveAsync(MouseInput.Center(text), MouseInput.Center(target), steps: 10);
+        await input.UpAsync();
+        await WaitUntilAsync(() => dragHandler.Calls.Count == 2);
+
+        Assert.Equal(["Before", "After"], dragHandler.Calls.Select(c => c.Name).ToArray());
     }
 
     [UnoHeadlessFact]

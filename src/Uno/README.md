@@ -58,8 +58,21 @@ Namespaces follow the Avalonia ones without the `Avalonia.` prefix: `Avalonia.Xa
   raised before the element loads (when `x:Bind` values are not applied yet) reaches `OnDataContextChangedEvent` once,
   after `OnLoaded`.
 * **Element names**: `[ResolveByName]` does not exist in WinUI XAML; use `{Binding ElementName=...}` or `{x:Bind}`.
-* **Bindings as values**: WinUI applies a binding assigned to a property; `Condition.Binding` and
-  `DataTriggerBehavior.Binding` therefore compare the bound value.
+* **Bindings as values**: WinUI applies a binding assigned to a property (there is no `[AssignBinding]`), so the
+  behaviors use the bound value. `Condition.Binding`, `DataTriggerBehavior.Binding` and
+  `BindingTriggerBehavior.Binding` compare it; `BindingBehavior.Binding` sets it to `TargetProperty` of `TargetObject`
+  and updates the target when it changes (one way, the value is cleared when the behavior leaves the visual tree). On
+  Uno Platform `Condition.Binding`, `BindingTriggerBehavior.Binding` and `BindingBehavior.Binding` are `object`
+  properties: a `BindingBase` assigned in code is still applied like on Avalonia.
+
+  ```xml
+  <icustom:BindingBehavior TargetObject="{x:Bind TargetText}"
+                           TargetProperty="{x:Bind mux:TextBlock.TextProperty}"
+                           Binding="{x:Bind SourceBox.Text, Mode=OneWay}" />
+  <icustom:BindingTriggerBehavior Binding="{x:Bind Slider.Value, Mode=OneWay}" ComparisonCondition="GreaterThan" Value="50">
+    <ic:ChangePropertyAction PropertyName="Text" Value="high" />
+  </icustom:BindingTriggerBehavior>
+  ```
 * **Routed events**: WinUI routed events always bubble. `RoutingStrategies.Tunnel` uses the `Preview*` event when one
   exists (key events) and otherwise also receives handled events.
 * **Default binding modes and value inheritance** are Avalonia features; on WinUI specify `Mode=TwoWay` explicitly.
@@ -69,3 +82,16 @@ Namespaces follow the Avalonia ones without the `Avalonia.` prefix: `Avalonia.Xa
 * **Templates**: instead of Avalonia's `BehaviorCollectionTemplate`, set the attached `i:Interaction.BehaviorsTemplate`
   (for example from a style setter) to a `DataTemplate` whose root is an `i:BehaviorCollectionHost` containing the
   behaviors; every element gets its own collection. The other Avalonia only features are listed in PORTING.md.
+* **New items per execution**: Avalonia's `AddItemToItemsControlAction` and `InsertItemToItemsControlAction` build a
+  new item from an `ObjectTemplate` assigned to `Item`. WinUI templates only create UI elements, so on Uno Platform the
+  actions have an `ItemFactory` property (`Xaml.Interactions.Custom.IItemFactory`, `object? CreateItem()`) that
+  creates the item on every execution and takes precedence over `Item`. Implement the factory in the view model layer
+  and declare it in XAML or bind it with `x:Bind`:
+
+  ```xml
+  <icustom:AddItemToItemsControlAction ItemsControl="{x:Bind ItemsControl}">
+    <icustom:AddItemToItemsControlAction.ItemFactory>
+      <vm:ItemViewModelFactory Value="Added Item" Color="Black" />
+    </icustom:AddItemToItemsControlAction.ItemFactory>
+  </icustom:AddItemToItemsControlAction>
+  ```

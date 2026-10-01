@@ -21,16 +21,16 @@
       <i:Interaction.Behaviors>
         <!--
           Avalonia: Binding="{Binding #Slider.Value}" (the binding object is assigned to the behavior). WinUI XAML applies
-          bindings to dependency properties, so a compiled binding assigns a binding object created by SampleBindings.
+          the binding to Binding, and the behavior compares the bound value.
         -->
-        <icustom:BindingTriggerBehavior Binding="{x:Bind converters:SampleBindings.Create(Slider, 'Value')}"
+        <icustom:BindingTriggerBehavior Binding="{x:Bind Slider.Value, Mode=OneWay}"
                                         ComparisonCondition="GreaterThan"
                                         Value="50">
           <ic:ChangePropertyAction TargetObject="{x:Bind DataTriggerRectangle}"
                                    PropertyName="Fill"
                                    Value="{StaticResource YellowBrush}" />
         </icustom:BindingTriggerBehavior>
-        <icustom:BindingTriggerBehavior Binding="{x:Bind converters:SampleBindings.Create(Slider, 'Value')}"
+        <icustom:BindingTriggerBehavior Binding="{x:Bind Slider.Value, Mode=OneWay}"
                                         ComparisonCondition="LessThanOrEqual"
                                         Value="50">
           <ic:ChangePropertyAction TargetObject="{x:Bind DataTriggerRectangle}"

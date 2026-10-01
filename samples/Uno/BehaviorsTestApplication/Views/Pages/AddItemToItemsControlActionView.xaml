@@ -6,7 +6,6 @@
              xmlns:i="using:Xaml.Interactivity"
              xmlns:ic="using:Xaml.Interactions.Core"
              xmlns:icustom="using:Xaml.Interactions.Custom"
-             xmlns:converters="using:BehaviorsTestApplication.Converters"
              xmlns:vm="using:BehaviorsTestApplication.ViewModels"
              mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="450">
   <StackPanel Spacing="10" Margin="5">
@@ -15,11 +14,14 @@
         <ic:EventTriggerBehavior EventName="Click">
           <!--
             Avalonia: an ObjectTemplate creates a new ItemViewModel (x:Arguments) for every click. WinUI XAML has neither
-            object templates nor x:Arguments (a WinUI DataTemplate only creates elements): the item is created once by a
-            compiled binding, so every click adds the same item.
+            object templates nor x:Arguments (a WinUI DataTemplate only creates elements): the ItemFactory creates a new
+            ItemViewModel for every click.
           -->
-          <icustom:AddItemToItemsControlAction ItemsControl="{x:Bind ItemsControl}"
-                                               Item="{x:Bind converters:SampleItems.Create('Added Item', 'Black')}" />
+          <icustom:AddItemToItemsControlAction ItemsControl="{x:Bind ItemsControl}">
+            <icustom:AddItemToItemsControlAction.ItemFactory>
+              <vm:ItemViewModelFactory Value="Added Item" Color="Black" />
+            </icustom:AddItemToItemsControlAction.ItemFactory>
+          </icustom:AddItemToItemsControlAction>
         </ic:EventTriggerBehavior>
       </i:Interaction.Behaviors>
     </Button>

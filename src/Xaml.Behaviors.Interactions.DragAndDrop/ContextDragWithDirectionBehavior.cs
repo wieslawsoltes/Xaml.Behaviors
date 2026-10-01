@@ -132,7 +132,8 @@ public sealed partial class ContextDragWithDirectionBehavior : StyledElementBeha
         var properties = e.GetCurrentPoint(AssociatedObject).Properties;
         if (properties.IsLeftButtonPressed)
         {
-            if (e.Source is Control control && AssociatedObject?.DataContext == control.DataContext)
+            if (AssociatedObject is not null
+                && DragSourcePressFilter.BelongsToDragSource(AssociatedObject, e.Source))
             {
                 _dragStartPoint = e.GetPosition(null);
                 _triggerEvent = e;

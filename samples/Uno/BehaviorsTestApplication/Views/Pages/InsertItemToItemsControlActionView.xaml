@@ -15,10 +15,12 @@
           <icustom:InsertItemToItemsControlAction ItemsControl="{x:Bind ItemsControl}" Index="0">
             <!--
               Avalonia: <ObjectTemplate> with x:Arguments creates a new ItemViewModel on each click. WinUI has no
-              ObjectTemplate (DataTemplate only creates UI elements) and no x:Arguments: the action inserts this
-              ItemViewModel instance on each click.
+              ObjectTemplate (DataTemplate only creates UI elements) and no x:Arguments: the ItemFactory creates a new
+              ItemViewModel on each click.
             -->
-            <vm:ItemViewModel Value="Added Item" Color="Black" />
+            <icustom:InsertItemToItemsControlAction.ItemFactory>
+              <vm:ItemViewModelFactory Value="Added Item" Color="Black" />
+            </icustom:InsertItemToItemsControlAction.ItemFactory>
           </icustom:InsertItemToItemsControlAction>
         </ic:EventTriggerBehavior>
       </i:Interaction.Behaviors>

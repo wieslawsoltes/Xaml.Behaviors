@@ -1,0 +1,26 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:local="using:Avalonia.Xaml.Interactions.UnitTests.DragAndDrop"
+        x:Class="Avalonia.Xaml.Interactions.UnitTests.DragAndDrop.ContextDragNestedContentWindow">
+  <Border x:Name="DragSource" Width="200" Height="60" Background="Gray" DataContext="Outer"
+          HorizontalAlignment="Left" VerticalAlignment="Top">
+    <Interaction.Behaviors>
+      <local:TestContextDragBehavior x:Name="SourceBehavior" HorizontalDragThreshold="0" VerticalDragThreshold="0" />
+    </Interaction.Behaviors>
+    <StackPanel Orientation="Horizontal">
+      <!-- The template content gets the content ("Inner") as its data context. -->
+      <ContentControl x:Name="TemplatedContent" Content="Inner" Width="60" Height="40">
+        <ContentControl.ContentTemplate>
+          <DataTemplate>
+            <Border Width="60" Height="40" Background="Transparent" />
+          </DataTemplate>
+        </ContentControl.ContentTemplate>
+      </ContentControl>
+      <Border x:Name="NestedSource" Width="60" Height="40" Background="Blue">
+        <Interaction.Behaviors>
+          <local:TestContextDragBehavior x:Name="NestedBehavior" HorizontalDragThreshold="0" VerticalDragThreshold="0" />
+        </Interaction.Behaviors>
+      </Border>
+    </StackPanel>
+  </Border>
+</Window>

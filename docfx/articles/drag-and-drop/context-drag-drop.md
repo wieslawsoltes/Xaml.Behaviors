@@ -6,6 +6,10 @@ The `ContextDragBehavior` and `ContextDropBehavior` are the workhorses of this p
 
 Attaching this behavior to a control makes it draggable. When the drag starts, the behavior captures the `DataContext` of the control.
 
+A drag starts from a press on the control or on any of its visual descendants (including templated content with its
+own data context, such as the text of a `Button`), except descendants that are inside another drag source (a nested
+`ContextDragBehavior`, `ContextDragWithDirectionBehavior` or `TypedDragBehavior`), which start their own drag.
+
 ### Properties
 
 *   **`Handler`**: An implementation of `IDragHandler` that allows you to intercept and customize the drag start event.

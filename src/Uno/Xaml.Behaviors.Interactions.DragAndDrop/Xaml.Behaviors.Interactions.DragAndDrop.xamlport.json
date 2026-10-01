@@ -78,7 +78,8 @@
       "Avalonia.Interactivity.RoutedEventArgs.Handled",
       "Avalonia.Interactivity.RoutedEventArgs.Source",
       "Avalonia.LogicalTree.LogicalExtensions.FindLogicalAncestorOfType",
-      "Avalonia.VisualTree.VisualExtensions.GetVisualAt"
+      "Avalonia.VisualTree.VisualExtensions.GetVisualAt",
+      "Avalonia.VisualTree.VisualExtensions.GetVisualParent"
     ]
   }
 }

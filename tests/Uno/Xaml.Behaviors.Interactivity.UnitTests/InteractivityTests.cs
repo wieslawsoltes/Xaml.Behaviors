@@ -304,4 +304,21 @@ public class InteractivityTests
         Assert.Equal("ctx", condition.BindingValue);
         Assert.True(condition.IsSet(Condition.BindingValueProperty));
     }
+
+    [UnoHeadlessFact]
+    public void Condition_Evaluates_A_Binding_Object_Assigned_In_Code()
+    {
+        var condition = new Condition
+        {
+            Binding = new Binding { Source = new TestViewModel { Name = "source" }, Path = new PropertyPath(nameof(TestViewModel.Name)) },
+        };
+
+        Assert.Equal("source", condition.BindingValue);
+
+        condition.Binding = "value";
+        Assert.Equal("value", condition.BindingValue);
+
+        condition.Binding = null;
+        Assert.Null(condition.BindingValue);
+    }
 }

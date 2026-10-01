@@ -8,9 +8,6 @@ Platform, how they were resolved, and the WinUI differences that affect behavior
 | Issue | Platform | Summary | Workaround / possible fix |
 |-------|----------|---------|---------------------------|
 | [#376](https://github.com/wieslawsoltes/Xaml.Behaviors/issues/376) | Uno | `ChangeAvaloniaPropertyAction` cannot convert string values for properties without a default value (`Border.Background`): WinUI dependency properties do not expose their type, the type is inferred from the default value. | Pass typed values (`{StaticResource BlackBrush}`). Fix: infer the type from Uno's bindable metadata or an explicit value type. |
-| [#379](https://github.com/wieslawsoltes/Xaml.Behaviors/issues/379) | both | `ContextDragBehavior` only starts a drag when the pressed element shares its `DataContext` (text content of a `Button` has its own). | Use a `TextBlock` as content. Fix: compare the visual ancestry instead of data contexts. |
-| [#382](https://github.com/wieslawsoltes/Xaml.Behaviors/issues/382) | Uno | `BindingBehavior`/`BindingTriggerBehavior`/`Condition.Binding` cannot receive a binding written in XAML (WinUI applies bindings, there is no `[AssignBinding]`). | Create the binding in code. Fix: Uno-only source/path properties or value semantics. |
-| [#383](https://github.com/wieslawsoltes/Xaml.Behaviors/issues/383) | Uno | `AddItemToItemsControlAction`/`InsertItemToItemsControlAction` cannot create a new item per execution (WinUI templates only create elements, no `ObjectTemplate`). | Fix: an item factory provided by the view model. |
 | [#388](https://github.com/wieslawsoltes/Xaml.Behaviors/issues/388) | Uno | `Xaml.PropertyGenerator` emits IL2087/IL2111 trimming warnings for generic and `Type` properties. | Fix: annotations or justified suppressions on the generated registrations. |
 | [#390](https://github.com/wieslawsoltes/Xaml.Behaviors/issues/390) | Uno headless | Injected mouse wheel input is not delivered and mouse events carry no key modifiers in the headless session. | Fix: a headless pointer input source in the host. |
 
@@ -39,6 +36,9 @@ Platform, how they were resolved, and the WinUI differences that affect behavior
 | Behavior lifecycle (Uno, [#378](https://github.com/wieslawsoltes/Xaml.Behaviors/issues/378)) | Data context changes raised before the element loaded reached the behaviors before their `x:Bind` values were set. | A change raised before the behaviors are loaded is delivered once, after the `Loaded` lifecycle. |
 | Drag event triggers (both, [#381](https://github.com/wieslawsoltes/Xaml.Behaviors/issues/381)) | `DragEnterEventTrigger`, `DragOverEventTrigger`, `DropEventTrigger` and `DragLeaveEventTrigger` did not fire when a drop handler on the same element handled the event. | The triggers also receive handled events (no public API change). |
 | `ItemsControl` container triggers (Uno, [#384](https://github.com/wieslawsoltes/Xaml.Behaviors/issues/384)) | The triggers subscribed to the `ItemsRepeater` when it loaded, after the first layout pass prepared the initial elements. | The triggers subscribe as soon as they are attached. |
+| `ContextDragBehavior`, `ContextDragWithDirectionBehavior` (both, [#379](https://github.com/wieslawsoltes/Xaml.Behaviors/issues/379)) | A drag only started when the pressed element shared the drag source's `DataContext`, so pressing the text of a `Button` or other templated content did nothing. | A press starts the drag when it comes from the drag source or one of its visual descendants that is not inside a nested drag source. |
+| `BindingBehavior`, `BindingTriggerBehavior`, `Condition` (Uno, [#382](https://github.com/wieslawsoltes/Xaml.Behaviors/issues/382)) | `Binding` could not receive a binding written in XAML: WinUI applies the binding instead of assigning it (there is no `[AssignBinding]`), so the samples created binding objects in code. | `Binding` is an `object` property on Uno Platform with value semantics: the behaviors use the bound value (`BindingBehavior` pushes it to the target property), a `BindingBase` assigned in code is still applied. |
+| `AddItemToItemsControlAction`, `InsertItemToItemsControlAction` (Uno, [#383](https://github.com/wieslawsoltes/Xaml.Behaviors/issues/383)) | The actions could not create a new item per execution (WinUI templates only create UI elements, there is no `ObjectTemplate`): the samples added the same item on every click. | Uno-only `ItemFactory` property (`IItemFactory.CreateItem()`), used instead of `Item`; the samples (including the ObjectTemplate page) declare a view model item factory. |
 
 ## ReactiveUI 25 (System.Reactive flavor)
 
@@ -76,7 +76,8 @@ describe how the port maps them.
 * **Features without a WinUI counterpart:** style classes, element cursors (only `ProtectedCursor`), adorners,
   Avalonia gesture recognizers (pinch, pull, scroll, touch pad), notification managers, `NumericUpDown`, Screens,
   `Window.BeginMoveDrag`, immediate mode drawing into a `RenderTargetBitmap`, resources changed notifications,
-  `ObjectTemplate`, the managed drag and drop. The behaviors built on them are not part of the Uno packages.
+  `ObjectTemplate` (the item actions use an `ItemFactory` instead), the managed drag and drop. The behaviors built on
+  them are not part of the Uno packages.
 * **Controls:** `ListView` instead of `ListBox` (Uno's `ListBox` produces `ContentPresenter` containers), `TabView`,
   `AutoSuggestBox`, `FlipView`, `ContentDialog`, `NumberBox`, `ItemsRepeater` for the container triggers.
 

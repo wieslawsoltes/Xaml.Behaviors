@@ -6,17 +6,16 @@
              xmlns:mux="using:Microsoft.UI.Xaml.Controls"
              xmlns:i="using:Xaml.Interactivity"
              xmlns:icustom="using:Xaml.Interactions.Custom"
-             xmlns:converters="using:BehaviorsTestApplication.Converters"
              mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="120">
   <i:Interaction.Behaviors>
     <!--
       Avalonia: TargetProperty="{x:Static TextBlock.TextProperty}", Binding="{Binding Text, ElementName=SourceBox}" (the
-      binding object is assigned to the behavior). WinUI XAML applies bindings to dependency properties, so a compiled
-      binding assigns a binding object created by SampleBindings.
+      binding object is assigned to the behavior). WinUI XAML applies the binding to Binding, and the behavior pushes the
+      bound value to the target property.
     -->
     <icustom:BindingBehavior TargetObject="{x:Bind TargetText}"
                              TargetProperty="{x:Bind mux:TextBlock.TextProperty}"
-                             Binding="{x:Bind converters:SampleBindings.Create(SourceBox, 'Text')}" />
+                             Binding="{x:Bind SourceBox.Text, Mode=OneWay}" />
   </i:Interaction.Behaviors>
   <StackPanel Spacing="5">
     <TextBox x:Name="SourceBox" Width="200" Text="{x:Bind ViewModel.Greeting, Mode=TwoWay}" />

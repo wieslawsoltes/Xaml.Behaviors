@@ -135,8 +135,8 @@ public abstract partial class ContextDragBehaviorBase : StyledElementBehavior<Co
         var properties = e.GetCurrentPoint(AssociatedObject).Properties;
         if (properties.IsLeftButtonPressed && IsEnabled)
         {
-            if (e.Source is Control control
-                && AssociatedObject?.DataContext == control.DataContext)
+            if (AssociatedObject is not null
+                && DragSourcePressFilter.BelongsToDragSource(AssociatedObject, e.Source))
             {
                 _dragStartPoint = e.GetPosition(null);
                 _triggerEvent = e;

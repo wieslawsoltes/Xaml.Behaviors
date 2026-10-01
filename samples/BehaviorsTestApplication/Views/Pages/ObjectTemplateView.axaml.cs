@@ -1,4 +1,5 @@
 #if UNO
+using BehaviorsTestApplication.ViewModels;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Markup;
@@ -15,6 +16,13 @@ public partial class ObjectTemplateView : UserControl
     {
         InitializeComponent();
     }
+
+#if UNO
+    /// <summary>
+    /// Gets the view model for the compiled bindings (x:Bind) of the Uno Platform view.
+    /// </summary>
+    public MainWindowViewModel? ViewModel => DataContext as MainWindowViewModel;
+#endif
 
 #if !UNO
     private void InitializeComponent()

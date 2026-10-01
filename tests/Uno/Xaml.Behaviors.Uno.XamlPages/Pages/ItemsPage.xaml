@@ -1,0 +1,36 @@
+<UserControl x:Class="Xaml.Behaviors.Uno.XamlPages.Pages.ItemsPage"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:i="using:Xaml.Interactivity"
+             xmlns:ic="using:Xaml.Interactions.Core"
+             xmlns:icustom="using:Xaml.Interactions.Custom"
+             xmlns:local="using:Xaml.Behaviors.Uno.XamlPages">
+  <!-- Item factories declared in XAML create a new item per execution (issue #383). -->
+  <StackPanel>
+    <Button x:Name="AddButton" Content="Add">
+      <i:Interaction.Behaviors>
+        <ic:EventTriggerBehavior EventName="Click">
+          <icustom:AddItemToItemsControlAction ItemsControl="{Binding ElementName=Items}">
+            <icustom:AddItemToItemsControlAction.ItemFactory>
+              <local:PagesItemFactory Text="added" />
+            </icustom:AddItemToItemsControlAction.ItemFactory>
+          </icustom:AddItemToItemsControlAction>
+        </ic:EventTriggerBehavior>
+      </i:Interaction.Behaviors>
+    </Button>
+
+    <Button x:Name="InsertButton" Content="Insert">
+      <i:Interaction.Behaviors>
+        <ic:EventTriggerBehavior EventName="Click">
+          <icustom:InsertItemToItemsControlAction ItemsControl="{Binding ElementName=Items}" Index="0">
+            <icustom:InsertItemToItemsControlAction.ItemFactory>
+              <local:PagesItemFactory Text="inserted" />
+            </icustom:InsertItemToItemsControlAction.ItemFactory>
+          </icustom:InsertItemToItemsControlAction>
+        </ic:EventTriggerBehavior>
+      </i:Interaction.Behaviors>
+    </Button>
+
+    <ItemsControl x:Name="Items" ItemsSource="{Binding Items}" />
+  </StackPanel>
+</UserControl>
