@@ -182,6 +182,26 @@ public class LogicTests
     }
 
     [UnoHeadlessFact]
+    public async Task PropertyValidationBehavior_Observes_A_Property_Assigned_After_Attaching()
+    {
+        // WinUI assigns x:Bind values after the behaviors of a view are attached.
+        var textBox = new TextBox();
+        var behavior = new PropertyValidationBehavior<TextBox, string>();
+        behavior.Rules.Add(new MinLengthValidationRule { Length = 3, ErrorMessage = "short" });
+        Interaction.GetBehaviors(textBox).Add(behavior);
+        await Session.ShowAsync(textBox);
+        await Session.WaitForIdleAsync();
+
+        behavior.Property = TextBox.TextProperty;
+        Assert.False(behavior.IsValid);
+        Assert.Equal("short", behavior.Error);
+
+        textBox.Text = "abcd";
+        Assert.True(behavior.IsValid);
+        Assert.Null(behavior.Error);
+    }
+
+    [UnoHeadlessFact]
     public async Task SliderValidationBehavior_Uses_Generic_Range_Rules()
     {
         var slider = new Slider { Minimum = 0, Maximum = 100, Value = 50 };

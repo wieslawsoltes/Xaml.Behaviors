@@ -72,12 +72,9 @@ public partial class PropertyValidationBehavior<TControl, TValue> : DisposingBeh
         }
 
 #if UNO
-        if (Property is not { } property)
-        {
-            return DisposableAction.Empty;
-        }
-
-        return SubscribeToChanges(AssociatedObject, property);
+        // WinUI assigns x:Bind values after the behavior is attached: Property is observed (see OnPropertyChanged).
+        SubscribeToProperty();
+        return DisposableAction.Create(UnsubscribeFromProperty);
     }
 #else
         if (Property is not AvaloniaProperty<TValue> property)

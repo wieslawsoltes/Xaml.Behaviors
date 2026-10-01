@@ -17,6 +17,39 @@ namespace Xaml.Interactions.Custom;
 /// </remarks>
 public partial class PropertyValidationBehavior<TControl, TValue>
 {
+    private IDisposable? _propertySubscription;
+    private bool _isObservingProperty;
+
+    /// <inheritdoc />
+    protected override void OnPropertyChanged(DependencyPropertyChangedEventArgs e)
+    {
+        base.OnPropertyChanged(e);
+
+        // WinUI applies x:Bind values (for example Property="{x:Bind ...}") after the behavior was attached while the
+        // XAML was loaded: observe the new property and validate its current value.
+        if (e.Property == PropertyProperty && _isObservingProperty)
+        {
+            SubscribeToProperty();
+            Validate();
+        }
+    }
+
+    private void SubscribeToProperty()
+    {
+        _propertySubscription?.Dispose();
+        _propertySubscription = AssociatedObject is { } associatedObject && Property is { } property
+            ? SubscribeToChanges(associatedObject, property)
+            : null;
+        _isObservingProperty = true;
+    }
+
+    private void UnsubscribeFromProperty()
+    {
+        _propertySubscription?.Dispose();
+        _propertySubscription = null;
+        _isObservingProperty = false;
+    }
+
     private IDisposable SubscribeToChanges(TControl associatedObject, DependencyProperty property)
     {
         var rules = Rules;
