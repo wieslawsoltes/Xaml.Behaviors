@@ -1,0 +1,18 @@
+<!--
+  Placeholder hosted by MainView for a sample page that is not ported to Uno Platform yet
+  (build/UnoPort/generate_sample_mainview.py emits it for pages without a WinUI twin).
+-->
+<UserControl x:Class="BehaviorsTestApplication.Controls.PendingSampleView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <StackPanel Margin="24" Spacing="8" HorizontalAlignment="Center" VerticalAlignment="Center">
+    <TextBlock Text="{x:Bind Header, Mode=OneWay}"
+               Style="{StaticResource SubtitleTextBlockStyle}"
+               HorizontalAlignment="Center"
+               TextWrapping="Wrap" />
+    <TextBlock Text="This sample is not ported to Uno Platform yet."
+               Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+               HorizontalAlignment="Center"
+               TextWrapping="Wrap" />
+  </StackPanel>
+</UserControl>

@@ -1,0 +1,61 @@
+<!--
+  WinUI twin of Controls/CustomControl.axaml (the template of CustomControl), merged in App.xaml.
+  Avalonia replaces Grid.ColumnDefinitions with ChangePropertyAction; WinUI Grid.ColumnDefinitions is read-only, so the
+  data triggers resize the menu (Width 200 or 0 in an Auto column) and show or hide it instead.
+-->
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:i="using:Xaml.Interactivity"
+                    xmlns:ic="using:Xaml.Interactions.Core"
+                    xmlns:controls="using:BehaviorsTestApplication.Controls">
+
+  <Style TargetType="controls:CustomControl">
+    <!-- Set Defaults -->
+    <Setter Property="Template">
+      <Setter.Value>
+        <ControlTemplate TargetType="controls:CustomControl">
+          <Grid x:Name="SideMenuGrid">
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="Auto" />
+              <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <StackPanel x:Name="SideMenu"
+                        Grid.Column="0"
+                        Width="0"
+                        Visibility="Collapsed"
+                        Background="WhiteSmoke">
+              <i:Interaction.Behaviors>
+                <!--
+                  NOTE: The TemplatedParent binding works for behaviors inside a control template.
+                  {Binding IsMenuOpen, RelativeSource={RelativeSource TemplatedParent}}
+                -->
+                <ic:DataTriggerBehavior Binding="{Binding IsMenuOpen, RelativeSource={RelativeSource TemplatedParent}}"
+                                        ComparisonCondition="Equal"
+                                        Value="True">
+                  <ic:ChangePropertyAction PropertyName="Width" Value="200" />
+                  <ic:ChangePropertyAction PropertyName="Visibility" Value="Visible" />
+                </ic:DataTriggerBehavior>
+                <ic:DataTriggerBehavior Binding="{Binding IsMenuOpen, RelativeSource={RelativeSource TemplatedParent}}"
+                                        ComparisonCondition="Equal"
+                                        Value="False">
+                  <ic:ChangePropertyAction PropertyName="Width" Value="0" />
+                  <ic:ChangePropertyAction PropertyName="Visibility" Value="Collapsed" />
+                </ic:DataTriggerBehavior>
+              </i:Interaction.Behaviors>
+              <TextBlock Text="Menu" />
+            </StackPanel>
+            <StackPanel Grid.Column="1"
+                        Spacing="10"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center">
+              <CheckBox IsChecked="{Binding IsMenuOpen, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"
+                        Content="IsMenuOpen" />
+              <TextBlock Text="Content" />
+            </StackPanel>
+          </Grid>
+        </ControlTemplate>
+      </Setter.Value>
+    </Setter>
+  </Style>
+
+</ResourceDictionary>

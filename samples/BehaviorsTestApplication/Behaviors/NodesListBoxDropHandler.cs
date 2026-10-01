@@ -1,7 +1,17 @@
+#if UNO
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Input;
+using Microsoft.UI.Xaml.Media;
+using Xaml.Interactions.DragAndDrop;
+// The WinUI list with drag and drop and reordering support.
+using ListBox = Microsoft.UI.Xaml.Controls.ListView;
+#else
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.VisualTree;
 using Avalonia.Xaml.Interactions.DragAndDrop;
+#endif
 using BehaviorsTestApplication.ViewModels;
 
 namespace BehaviorsTestApplication.Behaviors;

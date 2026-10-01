@@ -1,0 +1,22 @@
+<!--
+  Root content of the WinUI twin of a sample page whose feature has no WinUI counterpart
+  (see samples/Uno/README.md): the sample title and why it is not available on Uno Platform.
+-->
+<UserControl x:Class="BehaviorsTestApplication.Controls.NotAvailableOnUnoView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <StackPanel Margin="24" Spacing="8" MaxWidth="640" HorizontalAlignment="Center" VerticalAlignment="Center">
+    <TextBlock Text="{x:Bind Title, Mode=OneWay}"
+               Style="{StaticResource SubtitleTextBlockStyle}"
+               HorizontalAlignment="Center"
+               TextWrapping="Wrap" />
+    <TextBlock Text="This sample is not available on Uno Platform."
+               HorizontalAlignment="Center"
+               TextWrapping="Wrap" />
+    <TextBlock Text="{x:Bind Reason, Mode=OneWay}"
+               Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+               HorizontalAlignment="Center"
+               HorizontalTextAlignment="Center"
+               TextWrapping="Wrap" />
+  </StackPanel>
+</UserControl>

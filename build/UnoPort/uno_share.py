@@ -13,6 +13,9 @@ The transformations are idempotent and keep the Avalonia build byte-for-byte equ
                  DependencyObject source generator)
   * getters      `get => GetValue(XProperty);` -> `get => (T)GetValue(XProperty);` for hand-written properties
                  that the property generator cannot take over (WinUI GetValue returns object)
+  * loader       the Avalonia `private void InitializeComponent() { AvaloniaXamlLoader.Load(this); }` of a view's
+                 code-behind is wrapped in `#if !UNO` (the Uno XAML generator provides InitializeComponent from the
+                 view's .xaml twin, see samples/Uno/README.md)
 
 Property declarations are not duplicated: migrate them first with the Xaml.PropertyGenerator code fix
 (`dotnet format analyzers <project> --diagnostics XPG1001 --severity info`, see src/Uno/PORTING.md).
@@ -160,6 +163,23 @@ def ensure_uno_xaml_using(text):
     return text[: m.start()] + block + text[m.start():]
 
 
+XAML_LOADER = re.compile(
+    r"^(?P<indent>[ \t]*)(?:private |public |protected |internal )?void InitializeComponent\(\)\s*\{\s*"
+    r"AvaloniaXamlLoader\.Load\(this\);\s*\}[ \t]*\n",
+    re.M,
+)
+
+
+def transform_xaml_loader(text):
+    def repl(m):
+        prev = text[: m.start()].rstrip("\n").split("\n")[-1].strip()
+        if prev == "#if !UNO":
+            return m.group(0)
+        return f"#if !UNO\n{m.group(0)}#endif\n"
+
+    return XAML_LOADER.sub(repl, text)
+
+
 def cleanup(text):
     return text.replace("#if UNO\n#else\n", "#if !UNO\n")
 
@@ -177,7 +197,7 @@ def process(path):
     text_in = transform_usings(transform_namespace(text))
     if PROPERTY_TWINS:
         text_in = ensure_uno_xaml_using(transform_properties(text_in))
-    new = cleanup(transform_partial(transform_getters(text_in)))
+    new = cleanup(transform_xaml_loader(transform_partial(transform_getters(text_in))))
     if new == text:
         return False
     if crlf:

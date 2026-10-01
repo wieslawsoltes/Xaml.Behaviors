@@ -1,0 +1,12 @@
+<!--
+  Not available: Xaml.Behaviors.Uno.Interactions.ReactiveUI is built against ReactiveUI 23 (ReactiveUI.Interaction),
+  while ReactiveUI.Uno requires ReactiveUI 25, which moved Interaction<TInput, TOutput> to ReactiveUI.Binding
+  (InteractionTriggerBehavior fails to load with a TypeLoadException).
+-->
+<UserControl x:Class="BehaviorsTestApplication.Views.Pages.InteractionTriggerBehaviorView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:controls="using:BehaviorsTestApplication.Controls">
+  <controls:NotAvailableOnUnoView Title="InteractionTriggerBehavior"
+                                  Reason="The Uno Platform ReactiveUI behaviors are built against ReactiveUI 23, while ReactiveUI.Uno requires ReactiveUI 25, which moved Interaction&lt;TInput, TOutput&gt; to ReactiveUI.Binding." />
+</UserControl>

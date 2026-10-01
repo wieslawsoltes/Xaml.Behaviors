@@ -1,4 +1,9 @@
+#if UNO
+// ReactiveUI 25 (ReactiveUI.Uno) commands use ReactiveUI.Primitives.RxVoid instead of System.Reactive.Unit.
+using Unit = ReactiveUI.Primitives.RxVoid;
+#else
 using System.Reactive;
+#endif
 using ReactiveUI;
 
 namespace BehaviorsTestApplication.ViewModels;
