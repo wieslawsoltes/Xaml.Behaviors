@@ -451,7 +451,7 @@
           <controls:PendingSampleView Header="TypedDragBehavior" />
         </TabViewItem>
         <TabViewItem Header="Draggable" Style="{StaticResource SidebarTabViewItemStyle}">
-          <controls:PendingSampleView Header="Draggable" />
+          <pages:DraggableView />
         </TabViewItem>
         <TabViewItem Header="Mouse Drag Behaviors" Style="{StaticResource SidebarTabViewItemStyle}">
           <controls:PendingSampleView Header="Mouse Drag Behaviors" />

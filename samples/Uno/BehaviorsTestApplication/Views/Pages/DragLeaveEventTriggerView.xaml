@@ -22,8 +22,11 @@
     <!--
       Avalonia starts the drag from a code-behind PointerPressed handler (DragDrop.DoDragDropAsync with a text
       DataTransfer); WinUI drags start from a drag source, so the button uses ContextDragBehavior with the same text.
+      ContextDragBehavior only starts from elements sharing the button's data context: a WinUI ContentPresenter makes a
+      string content the data context of its text, so the content is a TextBlock.
     -->
-    <Button Grid.Row="1" Content="Start drag" HorizontalAlignment="Left">
+    <Button Grid.Row="1" HorizontalAlignment="Left">
+      <TextBlock Text="Start drag" />
       <i:Interaction.Behaviors>
         <idd:ContextDragBehavior Context="DragLeave sample" />
       </i:Interaction.Behaviors>
