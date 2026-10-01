@@ -1,6 +1,7 @@
 // Copyright (c) Wiesław Šoltés. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for details.
 using System.Collections;
+using System.Collections.Generic;
 #if UNO
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -21,6 +22,10 @@ namespace Avalonia.Xaml.Interactions.DragAndDrop;
 /// <summary>
 /// Adds file paths from a drag event to an <see cref="ItemsControl"/>.
 /// </summary>
+/// <remarks>
+/// The files replace the items of a modifiable <c>ItemsSource</c> list or, when the items control has no
+/// <c>ItemsSource</c>, its <c>Items</c>.
+/// </remarks>
 public sealed partial class AddPreviewFilesAction : StyledElementAction
 {
 
@@ -55,12 +60,36 @@ public sealed partial class AddPreviewFilesAction : StyledElementAction
             return false;
         }
 
+        return TryReplaceItems(itemsControl, files);
+    }
+
+    /// <summary>
+    /// Replaces the items of a modifiable <c>ItemsSource</c> list or, when there is no <c>ItemsSource</c>, the
+    /// <c>Items</c> of an items control.
+    /// </summary>
+    /// <param name="itemsControl">The items control.</param>
+    /// <param name="items">The new items.</param>
+    /// <returns><c>true</c> when the items were replaced; <c>false</c> when the items source cannot be modified.</returns>
+    internal static bool TryReplaceItems(ItemsControl itemsControl, IReadOnlyList<object> items)
+    {
+        if (itemsControl.ItemsSource is null)
+        {
+            var itemCollection = itemsControl.Items;
+            itemCollection.Clear();
+            for (var i = 0; i < items.Count; i++)
+            {
+                itemCollection.Add(items[i]);
+            }
+
+            return true;
+        }
+
         if (itemsControl.ItemsSource is IList list && !list.IsReadOnly)
         {
             list.Clear();
-            foreach (var file in files)
+            for (var i = 0; i < items.Count; i++)
             {
-                list.Add(file);
+                list.Add(items[i]);
             }
 
             return true;
