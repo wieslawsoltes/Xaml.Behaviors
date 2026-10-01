@@ -33,10 +33,10 @@ public partial class SaveFilePickerAction : PickerActionBase
     /// </summary>
 #if UNO
     public static readonly DependencyProperty FileTypeChoicesProperty =
-        DependencyProperty.Register(nameof(FileTypeChoices), typeof(string), typeof(OpenFilePickerAction), new PropertyMetadata(null));
+        DependencyProperty.Register(nameof(FileTypeChoices), typeof(string), typeof(SaveFilePickerAction), new PropertyMetadata(null));
 #else
     public static readonly StyledProperty<string?> FileTypeChoicesProperty =
-        AvaloniaProperty.Register<OpenFilePickerAction, string?>(nameof(FileTypeChoices));
+        AvaloniaProperty.Register<SaveFilePickerAction, string?>(nameof(FileTypeChoices));
 #endif
 
     /// <summary>

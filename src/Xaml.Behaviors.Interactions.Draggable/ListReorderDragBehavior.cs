@@ -119,7 +119,7 @@ public partial class ListReorderDragBehavior : ItemDragBehavior
         {
             if (e.InitialPressMouseButton == MouseButton.Left)
             {
-                RemovePlaceholder();
+                ResetDrag();
             }
             _captured = false;
         }
@@ -127,8 +127,20 @@ public partial class ListReorderDragBehavior : ItemDragBehavior
 
     private void OnPointerCaptureLost(object? sender, PointerCaptureLostEventArgs e)
     {
-        RemovePlaceholder();
+        ResetDrag();
         _captured = false;
+    }
+
+    private void ResetDrag()
+    {
+        RemovePlaceholder();
+
+        _enableDrag = false;
+        _dragStarted = false;
+        _draggedIndex = -1;
+        _targetIndex = -1;
+        _itemsControl = null;
+        _draggedContainer = null;
     }
 
     private void RemovePlaceholder()
@@ -153,10 +165,6 @@ public partial class ListReorderDragBehavior : ItemDragBehavior
 
         _placeholder = null;
         _placeholderContainer = null;
-        _enableDrag = false;
-        _dragStarted = false;
-        _itemsControl = null;
-        _draggedContainer = null;
     }
 
     private void AddPlaceholder(Control container)

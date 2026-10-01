@@ -268,9 +268,8 @@ public class DraggableTests
 
         var first = (FrameworkElement)itemsControl.ContainerFromIndex(0);
         var start = MouseInput.Center(first);
-        // A single move past the middle of the next item: like on Avalonia, a move without a target ends the
-        // placeholder drag (RemovePlaceholder resets the drag state).
-        await input.PressAndMoveAsync(start, new Point(start.X, start.Y + 40), steps: 1);
+        // Moves before and past the middle of the next item: a move without a target only hides the placeholder.
+        await input.PressAndMoveAsync(start, new Point(start.X, start.Y + 40), steps: 4);
 
         var popups = VisualTreeHelper.GetOpenPopupsForXamlRoot(first.XamlRoot);
         Assert.Contains(popups, p => p.Child is Border { Background: SolidColorBrush });

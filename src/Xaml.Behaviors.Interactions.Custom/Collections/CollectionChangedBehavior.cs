@@ -48,6 +48,8 @@ public sealed partial class CollectionChangedBehavior : DisposingBehavior<Avalon
     [DirectProperty(Lazy = true)]
     public partial ActionCollection ResetActions { get; }
 
+    private INotifyCollectionChanged? _observedCollection;
+
     private void OnCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
     {
         if (!IsEnabled)
@@ -72,13 +74,9 @@ public sealed partial class CollectionChangedBehavior : DisposingBehavior<Avalon
     /// <inheritdoc />
     protected override IDisposable OnAttachedOverride()
     {
-        if (Collection is null)
-        {
-            return DisposableAction.Empty;
-        }
+        Observe(Collection);
 
-        Collection.CollectionChanged += OnCollectionChanged;
-        return DisposableAction.Create(() => Collection.CollectionChanged -= OnCollectionChanged);
+        return DisposableAction.Create(() => Observe(null));
     }
 
     /// <inheritdoc />
@@ -86,16 +84,29 @@ public sealed partial class CollectionChangedBehavior : DisposingBehavior<Avalon
     {
         base.OnPropertyChanged(change);
 
-        if (change.Property == CollectionProperty)
+        if (change.Property == CollectionProperty && AssociatedObject is not null)
         {
-            if (change.OldValue is INotifyCollectionChanged oldCollection)
-            {
-                oldCollection.CollectionChanged -= OnCollectionChanged;
-            }
-            if (change.NewValue is INotifyCollectionChanged newCollection)
-            {
-                newCollection.CollectionChanged += OnCollectionChanged;
-            }
+            Observe(Collection);
+        }
+    }
+
+    private void Observe(INotifyCollectionChanged? collection)
+    {
+        if (ReferenceEquals(_observedCollection, collection))
+        {
+            return;
+        }
+
+        if (_observedCollection is not null)
+        {
+            _observedCollection.CollectionChanged -= OnCollectionChanged;
+        }
+
+        _observedCollection = collection;
+
+        if (_observedCollection is not null)
+        {
+            _observedCollection.CollectionChanged += OnCollectionChanged;
         }
     }
 }
