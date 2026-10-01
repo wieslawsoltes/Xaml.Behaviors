@@ -1,11 +1,24 @@
-<!--
-  Not available: ScreenshotAction (Actions/ScreenshotAction.cs) is not part of the Uno port; it renders the control with
-  an Avalonia RenderTargetBitmap, encodes it and saves it through TopLevel.StorageProvider (see src/Uno/PORTING.md).
--->
 <UserControl x:Class="BehaviorsTestApplication.Views.Pages.ScreenshotActionView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:controls="using:BehaviorsTestApplication.Controls">
-  <controls:NotAvailableOnUnoView Title="ScreenshotAction"
-                                  Reason="ScreenshotAction renders the control into an Avalonia RenderTargetBitmap, encodes it and saves it through TopLevel.StorageProvider; it is not part of the Uno Platform port yet." />
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:i="using:Xaml.Interactivity"
+             xmlns:ic="using:Xaml.Interactions.Core"
+             xmlns:icustom="using:Xaml.Interactions.Custom"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450">
+  <StackPanel Spacing="10">
+    <TextBlock Text="ScreenshotAction" FontWeight="Bold" />
+    <Button Content="Take Screenshot of this View" x:Name="ScreenshotButton">
+      <i:Interaction.Behaviors>
+        <ic:EventTriggerBehavior EventName="Click">
+          <!--
+            Avalonia: TargetControl="{Binding $parent[UserControl]}"; {x:Bind} (no path) is the view itself.
+            The file is picked with the application wide save picker (SystemStorageProvider).
+          -->
+          <icustom:ScreenshotAction TargetControl="{x:Bind}" FileName="demo_screenshot.png" />
+        </ic:EventTriggerBehavior>
+      </i:Interaction.Behaviors>
+    </Button>
+  </StackPanel>
 </UserControl>

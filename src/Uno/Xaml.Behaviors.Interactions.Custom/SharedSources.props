@@ -42,8 +42,6 @@
       Actions/AddClassAction.cs;
       Actions/RemoveClassAction.cs;
       Actions/ToggleClassAction.cs;
-      <!-- Needs RenderTargetBitmap encoding and TopLevel.StorageProvider (pending, like the Interactions StorageProvider port). -->
-      Actions/ScreenshotAction.cs;
       <!-- WinUI raises no ResourcesChanged notification. -->
       Core/ResourcesChangedBehavior.cs;
       Core/ResourcesChangedTrigger.cs;
