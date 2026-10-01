@@ -1,0 +1,159 @@
+<UserControl x:Class="BehaviorsTestApplication.Views.Pages.AdaptiveBehaviorView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:i="using:Xaml.Interactivity"
+             xmlns:ir="using:Xaml.Interactions.Responsive"
+             xmlns:behaviors="using:BehaviorsTestApplication.Behaviors"
+             xmlns:converters="using:BehaviorsTestApplication.Converters"
+             mc:Ignorable="d" d:DesignWidth="500" d:DesignHeight="450">
+  <!--
+    WinUI has no style classes: on Uno Platform the classes set by AdaptiveBehavior move the element to the visual state
+    of the same name (removing a class goes back to the Normal state of its group). The visual states live on the
+    content root of a UserControl:
+    - the classes of the adaptive SplitView (Avalonia SplitView.adaptive/.small/.medium/.wide styles) are set on the page
+      root (TargetControl), whose visual states change the SplitView,
+    - the classes of the responsive StackPanel (Avalonia StackPanel.responsive/.small/…/:short/:tall styles) are set on
+      the content root of the ResponsiveHost UserControl (ResponsiveStates, TargetControl), whose visual states change
+      the StackPanel and the inherited text color (Uno Platform resolves visual state setter targets inside the element
+      that declares the states). The page shares one XAML name scope, so these state names use the PascalCase form (a
+      class also selects the state of its PascalCase name, small → Small) and the Not{Name} fallback states.
+    The behaviors observe the page root instead of the Avalonia TopLevel (WinUI windows are not elements).
+  -->
+  <Grid x:Name="AdaptiveRoot">
+    <i:Interaction.Behaviors>
+      <behaviors:ElementBoundsBehavior x:Name="RootBounds" />
+    </i:Interaction.Behaviors>
+    <VisualStateManager.VisualStateGroups>
+      <VisualStateGroup x:Name="AdaptiveSplitViewStates">
+        <VisualState x:Name="Normal" />
+        <VisualState x:Name="small">
+          <VisualState.Setters>
+            <Setter Target="AdaptiveSplitView.IsPaneOpen" Value="False" />
+            <Setter Target="AdaptiveSplitView.DisplayMode" Value="Inline" />
+          </VisualState.Setters>
+        </VisualState>
+        <VisualState x:Name="medium">
+          <VisualState.Setters>
+            <Setter Target="AdaptiveSplitView.IsPaneOpen" Value="False" />
+            <Setter Target="AdaptiveSplitView.DisplayMode" Value="CompactInline" />
+          </VisualState.Setters>
+        </VisualState>
+        <VisualState x:Name="wide">
+          <VisualState.Setters>
+            <Setter Target="AdaptiveSplitView.IsPaneOpen" Value="True" />
+            <Setter Target="AdaptiveSplitView.DisplayMode" Value="Inline" />
+          </VisualState.Setters>
+        </VisualState>
+      </VisualStateGroup>
+    </VisualStateManager.VisualStateGroups>
+
+    <SplitView x:Name="AdaptiveSplitView"
+               PanePlacement="Left"
+               CompactPaneLength="80"
+               OpenPaneLength="200"
+               PaneBackground="Transparent"
+               IsPaneOpen="False"
+               DisplayMode="Inline">
+      <i:Interaction.Behaviors>
+        <ir:AdaptiveBehavior SourceControl="{x:Bind AdaptiveRoot}" TargetControl="{x:Bind AdaptiveRoot}">
+          <ir:AdaptiveClassSetter MinWidth="0" MaxWidth="500" ClassName="small" />
+          <ir:AdaptiveClassSetter MinWidth="500" MaxWidth="900" ClassName="medium" />
+          <ir:AdaptiveClassSetter MinWidth="900" MaxWidth="Infinity" ClassName="wide" />
+        </ir:AdaptiveBehavior>
+      </i:Interaction.Behaviors>
+
+      <SplitView.Pane>
+        <Border Margin="5" Background="Gray" />
+      </SplitView.Pane>
+
+      <Grid Background="{StaticResource GrayBrush}" Margin="0,5,0,5">
+        <Grid.RowDefinitions>
+          <RowDefinition Height="*" />
+          <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <StackPanel Grid.Row="1" Orientation="Horizontal" Spacing="5" Margin="5">
+          <TextBlock Text="Width: " />
+          <TextBlock Text="{x:Bind converters:SampleFormat.Number(RootBounds.Bounds.Width), Mode=OneWay}" />
+          <TextBlock Text=" Height: " />
+          <TextBlock Text="{x:Bind converters:SampleFormat.Number(RootBounds.Bounds.Height), Mode=OneWay}" />
+          <!-- Avalonia also lists the style classes (ClassesToStringConverter); WinUI exposes no observable visual state. -->
+        </StackPanel>
+        <UserControl x:Name="ResponsiveHost" Grid.Row="0">
+          <ContentPresenter x:Name="ResponsiveStates" Foreground="Black">
+            <VisualStateManager.VisualStateGroups>
+              <VisualStateGroup x:Name="ResponsiveWidthStates">
+                <VisualState x:Name="Default" />
+                <VisualState x:Name="Small">
+                  <VisualState.Setters>
+                    <Setter Target="ResponsiveStackPanel.Spacing" Value="10" />
+                    <Setter Target="ResponsiveStates.Foreground" Value="Purple" />
+                  </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="Medium">
+                  <VisualState.Setters>
+                    <Setter Target="ResponsiveStackPanel.Spacing" Value="20" />
+                    <Setter Target="ResponsiveStates.Foreground" Value="Red" />
+                  </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="Large">
+                  <VisualState.Setters>
+                    <Setter Target="ResponsiveStackPanel.Spacing" Value="30" />
+                    <Setter Target="ResponsiveStates.Foreground" Value="Blue" />
+                  </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="Wide">
+                  <VisualState.Setters>
+                    <Setter Target="ResponsiveStackPanel.Spacing" Value="40" />
+                    <Setter Target="ResponsiveStates.Foreground" Value="Green" />
+                  </VisualState.Setters>
+                </VisualState>
+              </VisualStateGroup>
+              <!-- Avalonia :short/:tall pseudo classes (the :pointerover variants have no visual state counterpart). The states use the PascalCase form (short is a C# keyword). -->
+              <VisualStateGroup x:Name="ResponsiveHeightStates">
+                <VisualState x:Name="NotShort" />
+                <VisualState x:Name="NotTall" />
+                <VisualState x:Name="Short">
+                  <VisualState.Setters>
+                    <Setter Target="ResponsiveStackPanel.Background" Value="LightGray" />
+                  </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="Tall">
+                  <VisualState.Setters>
+                    <Setter Target="ResponsiveStackPanel.Background" Value="DarkGray" />
+                  </VisualState.Setters>
+                </VisualState>
+              </VisualStateGroup>
+              <!-- Avalonia :hd-ready pseudo class (no style uses it). -->
+              <VisualStateGroup x:Name="ResponsiveResolutionStates">
+                <VisualState x:Name="NotHdReady" />
+                <VisualState x:Name="HdReady" />
+              </VisualStateGroup>
+            </VisualStateManager.VisualStateGroups>
+            <StackPanel x:Name="ResponsiveStackPanel" Margin="5" Spacing="0">
+              <i:Interaction.Behaviors>
+                <ir:AdaptiveBehavior SourceControl="{x:Bind AdaptiveRoot}" TargetControl="{x:Bind ResponsiveStates}">
+                  <ir:AdaptiveClassSetter MinWidth="0" MinWidthOperator="GreaterThanOrEqual" MaxWidth="500" MaxWidthOperator="LessThan" ClassName="small" />
+                  <ir:AdaptiveClassSetter MinWidth="500" MinWidthOperator="GreaterThanOrEqual" MaxWidth="700" MaxWidthOperator="LessThan" ClassName="medium" />
+                  <ir:AdaptiveClassSetter MinWidth="700" MinWidthOperator="GreaterThanOrEqual" MaxWidth="900" MaxWidthOperator="LessThan" ClassName="large" />
+                  <ir:AdaptiveClassSetter MinWidth="900" MinWidthOperator="GreaterThanOrEqual" MaxWidth="Infinity" MaxWidthOperator="LessThan" ClassName="wide" />
+                  <ir:AdaptiveClassSetter MinHeight="0" MinWidthOperator="GreaterThanOrEqual" MaxHeight="600" MaxWidthOperator="LessThan" ClassName=":short" IsPseudoClass="True" />
+                  <ir:AdaptiveClassSetter MinHeight="600" MinWidthOperator="GreaterThanOrEqual" MaxHeight="Infinity" MaxWidthOperator="LessThan" ClassName=":tall" IsPseudoClass="True" />
+                  <ir:AdaptiveClassSetter MinWidth="1280" MinHeight="720" ClassName=":hd-ready" IsPseudoClass="True" />
+                </ir:AdaptiveBehavior>
+              </i:Interaction.Behaviors>
+              <TextBlock Text="Item1" />
+              <TextBlock Text="Item2" />
+              <TextBlock Text="Item3" />
+              <TextBlock Text="Item4" />
+              <TextBlock Text="Item5" />
+              <TextBlock Text="Item7" />
+              <TextBlock Text="Item8" />
+            </StackPanel>
+          </ContentPresenter>
+        </UserControl>
+      </Grid>
+    </SplitView>
+  </Grid>
+</UserControl>

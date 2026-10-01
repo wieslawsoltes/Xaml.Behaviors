@@ -1,0 +1,55 @@
+<UserControl x:Class="BehaviorsTestApplication.Views.Pages.BindingTriggerBehaviorView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:i="using:Xaml.Interactivity"
+             xmlns:ic="using:Xaml.Interactions.Core"
+             xmlns:icustom="using:Xaml.Interactions.Custom"
+             xmlns:converters="using:BehaviorsTestApplication.Converters"
+             mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="450">
+  <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="*" />
+      <RowDefinition Height="Auto" />
+    </Grid.RowDefinitions>
+    <Rectangle x:Name="DataTriggerRectangle"
+               Grid.Row="0" Margin="5"
+               Fill="{StaticResource BlueBrush}"
+               Stroke="{StaticResource GrayBrush}"
+               StrokeThickness="5">
+      <i:Interaction.Behaviors>
+        <!--
+          Avalonia: Binding="{Binding #Slider.Value}" (the binding object is assigned to the behavior). WinUI XAML applies
+          bindings to dependency properties, so a compiled binding assigns a binding object created by SampleBindings.
+        -->
+        <icustom:BindingTriggerBehavior Binding="{x:Bind converters:SampleBindings.Create(Slider, 'Value')}"
+                                        ComparisonCondition="GreaterThan"
+                                        Value="50">
+          <ic:ChangePropertyAction TargetObject="{x:Bind DataTriggerRectangle}"
+                                   PropertyName="Fill"
+                                   Value="{StaticResource YellowBrush}" />
+        </icustom:BindingTriggerBehavior>
+        <icustom:BindingTriggerBehavior Binding="{x:Bind converters:SampleBindings.Create(Slider, 'Value')}"
+                                        ComparisonCondition="LessThanOrEqual"
+                                        Value="50">
+          <ic:ChangePropertyAction TargetObject="{x:Bind DataTriggerRectangle}"
+                                   PropertyName="Fill"
+                                   Value="{StaticResource BlueBrush}" />
+        </icustom:BindingTriggerBehavior>
+      </i:Interaction.Behaviors>
+    </Rectangle>
+    <StackPanel Grid.Row="1"
+                Margin="5,0,5,5"
+                Orientation="Horizontal"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center">
+      <TextBlock Text="{x:Bind converters:SampleFormat.Number(Slider.Value), Mode=OneWay}"
+                 VerticalAlignment="Center"
+                 Width="50"
+                 Foreground="{StaticResource GrayBrush}" />
+      <!-- Avalonia IsSnapToTickEnabled="True" TickFrequency="1". -->
+      <Slider x:Name="Slider" Width="400" SnapsTo="Ticks" TickFrequency="1" StepFrequency="1" />
+    </StackPanel>
+  </Grid>
+</UserControl>

@@ -1,0 +1,50 @@
+<UserControl x:Class="BehaviorsTestApplication.Views.Pages.AddItemToItemsControlActionView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:i="using:Xaml.Interactivity"
+             xmlns:ic="using:Xaml.Interactions.Core"
+             xmlns:icustom="using:Xaml.Interactions.Custom"
+             xmlns:converters="using:BehaviorsTestApplication.Converters"
+             xmlns:vm="using:BehaviorsTestApplication.ViewModels"
+             mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="450">
+  <StackPanel Spacing="10" Margin="5">
+    <Button Content="Add Item">
+      <i:Interaction.Behaviors>
+        <ic:EventTriggerBehavior EventName="Click">
+          <!--
+            Avalonia: an ObjectTemplate creates a new ItemViewModel (x:Arguments) for every click. WinUI XAML has neither
+            object templates nor x:Arguments (a WinUI DataTemplate only creates elements): the item is created once by a
+            compiled binding, so every click adds the same item.
+          -->
+          <icustom:AddItemToItemsControlAction ItemsControl="{x:Bind ItemsControl}"
+                                               Item="{x:Bind converters:SampleItems.Create('Added Item', 'Black')}" />
+        </ic:EventTriggerBehavior>
+      </i:Interaction.Behaviors>
+    </Button>
+    <ItemsControl x:Name="ItemsControl" ItemsSource="{x:Bind ViewModel.Items, Mode=OneWay}">
+      <ItemsControl.ItemTemplate>
+        <DataTemplate x:DataType="vm:ItemViewModel">
+          <!-- Avalonia DockPanel: label left, button right, text box filling the rest. -->
+          <Grid>
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="Auto" />
+              <ColumnDefinition Width="*" />
+              <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Column="0" Text="Value:" Margin="5" VerticalAlignment="Center" />
+            <Button Grid.Column="2" Content="Remove" Margin="5">
+              <i:Interaction.Behaviors>
+                <ic:EventTriggerBehavior EventName="Click">
+                  <icustom:RemoveItemInItemsControlAction />
+                </ic:EventTriggerBehavior>
+              </i:Interaction.Behaviors>
+            </Button>
+            <TextBox Grid.Column="1" Text="{x:Bind Value, Mode=TwoWay}" Margin="5" />
+          </Grid>
+        </DataTemplate>
+      </ItemsControl.ItemTemplate>
+    </ItemsControl>
+  </StackPanel>
+</UserControl>

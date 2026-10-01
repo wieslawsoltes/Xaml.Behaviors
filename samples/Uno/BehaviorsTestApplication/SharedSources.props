@@ -14,7 +14,6 @@
       Avalonia concepts without a WinUI counterpart:
       - Animations/CustomStringAnimator.cs: an Avalonia InterpolatingAnimator<string>; WinUI storyboards have no custom
         animators (the Uno CustomStringAnimationBuilder uses discrete string key frames instead).
-      - Behaviors/ActualThemeVariantChangedMessageBehavior.cs: attaches to an Avalonia ThemeVariantScope.
       - Behaviors/ManagedItemsListBoxDropHandler.cs: the Avalonia managed (in-process) drag and drop is not part of the
         Uno port; WinUI drag and drop is already in-process on Uno Platform.
       - Behaviors/ResourcesChangedMessageBehavior.cs: WinUI raises no ResourcesChanged notification
@@ -32,7 +31,6 @@
     -->
     <UnoSharedSampleExcludes>
       Animations/CustomStringAnimator.cs;
-      Behaviors/ActualThemeVariantChangedMessageBehavior.cs;
       Behaviors/ManagedItemsListBoxDropHandler.cs;
       Behaviors/ResourcesChangedMessageBehavior.cs;
       Converters/ClassesToStringConverter.cs;
