@@ -1,0 +1,21 @@
+<UserControl x:Class="BehaviorsTestApplication.Views.Pages.HideOnKeyPressedBehaviorView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:i="using:Xaml.Interactivity"
+             xmlns:ic="using:Xaml.Interactions.Core"
+             xmlns:icustom="using:Xaml.Interactions.Custom"
+             mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="180">
+  <StackPanel Spacing="5">
+    <TextBlock Text="Press Escape to hide the TextBox" />
+    <TextBox x:Name="Target" Text="Hide me" Width="200" />
+    <Button x:Name="ShowButton" Content="Show TextBox" />
+  </StackPanel>
+  <i:Interaction.Behaviors>
+    <icustom:HideOnKeyPressedBehavior TargetControl="{x:Bind Target}" Key="Escape" />
+    <ic:EventTriggerBehavior EventName="Click" SourceObject="{x:Bind ShowButton}">
+      <icustom:ShowControlAction TargetControl="{x:Bind Target}" />
+    </ic:EventTriggerBehavior>
+  </i:Interaction.Behaviors>
+</UserControl>

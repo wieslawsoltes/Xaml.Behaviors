@@ -1,0 +1,11 @@
+<!--
+  Not available: NotificationManagerBehavior and the Show*NotificationAction actions host Avalonia notification managers
+  (WindowNotificationManager, NotificationCard); Notifications/** is not part of the Uno port (see src/Uno/PORTING.md).
+-->
+<UserControl x:Class="BehaviorsTestApplication.Views.Pages.NotificationsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:controls="using:BehaviorsTestApplication.Controls">
+  <controls:NotAvailableOnUnoView Title="Notifications"
+                                  Reason="NotificationManagerBehavior and the Show*NotificationAction actions host Avalonia notification managers (WindowNotificationManager, NotificationCard), which have no WinUI counterpart." />
+</UserControl>

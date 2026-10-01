@@ -39,3 +39,10 @@ public partial class NavigateToHomePageAndResetAction : NavigateToAndResetAction
 public partial class RxVoidInteractionTriggerBehavior : InteractionTriggerBehavior<ReactiveUI.Primitives.RxVoid, ReactiveUI.Primitives.RxVoid>
 {
 }
+
+/// <summary>
+/// <see cref="NotNullValidationRule{T}"/> for <see cref="object"/> values (Avalonia: <c>x:TypeArguments="system:Object"</c>).
+/// </summary>
+public partial class ObjectNotNullValidationRule : NotNullValidationRule<object>
+{
+}

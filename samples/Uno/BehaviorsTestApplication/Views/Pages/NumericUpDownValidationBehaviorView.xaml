@@ -1,0 +1,11 @@
+<!--
+  Not available: WinUI has no NumericUpDown (NumberBox values are double, not decimal?);
+  NumericUpDownValidationBehavior is not part of the Uno port (see src/Uno/PORTING.md).
+-->
+<UserControl x:Class="BehaviorsTestApplication.Views.Pages.NumericUpDownValidationBehaviorView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:controls="using:BehaviorsTestApplication.Controls">
+  <controls:NotAvailableOnUnoView Title="NumericUpDownValidationBehavior"
+                                  Reason="WinUI has no NumericUpDown control (NumberBox values are double, not decimal), so NumericUpDownValidationBehavior is not part of the Uno Platform port." />
+</UserControl>

@@ -1,0 +1,12 @@
+<!--
+  Not available: ObjectTemplate (Avalonia ITemplate, Templates/** of Xaml.Behaviors.Interactivity) is not part of the
+  Uno port (see src/Uno/PORTING.md). WinUI templates (DataTemplate) only create UI elements and WinUI XAML has no
+  x:Arguments, so the add/insert actions cannot build a new ItemViewModel on each click.
+-->
+<UserControl x:Class="BehaviorsTestApplication.Views.Pages.ObjectTemplateView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:controls="using:BehaviorsTestApplication.Controls">
+  <controls:NotAvailableOnUnoView Title="ObjectTemplate"
+                                  Reason="ObjectTemplate builds non-visual objects (here a new ItemViewModel on each click); WinUI templates (DataTemplate) only create UI elements and WinUI XAML has no x:Arguments." />
+</UserControl>
