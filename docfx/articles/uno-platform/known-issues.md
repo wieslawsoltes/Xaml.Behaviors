@@ -8,7 +8,6 @@ Platform, how they were resolved, and the WinUI differences that affect behavior
 | Issue | Platform | Summary | Workaround / possible fix |
 |-------|----------|---------|---------------------------|
 | [#376](https://github.com/wieslawsoltes/Xaml.Behaviors/issues/376) | Uno | `ChangeAvaloniaPropertyAction` cannot convert string values for properties without a default value (`Border.Background`): WinUI dependency properties do not expose their type, the type is inferred from the default value. | Pass typed values (`{StaticResource BlackBrush}`). Fix: infer the type from Uno's bindable metadata or an explicit value type. |
-| [#377](https://github.com/wieslawsoltes/Xaml.Behaviors/issues/377) | Uno | `ClickEventTrigger` with a `Button` source control prevents other `HandledEventsToo` triggers from firing. | Fix: register the handled-events pointer handlers with the WinUI typed delegates. |
 | [#378](https://github.com/wieslawsoltes/Xaml.Behaviors/issues/378) | Uno | Data context changes raised before the element loads reach behaviors before their `x:Bind` values are set. | Fix: replay the data context notification after `Loaded`. |
 | [#379](https://github.com/wieslawsoltes/Xaml.Behaviors/issues/379) | both | `ContextDragBehavior` only starts a drag when the pressed element shares its `DataContext` (text content of a `Button` has its own). | Use a `TextBlock` as content. Fix: compare the visual ancestry instead of data contexts. |
 | [#380](https://github.com/wieslawsoltes/Xaml.Behaviors/issues/380) | both | `SaveFilePickerAction.FileTypeChoicesProperty` is registered with the `OpenFilePickerAction` owner. | Fix: register with `SaveFilePickerAction`. |
@@ -39,6 +38,7 @@ Platform, how they were resolved, and the WinUI differences that affect behavior
 | `BindTagToVisualRootDataContextBehavior` (both) | Never bound the tag when declared in XAML (no visual root yet when attached). | Also binds when attached to the visual tree. |
 | ReactiveUI (Uno) | The behaviors were built against ReactiveUI 23 while ReactiveUI.Uno requires 25.1 (`TypeLoadException` for `Interaction`). | Both platforms use ReactiveUI 25.1 (see below). |
 | `Xaml.PropertyGenerator` code fix | Orphaned `#pragma warning restore` lines after migrating a registration. | Removed with the registration. |
+| `ClickEventTrigger` (Uno, [#377](https://github.com/wieslawsoltes/Xaml.Behaviors/issues/377)) | A trigger using a `Button` as source control never clicked: the button releases the pointer capture in its own release handler, before the routed handler of the trigger, which cancelled the press. | A capture lost by the release itself keeps the press. |
 
 ## ReactiveUI 25
 

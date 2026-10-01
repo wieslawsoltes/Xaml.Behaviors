@@ -397,6 +397,35 @@ public class InputTests
         Assert.Single(defaultAction.Parameters);
     }
 
+    // Regression test for https://github.com/wieslawsoltes/Xaml.Behaviors/issues/377: the button releases its pointer
+    // capture in its own release handler (before the routed handlers), which must not cancel the pending click of a
+    // trigger that captured the pointer on the button.
+    [UnoHeadlessFact]
+    public async Task ClickEventTrigger_With_Button_SourceControl_Fires_Alongside_The_Button_Trigger()
+    {
+        var injector = TestInput.CreateInjector();
+        Assert.SkipWhen(injector is null, "Input injection is not available.");
+
+        var button = new Button { Content = "source", Width = 120, Height = 40 };
+        var buttonTrigger = new ClickEventTrigger { HandleEvent = false, HandledEventsToo = true };
+        var buttonAction = new RecordingAction();
+        buttonTrigger.Actions!.Add(buttonAction);
+        Interaction.GetBehaviors(button).Add(buttonTrigger);
+
+        var host = new Border { Width = 120, Height = 40, Background = new SolidColorBrush(Microsoft.UI.Colors.SkyBlue) };
+        var hostTrigger = new ClickEventTrigger { SourceControl = button, HandledEventsToo = true };
+        var hostAction = new RecordingAction();
+        hostTrigger.Actions!.Add(hostAction);
+        Interaction.GetBehaviors(host).Add(hostTrigger);
+
+        await Session.ShowAsync(new StackPanel { Children = { button, host } });
+
+        await TestInput.TapAsync(injector!, button, 60, 20);
+
+        Assert.Single(buttonAction.Parameters);
+        Assert.Single(hostAction.Parameters);
+    }
+
     [UnoHeadlessFact]
     public async Task CapturePointerAction_And_ReleasePointerCaptureAction_Manage_The_Capture()
     {
