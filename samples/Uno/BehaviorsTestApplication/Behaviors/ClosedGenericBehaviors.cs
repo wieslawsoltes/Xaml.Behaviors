@@ -66,3 +66,11 @@ public partial class TextBoxTextPropertyValidationBehavior : PropertyValidationB
         Property = Microsoft.UI.Xaml.Controls.TextBox.TextProperty;
     }
 }
+
+/// <summary>
+/// <see cref="RangeValidationRule{T}"/> for nullable <see cref="System.DateTimeOffset"/> values
+/// (Avalonia: <c>x:TypeArguments="system:Nullable(system:DateTimeOffset)"</c>, DatePickerValidationBehaviorView).
+/// </summary>
+public partial class NullableDateTimeOffsetRangeValidationRule : RangeValidationRule<System.DateTimeOffset?>
+{
+}

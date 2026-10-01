@@ -1,0 +1,20 @@
+<UserControl x:Class="BehaviorsTestApplication.Views.Pages.DelayedLoadTriggerView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:i="using:Xaml.Interactivity"
+             xmlns:ic="using:Xaml.Interactions.Core"
+             xmlns:icustom="using:Xaml.Interactions.Custom"
+             mc:Ignorable="d" d:DesignWidth="300" d:DesignHeight="200">
+  <Border Background="SteelBlue" Width="150" Height="100">
+    <i:Interaction.Behaviors>
+      <icustom:DelayedLoadTrigger Delay="0:0:1">
+        <!-- Avalonia IsVisible: WinUI Visibility. -->
+        <ic:ChangePropertyAction TargetObject="{x:Bind Message}" PropertyName="Visibility" Value="Visible" />
+      </icustom:DelayedLoadTrigger>
+    </i:Interaction.Behaviors>
+    <TextBlock x:Name="Message" Text="Loaded" Visibility="Collapsed"
+               HorizontalAlignment="Center" VerticalAlignment="Center" />
+  </Border>
+</UserControl>

@@ -1,0 +1,27 @@
+<UserControl x:Class="BehaviorsTestApplication.Views.Pages.ComboBoxValidationBehaviorView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:i="using:Xaml.Interactivity"
+             xmlns:icustom="using:Xaml.Interactions.Custom"
+             xmlns:behaviors="using:BehaviorsTestApplication.Behaviors"
+             mc:Ignorable="d" d:DesignWidth="300" d:DesignHeight="150">
+  <StackPanel Spacing="4">
+    <ComboBox Width="200"
+              ItemsSource="{x:Bind ViewModel.Items, Mode=OneWay}"
+              SelectedItem="{x:Bind ViewModel.ValidatedItem, Mode=TwoWay}">
+      <i:Interaction.Behaviors>
+        <!-- Avalonia binds IsValid OneWayToSource; WinUI has no OneWayToSource mode (the behavior sets IsValid). -->
+        <icustom:ComboBoxValidationBehavior IsValid="{x:Bind ViewModel.IsItemValid, Mode=TwoWay}">
+          <!-- Avalonia: NotNullValidationRule x:TypeArguments="system:Object" (WinUI XAML has no x:TypeArguments). -->
+          <behaviors:ObjectNotNullValidationRule ErrorMessage="Selection is required." />
+        </icustom:ComboBoxValidationBehavior>
+      </i:Interaction.Behaviors>
+    </ComboBox>
+    <CheckBox IsEnabled="False"
+              Content="IsItemValid "
+              IsChecked="{x:Bind ViewModel.IsItemValid, Mode=OneWay}" />
+    <TextBlock Text="{x:Bind ViewModel.ValidatedItem.Value, Mode=OneWay}" />
+  </StackPanel>
+</UserControl>

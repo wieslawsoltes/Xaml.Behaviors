@@ -73,7 +73,7 @@
           <pages:ParallaxBehaviorView />
         </TabViewItem>
         <TabViewItem Header="ConditionalAction" Style="{StaticResource SidebarTabViewItemStyle}">
-          <controls:PendingSampleView Header="ConditionalAction" />
+          <pages:ConditionalActionView />
         </TabViewItem>
         <TabViewItem Header="SwitchCaseAction" Style="{StaticResource SidebarTabViewItemStyle}">
           <pages:SwitchCaseActionView />
@@ -82,7 +82,7 @@
           <pages:SwitchCaseBehaviorView />
         </TabViewItem>
         <TabViewItem Header="ConditionalBehavior" Style="{StaticResource SidebarTabViewItemStyle}">
-          <controls:PendingSampleView Header="ConditionalBehavior" />
+          <pages:ConditionalBehaviorView />
         </TabViewItem>
         <TabViewItem Header="LoseFocusOnEnterBehavior" Style="{StaticResource SidebarTabViewItemStyle}">
           <pages:LoseFocusOnEnterBehaviorView />
@@ -94,7 +94,7 @@
           <pages:CallMethodActionView />
         </TabViewItem>
         <TabViewItem Header="Debounce &amp; Throttle" Style="{StaticResource SidebarTabViewItemStyle}">
-          <controls:PendingSampleView Header="Debounce &amp; Throttle" />
+          <pages:DebounceThrottleActionView />
         </TabViewItem>
         <TabViewItem Header="ObservableStreamBehavior" Style="{StaticResource SidebarTabViewItemStyle}">
           <pages:ObservableStreamBehaviorView />
@@ -121,16 +121,16 @@
           <pages:NetworkStatusTriggerView />
         </TabViewItem>
         <TabViewItem Header="ClipboardMonitorBehavior" Style="{StaticResource SidebarTabViewItemStyle}">
-          <controls:PendingSampleView Header="ClipboardMonitorBehavior" />
+          <pages:ClipboardMonitorBehaviorView />
         </TabViewItem>
         <TabViewItem Header="ChangePropertyAction" Style="{StaticResource SidebarTabViewItemStyle}">
           <pages:ChangePropertyActionView />
         </TabViewItem>
         <TabViewItem Header="DataTriggerBehavior" Style="{StaticResource SidebarTabViewItemStyle}">
-          <controls:PendingSampleView Header="DataTriggerBehavior" />
+          <pages:DataTriggerBehaviorView />
         </TabViewItem>
         <TabViewItem Header="DataTriggerBehavior Advanced" Style="{StaticResource SidebarTabViewItemStyle}">
-          <controls:PendingSampleView Header="DataTriggerBehavior Advanced" />
+          <pages:DataTriggerBehaviorAdvancedView />
         </TabViewItem>
         <TabViewItem Header="MultiDataTriggerBehavior" Style="{StaticResource SidebarTabViewItemStyle}">
           <pages:MultiDataTriggerBehaviorView />
@@ -181,10 +181,10 @@
           <pages:SliderValidationBehaviorView />
         </TabViewItem>
         <TabViewItem Header="DatePickerValidationBehavior" Style="{StaticResource SidebarTabViewItemStyle}">
-          <controls:PendingSampleView Header="DatePickerValidationBehavior" />
+          <pages:DatePickerValidationBehaviorView />
         </TabViewItem>
         <TabViewItem Header="ComboBoxValidationBehavior" Style="{StaticResource SidebarTabViewItemStyle}">
-          <controls:PendingSampleView Header="ComboBoxValidationBehavior" />
+          <pages:ComboBoxValidationBehaviorView />
         </TabViewItem>
         <TabViewItem Header="FocusControlBehavior" Style="{StaticResource SidebarTabViewItemStyle}">
           <pages:FocusControlBehaviorView />
@@ -211,22 +211,22 @@
           <pages:RoutedEventTriggerBehaviorView />
         </TabViewItem>
         <TabViewItem Header="ChangeAvaloniaPropertyAction" Style="{StaticResource SidebarTabViewItemStyle}">
-          <controls:PendingSampleView Header="ChangeAvaloniaPropertyAction" />
+          <pages:ChangeAvaloniaPropertyActionView />
         </TabViewItem>
         <TabViewItem Header="ViewModel Property Actions" Style="{StaticResource SidebarTabViewItemStyle}">
           <pages:ViewModelPropertyActionsView />
         </TabViewItem>
         <TabViewItem Header="Custom Action" Style="{StaticResource SidebarTabViewItemStyle}">
-          <controls:PendingSampleView Header="Custom Action" />
+          <pages:CustomActionView />
         </TabViewItem>
         <TabViewItem Header="Custom Behavior" Style="{StaticResource SidebarTabViewItemStyle}">
-          <controls:PendingSampleView Header="Custom Behavior" />
+          <pages:CustomBehaviorView />
         </TabViewItem>
         <TabViewItem Header="ButtonClickEventTriggerBehavior" Style="{StaticResource SidebarTabViewItemStyle}">
           <pages:ButtonClickEventTriggerBehaviorView />
         </TabViewItem>
         <TabViewItem Header="ClickEventTrigger" Style="{StaticResource SidebarTabViewItemStyle}">
-          <controls:PendingSampleView Header="ClickEventTrigger" />
+          <pages:ClickEventTriggerView />
         </TabViewItem>
         <TabViewItem Header="Advanced Behavior" Style="{StaticResource SidebarTabViewItemStyle}">
           <pages:AdvancedView />
@@ -253,7 +253,7 @@
           <pages:ObjectTemplateView />
         </TabViewItem>
         <TabViewItem Header="ClearItemsControlAction" Style="{StaticResource SidebarTabViewItemStyle}">
-          <controls:PendingSampleView Header="ClearItemsControlAction" />
+          <pages:ClearItemsControlActionView />
         </TabViewItem>
         <TabViewItem Header="AddRangeAction" Style="{StaticResource SidebarTabViewItemStyle}">
           <pages:AddRangeActionView />
@@ -268,7 +268,7 @@
           <pages:MoveElementActionsView />
         </TabViewItem>
         <TabViewItem Header="CollectionChangedTrigger" Style="{StaticResource SidebarTabViewItemStyle}">
-          <controls:PendingSampleView Header="CollectionChangedTrigger" />
+          <pages:CollectionChangedTriggerBehaviorView />
         </TabViewItem>
         <TabViewItem Header="ItemsControl Container Triggers" Style="{StaticResource SidebarTabViewItemStyle}">
           <pages:ItemsControlContainerTriggersView />
@@ -292,7 +292,7 @@
           <pages:EditableDraggableListBoxView />
         </TabViewItem>
         <TabViewItem Header="EditableListBox DoubleTap" Style="{StaticResource SidebarTabViewItemStyle}">
-          <controls:PendingSampleView Header="EditableListBox DoubleTap" />
+          <pages:EditableDoubleTappedListBoxView />
         </TabViewItem>
         <TabViewItem Header="EditableTree" Style="{StaticResource SidebarTabViewItemStyle}">
           <pages:EditableTreeViewView />
@@ -388,7 +388,7 @@
           <pages:PickerCanExecuteCommandView />
         </TabViewItem>
         <TabViewItem Header="Clipboard" Style="{StaticResource SidebarTabViewItemStyle}">
-          <controls:PendingSampleView Header="Clipboard" />
+          <pages:ClipboardView />
         </TabViewItem>
         <TabViewItem Header="GetClipboardDataAction" Style="{StaticResource SidebarTabViewItemStyle}">
           <pages:GetClipboardDataActionView />
@@ -412,7 +412,7 @@
           <pages:ShowContextMenuActionView />
         </TabViewItem>
         <TabViewItem Header="ContextDialog" Style="{StaticResource SidebarTabViewItemStyle}">
-          <controls:PendingSampleView Header="ContextDialog" />
+          <pages:ContextDialogView />
         </TabViewItem>
         <TabViewItem Header="ShowHidePopupAction" Style="{StaticResource SidebarTabViewItemStyle}">
           <pages:ShowHidePopupActionView />
@@ -427,7 +427,7 @@
           <pages:ShowNotificationActionView />
         </TabViewItem>
         <TabViewItem Header="Dialog Actions" Style="{StaticResource SidebarTabViewItemStyle}">
-          <controls:PendingSampleView Header="Dialog Actions" />
+          <pages:DialogActionView />
         </TabViewItem>
         <TabViewItem Header="File Drop Handler" Style="{StaticResource SidebarTabViewItemStyle}">
           <pages:FileDropHandlerView />
@@ -436,13 +436,13 @@
           <pages:UploadFileView />
         </TabViewItem>
         <TabViewItem Header="ContentControlFilesDropBehavior" Style="{StaticResource SidebarTabViewItemStyle}">
-          <controls:PendingSampleView Header="ContentControlFilesDropBehavior" />
+          <pages:ContentControlFilesDropBehaviorView />
         </TabViewItem>
         <TabViewItem Header="Drag and Drop" Style="{StaticResource SidebarTabViewItemStyle}">
-          <controls:PendingSampleView Header="Drag and Drop" />
+          <pages:DragAndDropView />
         </TabViewItem>
         <TabViewItem Header="DragDrop Commands" Style="{StaticResource SidebarTabViewItemStyle}">
-          <controls:PendingSampleView Header="DragDrop Commands" />
+          <pages:DragDropCommandsView />
         </TabViewItem>
         <TabViewItem Header="Files Preview" Style="{StaticResource SidebarTabViewItemStyle}">
           <pages:FilesPreviewView />
@@ -451,7 +451,7 @@
           <pages:TypedDragBehaviorView />
         </TabViewItem>
         <TabViewItem Header="Draggable" Style="{StaticResource SidebarTabViewItemStyle}">
-          <controls:PendingSampleView Header="Draggable" />
+          <pages:DraggableView />
         </TabViewItem>
         <TabViewItem Header="Mouse Drag Behaviors" Style="{StaticResource SidebarTabViewItemStyle}">
           <pages:MouseDragBehaviorView />
@@ -463,13 +463,13 @@
           <pages:AutoScrollDuringDragBehaviorView />
         </TabViewItem>
         <TabViewItem Header="Drag Between Panels" Style="{StaticResource SidebarTabViewItemStyle}">
-          <controls:PendingSampleView Header="Drag Between Panels" />
+          <pages:DragBetweenPanelsView />
         </TabViewItem>
         <TabViewItem Header="Cursor Behavior" Style="{StaticResource SidebarTabViewItemStyle}">
-          <controls:PendingSampleView Header="Cursor Behavior" />
+          <pages:CursorView />
         </TabViewItem>
         <TabViewItem Header="Drawn Cursor" Style="{StaticResource SidebarTabViewItemStyle}">
-          <controls:PendingSampleView Header="Drawn Cursor" />
+          <pages:DrawnCursorView />
         </TabViewItem>
         <TabViewItem Header="IfElseTrigger" Style="{StaticResource SidebarTabViewItemStyle}">
           <pages:IfElseTriggerView />
@@ -520,7 +520,7 @@
           <pages:CarouselNavigationView />
         </TabViewItem>
         <TabViewItem Header="CarouselSelectionChangedTrigger" Style="{StaticResource SidebarTabViewItemStyle}">
-          <controls:PendingSampleView Header="CarouselSelectionChangedTrigger" />
+          <pages:CarouselSelectionChangedTriggerView />
         </TabViewItem>
         <TabViewItem Header="AutoCompleteBox" Style="{StaticResource SidebarTabViewItemStyle}">
           <pages:AutoCompleteBoxView />
@@ -571,13 +571,13 @@
           <pages:FadeInBehaviorView />
         </TabViewItem>
         <TabViewItem Header="DelayedLoadBehavior" Style="{StaticResource SidebarTabViewItemStyle}">
-          <controls:PendingSampleView Header="DelayedLoadBehavior" />
+          <pages:DelayedLoadBehaviorView />
         </TabViewItem>
         <TabViewItem Header="DelayedLoadTrigger" Style="{StaticResource SidebarTabViewItemStyle}">
-          <controls:PendingSampleView Header="DelayedLoadTrigger" />
+          <pages:DelayedLoadTriggerView />
         </TabViewItem>
         <TabViewItem Header="DelayedShowControlAction" Style="{StaticResource SidebarTabViewItemStyle}">
-          <controls:PendingSampleView Header="DelayedShowControlAction" />
+          <pages:DelayedShowControlActionView />
         </TabViewItem>
         <TabViewItem Header="AnimateOnAttachedBehavior" Style="{StaticResource SidebarTabViewItemStyle}">
           <pages:AnimateOnAttachedBehaviorView />
@@ -631,7 +631,7 @@
           <pages:PointerEventsTriggerView />
         </TabViewItem>
         <TabViewItem Header="DragLeaveEventTrigger" Style="{StaticResource SidebarTabViewItemStyle}">
-          <controls:PendingSampleView Header="DragLeaveEventTrigger" />
+          <pages:DragLeaveEventTriggerView />
         </TabViewItem>
         <TabViewItem Header="Gesture Event Triggers" Style="{StaticResource SidebarTabViewItemStyle}">
           <pages:GestureEventTriggersView />
@@ -685,25 +685,25 @@
           <pages:BindingBehaviorView />
         </TabViewItem>
         <TabViewItem Header="DataContextChangedBehavior" Style="{StaticResource SidebarTabViewItemStyle}">
-          <controls:PendingSampleView Header="DataContextChangedBehavior" />
+          <pages:DataContextChangedBehaviorView />
         </TabViewItem>
         <TabViewItem Header="DataContextChangedTrigger" Style="{StaticResource SidebarTabViewItemStyle}">
-          <controls:PendingSampleView Header="DataContextChangedTrigger" />
+          <pages:DataContextChangedTriggerView />
         </TabViewItem>
         <TabViewItem Header="DetachedFromLogicalTreeTrigger" Style="{StaticResource SidebarTabViewItemStyle}">
-          <controls:PendingSampleView Header="DetachedFromLogicalTreeTrigger" />
+          <pages:DetachedFromLogicalTreeTriggerView />
         </TabViewItem>
         <TabViewItem Header="DetachedFromVisualTreeTrigger" Style="{StaticResource SidebarTabViewItemStyle}">
-          <controls:PendingSampleView Header="DetachedFromVisualTreeTrigger" />
+          <pages:DetachedFromVisualTreeTriggerView />
         </TabViewItem>
         <TabViewItem Header="DisposingBehavior" Style="{StaticResource SidebarTabViewItemStyle}">
-          <controls:PendingSampleView Header="DisposingBehavior" />
+          <pages:DisposingBehaviorView />
         </TabViewItem>
         <TabViewItem Header="DisposingTrigger" Style="{StaticResource SidebarTabViewItemStyle}">
-          <controls:PendingSampleView Header="DisposingTrigger" />
+          <pages:DisposingTriggerView />
         </TabViewItem>
         <TabViewItem Header="DisposableAction" Style="{StaticResource SidebarTabViewItemStyle}">
-          <controls:PendingSampleView Header="DisposableAction" />
+          <pages:DisposableActionView />
         </TabViewItem>
         <TabViewItem Header="InitializedBehavior" Style="{StaticResource SidebarTabViewItemStyle}">
           <pages:InitializedBehaviorView />
@@ -748,7 +748,7 @@
           <pages:ScrollToControlActionView />
         </TabViewItem>
         <TabViewItem Header="ConsoleBeepAction" Style="{StaticResource SidebarTabViewItemStyle}">
-          <controls:PendingSampleView Header="ConsoleBeepAction" />
+          <pages:ConsoleBeepActionView />
         </TabViewItem>
         <TabViewItem Header="BreakAction" Style="{StaticResource SidebarTabViewItemStyle}">
           <pages:BreakActionView />

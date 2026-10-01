@@ -1,0 +1,51 @@
+<UserControl x:Class="BehaviorsTestApplication.Views.Pages.ContentControlFilesDropBehaviorView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:i="using:Xaml.Interactivity"
+             xmlns:idd="using:Xaml.Interactions.DragAndDrop"
+             mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="450">
+  <StackPanel Margin="5" Spacing="5">
+    <ContentControl Padding="20"
+                    HorizontalContentAlignment="Stretch"
+                    BorderBrush="{ThemeResource SystemControlHighlightAccentBrush}"
+                    BorderThickness="1">
+      <!--
+        Avalonia sets the content from a style (ContentControl.Drag): the behavior sets ContentDuringDrag and
+        BackgroundDuringDrag while dragging and clears them afterwards, which restores the style value.
+      -->
+      <ContentControl.Style>
+        <Style TargetType="ContentControl">
+          <Setter Property="Content" Value="Drag files here" />
+        </Style>
+      </ContentControl.Style>
+      <!-- The WinUI ContentControl template draws neither background nor border (the Avalonia one does). -->
+      <ContentControl.Template>
+        <ControlTemplate TargetType="ContentControl">
+          <Border Background="{TemplateBinding Background}"
+                  BorderBrush="{TemplateBinding BorderBrush}"
+                  BorderThickness="{TemplateBinding BorderThickness}"
+                  Padding="{TemplateBinding Padding}">
+            <ContentPresenter Content="{TemplateBinding Content}"
+                              ContentTemplate="{TemplateBinding ContentTemplate}"
+                              HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                              VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" />
+          </Border>
+        </ControlTemplate>
+      </ContentControl.Template>
+      <i:Interaction.Behaviors>
+        <idd:ContentControlFilesDropBehavior
+          Command="{x:Bind ViewModel.OpenFilesCommand}"
+          ContentDuringDrag="Drop files here"
+          BackgroundDuringDrag="{ThemeResource SystemControlHighlightAccentBrush}" />
+      </i:Interaction.Behaviors>
+      <ContentControl.ContentTemplate>
+        <DataTemplate x:DataType="x:String">
+          <TextBlock Text="{x:Bind}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+        </DataTemplate>
+      </ContentControl.ContentTemplate>
+    </ContentControl>
+    <ListView ItemsSource="{x:Bind ViewModel.FileItems, Mode=OneWay}" />
+  </StackPanel>
+</UserControl>
