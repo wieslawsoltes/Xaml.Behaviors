@@ -145,19 +145,23 @@ and map it (`src/Uno/Xaml.Behaviors.Interactivity/Compat/RoutedEvents.cs`):
 | `RoutingStrategies` value | Uno Platform subscription |
 |---------------------------|---------------------------|
 | `Bubble` | the bubbling WinUI event |
-| `Direct` | the same as `Bubble`: events raised by descendants are also received (no source filter, [#391](https://github.com/wieslawsoltes/Xaml.Behaviors/issues/391)) |
+| `Direct` alone | the bubbling WinUI event, filtered to the events raised on the element itself (`OriginalSource` is the element). `PointerEntered`/`PointerExited` are raised by Uno once per element entered or left and are not filtered; `PointerCaptureLost` is delivered when the element itself loses a capture. |
+| `Direct` + `Bubble` | the bubbling WinUI event (descendants included) |
 | `Tunnel` only, key events | `PreviewKeyDown`/`PreviewKeyUp` |
-| `Tunnel` only, other events | the bubbling event with handled events included (`handledEventsToo`) |
+| `Tunnel` only, other events | the bubbling event with handled events included; the handler sees them as not handled yet (see below) |
 | `Tunnel` + `Bubble` | one bubbling subscription with handled events included: one invocation per event, not two |
 
 Consequences:
 
 * A tunnel handler runs after the handlers of the element and its descendants, not before them. It can no longer
   prevent a control from handling a pointer press.
-* Triggers that set `e.Handled = MarkAsHandled` (the `RoutedEventTriggerBase<T>` triggers) can clear the `Handled` flag
-  of an event a control already handled, because they now receive handled events.
-* Behaviors that return early on `e.Handled` (the `ExecuteCommandOn*` behaviors) do not run for events a control
-  handles, even with `Tunnel`.
+* An emulated tunnel handler (no `Preview*` event) runs after the controls, but sees an event they handled as not
+  handled yet, like an Avalonia tunnel handler. The `Handled` flag is restored afterwards, so the handler can set it
+  but never clear it. Once a tunnel handler marks the event as handled, the following tunnel handlers of the same
+  element are skipped; the handlers of ancestors still run (bubbling order).
+* `RoutedEventTriggerBase<T>` triggers only set `Handled` when `MarkAsHandled` is true (both platforms).
+* The `ExecuteCommandOn*` behaviors with `Tunnel` run their command for events a control handles (for example a
+  `Button` press), as during the Avalonia tunnel phase, and the event stays handled.
 * `GotFocus` and `LostFocus` are plain CLR events on WinUI. Routing strategies and `handledEventsToo` are ignored, and
   `Handled` cannot be set (it always reads `false`).
 * `TextInput` maps to `CharacterReceived`: one event per character, and the text is that single character.
@@ -314,8 +318,9 @@ The style class actions (`AddClassAction`, `RemoveClassAction`, `ToggleClassActi
 
 ### Packaging and trimming
 
-* The Avalonia packages are marked `IsTrimmable` and `IsAotCompatible`; the Uno packages are not ([#398](https://github.com/wieslawsoltes/Xaml.Behaviors/issues/398); the trim analyzer
-  still runs). Property access by name always uses reflection on Uno Platform; the reflection-based members keep the
+* The library packages are marked `IsTrimmable` and `IsAotCompatible` on both platforms, and trim/AOT warnings are
+  errors (`build/TrimmingEnable.targets`). The Uno headless packages are test infrastructure and are not marked
+  trimmable. Property access by name always uses reflection on Uno Platform; the reflection-based members keep the
   same `[RequiresUnreferencedCode]` contract on both platforms.
 
 ## Interactivity
@@ -432,7 +437,7 @@ to the WinUI event of the same name; routing follows [Routed events](#routed-eve
 |-----------------------------|-----------------|
 | `PointerPressedEventTrigger`/`Behavior`, `PointerReleasedEventTrigger`/`Behavior`, `PointerMovedEventTrigger`/`Behavior`, `PointerEventsTrigger`/`Behavior` | The default `Tunnel` + `Bubble` is one bubbling subscription with handled events: it runs after controls handled the event. Arguments are `PointerRoutedEventArgs`. |
 | `PointerWheelChangedEventTrigger`/`Behavior` | Same routing. Arguments are `PointerRoutedEventArgs` (the wheel delta is `GetCurrentPoint(...).Properties.MouseWheelDelta`). |
-| `PointerEnteredEventTrigger`/`Behavior`, `PointerExitedEventTrigger`/`Behavior`, `PointerCaptureLostEventTrigger`/`Behavior` | The default `Direct` behaves like `Bubble`: events of descendants are also received ([#391](https://github.com/wieslawsoltes/Xaml.Behaviors/issues/391)). |
+| `PointerEnteredEventTrigger`/`Behavior`, `PointerExitedEventTrigger`/`Behavior`, `PointerCaptureLostEventTrigger`/`Behavior` | Default `Direct`: the element's own enter/exit; capture lost when the element itself loses a capture. |
 | `KeyDownEventTrigger`/`Behavior`, `KeyUpEventTrigger`/`Behavior` | Default `Tunnel` + `Bubble` includes handled events; `Tunnel` alone uses `PreviewKeyDown`/`PreviewKeyUp`. Arguments are `KeyRoutedEventArgs` (`Key` is a `VirtualKey`). |
 | `TextInputEventTrigger`/`Behavior` | WinUI `CharacterReceived`: one event per character, arguments `CharacterReceivedRoutedEventArgs`. |
 | `GotFocusEventTrigger`/`Behavior`, `LostFocusEventTrigger`/`Behavior` | CLR events: `RoutingStrategies` is ignored; arguments are plain `RoutedEventArgs`. |
@@ -464,6 +469,7 @@ on Avalonia (`TargetControl`, `TargetObject`, `SourceControl`, `ItemsControl`, `
 | `ShowContextMenuAction` | Opens `ContextFlyout.ShowAt(control)`. |
 | `LaunchUriAction` | Uses `Windows.System.Launcher`; returns `true` without a `TopLevel` launcher. |
 | `RemoveElementAction` | The decorator case is a `Border`. |
+| `ScreenshotAction` | Renders with WinUI `RenderTargetBitmap` at the element's size in DIPs (96 DPI), encodes the PNG with `BitmapEncoder` and saves through the Interactions `IStorageProvider` (`StorageProvider` property, `SystemStorageProvider` by default; no top-level lookup). Returns `false` when the target is not loaded. The Uno Custom package depends on `Xaml.Behaviors.Uno.Interactions`. |
 
 ### Animations
 
@@ -534,7 +540,7 @@ on Avalonia (`TargetControl`, `TargetObject`, `SourceControl`, `ItemsControl`, `
 | `ExecuteCommandBehaviorBase.TopLevel` | `UIElement`; `FocusTopLevel` focuses `TopLevel` or the `XamlRoot` content. |
 | `ExecuteCommandOnActivatedBehavior` | Watches `Window.Current` (the main window); `SourceControl` is ignored. Deactivation is filtered out. |
 | `ExecuteCommandOnKeyDownBehavior`, `ExecuteCommandOnKeyUpBehavior` | `Key` is a `VirtualKey`, `Gesture` a Uno `KeyGesture`. `Tunnel` uses the preview key events. |
-| `ExecuteCommandOnPointerPressedBehavior`, `...PointerReleased...`, `...PointerMoved...`, `...PointerEntered...`, `...PointerExited...`, `...PointerCaptureLost...`, `...PointerWheelChanged...`, `...Tapped...`, `...DoubleTapped...`, `...RightTapped...`, `...Holding...`, `...TextInput...` | `Tunnel` has no preview phase; events a control handles are skipped, so the command does not run on, for example, a `Button` press. |
+| `ExecuteCommandOnPointerPressedBehavior`, `...PointerReleased...`, `...PointerMoved...`, `...PointerEntered...`, `...PointerExited...`, `...PointerCaptureLost...`, `...PointerWheelChanged...`, `...Tapped...`, `...DoubleTapped...`, `...RightTapped...`, `...Holding...`, `...TextInput...` | `Tunnel` has no preview phase: the command runs after the control, also for events the control handled (for example a `Button` press), and the event stays handled. |
 | `ExecuteCommandOnTextInputBehavior` | One `CharacterReceived` event per character. |
 | `ExecuteCommandOnGotFocusBehavior`, `ExecuteCommandOnLostFocusBehavior` | CLR focus events: routing is ignored and `MarkAsHandled` has no effect, so behaviors on ancestors also run. |
 
@@ -560,9 +566,9 @@ on Avalonia (`TargetControl`, `TargetObject`, `SourceControl`, `ItemsControl`, `
 | `CapturePointerAction` | Captures the pointer of the event for its `OriginalSource`. |
 | `ReleasePointerCaptureAction` | Releases only a capture held by the event's `OriginalSource` or one of its ancestors. |
 | `TextInputTrigger.Text` | `CharacterReceived` delivers one character per event, so a `Text` longer than one character never matches. |
-| `KeyTrigger`, `KeyDownTrigger`, `KeyUpTrigger` | `Key` is a `VirtualKey`, `Gesture` a Uno `KeyGesture`. The default `Direct` behaves like `Bubble`: keys of child elements also fire ([#391](https://github.com/wieslawsoltes/Xaml.Behaviors/issues/391)). |
+| `KeyTrigger`, `KeyDownTrigger`, `KeyUpTrigger` | `Key` is a `VirtualKey`, `Gesture` a Uno `KeyGesture`. The default `Direct` only fires for keys raised on the element itself (the focused element). On Avalonia the default `Direct` never fires for key events ([#399](https://github.com/wieslawsoltes/Xaml.Behaviors/issues/399)). |
 | `KeyGestureTrigger` | Default `Tunnel` + `Bubble`: one bubbling key subscription with handled events. |
-| `PointerPressedTrigger`, `PointerReleasedTrigger`, `PointerMovedTrigger`, `PointerWheelChangedTrigger` | Default `Tunnel` + `Bubble` includes handled events, and `MarkAsHandled = false` clears `Handled` of an event a control already handled. |
+| `PointerPressedTrigger`, `PointerReleasedTrigger`, `PointerMovedTrigger`, `PointerWheelChangedTrigger` | Default `Tunnel` + `Bubble` includes handled events (presented as not handled); `MarkAsHandled = false` leaves `Handled` unchanged. |
 | `GotFocusTrigger`, `LostFocusTrigger` | CLR events: `EventRoutingStrategy` and `MarkAsHandled` have no effect. |
 | Every InputElement trigger | Actions receive WinUI arguments: `PointerRoutedEventArgs`, `KeyRoutedEventArgs`, `CharacterReceivedRoutedEventArgs`, `RoutedEventArgs`. |
 
@@ -647,7 +653,7 @@ on Avalonia (`TargetControl`, `TargetObject`, `SourceControl`, `ItemsControl`, `
 | `PropertyValidationBehavior.Rules` | `ObservableCollection<IValidationRule<TValue>>`. Rules inherit no data context: bind them with `x:Bind`. |
 | `PropertyValidationBehavior` (errors) | No error template: errors are exposed through `IsValid` and `Error` only. |
 | `PropertyValidationBehavior.IsValid` | Needs `Mode=TwoWay`. |
-| Custom validation rules | Changing a property of a custom rule does not revalidate; only the built-in rules do. |
+| `IValidationRuleChanged` | Uno-only public interface (`event EventHandler? Changed`). The behavior validates again when a rule raises `Changed` and when rules are added, removed or replaced. The built-in rules implement it; a custom rule that should revalidate when its properties change must implement it too (for a `partial` `DependencyObject` rule with `[StyledProperty]` properties: `private void OnPropertyChanged(DependencyPropertyChangedEventArgs e) => Changed?.Invoke(this, EventArgs.Empty);`). On Avalonia any `AvaloniaObject` rule revalidates automatically. |
 | `ValidationRuleBase` | Uno-only public abstract base of the generic rules (`RangeValidationRule<T>`, `MinValueValidationRule<T>`, `MaxValueValidationRule<T>`, `NotNullValidationRule<T>`). Use closed subclasses in XAML. |
 | `ComboBoxValidationBehavior` | Validates `Selector.SelectedItem`. |
 
@@ -669,7 +675,6 @@ on Avalonia (`TargetControl`, `TargetObject`, `SourceControl`, `ItemsControl`, `
 | Feature | Reason |
 |---------|--------|
 | `AddClassAction`, `RemoveClassAction`, `ToggleClassAction` | Avalonia style classes. |
-| `ScreenshotAction` | Needs `RenderTargetBitmap` encoding and a `TopLevel` storage provider; not ported ([#397](https://github.com/wieslawsoltes/Xaml.Behaviors/issues/397)). |
 | `ResourcesChangedBehavior`, `ResourcesChangedTrigger` | WinUI raises no resources changed notification. |
 | `Cursor/**`: `PointerOverCursorBehavior`, `SetCursorAction`, `SetCursorBehavior`, `SetCursorFromProviderAction`, `SetCursorFromProviderBehavior`, `ICursorProvider` | WinUI exposes the element cursor only through the protected `ProtectedCursor`. |
 | `VisualDebugBehavior` | Adorner layer. |

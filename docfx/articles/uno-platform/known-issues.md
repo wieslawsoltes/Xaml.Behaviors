@@ -6,20 +6,13 @@ Platform, how they were resolved, and the WinUI differences that affect behavior
 ## Tracked issues
 
 All issues found while porting the libraries, tests and samples
-([#376](https://github.com/wieslawsoltes/Xaml.Behaviors/issues/376)–[#390](https://github.com/wieslawsoltes/Xaml.Behaviors/issues/390))
-are fixed; see the table below. Issues found while documenting the
-[behavior differences](behavior-differences.md) are tracked here:
+([#376](https://github.com/wieslawsoltes/Xaml.Behaviors/issues/376)–[#390](https://github.com/wieslawsoltes/Xaml.Behaviors/issues/390)) and while documenting the
+[behavior differences](behavior-differences.md) ([#391](https://github.com/wieslawsoltes/Xaml.Behaviors/issues/391)–[#398](https://github.com/wieslawsoltes/Xaml.Behaviors/issues/398)) are fixed; see the
+table below. Open issues:
 
 | Issue | Area | Problem |
 |-------|------|---------|
-| [#391](https://github.com/wieslawsoltes/Xaml.Behaviors/issues/391) | Routed events (Uno) | `RoutingStrategies.Direct` behaves like `Bubble`: Direct triggers also fire for events raised by child elements. |
-| [#392](https://github.com/wieslawsoltes/Xaml.Behaviors/issues/392) | `ExecuteCommandBehaviorBase` (Avalonia) | `FocusControlProperty` is registered with the name `CommandParameter`. |
-| [#393](https://github.com/wieslawsoltes/Xaml.Behaviors/issues/393) | `HideAttachedFlyoutBehavior` (Avalonia) | `IsFlyoutOpenProperty` is registered with the `ButtonHideFlyoutBehavior` owner. |
-| [#394](https://github.com/wieslawsoltes/Xaml.Behaviors/issues/394) | `TextInputTrigger` (Avalonia) | `TextProperty` is registered with the `KeyDownTrigger` owner. |
-| [#395](https://github.com/wieslawsoltes/Xaml.Behaviors/issues/395) | Pointer triggers and command behaviors (Uno) | An emulated `Tunnel` subscription receives handled events: triggers set `Handled = false` on them and `ExecuteCommandOnPointer*Behavior` skips them. |
-| [#396](https://github.com/wieslawsoltes/Xaml.Behaviors/issues/396) | `PropertyValidationBehavior` (Uno) | Custom validation rules do not trigger revalidation when their properties change (only built-in rules do). |
-| [#397](https://github.com/wieslawsoltes/Xaml.Behaviors/issues/397) | `ScreenshotAction` (Uno) | Not ported yet. |
-| [#398](https://github.com/wieslawsoltes/Xaml.Behaviors/issues/398) | Packaging (Uno) | The Uno packages are not marked trimmable or AOT-compatible and are not checked by the trim analyzers. |
+| [#399](https://github.com/wieslawsoltes/Xaml.Behaviors/issues/399) | Routed event triggers (Avalonia) | With the default `Direct` routing, `KeyTrigger`, `KeyDownTrigger`, `KeyUpTrigger` and the other triggers for bubbling events never fire on Avalonia. |
 
 Report new issues on [GitHub](https://github.com/wieslawsoltes/Xaml.Behaviors/issues).
 
@@ -54,6 +47,14 @@ Report new issues on [GitHub](https://github.com/wieslawsoltes/Xaml.Behaviors/is
 | `ChangeAvaloniaPropertyAction` (Uno, [#376](https://github.com/wieslawsoltes/Xaml.Behaviors/issues/376)) | String values were not converted for properties without a default value (`Border.Background`): WinUI dependency properties do not expose their type (Uno's bindable metadata is looked up by property name, which a `DependencyProperty` does not expose either). | The type is also inferred from the current value (strings only, unconvertible strings are assigned as is); the Uno-only `TargetPropertyType` sets it explicitly. |
 | Headless session (Uno, [#390](https://github.com/wieslawsoltes/Xaml.Behaviors/issues/390)) | Injected mouse wheel input was not delivered (Uno Platform reads the wheel rotation from `DeltaY`, not `MouseData`) and mouse events carried no keyboard modifiers (`InputInjector.InjectMouseInput` raises none). | The host injects mouse input with modifiers and the WinUI wheel data (`HeadlessHost.InjectMouseInput`); `UnoHeadlessMouse` passes the modifiers held on `UnoHeadlessKeyboard` and the ones given to its members. |
 | `Xaml.PropertyGenerator` WinUI output ([#388](https://github.com/wieslawsoltes/Xaml.Behaviors/issues/388)) | IL2087/IL2111 trimming warnings for properties typed with a generic parameter (validation rules) or `System.Type` (`TypedDragBehaviorBase.DataType`). | Generic parameters get the `[DynamicallyAccessedMembers]` annotation of `DependencyProperty.Register`; `Type` properties are registered through a helper with a justified IL2111 suppression. |
+| Routed events (Uno, [#391](https://github.com/wieslawsoltes/Xaml.Behaviors/issues/391)) | `RoutingStrategies.Direct` behaved like `Bubble`: Direct triggers also fired for events raised by child elements. | A Direct-only subscription runs the handler only for events whose `OriginalSource` is the element; `PointerEntered`/`PointerExited` are raised per element by Uno and are not filtered; `PointerCaptureLost` is delivered for the captures the element held. |
+| `ExecuteCommandBehaviorBase` (Avalonia, [#392](https://github.com/wieslawsoltes/Xaml.Behaviors/issues/392)) | `FocusControlProperty` was registered with the name `CommandParameter`. | Registered as `FocusControl`. |
+| `HideAttachedFlyoutBehavior` (Avalonia, [#393](https://github.com/wieslawsoltes/Xaml.Behaviors/issues/393)) | `IsFlyoutOpenProperty` was registered with the `ButtonHideFlyoutBehavior` owner. | Registered with `HideAttachedFlyoutBehavior`. |
+| `TextInputTrigger` (Avalonia, [#394](https://github.com/wieslawsoltes/Xaml.Behaviors/issues/394)) | `TextProperty` was registered with the `KeyDownTrigger` owner. | Registered with `TextInputTrigger`. |
+| Pointer triggers and command behaviors (Uno, [#395](https://github.com/wieslawsoltes/Xaml.Behaviors/issues/395)) | An emulated `Tunnel` subscription received handled events: triggers set `Handled = false` on them and `ExecuteCommandOnPointer*Behavior` skipped them. | Triggers only set `Handled` when `MarkAsHandled` is true; the emulated tunnel handler sees a handled event as not handled and the flag is restored afterwards. |
+| `PropertyValidationBehavior` (Uno, [#396](https://github.com/wieslawsoltes/Xaml.Behaviors/issues/396)) | Custom validation rules could not trigger revalidation when their properties changed. | `IValidationRuleChanged` is public: custom rules raise `Changed` to revalidate. |
+| `ScreenshotAction` (Uno, [#397](https://github.com/wieslawsoltes/Xaml.Behaviors/issues/397)) | Not ported. | Ported with WinUI `RenderTargetBitmap`, `BitmapEncoder` and the Interactions storage provider (new `StorageProvider` property on both platforms). |
+| Packaging (Uno, [#398](https://github.com/wieslawsoltes/Xaml.Behaviors/issues/398)) | The Uno packages were not marked trimmable or AOT-compatible. | `build/TrimmingEnable.targets` is imported for the packable Uno libraries; trim/AOT warnings are errors. |
 
 ## ReactiveUI 25 (System.Reactive flavor)
 
