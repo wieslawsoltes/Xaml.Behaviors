@@ -59,6 +59,44 @@ public class ContextDragBehaviorTests
     }
 
     [AvaloniaFact]
+    public void Drag_Starts_From_Templated_Content_With_Own_DataContext()
+    {
+        var window = new ContextDragNestedContentWindow();
+
+        window.Show();
+        Dispatcher.UIThread.RunJobs();
+
+        Assert.Equal("Outer", window.DragSource.DataContext);
+        Assert.Equal("Inner", window.TemplatedContent.Content);
+
+        window.MouseDown(window.TemplatedContent, new Point(5, 5), MouseButton.Left);
+        window.MouseMove(window.TemplatedContent, new Point(30, 20), RawInputModifiers.LeftMouseButton);
+        window.MouseUp(window.TemplatedContent, new Point(30, 20), MouseButton.Left);
+
+        Assert.True(window.SourceBehavior.BeforeCalled);
+        Assert.False(window.NestedBehavior.BeforeCalled);
+    }
+
+    [AvaloniaFact]
+    public void Drag_From_Nested_Drag_Source_Does_Not_Start_Outer_Drag()
+    {
+        var window = new ContextDragNestedContentWindow();
+
+        window.Show();
+        Dispatcher.UIThread.RunJobs();
+
+        // The nested drag source shares the data context of the outer one.
+        Assert.Equal(window.DragSource.DataContext, window.NestedSource.DataContext);
+
+        window.MouseDown(window.NestedSource, new Point(5, 5), MouseButton.Left);
+        window.MouseMove(window.NestedSource, new Point(30, 20), RawInputModifiers.LeftMouseButton);
+        window.MouseUp(window.NestedSource, new Point(30, 20), MouseButton.Left);
+
+        Assert.True(window.NestedBehavior.BeforeCalled);
+        Assert.False(window.SourceBehavior.BeforeCalled);
+    }
+
+    [AvaloniaFact]
     public void VirtualizedListBoxItem_ReplacementTransfersContextDragLifecycle()
     {
         var window = new VirtualizedContextDragWindow();
