@@ -126,4 +126,16 @@ public class XamlPageTests
 
         Assert.Equal(2, behavior.Notifications);
     }
+
+    // Regression test for https://github.com/wieslawsoltes/Xaml.Behaviors/issues/384: the repeater prepares its initial
+    // elements in the first layout pass, before Loaded.
+    [UnoHeadlessFact]
+    public async Task ItemsRepeater_Container_Trigger_Observes_The_Initial_Elements()
+    {
+        var page = new ItemsRepeaterPage();
+        await Session.ShowAsync(page);
+        await Session.WaitForIdleAsync();
+
+        Assert.Equal("prepared", Find<TextBlock>(page, "PreparedText").Text);
+    }
 }

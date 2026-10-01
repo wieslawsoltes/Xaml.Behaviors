@@ -87,10 +87,14 @@ public class ItemsTests
         await Session.ShowAsync(new ScrollViewer { Content = repeater });
         await Session.WaitForIdleAsync();
 
-        // WinUI raises Loaded (the Uno visual tree attachment) after the first layout pass: the initial elements are
-        // prepared before the triggers subscribe.
+        // Regression test for https://github.com/wieslawsoltes/Xaml.Behaviors/issues/384: WinUI raises Loaded (the Uno
+        // visual tree attachment) after the first layout pass, when the initial elements are already prepared.
+        // (The repeater reuses its event arguments and may prepare the first element twice while it estimates the extent.)
+        Assert.True(prepared.Parameters.Count >= items.Count);
+        var initiallyPrepared = prepared.Parameters.Count;
+
         items.Add("c");
-        Assert.True(await WaitUntilAsync(() => prepared.Parameters.Count >= 1));
+        Assert.True(await WaitUntilAsync(() => prepared.Parameters.Count > initiallyPrepared));
         Assert.All(prepared.Parameters, p => Assert.IsType<ItemsRepeaterElementPreparedEventArgs>(p));
 
         items.Insert(0, "z");
@@ -98,6 +102,19 @@ public class ItemsTests
         Assert.True(await WaitUntilAsync(() => clearing.Parameters.Count > 0 && indexChanged.Parameters.Count > 0));
         Assert.IsType<ItemsRepeaterElementClearingEventArgs>(clearing.Parameters[0]);
         Assert.IsType<ItemsRepeaterElementIndexChangedEventArgs>(indexChanged.Parameters[0]);
+    }
+
+    // https://github.com/wieslawsoltes/Xaml.Behaviors/issues/384: like the triggers, the behavior observes the elements
+    // prepared by the first layout pass (it subscribes when it is attached).
+    [UnoHeadlessFact]
+    public async Task ItemsControlContainerEventsBehavior_Reports_The_Initially_Prepared_Elements()
+    {
+        var repeater = new ItemsRepeater { ItemsSource = new ObservableCollection<string> { "a", "b" } };
+        var behavior = new RecordingContainerEventsBehavior().AttachTo(repeater);
+        await Session.ShowAsync(new ScrollViewer { Content = repeater });
+        await Session.WaitForIdleAsync();
+
+        Assert.Equal([0, 1], behavior.Prepared.Distinct().Order());
     }
 
     [UnoHeadlessFact]
@@ -246,6 +263,10 @@ public class ItemsTests
 
     private sealed class RecordingContainerEventsBehavior : ItemsControlContainerEventsBehavior
     {
+        public System.Collections.Generic.List<int> Prepared { get; } = [];
+
+        protected override void OnContainerPrepared(object? sender, ItemsRepeaterElementPreparedEventArgs e)
+            => Prepared.Add(e.Index);
     }
 }
 

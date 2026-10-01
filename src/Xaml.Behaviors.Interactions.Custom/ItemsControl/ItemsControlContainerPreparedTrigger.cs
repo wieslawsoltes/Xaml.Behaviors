@@ -28,16 +28,62 @@ namespace Avalonia.Xaml.Interactions.Custom;
 /// </remarks>
 public class ItemsControlContainerPreparedTrigger : StyledElementTrigger<ItemsControl>
 {
+#if UNO
+    private ItemsControl? _subscribedItemsControl;
+
+    /// <inheritdoc />
+    protected override void OnAttached()
+    {
+        base.OnAttached();
+
+        // WinUI raises Loaded (the visual tree attachment on Uno) after the first layout pass, when the ItemsRepeater
+        // already prepared the initially realized elements: subscribe as soon as the trigger is attached.
+        Subscribe();
+    }
+
+    /// <inheritdoc />
+    protected override void OnDetaching()
+    {
+        Unsubscribe();
+        base.OnDetaching();
+    }
+
+    /// <inheritdoc />
+    protected override void OnAttachedToVisualTree()
+    {
+        Subscribe();
+    }
+
+    /// <inheritdoc />
+    protected override void OnDetachedFromVisualTree()
+    {
+        Unsubscribe();
+    }
+
+    private void Subscribe()
+    {
+        if (_subscribedItemsControl is null && AssociatedObject is { } itemsControl)
+        {
+            itemsControl.ElementPrepared += ItemsControlOnContainerPrepared;
+            _subscribedItemsControl = itemsControl;
+        }
+    }
+
+    private void Unsubscribe()
+    {
+        if (_subscribedItemsControl is { } itemsControl)
+        {
+            itemsControl.ElementPrepared -= ItemsControlOnContainerPrepared;
+            _subscribedItemsControl = null;
+        }
+    }
+#else
     /// <inheritdoc />
     protected override void OnAttachedToVisualTree()
     {
         if (AssociatedObject is not null)
         {
-#if UNO
-            AssociatedObject.ElementPrepared += ItemsControlOnContainerPrepared;
-#else
             AssociatedObject.ContainerPrepared += ItemsControlOnContainerPrepared;
-#endif
         }
     }
 
@@ -46,13 +92,10 @@ public class ItemsControlContainerPreparedTrigger : StyledElementTrigger<ItemsCo
     {
         if (AssociatedObject is not null)
         {
-#if UNO
-            AssociatedObject.ElementPrepared -= ItemsControlOnContainerPrepared;
-#else
             AssociatedObject.ContainerPrepared -= ItemsControlOnContainerPrepared;
-#endif
         }
     }
+#endif
 
     private void ItemsControlOnContainerPrepared(object? sender, ContainerPreparedEventArgs e)
     {
