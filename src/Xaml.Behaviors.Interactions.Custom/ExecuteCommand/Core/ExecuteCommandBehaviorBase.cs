@@ -35,7 +35,7 @@ public abstract partial class ExecuteCommandBehaviorBase : AttachedToVisualTreeB
         AvaloniaProperty.Register(nameof(FocusControl), typeof(Control), typeof(ExecuteCommandBehaviorBase), new PropertyMetadata(null));
 #else
     public static readonly StyledProperty<Control?> FocusControlProperty =
-        AvaloniaProperty.Register<ExecuteCommandBehaviorBase, Control?>(nameof(CommandParameter));
+        AvaloniaProperty.Register<ExecuteCommandBehaviorBase, Control?>(nameof(FocusControl));
 #endif
 
     /// <summary>

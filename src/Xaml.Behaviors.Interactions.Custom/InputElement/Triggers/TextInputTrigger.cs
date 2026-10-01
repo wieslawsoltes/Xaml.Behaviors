@@ -38,7 +38,7 @@ public class TextInputTrigger : RoutedEventTriggerBase<TextInputEventArgs>
         AvaloniaProperty.Register(nameof(Text), typeof(string), typeof(TextInputTrigger), new PropertyMetadata(null));
 #else
     public static readonly StyledProperty<string?> TextProperty =
-        AvaloniaProperty.Register<KeyDownTrigger, string?>(nameof(Text));
+        AvaloniaProperty.Register<TextInputTrigger, string?>(nameof(Text));
 #endif
 
     /// <summary>
