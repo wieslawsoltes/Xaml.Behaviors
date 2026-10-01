@@ -439,7 +439,7 @@
           <pages:ContentControlFilesDropBehaviorView />
         </TabViewItem>
         <TabViewItem Header="Drag and Drop" Style="{StaticResource SidebarTabViewItemStyle}">
-          <controls:PendingSampleView Header="Drag and Drop" />
+          <pages:DragAndDropView />
         </TabViewItem>
         <TabViewItem Header="DragDrop Commands" Style="{StaticResource SidebarTabViewItemStyle}">
           <pages:DragDropCommandsView />
