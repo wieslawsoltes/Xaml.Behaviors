@@ -1,0 +1,136 @@
+<UserControl x:Class="BehaviorsTestApplication.Views.Pages.SelectingItemsControlBehaviorView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:animations="using:Xaml.Interactions.Custom"
+             xmlns:primitives="using:Microsoft.UI.Xaml.Controls.Primitives"
+             mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="200">
+  <!--
+    SelectingItemsControlBehavior targets selecting items controls (WinUI Selector) and moves the item containers'
+    PART_SelectedPipe indicator (the Avalonia Fluent TabItem part). WinUI's TabView is not a Selector and its tab items
+    have no such part, so the TabView gets a template (Avalonia Fluent look: headers with a selection pipe below the
+    selected one) whose tab strip list, the TabView's TabListView selector, enables the selection animation (Avalonia:
+    SelectingItemsControlBehavior.EnableSelectionAnimation="True" on the TabControl).
+  -->
+  <UserControl.Resources>
+    <Style x:Key="SelectionTabItemStyle" TargetType="TabViewItem">
+      <Setter Property="IsClosable" Value="False" />
+      <Setter Property="FontSize" Value="20" />
+      <Setter Property="Foreground" Value="{ThemeResource TextFillColorSecondaryBrush}" />
+      <Setter Property="Background" Value="Transparent" />
+      <Setter Property="Padding" Value="12,0" />
+      <Setter Property="MinHeight" Value="48" />
+      <Setter Property="Template">
+        <Setter.Value>
+          <ControlTemplate TargetType="TabViewItem">
+            <Grid x:Name="LayoutRoot"
+                  Background="{TemplateBinding Background}"
+                  MinHeight="{TemplateBinding MinHeight}"
+                  Padding="{TemplateBinding Padding}">
+              <ContentPresenter x:Name="ContentPresenter"
+                                VerticalAlignment="Center"
+                                Content="{TemplateBinding Header}"
+                                ContentTemplate="{TemplateBinding HeaderTemplate}"
+                                FontSize="{TemplateBinding FontSize}"
+                                Foreground="{TemplateBinding Foreground}" />
+              <Border x:Name="PART_SelectedPipe"
+                      Height="2"
+                      Margin="0,0,0,4"
+                      HorizontalAlignment="Stretch"
+                      VerticalAlignment="Bottom"
+                      CornerRadius="1"
+                      Background="{ThemeResource AccentFillColorDefaultBrush}"
+                      Opacity="0" />
+              <VisualStateManager.VisualStateGroups>
+                <VisualStateGroup x:Name="CommonStates">
+                  <VisualState x:Name="Normal" />
+                  <VisualState x:Name="PointerOver">
+                    <VisualState.Setters>
+                      <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource TextFillColorPrimaryBrush}" />
+                    </VisualState.Setters>
+                  </VisualState>
+                  <VisualState x:Name="Pressed">
+                    <VisualState.Setters>
+                      <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource TextFillColorPrimaryBrush}" />
+                    </VisualState.Setters>
+                  </VisualState>
+                  <VisualState x:Name="Selected">
+                    <VisualState.Setters>
+                      <Setter Target="PART_SelectedPipe.Opacity" Value="1" />
+                      <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource TextFillColorPrimaryBrush}" />
+                    </VisualState.Setters>
+                  </VisualState>
+                  <VisualState x:Name="PointerOverSelected">
+                    <VisualState.Setters>
+                      <Setter Target="PART_SelectedPipe.Opacity" Value="1" />
+                      <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource TextFillColorPrimaryBrush}" />
+                    </VisualState.Setters>
+                  </VisualState>
+                  <VisualState x:Name="PressedSelected">
+                    <VisualState.Setters>
+                      <Setter Target="PART_SelectedPipe.Opacity" Value="1" />
+                      <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource TextFillColorPrimaryBrush}" />
+                    </VisualState.Setters>
+                  </VisualState>
+                </VisualStateGroup>
+              </VisualStateManager.VisualStateGroups>
+            </Grid>
+          </ControlTemplate>
+        </Setter.Value>
+      </Setter>
+    </Style>
+
+    <Style x:Key="SelectionTabControlStyle" TargetType="TabView">
+      <Setter Property="Template">
+        <Setter.Value>
+          <ControlTemplate TargetType="TabView">
+            <Grid Background="{TemplateBinding Background}">
+              <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+              </Grid.RowDefinitions>
+              <primitives:TabViewListView x:Name="TabListView"
+                                          animations:SelectingItemsControlBehavior.EnableSelectionAnimation="True"
+                                          SelectionMode="Single"
+                                          CanDragItems="False"
+                                          CanReorderItems="False"
+                                          AllowDrop="False"
+                                          ItemContainerStyle="{StaticResource SelectionTabItemStyle}">
+                <primitives:TabViewListView.Template>
+                  <ControlTemplate TargetType="primitives:TabViewListView">
+                    <ScrollViewer x:Name="ScrollViewer"
+                                  HorizontalScrollMode="Auto"
+                                  HorizontalScrollBarVisibility="Hidden"
+                                  VerticalScrollMode="Disabled"
+                                  VerticalScrollBarVisibility="Disabled">
+                      <ItemsPresenter x:Name="TabsItemsPresenter" />
+                    </ScrollViewer>
+                  </ControlTemplate>
+                </primitives:TabViewListView.Template>
+                <primitives:TabViewListView.ItemsPanel>
+                  <ItemsPanelTemplate>
+                    <StackPanel Orientation="Horizontal" />
+                  </ItemsPanelTemplate>
+                </primitives:TabViewListView.ItemsPanel>
+              </primitives:TabViewListView>
+              <ContentPresenter x:Name="TabContentPresenter" Grid.Row="1" />
+            </Grid>
+          </ControlTemplate>
+        </Setter.Value>
+      </Setter>
+    </Style>
+  </UserControl.Resources>
+
+  <TabView Style="{StaticResource SelectionTabControlStyle}" SelectedIndex="0">
+    <TabViewItem Header="First">
+      <Border Background="Red" Width="0" Height="0" />
+    </TabViewItem>
+    <TabViewItem Header="Second">
+      <Border Background="Red" Width="0" Height="0" />
+    </TabViewItem>
+    <TabViewItem Header="Third">
+      <Border Background="Red" Width="0" Height="0" />
+    </TabViewItem>
+  </TabView>
+</UserControl>

@@ -1,0 +1,24 @@
+<UserControl x:Class="BehaviorsTestApplication.Views.Pages.ShowContextMenuActionView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:i="using:Xaml.Interactivity"
+             xmlns:ic="using:Xaml.Interactions.Core"
+             xmlns:icustom="using:Xaml.Interactions.Custom"
+             mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="450">
+  <Button x:Name="Target" Content="Open Context Menu" Margin="5">
+    <!-- Avalonia Button.ContextMenu: a WinUI context flyout (MenuFlyout), which ShowContextMenuAction shows. -->
+    <Button.ContextFlyout>
+      <MenuFlyout>
+        <MenuFlyoutItem Text="Item 1" />
+        <MenuFlyoutItem Text="Item 2" />
+      </MenuFlyout>
+    </Button.ContextFlyout>
+    <i:Interaction.Behaviors>
+      <ic:EventTriggerBehavior EventName="Click">
+        <icustom:ShowContextMenuAction />
+      </ic:EventTriggerBehavior>
+    </i:Interaction.Behaviors>
+  </Button>
+</UserControl>

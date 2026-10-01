@@ -1,0 +1,25 @@
+<UserControl x:Class="BehaviorsTestApplication.Views.Pages.ScrollToOffsetActionView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:i="using:Xaml.Interactivity"
+             xmlns:ic="using:Xaml.Interactions.Core"
+             xmlns:icustom="using:Xaml.Interactions.Custom"
+             mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="250">
+  <StackPanel Spacing="10">
+    <i:Interaction.Behaviors>
+      <ic:EventTriggerBehavior EventName="Click" SourceObject="{x:Bind ScrollButton}">
+        <icustom:ScrollToOffsetAction ScrollViewer="{x:Bind Viewer}" VerticalOffset="400" />
+      </ic:EventTriggerBehavior>
+    </i:Interaction.Behaviors>
+    <Button x:Name="ScrollButton" Content="Scroll Down" />
+    <ScrollViewer x:Name="Viewer" Height="150">
+      <StackPanel>
+        <Border Height="200" Background="LightGray" />
+        <Border Height="200" Background="LightGray" />
+        <Border Height="200" Background="LightGray" />
+      </StackPanel>
+    </ScrollViewer>
+  </StackPanel>
+</UserControl>

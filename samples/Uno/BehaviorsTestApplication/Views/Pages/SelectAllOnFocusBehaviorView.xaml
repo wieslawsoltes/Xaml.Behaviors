@@ -1,0 +1,25 @@
+<UserControl xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:i="using:Xaml.Interactivity"
+             xmlns:icustom="using:Xaml.Interactions.Custom"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="BehaviorsTestApplication.Views.Pages.SelectAllOnFocusBehaviorView">
+    <ScrollViewer>
+        <StackPanel Spacing="20" Margin="20">
+            <TextBlock Text="SelectAllOnFocusBehavior" FontSize="24" FontWeight="Bold" />
+            <TextBlock Text="Tab through these boxes. Text should be automatically selected." />
+            <TextBox Text="Select me!">
+                <i:Interaction.Behaviors>
+                    <icustom:SelectAllOnFocusBehavior />
+                </i:Interaction.Behaviors>
+            </TextBox>
+            <TextBox Text="Me too!">
+                <i:Interaction.Behaviors>
+                    <icustom:SelectAllOnFocusBehavior />
+                </i:Interaction.Behaviors>
+            </TextBox>
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>

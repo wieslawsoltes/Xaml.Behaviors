@@ -1,0 +1,29 @@
+<UserControl x:Class="BehaviorsTestApplication.Views.Pages.ShowHideFlyoutActionView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:i="using:Xaml.Interactivity"
+             xmlns:ic="using:Xaml.Interactions.Core"
+             xmlns:icustom="using:Xaml.Interactions.Custom"
+             mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="450">
+  <i:Interaction.Behaviors>
+    <ic:EventTriggerBehavior EventName="Click" SourceObject="{x:Bind ShowButton}">
+      <icustom:ShowFlyoutAction TargetControl="{x:Bind Target}" Flyout="{x:Bind Target.Flyout}" />
+    </ic:EventTriggerBehavior>
+    <ic:EventTriggerBehavior EventName="Click" SourceObject="{x:Bind HideButton}">
+      <icustom:HideFlyoutAction TargetControl="{x:Bind Target}" Flyout="{x:Bind Target.Flyout}" />
+    </ic:EventTriggerBehavior>
+  </i:Interaction.Behaviors>
+  <StackPanel>
+    <Button x:Name="ShowButton" Content="Show Flyout" Margin="5" />
+    <Button x:Name="HideButton" Content="Hide Flyout" Margin="5" />
+    <Button x:Name="Target" Content="Target" Margin="5">
+      <Button.Flyout>
+        <Flyout>
+          <TextBlock Margin="10" Text="Flyout content" />
+        </Flyout>
+      </Button.Flyout>
+    </Button>
+  </StackPanel>
+</UserControl>

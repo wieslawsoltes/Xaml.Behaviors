@@ -55,7 +55,7 @@
       </i:Interaction.Behaviors>
       <controls:SingleSelectionTabControl.TabItems>
         <TabViewItem Header="SelectAllOnFocusBehavior" Style="{StaticResource SidebarTabViewItemStyle}">
-          <controls:PendingSampleView Header="SelectAllOnFocusBehavior" />
+          <pages:SelectAllOnFocusBehaviorView />
         </TabViewItem>
         <TabViewItem Header="FocusNextElementAction" Style="{StaticResource SidebarTabViewItemStyle}">
           <controls:PendingSampleView Header="FocusNextElementAction" />
@@ -106,7 +106,7 @@
           <controls:PendingSampleView Header="FocusTrapBehavior" />
         </TabViewItem>
         <TabViewItem Header="ScreenReaderAnnounceAction" Style="{StaticResource SidebarTabViewItemStyle}">
-          <controls:PendingSampleView Header="ScreenReaderAnnounceAction" />
+          <pages:ScreenReaderAnnounceActionView />
         </TabViewItem>
         <TabViewItem Header="GlobalHotkeyBehavior" Style="{StaticResource SidebarTabViewItemStyle}">
           <controls:PendingSampleView Header="GlobalHotkeyBehavior" />
@@ -208,7 +208,7 @@
           <controls:PendingSampleView Header="FocusSelectedItemBehavior" />
         </TabViewItem>
         <TabViewItem Header="RoutedEventTriggerBehavior" Style="{StaticResource SidebarTabViewItemStyle}">
-          <controls:PendingSampleView Header="RoutedEventTriggerBehavior" />
+          <pages:RoutedEventTriggerBehaviorView />
         </TabViewItem>
         <TabViewItem Header="ChangeAvaloniaPropertyAction" Style="{StaticResource SidebarTabViewItemStyle}">
           <controls:PendingSampleView Header="ChangeAvaloniaPropertyAction" />
@@ -310,10 +310,10 @@
           <controls:PendingSampleView Header="Fade Animation" />
         </TabViewItem>
         <TabViewItem Header="Scale Animation" Style="{StaticResource SidebarTabViewItemStyle}">
-          <controls:PendingSampleView Header="Scale Animation" />
+          <pages:ScaleAnimationView />
         </TabViewItem>
         <TabViewItem Header="Rotate Animation" Style="{StaticResource SidebarTabViewItemStyle}">
-          <controls:PendingSampleView Header="Rotate Animation" />
+          <pages:RotateAnimationView />
         </TabViewItem>
         <TabViewItem Header="Entrance Animations" Style="{StaticResource SidebarTabViewItemStyle}">
           <controls:PendingSampleView Header="Entrance Animations" />
@@ -346,13 +346,13 @@
           <controls:PendingSampleView Header="StartBuiltAnimationAction" />
         </TabViewItem>
         <TabViewItem Header="RunAnimationTrigger" Style="{StaticResource SidebarTabViewItemStyle}">
-          <controls:PendingSampleView Header="RunAnimationTrigger" />
+          <pages:RunAnimationTriggerView />
         </TabViewItem>
         <TabViewItem Header="FluidMoveBehavior" Style="{StaticResource SidebarTabViewItemStyle}">
           <controls:PendingSampleView Header="FluidMoveBehavior" />
         </TabViewItem>
         <TabViewItem Header="SelectingItemsControlBehavior" Style="{StaticResource SidebarTabViewItemStyle}">
-          <controls:PendingSampleView Header="SelectingItemsControlBehavior" />
+          <pages:SelectingItemsControlBehaviorView />
         </TabViewItem>
         <TabViewItem Header="ListBox Selection Behaviors" Style="{StaticResource SidebarTabViewItemStyle}">
           <controls:PendingSampleView Header="ListBox Selection Behaviors" />
@@ -397,7 +397,7 @@
           <controls:PendingSampleView Header="GetClipboardFormatsAction" />
         </TabViewItem>
         <TabViewItem Header="SetClipboardDataObjectAction" Style="{StaticResource SidebarTabViewItemStyle}">
-          <controls:PendingSampleView Header="SetClipboardDataObjectAction" />
+          <pages:SetClipboardDataObjectActionView />
         </TabViewItem>
         <TabViewItem Header="FocusControlAction" Style="{StaticResource SidebarTabViewItemStyle}">
           <controls:PendingSampleView Header="FocusControlAction" />
@@ -406,25 +406,25 @@
           <controls:PendingSampleView Header="Hide/ShowControlAction" />
         </TabViewItem>
         <TabViewItem Header="ShowHideFlyoutAction" Style="{StaticResource SidebarTabViewItemStyle}">
-          <controls:PendingSampleView Header="ShowHideFlyoutAction" />
+          <pages:ShowHideFlyoutActionView />
         </TabViewItem>
         <TabViewItem Header="ShowContextMenuAction" Style="{StaticResource SidebarTabViewItemStyle}">
-          <controls:PendingSampleView Header="ShowContextMenuAction" />
+          <pages:ShowContextMenuActionView />
         </TabViewItem>
         <TabViewItem Header="ContextDialog" Style="{StaticResource SidebarTabViewItemStyle}">
           <controls:PendingSampleView Header="ContextDialog" />
         </TabViewItem>
         <TabViewItem Header="ShowHidePopupAction" Style="{StaticResource SidebarTabViewItemStyle}">
-          <controls:PendingSampleView Header="ShowHidePopupAction" />
+          <pages:ShowHidePopupActionView />
         </TabViewItem>
         <TabViewItem Header="ShowOn Event Behaviors" Style="{StaticResource SidebarTabViewItemStyle}">
           <controls:PendingSampleView Header="ShowOn Event Behaviors" />
         </TabViewItem>
         <TabViewItem Header="SetEnabledAction" Style="{StaticResource SidebarTabViewItemStyle}">
-          <controls:PendingSampleView Header="SetEnabledAction" />
+          <pages:SetEnabledActionView />
         </TabViewItem>
         <TabViewItem Header="ShowNotificationAction" Style="{StaticResource SidebarTabViewItemStyle}">
-          <controls:PendingSampleView Header="ShowNotificationAction" />
+          <pages:ShowNotificationActionView />
         </TabViewItem>
         <TabViewItem Header="Dialog Actions" Style="{StaticResource SidebarTabViewItemStyle}">
           <controls:PendingSampleView Header="Dialog Actions" />
@@ -538,7 +538,7 @@
           <controls:PendingSampleView Header="Theme Variant" />
         </TabViewItem>
         <TabViewItem Header="Screens" Style="{StaticResource SidebarTabViewItemStyle}">
-          <controls:PendingSampleView Header="Screens" />
+          <pages:ScreenView />
         </TabViewItem>
         <TabViewItem Header="BindPointerOverBehavior" Style="{StaticResource SidebarTabViewItemStyle}">
           <controls:PendingSampleView Header="BindPointerOverBehavior" />
@@ -601,16 +601,16 @@
           <controls:PendingSampleView Header="ViewportBehavior" />
         </TabViewItem>
         <TabViewItem Header="ScrollChangedTrigger" Style="{StaticResource SidebarTabViewItemStyle}">
-          <controls:PendingSampleView Header="ScrollChangedTrigger" />
+          <pages:ScrollChangedTriggerView />
         </TabViewItem>
         <TabViewItem Header="ScrollViewerOffsetBehavior" Style="{StaticResource SidebarTabViewItemStyle}">
-          <controls:PendingSampleView Header="ScrollViewerOffsetBehavior" />
+          <pages:ScrollViewerOffsetBehaviorView />
         </TabViewItem>
         <TabViewItem Header="ScrollToOffsetAction" Style="{StaticResource SidebarTabViewItemStyle}">
-          <controls:PendingSampleView Header="ScrollToOffsetAction" />
+          <pages:ScrollToOffsetActionView />
         </TabViewItem>
         <TabViewItem Header="Scroll Behaviors" Style="{StaticResource SidebarTabViewItemStyle}">
-          <controls:PendingSampleView Header="Scroll Behaviors" />
+          <pages:ScrollBehaviorsView />
         </TabViewItem>
         <TabViewItem Header="Window Interactions" Style="{StaticResource SidebarTabViewItemStyle}">
           <controls:PendingSampleView Header="Window Interactions" />
@@ -643,7 +643,7 @@
           <pages:PullGestureTriggersView />
         </TabViewItem>
         <TabViewItem Header="Scroll Gesture Triggers" Style="{StaticResource SidebarTabViewItemStyle}">
-          <controls:PendingSampleView Header="Scroll Gesture Triggers" />
+          <pages:ScrollGestureTriggersView />
         </TabViewItem>
         <TabViewItem Header="TouchPad Gesture Triggers" Style="{StaticResource SidebarTabViewItemStyle}">
           <controls:PendingSampleView Header="TouchPad Gesture Triggers" />
@@ -724,7 +724,7 @@
           <pages:ResourcesChangedTriggerView />
         </TabViewItem>
         <TabViewItem Header="RoutedEventTriggerBase" Style="{StaticResource SidebarTabViewItemStyle}">
-          <controls:PendingSampleView Header="RoutedEventTriggerBase" />
+          <pages:RoutedEventTriggerBaseView />
         </TabViewItem>
         <TabViewItem Header="UnloadedTrigger" Style="{StaticResource SidebarTabViewItemStyle}">
           <controls:PendingSampleView Header="UnloadedTrigger" />
@@ -742,10 +742,10 @@
           <controls:PendingSampleView Header="LaunchUriAction" />
         </TabViewItem>
         <TabViewItem Header="ScreenshotAction" Style="{StaticResource SidebarTabViewItemStyle}">
-          <controls:PendingSampleView Header="ScreenshotAction" />
+          <pages:ScreenshotActionView />
         </TabViewItem>
         <TabViewItem Header="ScrollToControlAction" Style="{StaticResource SidebarTabViewItemStyle}">
-          <controls:PendingSampleView Header="ScrollToControlAction" />
+          <pages:ScrollToControlActionView />
         </TabViewItem>
         <TabViewItem Header="ConsoleBeepAction" Style="{StaticResource SidebarTabViewItemStyle}">
           <controls:PendingSampleView Header="ConsoleBeepAction" />

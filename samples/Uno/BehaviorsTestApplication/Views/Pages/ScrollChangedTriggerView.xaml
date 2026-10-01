@@ -1,0 +1,25 @@
+<UserControl x:Class="BehaviorsTestApplication.Views.Pages.ScrollChangedTriggerView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:i="using:Xaml.Interactivity"
+             xmlns:ic="using:Xaml.Interactions.Core"
+             xmlns:icustom="using:Xaml.Interactions.Custom"
+             mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="250">
+  <StackPanel Spacing="10">
+    <ScrollViewer Height="150">
+      <i:Interaction.Behaviors>
+        <icustom:ScrollChangedTrigger>
+          <ic:ChangePropertyAction TargetObject="{x:Bind InfoText}" PropertyName="Text" Value="Scrolled" />
+        </icustom:ScrollChangedTrigger>
+      </i:Interaction.Behaviors>
+      <StackPanel>
+        <Border Height="200" Background="LightGray" />
+        <Border Height="200" Background="LightGray" />
+        <Border Height="200" Background="LightGray" />
+      </StackPanel>
+    </ScrollViewer>
+    <TextBlock x:Name="InfoText" Text="Scroll inside viewer" />
+  </StackPanel>
+</UserControl>
