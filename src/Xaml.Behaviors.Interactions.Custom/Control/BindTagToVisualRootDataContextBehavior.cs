@@ -22,24 +22,51 @@ namespace Avalonia.Xaml.Interactions.Custom;
 /// </summary>
 public class BindTagToVisualRootDataContextBehavior : DisposingBehavior<Control>
 {
+    private IDisposable? _binding;
+
     /// <summary>
-    /// Called when the behavior is attached to the visual tree.
+    /// Called when the behavior is attached: binds the tag when the associated object already has a visual root.
     /// </summary>
     /// <returns>A disposable that clears the binding.</returns>
     protected override IDisposable OnAttachedOverride()
     {
+        BindToVisualRoot();
+        return DisposableAction.Create(ClearBinding);
+    }
+
+    /// <summary>
+    /// Binds the tag once the associated object is attached to the visual tree: behaviors declared in XAML are
+    /// attached before their element has a visual root.
+    /// </summary>
+    protected override void OnAttachedToVisualTree()
+    {
+        base.OnAttachedToVisualTree();
+        BindToVisualRoot();
+    }
+
+    private void BindToVisualRoot()
+    {
+        if (_binding is not null || AssociatedObject is null)
+        {
+            return;
+        }
+
 #if UNO
         // WinUI: the root element of the XAML island hosting the control.
-        var visualRoot = AssociatedObject?.XamlRoot?.Content as StyledElement;
+        var visualRoot = AssociatedObject.XamlRoot?.Content as StyledElement;
 #else
         var visualRoot = TopLevel.GetTopLevel(AssociatedObject);
 #endif
         if (visualRoot is not null)
         {
-            return BindDataContextToTag(visualRoot, AssociatedObject);
+            _binding = BindDataContextToTag(visualRoot, AssociatedObject);
         }
+    }
 
-        return DisposableAction.Empty;
+    private void ClearBinding()
+    {
+        _binding?.Dispose();
+        _binding = null;
     }
 
     private static IDisposable BindDataContextToTag(StyledElement source, Control? target)
