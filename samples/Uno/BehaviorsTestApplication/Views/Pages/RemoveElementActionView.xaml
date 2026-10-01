@@ -1,0 +1,26 @@
+<UserControl x:Class="BehaviorsTestApplication.Views.Pages.RemoveElementActionView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:i="using:Xaml.Interactivity"
+             xmlns:ic="using:Xaml.Interactions.Core"
+             xmlns:icustom="using:Xaml.Interactions.Custom"
+             mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="450">
+  <Grid Background="{StaticResource GrayBrush}" Margin="5">
+    <StackPanel Spacing="10">
+      <Border x:Name="RemovableBorder"
+              Background="{StaticResource PinkBrush}"
+              BorderBrush="{StaticResource GrayBrush}"
+              BorderThickness="2"
+              Height="60"/>
+      <Button x:Name="RemoveButton" Content="Remove Border">
+        <i:Interaction.Behaviors>
+          <ic:EventTriggerBehavior EventName="Click" SourceObject="{x:Bind RemoveButton}">
+            <icustom:RemoveElementAction TargetObject="{x:Bind RemovableBorder}" />
+          </ic:EventTriggerBehavior>
+        </i:Interaction.Behaviors>
+      </Button>
+    </StackPanel>
+  </Grid>
+</UserControl>

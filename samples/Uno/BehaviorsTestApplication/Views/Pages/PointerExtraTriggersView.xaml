@@ -1,0 +1,29 @@
+<UserControl x:Class="BehaviorsTestApplication.Views.Pages.PointerExtraTriggersView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:i="using:Xaml.Interactivity"
+             xmlns:ic="using:Xaml.Interactions.Core"
+             xmlns:icustom="using:Xaml.Interactions.Custom"
+             mc:Ignorable="d" d:DesignWidth="300" d:DesignHeight="200">
+  <StackPanel Margin="5">
+    <TextBlock x:Name="InfoText" Text="Interact" Margin="5" />
+    <Border Width="200" Height="100" Background="LightGray" Margin="5">
+      <i:Interaction.Behaviors>
+        <icustom:PointerEnteredTrigger>
+          <ic:ChangePropertyAction TargetObject="{x:Bind InfoText}" PropertyName="Text" Value="Pointer Entered" />
+        </icustom:PointerEnteredTrigger>
+        <icustom:PointerExitedTrigger>
+          <ic:ChangePropertyAction TargetObject="{x:Bind InfoText}" PropertyName="Text" Value="Pointer Exited" />
+        </icustom:PointerExitedTrigger>
+        <icustom:PointerWheelChangedTrigger>
+          <ic:ChangePropertyAction TargetObject="{x:Bind InfoText}" PropertyName="Text" Value="Wheel Changed" />
+        </icustom:PointerWheelChangedTrigger>
+        <icustom:PointerCaptureLostTrigger>
+          <ic:ChangePropertyAction TargetObject="{x:Bind InfoText}" PropertyName="Text" Value="Capture Lost" />
+        </icustom:PointerCaptureLostTrigger>
+      </i:Interaction.Behaviors>
+    </Border>
+  </StackPanel>
+</UserControl>

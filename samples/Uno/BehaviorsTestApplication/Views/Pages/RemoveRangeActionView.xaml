@@ -1,0 +1,29 @@
+<UserControl x:Class="BehaviorsTestApplication.Views.Pages.RemoveRangeActionView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:i="using:Xaml.Interactivity"
+             xmlns:ic="using:Xaml.Interactions.Core"
+             xmlns:icustom="using:Xaml.Interactions.Custom"
+             xmlns:vm="using:BehaviorsTestApplication.ViewModels"
+             mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="450">
+  <StackPanel Spacing="10" Margin="5">
+    <!-- Avalonia ListBox: a WinUI ListView. -->
+    <ListView x:Name="ItemsListBox" ItemsSource="{x:Bind ViewModel.Items, Mode=OneWay}" SelectionMode="Multiple" Height="200">
+      <ListView.ItemTemplate>
+        <DataTemplate x:DataType="vm:ItemViewModel">
+          <TextBlock Text="{x:Bind Value, Mode=OneWay}" Margin="5" />
+        </DataTemplate>
+      </ListView.ItemTemplate>
+    </ListView>
+    <Button Content="Remove Selected">
+      <i:Interaction.Behaviors>
+        <ic:EventTriggerBehavior EventName="Click">
+          <!-- ListView.SelectedItems is a live collection (not a dependency property): x:Bind assigns it once. -->
+          <icustom:RemoveRangeAction Target="{x:Bind ViewModel.Items, Mode=OneWay}" Items="{x:Bind ItemsListBox.SelectedItems}" />
+        </ic:EventTriggerBehavior>
+      </i:Interaction.Behaviors>
+    </Button>
+  </StackPanel>
+</UserControl>
