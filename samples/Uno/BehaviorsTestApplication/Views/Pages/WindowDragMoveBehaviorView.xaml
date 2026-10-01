@@ -1,0 +1,12 @@
+<!--
+  Not available: the sample opens a decoration-less Avalonia window (Views/Windows/WindowDemo) moved with
+  WindowDragMoveBehavior (Window.BeginMoveDrag); WinUI declares drag regions with Window.SetTitleBar, and the behavior
+  and the demo window are not part of the Uno port.
+-->
+<UserControl x:Class="BehaviorsTestApplication.Views.Pages.WindowDragMoveBehaviorView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:controls="using:BehaviorsTestApplication.Controls">
+  <controls:NotAvailableOnUnoView Title="WindowDragMoveBehavior"
+                                  Reason="WindowDragMoveBehavior moves the window with Window.BeginMoveDrag; WinUI has no counterpart (drag regions are declared with Window.SetTitleBar)." />
+</UserControl>

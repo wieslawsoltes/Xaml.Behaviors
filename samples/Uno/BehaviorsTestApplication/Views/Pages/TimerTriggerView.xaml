@@ -1,0 +1,25 @@
+<UserControl x:Class="BehaviorsTestApplication.Views.Pages.TimerTriggerView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:i="using:Xaml.Interactivity"
+             xmlns:ic="using:Xaml.Interactions.Core"
+             mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="450">
+  <Border Margin="5"
+          Background="{StaticResource PinkBrush}"
+          BorderBrush="{StaticResource GrayBrush}"
+          BorderThickness="5">
+    <TextBlock Text="{x:Bind ViewModel.TimerCount, Mode=OneWay}"
+               FontSize="100"
+               VerticalAlignment="Center"
+               HorizontalAlignment="Center"
+               Foreground="{StaticResource YellowBrush}">
+      <i:Interaction.Behaviors>
+        <ic:TimerTrigger MillisecondsPerTick="1000" RepeatForever="True">
+          <ic:CallMethodAction TargetObject="{x:Bind ViewModel}" MethodName="IncrementTimerCount" />
+        </ic:TimerTrigger>
+      </i:Interaction.Behaviors>
+    </TextBlock>
+  </Border>
+</UserControl>

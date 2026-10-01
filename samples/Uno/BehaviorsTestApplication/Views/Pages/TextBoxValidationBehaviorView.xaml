@@ -1,0 +1,25 @@
+<UserControl x:Class="BehaviorsTestApplication.Views.Pages.TextBoxValidationBehaviorView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:i="using:Xaml.Interactivity"
+             xmlns:icustom="using:Xaml.Interactions.Custom"
+             mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="150">
+  <StackPanel Spacing="4">
+    <!-- Avalonia TextBox bindings update the source on every change (WinUI: UpdateSourceTrigger=PropertyChanged). -->
+    <TextBox Width="200" Text="{x:Bind ViewModel.ValidatedText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+      <i:Interaction.Behaviors>
+        <!-- Avalonia: Mode=OneWayToSource (WinUI has no OneWayToSource; the view model only reads the flag back). -->
+        <icustom:TextBoxValidationBehavior IsValid="{x:Bind ViewModel.IsTextValid, Mode=TwoWay}">
+          <icustom:RequiredTextValidationRule ErrorMessage="Text is required." />
+          <icustom:RegexValidationRule Pattern="^[0-9]+$" ErrorMessage="Digits only." />
+        </icustom:TextBoxValidationBehavior>
+      </i:Interaction.Behaviors>
+    </TextBox>
+    <CheckBox IsEnabled="False"
+              Content="IsTextValid "
+              IsChecked="{x:Bind ViewModel.IsTextValid, Mode=OneWay}" />
+    <TextBlock Text="{x:Bind ViewModel.ValidatedText, Mode=OneWay}" />
+  </StackPanel>
+</UserControl>

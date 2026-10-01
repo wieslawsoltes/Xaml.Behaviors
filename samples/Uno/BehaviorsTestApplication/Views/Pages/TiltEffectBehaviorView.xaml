@@ -1,0 +1,42 @@
+<UserControl x:Class="BehaviorsTestApplication.Views.Pages.TiltEffectBehaviorView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:i="using:Xaml.Interactivity"
+             xmlns:icustom="using:Xaml.Interactions.Custom"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="600">
+    <ScrollViewer>
+        <StackPanel Spacing="20" Margin="20">
+            <TextBlock Text="TiltEffectBehavior" FontSize="24" FontWeight="Bold" />
+            <TextBlock Text="Hover over the cards below to see the 3D tilt effect." />
+
+            <!--
+              Avalonia: WrapPanel (WinUI has no WrapPanel) and BoxShadow="0 5 15 0 #50000000" (WinUI Border has no box
+              shadow).
+            -->
+            <StackPanel Orientation="Horizontal">
+                <Border Width="200" Height="120" Background="#3498db" CornerRadius="10" Margin="10">
+                    <i:Interaction.Behaviors>
+                        <icustom:TiltEffectBehavior TiltStrength="30" />
+                    </i:Interaction.Behaviors>
+                    <TextBlock Text="Hover Me" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="Bold" FontSize="20" />
+                </Border>
+
+                <Border Width="200" Height="120" Background="#e74c3c" CornerRadius="10" Margin="10">
+                    <i:Interaction.Behaviors>
+                        <icustom:TiltEffectBehavior TiltStrength="60" />
+                    </i:Interaction.Behaviors>
+                    <TextBlock Text="Strong Tilt" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="Bold" FontSize="20" />
+                </Border>
+
+                <Border Width="200" Height="120" Background="#2ecc71" CornerRadius="10" Margin="10">
+                    <i:Interaction.Behaviors>
+                        <icustom:TiltEffectBehavior TiltStrength="15" />
+                    </i:Interaction.Behaviors>
+                    <TextBlock Text="Subtle Tilt" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="Bold" FontSize="20" />
+                </Border>
+            </StackPanel>
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>
