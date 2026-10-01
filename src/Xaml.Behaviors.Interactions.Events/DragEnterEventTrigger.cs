@@ -23,16 +23,20 @@ namespace Avalonia.Xaml.Interactions.Events;
 /// </remarks>
 public sealed class DragEnterEventTrigger : InteractiveTriggerBase
 {
+    private System.IDisposable? _subscription;
+
     /// <inheritdoc />
     protected override void OnAttachedToVisualTree()
     {
-        AssociatedObject?.AddHandler(DragDrop.DragEnterEvent, OnDragEnter, RoutingStrategies, handledEventsToo: true);
+        _subscription?.Dispose();
+        _subscription = AssociatedObject?.AddDisposableRoutedEventHandler(DragDrop.DragEnterEvent, OnDragEnter, RoutingStrategies, handledEventsToo: true);
     }
 
     /// <inheritdoc />
     protected override void OnDetachedFromVisualTree()
     {
-        AssociatedObject?.RemoveRoutedEventHandler(DragDrop.DragEnterEvent, OnDragEnter);
+        _subscription?.Dispose();
+        _subscription = null;
     }
 
     private void OnDragEnter(object? sender, DragEventArgs e)

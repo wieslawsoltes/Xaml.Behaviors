@@ -19,8 +19,14 @@ public abstract partial class ExecuteCommandRoutedEventBehaviorBase : ExecuteCom
 {
 
     /// <summary>
-    /// 
+    /// Gets or sets the routing strategies used to subscribe to the routed event. This is an avalonia property.
     /// </summary>
+    /// <remarks>
+    /// The handler is invoked whatever the routing strategies of the event: <see cref="RoutingStrategies.Bubble"/> (the
+    /// default) or <see cref="RoutingStrategies.Tunnel"/> also handle a direct event (for example
+    /// <c>PointerEntered</c>), and <see cref="RoutingStrategies.Direct"/> alone only handles the events raised by the
+    /// element itself, not the ones raised by its descendants.
+    /// </remarks>
     [StyledProperty(DefaultValue = RoutingStrategies.Bubble)]
     public partial RoutingStrategies EventRoutingStrategy { get; set; }
 

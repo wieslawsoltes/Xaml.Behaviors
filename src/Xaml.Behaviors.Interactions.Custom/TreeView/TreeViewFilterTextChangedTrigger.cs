@@ -21,6 +21,9 @@ namespace Avalonia.Xaml.Interactions.Custom;
 /// </summary>
 public sealed partial class TreeViewFilterTextChangedTrigger : InteractiveTriggerBase
 {
+#if !UNO
+    private System.IDisposable? _subscription;
+#endif
 
     /// <summary>
     /// Gets or sets the search box control.
@@ -38,7 +41,8 @@ public sealed partial class TreeViewFilterTextChangedTrigger : InteractiveTrigge
             SearchBox.TextChanged += OnTextChanged;
         }
 #else
-        SearchBox?.AddHandler(TextBox.TextChangedEvent, OnTextChanged, RoutingStrategies);
+        _subscription?.Dispose();
+        _subscription = SearchBox?.AddDisposableRoutedEventHandler(TextBox.TextChangedEvent, OnTextChanged, RoutingStrategies);
 #endif
     }
 
@@ -51,7 +55,8 @@ public sealed partial class TreeViewFilterTextChangedTrigger : InteractiveTrigge
             SearchBox.TextChanged -= OnTextChanged;
         }
 #else
-        SearchBox?.RemoveRoutedEventHandler(TextBox.TextChangedEvent, OnTextChanged);
+        _subscription?.Dispose();
+        _subscription = null;
 #endif
     }
 

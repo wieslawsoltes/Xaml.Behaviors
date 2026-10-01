@@ -29,7 +29,7 @@ public class ExecuteCommandOnPointerTouchPadGestureMagnifyBehavior : ExecuteComm
     {
         var control = SourceControl ?? AssociatedObject;
         var dispose = control?
-            .AddDisposableHandler(
+            .AddDisposableRoutedEventHandler(
                 InputElement.PointerTouchPadGestureMagnifyEvent,
                 OnPointerTouchPadGestureMagnify,
                 EventRoutingStrategy);

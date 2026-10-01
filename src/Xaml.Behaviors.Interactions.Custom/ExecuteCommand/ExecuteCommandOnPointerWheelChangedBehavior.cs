@@ -29,7 +29,7 @@ public class ExecuteCommandOnPointerWheelChangedBehavior : ExecuteCommandRoutedE
     {
         var control = SourceControl ?? AssociatedObject;
         var dispose = control?
-            .AddDisposableHandler(
+            .AddDisposableRoutedEventHandler(
                 InputElement.PointerWheelChangedEvent,
                 OnPointerWheelChanged,
                 EventRoutingStrategy);

@@ -22,7 +22,7 @@ namespace Avalonia.Xaml.Interactions.Custom;
 public partial class RoutedEventTriggerBehavior : StyledElementTrigger<Interactive>
 {
 
-    private bool _isInitialized;
+    private System.IDisposable? _subscription;
     private bool _isAttached;
 
     /// <summary>
@@ -73,7 +73,7 @@ public partial class RoutedEventTriggerBehavior : StyledElementTrigger<Interacti
             return;
         }
 
-        if (_isInitialized && _isAttached)
+        if (_subscription is not null && _isAttached)
         {
             RemoveHandler();
             AddHandler();
@@ -113,7 +113,7 @@ public partial class RoutedEventTriggerBehavior : StyledElementTrigger<Interacti
 
     private void AddHandler()
     {
-        if (_isInitialized)
+        if (_subscription is not null)
         {
             return;
         }
@@ -121,18 +121,19 @@ public partial class RoutedEventTriggerBehavior : StyledElementTrigger<Interacti
         var interactive = ComputeResolvedSourceInteractive();
         if (interactive is not null && RoutedEvent is not null)
         {
-            interactive.AddHandler(RoutedEvent, Handler, RoutingStrategies);
-            _isInitialized = true;
+            // The routing adapter subscribes on the routes the event is raised on, so the handler is invoked whatever
+            // the routing strategies of the event.
+            _subscription = interactive.AddDisposableUntypedRoutedEventHandler(RoutedEvent, Handler, RoutingStrategies);
         }
     }
 
     private void RemoveHandler()
     {
-        var interactive = ComputeResolvedSourceInteractive();
-        if (interactive is not null && RoutedEvent is not null && _isInitialized)
+        if (_subscription is not null)
         {
-            interactive.RemoveRoutedEventHandler(RoutedEvent, Handler);
-            _isInitialized = false;
+            var subscription = _subscription;
+            _subscription = null;
+            subscription.Dispose();
         }
     }
 

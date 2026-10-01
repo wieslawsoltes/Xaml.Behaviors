@@ -21,6 +21,10 @@ namespace Avalonia.Xaml.Interactions.Events;
 /// </summary>
 public class PointerEventsTrigger : InteractiveTriggerBase
 {
+    private System.IDisposable? _pressedSubscription;
+    private System.IDisposable? _releasedSubscription;
+    private System.IDisposable? _movedSubscription;
+
     static PointerEventsTrigger()
     {
         RoutingStrategiesProperty.OverrideMetadata<PointerEventsTrigger>(
@@ -31,23 +35,30 @@ public class PointerEventsTrigger : InteractiveTriggerBase
     /// <inheritdoc />
     protected override void OnAttachedToVisualTree()
     {
+        DisposeSubscriptions();
+
         if (AssociatedObject is not null)
         {
-            AssociatedObject.AddHandler(InputElement.PointerPressedEvent, OnPointerPressed, RoutingStrategies);
-            AssociatedObject.AddHandler(InputElement.PointerReleasedEvent, OnPointerReleased, RoutingStrategies);
-            AssociatedObject.AddHandler(InputElement.PointerMovedEvent, OnPointerMoved, RoutingStrategies);
+            _pressedSubscription = AssociatedObject.AddDisposableRoutedEventHandler(InputElement.PointerPressedEvent, OnPointerPressed, RoutingStrategies);
+            _releasedSubscription = AssociatedObject.AddDisposableRoutedEventHandler(InputElement.PointerReleasedEvent, OnPointerReleased, RoutingStrategies);
+            _movedSubscription = AssociatedObject.AddDisposableRoutedEventHandler(InputElement.PointerMovedEvent, OnPointerMoved, RoutingStrategies);
         }
     }
 
     /// <inheritdoc />
     protected override void OnDetachedFromVisualTree()
     {
-        if (AssociatedObject is not null)
-        {
-            AssociatedObject.RemoveRoutedEventHandler(InputElement.PointerPressedEvent, OnPointerPressed);
-            AssociatedObject.RemoveRoutedEventHandler(InputElement.PointerReleasedEvent, OnPointerReleased);
-            AssociatedObject.RemoveRoutedEventHandler(InputElement.PointerMovedEvent, OnPointerMoved);
-        }
+        DisposeSubscriptions();
+    }
+
+    private void DisposeSubscriptions()
+    {
+        _pressedSubscription?.Dispose();
+        _pressedSubscription = null;
+        _releasedSubscription?.Dispose();
+        _releasedSubscription = null;
+        _movedSubscription?.Dispose();
+        _movedSubscription = null;
     }
 
     private void OnPointerPressed(object? sender, PointerPressedEventArgs e)

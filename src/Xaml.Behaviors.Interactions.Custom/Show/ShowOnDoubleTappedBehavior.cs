@@ -37,7 +37,7 @@ public class ShowOnDoubleTappedBehavior : ShowBehaviorBase
         return DisposableAction.Create(() => element.RemoveRoutedEventHandler(InputElement.DoubleTappedEvent, AssociatedObject_DoubleTapped));
 #else
         var dispose = AssociatedObject?
-            .AddDisposableHandler(
+            .AddDisposableRoutedEventHandler(
                 InputElement.DoubleTappedEvent,
                 AssociatedObject_DoubleTapped, 
                 EventRoutingStrategy);

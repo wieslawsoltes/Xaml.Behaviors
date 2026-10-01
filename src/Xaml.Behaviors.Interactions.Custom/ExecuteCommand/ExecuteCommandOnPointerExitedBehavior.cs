@@ -30,7 +30,7 @@ public class ExecuteCommandOnPointerExitedBehavior : ExecuteCommandRoutedEventBe
     {
         var control = SourceControl ?? AssociatedObject;
         var dispose = control?
-            .AddDisposableHandler(
+            .AddDisposableRoutedEventHandler(
                 InputElement.PointerExitedEvent,
                 OnPointerExited,
                 EventRoutingStrategy);

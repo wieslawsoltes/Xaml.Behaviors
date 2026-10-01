@@ -21,6 +21,8 @@ namespace Avalonia.Xaml.Interactions.Events;
 /// </summary>
 public abstract class PointerPressedEventBehavior : InteractiveBehaviorBase
 {
+    private System.IDisposable? _subscription;
+
     static PointerPressedEventBehavior()
     {
         RoutingStrategiesProperty.OverrideMetadata<PointerPressedEventBehavior>(
@@ -31,13 +33,15 @@ public abstract class PointerPressedEventBehavior : InteractiveBehaviorBase
     /// <inheritdoc />
     protected override void OnAttachedToVisualTree()
     {
-        AssociatedObject?.AddHandler(InputElement.PointerPressedEvent, PointerPressed, RoutingStrategies);
+        _subscription?.Dispose();
+        _subscription = AssociatedObject?.AddDisposableRoutedEventHandler(InputElement.PointerPressedEvent, PointerPressed, RoutingStrategies);
     }
 
     /// <inheritdoc />
     protected override void OnDetachedFromVisualTree()
     {
-        AssociatedObject?.RemoveRoutedEventHandler(InputElement.PointerPressedEvent, PointerPressed);
+        _subscription?.Dispose();
+        _subscription = null;
     }
 
     private void PointerPressed(object? sender, PointerPressedEventArgs e)

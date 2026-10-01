@@ -29,7 +29,7 @@ public class ExecuteCommandOnRightTappedBehavior : ExecuteCommandRoutedEventBeha
     {
         var control = SourceControl ?? AssociatedObject;
         var dispose = control?
-            .AddDisposableHandler(
+            .AddDisposableRoutedEventHandler(
                 InputElement.RightTappedEvent,
                 OnRightTapped,
                 EventRoutingStrategy);

@@ -29,8 +29,13 @@ public abstract partial class ShowBehaviorBase : AttachedToVisualTreeBehavior<Co
     public partial Control? TargetControl { get; set; }
 
     /// <summary>
-    /// 
+    /// Gets or sets the routing strategies used to subscribe to the routed event. This is an avalonia property.
     /// </summary>
+    /// <remarks>
+    /// <see cref="RoutingStrategies.Bubble"/> (the default) and <see cref="RoutingStrategies.Tunnel"/> also handle the
+    /// events raised by the descendants of the element; <see cref="RoutingStrategies.Direct"/> alone only handles the
+    /// events raised by the element itself.
+    /// </remarks>
     [StyledProperty(DefaultValue = RoutingStrategies.Bubble)]
     public partial RoutingStrategies EventRoutingStrategy { get; set; }
 

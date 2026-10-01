@@ -30,7 +30,7 @@ public class ExecuteCommandOnKeyDownBehavior : ExecuteCommandOnKeyBehaviorBase
     {
         var control = SourceControl ?? AssociatedObject;
         var dispose = control?
-            .AddDisposableHandler(
+            .AddDisposableRoutedEventHandler(
                 InputElement.KeyDownEvent,
                 OnKeyDown,
                 EventRoutingStrategy);

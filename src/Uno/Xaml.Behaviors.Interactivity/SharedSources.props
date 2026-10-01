@@ -17,7 +17,8 @@
       Events/Handlers/MenuItemClickEventHandler.cs;
       Events/Handlers/ButtonClickEventHandler.cs;
       Events/Handlers/FlyoutEventHandler.cs;
-      Events/RoutedEventHandlerExtensions.cs
+      Events/RoutedEventHandlerExtensions.cs;
+      Events/RoutingStrategiesAdapter.cs
     </UnoSharedSourceExcludes>
   </PropertyGroup>
 </Project>

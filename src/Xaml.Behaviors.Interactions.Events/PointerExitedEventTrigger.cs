@@ -21,6 +21,8 @@ namespace Avalonia.Xaml.Interactions.Events;
 /// </summary>
 public class PointerExitedEventTrigger : InteractiveTriggerBase
 {
+    private System.IDisposable? _subscription;
+
     static PointerExitedEventTrigger()
     {
         RoutingStrategiesProperty.OverrideMetadata<PointerExitedEventTrigger>(
@@ -31,13 +33,15 @@ public class PointerExitedEventTrigger : InteractiveTriggerBase
     /// <inheritdoc />
     protected override void OnAttachedToVisualTree()
     {
-        AssociatedObject?.AddHandler(InputElement.PointerExitedEvent, OnPointerExit, RoutingStrategies);
+        _subscription?.Dispose();
+        _subscription = AssociatedObject?.AddDisposableRoutedEventHandler(InputElement.PointerExitedEvent, OnPointerExit, RoutingStrategies);
     }
 
     /// <inheritdoc />
     protected override void OnDetachedFromVisualTree()
     {
-        AssociatedObject?.RemoveRoutedEventHandler(InputElement.PointerExitedEvent, OnPointerExit);
+        _subscription?.Dispose();
+        _subscription = null;
     }
 
     private void OnPointerExit(object? sender, PointerEventArgs e)

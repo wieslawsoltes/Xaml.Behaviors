@@ -29,7 +29,7 @@ public class ExecuteCommandOnHoldingBehavior : ExecuteCommandRoutedEventBehavior
     {
         var control = SourceControl ?? AssociatedObject;
         var dispose = control?
-            .AddDisposableHandler(
+            .AddDisposableRoutedEventHandler(
                 InputElement.HoldingEvent,
                 OnHolding,
                 EventRoutingStrategy);

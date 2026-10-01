@@ -21,6 +21,8 @@ namespace Avalonia.Xaml.Interactions.Events;
 /// </summary>
 public abstract class PointerCaptureLostEventBehavior : InteractiveBehaviorBase
 {
+    private System.IDisposable? _subscription;
+
     static PointerCaptureLostEventBehavior()
     {
         RoutingStrategiesProperty.OverrideMetadata<PointerCaptureLostEventBehavior>(
@@ -31,13 +33,15 @@ public abstract class PointerCaptureLostEventBehavior : InteractiveBehaviorBase
     /// <inheritdoc />
     protected override void OnAttachedToVisualTree()
     {
-        AssociatedObject?.AddHandler(InputElement.PointerCaptureLostEvent, PointerCaptureLost, RoutingStrategies);
+        _subscription?.Dispose();
+        _subscription = AssociatedObject?.AddDisposableRoutedEventHandler(InputElement.PointerCaptureLostEvent, PointerCaptureLost, RoutingStrategies);
     }
 
     /// <inheritdoc />
     protected override void OnDetachedFromVisualTree()
     {
-        AssociatedObject?.RemoveRoutedEventHandler(InputElement.PointerCaptureLostEvent, PointerCaptureLost);
+        _subscription?.Dispose();
+        _subscription = null;
     }
 
     private void PointerCaptureLost(object? sender, PointerCaptureLostEventArgs e)

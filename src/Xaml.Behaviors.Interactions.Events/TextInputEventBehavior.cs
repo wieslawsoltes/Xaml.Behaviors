@@ -21,6 +21,8 @@ namespace Avalonia.Xaml.Interactions.Events;
 /// </summary>
 public abstract class TextInputEventBehavior : InteractiveBehaviorBase
 {
+    private System.IDisposable? _subscription;
+
     static TextInputEventBehavior()
     {
         RoutingStrategiesProperty.OverrideMetadata<TextInputEventBehavior>(
@@ -31,13 +33,15 @@ public abstract class TextInputEventBehavior : InteractiveBehaviorBase
     /// <inheritdoc />
     protected override void OnAttachedToVisualTree()
     {
-        AssociatedObject?.AddHandler(InputElement.TextInputEvent, TextInput, RoutingStrategies);
+        _subscription?.Dispose();
+        _subscription = AssociatedObject?.AddDisposableRoutedEventHandler(InputElement.TextInputEvent, TextInput, RoutingStrategies);
     }
 
     /// <inheritdoc />
     protected override void OnDetachedFromVisualTree()
     {
-        AssociatedObject?.RemoveRoutedEventHandler(InputElement.TextInputEvent, TextInput);
+        _subscription?.Dispose();
+        _subscription = null;
     }
 
     private void TextInput(object? sender, TextInputEventArgs e)

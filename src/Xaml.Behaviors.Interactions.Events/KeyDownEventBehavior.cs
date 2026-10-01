@@ -21,6 +21,8 @@ namespace Avalonia.Xaml.Interactions.Events;
 /// </summary>
 public abstract class KeyDownEventBehavior : InteractiveBehaviorBase
 {
+    private System.IDisposable? _subscription;
+
     static KeyDownEventBehavior()
     {
         RoutingStrategiesProperty.OverrideMetadata<KeyDownEventBehavior>(
@@ -31,13 +33,15 @@ public abstract class KeyDownEventBehavior : InteractiveBehaviorBase
     /// <inheritdoc />
     protected override void OnAttachedToVisualTree()
     {
-        AssociatedObject?.AddHandler(InputElement.KeyDownEvent, KeyDown, RoutingStrategies);
+        _subscription?.Dispose();
+        _subscription = AssociatedObject?.AddDisposableRoutedEventHandler(InputElement.KeyDownEvent, KeyDown, RoutingStrategies);
     }
 
     /// <inheritdoc />
     protected override void OnDetachedFromVisualTree()
     {
-        AssociatedObject?.RemoveRoutedEventHandler(InputElement.KeyDownEvent, KeyDown);
+        _subscription?.Dispose();
+        _subscription = null;
     }
 
     private void KeyDown(object? sender, KeyEventArgs e)

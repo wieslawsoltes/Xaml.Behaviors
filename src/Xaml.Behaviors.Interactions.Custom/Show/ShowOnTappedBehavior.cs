@@ -37,7 +37,7 @@ public class ShowOnTappedBehavior : ShowBehaviorBase
         return DisposableAction.Create(() => element.RemoveRoutedEventHandler(InputElement.TappedEvent, AssociatedObject_Tapped));
 #else
         var dispose = AssociatedObject?
-            .AddDisposableHandler(
+            .AddDisposableRoutedEventHandler(
                 InputElement.TappedEvent,
                 AssociatedObject_Tapped, 
                 EventRoutingStrategy);

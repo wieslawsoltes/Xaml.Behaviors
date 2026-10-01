@@ -29,7 +29,7 @@ public class ExecuteCommandOnTextInputBehavior : ExecuteCommandRoutedEventBehavi
     {
         var control = SourceControl ?? AssociatedObject;
         var dispose = control?
-            .AddDisposableHandler(
+            .AddDisposableRoutedEventHandler(
                 InputElement.TextInputEvent,
                 OnTextInput,
                 EventRoutingStrategy);

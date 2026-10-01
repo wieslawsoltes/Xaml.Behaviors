@@ -19,16 +19,20 @@ namespace Avalonia.Xaml.Interactions.Events;
 /// </summary>
 public class LostFocusEventTrigger : InteractiveTriggerBase
 {
+    private System.IDisposable? _subscription;
+
     /// <inheritdoc />
     protected override void OnAttachedToVisualTree()
     {
-        AssociatedObject?.AddHandler(InputElement.LostFocusEvent, OnLostFocus, RoutingStrategies);
+        _subscription?.Dispose();
+        _subscription = AssociatedObject?.AddDisposableRoutedEventHandler(InputElement.LostFocusEvent, OnLostFocus, RoutingStrategies);
     }
 
     /// <inheritdoc />
     protected override void OnDetachedFromVisualTree()
     {
-        AssociatedObject?.RemoveRoutedEventHandler(InputElement.LostFocusEvent, OnLostFocus);
+        _subscription?.Dispose();
+        _subscription = null;
     }
 
     private void OnLostFocus(object? sender, FocusChangedEventArgs e)

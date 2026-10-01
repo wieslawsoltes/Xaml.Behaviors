@@ -29,7 +29,7 @@ public class ExecuteCommandOnPointerCaptureLostBehavior : ExecuteCommandRoutedEv
     {
         var control = SourceControl ?? AssociatedObject;
         var dispose = control?
-            .AddDisposableHandler(
+            .AddDisposableRoutedEventHandler(
                 InputElement.PointerCaptureLostEvent,
                 OnPointerCaptureLost,
                 EventRoutingStrategy);

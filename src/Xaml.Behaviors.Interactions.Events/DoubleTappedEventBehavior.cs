@@ -21,16 +21,20 @@ namespace Avalonia.Xaml.Interactions.Events;
 /// </summary>
 public abstract class DoubleTappedEventBehavior : InteractiveBehaviorBase
 {
+    private System.IDisposable? _subscription;
+
     /// <inheritdoc />
     protected override void OnAttachedToVisualTree()
     {
-        AssociatedObject?.AddHandler(InputElement.DoubleTappedEvent, DoubleTapped, RoutingStrategies);
+        _subscription?.Dispose();
+        _subscription = AssociatedObject?.AddDisposableRoutedEventHandler(InputElement.DoubleTappedEvent, DoubleTapped, RoutingStrategies);
     }
 
     /// <inheritdoc />
     protected override void OnDetachedFromVisualTree()
     {
-        AssociatedObject?.RemoveRoutedEventHandler(InputElement.DoubleTappedEvent, DoubleTapped);
+        _subscription?.Dispose();
+        _subscription = null;
     }
 
     private void DoubleTapped(object? sender, RoutedEventArgs e)
