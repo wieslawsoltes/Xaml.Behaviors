@@ -19,6 +19,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\..\src\Uno\Xaml.Behaviors.Uno.Headless.XUnit\Xaml.Behaviors.Uno.Headless.XUnit.csproj" />
     <ProjectReference Include="..\..\..\src\Uno\Xaml.Behaviors.Interactions.DragAndDrop\Xaml.Behaviors.Interactions.DragAndDrop.csproj" />
+    <ProjectReference Include="..\..\..\src\Uno\Xaml.Behaviors.Interactions.Events\Xaml.Behaviors.Interactions.Events.csproj" />
   </ItemGroup>
 
   <Import Project="..\..\..\src\Uno\Xaml.Behaviors.Uno.Headless.Host\buildTransitive\Xaml.Behaviors.Uno.Headless.Host.targets" />

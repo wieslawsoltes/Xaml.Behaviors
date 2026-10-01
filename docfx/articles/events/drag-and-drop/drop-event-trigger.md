@@ -1,6 +1,8 @@
 # DropEventTrigger
 
 Trigger that listens for the `DragDrop.DropEvent`.
+The trigger also receives handled events, so it fires when a drop handler (for example `ContextDropBehavior`) on the
+same element handles the drag.
 
 ## Properties
 
