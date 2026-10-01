@@ -23,6 +23,12 @@
   </ItemGroup>
 
   <Import Project="$(AvaloniaSourcesDirectory)../build/XamlPropertyGenerator.props" Condition="'$(UnoSharedSourceProject)' != ''" />
+  <!--
+    Trimming and Native AOT, like every Avalonia library under src/: marks the packages IsTrimmable/IsAotCompatible
+    and turns the IL2xxx/IL3xxx analyzer warnings into errors. A project opts out with <IsTrimmable>false</IsTrimmable>
+    (the headless test harness does). Imported here, before the SDK targets that read these properties.
+  -->
+  <Import Project="$(AvaloniaSourcesDirectory)../build/TrimmingEnable.targets" Condition="'$(IsPackable)' == 'true' AND '$(IsTrimmable)' != 'false'" />
   <Import Project="$(AvaloniaSourcesDirectory)../build/SignAssembly.props" />
   <Import Project="$(AvaloniaSourcesDirectory)../build/SourceLink.props" />
 </Project>

@@ -20,6 +20,11 @@
     <!-- Upstream sources: no Avalonia port aliases, no XML docs requirement. -->
     <UnoPortAliases>false</UnoPortAliases>
     <NoWarn>$(NoWarn);CS1591</NoWarn>
+    <!--
+      Not trimmable: test infrastructure that is never trimmed or AOT published, built from upstream sources that are
+      kept as close to Uno as possible and that call Uno Skia runtime internals (no trimming contract to rely on).
+    -->
+    <IsTrimmable>false</IsTrimmable>
   </PropertyGroup>
 
   <PropertyGroup>
