@@ -32,7 +32,7 @@
   <Import Project="SharedSources.props" />
 
   <ItemGroup>
-    <PackageReference Include="ReactiveUI.Uno" VersionOverride="25.0.0" />
+    <PackageReference Include="ReactiveUI.Uno" />
   </ItemGroup>
 
   <ItemGroup>

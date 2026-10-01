@@ -34,9 +34,9 @@
   <Import Project="SharedSources.props" />
 
   <ItemGroup>
-    <PackageReference Include="ReactiveUI.Uno" VersionOverride="25.0.0" />
+    <PackageReference Include="ReactiveUI.Uno" />
     <!-- ReactiveUI 25 no longer depends on System.Reactive, which the shared view model uses (Observable, Unit). -->
-    <PackageReference Include="System.Reactive" VersionOverride="6.1.0" />
+    <PackageReference Include="System.Reactive" />
   </ItemGroup>
 
   <ItemGroup>

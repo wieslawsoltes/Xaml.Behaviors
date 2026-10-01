@@ -15,6 +15,8 @@
     <PackageReference Include="Avalonia.Themes.Fluent" />
     <PackageReference Include="Avalonia.Fonts.Inter" />
     <PackageReference Include="ReactiveUI.Avalonia" />
+    <!-- ReactiveUI 25 no longer depends on System.Reactive, which the view models use (Subject, Observable). -->
+    <PackageReference Include="System.Reactive" />
   </ItemGroup>
 
   <ItemGroup>

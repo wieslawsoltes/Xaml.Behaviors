@@ -38,12 +38,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="ReactiveUI.Uno" VersionOverride="25.0.0" />
+    <PackageReference Include="ReactiveUI.Uno" />
     <!--
       ReactiveUI 25 (ReactiveUI.Uno) replaced System.Reactive with ReactiveUI.Primitives; the shared view models use
       System.Reactive (Subject, Observable.Interval), like the Avalonia sample through ReactiveUI 23.
     -->
-    <PackageReference Include="System.Reactive" VersionOverride="6.1.0" />
+    <PackageReference Include="System.Reactive" />
     <PackageReference Include="ReactiveGenerator">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>

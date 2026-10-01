@@ -1,12 +1,7 @@
 using System.Collections.ObjectModel;
 using System.IO;
-#if UNO
-// ReactiveUI 25 (ReactiveUI.Uno) commands use ReactiveUI.Primitives.RxVoid instead of System.Reactive.Unit.
-using Unit = ReactiveUI.Primitives.RxVoid;
-#else
-using System.Reactive;
-#endif
 using ReactiveUI;
+using ReactiveUI.Primitives;
 
 namespace BehaviorsTestApplication.ViewModels;
 
@@ -34,7 +29,7 @@ public class FileSystemViewModel : ViewModelBase
         set => this.RaiseAndSetIfChanged(ref _logs, value);
     }
 
-    public ReactiveCommand<object?, Unit> LogEventCommand { get; }
+    public ReactiveCommand<object?, RxVoid> LogEventCommand { get; }
 
     public FileSystemViewModel()
     {
