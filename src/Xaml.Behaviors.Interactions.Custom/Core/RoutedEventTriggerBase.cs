@@ -25,7 +25,8 @@ public abstract partial class RoutedEventTriggerBase : AttachedToVisualTreeTrigg
     public partial RoutingStrategies EventRoutingStrategy { get; set; }
 
     /// <summary>
-    /// 
+    /// Gets or sets a value indicating whether the trigger marks the event as handled when it executes its actions.
+    /// When <see langword="false"/> (the default), the handled flag of the event is left unchanged.
     /// </summary>
     public bool MarkAsHandled { get; set; }
 }
