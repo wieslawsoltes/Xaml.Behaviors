@@ -1,0 +1,11 @@
+<!--
+  Not available: PinchGestureTrigger and PinchEndedGestureTrigger are built on the Avalonia pinch gesture recognizer,
+  which has no WinUI routed event (Gestures/Pinch*.cs are not part of the Uno port, see src/Uno/PORTING.md).
+-->
+<UserControl x:Class="BehaviorsTestApplication.Views.Pages.GestureAdvancedTriggersView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:controls="using:BehaviorsTestApplication.Controls">
+  <controls:NotAvailableOnUnoView Title="Gesture Advanced Triggers"
+                                  Reason="PinchGestureTrigger and PinchEndedGestureTrigger use the Avalonia pinch gesture recognizer, which has no WinUI routed event (WinUI pinch input comes from manipulation events)." />
+</UserControl>

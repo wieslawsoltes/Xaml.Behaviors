@@ -1,0 +1,29 @@
+<UserControl x:Class="BehaviorsTestApplication.Views.Pages.FluidMoveBehaviorView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:i="using:Xaml.Interactivity"
+             xmlns:icustom="using:Xaml.Interactions.Custom"
+             mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="450">
+  <StackPanel Margin="10" Spacing="10">
+    <Button Content="Shuffle" Width="100" HorizontalAlignment="Center" Command="{x:Bind ViewModel.ShuffleCommand}" />
+    <ItemsControl ItemsSource="{x:Bind ViewModel.Items}">
+      <ItemsControl.ItemsPanel>
+        <ItemsPanelTemplate>
+          <WrapPanel />
+        </ItemsPanelTemplate>
+      </ItemsControl.ItemsPanel>
+      <ItemsControl.ItemTemplate>
+        <DataTemplate x:DataType="x:Int32">
+          <Border Width="40" Height="40" Margin="4" Background="LightBlue">
+            <TextBlock Text="{x:Bind ToString()}" VerticalAlignment="Center" HorizontalAlignment="Center" />
+          </Border>
+        </DataTemplate>
+      </ItemsControl.ItemTemplate>
+      <i:Interaction.Behaviors>
+        <icustom:FluidMoveBehavior AppliesTo="Children" Duration="0:0:0.3" />
+      </i:Interaction.Behaviors>
+    </ItemsControl>
+  </StackPanel>
+</UserControl>
