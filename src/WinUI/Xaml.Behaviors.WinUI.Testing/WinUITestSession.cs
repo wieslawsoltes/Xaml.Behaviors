@@ -30,6 +30,7 @@ public sealed class WinUITestSession
 {
     private const int MaxJobs = 100_000;
     private static readonly TimeSpan FrameTimeout = TimeSpan.FromMilliseconds(250);
+    private static readonly TimeSpan PopupCloseTimeout = TimeSpan.FromSeconds(2);
     private static SessionStart? s_start;
     private readonly System.Collections.Generic.List<Exception> _unhandledExceptions = [];
 
@@ -322,6 +323,12 @@ public sealed class WinUITestSession
         {
             Mouse.StartNewSequence();
             CloseOpenPopups();
+            var closing = Stopwatch.StartNew();
+            while (HasOpenPopups() && closing.Elapsed < PopupCloseTimeout)
+            {
+                RenderFrame();
+            }
+
             Window.Content = element;
             EnsureForeground();
             RunJobs();
@@ -476,6 +483,7 @@ public sealed class WinUITestSession
     /// Closes the popups (flyouts, tool tips, menus) the previous content left open: an open light dismiss popup would
     /// take the first click on the new content.
     /// </summary>
+    /// <remarks>A popup closes over several frames: the callers wait until none is open.</remarks>
     private void CloseOpenPopups()
     {
         if (Window.Content?.XamlRoot is not { } xamlRoot)
@@ -488,6 +496,9 @@ public sealed class WinUITestSession
             popup.IsOpen = false;
         }
     }
+
+    private bool HasOpenPopups()
+        => Window.Content?.XamlRoot is { } xamlRoot && Microsoft.UI.Xaml.Media.VisualTreeHelper.GetOpenPopupsForXamlRoot(xamlRoot).Count > 0;
 
     private void UpdateLayout()
     {
@@ -515,6 +526,12 @@ public sealed class WinUITestSession
         {
             Mouse.StartNewSequence();
             CloseOpenPopups();
+            var closing = Stopwatch.StartNew();
+            while (HasOpenPopups() && closing.Elapsed < PopupCloseTimeout)
+            {
+                await WaitForIdleAsync();
+            }
+
             Window.Content = element;
             EnsureForeground();
 

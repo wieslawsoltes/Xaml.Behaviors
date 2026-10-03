@@ -255,6 +255,7 @@ same when it shows an element. **Done.**
 | `ElementName` bindings are resolved when `Loaded` is raised | They are resolved after the `Loaded` event is dispatched | The actions of a `Loaded` (or default) event trigger run on the dispatcher, after the event, so that their `ElementName` bindings have a value. **Done.** |
 | A popup, tool tip or flyout opens and closes with the queued work | It opens and closes over several frames, and a flyout cannot be shown again before it is closed | The shared tests wait for the `Opened`/`Closed` events. **Done.** |
 | `DoubleTapped` is raised when the pointer is released | It is raised on the second press, and the focus moves to the root when the pointer is then released over content that cannot be focused | `InlineEditBehavior` focuses its editor once the pointer is released. **Done.** |
+| The focus stays on the pressed element | A pointer press can move the focus to the root of the window | `ContextDragBehavior` handles the Escape key that cancels a pending drag at the root of the window. **Done.** |
 | A text only container is hit on its whole area | Only the text is hit (no background) | Test page layout. **Done.** |
 | An element can be added to a second parent | It throws | The tests remove the element first. **Done.** |
 | Focus navigation follows the tab indexes inside a panel with local tab navigation | `FocusManager.FindNextElement` leaves the panel | One shared test of `FocusNextElementAction` is skipped. **Open (platform).** |
