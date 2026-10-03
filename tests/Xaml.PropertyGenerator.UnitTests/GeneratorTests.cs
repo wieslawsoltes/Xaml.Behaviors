@@ -263,6 +263,18 @@ public class GeneratorTests
 
             [StyledProperty]
             public partial System.TimeSpan Delay { get; set; }
+
+            [StyledProperty]
+            public partial System.Windows.Input.ICommand? Command { get; set; }
+
+            [StyledProperty]
+            public partial System.Type? Kind { get; set; }
+
+            [StyledProperty]
+            public partial double? Size { get; set; }
+
+            [StyledProperty]
+            public partial DependencyObject? Child { get; set; }
         }
         """;
 
@@ -281,6 +293,12 @@ public class GeneratorTests
         Assert.Contains("Register(nameof(Other), typeof(object)", run.GeneratedSource, StringComparison.Ordinal);
         Assert.Contains("Register(nameof(Others), typeof(object)", run.GeneratedSource, StringComparison.Ordinal);
         Assert.Contains("Register(nameof(Delay), typeof(global::System.TimeSpan)", run.GeneratedSource, StringComparison.Ordinal);
+        // System types that are not WinUI classes have no base type in the XAML type information: asking for it
+        // terminates the application.
+        Assert.Contains("Register(nameof(Command), typeof(object)", run.GeneratedSource, StringComparison.Ordinal);
+        Assert.Contains("Register(nameof(Kind), typeof(object)", run.GeneratedSource, StringComparison.Ordinal);
+        Assert.Contains("Register(nameof(Size), typeof(double?)", run.GeneratedSource, StringComparison.Ordinal);
+        Assert.Contains("Register(nameof(Child), typeof(global::Microsoft.UI.Xaml.DependencyObject)", run.GeneratedSource, StringComparison.Ordinal);
         Assert.Contains("get => (global::TestNs.Mode)GetValue(ModeProperty)", run.GeneratedSource, StringComparison.Ordinal);
     }
 

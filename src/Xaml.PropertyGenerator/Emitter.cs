@@ -308,11 +308,12 @@ namespace Xaml.PropertyGenerator
         /// The property type a WinUI dependency property is registered with.
         /// </summary>
         /// <remarks>
-        /// Native WinUI resolves the property types of a class through the XAML type information of the application,
-        /// which fails for the <c>DependencyProperty</c> and <c>System.Type</c> types and knows only the types used
-        /// in XAML: properties of other than framework types are registered as <c>object</c> there (XAML still
-        /// converts strings with the property type, and dependency objects stored in them join the tree of their
-        /// owner).
+        /// Native WinUI resolves the type a property is registered with through the XAML type information of the
+        /// application unless it knows the type itself, which fails for system types that are not WinUI classes and
+        /// knows only the types used in XAML: on native WinUI the properties are registered as <c>object</c>, except
+        /// for the simple value types, <c>string</c>, the WinUI structures and the WinUI dependency object classes
+        /// (XAML still converts strings with the property type, and dependency objects stored in the properties join
+        /// the tree of their owner).
         /// </remarks>
         private static string RegisteredType(TypeModel type, PropertyModel p)
             => p.IsEnum && type.IsNativeWinUI ? "object" : p.TypeOfType;

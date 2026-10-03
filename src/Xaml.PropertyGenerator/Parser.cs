@@ -262,21 +262,22 @@ namespace Xaml.PropertyGenerator
         }
 
         /// <summary>
-        /// Whether native WinUI registers the property as <c>object</c>: every type that is not a framework type
-        /// (enums, the types of the libraries and of the application, type parameters), and the
-        /// <c>DependencyProperty</c> and <c>System.Type</c> property types.
+        /// Whether native WinUI registers the property as <c>object</c>: every type other than the simple value types,
+        /// <c>string</c>, <c>object</c>, the WinUI structures and the WinUI dependency object classes.
         /// </summary>
         /// <remarks>
         /// <para>
-        /// Native WinUI resolves the property types of a class through the XAML type information of the application
-        /// when a value is first set on it; a dependency property typed <c>DependencyProperty</c> makes every
-        /// <c>SetValue</c> of the class fail there (the generated system type has no base type).
+        /// Native WinUI resolves the type a dependency property is registered with through the XAML type information
+        /// of the application, unless it is a type WinUI itself knows. The type information of an application only
+        /// describes the types its XAML uses, and it describes a system type that is not a WinUI class (for example
+        /// <c>DependencyProperty</c>, <c>RoutedEvent</c>, <c>Window</c>, <c>IValueConverter</c> or <c>System.Type</c>)
+        /// without a base type: asking for it terminates the application.
         /// </para>
         /// <para>
-        /// A type that the XAML type information does not know (a type that is not used in the XAML of the
-        /// application) is opaque to native WinUI: a dependency object stored in a property of such a type does not
-        /// join the tree of its owner, so its bindings get no data context and resolve no element names. Stored in an
-        /// <c>object</c> property it does.
+        /// A type that the XAML type information does not know (a type of a library or of the application that is
+        /// not used in XAML) is opaque to native WinUI: a dependency object stored in a property of such a type does
+        /// not join the tree of its owner, so its bindings get no data context and resolve no element names. Stored
+        /// in an <c>object</c> property it does.
         /// </para>
         /// </remarks>
         private static bool IsEnumType(ITypeSymbol type)
@@ -286,44 +287,58 @@ namespace Xaml.PropertyGenerator
                 type = nullable.TypeArguments[0];
             }
 
-            if (type.TypeKind == TypeKind.Enum ||
-                type.WithNullableAnnotation(NullableAnnotation.NotAnnotated).ToDisplayString() is "Microsoft.UI.Xaml.DependencyProperty" or "System.Type")
-            {
-                return true;
-            }
-
-            return !IsFrameworkType(type);
+            return !IsNativeWinUIKnownType(type);
         }
 
-        private static bool IsFrameworkType(ITypeSymbol type)
+        private static bool IsNativeWinUIKnownType(ITypeSymbol type)
         {
-            switch (type)
+            type = type.WithNullableAnnotation(NullableAnnotation.NotAnnotated);
+            switch (type.SpecialType)
             {
-                case ITypeParameterSymbol:
-                    return false;
-                case IArrayTypeSymbol array:
-                    return IsFrameworkType(array.ElementType);
-                case INamedTypeSymbol named:
-                    if (!IsFrameworkNamespace(named.ContainingNamespace))
-                    {
-                        return false;
-                    }
-
-                    foreach (var argument in named.TypeArguments)
-                    {
-                        if (!IsFrameworkType(argument))
-                        {
-                            return false;
-                        }
-                    }
-
-                    return true;
-                default:
+                case SpecialType.System_Object:
+                case SpecialType.System_String:
+                case SpecialType.System_Boolean:
+                case SpecialType.System_Char:
+                case SpecialType.System_Byte:
+                case SpecialType.System_Int16:
+                case SpecialType.System_UInt16:
+                case SpecialType.System_Int32:
+                case SpecialType.System_UInt32:
+                case SpecialType.System_Int64:
+                case SpecialType.System_UInt64:
+                case SpecialType.System_Single:
+                case SpecialType.System_Double:
                     return true;
             }
+
+            if (type is not INamedTypeSymbol named || named.IsGenericType)
+            {
+                return false;
+            }
+
+            if (named.TypeKind == TypeKind.Struct)
+            {
+                return named.ToDisplayString() is "System.TimeSpan" or "System.DateTimeOffset" or "System.Guid"
+                    || IsWinUINamespace(named.ContainingNamespace);
+            }
+
+            if (named.TypeKind != TypeKind.Class || !IsWinUINamespace(named.ContainingNamespace))
+            {
+                return false;
+            }
+
+            for (INamedTypeSymbol? current = named; current is not null; current = current.BaseType)
+            {
+                if (current.ToDisplayString() == "Microsoft.UI.Xaml.DependencyObject")
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
 
-        private static bool IsFrameworkNamespace(INamespaceSymbol? @namespace)
+        private static bool IsWinUINamespace(INamespaceSymbol? @namespace)
         {
             if (@namespace is null || @namespace.IsGlobalNamespace)
             {
@@ -340,8 +355,8 @@ namespace Xaml.PropertyGenerator
 
             return root.Name switch
             {
-                "System" or "Windows" => true,
-                "Microsoft" => second?.Name is "UI" or "Windows" or "Graphics",
+                "Windows" => true,
+                "Microsoft" => second?.Name is "UI",
                 _ => false,
             };
         }

@@ -12,34 +12,38 @@ Windows App SDK 2.5.
 
 | Area | Status |
 |------|--------|
-| Libraries (`src/WinUI`, 13 packages) | Build on Windows (0 errors, no compiler, CsWinRT or trimming warnings). |
-| Test harness (`Xaml.Behaviors.WinUI.Testing`) | Done: the shared harness tests pass (55 tests, 1 intentionally skipped). |
-| Test projects (`tests/WinUI`, 16 projects) | Build; in progress, see [Test status](#test-status). |
-| Samples (`samples/WinUI`, 3 applications) | Build and start on Windows. In progress: the sidebar of the Behaviors sample (a re-templated `TabView`) and the window size. |
-| CI, packaging, documentation | To do. |
+| Libraries (`src/WinUI`, 13 packages) | Done: build on Windows (0 errors, no compiler, CsWinRT or trimming warnings). |
+| Test harness (`Xaml.Behaviors.WinUI.Testing`) | Done. |
+| Test projects (`tests/WinUI`, 16 projects) | Done: 1,020 tests, none failing, 10 skipped (see [Test status](#test-status)). |
+| Samples (`samples/WinUI`, 3 applications) | Build and start on Windows. The Behaviors sample shows its pages; the pages that set a `DependencyProperty` typed property in XAML do not load yet ([W20](#w20-dependency-property-types)). |
+| CI | A Windows job builds the solution, runs the tests (informative until they are stable on the hosted runners) and packs the packages. |
 
 ### Test status
 
-Last run in the Windows VM (the number of failing tests drops as the issues below are fixed).
+Windows 11 ARM64 (Parallels), `build/WinUIPort/run-tests.ps1`:
 
-| Test project | Tests | Failed | Notes |
-|--------------|------:|-------:|-------|
-| Animations | 95 | 8 | Composition animations sampled while running ([W5](#w5-composition-animations-run-in-the-compositor)). |
-| Interactions.Custom.Animations | 22 | 4 | Same as above. |
-| Interactions.Custom.Controls | 56 | 5 | |
-| Interactions.Custom.General | 110 | 32 | Before the move to real keyboard input ([W11](#w11-input-is-real-operating-system-input)). |
-| Interactions.DragAndDrop | 23 | 18 | Drag and drop modal loop ([W12](#w12-drag-and-drop-runs-a-modal-loop)). |
-| Interactions.DragAndDrop.DataGrid | 2 | hang | Same as above. |
-| Interactions.Draggable | 13 | 11 | |
+| Test project | Tests | Failed | Skipped |
+|--------------|------:|-------:|---------|
+| Animations | 95 | 0 | 5: composition animations sampled while they run ([W5](#w5-composition-animations-run-in-the-compositor)) |
+| Interactions.Custom.Animations | 22 | 0 | |
+| Interactions.Custom.Controls | 56 | 0 | |
+| Interactions.Custom.General | 110 | 0 | |
+| Interactions.DragAndDrop | 23 | 0 | 2: drop handler over tree view items ([W12](#w12-drag-and-drop-runs-a-modal-loop)) |
+| Interactions.DragAndDrop.DataGrid | 2 | 0 | |
+| Interactions.Draggable | 13 | 0 | |
 | Interactions.Events | 4 | 0 | |
 | Interactions.ReactiveUI | 8 | 0 | |
 | Interactions.Responsive | 7 | 0 | |
 | Interactions.Scripting | 5 | 0 | |
-| Interactions | 207 | 80 | XAML test pages could not be loaded ([W14](#w14-a-code-only-application-resolves-no-xaml-types)). |
-| Interactivity | 156 | 22 | |
-| SourceGenerators | 247 | 176 | Generator test references ([W16](#w16-the-generator-tests-need-the-winui-references)). |
-| Xaml.Behaviors (single assembly) | 10 | 8 | |
-| WinUI test harness | 55 | 0 | |
+| Interactions | 207 | 0 | 2: `FluidMoveBehavior` in a `Canvas` ([W25](#w25-a-canvas-moves-its-children-without-a-layout-pass)), local tab navigation ([W22](#w22-element-tree-events-and-input-timing)) |
+| Interactivity | 156 | 0 | |
+| SourceGenerators | 247 | 0 | |
+| Xaml.Behaviors (single assembly) | 10 | 0 | |
+| WinUI test harness | 55 | 0 | 1 (also skipped on Uno Platform) |
+
+The tests inject real input: a window of another application that comes to the front while they run makes input
+tests fail (see [W11](#w11-input-is-real-operating-system-input)). On the shared validation machine an occasional
+input test of the harness project fails for that reason (a different one in each run, none in most runs).
 
 ## Differences
 
@@ -215,26 +219,32 @@ shared tests uses it on WinUI. **Done, to be verified.**
 **WinUI:** `Background` is declared by `Control`, `Panel`, `Border` and a few others.
 **Port:** the sample uses `Microsoft.UI.Xaml.Controls.Control.BackgroundProperty` on WinUI. **Done.**
 
-### W20. Dependency properties of other than framework types
+### W20. Dependency property types
 
-**Uno Platform:** any property type can be registered.
-**WinUI:** when a value is first set on an object, WinUI resolves the property types of its class through the XAML type
-information of the application. For a dependency property typed `DependencyProperty` (for example
-`Condition.Property`) this asks the generated type information for the base type of a system type, which it does not
-implement: the application terminates on the first `SetValue` of *any* property of that class (stowed exception
-`0xc000027b`, `NotImplementedException` in `XamlSystemBaseType.BaseType`). Found with the sample (`MultiDataTrigger`,
-`LogAction` pages).
-**Port:** `Xaml.PropertyGenerator` registers properties typed `DependencyProperty`, `System.Type` or an enum as `object`
-on native WinUI (the CLR property keeps its type, so XAML still converts strings). Uno Platform registrations are
-unchanged. **Done.**
+**Uno Platform:** a dependency property can be registered with any type, and XAML can set a property of any type.
+**WinUI:** native WinUI resolves the type a dependency property is registered with through the XAML type information
+of the application, unless it is a type WinUI knows itself.
 
-The same holds for every type that is not a framework type (the types of the libraries and of the application). Such
-a type is opaque to WinUI unless the XAML of the application uses it: a dependency object stored in a property
-registered with it does not join the tree of its owner, so its bindings get no data context and resolve no element
-names. Behaviors added from code (no XAML) had bindings without a data context, as had the actions of a trigger and
-the cases of a switch. The generator registers those properties as `object` as well, and `Interaction.Behaviors` is
-registered as a `DependencyObjectCollection`: behaviors, actions and conditions get the data context of the element
-whether or not the application uses them in XAML. **Done.**
+* The type information describes a system type that is not a WinUI class (`DependencyProperty`, `RoutedEvent`,
+  `Window`, `IValueConverter`, `System.Type`, ...) without a base type: when WinUI asks for it, the application
+  terminates (stowed exception `0xc000027b`, `NotImplementedException` in `XamlSystemBaseType.BaseType`). Found with
+  the Behaviors sample.
+* The type information only knows the types the XAML of the application uses. Any other type of a library or of the
+  application is opaque: a dependency object stored in a property registered with it does not join the tree of its
+  owner, so its bindings get no data context and resolve no element names. Behaviors added from code had bindings
+  without a data context, as had the actions of a trigger and the cases of a switch.
+
+**Port:** on native WinUI `Xaml.PropertyGenerator` registers the properties as `object`, except for the simple value
+types, `string`, the WinUI structures and the WinUI dependency object classes (the CLR property keeps its type, so
+XAML still converts strings). `Interaction.Behaviors` is registered as a `DependencyObjectCollection`. Uno Platform
+registrations are unchanged. **Done.**
+
+**Open:** a CLR property typed `DependencyProperty` or `RoutedEvent` cannot be set from a XAML attribute on native
+WinUI (`ChangeAvaloniaPropertyAction.TargetProperty`, `BindingBehavior.TargetProperty`, `Condition.Property`,
+`PropertyValidationBehavior.Property`, `RoutedEventTriggerBehavior.RoutedEvent`): loading the XAML fails with
+"Cannot deserialize XBF metadata property list as 'TargetProperty' was not found", because WinUI cannot describe the
+property type. Uno Platform converts the `Type.Property` text at build time. The pages of the Behaviors sample that
+set these properties in XAML do not load on WinUI yet; setting the property from code works.
 
 ### W21. `FrameworkElement.IsLoaded` after a `Loaded` handler is added
 
@@ -254,6 +264,7 @@ same when it shows an element. **Done.**
 | `Unloaded` is raised while the element is removed | `Unloaded` is raised later, on the UI thread (`IsLoaded` is `false` at once) | The detach lifecycle of the behaviors arrives with the event. The shared tests run the queued work after removing an element. **Done.** |
 | `FrameworkElement.Parent` is set as soon as the element is added to a parent | `Parent` (and `VisualTreeHelper.GetParent`) is `null` until the tree is live | `RemoveElementAction` (and the other actions that use `Parent`) work on elements of a live tree. The tests show the elements. **Done.** |
 | The container of a directly added item has the item as its data context | The container has no data context | `RemoveItemInListBoxAction` uses `ItemFromContainer`. **Done.** |
+| `TransitionsChangedTrigger` runs its actions for the current collection when it is attached | The same, but an exception thrown by an action in a dispatcher callback terminates the process, and the `x:Bind` values of a view that is not shown (the content of a tab that is not selected) are never set | The current collection is not reported for an element that is not loaded (both WinUI platforms); changes are always reported. **Done.** |
 | The default automation name is `null` | The default is an empty string | Test expectation. **Done.** |
 | `ElementName` bindings are resolved when `Loaded` is raised | They are resolved after the `Loaded` event is dispatched | The actions of a `Loaded` (or default) event trigger run on the dispatcher, after the event, so that their `ElementName` bindings have a value. **Done.** |
 | A popup, tool tip or flyout opens and closes with the queued work | It opens and closes over several frames, and a flyout cannot be shown again before it is closed | The shared tests wait for the `Opened`/`Closed` events. **Done.** |

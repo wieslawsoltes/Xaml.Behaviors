@@ -30,12 +30,30 @@ public class TransitionsChangedTrigger : DisposingTrigger<Control>
             return DisposableAction.Empty;
         }
 
+#if UNO
+        // WinUI applies the x:Bind values of a view when it loads, and a view that is never shown (the content of a
+        // tab that is not selected) never loads: the current collection is not reported for an element that is not
+        // loaded, so that the actions do not run with unset values. Changes are always reported.
+        var isCurrent = true;
+        return TransitionOperations.Observe(
+            AssociatedObject,
+            _ =>
+            {
+                var skip = isCurrent && AssociatedObject is { } element && !LoadedState.IsLoaded(element);
+                isCurrent = false;
+                if (!skip)
+                {
+                    Dispatcher.UIThread.Post(() => Execute(null));
+                }
+            });
+#else
         return TransitionOperations.Observe(
             AssociatedObject,
             _ =>
             {
                 Dispatcher.UIThread.Post(() => Execute(null));
             });
+#endif
     }
 
     private void Execute(object? parameter)
