@@ -34,3 +34,5 @@
   href: source-generators/toc.yml
 - name: Uno Platform
   href: uno-platform/toc.yml
+- name: WinUI 3
+  href: winui/toc.yml
