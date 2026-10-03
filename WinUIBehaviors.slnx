@@ -24,6 +24,10 @@
     <Project Path="src/WinUI/Xaml.Behaviors/Xaml.Behaviors.csproj" />
     <Project Path="src/WinUI/Xaml.Behaviors.All/Xaml.Behaviors.All.csproj" />
   </Folder>
+  <Folder Name="/testing/">
+    <Project Path="src/WinUI/Xaml.Behaviors.WinUI.Testing/Xaml.Behaviors.WinUI.Testing.csproj" />
+    <Project Path="src/WinUI/Xaml.Behaviors.WinUI.Testing.XUnit/Xaml.Behaviors.WinUI.Testing.XUnit.csproj" />
+  </Folder>
   <Folder Name="/tools/">
     <Project Path="src/Xaml.PropertyGenerator/Xaml.PropertyGenerator.csproj" />
     <Project Path="src/Xaml.PropertyGenerator.CodeFixes/Xaml.PropertyGenerator.CodeFixes.csproj" />

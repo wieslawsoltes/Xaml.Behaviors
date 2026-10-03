@@ -1,0 +1,64 @@
+<Project>
+  <!--
+    Shares the tests of a Uno Platform test project (tests/Uno/<Project>) with its WinUI 3 twin, like src/WinUI shares
+    the library sources. A WinUI test project sets:
+      <WinUIUnoTestProject>         the folder name of the Uno test project under tests/Uno
+      <WinUIUnoTestExcludes>        files of the Uno test project (relative paths or globs, ';' separated) that are not
+                                    compiled for WinUI, usually in a SharedTests.props next to the project
+    and imports this file after its references. It compiles exactly the sources of the Uno test project: its own tests,
+    the Avalonia tests it shares (tests/<UnoSharedTestProject>, minus the files of its SharedTests.props) and the
+    headless test compat layer (tests/Uno/Shared/TestCompat), with the UNO and WINUI symbols. The Uno headless harness
+    types used by the shared tests are global aliases of the WinUI test harness (src/WinUI/Xaml.Behaviors.WinUI.Testing).
+  -->
+  <PropertyGroup>
+    <DefineConstants>$(DefineConstants);UNO;WINUI</DefineConstants>
+    <_WinUIUnoTestDirectory>$(MSBuildThisFileDirectory)../Uno/$(WinUIUnoTestProject)/</_WinUIUnoTestDirectory>
+  </PropertyGroup>
+
+  <!-- The Uno test project's settings: UnoSharedTestProject (in the project file) and UnoSharedTestExcludes. -->
+  <Import Project="$(_WinUIUnoTestDirectory)SharedTests.props" Condition="Exists('$(_WinUIUnoTestDirectory)SharedTests.props')" />
+
+  <PropertyGroup>
+    <_WinUIUnoTestRoot>$([MSBuild]::EnsureTrailingSlash($([MSBuild]::MakeRelative('$(MSBuildProjectDirectory)', '$(_WinUIUnoTestDirectory)'))))</_WinUIUnoTestRoot>
+    <_WinUIUnoTestExcludes>$([System.Text.RegularExpressions.Regex]::Replace('$(WinUIUnoTestExcludes)', '\s+', '').Trim(';'))</_WinUIUnoTestExcludes>
+    <_WinUIUnoTestExcludes Condition="'$(_WinUIUnoTestExcludes)' != ''">$(_WinUIUnoTestRoot)$(_WinUIUnoTestExcludes.Replace(';', ';$(_WinUIUnoTestRoot)'))</_WinUIUnoTestExcludes>
+    <_WinUIUnoTestExcludes>$([MSBuild]::Unescape('$(_WinUIUnoTestExcludes)'))</_WinUIUnoTestExcludes>
+  </PropertyGroup>
+
+  <ItemGroup Condition="'$(WinUIUnoTestProject)' != ''">
+    <Compile Include="$(_WinUIUnoTestRoot)**/*.cs"
+             Exclude="$(_WinUIUnoTestRoot)bin/**;$(_WinUIUnoTestRoot)obj/**;$(_WinUIUnoTestExcludes)"
+             Link="Uno/%(RecursiveDir)%(Filename)%(Extension)" />
+    <Compile Include="$(MSBuildThisFileDirectory)Shared/**/*.cs" Link="WinUI/%(RecursiveDir)%(Filename)%(Extension)" />
+  </ItemGroup>
+
+  <!-- The Uno headless harness used by the shared tests, mapped to the WinUI test harness. -->
+  <ItemGroup>
+    <Using Include="Xaml.Behaviors.WinUI.Testing.WinUITestSession" Alias="UnoHeadlessSession" />
+    <Using Include="Xaml.Behaviors.WinUI.Testing.WinUITestSessionOptions" Alias="UnoHeadlessSessionOptions" />
+    <Using Include="Xaml.Behaviors.WinUI.Testing.WinUITestKeyboard" Alias="UnoHeadlessKeyboard" />
+    <Using Include="Xaml.Behaviors.WinUI.Testing.WinUITestMouse" Alias="UnoHeadlessMouse" />
+    <Using Include="Xaml.Behaviors.WinUI.Testing.WinUITestMouseButton" Alias="UnoHeadlessMouseButton" />
+    <Using Include="Xaml.Behaviors.WinUI.Testing.XUnit.WinUIFactAttribute" Alias="UnoHeadlessFactAttribute" />
+    <Using Include="Xaml.Behaviors.WinUI.Testing.XUnit.WinUITheoryAttribute" Alias="UnoHeadlessTheoryAttribute" />
+  </ItemGroup>
+
+  <!-- Shared Avalonia tests (UnoSharedTestProject): the same sources, compat layer and aliases as the Uno build. -->
+  <Import Project="$(MSBuildThisFileDirectory)../Uno/UnoSharedTests.targets" Condition="'$(UnoSharedTestProject)' != ''" />
+
+  <ItemGroup Condition="'$(UnoSharedTestProject)' != ''">
+    <!-- UnoSharedTests.targets maps the Avalonia test attributes to the Uno headless ones: use the WinUI ones. -->
+    <Using Remove="Xaml.Behaviors.Uno.Headless.XUnit.UnoHeadlessFactAttribute" />
+    <Using Remove="Xaml.Behaviors.Uno.Headless.XUnit.UnoHeadlessTheoryAttribute" />
+    <Using Include="Xaml.Behaviors.WinUI.Testing.XUnit.WinUIFactAttribute" Alias="AvaloniaFactAttribute" />
+    <Using Include="Xaml.Behaviors.WinUI.Testing.XUnit.WinUITheoryAttribute" Alias="AvaloniaTheoryAttribute" />
+  </ItemGroup>
+
+  <Import Project="$(MSBuildThisFileDirectory)../../build/XUnit.props" />
+  <Import Project="$(MSBuildThisFileDirectory)../../build/SignAssembly.props" />
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.WindowsAppSDK" />
+    <ProjectReference Include="$(WinUIRootDirectory)Xaml.Behaviors.WinUI.Testing.XUnit/Xaml.Behaviors.WinUI.Testing.XUnit.csproj" />
+  </ItemGroup>
+</Project>

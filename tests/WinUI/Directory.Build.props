@@ -1,0 +1,30 @@
+<Project>
+  <!--
+    Shared settings of the WinUI 3 test projects (tests/WinUI/**): xUnit v3 test executables that run the tests on the
+    UI thread of a WinUI application (src/WinUI/Xaml.Behaviors.WinUI.Testing). They are unpackaged applications with a
+    self-contained Windows App SDK, so they run with dotnet test (or directly) without installing a runtime.
+  -->
+  <Import Project="$([MSBuild]::GetPathOfFileAbove('Directory.Build.props', '$(MSBuildThisFileDirectory)../'))" />
+
+  <PropertyGroup>
+    <TargetFramework>net10.0-windows10.0.19041.0</TargetFramework>
+    <TargetPlatformMinVersion>10.0.17763.0</TargetPlatformMinVersion>
+    <OutputType>Exe</OutputType>
+    <UseWinUI>true</UseWinUI>
+    <EnableWindowsTargeting>true</EnableWindowsTargeting>
+    <WindowsPackageType>None</WindowsPackageType>
+    <WindowsAppSDKSelfContained>true</WindowsAppSDKSelfContained>
+    <EnableMsixTooling>true</EnableMsixTooling>
+    <!-- The self-contained Windows App SDK needs a runtime identifier: the architecture of the machine building. -->
+    <RuntimeIdentifier Condition="'$(RuntimeIdentifier)' == '' AND '$(OS)' == 'Windows_NT'">win-$([System.Runtime.InteropServices.RuntimeInformation]::OSArchitecture.ToString().ToLowerInvariant())</RuntimeIdentifier>
+    <RuntimeIdentifier Condition="'$(RuntimeIdentifier)' == ''">win-x64</RuntimeIdentifier>
+    <SelfContained>false</SelfContained>
+    <IsPackable>false</IsPackable>
+    <Nullable>enable</Nullable>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <WinUIRootDirectory>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)../../src/WinUI'))/</WinUIRootDirectory>
+    <UnoRootDirectory>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)../../src/Uno'))/</UnoRootDirectory>
+    <!-- The resource index (makepri.exe) is a Windows tool: compile-only builds on other systems skip it. -->
+    <AppxGeneratePriEnabled Condition="'$(OS)' != 'Windows_NT'">false</AppxGeneratePriEnabled>
+  </PropertyGroup>
+</Project>
