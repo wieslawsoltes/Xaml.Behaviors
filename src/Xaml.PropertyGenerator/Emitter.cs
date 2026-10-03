@@ -304,6 +304,17 @@ namespace Xaml.PropertyGenerator
             }
         }
 
+        /// <summary>
+        /// The property type a WinUI dependency property is registered with.
+        /// </summary>
+        /// <remarks>
+        /// Native WinUI resolves the property types of a class through the XAML type information of the application,
+        /// which fails for managed enums and for the <c>DependencyProperty</c> and <c>System.Type</c> types: those
+        /// properties are registered as <c>object</c> there (XAML still converts strings with the property type).
+        /// </remarks>
+        private static string RegisteredType(TypeModel type, PropertyModel p)
+            => p.IsEnum && type.IsNativeWinUI ? "object" : p.TypeOfType;
+
         private static void EmitWinUI(StringBuilder sb, int depth, TypeModel type, PropertyModel p)
         {
             var owner = type.OwnerType;
@@ -333,7 +344,7 @@ namespace Xaml.PropertyGenerator
             }
 
             Indent(sb, depth + 1).Append(WinUIDependencyProperty).Append(p.Kind == PropertyKind.Attached ? ".RegisterAttached(\"" + p.Name + "\"" : ".Register(nameof(" + p.Name + ")")
-                .Append(", typeof(").Append(p.TypeOfType).Append("), typeof(").Append(owner).Append("), new ").Append(WinUIPropertyMetadata).Append('(').Append(defaultValue);
+                .Append(", typeof(").Append(RegisteredType(type, p)).Append("), typeof(").Append(owner).Append("), new ").Append(WinUIPropertyMetadata).Append('(').Append(defaultValue);
             if (callback is not null)
             {
                 sb.Append(", ").Append(callback);

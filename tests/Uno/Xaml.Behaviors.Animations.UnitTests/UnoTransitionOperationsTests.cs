@@ -69,7 +69,12 @@ public class UnoTransitionOperationsTests
 
         Assert.Collection(
             observed,
+            #if WINUI
+            // Native WinUI creates an empty transition collection on first access (Uno Platform returns null).
+            transitions => Assert.True(transitions is null || transitions.Count == 0),
+#else
             transitions => Assert.Null(transitions),
+#endif
             transitions => Assert.Same(replacement, transitions));
     }
 

@@ -38,7 +38,10 @@ public partial class SplitViewStateBehavior : StyledElementBehavior<SplitView>
     /// <summary>
     /// Gets split view state setters collection. This is an avalonia property.
     /// </summary>
-#if UNO
+#if WINUI
+    [DirectProperty(Lazy = true, Content = true)]
+    public partial SplitViewStateSetterCollection Setters { get; }
+#elif UNO
     [DirectProperty(Lazy = true, Content = true)]
     public partial DependencyObjectCollection<SplitViewStateSetter> Setters { get; }
 #else

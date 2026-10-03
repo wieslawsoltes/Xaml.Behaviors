@@ -1,6 +1,7 @@
 <UserControl x:Class="BehaviorsTestApplication.Views.Pages.IfElseTriggerView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:converters="using:BehaviorsTestApplication.Converters"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:i="using:Xaml.Interactivity"
@@ -11,7 +12,7 @@
     <TextBlock x:Name="TargetTextBlock"
                Text="">
       <i:Interaction.Behaviors>
-        <icustom:IfElseTrigger Condition="{x:Bind TargetCheckBox.IsChecked, Mode=OneWay}">
+        <icustom:IfElseTrigger Condition="{x:Bind converters:SampleCheck.IsTrue(TargetCheckBox.IsChecked), Mode=OneWay}">
           <icustom:IfElseTrigger.IfActions>
             <ic:ChangePropertyAction PropertyName="Text"
                                      Value="Checked" />

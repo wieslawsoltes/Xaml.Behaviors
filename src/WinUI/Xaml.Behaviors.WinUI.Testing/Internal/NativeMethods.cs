@@ -159,4 +159,35 @@ internal static partial class NativeMethods
 
     [LibraryImport("user32.dll")]
     public static partial nint GetAncestor(nint hwnd, uint gaFlags);
+
+    [LibraryImport("user32.dll", EntryPoint = "GetClassNameW", StringMarshalling = StringMarshalling.Utf16)]
+    public static partial int GetClassName(nint hWnd, [Out] char[] lpClassName, int nMaxCount);
+
+    [LibraryImport("user32.dll", EntryPoint = "GetWindowTextW", StringMarshalling = StringMarshalling.Utf16)]
+    public static partial int GetWindowText(nint hWnd, [Out] char[] lpString, int nMaxCount);
+
+    public static string Describe(nint hwnd)
+    {
+        if (hwnd == 0)
+        {
+            return "no window";
+        }
+
+        var className = new char[256];
+        var title = new char[256];
+        var classLength = GetClassName(hwnd, className, className.Length);
+        var titleLength = GetWindowText(hwnd, title, title.Length);
+        GetWindowThreadProcessId(hwnd, out var processId);
+        string process;
+        try
+        {
+            process = System.Diagnostics.Process.GetProcessById((int)processId).ProcessName;
+        }
+        catch (ArgumentException)
+        {
+            process = processId.ToString(System.Globalization.CultureInfo.InvariantCulture);
+        }
+
+        return $"'{new string(title, 0, titleLength)}' ({new string(className, 0, classLength)}, process {process})";
+    }
 }

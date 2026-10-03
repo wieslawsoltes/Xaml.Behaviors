@@ -17,10 +17,16 @@ namespace Avalonia.Xaml.Interactivity;
 /// </summary>
 /// <remarks>
 /// On Uno Platform the collection is a <c>DependencyObjectCollection&lt;Condition&gt;</c> so the conditions inherit the
-/// data context of the owning behavior (on native WinUI, the <c>DependencyObjectCollection&lt;T&gt;</c> of the WinUI port).
+/// data context of the owning behavior. Native WinUI has no generic <c>DependencyObjectCollection</c> (and WinUI XAML
+/// does not support generic types): the collection derives from <c>DependencyObjectCollection</c> and enumerates its
+/// conditions.
 /// </remarks>
-#if UNO
+#if WINUI
+public partial class ConditionCollection : DependencyObjectCollection, System.Collections.Generic.IEnumerable<Condition>, System.Collections.Specialized.INotifyCollectionChanged
+#elif UNO
 public partial class ConditionCollection : DependencyObjectCollection<Condition>, System.Collections.Specialized.INotifyCollectionChanged
+#endif
+#if UNO
 {
 #if WINUI
     private readonly VectorChangeTranslator<DependencyObject> _changes = new();
@@ -40,6 +46,26 @@ public partial class ConditionCollection : DependencyObjectCollection<Condition>
     /// Occurs when the collection changes (translated from <c>VectorChanged</c>).
     /// </summary>
     public event System.Collections.Specialized.NotifyCollectionChangedEventHandler? CollectionChanged;
+#if WINUI
+
+    /// <summary>
+    /// Returns an enumerator over the conditions of the collection.
+    /// </summary>
+    /// <returns>The conditions, in order.</returns>
+    public new System.Collections.Generic.IEnumerator<Condition> GetEnumerator()
+    {
+        for (var i = 0; i < Count; i++)
+        {
+            if (this[i] is Condition condition)
+            {
+                yield return condition;
+            }
+        }
+    }
+
+    /// <inheritdoc />
+    System.Collections.Generic.IEnumerator<Condition> System.Collections.Generic.IEnumerable<Condition>.GetEnumerator() => GetEnumerator();
+#endif
 }
 #else
 public partial class ConditionCollection : AvaloniaList<Condition>

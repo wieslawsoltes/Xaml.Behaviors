@@ -20,12 +20,14 @@ param(
     [string] $Summary = ''
 )
 
+$summaryLines = [System.Collections.Generic.List[string]]::new()
 function Write-Summary([string] $line) {
     Write-Output $line
-    if ($Summary) { Add-Content -Path $Summary -Value $line }
+    $summaryLines.Add($line)
 }
 
-if ($Summary) { Set-Content -Path $Summary -Value '' }
+# The summary file is written once, at the end (it may be watched while the tests run).
+if ($Summary) { Remove-Item -Path $Summary -ErrorAction SilentlyContinue }
 
 $ErrorActionPreference = 'Stop'
 $root = Resolve-Path (Join-Path $PSScriptRoot '..\..')
@@ -45,23 +47,39 @@ foreach ($project in Get-ChildItem (Join-Path $root 'tests\WinUI') -Directory | 
     $log = Join-Path $Results "$($project.Name).txt"
     Push-Location $output
     try {
-        # cmd redirects the output as is (PowerShell would turn the lines the runner writes to stderr into errors).
-        $process = Start-Process -FilePath 'cmd.exe' -NoNewWindow -PassThru `
-            -ArgumentList "/c `"`"$($exe.FullName)`" -noLogo -noColor -parallel none > `"$log`" 2>&1`""
-        if (-not $process.WaitForExit($TimeoutMinutes * 60 * 1000)) {
-            Get-Process -Name $exe.BaseName -ErrorAction SilentlyContinue | Stop-Process -Force
-            Add-Content -Path $log -Value "TIMEOUT: stopped after $TimeoutMinutes minutes."
-            $failed = $true
+        $startInfo = [System.Diagnostics.ProcessStartInfo]::new($exe.FullName, '-noLogo -noColor -parallel none')
+        $startInfo.WorkingDirectory = $output
+        $startInfo.UseShellExecute = $false
+        $startInfo.RedirectStandardOutput = $true
+        $startInfo.RedirectStandardError = $true
+        $process = [System.Diagnostics.Process]::Start($startInfo)
+        $stdout = $process.StandardOutput.ReadToEndAsync()
+        $stderr = $process.StandardError.ReadToEndAsync()
+        $timedOut = -not $process.WaitForExit($TimeoutMinutes * 60 * 1000)
+        if ($timedOut) {
+            $process.Kill($true)
+            $process.WaitForExit()
         }
-        elseif ($process.ExitCode -ne 0) { $failed = $true }
+
+        # A process left behind by the test run could keep the output pipes open: do not wait for them forever.
+        $null = $stdout.Wait(60000)
+        $null = $stderr.Wait(10000)
+        $text = $(if ($stdout.IsCompleted) { $stdout.Result } else { '(output not available)' }) + $(if ($stderr.IsCompleted) { $stderr.Result } else { '' })
+        if ($timedOut) { $text += "`nTIMEOUT: stopped after $TimeoutMinutes minutes." }
+        Set-Content -Path $log -Value $text -Encoding utf8
+        if ($timedOut -or $process.ExitCode -ne 0) { $failed = $true }
     }
     finally {
         Pop-Location
     }
 
-    $summary = Select-String -Path $log -Pattern 'Total:' | Select-Object -Last 1
-    Write-Summary ("{0}: {1}" -f $project.Name, $(if ($summary) { $summary.Line.Trim() } else { 'no summary' }))
+    # (PowerShell variables ignore case: $totals, not $summary, which is the -Summary parameter.)
+    $totals = Select-String -Path $log -Pattern 'Total:|TIMEOUT' | Select-Object -Last 1
+    Write-Summary ("{0}: {1}" -f $project.Name, $(if ($totals) { $totals.Line.Trim() } else { 'no summary' }))
 }
 
-if ($Summary) { Add-Content -Path $Summary -Value 'RUN COMPLETE' }
+if ($Summary) {
+    $summaryLines.Add('RUN COMPLETE')
+    Set-Content -Path $Summary -Value $summaryLines
+}
 if ($failed) { exit 1 }

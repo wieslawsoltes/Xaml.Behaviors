@@ -15,7 +15,12 @@ namespace Xaml.PropertyGenerator.UnitTests;
 internal enum TestPlatform
 {
     Avalonia,
+
+    /// <summary>WinUI through the Uno Platform assemblies (Uno.UI).</summary>
     WinUI,
+
+    /// <summary>Native WinUI: minimal stubs of the WinUI dependency property types, without Uno.UI.</summary>
+    NativeWinUI,
 }
 
 internal sealed record GeneratorRun(
@@ -51,9 +56,46 @@ internal static class GeneratorTestHelper
     private static CSharpCompilation CreateCompilation(string source, TestPlatform platform)
         => CSharpCompilation.Create(
             "GeneratorTests",
-            [CSharpSyntaxTree.ParseText(source, s_parseOptions)],
+            platform == TestPlatform.NativeWinUI
+                ? [CSharpSyntaxTree.ParseText(source, s_parseOptions), CSharpSyntaxTree.ParseText(NativeWinUIStubs, s_parseOptions)]
+                : [CSharpSyntaxTree.ParseText(source, s_parseOptions)],
             GetReferences(platform),
             new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary, nullableContextOptions: NullableContextOptions.Enable));
+
+    /// <summary>The WinUI dependency property types the generated code uses (native WinUI has no Uno.UI).</summary>
+    private const string NativeWinUIStubs = """
+        namespace Microsoft.UI.Xaml
+        {
+            public class DependencyObject
+            {
+                public object GetValue(DependencyProperty dp) => null!;
+                public void SetValue(DependencyProperty dp, object? value) { }
+                public void ClearValue(DependencyProperty dp) { }
+            }
+
+            public sealed class DependencyProperty
+            {
+                public static object UnsetValue { get; } = new();
+                public static DependencyProperty Register(string name, System.Type propertyType, System.Type ownerType, PropertyMetadata metadata) => new();
+                public static DependencyProperty RegisterAttached(string name, System.Type propertyType, System.Type ownerType, PropertyMetadata metadata) => new();
+            }
+
+            public class PropertyMetadata
+            {
+                public PropertyMetadata(object? defaultValue) { }
+                public PropertyMetadata(object? defaultValue, PropertyChangedCallback? callback) { }
+            }
+
+            public delegate void PropertyChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e);
+
+            public sealed class DependencyPropertyChangedEventArgs
+            {
+                public DependencyProperty Property { get; } = null!;
+                public object? OldValue { get; }
+                public object? NewValue { get; }
+            }
+        }
+        """;
 
     private static GeneratorRun Run(string source, TestPlatform platform, out Compilation output)
     {
@@ -86,6 +128,11 @@ internal static class GeneratorTestHelper
             {
                 yield return MetadataReference.CreateFromFile(path);
             }
+        }
+
+        if (platform == TestPlatform.NativeWinUI)
+        {
+            yield break;
         }
 
         if (platform == TestPlatform.Avalonia)

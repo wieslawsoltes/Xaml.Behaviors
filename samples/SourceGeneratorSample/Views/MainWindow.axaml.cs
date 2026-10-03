@@ -18,8 +18,9 @@ namespace SourceGeneratorSample.Views
         /// <summary>
         /// Gets the view model for the compiled bindings (x:Bind) of the WinUI view. WinUI windows have no data
         /// context: the composition root sets the view model, the view passes it on as the data context of its content.
+        /// Settable (not init-only): the type information the WinUI XAML compiler generates sets it.
         /// </summary>
-        public MainViewModel? ViewModel { get; init; }
+        public MainViewModel? ViewModel { get; set; }
 #endif
     }
 }

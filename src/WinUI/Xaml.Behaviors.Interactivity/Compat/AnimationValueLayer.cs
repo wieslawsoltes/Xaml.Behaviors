@@ -30,7 +30,15 @@ internal static class AnimationValueLayer
         var baseValues = s_baseValues.GetOrCreateValue(dependencyObject);
         if (!baseValues.ContainsKey(property))
         {
-            baseValues.Add(property, BaseValue.Read(dependencyObject, property));
+            var baseValue = BaseValue.Read(dependencyObject, property);
+            baseValues.Add(property, baseValue);
+
+            // A local value set on a property with a two-way binding updates the binding source instead of replacing
+            // the binding: remove the binding (it is restored when the temporary value is cleared).
+            if (baseValue.HasBinding)
+            {
+                dependencyObject.ClearValue(property);
+            }
         }
 
         dependencyObject.SetValue(property, value);
@@ -67,6 +75,8 @@ internal static class AnimationValueLayer
             _localValue = localValue;
             _binding = binding;
         }
+
+        public bool HasBinding => _binding is not null;
 
         public static BaseValue Read(DependencyObject dependencyObject, DependencyProperty property)
         {

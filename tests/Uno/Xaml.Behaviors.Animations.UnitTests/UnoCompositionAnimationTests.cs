@@ -192,6 +192,9 @@ public class UnoCompositionAnimationTests
     [UnoHeadlessFact]
     public async Task SlidingAnimation_StartsFromTheElementWidth()
     {
+#if WINUI
+        Assert.Skip("Native WinUI runs composition animations in the compositor: the UI thread cannot read the animated value (docfx/articles/winui/winui-differences.md, W5).");
+#endif
         await AssertCompositionOffsetAsync(target => SlidingAnimation.SetLeft(target, 10_000d), new Vector3(-100f, 0f, 0f));
     }
 

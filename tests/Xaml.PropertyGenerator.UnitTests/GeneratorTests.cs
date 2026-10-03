@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using Xunit;
 
@@ -230,5 +231,53 @@ public class GeneratorTests
 
         Assert.Empty(run.CompilationErrors);
         Assert.DoesNotContain("XAML_PROPERTY_GENERATOR_ATTRIBUTES", run.GeneratedSource.Split('\n').Where(static l => l.StartsWith("#define", System.StringComparison.Ordinal)));
+    }
+
+    private const string EnumSource = """
+        using Microsoft.UI.Xaml;
+        using Xaml.PropertyGenerator;
+
+        namespace TestNs;
+
+        public enum Mode { First, Second }
+
+        public partial class Host : BASE
+        {
+            [StyledProperty(DefaultValue = Mode.Second)]
+            public partial Mode Mode { get; set; }
+
+            [StyledProperty]
+            public partial Mode? OptionalMode { get; set; }
+
+            [StyledProperty]
+            public partial string? Text { get; set; }
+
+            [StyledProperty]
+            public partial DependencyProperty? Target { get; set; }
+        }
+        """;
+
+    [Fact]
+    public void NativeWinUI_Registers_Enum_And_DependencyProperty_Properties_As_Object()
+    {
+        var run = GeneratorTestHelper.Run(EnumSource.Replace("BASE", "DependencyObject", StringComparison.Ordinal), TestPlatform.NativeWinUI);
+
+        Assert.Empty(run.CompilationErrors);
+        Assert.Contains("Register(nameof(Mode), typeof(object)", run.GeneratedSource, StringComparison.Ordinal);
+        Assert.Contains("Register(nameof(OptionalMode), typeof(object)", run.GeneratedSource, StringComparison.Ordinal);
+        Assert.Contains("Register(nameof(Text), typeof(string)", run.GeneratedSource, StringComparison.Ordinal);
+        Assert.Contains("Register(nameof(Target), typeof(object)", run.GeneratedSource, StringComparison.Ordinal);
+        Assert.Contains("get => (global::TestNs.Mode)GetValue(ModeProperty)", run.GeneratedSource, StringComparison.Ordinal);
+    }
+
+    [Fact]
+    public void UnoPlatform_Registers_Enum_Properties_With_Their_Type()
+    {
+        // Uno Platform implements DependencyObject through its own generator: the host is a FrameworkElement.
+        var run = GeneratorTestHelper.Run(EnumSource.Replace("BASE", "FrameworkElement", StringComparison.Ordinal), TestPlatform.WinUI);
+
+        Assert.Empty(run.CompilationErrors);
+        Assert.DoesNotContain("typeof(object)", run.GeneratedSource, StringComparison.Ordinal);
+        Assert.Contains("Register(nameof(Mode), typeof(global::TestNs.Mode)", run.GeneratedSource, StringComparison.Ordinal);
     }
 }

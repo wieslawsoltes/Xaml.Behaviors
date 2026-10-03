@@ -103,7 +103,8 @@ namespace Xaml.PropertyGenerator
                 Lazy: lazy,
                 HasChangedHook: HasChangedHook(owner, symbol.Name, 2),
                 HostType: string.Empty,
-                Trimming: GetTrimming(owner, symbol.Type));
+                Trimming: GetTrimming(owner, symbol.Type),
+                IsEnum: IsEnumType(symbol.Type));
 
             return new CandidateModel(CreateTypeModel(platform, owner, syntax, property, context.SemanticModel.Compilation), diagnostics.ToEquatableArray());
         }
@@ -167,7 +168,8 @@ namespace Xaml.PropertyGenerator
                     Lazy: false,
                     HasChangedHook: HasChangedHook(owner, name, 3),
                     HostType: hostType,
-                    Trimming: GetTrimming(owner, valueType));
+                    Trimming: GetTrimming(owner, valueType),
+                    IsEnum: IsEnumType(valueType));
 
                 yield return new CandidateModel(CreateTypeModel(platform, owner, syntax, property, compilation), diagnostics.ToEquatableArray());
             }
@@ -239,7 +241,44 @@ namespace Xaml.PropertyGenerator
                 FindChangedMethod(compilation, owner),
                 compilation.GetTypeByMetadataName(DynamicallyAccessedMembersAttributeName) is not null &&
                 compilation.GetTypeByMetadataName(UnconditionalSuppressMessageAttributeName) is not null,
-                new[] { property }.ToEquatableArray());
+                new[] { property }.ToEquatableArray(),
+                IsNativeWinUI: platform == TargetPlatform.WinUI && !ReferencesUnoPlatform(compilation));
+        }
+
+        /// <summary>
+        /// Whether the compilation targets Uno Platform (references Uno.UI) rather than native WinUI.
+        /// </summary>
+        private static bool ReferencesUnoPlatform(Compilation compilation)
+        {
+            foreach (var reference in compilation.ReferencedAssemblyNames)
+            {
+                if (reference.Name == "Uno.UI")
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// Whether native WinUI registers the property as <c>object</c>: enums (and nullable enums), and the
+        /// <c>DependencyProperty</c> and <c>System.Type</c> property types.
+        /// </summary>
+        /// <remarks>
+        /// Native WinUI resolves the property types of a class through the XAML type information of the application
+        /// when a value is first set on it; a dependency property typed <c>DependencyProperty</c> makes every
+        /// <c>SetValue</c> of the class fail there (the generated system type has no base type).
+        /// </remarks>
+        private static bool IsEnumType(ITypeSymbol type)
+        {
+            if (type is INamedTypeSymbol { OriginalDefinition.SpecialType: SpecialType.System_Nullable_T } nullable)
+            {
+                type = nullable.TypeArguments[0];
+            }
+
+            return type.TypeKind == TypeKind.Enum ||
+                   type.WithNullableAnnotation(NullableAnnotation.NotAnnotated).ToDisplayString() is "Microsoft.UI.Xaml.DependencyProperty" or "System.Type";
         }
 
         private static string CollectUsings(SyntaxNode syntax)

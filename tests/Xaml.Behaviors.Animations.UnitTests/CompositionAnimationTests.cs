@@ -203,6 +203,9 @@ public class CompositionAnimationTests
     [AvaloniaFact]
     public async Task SlidingAnimation_DoesNotOverwritePositionedControlLayoutOffset()
     {
+#if WINUI
+        Assert.Skip("Native WinUI runs composition animations in the compositor: the UI thread cannot read the animated value (docfx/articles/winui/winui-differences.md, W5).");
+#endif
 #if UNO
         // Uno Platform reads the animated composition offset: the slide starts one element width (100) left of the
         // positioned control, whose layout position (30, 40) is kept (see AssertCompositionOffsetAsync).

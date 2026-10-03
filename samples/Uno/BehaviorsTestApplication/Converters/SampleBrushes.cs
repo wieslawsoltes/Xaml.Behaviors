@@ -67,5 +67,10 @@ public sealed partial class SampleProperties : DependencyObject
     /// <summary>
     /// Gets the <see cref="Control.BackgroundProperty"/>.
     /// </summary>
+#if WINUI
+    // Native WinUI declares Background on Control (Uno Platform also on FrameworkElement, the Control alias).
+    public DependencyProperty ControlBackground => Microsoft.UI.Xaml.Controls.Control.BackgroundProperty;
+#else
     public DependencyProperty ControlBackground => Control.BackgroundProperty;
+#endif
 }

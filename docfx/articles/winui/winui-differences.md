@@ -87,9 +87,9 @@ opt-in, and reading a property during an animation returns the animated value.
 **WinUI:** layout owns `Visual.Offset` (it is the arranged position); `Translation` must be enabled per element
 (`ElementCompositionPreview.SetIsTranslationEnabled`); animations run in the compositor, so the UI thread reads the last
 value set, not the animated value.
-**Port:** the behaviors move elements with `Translation` on WinUI (enabled when they get the element visual); the
-tests read the offset with `GetLayoutRelativeOffset`. **Open:** tests that sample an animation while it runs cannot
-work on WinUI and are to be skipped there.
+**Port:** the behaviors move elements with `Translation` on WinUI (enabled once, when they first get the element visual:
+enabling it again resets it); the tests read the offset with `GetLayoutRelativeOffset`. The tests that sample an
+animation while it runs (sliding and selection indicator animations) are skipped on WinUI. **Done.**
 
 ### W6. `RenderTargetBitmap` renders at the rasterization scale
 
@@ -126,6 +126,7 @@ The WinUI XAML compiler is stricter than the Uno XAML generator:
 | Two-way `x:Bind` to a property with a private setter | Not allowed (and there is no `OneWayToSource`) | The behaviors generator gives the output properties of its WinUI output (`IsExecuting`, `LastError`, ...) a public setter. **Done.** |
 | `WrapPanel` (Uno only control) | No wrap panel | The samples use their own `WrapPanel`. **Done.** |
 | Pages loaded from linked XAML files | Supported (same relative paths, `ms-appx:///` URIs unchanged) | **Done.** |
+| `init` accessors on properties set from XAML (`MainWindow.ViewModel`) | The generated XAML type information sets them after construction | The sample property is settable. **Done.** |
 
 ### W11. Input is real operating system input
 
@@ -172,7 +173,27 @@ generates the type information of their test pages. **Done, to be verified.**
 **Port:** the WinUI generator tests compile it against the Windows App SDK, Windows SDK and CsWinRT references of the
 test project. **Done, to be verified.**
 
-### W17. Packaging and trimming
+### W17. Default values of `RenderTransform` and `Transitions`
+
+**Uno Platform:** `UIElement.RenderTransform` and `UIElement.Transitions` are `null` until set.
+**WinUI:** `RenderTransform` returns an identity `MatrixTransform` and `Transitions` an empty collection when not set.
+**Port:** the behaviors already replace any transform that is not a `TranslateTransform`; the tests check that no local
+value is set (`ReadLocalValue`) or accept an empty collection on WinUI. **Done.**
+
+### W18. Storyboards complete on a frame
+
+**Uno Platform (headless):** running the queued work completes a zero duration storyboard.
+**WinUI:** storyboards advance on the frames of the UI thread.
+**Port:** `WinUITestSession.RenderFrame()` runs the queued work and waits for a rendered frame; the `RunJobs` of the
+shared tests uses it on WinUI. **Done, to be verified.**
+
+### W19. `Background` is not a `FrameworkElement` property
+
+**Uno Platform:** `FrameworkElement` declares `Background` (`Control.BackgroundProperty` through the port alias).
+**WinUI:** `Background` is declared by `Control`, `Panel`, `Border` and a few others.
+**Port:** the sample uses `Microsoft.UI.Xaml.Controls.Control.BackgroundProperty` on WinUI. **Done.**
+
+### W20. Packaging and trimming
 
 The WinUI libraries are marked trimmable and AOT compatible like the other ports. CsWinRT generates code for the types
 that implement WinRT interfaces: those types are `partial` (on all platforms) and the WinUI projects allow unsafe code.
@@ -190,4 +211,5 @@ powershell -File build/WinUIPort/run-tests.ps1
 ```
 
 The test runner runs the test projects one at a time on the interactive desktop (do not use the mouse or keyboard
-while it runs) and writes their output to `artifacts/winui-tests`.
+while it runs), stops a test project that does not finish within `-TimeoutMinutes` (15 by default) and writes the
+output of each project to `artifacts/winui-tests`.

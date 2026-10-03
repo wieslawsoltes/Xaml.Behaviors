@@ -228,6 +228,44 @@ public sealed class WinUITestSession
     }
 
     /// <summary>
+    /// Runs the queued UI work, then waits for the next rendered frame, so the animations that complete on a frame
+    /// (for example zero duration storyboards) have completed.
+    /// </summary>
+    /// <param name="timeout">The maximum time to wait for the frame (100 ms when <c>null</c>).</param>
+    /// <returns><c>true</c> when a frame was rendered within the timeout.</returns>
+    /// <exception cref="InvalidOperationException">The caller is not on the UI thread.</exception>
+    /// <remarks>
+    /// WinUI advances storyboards on the frames of the UI thread: running the queued work alone does not complete them
+    /// (Avalonia and the Uno Platform headless host do).
+    /// </remarks>
+    public bool RenderFrame(TimeSpan? timeout = null)
+    {
+        EnsureThreadAccess();
+        RunJobs();
+
+        var rendered = false;
+        void OnRendering(object? sender, object e) => rendered = true;
+
+        Microsoft.UI.Xaml.Media.CompositionTarget.Rendering += OnRendering;
+        try
+        {
+            var limit = timeout ?? TimeSpan.FromMilliseconds(100);
+            var stopwatch = Stopwatch.StartNew();
+            while (!rendered && stopwatch.Elapsed < limit)
+            {
+                Pump(TimeSpan.FromMilliseconds(2));
+            }
+        }
+        finally
+        {
+            Microsoft.UI.Xaml.Media.CompositionTarget.Rendering -= OnRendering;
+        }
+
+        RunJobs();
+        return rendered;
+    }
+
+    /// <summary>
     /// Shows an element as the content of the test window, then runs the queued UI work until it is loaded.
     /// </summary>
     /// <typeparam name="TElement">The type of the element.</typeparam>
@@ -343,10 +381,12 @@ public sealed class WinUITestSession
     /// </summary>
     internal void EnsureWindowAt(int screenX, int screenY)
     {
+        nint root = 0;
         for (var attempt = 0; attempt < 10; attempt++)
         {
             var hit = NativeMethods.WindowFromPoint(new NativeMethods.POINT { X = screenX, Y = screenY });
-            if (hit != 0 && NativeMethods.GetAncestor(hit, NativeMethods.GA_ROOT) == WindowHandle)
+            root = hit != 0 ? NativeMethods.GetAncestor(hit, NativeMethods.GA_ROOT) : 0;
+            if (root == WindowHandle)
             {
                 return;
             }
@@ -356,7 +396,7 @@ public sealed class WinUITestSession
             Pump(TimeSpan.FromMilliseconds(50));
         }
 
-        throw new InvalidOperationException($"The test window is not the window at ({screenX}, {screenY}) on the screen: is the position outside the window or is another window in front of it?");
+        throw new InvalidOperationException($"The test window is not the window at ({screenX}, {screenY}) on the screen but {NativeMethods.Describe(root)}: is the position outside the window or is another window in front of it?");
     }
 
     /// <summary>

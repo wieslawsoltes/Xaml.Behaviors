@@ -26,8 +26,17 @@ internal static class ElementComposition
     public static CompositionVisual? GetElementVisual(UIElement element)
     {
 #if WINUI
-        ElementCompositionPreview.SetIsTranslationEnabled(element, true);
-#endif
+        var visual = ElementCompositionPreview.GetElementVisual(element);
+
+        // Enabling the translation (again) resets it: only enable it when the visual has none yet.
+        if (visual.Properties.TryGetVector3("Translation", out _) != Microsoft.UI.Composition.CompositionGetValueStatus.Succeeded)
+        {
+            ElementCompositionPreview.SetIsTranslationEnabled(element, true);
+        }
+
+        return visual;
+#else
         return ElementCompositionPreview.GetElementVisual(element);
+#endif
     }
 }

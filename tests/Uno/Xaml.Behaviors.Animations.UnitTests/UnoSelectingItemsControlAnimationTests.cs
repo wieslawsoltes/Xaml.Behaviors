@@ -33,6 +33,9 @@ public class UnoSelectingItemsControlAnimationTests
     [UnoHeadlessFact]
     public async Task SelectionIndicatorAnimation_MovesTheIndicatorFromThePreviousContainer()
     {
+#if WINUI
+        Assert.Skip("Native WinUI runs composition animations in the compositor: the UI thread cannot read the animated value (docfx/articles/winui/winui-differences.md, W5).");
+#endif
         Border oldIndicator = CreateIndicator();
         Border newIndicator = CreateIndicator();
         ContentControl oldSelection = new() { Content = oldIndicator, Height = 40d };
@@ -97,6 +100,9 @@ public class UnoSelectingItemsControlAnimationTests
     [UnoHeadlessFact]
     public async Task EnableSelectionAnimation_AnimatesTheIndicatorOnSelectionChange()
     {
+#if WINUI
+        Assert.Skip("Native WinUI runs composition animations in the compositor: the UI thread cannot read the animated value (docfx/articles/winui/winui-differences.md, W5).");
+#endif
         Border firstIndicator = CreateIndicator();
         Border secondIndicator = CreateIndicator();
         ListViewItem first = new() { Content = firstIndicator, Height = 40d };
