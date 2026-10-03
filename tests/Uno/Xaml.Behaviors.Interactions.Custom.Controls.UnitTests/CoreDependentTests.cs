@@ -10,7 +10,6 @@ using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 using Windows.Foundation;
-using Windows.UI.Input.Preview.Injection;
 using Xaml.Behaviors.Uno.Headless.XUnit;
 using Xaml.Interactivity;
 using Xunit;
@@ -137,19 +136,12 @@ public class CoreDependentTests
     [UnoHeadlessFact]
     public async Task ShowOnTappedBehavior_Shows_The_Target()
     {
-        var injector = InputInjector.TryCreate();
-        Assert.SkipWhen(injector is null, "Input injection is not available.");
-        injector!.InitializeTouchInjection(InjectedInputVisualizationMode.None);
-
         var target = new TextBox { Visibility = Visibility.Collapsed };
         var button = new Border { Width = 100, Height = 30, Background = new Microsoft.UI.Xaml.Media.SolidColorBrush(Microsoft.UI.Colors.Red) };
         new ShowOnTappedBehavior { TargetControl = target }.AttachTo(button);
         await Session.ShowAsync(new StackPanel { Children = { button, target } });
 
-        var position = button.TransformToVisual(null).TransformPoint(new Point(10, 10));
-        injector.InjectMouseInput([new InjectedInputMouseInfo { DeltaX = (int)position.X, DeltaY = (int)position.Y, MouseOptions = InjectedInputMouseOptions.Absolute | InjectedInputMouseOptions.Move }]);
-        injector.InjectMouseInput([new InjectedInputMouseInfo { MouseOptions = InjectedInputMouseOptions.LeftDown }]);
-        injector.InjectMouseInput([new InjectedInputMouseInfo { MouseOptions = InjectedInputMouseOptions.LeftUp }]);
+        Session.Mouse.Click(button, new Point(10, 10));
 
         Assert.True(await WaitUntilAsync(() => target.Visibility == Visibility.Visible));
     }

@@ -29,6 +29,7 @@ namespace Xaml.Behaviors.WinUI.Testing;
 public sealed class WinUITestSession
 {
     private const int MaxJobs = 100_000;
+    private static readonly TimeSpan FrameTimeout = TimeSpan.FromMilliseconds(250);
     private static SessionStart? s_start;
     private readonly System.Collections.Generic.List<Exception> _unhandledExceptions = [];
 
@@ -193,10 +194,38 @@ public sealed class WinUITestSession
     }
 
     /// <summary>
-    /// Completes once the work queued on the UI thread before the call has run.
+    /// Completes once the work queued on the UI thread before the call has run, the layout is up to date and a frame
+    /// was rendered.
     /// </summary>
     /// <returns>A task completed when the UI thread is idle.</returns>
-    public Task WaitForIdleAsync() => DispatcherQueueInvoker.YieldAsync(DispatcherQueue);
+    /// <remarks>
+    /// WinUI runs the layout (and raises <c>SizeChanged</c>, <c>Loaded</c>, ...) on the frames of the UI thread, which
+    /// the queued work does not wait for: the Uno Platform headless host runs it with the queued work.
+    /// </remarks>
+    public async Task WaitForIdleAsync()
+    {
+        await DispatcherQueueInvoker.YieldAsync(DispatcherQueue).ConfigureAwait(false);
+
+        TaskCompletionSource frame = new(TaskCreationOptions.RunContinuationsAsynchronously);
+        if (DispatcherQueue.TryEnqueue(() =>
+            {
+                UpdateLayout();
+
+                EventHandler<object>? onRendering = null;
+                onRendering = (_, _) =>
+                {
+                    Microsoft.UI.Xaml.Media.CompositionTarget.Rendering -= onRendering;
+                    frame.TrySetResult();
+                };
+                Microsoft.UI.Xaml.Media.CompositionTarget.Rendering += onRendering;
+            }))
+        {
+            // No frame is rendered while the window is not visible: do not wait for it forever.
+            await Task.WhenAny(frame.Task, Task.Delay(FrameTimeout)).ConfigureAwait(false);
+        }
+
+        await DispatcherQueueInvoker.YieldAsync(DispatcherQueue).ConfigureAwait(false);
+    }
 
     /// <summary>
     /// Runs the queued UI work (the pending messages and dispatcher queue items of the UI thread) and the layout.

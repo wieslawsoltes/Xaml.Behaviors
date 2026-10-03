@@ -15,7 +15,7 @@ Windows App SDK 2.5.
 | Libraries (`src/WinUI`, 13 packages) | Build on Windows (0 errors, no compiler, CsWinRT or trimming warnings). |
 | Test harness (`Xaml.Behaviors.WinUI.Testing`) | Done: the shared harness tests pass (55 tests, 1 intentionally skipped). |
 | Test projects (`tests/WinUI`, 16 projects) | Build; in progress, see [Test status](#test-status). |
-| Samples (`samples/WinUI`, 3 applications) | In progress: the XAML of the Uno samples is being made valid for the WinUI XAML compiler. |
+| Samples (`samples/WinUI`, 3 applications) | Build and start on Windows. In progress: the sidebar of the Behaviors sample (a re-templated `TabView`) and the window size. |
 | CI, packaging, documentation | To do. |
 
 ### Test status
@@ -68,9 +68,10 @@ window is tracked. **Done.**
 (`AdaptiveBehavior.Setters`, `ConditionCollection`, ...).
 **WinUI:** only the non-generic `DependencyObjectCollection` exists, and the WinUI XAML compiler rejects a collection
 with more than one `Add` method or `ICollection<T>` implementation.
-**Port:** the WinUI-only `Xaml.Interactivity.DependencyObjectCollection<T>`: a `DependencyObjectCollection` with a typed
-indexer and enumerator (`IEnumerable<T>`); items are added through the untyped collection. The shared code takes
-`IEnumerable<T>` where it only enumerates. **Done.**
+**Port:** on WinUI `ConditionCollection` derives from `DependencyObjectCollection`, and the `Setters` properties use the
+WinUI-only `AdaptiveClassSetterCollection`, `AspectRatioClassSetterCollection` and `SplitViewStateSetterCollection`
+(`DependencyObjectCollection` with a typed enumerator; items are added through the untyped collection). The shared
+code takes `IEnumerable<T>` where it only enumerates. **Done.**
 
 ### W4. No value precedences
 
@@ -127,6 +128,7 @@ The WinUI XAML compiler is stricter than the Uno XAML generator:
 | `WrapPanel` (Uno only control) | No wrap panel | The samples use their own `WrapPanel`. **Done.** |
 | Pages loaded from linked XAML files | Supported (same relative paths, `ms-appx:///` URIs unchanged) | **Done.** |
 | `init` accessors on properties set from XAML (`MainWindow.ViewModel`) | The generated XAML type information sets them after construction | The sample property is settable. **Done.** |
+| `x:Bind` of a nullable value to a non-nullable property (`CheckBox.IsChecked` to a `bool` property) | Not allowed (WMC1121) | The samples bind through a function (`SampleCheck.IsTrue`). **Done.** |
 
 ### W11. Input is real operating system input
 
@@ -193,7 +195,20 @@ shared tests uses it on WinUI. **Done, to be verified.**
 **WinUI:** `Background` is declared by `Control`, `Panel`, `Border` and a few others.
 **Port:** the sample uses `Microsoft.UI.Xaml.Controls.Control.BackgroundProperty` on WinUI. **Done.**
 
-### W20. Packaging and trimming
+### W20. Dependency properties typed `DependencyProperty`, `System.Type` or an enum
+
+**Uno Platform:** any property type can be registered.
+**WinUI:** when a value is first set on an object, WinUI resolves the property types of its class through the XAML type
+information of the application. For a dependency property typed `DependencyProperty` (for example
+`Condition.Property`) this asks the generated type information for the base type of a system type, which it does not
+implement: the application terminates on the first `SetValue` of *any* property of that class (stowed exception
+`0xc000027b`, `NotImplementedException` in `XamlSystemBaseType.BaseType`). Found with the sample (`MultiDataTrigger`,
+`LogAction` pages).
+**Port:** `Xaml.PropertyGenerator` registers properties typed `DependencyProperty`, `System.Type` or an enum as `object`
+on native WinUI (the CLR property keeps its type, so XAML still converts strings). Uno Platform registrations are
+unchanged. **Done.**
+
+### W21. Packaging and trimming
 
 The WinUI libraries are marked trimmable and AOT compatible like the other ports. CsWinRT generates code for the types
 that implement WinRT interfaces: those types are `partial` (on all platforms) and the WinUI projects allow unsafe code.
