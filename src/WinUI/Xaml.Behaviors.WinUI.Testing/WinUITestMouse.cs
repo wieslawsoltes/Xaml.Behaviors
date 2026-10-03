@@ -42,6 +42,7 @@ public sealed class WinUITestMouse
     private readonly Stopwatch _clock = Stopwatch.StartNew();
     private TimeSpan _lastInput = TimeSpan.MinValue;
     private TimeSpan _pendingIdle;
+    private readonly System.Collections.Generic.HashSet<WinUITestMouseButton> _held = [];
 
     internal WinUITestMouse(WinUITestSession session)
     {
@@ -75,12 +76,15 @@ public sealed class WinUITestMouse
     /// <param name="button">The button.</param>
     /// <param name="modifiers">The modifier keys held, in addition to the ones held on the keyboard.</param>
     public void Down(WinUITestMouseButton button = WinUITestMouseButton.Left, VirtualKeyModifiers modifiers = VirtualKeyModifiers.None)
-        => Inject(() => InputInjector.Button(button switch
+    {
+        _held.Add(button);
+        Inject(() => InputInjector.Button(button switch
         {
             WinUITestMouseButton.Right => NativeMethods.MOUSEEVENTF_RIGHTDOWN,
             WinUITestMouseButton.Middle => NativeMethods.MOUSEEVENTF_MIDDLEDOWN,
             _ => NativeMethods.MOUSEEVENTF_LEFTDOWN,
         }), modifiers);
+    }
 
     /// <summary>
     /// Releases <paramref name="button"/> at the current position.
@@ -88,12 +92,15 @@ public sealed class WinUITestMouse
     /// <param name="button">The button.</param>
     /// <param name="modifiers">The modifier keys held, in addition to the ones held on the keyboard.</param>
     public void Up(WinUITestMouseButton button = WinUITestMouseButton.Left, VirtualKeyModifiers modifiers = VirtualKeyModifiers.None)
-        => Inject(() => InputInjector.Button(button switch
+    {
+        _held.Remove(button);
+        Inject(() => InputInjector.Button(button switch
         {
             WinUITestMouseButton.Right => NativeMethods.MOUSEEVENTF_RIGHTUP,
             WinUITestMouseButton.Middle => NativeMethods.MOUSEEVENTF_MIDDLEUP,
             _ => NativeMethods.MOUSEEVENTF_LEFTUP,
         }), modifiers);
+    }
 
     /// <summary>
     /// Moves to <paramref name="position"/>, then presses and releases <paramref name="button"/>.
@@ -152,12 +159,15 @@ public sealed class WinUITestMouse
     /// <param name="button">The button.</param>
     /// <returns>A task completed once the input has been processed.</returns>
     public Task DownAsync(WinUITestMouseButton button = WinUITestMouseButton.Left)
-        => InjectAsync(() => InputInjector.Button(button switch
+    {
+        _held.Add(button);
+        return InjectAsync(() => InputInjector.Button(button switch
         {
             WinUITestMouseButton.Right => NativeMethods.MOUSEEVENTF_RIGHTDOWN,
             WinUITestMouseButton.Middle => NativeMethods.MOUSEEVENTF_MIDDLEDOWN,
             _ => NativeMethods.MOUSEEVENTF_LEFTDOWN,
         }));
+    }
 
     /// <summary>
     /// Releases <paramref name="button"/> at the current position without blocking the UI thread.
@@ -165,12 +175,15 @@ public sealed class WinUITestMouse
     /// <param name="button">The button.</param>
     /// <returns>A task completed once the input has been processed.</returns>
     public Task UpAsync(WinUITestMouseButton button = WinUITestMouseButton.Left)
-        => InjectAsync(() => InputInjector.Button(button switch
+    {
+        _held.Remove(button);
+        return InjectAsync(() => InputInjector.Button(button switch
         {
             WinUITestMouseButton.Right => NativeMethods.MOUSEEVENTF_RIGHTUP,
             WinUITestMouseButton.Middle => NativeMethods.MOUSEEVENTF_MIDDLEUP,
             _ => NativeMethods.MOUSEEVENTF_LEFTUP,
         }));
+    }
 
     /// <summary>
     /// Lets time pass without input: the next injected event is at least <paramref name="duration"/> later than the
@@ -189,6 +202,13 @@ public sealed class WinUITestMouse
     /// </summary>
     internal void StartNewSequence()
     {
+        // A button a test left pressed would turn the moves on the new content into a drag.
+        foreach (var button in new System.Collections.Generic.List<WinUITestMouseButton>(_held))
+        {
+            Up(button);
+        }
+
+
         var gap = TimeSpan.FromMilliseconds(NativeMethods.GetDoubleClickTime() + 50);
         if (_pendingIdle < gap)
         {

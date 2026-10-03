@@ -320,8 +320,9 @@ public sealed class WinUITestSession
 
         try
         {
-            Window.Content = element;
             Mouse.StartNewSequence();
+            CloseOpenPopups();
+            Window.Content = element;
             EnsureForeground();
             RunJobs();
             var stopwatch = Stopwatch.StartNew();
@@ -465,6 +466,23 @@ public sealed class WinUITestSession
         NativeMethods.SetForegroundWindow(WindowHandle);
     }
 
+    /// <summary>
+    /// Closes the popups (flyouts, tool tips, menus) the previous content left open: an open light dismiss popup would
+    /// take the first click on the new content.
+    /// </summary>
+    private void CloseOpenPopups()
+    {
+        if (Window.Content?.XamlRoot is not { } xamlRoot)
+        {
+            return;
+        }
+
+        foreach (var popup in Microsoft.UI.Xaml.Media.VisualTreeHelper.GetOpenPopupsForXamlRoot(xamlRoot))
+        {
+            popup.IsOpen = false;
+        }
+    }
+
     private void UpdateLayout()
     {
         if (Window.Content is UIElement content)
@@ -489,8 +507,9 @@ public sealed class WinUITestSession
         element.Loaded += OnLoaded;
         try
         {
-            Window.Content = element;
             Mouse.StartNewSequence();
+            CloseOpenPopups();
+            Window.Content = element;
             EnsureForeground();
 
             if (!element.IsLoaded)

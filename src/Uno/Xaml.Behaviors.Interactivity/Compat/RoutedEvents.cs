@@ -272,6 +272,16 @@ internal static class RoutedEventCompatExtensions
     // Drag enter/over handlers observe the Avalonia default effects (accept what the source allows).
     private static DragEventHandler WrapDragHandler(RoutedEvent routedEvent, DragEventHandler handler)
     {
+#if WINUI
+        // Native WinUI drag events have no original source: the element that receives the event is recorded, so that
+        // the source can be found under the pointer (see DragEventArgsCompatExtensions.Source).
+        var inner = handler;
+        handler = (s, e) =>
+        {
+            DragEventArgsCompatExtensions.SetReceiver(e, s as UIElement);
+            inner(s, e);
+        };
+#endif
         if (routedEvent != UIElement.DragEnterEvent && routedEvent != UIElement.DragOverEvent)
         {
             return handler;

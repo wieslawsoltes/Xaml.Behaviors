@@ -140,7 +140,9 @@ foreground and checked to be under the cursor; the test helpers use it on WinUI 
 The tests need an interactive desktop, and the mouse and keyboard must not be used while they run: any other window
 that comes to the front (another test run on the same machine, a console window) takes the input. The idle wait of
 the session (`WaitForIdleAsync`) also waits for the layout and a rendered frame, because WinUI raises `SizeChanged`,
-`Loaded` and the focus events with its frames, not with the queued work. **Done** (harness and helpers).
+`Loaded` and the focus events with its frames, not with the queued work. Showing new content releases the mouse
+buttons a test left pressed and closes the popups it left open (the operating system keeps both, unlike the Uno
+headless host). **Done** (harness and helpers).
 
 ### W12. Drag and drop runs a modal loop
 
@@ -150,6 +152,10 @@ from the UI thread deadlocks (the test waits inside the loop for a release it wo
 **Port:** the harness has asynchronous mouse members (`MoveToAsync`, `DownAsync`, `UpAsync`) that inject from a
 background thread and let the UI thread (or the modal loop) process the input; the drag and drop test helpers use them.
 The test runner stops a test project after a timeout. **In progress.**
+
+The drag events of native WinUI have no `OriginalSource`. The drop handlers that look for the item under the pointer
+(`BaseTreeViewDropHandler`, `BaseDataGridDropHandler`) get the element under the pointer in the element that
+receives the event. **Done.**
 
 The data of a drag is also read asynchronously on WinUI (`DataPackageView.GetTextAsync`, `GetStorageItemsAsync`
 complete later; on Uno Platform they are complete for a drag inside the application). The drop behaviors read the data

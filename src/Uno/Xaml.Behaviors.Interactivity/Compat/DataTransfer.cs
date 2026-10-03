@@ -288,8 +288,50 @@ internal static class DragEventArgsCompatExtensions
     // Event arguments whose DragEffects were assigned by a handler.
     private static readonly ConditionalWeakTable<DragEventArgs, object> s_assigned = new();
 
+#if WINUI
+    // The element that received a drag event (native WinUI drag events have no original source).
+    private static readonly ConditionalWeakTable<DragEventArgs, UIElement> s_receivers = new();
+
+    /// <summary>
+    /// Records the element whose handler receives a drag event.
+    /// </summary>
+    /// <param name="e">The drag event arguments.</param>
+    /// <param name="receiver">The element.</param>
+    internal static void SetReceiver(DragEventArgs e, UIElement? receiver)
+    {
+        if (receiver is not null)
+        {
+            s_receivers.AddOrUpdate(e, receiver);
+        }
+    }
+
+#endif
     extension(DragEventArgs e)
     {
+#if WINUI
+        /// <summary>
+        /// Gets the element that raised the event (Avalonia <c>RoutedEventArgs.Source</c>).
+        /// </summary>
+        /// <remarks>
+        /// Native WinUI drag events have no original source: the source is the element under the pointer in the
+        /// element that receives the event.
+        /// </remarks>
+        public object? Source
+        {
+            get
+            {
+                if (e.OriginalSource is { } originalSource)
+                {
+                    return originalSource;
+                }
+
+                return s_receivers.TryGetValue(e, out var receiver)
+                    ? receiver.GetVisualAt(e.GetPosition(receiver)) ?? receiver
+                    : null;
+            }
+        }
+
+#endif
         /// <summary>Gets the dragged data (Avalonia <c>DataTransfer</c>, WinUI <c>DataView</c>).</summary>
         public DataTransferView DataTransfer => new(e.DataView);
 
