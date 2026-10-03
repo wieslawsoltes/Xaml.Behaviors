@@ -8,7 +8,8 @@
     <!-- IsTabStop: a WinUI Border only takes the focus (and the Escape key) when it is a tab stop. -->
     <Border x:Name="TargetBorder" x:FieldModifier="internal" Width="100" Height="100" Background="Gray" IsTabStop="True">
       <i:Interaction.Behaviors>
-        <local:TestContextDragBehavior x:Name="TestBehavior" x:FieldModifier="internal" HorizontalDragThreshold="0" VerticalDragThreshold="0" />
+        <!-- A threshold above zero: real pointer input (native WinUI) reports moves of a fraction of a pixel after a press. -->
+        <local:TestContextDragBehavior x:Name="TestBehavior" x:FieldModifier="internal" HorizontalDragThreshold="3" VerticalDragThreshold="3" />
       </i:Interaction.Behaviors>
     </Border>
     <ListBoxItem IsSelected="True">

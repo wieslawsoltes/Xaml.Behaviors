@@ -259,7 +259,12 @@ public class ControlsTests
     [UnoHeadlessFact]
     public async Task InlineEditBehavior_Switches_Between_Display_And_Edit()
     {
+#if WINUI
+        // Native WinUI key input goes to the focused element, which has to be a control.
+        var display = new ContentControl { IsTabStop = true, Content = new TextBlock { Text = "value" } };
+#else
         var display = new TextBlock { Text = "value" };
+#endif
         var edit = new TextBox { Text = "value" };
         var host = new StackPanel { Children = { display, edit } };
         Interaction.GetBehaviors(host).Add(new InlineEditBehavior { DisplayControl = display, EditControl = edit });

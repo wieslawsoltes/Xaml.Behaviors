@@ -262,13 +262,22 @@ namespace Xaml.PropertyGenerator
         }
 
         /// <summary>
-        /// Whether native WinUI registers the property as <c>object</c>: enums (and nullable enums), and the
+        /// Whether native WinUI registers the property as <c>object</c>: every type that is not a framework type
+        /// (enums, the types of the libraries and of the application, type parameters), and the
         /// <c>DependencyProperty</c> and <c>System.Type</c> property types.
         /// </summary>
         /// <remarks>
+        /// <para>
         /// Native WinUI resolves the property types of a class through the XAML type information of the application
         /// when a value is first set on it; a dependency property typed <c>DependencyProperty</c> makes every
         /// <c>SetValue</c> of the class fail there (the generated system type has no base type).
+        /// </para>
+        /// <para>
+        /// A type that the XAML type information does not know (a type that is not used in the XAML of the
+        /// application) is opaque to native WinUI: a dependency object stored in a property of such a type does not
+        /// join the tree of its owner, so its bindings get no data context and resolve no element names. Stored in an
+        /// <c>object</c> property it does.
+        /// </para>
         /// </remarks>
         private static bool IsEnumType(ITypeSymbol type)
         {
@@ -277,8 +286,64 @@ namespace Xaml.PropertyGenerator
                 type = nullable.TypeArguments[0];
             }
 
-            return type.TypeKind == TypeKind.Enum ||
-                   type.WithNullableAnnotation(NullableAnnotation.NotAnnotated).ToDisplayString() is "Microsoft.UI.Xaml.DependencyProperty" or "System.Type";
+            if (type.TypeKind == TypeKind.Enum ||
+                type.WithNullableAnnotation(NullableAnnotation.NotAnnotated).ToDisplayString() is "Microsoft.UI.Xaml.DependencyProperty" or "System.Type")
+            {
+                return true;
+            }
+
+            return !IsFrameworkType(type);
+        }
+
+        private static bool IsFrameworkType(ITypeSymbol type)
+        {
+            switch (type)
+            {
+                case ITypeParameterSymbol:
+                    return false;
+                case IArrayTypeSymbol array:
+                    return IsFrameworkType(array.ElementType);
+                case INamedTypeSymbol named:
+                    if (!IsFrameworkNamespace(named.ContainingNamespace))
+                    {
+                        return false;
+                    }
+
+                    foreach (var argument in named.TypeArguments)
+                    {
+                        if (!IsFrameworkType(argument))
+                        {
+                            return false;
+                        }
+                    }
+
+                    return true;
+                default:
+                    return true;
+            }
+        }
+
+        private static bool IsFrameworkNamespace(INamespaceSymbol? @namespace)
+        {
+            if (@namespace is null || @namespace.IsGlobalNamespace)
+            {
+                return false;
+            }
+
+            var root = @namespace;
+            INamespaceSymbol? second = null;
+            while (root.ContainingNamespace is { IsGlobalNamespace: false } parent)
+            {
+                second = root;
+                root = parent;
+            }
+
+            return root.Name switch
+            {
+                "System" or "Windows" => true,
+                "Microsoft" => second?.Name is "UI" or "Windows" or "Graphics",
+                _ => false,
+            };
         }
 
         private static string CollectUsings(SyntaxNode syntax)

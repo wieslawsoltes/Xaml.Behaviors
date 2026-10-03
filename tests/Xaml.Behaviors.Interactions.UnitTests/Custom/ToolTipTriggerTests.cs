@@ -88,7 +88,7 @@ public class ToolTipTriggerTests
         Assert.Null(commandParameter);
 
         toolTip.IsOpen = false;
-        Dispatcher.UIThread.RunJobs();
+        Dispatcher.UIThread.RunJobs(() => commandParameter is not null);
 
         Assert.Equal(RoutingStrategies.Direct, trigger.EventRoutingStrategy);
         Assert.IsAssignableFrom<RoutedEventArgs>(commandParameter);

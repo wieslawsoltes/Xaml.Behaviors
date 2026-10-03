@@ -33,7 +33,13 @@ public partial class Interaction
     public static readonly DependencyProperty BehaviorsProperty =
         DependencyProperty.RegisterAttached(
             "Behaviors",
+#if WINUI
+            // Native WinUI only gives the behaviors the tree of the element (data context, element names) when the
+            // property has a type it knows: the type of the application or library is opaque to it.
+            typeof(DependencyObjectCollection),
+#else
             typeof(BehaviorCollection),
+#endif
             typeof(Interaction),
             new PropertyMetadata(null, static (d, e) => BehaviorsChanged(d, e.OldValue as BehaviorCollection, e.NewValue as BehaviorCollection)));
 #else

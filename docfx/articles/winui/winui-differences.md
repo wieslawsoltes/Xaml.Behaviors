@@ -151,6 +151,11 @@ from the UI thread deadlocks (the test waits inside the loop for a release it wo
 background thread and let the UI thread (or the modal loop) process the input; the drag and drop test helpers use them.
 The test runner stops a test project after a timeout. **In progress.**
 
+The data of a drag is also read asynchronously on WinUI (`DataPackageView.GetTextAsync`, `GetStorageItemsAsync`
+complete later; on Uno Platform they are complete for a drag inside the application). The drop behaviors read the data
+synchronously, like on Avalonia: the read is started when a target first asks whether the data contains the format
+(drag enter or over), so its result is available when the data is dropped. **Done.**
+
 ### W13. Unhandled UI thread exceptions terminate the process
 
 **Uno Platform:** the headless host swallows them. **WinUI:** the application terminates.
@@ -197,7 +202,7 @@ shared tests uses it on WinUI. **Done, to be verified.**
 **WinUI:** `Background` is declared by `Control`, `Panel`, `Border` and a few others.
 **Port:** the sample uses `Microsoft.UI.Xaml.Controls.Control.BackgroundProperty` on WinUI. **Done.**
 
-### W20. Dependency properties typed `DependencyProperty`, `System.Type` or an enum
+### W20. Dependency properties of other than framework types
 
 **Uno Platform:** any property type can be registered.
 **WinUI:** when a value is first set on an object, WinUI resolves the property types of its class through the XAML type
@@ -210,6 +215,14 @@ implement: the application terminates on the first `SetValue` of *any* property 
 on native WinUI (the CLR property keeps its type, so XAML still converts strings). Uno Platform registrations are
 unchanged. **Done.**
 
+The same holds for every type that is not a framework type (the types of the libraries and of the application). Such
+a type is opaque to WinUI unless the XAML of the application uses it: a dependency object stored in a property
+registered with it does not join the tree of its owner, so its bindings get no data context and resolve no element
+names. Behaviors added from code (no XAML) had bindings without a data context, as had the actions of a trigger and
+the cases of a switch. The generator registers those properties as `object` as well, and `Interaction.Behaviors` is
+registered as a `DependencyObjectCollection`: behaviors, actions and conditions get the data context of the element
+whether or not the application uses them in XAML. **Done.**
+
 ### W21. `FrameworkElement.IsLoaded` after a `Loaded` handler is added
 
 **Uno Platform:** `IsLoaded` tells whether the element is in a live tree.
@@ -221,7 +234,7 @@ event triggers considered the element unloaded.
 with the `Loaded` and `Unloaded` events; the behaviors use it instead of `IsLoaded`. The WinUI test session does the
 same when it shows an element. **Done.**
 
-### W22. `Unloaded` is raised asynchronously, and `Parent` exists in a live tree only
+### W22. Element tree, events and input timing
 
 | Uno Platform | WinUI | Port |
 |--------------|-------|------|
@@ -229,6 +242,12 @@ same when it shows an element. **Done.**
 | `FrameworkElement.Parent` is set as soon as the element is added to a parent | `Parent` (and `VisualTreeHelper.GetParent`) is `null` until the tree is live | `RemoveElementAction` (and the other actions that use `Parent`) work on elements of a live tree. The tests show the elements. **Done.** |
 | The container of a directly added item has the item as its data context | The container has no data context | `RemoveItemInListBoxAction` uses `ItemFromContainer`. **Done.** |
 | The default automation name is `null` | The default is an empty string | Test expectation. **Done.** |
+| `ElementName` bindings are resolved when `Loaded` is raised | They are resolved after the `Loaded` event is dispatched | The actions of a `Loaded` (or default) event trigger run on the dispatcher, after the event, so that their `ElementName` bindings have a value. **Done.** |
+| A popup, tool tip or flyout opens and closes with the queued work | It opens and closes over several frames, and a flyout cannot be shown again before it is closed | The shared tests wait for the `Opened`/`Closed` events. **Done.** |
+| `DoubleTapped` is raised when the pointer is released | It is raised on the second press, and the focus moves to the root when the pointer is then released over content that cannot be focused | `InlineEditBehavior` focuses its editor once the pointer is released. **Done.** |
+| A text only container is hit on its whole area | Only the text is hit (no background) | Test page layout. **Done.** |
+| An element can be added to a second parent | It throws | The tests remove the element first. **Done.** |
+| Focus navigation follows the tab indexes inside a panel with local tab navigation | `FocusManager.FindNextElement` leaves the panel | One shared test of `FocusNextElementAction` is skipped. **Open (platform).** |
 
 ### W23. Bindings
 
@@ -236,6 +255,7 @@ same when it shows an element. **Done.**
 |--------------|-------|------|
 | A binding observes the dependency properties of any `DependencyObject` source | The dependency properties of a source type that is not in the XAML type information of the application (a type not used in XAML) are read once and not observed | Sources of such bindings implement `INotifyPropertyChanged`, or the binding is an `x:Bind`. Two shared tests use a notifying source or do not test the update. **Documented.** |
 | The change of a property is raised when the new value can be read | `FrameworkElement.Transitions` raises its change before `GetValue` returns the new collection | `TransitionOperations.Observe` reports such a change once it is applied (on the dispatcher). **Done.** |
+| The properties of a dependency object can be read on any thread | They can only be read on the UI thread | The generated change property actions with `UseDispatcher` resolve their target on the UI thread. **Done.** |
 | A local value set while a temporary (animation) value is effective is kept below it ([W4](#w4-no-value-precedences)) | No precedences | `AnimationValueLayer` observes the property: a different local value becomes the value to restore, and the temporary value stays effective. **Done.** |
 
 ### W24. Event arguments are not `System.EventArgs`

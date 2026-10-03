@@ -99,6 +99,10 @@ public class AnimationAdapterTests
         Assert.Same(replacement, target.Transitions);
 
         panel.Children.Remove(target);
+#if WINUI
+        // Native WinUI raises Unloaded for a removed element asynchronously.
+        Dispatcher.UIThread.RunJobs();
+#endif
 
         Assert.Same(original, target.Transitions);
         window.Close();

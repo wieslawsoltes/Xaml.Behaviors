@@ -281,15 +281,16 @@ internal static class TestInput
     {
         Focus(target);
         CharacterReceivedRoutedEventArgs? received = null;
+        // Handled events too: a behavior under test may handle the character.
         TypedEventHandler<UIElement, CharacterReceivedRoutedEventArgs> handler = (_, e) => received ??= e;
-        target.CharacterReceived += handler;
+        target.AddHandler(UIElement.CharacterReceivedEvent, handler, handledEventsToo: true);
         try
         {
             Session.Keyboard.TypeText(character.ToString());
         }
         finally
         {
-            target.CharacterReceived -= handler;
+            target.RemoveHandler(UIElement.CharacterReceivedEvent, handler);
         }
 
         return received ?? throw new InvalidOperationException($"The element did not receive the character '{character}' (is it focusable?).");

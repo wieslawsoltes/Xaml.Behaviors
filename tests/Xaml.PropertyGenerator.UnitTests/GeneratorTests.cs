@@ -254,11 +254,20 @@ public class GeneratorTests
 
             [StyledProperty]
             public partial DependencyProperty? Target { get; set; }
+
+            [StyledProperty]
+            public partial Host? Other { get; set; }
+
+            [StyledProperty]
+            public partial System.Collections.Generic.List<Host>? Others { get; set; }
+
+            [StyledProperty]
+            public partial System.TimeSpan Delay { get; set; }
         }
         """;
 
     [Fact]
-    public void NativeWinUI_Registers_Enum_And_DependencyProperty_Properties_As_Object()
+    public void NativeWinUI_Registers_Properties_Of_Other_Than_Framework_Types_As_Object()
     {
         var run = GeneratorTestHelper.Run(EnumSource.Replace("BASE", "DependencyObject", StringComparison.Ordinal), TestPlatform.NativeWinUI);
 
@@ -267,6 +276,11 @@ public class GeneratorTests
         Assert.Contains("Register(nameof(OptionalMode), typeof(object)", run.GeneratedSource, StringComparison.Ordinal);
         Assert.Contains("Register(nameof(Text), typeof(string)", run.GeneratedSource, StringComparison.Ordinal);
         Assert.Contains("Register(nameof(Target), typeof(object)", run.GeneratedSource, StringComparison.Ordinal);
+        // Types that are not framework types are opaque to native WinUI: dependency objects stored in such a
+        // property would not join the tree of their owner.
+        Assert.Contains("Register(nameof(Other), typeof(object)", run.GeneratedSource, StringComparison.Ordinal);
+        Assert.Contains("Register(nameof(Others), typeof(object)", run.GeneratedSource, StringComparison.Ordinal);
+        Assert.Contains("Register(nameof(Delay), typeof(global::System.TimeSpan)", run.GeneratedSource, StringComparison.Ordinal);
         Assert.Contains("get => (global::TestNs.Mode)GetValue(ModeProperty)", run.GeneratedSource, StringComparison.Ordinal);
     }
 

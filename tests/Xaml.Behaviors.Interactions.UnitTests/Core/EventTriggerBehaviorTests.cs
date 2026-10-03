@@ -85,7 +85,7 @@ public class EventTriggerBehaviorTests
         flyout.ShowAt(window.TargetButton);
 #if UNO
         // WinUI raises the flyout Opened and Closed events asynchronously.
-        Dispatcher.UIThread.RunJobs();
+        Dispatcher.UIThread.RunJobs(() => source.OpenedCount == 1);
 #endif
 
         Assert.Equal(1, source.OpenedCount);
@@ -99,7 +99,7 @@ public class EventTriggerBehaviorTests
 
         flyout.Hide();
 #if UNO
-        Dispatcher.UIThread.RunJobs();
+        Dispatcher.UIThread.RunJobs(() => source.ClosedCount == 1);
 #endif
 
         Assert.Equal(1, source.ClosedCount);
