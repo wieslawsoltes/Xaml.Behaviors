@@ -114,14 +114,19 @@ public class ControlsTests
         var behavior = new ButtonHideFlyoutBehavior { IsFlyoutOpen = true };
         Interaction.GetBehaviors(button).Add(behavior);
         await Session.ShowAsync(button);
+        var closed = false;
+        flyout.Closed += (_, _) => closed = true;
         flyout.ShowAt(button);
-        await Session.WaitForIdleAsync();
+        await TestInput.WaitUntilAsync(() => flyout.IsOpen);
         Assert.True(flyout.IsOpen);
 
         behavior.IsFlyoutOpen = false;
         await Session.WaitForIdleAsync();
 
         Assert.False(flyout.IsOpen);
+
+        // A native WinUI flyout closes over several frames: do not leave it closing for the next test.
+        await TestInput.WaitUntilAsync(() => closed);
     }
 
     [UnoHeadlessFact]
@@ -316,14 +321,19 @@ public class ControlsTests
         var behavior = new HideAttachedFlyoutBehavior { IsFlyoutOpen = true };
         Interaction.GetBehaviors(border).Add(behavior);
         await Session.ShowAsync(border);
+        var closed = false;
+        flyout.Closed += (_, _) => closed = true;
         FlyoutBase.ShowAttachedFlyout(border);
-        await Session.WaitForIdleAsync();
+        await TestInput.WaitUntilAsync(() => flyout.IsOpen);
         Assert.True(flyout.IsOpen);
 
         behavior.IsFlyoutOpen = false;
         await Session.WaitForIdleAsync();
 
         Assert.False(flyout.IsOpen);
+
+        // A native WinUI flyout closes over several frames: do not leave it closing for the next test.
+        await TestInput.WaitUntilAsync(() => closed);
     }
 
     [UnoHeadlessFact]

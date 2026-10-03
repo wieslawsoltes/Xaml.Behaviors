@@ -156,6 +156,9 @@ The test runner stops a test project after a timeout. **In progress.**
 The `OriginalSource` of a native WinUI drag event is the drop target (the element that allows the drop), not the
 element under the pointer. The drop handlers that look for the item under the pointer (`BaseDataGridDropHandler`,
 `BaseTreeViewDropHandler`) get the element under the pointer in the element that receives the event. **Done.**
+A handler of an application that reads `e.OriginalSource` (for example to get the data context of the row under the
+pointer) gets the drop target on WinUI: find the element under the pointer instead
+(`VisualTreeHelper.FindElementsInHostCoordinates(e.GetPosition(null), target)`). **Documented.**
 
 WinUI does not route a handled drag event to the ancestors, and a native `TreeViewItem` handles the drag events over
 it: a drop handler attached to a `TreeView` (`BaseTreeViewDropHandler`) is called over the empty area of the tree

@@ -33,7 +33,9 @@ public sealed class ItemsDropHandler(ObservableCollection<Item> items) : BaseDat
 
     protected override bool Validate(DataGrid dg, DragEventArgs e, object? sourceContext, object? targetContext, bool execute)
     {
-        if (sourceContext is not Item source || (e.OriginalSource as FrameworkElement)?.DataContext is not Item target)
+        // The element under the pointer (the original source of a native WinUI drag event is the drop target, here
+        // the data grid).
+        if (sourceContext is not Item source || (e.Source as FrameworkElement)?.DataContext is not Item target)
         {
             return false;
         }

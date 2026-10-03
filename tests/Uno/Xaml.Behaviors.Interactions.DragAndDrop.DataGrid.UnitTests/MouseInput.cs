@@ -31,7 +31,13 @@ internal sealed class MouseInput
 
     public Task DownAsync() => Session.Mouse.DownAsync();
 
-    public Task UpAsync() => Session.Mouse.UpAsync();
+    public async Task UpAsync()
+    {
+        // The drag and drop loop of native WinUI processes the moves asynchronously: let the target see the last
+        // position before the button is released.
+        await Task.Delay(100);
+        await Session.Mouse.UpAsync();
+    }
 
     public async Task PressAndMoveAsync(Point from, Point to, int steps = 4)
     {
