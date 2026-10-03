@@ -1,4 +1,12 @@
 using System.Diagnostics.CodeAnalysis;
+#if UNO
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Input;
+using Microsoft.UI.Dispatching;
+using Xaml.Interactions.Core;
+using Xaml.Interactivity;
+#else
 using Avalonia.Controls;
 using Avalonia.Headless;
 using Avalonia.Headless.XUnit;
@@ -6,9 +14,14 @@ using Avalonia.Input;
 using Avalonia.Threading;
 using Avalonia.Xaml.Interactions.Core;
 using Avalonia.Xaml.Interactivity;
+#endif
 using Xunit;
 
+#if UNO
+namespace Xaml.Interactions.UnitTests.Core;
+#else
 namespace Avalonia.Xaml.Interactions.UnitTests.Core;
+#endif
 
 public class MultiDataTriggerBehaviorTests
 {

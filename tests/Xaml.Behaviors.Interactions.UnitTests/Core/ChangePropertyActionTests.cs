@@ -1,5 +1,12 @@
 ﻿using System;
 using System.Diagnostics.CodeAnalysis;
+#if UNO
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Input;
+using Xaml.Interactions.Core;
+using Xaml.Interactivity;
+#else
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Headless;
@@ -8,20 +15,36 @@ using Avalonia.Input;
 using Avalonia.Styling;
 using Avalonia.Xaml.Interactions.Core;
 using Avalonia.Xaml.Interactivity;
+#endif
 using Xunit;
 
+#if UNO
+namespace Xaml.Interactions.UnitTests.Core;
+#else
 namespace Avalonia.Xaml.Interactions.UnitTests.Core;
+#endif
 
-public class ChangePropertyActionTests
+public partial class ChangePropertyActionTests
 {
     private sealed class Grid
     {
     }
 
+#if UNO
+    private sealed partial class AttachedPropertyOwner : AvaloniaObject
+    {
+        public static readonly DependencyProperty ValueProperty =
+            DependencyProperty.RegisterAttached("Value", typeof(int), typeof(AttachedPropertyOwner), new PropertyMetadata(0));
+
+        public static int GetValue(Border element) => (int)element.GetValue(ValueProperty);
+
+        public static void SetValue(Border element, int value) => element.SetValue(ValueProperty, value);
+#else
     private sealed class AttachedPropertyOwner : AvaloniaObject
     {
         public static readonly AttachedProperty<int> ValueProperty =
             AvaloniaProperty.RegisterAttached<AttachedPropertyOwner, Border, int>("Value");
+#endif
 
         static AttachedPropertyOwner()
         {
@@ -94,7 +117,11 @@ public class ChangePropertyActionTests
     [UnconditionalSuppressMessage("Trimming", "IL2026", Justification = "Validates the reflection-based compatibility action.")]
     public void ChangePropertyAction_UpdatesAttachedPropertyWhenOwnerTypeNameCollides()
     {
+#if UNO
+        _ = Microsoft.UI.Xaml.Controls.Grid.ColumnProperty;
+#else
         _ = Avalonia.Controls.Grid.ColumnProperty;
+#endif
         var target = new Border();
         var action = new ChangePropertyAction
         {
@@ -105,7 +132,11 @@ public class ChangePropertyActionTests
         var result = action.Execute(target, null);
 
         Assert.Equal(true, result);
+#if UNO
+        Assert.Equal(2, Microsoft.UI.Xaml.Controls.Grid.GetColumn(target));
+#else
         Assert.Equal(2, Avalonia.Controls.Grid.GetColumn(target));
+#endif
     }
 
     [AvaloniaFact]
@@ -151,7 +182,12 @@ public class ChangePropertyActionTests
         var target = new Border();
         var action = new ChangePropertyAction
         {
+#if UNO
+            // WinUI declares DataContext on FrameworkElement (Avalonia: StyledElement).
+            PropertyName = "(FrameworkElement.DataContext)",
+#else
             PropertyName = "(StyledElement.DataContext)",
+#endif
             Value = updatedDataContext,
         };
 
@@ -165,6 +201,14 @@ public class ChangePropertyActionTests
     [RequiresUnreferencedCode("Test intentionally exercises reflection-based property lookup.")]
     public void Revert_Preserves_Styled_Property_Source()
     {
+#if UNO
+        // WinUI has no style classes: the "first" and "second" class styles are assigned as the element style.
+        var secondStyle = CreateTextStyle("second", "Second");
+        var target = new TextBlock { Style = CreateTextStyle("first", "First") };
+
+        var window = new Window { Content = target };
+        window.Show();
+#else
         var target = new TextBlock();
         target.Classes.Add("first");
 
@@ -172,6 +216,7 @@ public class ChangePropertyActionTests
         window.Styles.Add(CreateTextStyle("first", "First"));
         window.Styles.Add(CreateTextStyle("second", "Second"));
         window.Show();
+#endif
 
         var action = new ChangePropertyAction
         {
@@ -185,8 +230,12 @@ public class ChangePropertyActionTests
         Assert.True((bool)action.Revert(target, null));
         Assert.Equal("First", target.Text);
 
+#if UNO
+        target.Style = secondStyle;
+#else
         target.Classes.Remove("first");
         target.Classes.Add("second");
+#endif
 
         Assert.Equal("Second", target.Text);
         window.Close();
@@ -196,6 +245,14 @@ public class ChangePropertyActionTests
     [RequiresUnreferencedCode("Test intentionally exercises reflection-based property lookup.")]
     public void Revert_Restores_Latest_Styled_Property_Source_Value()
     {
+#if UNO
+        // WinUI has no style classes: the "first" and "second" class styles are assigned as the element style.
+        var secondStyle = CreateTextStyle("second", "Second");
+        var target = new TextBlock { Style = CreateTextStyle("first", "First") };
+
+        var window = new Window { Content = target };
+        window.Show();
+#else
         var target = new TextBlock();
         target.Classes.Add("first");
 
@@ -203,6 +260,7 @@ public class ChangePropertyActionTests
         window.Styles.Add(CreateTextStyle("first", "First"));
         window.Styles.Add(CreateTextStyle("second", "Second"));
         window.Show();
+#endif
         var action = new ChangePropertyAction
         {
             PropertyName = nameof(TextBlock.Text),
@@ -210,8 +268,12 @@ public class ChangePropertyActionTests
         };
 
         Assert.True((bool)((IReversibleAction)action).ExecuteReversibly(target, null)!);
+#if UNO
+        target.Style = secondStyle;
+#else
         target.Classes.Remove("first");
         target.Classes.Add("second");
+#endif
 
         Assert.Equal("Applied", target.Text);
         Assert.True((bool)action.Revert(target, null));
@@ -219,6 +281,8 @@ public class ChangePropertyActionTests
         window.Close();
     }
 
+#if !UNO
+    // WinUI has no direct (field backed) properties.
     [AvaloniaFact]
     [RequiresUnreferencedCode("Test intentionally exercises reflection-based property lookup.")]
     public void ExecuteReversibly_Does_Not_Apply_To_Direct_Avalonia_Property()
@@ -241,11 +305,20 @@ public class ChangePropertyActionTests
         Assert.Equal("Latest", target.Value);
         Assert.False((bool)action.Revert(null, null));
     }
+#endif
 
     [AvaloniaFact]
     [RequiresUnreferencedCode("Test intentionally exercises reflection-based property lookup.")]
     public void Execute_Preserves_Legacy_Local_Value_Semantics()
     {
+#if UNO
+        // WinUI has no style classes: the "first" and "second" class styles are assigned as the element style.
+        var secondStyle = CreateTextStyle("second", "Second");
+        var target = new TextBlock { Style = CreateTextStyle("first", "First") };
+
+        var window = new Window { Content = target };
+        window.Show();
+#else
         var target = new TextBlock();
         target.Classes.Add("first");
 
@@ -253,6 +326,7 @@ public class ChangePropertyActionTests
         window.Styles.Add(CreateTextStyle("first", "First"));
         window.Styles.Add(CreateTextStyle("second", "Second"));
         window.Show();
+#endif
 
         var action = new ChangePropertyAction
         {
@@ -261,8 +335,12 @@ public class ChangePropertyActionTests
         };
 
         Assert.True((bool)action.Execute(target, null));
+#if UNO
+        target.Style = secondStyle;
+#else
         target.Classes.Remove("first");
         target.Classes.Add("second");
+#endif
 
         Assert.Equal("Applied", target.Text);
         Assert.False((bool)action.Revert(target, null));
@@ -401,6 +479,16 @@ public class ChangePropertyActionTests
 
     private static Style CreateTextStyle(string className, string value)
     {
+#if UNO
+        _ = className;
+        return new Style(typeof(TextBlock))
+        {
+            Setters =
+            {
+                new Setter(TextBlock.TextProperty, value)
+            }
+        };
+#else
         return new Style(x => x.OfType<TextBlock>().Class(className))
         {
             Setters =
@@ -408,6 +496,7 @@ public class ChangePropertyActionTests
                 new Setter(TextBlock.TextProperty, value)
             }
         };
+#endif
     }
 
     private sealed class WriteOnlyTarget
@@ -425,6 +514,8 @@ public class ChangePropertyActionTests
         public string? Value { get; set; }
     }
 
+#if !UNO
+    // WinUI has no direct (field backed) properties.
     private sealed class DirectPropertyTarget : AvaloniaObject
     {
         private string? _value;
@@ -449,8 +540,9 @@ public class ChangePropertyActionTests
 
         public string? Value
         {
-            get => GetValue(ValueProperty);
+            get => (string?)GetValue(ValueProperty);
             set => SetValue(ValueProperty, value);
         }
     }
+#endif
 }

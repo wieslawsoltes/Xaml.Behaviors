@@ -1,0 +1,71 @@
+<UserControl x:Class="BehaviorsTestApplication.Views.Pages.BehaviorCollectionTemplateView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:i="using:Xaml.Interactivity"
+             xmlns:ic="using:Xaml.Interactions.Core"
+             xmlns:icustom="using:Xaml.Interactions.Custom"
+             xmlns:converters="using:BehaviorsTestApplication.Converters"
+             xmlns:vm="using:BehaviorsTestApplication.ViewModels"
+             mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="450">
+  <UserControl.Resources>
+    <converters:BrushFromNameConverter x:Key="BrushFromNameConverter" />
+    <converters:SampleProperties x:Key="SampleProperties" x:Name="SampleProperties" Element="{x:Bind ItemsHost}" />
+  </UserControl.Resources>
+  <!--
+    Avalonia: a style on the item containers sets the behaviors with a BehaviorCollectionTemplate. WinUI has no styles
+    for behaviors: the item container style sets the attached Interaction.BehaviorsTemplate, which creates the behaviors
+    of every container. The template is not data bound by compiled bindings: the actions use {Binding} (the container
+    data context).
+  -->
+  <ItemsControl x:Name="ItemsHost" ItemsSource="{x:Bind ViewModel.Items, Mode=OneWay}">
+    <ItemsControl.ItemContainerStyle>
+      <Style TargetType="ContentPresenter">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+        <Setter Property="Margin" Value="0" />
+        <Setter Property="Padding" Value="5" />
+        <Setter Property="i:Interaction.BehaviorsTemplate">
+          <Setter.Value>
+            <DataTemplate>
+              <i:BehaviorCollectionHost>
+                <ic:EventTriggerBehavior EventName="PointerPressed">
+                  <!--
+                    Avalonia: ChangeAvaloniaPropertyAction TargetObject="{Binding $parent[ItemsControl]}",
+                    TargetProperty="{x:Static TemplatedControl.BackgroundProperty}".
+                    The element names of the view are not in scope of the template (and WinUI has no ancestor bindings):
+                    the SampleProperties resource holds the ItemsControl. A template is not compiled, and native WinUI
+                    only sets a property typed DependencyProperty from a compiled binding (x:Bind): the property is
+                    changed by name.
+                  -->
+                  <ic:ChangePropertyAction TargetObject="{Binding Element, Source={StaticResource SampleProperties}}"
+                                           PropertyName="Background"
+                                           Value="{Binding Color, Converter={StaticResource BrushFromNameConverter}}" />
+                </ic:EventTriggerBehavior>
+                <ic:EventTriggerBehavior EventName="DoubleTapped">
+                  <icustom:PopupAction>
+                    <Border Background="White"
+                            BorderBrush="Black"
+                            BorderThickness="1"
+                            Padding="10">
+                      <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="Value: " />
+                        <TextBlock Text="{Binding Value}" />
+                      </StackPanel>
+                    </Border>
+                  </icustom:PopupAction>
+                </ic:EventTriggerBehavior>
+              </i:BehaviorCollectionHost>
+            </DataTemplate>
+          </Setter.Value>
+        </Setter>
+      </Style>
+    </ItemsControl.ItemContainerStyle>
+    <ItemsControl.ItemTemplate>
+      <DataTemplate x:DataType="vm:ItemViewModel">
+        <TextBlock Text="{x:Bind Value, Mode=OneWay}" />
+      </DataTemplate>
+    </ItemsControl.ItemTemplate>
+  </ItemsControl>
+</UserControl>

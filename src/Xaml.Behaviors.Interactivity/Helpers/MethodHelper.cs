@@ -7,7 +7,11 @@ using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using System.Threading.Tasks;
 
+#if UNO
+namespace Xaml.Interactivity;
+#else
 namespace Avalonia.Xaml.Interactivity;
+#endif
 
 [RequiresUnreferencedCode("This functionality is not compatible with trimming.")]
 internal class MethodHelper

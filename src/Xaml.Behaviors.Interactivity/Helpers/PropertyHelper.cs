@@ -1,18 +1,42 @@
-// Copyright (c) Wiesław Šoltés. All rights reserved.
+﻿// Copyright (c) Wiesław Šoltés. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for details.
 using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Reflection;
+#if UNO
+using Microsoft.UI.Xaml.Data;
+#else
 using Avalonia.Data;
+#endif
 
+#if UNO
+namespace Xaml.Interactivity;
+#else
 namespace Avalonia.Xaml.Interactivity;
+#endif
 
 [RequiresUnreferencedCode("This functionality is not compatible with trimming.")]
-internal static class PropertyHelper
+internal static partial class PropertyHelper
 {
     private static readonly char[] s_trimChars = ['(', ')'];
     private static readonly char[] s_separator = ['.'];
+
+#if !UNO
+    private static AvaloniaProperty? FindRegisteredProperty(AvaloniaObject avaloniaObject, string propertyName)
+        => AvaloniaPropertyRegistry.Instance.FindRegistered(avaloniaObject, propertyName);
+
+    private static Type GetPropertyType(AvaloniaProperty property, AvaloniaObject avaloniaObject, string propertyName)
+        => property.PropertyType;
+
+    private static bool IsReadOnlyProperty(AvaloniaProperty property, AvaloniaObject avaloniaObject, string propertyName)
+        => property.IsReadOnly;
+
+    private static bool IsDirectProperty(AvaloniaProperty property)
+        => property.IsDirect;
+
+    private static IDisposable? SetTemporaryValue(AvaloniaObject avaloniaObject, AvaloniaProperty property, object? value)
+        => avaloniaObject.SetValue(property, value, BindingPriority.Animation);
 
     private static bool IsTypeNameInHierarchy(Type targetType, string typeName)
     {
@@ -161,6 +185,8 @@ internal static class PropertyHelper
         return null;
     }
 
+#endif
+
     private static void UpdateClrPropertyValue(object targetObject, string propertyName, object? value)
     {
         var targetType = targetObject.GetType();
@@ -264,7 +290,7 @@ internal static class PropertyHelper
         return true;
     }
 
-    private static void ValidateAvaloniaProperty(AvaloniaProperty? property, string propertyName)
+    private static void ValidateAvaloniaProperty(AvaloniaProperty? property, AvaloniaObject avaloniaObject, string propertyName)
     {
         if (property is null)
         {
@@ -273,7 +299,7 @@ internal static class PropertyHelper
                 "Cannot find a property named {0}.",
                 propertyName));
         }
-        else if (property.IsReadOnly)
+        else if (IsReadOnlyProperty(property, avaloniaObject, propertyName))
         {
             throw new ArgumentException(string.Format(
                 CultureInfo.CurrentCulture,
@@ -289,12 +315,12 @@ internal static class PropertyHelper
         object? value,
         bool preserveValueSource)
     {
-        ValidateAvaloniaProperty(property, propertyName);
+        ValidateAvaloniaProperty(property, avaloniaObject, propertyName);
 
         Exception? innerException = null;
         try
         {
-            var result = ConvertAvaloniaPropertyValue(property, value);
+            var result = ConvertAvaloniaPropertyValue(GetPropertyType(property, avaloniaObject, propertyName), value);
 
             if (preserveValueSource)
             {
@@ -340,17 +366,17 @@ internal static class PropertyHelper
 
         var property = propertyName.Contains('.')
             ? FindAvaloniaAttachedProperty(targetObject, propertyName)
-            : AvaloniaPropertyRegistry.Instance.FindRegistered(avaloniaObject, propertyName);
-        if (property is null || property.IsDirect)
+            : FindRegisteredProperty(avaloniaObject, propertyName);
+        if (property is null || IsDirectProperty(property))
         {
             return false;
         }
 
-        ValidateAvaloniaProperty(property, propertyName);
+        ValidateAvaloniaProperty(property, avaloniaObject, propertyName);
         try
         {
-            var result = ConvertAvaloniaPropertyValue(property, value);
-            reversion = avaloniaObject.SetValue(property, result, BindingPriority.Animation);
+            var result = ConvertAvaloniaPropertyValue(GetPropertyType(property, avaloniaObject, propertyName), value);
+            reversion = SetTemporaryValue(avaloniaObject, property, result);
             return reversion is not null;
         }
         catch (FormatException e)
@@ -372,13 +398,12 @@ internal static class PropertyHelper
 
         var property = propertyName.Contains('.')
             ? FindAvaloniaAttachedProperty(targetObject, propertyName)
-            : AvaloniaPropertyRegistry.Instance.FindRegistered(avaloniaObject, propertyName);
-        return property?.IsDirect == true;
+            : FindRegisteredProperty(avaloniaObject, propertyName);
+        return property is not null && IsDirectProperty(property);
     }
 
-    private static object? ConvertAvaloniaPropertyValue(AvaloniaProperty property, object? value)
+    private static object? ConvertAvaloniaPropertyValue(Type propertyType, object? value)
     {
-        var propertyType = property.PropertyType;
         var propertyTypeInfo = propertyType.GetTypeInfo();
         if (value is null)
         {
@@ -446,7 +471,7 @@ internal static class PropertyHelper
             }
             else
             {
-                var avaloniaProperty = AvaloniaPropertyRegistry.Instance.FindRegistered(avaloniaObject, propertyName);
+                var avaloniaProperty = FindRegisteredProperty(avaloniaObject, propertyName);
                 if (avaloniaProperty is not null)
                 {
                     UpdateAvaloniaPropertyValue(
@@ -488,7 +513,7 @@ internal static class PropertyHelper
                 return false;
             }
 
-            var registeredProperty = AvaloniaPropertyRegistry.Instance.FindRegistered(avaloniaObject, propertyName);
+            var registeredProperty = FindRegisteredProperty(avaloniaObject, propertyName);
             if (registeredProperty is not null)
             {
                 value = avaloniaObject.GetValue(registeredProperty);

@@ -1,0 +1,34 @@
+<UserControl x:Class="SourceGeneratorSample.Views.Pages.AsyncActionPage"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:i="using:Xaml.Interactivity"
+             xmlns:vm="using:SourceGeneratorSample.ViewModels"
+             xmlns:primitives="using:Microsoft.UI.Xaml.Controls.Primitives">
+  <!--
+    WinUI twin of AsyncActionPage.axaml. WinUI has no x:Static and no OneWayToSource bindings: the converter is an
+    application resource, and IsExecuting uses a two-way compiled binding (IsBusy starts as false, like the action).
+  -->
+  <StackPanel Spacing="10">
+    <TextBlock Text="Async Action" FontWeight="Bold" />
+    <StackPanel Orientation="Horizontal" Spacing="5">
+      <Button Content="Submit Async" IsEnabled="{x:Bind ViewModel.IsBusy, Mode=OneWay, Converter={StaticResource BooleanNegationConverter}}">
+        <i:Interaction.Behaviors>
+          <primitives:ButtonBaseClickTrigger>
+            <vm:SubmitAsyncAction TargetObject="{x:Bind ViewModel}" IsExecuting="{x:Bind ViewModel.IsBusy, Mode=TwoWay}" />
+          </primitives:ButtonBaseClickTrigger>
+        </i:Interaction.Behaviors>
+      </Button>
+      <TextBlock VerticalAlignment="Center">
+        <Run Text="Busy: " /><Run Text="{x:Bind ViewModel.IsBusy, Mode=OneWay}" />
+      </TextBlock>
+    </StackPanel>
+
+    <Button Content="Reset Async" IsEnabled="{x:Bind ViewModel.IsBusy, Mode=OneWay, Converter={StaticResource BooleanNegationConverter}}">
+      <i:Interaction.Behaviors>
+        <primitives:ButtonBaseClickTrigger>
+          <vm:ResetAsyncAction TargetObject="{x:Bind ViewModel}" IsExecuting="{x:Bind ViewModel.IsBusy, Mode=TwoWay}" />
+        </primitives:ButtonBaseClickTrigger>
+      </i:Interaction.Behaviors>
+    </Button>
+  </StackPanel>
+</UserControl>

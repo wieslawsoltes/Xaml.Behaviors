@@ -3,46 +3,69 @@
 
 // Based on code: https://github.com/adirh3/Avalonia.ListBoxAnimation.Samples
 
+#if UNO
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Controls.Primitives;
+using SelectingItemsControl = Microsoft.UI.Xaml.Controls.Primitives.Selector;
+#else
 using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
+#endif
 
+#if UNO
+namespace Xaml.Interactions.Custom;
+#else
 namespace Avalonia.Xaml.Interactions.Custom;
+#endif
 
 /// <summary>
 /// Enables the standard selection indicator animation on selecting items controls.
 /// </summary>
-public class SelectingItemsControlBehavior
+[AttachedProperty("EnableSelectionAnimation", typeof(bool), HostType = typeof(SelectingItemsControl))]
+public partial class SelectingItemsControlBehavior
 {
-    /// <summary>
-    /// Identifies the <see cref="GetEnableSelectionAnimation"/> attached property.
-    /// </summary>
-    public static readonly AttachedProperty<bool> EnableSelectionAnimationProperty =
-        AvaloniaProperty.RegisterAttached<SelectingItemsControl, bool>("EnableSelectionAnimation",
-            typeof(SelectingItemsControlBehavior));
-
-    /// <summary>
-    /// Initializes the attached-property change handler.
-    /// </summary>
-    static SelectingItemsControlBehavior()
+    static partial void OnEnableSelectionAnimationChanged(SelectingItemsControl element, bool oldValue, bool newValue)
     {
-        EnableSelectionAnimationProperty.Changed.AddClassHandler<Control>(OnEnableSelectionAnimation);
-    }
-
-    private static void OnEnableSelectionAnimation(Control control, AvaloniaPropertyChangedEventArgs args)
-    {
-        if (control is SelectingItemsControl selectingItemsControl)
+#if UNO
+        element.SelectionChanged -= SelectingItemsControlSelectionChanged;
+        if (newValue)
         {
-            if (args.NewValue is true)
-            {
-                selectingItemsControl.PropertyChanged += SelectingItemsControlPropertyChanged;
-            }
-            else
-            {
-                selectingItemsControl.PropertyChanged -= SelectingItemsControlPropertyChanged;
-            }
+            element.SelectionChanged += SelectingItemsControlSelectionChanged;
         }
+#else
+        if (newValue)
+        {
+            element.PropertyChanged += SelectingItemsControlPropertyChanged;
+        }
+        else
+        {
+            element.PropertyChanged -= SelectingItemsControlPropertyChanged;
+        }
+#endif
     }
 
+#if UNO
+    private static void SelectingItemsControlSelectionChanged(object sender, SelectionChangedEventArgs args)
+    {
+        if (sender is not SelectingItemsControl selectingItemsControl ||
+            args.AddedItems.Count == 0 || args.RemovedItems.Count == 0)
+        {
+            return;
+        }
+
+        if (selectingItemsControl.ContainerFromItem(args.AddedItems[0]) is not TemplatedControl newSelection
+            || selectingItemsControl.ContainerFromItem(args.RemovedItems[0]) is not TemplatedControl oldSelection)
+        {
+            return;
+        }
+
+        SelectionIndicatorAnimation.TryStart(
+            newSelection,
+            oldSelection,
+            SelectionIndicatorAnimation.DefaultDuration);
+    }
+#else
     private static void SelectingItemsControlPropertyChanged(object? sender, AvaloniaPropertyChangedEventArgs args)
     {
         if (sender is not SelectingItemsControl selectingItemsControl ||
@@ -63,24 +86,5 @@ public class SelectingItemsControlBehavior
             oldSelection,
             SelectionIndicatorAnimation.DefaultDuration);
     }
-
-    /// <summary>
-    /// Gets whether selection indicator animation is enabled for an element.
-    /// </summary>
-    /// <param name="element">The selecting items control.</param>
-    /// <returns><c>true</c> when selection animation is enabled; otherwise, <c>false</c>.</returns>
-    public static bool GetEnableSelectionAnimation(SelectingItemsControl element)
-    {
-        return element.GetValue(EnableSelectionAnimationProperty);
-    }
-
-    /// <summary>
-    /// Sets whether selection indicator animation is enabled for an element.
-    /// </summary>
-    /// <param name="element">The selecting items control.</param>
-    /// <param name="value">The value to set.</param>
-    public static void SetEnableSelectionAnimation(SelectingItemsControl element, bool value)
-    {
-        element.SetValue(EnableSelectionAnimationProperty, value);
-    }
+#endif
 }

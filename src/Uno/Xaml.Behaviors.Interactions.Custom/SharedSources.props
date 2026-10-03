@@ -1,0 +1,70 @@
+<Project>
+  <!--
+    Files of src/Xaml.Behaviors.Interactions.Custom that are not compiled for Uno Platform (see src/Uno/PORTING.md).
+    Imported by the Uno project (source linking) and by the Avalonia project (Xaml.PortAnalyzers).
+    Every folder is ported; the remaining files have no WinUI counterpart.
+  -->
+  <PropertyGroup>
+    <!--
+      Control specific folders: Avalonia concepts without a WinUI counterpart.
+      - ItemsControlPreparingContainerTrigger: WinUI items hosts (ItemsRepeater) raise no event before a container is
+        prepared.
+      - Notifications: Avalonia notification managers (WindowNotificationManager, NotificationCard).
+      - RenderTarget renderers: immediate mode drawing (DrawingContext) into a bitmap; WinUI RenderTargetBitmap only
+        captures elements.
+      - Screen: Avalonia Screens; the WinUI DisplayArea API is not implemented by Uno Platform.
+      - CenterWindowBehavior: needs the screen working area (DisplayArea / DisplayInformation screen size are not
+        implemented by Uno Platform Skia).
+      - WindowDragMoveBehavior: Window.BeginMoveDrag; WinUI declares drag regions with Window.SetTitleBar.
+    -->
+    <UnoSharedSourceExcludes>
+      ItemsControl/ItemsControlPreparingContainerTrigger.cs;
+      Notifications/**;
+      RenderTarget/Contract/IRenderTargetBitmapRenderer.cs;
+      RenderTarget/Contract/IRenderTargetBitmapSimpleRenderer.cs;
+      RenderTarget/RenderTargetBitmapBehavior.cs;
+      RenderTarget/StaticRenderTargetBitmapBehavior.cs;
+      Screen/**;
+      Window/CenterWindowBehavior.cs;
+      Window/WindowDragMoveBehavior.cs
+    </UnoSharedSourceExcludes>
+
+    <!-- Replaced by Uno Platform implementations next to the Uno project (same relative path). -->
+    <UnoSharedSourceExcludes>$(UnoSharedSourceExcludes);
+      TreeView/TreeViewFilterHelper.cs
+    </UnoSharedSourceExcludes>
+  </PropertyGroup>
+  <!-- General purpose folders: files without a WinUI counterpart (see src/Uno/PORTING.md). -->
+  <PropertyGroup>
+    <UnoSharedSourceExcludes>
+      $(UnoSharedSourceExcludes);
+      <!-- Avalonia style classes (StyledElement.Classes) have no WinUI counterpart. -->
+      Actions/AddClassAction.cs;
+      Actions/RemoveClassAction.cs;
+      Actions/ToggleClassAction.cs;
+      <!-- WinUI raises no ResourcesChanged notification. -->
+      Core/ResourcesChangedBehavior.cs;
+      Core/ResourcesChangedTrigger.cs;
+      <!-- WinUI only exposes the element cursor through the protected UIElement.ProtectedCursor. -->
+      Cursor/**;
+      <!-- Adorner layer based highlighting; WinUI has no adorners. -->
+      Debugging/VisualDebugAdorner.cs;
+      Debugging/VisualDebugBehavior.cs;
+      <!-- Avalonia gesture recognizer and IME events without a WinUI routed event. -->
+      ExecuteCommand/ExecuteCommandOnPinch*.cs;
+      ExecuteCommand/ExecuteCommandOnPullGesture*.cs;
+      ExecuteCommand/ExecuteCommandOnScrollGesture*.cs;
+      ExecuteCommand/ExecuteCommandOnPointerTouchPadGesture*.cs;
+      ExecuteCommand/ExecuteCommandOnTextInputMethodClientRequestedBehavior.cs;
+      Gestures/Pinch*.cs;
+      Gestures/PullGesture*.cs;
+      Gestures/ScrollGesture*.cs;
+      Gestures/PointerTouchPadGesture*.cs;
+      InputElement/Triggers/TextInputMethodClientRequestedTrigger.cs;
+      <!-- Replaced by a FocusManager based helper next to the Uno project. -->
+      Focus/FocusNavigationHelper.cs;
+      <!-- WinUI has no NumericUpDown (NumberBox values are double). -->
+      Validation/NumericUpDownValidationBehavior.cs
+    </UnoSharedSourceExcludes>
+  </PropertyGroup>
+</Project>

@@ -1,10 +1,20 @@
 // Copyright (c) Wiesław Šoltés. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for details.
+#if UNO
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Input;
+using Xaml.Interactivity;
+#else
 using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Xaml.Interactivity;
+#endif
 
+#if UNO
+namespace Xaml.Interactions.DragAndDrop;
+#else
 namespace Avalonia.Xaml.Interactions.DragAndDrop;
+#endif
 
 /// <summary>
 /// Base class for behaviors that respond to drag-and-drop events.
@@ -36,10 +46,10 @@ public abstract class DropBehaviorBase : InvokeCommandBehaviorBase
         {
             DragDrop.SetAllowDrop(AssociatedObject, false);
         }
-        AssociatedObject?.RemoveHandler(DragDrop.DragEnterEvent, DragEnter);
-        AssociatedObject?.RemoveHandler(DragDrop.DragLeaveEvent, DragLeave);
-        AssociatedObject?.RemoveHandler(DragDrop.DragOverEvent, DragOver);
-        AssociatedObject?.RemoveHandler(DragDrop.DropEvent, Drop);
+        AssociatedObject?.RemoveRoutedEventHandler(DragDrop.DragEnterEvent, DragEnter);
+        AssociatedObject?.RemoveRoutedEventHandler(DragDrop.DragLeaveEvent, DragLeave);
+        AssociatedObject?.RemoveRoutedEventHandler(DragDrop.DragOverEvent, DragOver);
+        AssociatedObject?.RemoveRoutedEventHandler(DragDrop.DropEvent, Drop);
     }
 
     private void DragEnter(object? sender, DragEventArgs e)
@@ -73,7 +83,12 @@ public abstract class DropBehaviorBase : InvokeCommandBehaviorBase
             return;
         }
 
+#if UNO
+        if (AssociatedObject is not { Visibility: Visibility.Visible }
+            || AssociatedObject is Microsoft.UI.Xaml.Controls.Control { IsEnabled: false })
+#else
         if (AssociatedObject is not { IsVisible: true, IsEnabled: true })
+#endif
         {
             return;
         }

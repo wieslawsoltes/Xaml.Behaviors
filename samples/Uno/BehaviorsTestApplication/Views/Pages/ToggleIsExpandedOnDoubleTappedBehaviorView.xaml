@@ -1,0 +1,40 @@
+<UserControl x:Class="BehaviorsTestApplication.Views.Pages.ToggleIsExpandedOnDoubleTappedBehaviorView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:i="using:Xaml.Interactivity"
+             xmlns:icustom="using:Xaml.Interactions.Custom"
+             mc:Ignorable="d" d:DesignWidth="300" d:DesignHeight="250">
+  <!--
+    Avalonia: TreeViewItem elements and a TreeViewItem style that sets the behaviors (BehaviorCollectionTemplate). A WinUI
+    tree view declares nodes (TreeViewNode) and hosts each item in a TreeViewItem container whose content comes from the
+    item template, so the behaviors are set on the content of the template (Uno: the behavior toggles the nearest
+    TreeViewItem ancestor of its element).
+  -->
+  <TreeView>
+    <TreeView.ItemTemplate>
+      <DataTemplate x:DataType="TreeViewNode">
+        <TextBlock Text="{x:Bind Content}">
+          <i:Interaction.Behaviors>
+            <icustom:ToggleIsExpandedOnDoubleTappedBehavior />
+          </i:Interaction.Behaviors>
+        </TextBlock>
+      </DataTemplate>
+    </TreeView.ItemTemplate>
+    <TreeView.RootNodes>
+      <TreeViewNode Content="Root">
+        <TreeViewNode.Children>
+          <TreeViewNode Content="Child 1" />
+          <TreeViewNode Content="Child 2" />
+        </TreeViewNode.Children>
+      </TreeViewNode>
+      <TreeViewNode Content="Root 2">
+        <TreeViewNode.Children>
+          <TreeViewNode Content="Child A" />
+          <TreeViewNode Content="Child B" />
+        </TreeViewNode.Children>
+      </TreeViewNode>
+    </TreeView.RootNodes>
+  </TreeView>
+</UserControl>

@@ -1,33 +1,35 @@
 // Copyright (c) Wiesław Šoltés. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for details.
 using System;
+#if UNO
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Xaml.Interactivity;
+using Microsoft.UI.Dispatching;
+#else
 using Avalonia.Controls;
 using Avalonia.Xaml.Interactivity;
 using Avalonia.Threading;
+#endif
 
+#if UNO
+namespace Xaml.Interactions.Custom;
+#else
 namespace Avalonia.Xaml.Interactions.Custom;
+#endif
 
 /// <summary>
 /// A trigger that executes its actions when the screen configuration changes.
 /// </summary>
-public class ScreensChangedTrigger : AttachedToVisualTreeTriggerBase<Visual>
+public partial class ScreensChangedTrigger : AttachedToVisualTreeTriggerBase<Visual>
 {
-    /// <summary>
-    /// Identifies the <see cref="Screens"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<Screens?> ScreensProperty =
-        AvaloniaProperty.Register<ScreensChangedTrigger, Screens?>(nameof(Screens));
 
     /// <summary>
     /// Gets or sets the <see cref="Screens"/> instance that is observed. This is an avalonia property.
     /// If not set, the screens of the associated <see cref="TopLevel"/> will be used.
     /// </summary>
-    [ResolveByName]
-    public Screens? Screens
-    {
-        get => GetValue(ScreensProperty);
-        set => SetValue(ScreensProperty, value);
-    }
+    [StyledProperty(ResolveByName = true)]
+    public partial Screens? Screens { get; set; }
 
     private Screens? _subscribed;
 

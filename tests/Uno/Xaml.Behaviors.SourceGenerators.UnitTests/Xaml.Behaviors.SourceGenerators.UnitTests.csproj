@@ -1,0 +1,70 @@
+<Project Sdk="Uno.Sdk">
+
+  <!-- Consumes the headless host through a ProjectReference, so import its buildTransitive files like a package consumer would get them. -->
+  <Import Project="..\..\..\src\Uno\Xaml.Behaviors.Uno.Headless.Host\buildTransitive\Xaml.Behaviors.Uno.Headless.Host.props" />
+  <!-- Same for the source generator package (surfaces XamlBehaviorsSourceGeneratorPlatform). -->
+  <Import Project="..\..\..\src\Xaml.Behaviors.SourceGenerators\buildTransitive\Xaml.Behaviors.SourceGenerators.props" />
+
+  <!--
+    Uno twin of tests/Xaml.Behaviors.SourceGenerators.UnitTests: its tests are shared (tests/Uno/UnoSharedTests.targets),
+    minus the files listed in SharedTests.props.
+    * Runtime tests ([AvaloniaFact]) run the WinUI code the generator emits for this project on the Uno headless session.
+    * Generator tests ([Fact]) run the generator with Roslyn on the same scenarios compiled against WinUI (the Uno
+      assemblies loaded by this test process, see WinUIGeneratorReferences.cs and WinUISourceTranslator.cs).
+    The Uno-only tests live in the WinUI folder.
+  -->
+  <PropertyGroup>
+    <TargetFrameworks>net10.0</TargetFrameworks>
+    <OutputType>Exe</OutputType>
+    <IsPackable>False</IsPackable>
+    <Nullable>enable</Nullable>
+    <UnoFeatures></UnoFeatures>
+    <AssemblyName>Xaml.Behaviors.Uno.SourceGenerators.UnitTests</AssemblyName>
+    <RootNamespace>Xaml.Behaviors.SourceGenerators.UnitTests</RootNamespace>
+    <UnoSharedTestProject>Xaml.Behaviors.SourceGenerators.UnitTests</UnoSharedTestProject>
+    <!-- The Xaml.Interactivity dispatcher compat is internal to Xaml.Behaviors.Uno.Interactivity: use the test compat one. -->
+    <UnoSharedTestsUseInteractivity>false</UnoSharedTestsUseInteractivity>
+    <NoWarn>$(NoWarn);IL2026;IL2072</NoWarn>
+    <!-- The generated sources are part of what is tested: warnings in them must fail the build. -->
+    <WarningsAsErrors>$(WarningsAsErrors);nullable</WarningsAsErrors>
+  </PropertyGroup>
+
+  <Import Project="SharedTests.props" />
+  <Import Project="..\..\..\build\XUnit.props" />
+  <Import Project="..\..\..\build\SignAssembly.props" />
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" />
+    <!-- WinUI reference assemblies of the generator tests (same as the Avalonia project's compile-only WinUI tests). -->
+    <PackageDownload Include="Uno.WinUI" Version="[$(UnoWinUIVersion)]" />
+    <PackageDownload Include="Uno.Foundation" Version="[$(UnoWinUIVersion)]" />
+    <PackageDownload Include="Uno.WinRT" Version="[$(UnoWinUIVersion)]" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- Paths consumed by the shared WinUIGeneratorTestHelper. -->
+    <RuntimeHostConfigurationOption Include="Xaml.Behaviors.SourceGenerators.UnitTests.NuGetPackageRoot" Value="$(NuGetPackageRoot)" />
+    <RuntimeHostConfigurationOption Include="Xaml.Behaviors.SourceGenerators.UnitTests.UnoWinUIVersion" Value="$(UnoWinUIVersion)" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\src\Uno\Xaml.Behaviors.Uno.Headless.XUnit\Xaml.Behaviors.Uno.Headless.XUnit.csproj" />
+    <ProjectReference Include="..\..\..\src\Uno\Xaml.Behaviors.Interactivity\Xaml.Behaviors.Interactivity.csproj" />
+    <!-- The generator under test: runs on this project (runtime tests) and is referenced by the generator tests. -->
+    <ProjectReference Include="..\..\..\src\Xaml.Behaviors.SourceGenerators\Xaml.Behaviors.SourceGenerators.csproj"
+                      OutputItemType="Analyzer"
+                      ReferenceOutputAssembly="true"
+                      PrivateAssets="all" />
+  </ItemGroup>
+
+  <!-- The Uno Interactivity assembly referenced by the generator test compilations (the one this project references). -->
+  <Target Name="AddUnoInteractivityAssemblyPath" AfterTargets="ResolveAssemblyReferences">
+    <ItemGroup>
+      <RuntimeHostConfigurationOption Include="Xaml.Behaviors.SourceGenerators.UnitTests.UnoInteractivityAssembly" Value="%(ReferencePath.FullPath)" Condition="'%(ReferencePath.Filename)' == 'Xaml.Behaviors.Uno.Interactivity'" />
+    </ItemGroup>
+  </Target>
+
+  <Import Project="..\UnoSharedTests.targets" />
+  <Import Project="..\..\..\src\Uno\Xaml.Behaviors.Uno.Headless.Host\buildTransitive\Xaml.Behaviors.Uno.Headless.Host.targets" />
+
+</Project>

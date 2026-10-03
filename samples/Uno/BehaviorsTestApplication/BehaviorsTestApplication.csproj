@@ -1,0 +1,65 @@
+<Project Sdk="Uno.Sdk">
+
+  <!--
+    Uno Platform twin of samples/BehaviorsTestApplication (Skia desktop head). It compiles the C# sources of the
+    Avalonia sample (view models, models, behaviors, converters and the code-behind of the views) with the UNO symbol
+    (see samples/Uno/README.md); every Avalonia view (.axaml) has a WinUI twin (.xaml) at the same relative path.
+  -->
+  <PropertyGroup>
+    <TargetFrameworks>net10.0-desktop</TargetFrameworks>
+    <OutputType>Exe</OutputType>
+    <UnoSingleProject>true</UnoSingleProject>
+    <IsPackable>false</IsPackable>
+    <Nullable>enable</Nullable>
+    <ApplicationTitle>XAML Behaviors (Uno Platform)</ApplicationTitle>
+    <ApplicationId>com.wieslawsoltes.xamlbehaviors.uno.sample</ApplicationId>
+    <ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
+    <ApplicationVersion>1</ApplicationVersion>
+    <UnoFeatures>SkiaRenderer</UnoFeatures>
+    <UnoSharedSampleProject>BehaviorsTestApplication</UnoSharedSampleProject>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <!-- Same settings as the Avalonia sample: ReactiveGenerator emits the backing fields used by the view models. -->
+    <UseBackingFields>true</UseBackingFields>
+    <!-- IL2026/IL3050: reflection based sample behaviors and actions, like the Avalonia sample. -->
+    <NoWarn>$(NoWarn);IL2026;IL3050</NoWarn>
+    <!-- CS8974: a method group passed as object (WinUI UIElement.RemoveHandler); see src/Uno/PORTING.md. -->
+    <WarningsAsErrors>$(WarningsAsErrors);CS8974</WarningsAsErrors>
+  </PropertyGroup>
+
+  <!-- Files of the Avalonia sample that are not compiled for Uno Platform (with the reasons). -->
+  <Import Project="SharedSources.props" />
+  <Import Project="..\UnoSharedSample.targets" />
+
+  <ItemGroup>
+    <!-- The images used by the samples, from the Avalonia sample (ms-appx:///Assets/...). -->
+    <Content Include="..\..\BehaviorsTestApplication\Assets\*" Link="Assets\%(Filename)%(Extension)" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="ReactiveUI.Uno.Reactive" />
+    <!-- ReactiveGenerator emits RaiseAndSetIfChanged calls, which the System.Reactive flavor of ReactiveUI declares in ReactiveUI.Reactive. -->
+    <Using Include="ReactiveUI.Reactive" />
+    <PackageReference Include="ReactiveGenerator">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- The same libraries as the Avalonia sample. -->
+    <ProjectReference Include="..\..\..\src\Uno\Xaml.Behaviors.Animations\Xaml.Behaviors.Animations.csproj" />
+    <ProjectReference Include="..\..\..\src\Uno\Xaml.Behaviors.Interactions.Scripting\Xaml.Behaviors.Interactions.Scripting.csproj" />
+    <ProjectReference Include="..\..\..\src\Uno\Xaml.Behaviors.Interactions\Xaml.Behaviors.Interactions.csproj" />
+    <ProjectReference Include="..\..\..\src\Uno\Xaml.Behaviors.Interactions.Custom\Xaml.Behaviors.Interactions.Custom.csproj" />
+    <ProjectReference Include="..\..\..\src\Uno\Xaml.Behaviors.Interactions.DragAndDrop\Xaml.Behaviors.Interactions.DragAndDrop.csproj" />
+    <ProjectReference Include="..\..\..\src\Uno\Xaml.Behaviors.Interactions.DragAndDrop.DataGrid\Xaml.Behaviors.Interactions.DragAndDrop.DataGrid.csproj" />
+    <ProjectReference Include="..\..\..\src\Uno\Xaml.Behaviors.Interactions.Draggable\Xaml.Behaviors.Interactions.Draggable.csproj" />
+    <ProjectReference Include="..\..\..\src\Uno\Xaml.Behaviors.Interactions.Events\Xaml.Behaviors.Interactions.Events.csproj" />
+    <ProjectReference Include="..\..\..\src\Uno\Xaml.Behaviors.Interactions.Responsive\Xaml.Behaviors.Interactions.Responsive.csproj" />
+    <ProjectReference Include="..\..\..\src\Uno\Xaml.Behaviors.Interactivity\Xaml.Behaviors.Interactivity.csproj" />
+    <ProjectReference Include="..\..\..\src\Uno\Xaml.Behaviors.Interactions.ReactiveUI\Xaml.Behaviors.Interactions.ReactiveUI.csproj" />
+  </ItemGroup>
+
+</Project>

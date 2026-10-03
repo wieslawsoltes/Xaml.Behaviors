@@ -1,0 +1,11 @@
+<Project>
+  <!--
+    Files of src/Xaml.Behaviors.Interactions.Scripting that are not compiled for Uno Platform (see src/Uno/PORTING.md).
+    Imported by the Uno project (source linking) and by the Avalonia project (Xaml.PortAnalyzers).
+    Every file is shared.
+  -->
+  <PropertyGroup>
+    <UnoSharedSourceExcludes>
+    </UnoSharedSourceExcludes>
+  </PropertyGroup>
+</Project>

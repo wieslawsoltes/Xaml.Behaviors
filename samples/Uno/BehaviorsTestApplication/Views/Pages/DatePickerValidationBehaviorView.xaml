@@ -1,0 +1,32 @@
+<UserControl x:Class="BehaviorsTestApplication.Views.Pages.DatePickerValidationBehaviorView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:i="using:Xaml.Interactivity"
+             xmlns:icustom="using:Xaml.Interactions.Custom"
+             xmlns:behaviors="using:BehaviorsTestApplication.Behaviors"
+             xmlns:converters="using:BehaviorsTestApplication.Converters"
+             mc:Ignorable="d" d:DesignWidth="300" d:DesignHeight="150">
+  <StackPanel Spacing="4">
+    <DatePicker SelectedDate="{x:Bind ViewModel.ValidatedDate, Mode=TwoWay}">
+      <i:Interaction.Behaviors>
+        <!-- Avalonia binds IsValid OneWayToSource; WinUI has no OneWayToSource mode (the behavior sets IsValid). -->
+        <icustom:DatePickerValidationBehavior IsValid="{x:Bind ViewModel.IsDateValid, Mode=TwoWay}">
+          <icustom:RequiredDateValidationRule ErrorMessage="Date is required." />
+          <!--
+            Avalonia: RangeValidationRule x:TypeArguments="system:Nullable(system:DateTimeOffset)" with the literals
+            Minimum="2020-01-01" and Maximum="2030-12-31" (WinUI XAML cannot convert strings to DateTimeOffset).
+          -->
+          <behaviors:NullableDateTimeOffsetRangeValidationRule Minimum="{x:Bind converters:SampleValues.MinimumValidatedDate}"
+                                                               Maximum="{x:Bind converters:SampleValues.MaximumValidatedDate}"
+                                                               ErrorMessage="Date out of range." />
+        </icustom:DatePickerValidationBehavior>
+      </i:Interaction.Behaviors>
+    </DatePicker>
+    <CheckBox IsEnabled="False"
+              Content="IsDateValid "
+              IsChecked="{x:Bind ViewModel.IsDateValid, Mode=OneWay}" />
+    <TextBlock Text="{x:Bind ViewModel.ValidatedDate, Mode=OneWay}" />
+  </StackPanel>
+</UserControl>

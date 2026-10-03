@@ -1,0 +1,45 @@
+<Project>
+  <!--
+    Files of samples/BehaviorsTestApplication that are not compiled for Uno Platform (UnoSharedSampleExcludes, paths
+    relative to the Avalonia sample, see samples/Uno/README.md). App.axaml.cs and Program.cs (the Avalonia bootstrap)
+    are always replaced by the Uno Platform App and Platforms/Desktop/Program.cs.
+
+    Pages (Views/Pages/*.axaml.cs, Views/ReactiveUI/*.axaml.cs): not ported yet unless they have a .xaml twin. The code-behind
+    of a view is compiled only when its WinUI twin exists next to this project (samples/Uno/UnoSharedSample.targets),
+    so porting a page does not edit this file. List a view's code-behind here only when it cannot be shared even though
+    the view has a twin (with the reason).
+  -->
+  <PropertyGroup>
+    <!--
+      Avalonia concepts without a WinUI counterpart:
+      - Animations/CustomStringAnimator.cs: an Avalonia InterpolatingAnimator<string>; WinUI storyboards have no custom
+        animators (the Uno CustomStringAnimationBuilder uses discrete string key frames instead).
+      - Behaviors/ManagedItemsListBoxDropHandler.cs: the Avalonia managed (in-process) drag and drop is not part of the
+        Uno port; WinUI drag and drop is already in-process on Uno Platform.
+      - Behaviors/ResourcesChangedMessageBehavior.cs: WinUI raises no ResourcesChanged notification
+        (ResourcesChangedBehavior is not part of the Uno port).
+      - Converters/ClassesToStringConverter.cs: converts Avalonia style classes (StyledElement.Classes).
+      - Renderers/RotatingSquareRenderer.cs, Renderers/SolidSquareRenderer.cs: immediate mode drawing (DrawingContext)
+        into a RenderTargetBitmap; the RenderTarget behaviors are not part of the Uno port (WinUI RenderTargetBitmap
+        only captures elements).
+      - ViewModels/CursorViewModel.cs, ViewModels/DrawnCursorViewModel.cs: Avalonia cursors; WinUI only exposes the
+        element cursor through the protected UIElement.ProtectedCursor (the cursor behaviors are not part of the port).
+      - Views/MainWindow.axaml.cs: the Avalonia main window; the Uno App creates the WinUI Window and hosts MainView
+        (the window behaviors of MainWindow move to MainView, see MainView.xaml).
+      - Views/Windows/WindowDemo.axaml.cs: a decoration-less Avalonia window moved with WindowDragMoveBehavior
+        (Window.BeginMoveDrag), which is not part of the Uno port.
+    -->
+    <UnoSharedSampleExcludes>
+      Animations/CustomStringAnimator.cs;
+      Behaviors/ManagedItemsListBoxDropHandler.cs;
+      Behaviors/ResourcesChangedMessageBehavior.cs;
+      Converters/ClassesToStringConverter.cs;
+      Renderers/RotatingSquareRenderer.cs;
+      Renderers/SolidSquareRenderer.cs;
+      ViewModels/CursorViewModel.cs;
+      ViewModels/DrawnCursorViewModel.cs;
+      Views/MainWindow.axaml.cs;
+      Views/Windows/WindowDemo.axaml.cs
+    </UnoSharedSampleExcludes>
+  </PropertyGroup>
+</Project>

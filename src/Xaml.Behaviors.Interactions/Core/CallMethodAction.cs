@@ -3,49 +3,40 @@
 using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
+#if UNO
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Xaml.Interactivity;
+#else
 using Avalonia.Controls;
 using Avalonia.Xaml.Interactivity;
+#endif
 
+#if UNO
+namespace Xaml.Interactions.Core;
+#else
 namespace Avalonia.Xaml.Interactions.Core;
+#endif
 
 /// <summary>
 /// An action that calls a method on a specified object when invoked.
 /// </summary>
 [RequiresUnreferencedCode("This functionality is not compatible with trimming.")]
-public class CallMethodAction : StyledElementAction
+public partial class CallMethodAction : StyledElementAction
 {
     internal MethodHelper MethodHelper { get; } = new();
 
     /// <summary>
-    /// Identifies the <seealso cref="MethodName"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<string?> MethodNameProperty =
-        AvaloniaProperty.Register<CallMethodAction, string?>(nameof(MethodName));
-
-    /// <summary>
-    /// Identifies the <seealso cref="TargetObject"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<object?> TargetObjectProperty =
-        AvaloniaProperty.Register<CallMethodAction, object?>(nameof(TargetObject));
-
-    /// <summary>
     /// Gets or sets the name of the method to invoke. This is an avalonia property.
     /// </summary>
-    public string? MethodName
-    {
-        get => GetValue(MethodNameProperty);
-        set => SetValue(MethodNameProperty, value);
-    }
+    [StyledProperty]
+    public partial string? MethodName { get; set; }
 
     /// <summary>
     /// Gets or sets the object that exposes the method of interest. This is an avalonia property.
     /// </summary>
-    [ResolveByName]
-    public object? TargetObject
-    {
-        get => GetValue(TargetObjectProperty);
-        set => SetValue(TargetObjectProperty, value);
-    }
+    [StyledProperty(ResolveByName = true)]
+    public partial object? TargetObject { get; set; }
 
     /// <inheritdoc />
     protected override void OnPropertyChanged(AvaloniaPropertyChangedEventArgs change)

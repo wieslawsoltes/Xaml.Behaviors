@@ -1,11 +1,19 @@
-// Copyright (c) Wiesław Šoltés. All rights reserved.
+﻿// Copyright (c) Wiesław Šoltés. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for details.
 using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
+#if UNO
+using Microsoft.UI.Xaml.Data;
+#else
 using Avalonia.Data;
+#endif
 
+#if UNO
+namespace Xaml.Interactivity;
+#else
 namespace Avalonia.Xaml.Interactivity;
+#endif
 
 internal sealed class ReversiblePropertyChange
 {
@@ -65,6 +73,10 @@ internal sealed class ReversiblePropertyChange
         {
             return false;
         }
+
+#if UNO
+        temporarySetter = WithStackTemporarySetter(target, temporarySetter);
+#endif
 
         if (_frame is not null && ReferenceEquals(_target, target))
         {
@@ -225,6 +237,36 @@ internal sealed class ReversiblePropertyChange
         return true;
     }
 
+#if UNO
+    /// <summary>
+    /// Falls back to the temporary setter of the property stack when <paramref name="temporarySetter"/> cannot set
+    /// temporary values.
+    /// </summary>
+    /// <remarks>
+    /// The typed (source generated) changes cannot set temporary values on Uno Platform (WinUI has no property
+    /// registry): when the property is already changed through temporary values by a reflection based change, the
+    /// typed change joins the stack with the temporary setter of that change.
+    /// </remarks>
+    private TrySetTemporaryValue WithStackTemporarySetter(object target, TrySetTemporaryValue temporarySetter)
+    {
+        if (!TryGetStack(target, out var propertyStack) ||
+            !propertyStack.UseTemporaryValues ||
+            propertyStack.Frames.Count == 0)
+        {
+            return temporarySetter;
+        }
+
+        var stackTemporarySetter = propertyStack.Frames[0].TemporarySetter;
+        if (ReferenceEquals(stackTemporarySetter, temporarySetter))
+        {
+            return temporarySetter;
+        }
+
+        return (object? value, out IDisposable? reversion) =>
+            temporarySetter(value, out reversion) || stackTemporarySetter(value, out reversion);
+    }
+
+#endif
     private bool TryGetStack(object target, out PropertyStack propertyStack)
     {
         if (s_propertyStacks.TryGetValue(target, out var propertyStacks) &&
@@ -286,9 +328,17 @@ public sealed class ReversiblePropertyChange<TTarget, TValue>
 
         var targetObject = (object)target;
         var avaloniaObject = targetObject as AvaloniaObject;
+#if UNO
+        // The typed (generated) path stays trim safe on Uno Platform: WinUI has no property registry, so the
+        // value is applied and restored through the typed accessors instead of an animation value overlay.
+        AvaloniaProperty? avaloniaProperty = null;
+        const bool isDirect = false;
+#else
         var avaloniaProperty = avaloniaObject is not null
             ? AvaloniaPropertyRegistry.Instance.FindRegistered(avaloniaObject, _propertyName)
             : null;
+        var isDirect = avaloniaProperty?.IsDirect == true;
+#endif
 
         return _change.Apply(
             targetObject,
@@ -296,7 +346,7 @@ public sealed class ReversiblePropertyChange<TTarget, TValue>
             TryGetValue,
             SetValue,
             SetTemporaryValue,
-            avaloniaProperty?.IsDirect == true);
+            isDirect);
 
         bool TryGetValue(out object? currentValue)
         {
@@ -314,7 +364,11 @@ public sealed class ReversiblePropertyChange<TTarget, TValue>
         {
             reversion = avaloniaProperty is null
                 ? null
+#if UNO
+                : null;
+#else
                 : avaloniaObject!.SetValue(avaloniaProperty, newValue, BindingPriority.Animation);
+#endif
             return reversion is not null;
         }
     }

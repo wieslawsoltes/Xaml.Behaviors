@@ -1,10 +1,21 @@
 ﻿// Copyright (c) Wiesław Šoltés. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for details.
+#if UNO
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Controls.Primitives;
+using Microsoft.UI.Xaml.Media;
+#else
 using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
 using Avalonia.Media;
+#endif
 
+#if UNO
+namespace Xaml.Interactions.Draggable;
+#else
 namespace Avalonia.Xaml.Interactions.Draggable;
+#endif
 
 /// <summary>
 /// Simple adorner used to show selection rectangles while dragging.

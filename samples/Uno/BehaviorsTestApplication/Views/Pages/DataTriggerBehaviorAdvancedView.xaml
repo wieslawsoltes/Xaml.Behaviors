@@ -1,0 +1,37 @@
+<UserControl x:Class="BehaviorsTestApplication.Views.Pages.DataTriggerBehaviorAdvancedView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:i="using:Xaml.Interactivity"
+             xmlns:ic="using:Xaml.Interactions.Core"
+             mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="450">
+  <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="*" />
+    </Grid.RowDefinitions>
+    <!-- Avalonia updates TextBox.Text on every change (WinUI: UpdateSourceTrigger=PropertyChanged). -->
+    <TextBox Grid.Row="0" Text="{x:Bind ViewModel.MyString, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+    <Border Grid.Row="1" Background="Black" CornerRadius="5">
+      <i:Interaction.Behaviors>
+        <!-- Avalonia IsVisible: WinUI Visibility. -->
+        <ic:DataTriggerBehavior Binding="{x:Bind ViewModel.MyString, Mode=OneWay}" ComparisonCondition="Equal" Value="">
+          <ic:ChangePropertyAction PropertyName="Visibility" Value="Collapsed" />
+        </ic:DataTriggerBehavior>
+        <ic:DataTriggerBehavior Binding="{x:Bind ViewModel.MyString, Mode=OneWay}" ComparisonCondition="NotEqual" Value="">
+          <ic:ChangePropertyAction PropertyName="Visibility" Value="Visible" />
+        </ic:DataTriggerBehavior>
+      </i:Interaction.Behaviors>
+      <StackPanel>
+        <TextBlock FontSize="25" Foreground="White">
+          <i:Interaction.Behaviors>
+            <ic:DataTriggerBehavior Binding="{x:Bind ViewModel.MyString, Mode=OneWay}" ComparisonCondition="NotEqual" Value="">
+              <ic:ChangePropertyAction PropertyName="Text" Value="{x:Bind ViewModel.MyString, Mode=OneWay}" />
+            </ic:DataTriggerBehavior>
+          </i:Interaction.Behaviors>
+        </TextBlock>
+      </StackPanel>
+    </Border>
+  </Grid>
+</UserControl>

@@ -1,30 +1,28 @@
 // Copyright (c) Wiesław Šoltés. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for details.
+#if UNO
+using Microsoft.UI.Xaml;
+#else
 using Avalonia.Interactivity;
+#endif
 
+#if UNO
+namespace Xaml.Interactivity;
+#else
 namespace Avalonia.Xaml.Interactivity;
+#endif
 
 /// <summary>
 /// Base class for triggers that listen for routed events.
 /// </summary>
-public abstract class InteractiveTriggerBase : StyledElementTrigger<Interactive>
+public abstract partial class InteractiveTriggerBase : StyledElementTrigger<Interactive>
 {
-    /// <summary>
-    /// Identifies the <see cref="RoutingStrategies"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<RoutingStrategies> RoutingStrategiesProperty =
-        AvaloniaProperty.Register<InteractiveTriggerBase, RoutingStrategies>(
-            nameof(RoutingStrategies),
-            RoutingStrategies.Bubble);
 
     /// <summary>
     /// Gets or sets the routing strategies used when subscribing to events.
     /// </summary>
-    public RoutingStrategies RoutingStrategies
-    {
-        get => GetValue(RoutingStrategiesProperty);
-        set => SetValue(RoutingStrategiesProperty, value);
-    }
+    [StyledProperty(DefaultValue = RoutingStrategies.Bubble)]
+    public partial RoutingStrategies RoutingStrategies { get; set; }
 
     /// <summary>
     /// Executes the actions associated with this trigger.

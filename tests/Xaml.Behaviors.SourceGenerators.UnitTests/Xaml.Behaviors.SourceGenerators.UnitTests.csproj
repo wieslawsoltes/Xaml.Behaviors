@@ -24,6 +24,16 @@
     <PackageReference Include="Avalonia.Themes.Fluent" />
     <PackageReference Include="Avalonia.Headless.XUnit" />
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp" />
+    <!-- WinUI reference assemblies for compile-only WinUI generator tests (not referenced by the test assembly). -->
+    <PackageDownload Include="Uno.WinUI" Version="[$(UnoWinUIVersion)]" />
+    <PackageDownload Include="Uno.Foundation" Version="[$(UnoWinUIVersion)]" />
+    <PackageDownload Include="Uno.WinRT" Version="[$(UnoWinUIVersion)]" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- Paths consumed by WinUIGeneratorTestHelper (the test assembly has no generated AssemblyInfo). -->
+    <RuntimeHostConfigurationOption Include="Xaml.Behaviors.SourceGenerators.UnitTests.NuGetPackageRoot" Value="$(NuGetPackageRoot)" />
+    <RuntimeHostConfigurationOption Include="Xaml.Behaviors.SourceGenerators.UnitTests.UnoWinUIVersion" Value="$(UnoWinUIVersion)" />
   </ItemGroup>
 
   <Import Project="..\..\build\XUnit.props" />
@@ -41,6 +51,17 @@
                       OutputItemType="Analyzer"
                       ReferenceOutputAssembly="true"
                       PrivateAssets="all" />
+    <!-- Built for the compile-only WinUI generator tests; its path is passed to the tests, it is not referenced. -->
+    <ProjectReference Include="..\..\src\Uno\Xaml.Behaviors.Interactivity\Xaml.Behaviors.Interactivity.csproj"
+                      ReferenceOutputAssembly="false"
+                      OutputItemType="UnoInteractivityAssembly"
+                      PrivateAssets="all" />
   </ItemGroup>
+
+  <Target Name="AddUnoInteractivityAssemblyPath" AfterTargets="ResolveProjectReferences">
+    <ItemGroup>
+      <RuntimeHostConfigurationOption Include="Xaml.Behaviors.SourceGenerators.UnitTests.UnoInteractivityAssembly" Value="%(UnoInteractivityAssembly.FullPath)" Condition="'@(UnoInteractivityAssembly)' != ''" />
+    </ItemGroup>
+  </Target>
 
 </Project>

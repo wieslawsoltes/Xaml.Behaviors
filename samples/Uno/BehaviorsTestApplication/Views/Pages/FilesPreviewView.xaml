@@ -1,0 +1,42 @@
+<UserControl x:Class="BehaviorsTestApplication.Views.Pages.FilesPreviewView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:i="using:Xaml.Interactivity"
+             xmlns:idd="using:Xaml.Interactions.DragAndDrop"
+             xmlns:ie="using:Xaml.Interactions.Events"
+             xmlns:storage="using:Windows.Storage"
+             mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="450">
+
+  <UserControl.Resources>
+    <DataTemplate x:Key="StorageItemTemplate" x:DataType="storage:IStorageItem">
+      <TextBlock Text="{x:Bind Name}" />
+    </DataTemplate>
+  </UserControl.Resources>
+
+  <!-- Avalonia {DynamicResource SystemAccentColor} (a color converted to a brush): the WinUI accent brush. -->
+  <StackPanel Margin="5" Spacing="12">
+    <TextBlock Text="FilesPreviewBehavior" HorizontalAlignment="Center"/>
+    <Border Background="Transparent" Padding="20" BorderThickness="1" BorderBrush="{ThemeResource AccentFillColorDefaultBrush}">
+      <i:Interaction.Behaviors>
+        <idd:FilesPreviewBehavior x:Name="PreviewBehavior" />
+      </i:Interaction.Behaviors>
+      <TextBlock Text="Drag files here" HorizontalAlignment="Center" VerticalAlignment="Center" />
+    </Border>
+    <ItemsControl ItemsSource="{x:Bind PreviewBehavior.PreviewFiles}" ItemTemplate="{StaticResource StorageItemTemplate}" />
+
+    <TextBlock Text="DragOverEventTrigger + AddPreviewFilesAction" HorizontalAlignment="Center" Margin="0,20,0,0"/>
+    <!-- WinUI raises DragOver only on elements that allow drop (FilesPreviewBehavior sets it itself). -->
+    <Border Background="Transparent" Padding="20" BorderThickness="1" BorderBrush="{ThemeResource AccentFillColorDefaultBrush}" AllowDrop="True">
+      <i:Interaction.Behaviors>
+        <ie:DragOverEventTrigger>
+          <idd:AddPreviewFilesAction ItemsControl="{x:Bind ActionList}" />
+        </ie:DragOverEventTrigger>
+      </i:Interaction.Behaviors>
+      <TextBlock Text="Drag files here" HorizontalAlignment="Center" VerticalAlignment="Center" />
+    </Border>
+    <!-- Without an ItemsSource, AddPreviewFilesAction adds the files to the Items of the list. -->
+    <ItemsControl x:Name="ActionList" ItemTemplate="{StaticResource StorageItemTemplate}" />
+  </StackPanel>
+</UserControl>

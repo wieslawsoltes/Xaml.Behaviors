@@ -1,33 +1,36 @@
 // Copyright (c) Wiesław Šoltés. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for details.
 using System.Collections;
+#if UNO
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Xaml.Interactivity;
+// WinUI's single child decorator is Border.
+using Decorator = Microsoft.UI.Xaml.Controls.Border;
+#else
 using Avalonia.Controls;
 using Avalonia.Controls.Presenters;
 using Avalonia.Xaml.Interactivity;
+#endif
 
+#if UNO
+namespace Xaml.Interactions.Custom;
+#else
 namespace Avalonia.Xaml.Interactions.Custom;
+#endif
 
 /// <summary>
 /// Removes the associated or target element from its parent when executed.
 /// </summary>
-public class RemoveElementAction : StyledElementAction
+public partial class RemoveElementAction : StyledElementAction
 {
-    /// <summary>
-    /// Identifies the <see cref="TargetObject"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<Control?> TargetObjectProperty =
-        AvaloniaProperty.Register<RemoveElementAction, Control?>(nameof(TargetObject));
 
     /// <summary>
     /// Gets or sets the element to remove. This is an avalonia property.
     /// If not set, the sender will be used.
     /// </summary>
-    [ResolveByName]
-    public Control? TargetObject
-    {
-        get => GetValue(TargetObjectProperty);
-        set => SetValue(TargetObjectProperty, value);
-    }
+    [StyledProperty(ResolveByName = true)]
+    public partial Control? TargetObject { get; set; }
 
     /// <inheritdoc />
     public override object Execute(object? sender, object? parameter)
@@ -66,7 +69,7 @@ public class RemoveElementAction : StyledElementAction
 
         if (parent is ContentControl contentControl)
         {
-            if (contentControl.Content == element)
+            if (ReferenceEquals(contentControl.Content, element))
             {
                 contentControl.Content = null;
                 return true;
@@ -75,18 +78,26 @@ public class RemoveElementAction : StyledElementAction
 
         if (parent is ContentPresenter presenter)
         {
-            if (presenter.Content == element)
+            if (ReferenceEquals(presenter.Content, element))
             {
                 presenter.Content = null;
                 return true;
             }
         }
 
+#if UNO
+        if (parent is ItemsControl itemsControl && itemsControl.Items.Contains(element))
+        {
+            itemsControl.Items.Remove(element);
+            return true;
+        }
+#else
         if (parent is ItemsControl itemsControl && itemsControl.Items is IList list && list.Contains(element))
         {
             list.Remove(element);
             return true;
         }
+#endif
 
         return false;
     }

@@ -1,0 +1,33 @@
+<UserControl x:Class="BehaviorsTestApplication.Views.Pages.StartAnimationActionView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:i="using:Xaml.Interactivity"
+             xmlns:ic="using:Xaml.Interactions.Core"
+             xmlns:icustom="using:Xaml.Interactions.Custom"
+             mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="150">
+  <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="12">
+    <Border x:Name="AnimatedBorder" Width="100" Height="100" Background="SteelBlue" />
+    <Button x:Name="StartButton" Content="Start Animation">
+      <i:Interaction.Behaviors>
+        <ic:EventTriggerBehavior EventName="Click" SourceObject="{x:Bind StartButton}">
+          <icustom:StartAnimationAction>
+            <icustom:StartAnimationAction.Animation>
+              <!--
+                Avalonia Animation (Duration 0:0:1, Opacity key frames at 0% and 100%) → WinUI Storyboard. Like the
+                Avalonia animation, the storyboard animates the sender of the action (the button).
+              -->
+              <Storyboard>
+                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="Opacity" Duration="0:0:1">
+                  <LinearDoubleKeyFrame KeyTime="0:0:0" Value="0" />
+                  <LinearDoubleKeyFrame KeyTime="0:0:1" Value="1" />
+                </DoubleAnimationUsingKeyFrames>
+              </Storyboard>
+            </icustom:StartAnimationAction.Animation>
+          </icustom:StartAnimationAction>
+        </ic:EventTriggerBehavior>
+      </i:Interaction.Behaviors>
+    </Button>
+  </StackPanel>
+</UserControl>

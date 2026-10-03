@@ -11,12 +11,22 @@ using System.Net.Http;
 using System.Reactive.Subjects;
 using System.Reflection;
 using System.Threading.Tasks;
+#if UNO
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Input;
+using Windows.ApplicationModel.DataTransfer;
+using Windows.Storage;
+using Xaml.Interactions.Custom;
+#else
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Platform;
 using Avalonia.Platform.Storage;
 using Avalonia.Xaml.Interactions.Custom;
+#endif
 using ReactiveUI;
+using ReactiveUI.Reactive;
 
 namespace BehaviorsTestApplication.ViewModels;
 
@@ -160,9 +170,16 @@ public partial class MainWindowViewModel : ViewModelBase
         GetClipboardDataCommand = ReactiveCommand.Create<object?>(GetClipboardData);
         GetClipboardFormatsCommand = ReactiveCommand.Create<IEnumerable<string>?>(GetClipboardFormats);
 
+#if UNO
+        // WinUI: SetClipboardDataObjectAction places a DataPackage on the clipboard.
+        var clipboardData = new DataPackage();
+        clipboardData.SetText("Sample clipboard data object");
+        ClipboardDataTransfer = clipboardData;
+#else
         var clipboardTransfer = new DataTransfer();
         clipboardTransfer.Add(DataTransferItem.CreateText("Sample clipboard data object"));
         ClipboardDataTransfer = clipboardTransfer;
+#endif
 
         UploadFilePath = string.Empty;
         UploadUrl = string.Empty;
@@ -334,8 +351,11 @@ public partial class MainWindowViewModel : ViewModelBase
         set => this.RaiseAndSetIfChanged(ref _uploadStatusMessage, value);
     }
 
+#if !UNO
+    // Avalonia Screens (ActiveScreenBehavior); the WinUI DisplayArea API is not implemented by Uno Platform.
     [Reactive]
     public partial Screen? ActiveScreen { get; set; }
+#endif
 
     private string _activeScreenSummary = string.Empty;
     public string ActiveScreenSummary
@@ -485,7 +505,11 @@ public partial class MainWindowViewModel : ViewModelBase
 
     public ICommand UploadCompletedCommand { get; set; }
 
+#if UNO
+    public DataPackage ClipboardDataTransfer { get; }
+#else
     public IAsyncDataTransfer ClipboardDataTransfer { get; }
+#endif
 
     public ICommand TextChangedCommand { get; }
 
@@ -522,10 +546,18 @@ public partial class MainWindowViewModel : ViewModelBase
         {
             Console.WriteLine($"OpenFilesCommand: {file.Name}, {file.Path}");
 
+#if UNO
+            // WinUI storage items have a file system path instead of a URI.
+            if (!string.IsNullOrEmpty(file.Path))
+            {
+                FileItems?.Add(new Uri(file.Path));
+            }
+#else
             if (file.Path is { } filePath)
             {
                 FileItems?.Add(filePath);
             }
+#endif
         }
     }
 
@@ -542,10 +574,17 @@ public partial class MainWindowViewModel : ViewModelBase
         {
             Console.WriteLine($"OpenFoldersCommand: {folder.Name}, {folder.Path}");
 
+#if UNO
+            if (!string.IsNullOrEmpty(folder.Path))
+            {
+                FileItems?.Add(new Uri(folder.Path));
+            }
+#else
             if (folder.Path is { } folderPath)
             {
                 FileItems?.Add(folderPath);
             }
+#endif
 
             // Set the first folder as DocumentsFolder to demonstrate SuggestedStartLocation usage
             if (DocumentsFolder is null)
@@ -568,9 +607,15 @@ public partial class MainWindowViewModel : ViewModelBase
             case Uri uri:
                 SaveFile(uri);
                 break;
+#if UNO
+            case IStorageItem { Path: { Length: > 0 } path }:
+                FileItems?.Add(new Uri(path));
+                break;
+#else
             case IStorageItem { Path: { } path }:
                 FileItems?.Add(path);
                 break;
+#endif
         }
     }
 
@@ -610,7 +655,11 @@ public partial class MainWindowViewModel : ViewModelBase
 
     private void OnTextChanged(TextChangedEventArgs args)
     {
+#if UNO
+        if (args.OriginalSource is TextBox control)
+#else
         if (args.Source is TextBox control)
+#endif
         {
             Greeting = control.Text ?? string.Empty;
         }
@@ -771,6 +820,7 @@ public partial class MainWindowViewModel : ViewModelBase
         }
     }
 
+#if !UNO
     partial void OnActiveScreenChanged(Screen? value);
 
     partial void OnActiveScreenChanged(Screen? value)
@@ -790,6 +840,7 @@ public partial class MainWindowViewModel : ViewModelBase
             $"Working area: {value.WorkingArea}{Environment.NewLine}" +
             $"Scaling: {value.Scaling:0.##}";
     }
+#endif
 
     public async Task LoadDataAsync()
     {

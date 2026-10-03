@@ -1,37 +1,40 @@
 using System;
 using System.Collections.Specialized;
+#if UNO
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Controls.Primitives;
+using Microsoft.UI.Dispatching;
+using Xaml.Interactivity;
+#else
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
 using Avalonia.Threading;
 using Avalonia.VisualTree;
 using Avalonia.Xaml.Interactivity;
+#endif
 
+#if UNO
+namespace Xaml.Interactions.Custom;
+#else
 namespace Avalonia.Xaml.Interactions.Custom;
+#endif
 
 /// <summary>
 /// A behavior that automatically scrolls to the bottom of a ScrollViewer or ItemsControl when new items are added.
 /// </summary>
-public class AutoScrollToBottomBehavior : StyledElementBehavior<Control>
+public partial class AutoScrollToBottomBehavior : StyledElementBehavior<Control>
 {
     private ScrollViewer? _scrollViewer;
     private INotifyCollectionChanged? _items;
     private bool _autoScroll = true;
 
     /// <summary>
-    /// Identifies the <seealso cref="ItemsSource"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<object?> ItemsSourceProperty =
-        AvaloniaProperty.Register<AutoScrollToBottomBehavior, object?>(nameof(ItemsSource));
-
-    /// <summary>
     /// Gets or sets the items source to monitor for changes.
     /// </summary>
-    public object? ItemsSource
-    {
-        get => GetValue(ItemsSourceProperty);
-        set => SetValue(ItemsSourceProperty, value);
-    }
+    [StyledProperty]
+    public partial object? ItemsSource { get; set; }
 
     /// <inheritdoc />
     protected override void OnAttached()
@@ -41,7 +44,7 @@ public class AutoScrollToBottomBehavior : StyledElementBehavior<Control>
         if (AssociatedObject is ScrollViewer scrollViewer)
         {
             _scrollViewer = scrollViewer;
-            _scrollViewer.ScrollChanged += OnScrollChanged;
+            SubscribeScrollChanged(_scrollViewer);
         }
         else if (AssociatedObject is ItemsControl itemsControl)
         {
@@ -49,7 +52,7 @@ public class AutoScrollToBottomBehavior : StyledElementBehavior<Control>
              _scrollViewer = itemsControl.FindDescendantOfType<ScrollViewer>();
              if (_scrollViewer is not null)
              {
-                 _scrollViewer.ScrollChanged += OnScrollChanged;
+                 SubscribeScrollChanged(_scrollViewer);
              }
              else
              {
@@ -61,7 +64,7 @@ public class AutoScrollToBottomBehavior : StyledElementBehavior<Control>
                          _scrollViewer = itemsControl.FindDescendantOfType<ScrollViewer>();
                          if (_scrollViewer is not null)
                          {
-                             _scrollViewer.ScrollChanged += OnScrollChanged;
+                             SubscribeScrollChanged(_scrollViewer);
                          }
                      }
                  });
@@ -78,7 +81,7 @@ public class AutoScrollToBottomBehavior : StyledElementBehavior<Control>
         
         if (_scrollViewer is not null)
         {
-            _scrollViewer.ScrollChanged -= OnScrollChanged;
+            UnsubscribeScrollChanged(_scrollViewer);
             _scrollViewer = null;
         }
         
@@ -113,7 +116,12 @@ public class AutoScrollToBottomBehavior : StyledElementBehavior<Control>
             _items = items;
             _items.CollectionChanged += OnCollectionChanged;
         }
+#if UNO
+        // WinUI item collections are vectors; the bound items source carries the collection notifications.
+        else if (itemsSource is null && AssociatedObject is ItemsControl itemsControl && itemsControl.ItemsSource is INotifyCollectionChanged itemsCollection)
+#else
         else if (itemsSource is null && AssociatedObject is ItemsControl itemsControl && itemsControl.Items is INotifyCollectionChanged itemsCollection)
+#endif
         {
             // Fallback to ItemsControl.Items if ItemsSource is not set
             _items = itemsCollection;
@@ -132,17 +140,30 @@ public class AutoScrollToBottomBehavior : StyledElementBehavior<Control>
         }
     }
 
-    private void OnScrollChanged(object? sender, ScrollChangedEventArgs e)
+#if !UNO
+    private void SubscribeScrollChanged(ScrollViewer scrollViewer) => scrollViewer.ScrollChanged += OnScrollChanged;
+
+    private void UnsubscribeScrollChanged(ScrollViewer scrollViewer) => scrollViewer.ScrollChanged -= OnScrollChanged;
+
+    private void OnScrollChanged(object? sender, ScrollChangedEventArgs e) => OnScrollChanged(e.ExtentDelta.Y);
+
+    private static bool IsScrolledToBottom(ScrollViewer scrollViewer)
+        => scrollViewer.Offset.Y >= scrollViewer.Extent.Height - scrollViewer.Viewport.Height - 1.0;
+
+    private static void ScrollToEnd(ScrollViewer scrollViewer) => scrollViewer.ScrollToEnd();
+#endif
+
+    private void OnScrollChanged(double extentDeltaY)
     {
         if (_scrollViewer is null)
         {
             return;
         }
 
-        if (e.ExtentDelta.Y == 0)
+        if (extentDeltaY == 0)
         {
             // User scroll
-            if (_scrollViewer.Offset.Y >= _scrollViewer.Extent.Height - _scrollViewer.Viewport.Height - 1.0)
+            if (IsScrolledToBottom(_scrollViewer))
             {
                 _autoScroll = true;
             }
@@ -168,7 +189,7 @@ public class AutoScrollToBottomBehavior : StyledElementBehavior<Control>
              _scrollViewer = itemsControl.FindDescendantOfType<ScrollViewer>();
              if (_scrollViewer is not null)
              {
-                 _scrollViewer.ScrollChanged += OnScrollChanged;
+                 SubscribeScrollChanged(_scrollViewer);
              }
         }
 
@@ -178,7 +199,7 @@ public class AutoScrollToBottomBehavior : StyledElementBehavior<Control>
             {
                 if(_scrollViewer is not null)
                 {
-                    _scrollViewer.ScrollToEnd();
+                    ScrollToEnd(_scrollViewer);
                 }
             });
         }

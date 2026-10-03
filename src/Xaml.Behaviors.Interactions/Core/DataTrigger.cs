@@ -2,7 +2,11 @@
 // Licensed under the MIT license. See LICENSE file in the project root for details.
 using System.Diagnostics.CodeAnalysis;
 
+#if UNO
+namespace Xaml.Interactions.Core;
+#else
 namespace Avalonia.Xaml.Interactions.Core;
+#endif
 
 /// <summary>
 /// A behavior that performs actions when the bound data meets a specified condition.

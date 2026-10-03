@@ -1,0 +1,35 @@
+<Project Sdk="Uno.Sdk">
+
+  <!-- Consumes the headless host through a ProjectReference, so import its buildTransitive files like a package consumer would get them. -->
+  <Import Project="..\..\..\src\Uno\Xaml.Behaviors.Uno.Headless.Host\buildTransitive\Xaml.Behaviors.Uno.Headless.Host.props" />
+
+  <!--
+    Uno twin of tests/Xaml.Behaviors.Interactivity.UnitTests: its tests are shared (tests/Uno/UnoSharedTests.targets),
+    minus the files listed in SharedTests.props. Uno.Sdk compiles the XAML test pages (.xaml next to this project).
+  -->
+  <PropertyGroup>
+    <TargetFrameworks>net10.0</TargetFrameworks>
+    <OutputType>Exe</OutputType>
+    <IsPackable>False</IsPackable>
+    <Nullable>enable</Nullable>
+    <UnoFeatures></UnoFeatures>
+    <AssemblyName>Xaml.Behaviors.Uno.Interactivity.UnitTests</AssemblyName>
+    <RootNamespace>Xaml.Interactivity.UnitTests</RootNamespace>
+    <UnoSharedTestProject>Xaml.Behaviors.Interactivity.UnitTests</UnoSharedTestProject>
+  </PropertyGroup>
+
+  <Import Project="SharedTests.props" />
+  <Import Project="..\..\..\build\XUnit.props" />
+  <Import Project="..\..\..\build\SignAssembly.props" />
+  <Import Project="..\..\..\build\XamlPropertyGenerator.props" />
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\src\Uno\Xaml.Behaviors.Uno.Headless.XUnit\Xaml.Behaviors.Uno.Headless.XUnit.csproj" />
+    <ProjectReference Include="..\..\..\src\Uno\Xaml.Behaviors.Interactivity\Xaml.Behaviors.Interactivity.csproj" />
+    <ProjectReference Include="..\..\..\src\Uno\Xaml.Behaviors.Interactions\Xaml.Behaviors.Interactions.csproj" />
+  </ItemGroup>
+
+  <Import Project="..\UnoSharedTests.targets" />
+  <Import Project="..\..\..\src\Uno\Xaml.Behaviors.Uno.Headless.Host\buildTransitive\Xaml.Behaviors.Uno.Headless.Host.targets" />
+
+</Project>

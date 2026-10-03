@@ -1,0 +1,16 @@
+<UserControl x:Class="BehaviorsTestApplication.Views.Pages.InvokeCommandActionBaseView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:i="using:Xaml.Interactivity"
+             xmlns:ic="using:Xaml.Interactions.Core"
+             mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="120">
+  <Button x:Name="Button" Content="Invoke" Width="80">
+    <i:Interaction.Behaviors>
+      <ic:EventTriggerBehavior EventName="Click" SourceObject="{x:Bind Button}">
+        <ic:InvokeCommandAction Command="{x:Bind ViewModel.InitializeCommand}" />
+      </ic:EventTriggerBehavior>
+    </i:Interaction.Behaviors>
+  </Button>
+</UserControl>

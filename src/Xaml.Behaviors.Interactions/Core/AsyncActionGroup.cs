@@ -3,12 +3,22 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+#if UNO
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Xaml.Interactivity;
+#else
 using Avalonia.Controls;
 using Avalonia.LogicalTree;
 using Avalonia.Metadata;
 using Avalonia.Xaml.Interactivity;
+#endif
 
+#if UNO
+namespace Xaml.Interactions.Core;
+#else
 namespace Avalonia.Xaml.Interactions.Core;
+#endif
 
 /// <summary>
 /// Defines the mode of execution for <see cref="AsyncActionGroup"/>.
@@ -29,38 +39,20 @@ public enum AsyncActionMode
 /// <summary>
 /// An action that executes its child actions asynchronously, either in sequence or in parallel.
 /// </summary>
-public class AsyncActionGroup : StyledElementAction
+public partial class AsyncActionGroup : StyledElementAction
 {
-    /// <summary>
-    /// Identifies the <seealso cref="Mode"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<AsyncActionMode> ModeProperty =
-        AvaloniaProperty.Register<AsyncActionGroup, AsyncActionMode>(nameof(Mode));
-
-    /// <summary>
-    /// Identifies the <seealso cref="Actions"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<ActionCollection?> ActionsProperty =
-        AvaloniaProperty.Register<AsyncActionGroup, ActionCollection?>(nameof(Actions));
 
     /// <summary>
     /// Gets or sets the execution mode. This is an avalonia property.
     /// </summary>
-    public AsyncActionMode Mode
-    {
-        get => GetValue(ModeProperty);
-        set => SetValue(ModeProperty, value);
-    }
+    [StyledProperty]
+    public partial AsyncActionMode Mode { get; set; }
 
     /// <summary>
     /// Gets or sets the collection of actions to execute. This is an avalonia property.
     /// </summary>
-    [Content]
-    public ActionCollection? Actions
-    {
-        get => GetValue(ActionsProperty);
-        set => SetValue(ActionsProperty, value);
-    }
+    [StyledProperty(Content = true)]
+    public partial ActionCollection? Actions { get; set; }
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AsyncActionGroup"/> class.

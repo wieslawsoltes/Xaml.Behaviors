@@ -1,10 +1,21 @@
+#if UNO
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Xaml.Interactivity.UnitTests;
+using Xaml.Interactivity;
+#else
 using Avalonia.Controls;
 using Avalonia.Headless.XUnit;
 using Avalonia.Xaml.Interactivity.UnitTests;
 using Avalonia.Xaml.Interactivity;
+#endif
 using Xunit;
 
+#if UNO
+namespace Xaml.Interactivity.UnitTests;
+#else
 namespace Avalonia.Xaml.Interactivity.UnitTests;
+#endif
 
 public class StyledElementActionTests
 {
@@ -41,6 +52,8 @@ public class StyledElementActionTests
         Assert.Equal(parameter, action.Parameter);
     }
 
+#if !UNO
+    // WinUI has no Initialized event: the Uno StyledElementAction has no initialization state.
     [AvaloniaFact]
     public void Initialize_SetsIsInitialized()
     {
@@ -59,12 +72,21 @@ public class StyledElementActionTests
         action.Initialize();
         Assert.Equal(1, initializedCount);
     }
+#endif
 
     [AvaloniaFact]
     public void AttachActionToLogicalTree_SetsParentAndTemplatedParent()
     {
         var action = new StubAction();
         var parent = new Button();
+#if UNO
+        // WinUI has no logical tree and no settable templated parent: the action joins the action tree of its
+        // parent (Action.Host).
+        action.AttachActionToLogicalTree(parent);
+
+        Assert.Equal(parent, action.Host);
+        Assert.True(((ILogical)action).IsAttachedToLogicalTree);
+#else
         var templatedParent = new ContentControl();
         TemplatedParentHelper.SetTemplatedParent(parent, templatedParent);
 
@@ -72,6 +94,7 @@ public class StyledElementActionTests
 
         Assert.Equal(parent, action.Parent);
         Assert.Equal(templatedParent, action.TemplatedParent);
+#endif
     }
 
     [AvaloniaFact]
@@ -79,6 +102,14 @@ public class StyledElementActionTests
     {
         var action = new StubAction();
         var parent = new Button();
+#if UNO
+        // WinUI has no logical tree and no settable templated parent: the action leaves the action tree (Action.Host).
+        action.AttachActionToLogicalTree(parent);
+        action.DetachActionFromLogicalTree(parent);
+
+        Assert.Null(action.Host);
+        Assert.False(((ILogical)action).IsAttachedToLogicalTree);
+#else
         var templatedParent = new ContentControl();
         TemplatedParentHelper.SetTemplatedParent(parent, templatedParent);
 
@@ -87,5 +118,6 @@ public class StyledElementActionTests
 
         Assert.Null(action.Parent);
         Assert.Null(action.TemplatedParent);
+#endif
     }
 }

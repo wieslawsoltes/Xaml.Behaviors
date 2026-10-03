@@ -1,47 +1,40 @@
 ﻿// Copyright (c) Wiesław Šoltés. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for details.
+#if UNO
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Input;
+using Xaml.Interactivity;
+#else
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Xaml.Interactivity;
+#endif
 
+#if UNO
+namespace Xaml.Interactions.Custom;
+#else
 namespace Avalonia.Xaml.Interactions.Custom;
+#endif
 
 /// <summary>
 /// A behavior that allows to hide control on key down event.
 /// </summary>
-public class HideOnKeyPressedBehavior : StyledElementBehavior<Control>
+public partial class HideOnKeyPressedBehavior : StyledElementBehavior<Control>
 {
-    /// <summary>
-    /// Identifies the <seealso cref="TargetControl"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<Control?> TargetControlProperty =
-        AvaloniaProperty.Register<HideOnKeyPressedBehavior, Control?>(nameof(TargetControl));
-
-    /// <summary>
-    /// Identifies the <seealso cref="Key"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<Key> KeyProperty =
-        AvaloniaProperty.Register<HideOnKeyPressedBehavior, Key>(nameof(Key), Key.Escape);
 
     /// <summary>
     /// Gets or sets the target control. This is an avalonia property.
     /// </summary>
-    [ResolveByName]
-    public Control? TargetControl
-    {
-        get => GetValue(TargetControlProperty);
-        set => SetValue(TargetControlProperty, value);
-    }
+    [StyledProperty(ResolveByName = true)]
+    public partial Control? TargetControl { get; set; }
 
     /// <summary>
     /// Gets or sets the key. This is an avalonia property.
     /// </summary>
-    public Key Key
-    {
-        get => GetValue(KeyProperty);
-        set => SetValue(KeyProperty, value);
-    }
+    [StyledProperty(DefaultValue = Key.Escape)]
+    public partial Key Key { get; set; }
 
     /// <inheritdoc />
     protected override void OnAttachedToVisualTree()
@@ -53,7 +46,7 @@ public class HideOnKeyPressedBehavior : StyledElementBehavior<Control>
     /// <inheritdoc />
     protected override void OnDetachedFromVisualTree()
     {
-        AssociatedObject?.RemoveHandler(InputElement.KeyDownEvent, AssociatedObject_KeyDown);
+        AssociatedObject?.RemoveRoutedEventHandler(InputElement.KeyDownEvent, AssociatedObject_KeyDown);
     }
 
     private void AssociatedObject_KeyDown(object? sender, KeyEventArgs e)

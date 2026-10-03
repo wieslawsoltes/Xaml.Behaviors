@@ -1,0 +1,34 @@
+<Project>
+  <Import Project="$([MSBuild]::GetPathOfFileAbove('Directory.Build.targets', '$(MSBuildThisFileDirectory)../'))" />
+
+  <!--
+    Source linking of the shared Avalonia sources.
+    A Uno project sets <UnoSharedSourceProject> to the folder name of the Avalonia project
+    (e.g. Xaml.Behaviors.Interactivity) and lists the files (relative paths or globs, separated by ';')
+    that must not be compiled for Uno in <UnoSharedSourceExcludes>.
+  -->
+  <PropertyGroup Condition="'$(UnoSharedSourceProject)' != ''">
+    <!-- Relative to the project directory: MSBuild ignores glob excludes on absolute paths outside the project cone. -->
+    <_UnoSharedSourceRoot>$([MSBuild]::EnsureTrailingSlash($([MSBuild]::MakeRelative('$(MSBuildProjectDirectory)', '$(AvaloniaSourcesDirectory)$(UnoSharedSourceProject)'))))</_UnoSharedSourceRoot>
+    <_UnoSharedSourceExcludes>$([System.Text.RegularExpressions.Regex]::Replace('$(UnoSharedSourceExcludes)', '\s+', '').Trim(';'))</_UnoSharedSourceExcludes>
+    <_UnoSharedSourceExcludes Condition="'$(_UnoSharedSourceExcludes)' != ''">$(_UnoSharedSourceRoot)$(_UnoSharedSourceExcludes.Replace(';', ';$(_UnoSharedSourceRoot)'))</_UnoSharedSourceExcludes>
+    <!-- Property functions escape wildcards; unescape so the globs are honored. -->
+    <_UnoSharedSourceExcludes>$([MSBuild]::Unescape('$(_UnoSharedSourceExcludes)'))</_UnoSharedSourceExcludes>
+  </PropertyGroup>
+
+  <ItemGroup Condition="'$(UnoSharedSourceProject)' != ''">
+    <Compile Include="$(_UnoSharedSourceRoot)**/*.cs"
+             Exclude="$(_UnoSharedSourceRoot)bin/**;$(_UnoSharedSourceRoot)obj/**;$(_UnoSharedSourceRoot)Properties/**;$(_UnoSharedSourceExcludes)"
+             Link="Shared/%(RecursiveDir)%(Filename)%(Extension)" />
+  </ItemGroup>
+
+  <Import Project="$(AvaloniaSourcesDirectory)../build/XamlPropertyGenerator.props" Condition="'$(UnoSharedSourceProject)' != ''" />
+  <!--
+    Trimming and Native AOT, like every Avalonia library under src/: marks the packages IsTrimmable/IsAotCompatible
+    and turns the IL2xxx/IL3xxx analyzer warnings into errors. A project opts out with <IsTrimmable>false</IsTrimmable>
+    (the headless test harness does). Imported here, before the SDK targets that read these properties.
+  -->
+  <Import Project="$(AvaloniaSourcesDirectory)../build/TrimmingEnable.targets" Condition="'$(IsPackable)' == 'true' AND '$(IsTrimmable)' != 'false'" />
+  <Import Project="$(AvaloniaSourcesDirectory)../build/SignAssembly.props" />
+  <Import Project="$(AvaloniaSourcesDirectory)../build/SourceLink.props" />
+</Project>

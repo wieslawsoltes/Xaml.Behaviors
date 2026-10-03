@@ -1,0 +1,22 @@
+<UserControl x:Class="BehaviorsTestApplication.Views.Pages.FocusOnVisibleBehaviorView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:i="using:Xaml.Interactivity"
+             xmlns:icustom="using:Xaml.Interactions.Custom"
+             xmlns:converters="using:BehaviorsTestApplication.Converters"
+             mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="160">
+  <StackPanel Spacing="12">
+    <TextBlock Text="Toggle the checkbox to make the input visible." />
+    <CheckBox x:Name="VisibilityToggle" Content="Show input" />
+    <!-- Avalonia IsVisible="{Binding #VisibilityToggle.IsChecked}": WinUI Visibility from the nullable check state. -->
+    <TextBox Width="200"
+             PlaceholderText="Focus when visible"
+             Visibility="{x:Bind converters:SampleCheck.Visible(VisibilityToggle.IsChecked), Mode=OneWay}">
+      <i:Interaction.Behaviors>
+        <icustom:FocusOnVisibleBehavior />
+      </i:Interaction.Behaviors>
+    </TextBox>
+  </StackPanel>
+</UserControl>

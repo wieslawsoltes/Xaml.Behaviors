@@ -1,0 +1,38 @@
+<UserControl x:Class="BehaviorsTestApplication.Views.Pages.ThemeVariantView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:i="using:Xaml.Interactivity"
+             xmlns:ic="using:Xaml.Interactions.Core"
+             xmlns:icustom="using:Xaml.Interactions.Custom"
+             xmlns:converters="using:BehaviorsTestApplication.Converters"
+             mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="450">
+  <StackPanel Margin="5" Spacing="5">
+    <!-- Avalonia: ThemeVariant items (WinUI: the names of the ElementTheme values, converted by SampleFormat.ThemeVariant). -->
+    <ComboBox x:Name="VariantSelector" SelectedIndex="0">
+      <x:String>Default</x:String>
+      <x:String>Dark</x:String>
+      <x:String>Light</x:String>
+    </ComboBox>
+    <!-- Avalonia: ThemeVariantScope (WinUI: any element scopes its theme with RequestedTheme). -->
+    <Grid x:Name="Scope">
+      <i:Interaction.Behaviors>
+        <icustom:ThemeVariantBehavior ThemeVariant="{x:Bind converters:SampleFormat.ThemeVariant(VariantSelector.SelectedItem), Mode=OneWay}" />
+      </i:Interaction.Behaviors>
+      <Border Background="DarkGray" Padding="10" CornerRadius="4">
+        <StackPanel Spacing="5">
+          <!-- Avalonia: {Binding #Scope.ActualThemeVariant} (WinUI ActualTheme is not a dependency property). -->
+          <TextBlock Text="{x:Bind converters:SampleFormat.ActualTheme(Scope, Scope.RequestedTheme), Mode=OneWay}" />
+          <Button Content="Toggle Dark" HorizontalAlignment="Left">
+            <i:Interaction.Behaviors>
+              <ic:EventTriggerBehavior EventName="Click">
+                <icustom:SetThemeVariantAction Target="{x:Bind Scope}" ThemeVariant="Dark" />
+              </ic:EventTriggerBehavior>
+            </i:Interaction.Behaviors>
+          </Button>
+        </StackPanel>
+      </Border>
+    </Grid>
+  </StackPanel>
+</UserControl>

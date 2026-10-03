@@ -4,18 +4,36 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+#if UNO
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Controls.Primitives;
+using Microsoft.UI.Xaml.Input;
+using Xaml.Interactivity;
+using SelectingItemsControl = Microsoft.UI.Xaml.Controls.TabView;
+using TabItem = Microsoft.UI.Xaml.Controls.TabViewItem;
+#else
 using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
 using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Xaml.Interactivity;
+#endif
 
+#if UNO
+namespace Xaml.Interactions.Custom;
+#else
 namespace Avalonia.Xaml.Interactions.Custom;
+#endif
 
 /// <summary>
 /// Filters <see cref="SelectingItemsControl"/> items based on the text of a search box.
 /// </summary>
-public sealed class SelectingItemsControlSearchBehavior : StyledElementBehavior<SelectingItemsControl>
+/// <remarks>
+/// The behavior filters tab items by header. On Uno Platform it is attached to a WinUI <c>TabView</c> and filters
+/// its <c>TabViewItem</c>s.
+/// </remarks>
+public sealed partial class SelectingItemsControlSearchBehavior : StyledElementBehavior<SelectingItemsControl>
 {
     /// <summary>
     /// Sort order for tab items.
@@ -33,75 +51,62 @@ public sealed class SelectingItemsControlSearchBehavior : StyledElementBehavior<
         Descending
     }
 
+#if UNO
     /// <summary>
-    /// Identifies the <seealso cref="SearchBox"/> avalonia property.
+    /// Gets or sets the control displayed when no matches are found.
     /// </summary>
-    public static readonly StyledProperty<TextBox?> SearchBoxProperty =
-        AvaloniaProperty.Register<SelectingItemsControlSearchBehavior, TextBox?>(nameof(SearchBox));
-
+    [StyledProperty(ResolveByName = true)]
+    public partial Control? NoMatchesControl { get; set; }
+#else
     /// <summary>
     /// Identifies the <seealso cref="NoMatchesControl"/> avalonia property.
     /// </summary>
     public static readonly StyledProperty<TextBlock?> NoMatchesControlProperty =
         AvaloniaProperty.Register<SelectingItemsControlSearchBehavior, TextBlock?>(nameof(NoMatchesControl));
-
-    /// <summary>
-    /// Identifies the <seealso cref="EnableSorting"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<bool> EnableSortingProperty =
-        AvaloniaProperty.Register<SelectingItemsControlSearchBehavior, bool>(nameof(EnableSorting));
-
-    /// <summary>
-    /// Identifies the <seealso cref="SortOrder"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<SortDirection> SortOrderProperty =
-        AvaloniaProperty.Register<SelectingItemsControlSearchBehavior, SortDirection>(nameof(SortOrder), SortDirection.Ascending);
+#endif
 
     /// <summary>
     /// Gets or sets the search box control.
     /// </summary>
-    [ResolveByName]
-    public TextBox? SearchBox
-    {
-        get => GetValue(SearchBoxProperty);
-        set => SetValue(SearchBoxProperty, value);
-    }
+    [StyledProperty(ResolveByName = true)]
+    public partial TextBox? SearchBox { get; set; }
 
+#if !UNO
     /// <summary>
     /// Gets or sets the control displayed when no matches are found.
     /// </summary>
     [ResolveByName]
     public Control? NoMatchesControl
     {
-        get => GetValue(NoMatchesControlProperty);
+        get => (Control?)GetValue(NoMatchesControlProperty);
         set => SetValue(NoMatchesControlProperty, value);
     }
+#endif
 
     /// <summary>
     /// Gets or sets a value indicating whether items should be sorted.
     /// </summary>
-    public bool EnableSorting
-    {
-        get => GetValue(EnableSortingProperty);
-        set => SetValue(EnableSortingProperty, value);
-    }
+    [StyledProperty]
+    public partial bool EnableSorting { get; set; }
 
     /// <summary>
     /// Gets or sets the sort order for the items.
     /// </summary>
-    public SortDirection SortOrder
-    {
-        get => GetValue(SortOrderProperty);
-        set => SetValue(SortOrderProperty, value);
-    }
+    [StyledProperty(DefaultValue = SortDirection.Ascending)]
+    public partial SortDirection SortOrder { get; set; }
 
     /// <inheritdoc />
     protected override void OnAttachedToVisualTree()
     {
         if (SearchBox is not null)
         {
+#if UNO
+            // WinUI raises TextChanged (a CLR event) after every edit, including text input.
+            SearchBox.TextChanged += SearchBox_TextChanged;
+#else
             SearchBox.AddHandler(InputElement.TextInputEvent, SearchBox_TextChanged, RoutingStrategies.Bubble);
             SearchBox.AddHandler(TextBox.TextChangedEvent, SearchBox_TextChanged, RoutingStrategies.Bubble);
+#endif
         }
 
         SortItems();
@@ -112,8 +117,12 @@ public sealed class SelectingItemsControlSearchBehavior : StyledElementBehavior<
     {
         if (SearchBox is not null)
         {
-            SearchBox.RemoveHandler(InputElement.TextInputEvent, SearchBox_TextChanged);
-            SearchBox.RemoveHandler(TextBox.TextChangedEvent, SearchBox_TextChanged);
+#if UNO
+            SearchBox.TextChanged -= SearchBox_TextChanged;
+#else
+            SearchBox.RemoveRoutedEventHandler(InputElement.TextInputEvent, SearchBox_TextChanged);
+            SearchBox.RemoveRoutedEventHandler(TextBox.TextChangedEvent, SearchBox_TextChanged);
+#endif
         }
     }
 
@@ -127,7 +136,11 @@ public sealed class SelectingItemsControlSearchBehavior : StyledElementBehavior<
         var tabItemComparer = SortOrder == SortDirection.Ascending
             ? Comparer<Object>.Create((x, y) => (x as TabItem)?.Header?.ToString()?.CompareTo((y as TabItem)?.Header?.ToString()) ?? -1)
             : Comparer<Object>.Create((x, y) => (y as TabItem)?.Header?.ToString()?.CompareTo((x as TabItem)?.Header?.ToString()) ?? -1);
+#if UNO
+        SortTabItems(AssociatedObject.TabItems, tabItemComparer);
+#else
         ArrayList.Adapter(AssociatedObject.Items).Sort(tabItemComparer);
+#endif
     }
 
     private void SearchBox_TextChanged(object? sender, RoutedEventArgs e)
@@ -142,7 +155,11 @@ public sealed class SelectingItemsControlSearchBehavior : StyledElementBehavior<
 
         SortItems();
 
+#if UNO
+        var tabItems = AssociatedObject.TabItems.OfType<TabItem>().ToList();
+#else
         var tabItems = AssociatedObject.Items.OfType<TabItem>().ToList();
+#endif
 
         foreach (var item in tabItems)
         {

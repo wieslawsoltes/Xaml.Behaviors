@@ -1,0 +1,20 @@
+<compat:HeadlessTestWindow x:Class="Xaml.Interactions.UnitTests.Core.InvokeCommandAction002"
+                           xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                           xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                           xmlns:compat="using:Xaml.Behaviors.Uno.TestCompat"
+                           xmlns:i="using:Xaml.Interactivity"
+                           xmlns:ic="using:Xaml.Interactions.Core"
+                           Title="InvokeCommandAction002">
+  <StackPanel>
+    <TextBox x:Name="TargetTextBox" x:FieldModifier="internal"
+             Text="Initial Text" />
+    <Button x:Name="TargetButton" x:FieldModifier="internal" Content="Button">
+      <i:Interaction.Behaviors>
+        <ic:EventTriggerBehavior EventName="Click">
+          <ic:InvokeCommandAction Command="{Binding TestCommand}"
+                                  CommandParameter="Param" />
+        </ic:EventTriggerBehavior>
+      </i:Interaction.Behaviors>
+    </Button>
+  </StackPanel>
+</compat:HeadlessTestWindow>

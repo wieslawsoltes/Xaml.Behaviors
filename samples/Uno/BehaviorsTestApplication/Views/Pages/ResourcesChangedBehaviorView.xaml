@@ -1,0 +1,11 @@
+<!--
+  Not available: ResourcesChangedBehavior (and the sample's ResourcesChangedMessageBehavior) observe the Avalonia
+  ResourcesChanged event; WinUI raises no notification when a resource dictionary changes (see src/Uno/PORTING.md).
+-->
+<UserControl x:Class="BehaviorsTestApplication.Views.Pages.ResourcesChangedBehaviorView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:controls="using:BehaviorsTestApplication.Controls">
+  <controls:NotAvailableOnUnoView Title="ResourcesChangedBehavior"
+                                  Reason="ResourcesChangedBehavior observes the Avalonia ResourcesChanged event; WinUI raises no notification when the resources of an element change." />
+</UserControl>

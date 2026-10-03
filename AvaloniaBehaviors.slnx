@@ -10,6 +10,11 @@
     <Project Path="build/build/_build.csproj" />
       <File Path="NuGet.Config" />
   </Folder>
+  <Folder Name="/analyzers/">
+    <Project Path="src/Xaml.PortAnalyzers.CodeFixes/Xaml.PortAnalyzers.CodeFixes.csproj" />
+    <Project Path="src/Xaml.PortAnalyzers/Xaml.PortAnalyzers.csproj" />
+    <Project Path="tests/Xaml.PortAnalyzers.UnitTests/Xaml.PortAnalyzers.UnitTests.csproj" />
+  </Folder>
   <Folder Name="/build/git/">
     <File Path=".gitattributes" />
     <File Path=".gitignore" />
@@ -48,11 +53,16 @@
     <Project Path="src/Xaml.Behaviors.SourceGenerators/Xaml.Behaviors.SourceGenerators.csproj" />
     <Project Path="src/Xaml.Behaviors/Xaml.Behaviors.csproj" />
   </Folder>
+  <Folder Name="/tools/">
+    <Project Path="src/Xaml.PropertyGenerator/Xaml.PropertyGenerator.csproj" />
+    <Project Path="src/Xaml.PropertyGenerator.CodeFixes/Xaml.PropertyGenerator.CodeFixes.csproj" />
+  </Folder>
   <Folder Name="/tests/">
     <Project Path="tests/Xaml.Behaviors.Animations.UnitTests/Xaml.Behaviors.Animations.UnitTests.csproj" />
     <Project Path="tests/Xaml.Behaviors.Interactions.UnitTests/Xaml.Behaviors.Interactions.UnitTests.csproj" />
     <Project Path="tests/Xaml.Behaviors.Interactivity.UnitTests/Xaml.Behaviors.Interactivity.UnitTests.csproj" />
     <Project Path="tests/Xaml.Behaviors.SourceGenerators.IntegrationTests/Xaml.Behaviors.SourceGenerators.IntegrationTests.csproj" />
     <Project Path="tests/Xaml.Behaviors.SourceGenerators.UnitTests/Xaml.Behaviors.SourceGenerators.UnitTests.csproj" />
+    <Project Path="tests/Xaml.PropertyGenerator.UnitTests/Xaml.PropertyGenerator.UnitTests.csproj" />
   </Folder>
 </Solution>

@@ -1,49 +1,42 @@
 // Copyright (c) Wiesław Šoltés. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for details.
 using System;
+#if UNO
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Dispatching;
+using Xaml.Interactivity;
+#else
 using Avalonia.Controls;
 using Avalonia.Reactive;
 using Avalonia.Threading;
 using Avalonia.VisualTree;
 using Avalonia.Xaml.Interactivity;
+#endif
 
+#if UNO
+namespace Xaml.Interactions.Custom;
+#else
 namespace Avalonia.Xaml.Interactions.Custom;
+#endif
 
 /// <summary>
 /// Executes actions when the window state matches the specified value.
 /// </summary>
-public class WindowStateTrigger : AttachedToVisualTreeTriggerBase<Control>
+public partial class WindowStateTrigger : AttachedToVisualTreeTriggerBase<Control>
 {
-    /// <summary>
-    /// Identifies the <see cref="Window"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<Window?> WindowProperty =
-        AvaloniaProperty.Register<WindowStateTrigger, Window?>(nameof(Window));
-
-    /// <summary>
-    /// Identifies the <see cref="State"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<WindowState> StateProperty =
-        AvaloniaProperty.Register<WindowStateTrigger, WindowState>(nameof(State));
 
     /// <summary>
     /// Gets or sets the window. If not set, the visual root window is used.
     /// </summary>
-    [ResolveByName]
-    public Window? Window
-    {
-        get => GetValue(WindowProperty);
-        set => SetValue(WindowProperty, value);
-    }
+    [StyledProperty(ResolveByName = true)]
+    public partial Window? Window { get; set; }
 
     /// <summary>
     /// Gets or sets the window state to trigger on. This is an avalonia property.
     /// </summary>
-    public WindowState State
-    {
-        get => GetValue(StateProperty);
-        set => SetValue(StateProperty, value);
-    }
+    [StyledProperty]
+    public partial WindowState State { get; set; }
 
     private IDisposable? _subscription;
 
@@ -56,9 +49,28 @@ public class WindowStateTrigger : AttachedToVisualTreeTriggerBase<Control>
             return DisposableAction.Empty;
         }
 
+#if UNO
+        // WinUI raises AppWindow.Changed when the presenter (and so the window state) changes.
+        var appWindow = window.AppWindow;
+        var state = window.WindowState;
+        void OnAppWindowChanged(Microsoft.UI.Windowing.AppWindow sender, Microsoft.UI.Windowing.AppWindowChangedEventArgs e)
+        {
+            var newState = WindowStateExtensions.GetState(sender);
+            if (newState != state)
+            {
+                state = newState;
+                OnStateChanged(newState);
+            }
+        }
+
+        appWindow.Changed += OnAppWindowChanged;
+        _subscription = DisposableAction.Create(() => appWindow.Changed -= OnAppWindowChanged);
+        OnStateChanged(state);
+#else
         _subscription = window.GetObservable(Window.WindowStateProperty)
             .Subscribe(new AnonymousObserver<WindowState>(OnStateChanged));
         OnStateChanged(window.WindowState);
+#endif
 
         return DisposableAction.Create(() => _subscription?.Dispose());
     }

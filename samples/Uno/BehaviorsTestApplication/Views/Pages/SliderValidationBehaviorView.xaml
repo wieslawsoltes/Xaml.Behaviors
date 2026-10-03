@@ -1,0 +1,46 @@
+<UserControl x:Class="BehaviorsTestApplication.Views.Pages.SliderValidationBehaviorView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:i="using:Xaml.Interactivity"
+             xmlns:icustom="using:Xaml.Interactions.Custom"
+             xmlns:behaviors="using:BehaviorsTestApplication.Behaviors"
+             mc:Ignorable="d" d:DesignWidth="300" d:DesignHeight="150">
+  <StackPanel Spacing="4">
+    <!-- Avalonia: IsSnapToTickEnabled="True" (WinUI: SnapsTo="Ticks"). -->
+    <Slider Width="200"
+            Minimum="0"
+            Maximum="200"
+            TickFrequency="1"
+            SnapsTo="Ticks"
+            Value="{x:Bind ViewModel.ValidatedSlider, Mode=TwoWay}">
+      <i:Interaction.Behaviors>
+        <!-- Avalonia: Mode=OneWayToSource (WinUI has no OneWayToSource; the view model only reads the flag back). -->
+        <icustom:SliderValidationBehavior IsValid="{x:Bind ViewModel.IsSliderValid, Mode=TwoWay}">
+          <!--
+            RangeValidationRule<double> (WinUI XAML has no x:TypeArguments). The rules are not in the element tree (no
+            inherited DataContext), so they bind with x:Bind like the Avalonia compiled bindings.
+          -->
+          <behaviors:DoubleRangeValidationRule Minimum="{x:Bind ViewModel.SliderValidationMinimum, Mode=OneWay}"
+                                               Maximum="{x:Bind ViewModel.SliderValidationMaximum, Mode=OneWay}"
+                                               ErrorMessage="Value is outside the configured range." />
+        </icustom:SliderValidationBehavior>
+      </i:Interaction.Behaviors>
+    </Slider>
+    <CheckBox IsEnabled="False"
+              Content="IsSliderValid "
+              IsChecked="{x:Bind ViewModel.IsSliderValid, Mode=OneWay}" />
+    <StackPanel Orientation="Horizontal" Spacing="8">
+      <Slider Width="90"
+              Minimum="0"
+              Maximum="200"
+              Value="{x:Bind ViewModel.SliderValidationMinimum, Mode=TwoWay}" />
+      <Slider Width="90"
+              Minimum="0"
+              Maximum="200"
+              Value="{x:Bind ViewModel.SliderValidationMaximum, Mode=TwoWay}" />
+    </StackPanel>
+    <TextBlock Text="{x:Bind ViewModel.ValidatedSlider, Mode=OneWay}" />
+  </StackPanel>
+</UserControl>

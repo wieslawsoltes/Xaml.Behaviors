@@ -1,9 +1,17 @@
 using System;
 using System.Linq;
+#if UNO
+using Microsoft.UI.Xaml;
+#else
 using Avalonia.Interactivity;
+#endif
 using Xunit;
 
+#if UNO
+namespace Xaml.Behaviors.SourceGenerators.UnitTests;
+#else
 namespace Avalonia.Xaml.Behaviors.SourceGenerators.UnitTests;
+#endif
 
 public class EventArgsActionGeneratorTests
 {
@@ -167,6 +175,20 @@ public partial class Handler
     [Fact]
         public void Duplicate_Named_EventArgsActions_With_Different_Options_Should_Not_Collide()
         {
+#if UNO
+            // WinUI RoutedEventArgs has no Handled property: project OriginalSource.
+            var source = @"
+using Microsoft.UI.Xaml;
+using Xaml.Behaviors.SourceGenerators;
+
+public partial class Handler
+{
+    [GenerateEventArgsAction(Name = ""Shared"")]
+    [GenerateEventArgsAction(Name = ""Shared"", UseDispatcher = true, Project = ""OriginalSource"")]
+    public void OnRouted(RoutedEventArgs args) { }
+}
+";
+#else
             var source = @"
 using Avalonia.Interactivity;
 using Xaml.Behaviors.SourceGenerators;
@@ -178,6 +200,7 @@ public partial class Handler
     public void OnRouted(RoutedEventArgs args) { }
 }
 ";
+#endif
 
             var (diagnostics, sources) = GeneratorTestHelper.RunGenerator(source);
 
@@ -211,6 +234,23 @@ namespace TestNamespace
     [Fact]
     public void Should_Generate_Multiple_EventArgs_Actions_From_Multiple_Attributes()
     {
+#if UNO
+        // WinUI RoutedEventArgs has no Handled property: project OriginalSource.
+        var source = @"
+using Microsoft.UI.Xaml;
+using Xaml.Behaviors.SourceGenerators;
+
+namespace TestNamespace
+{
+    public partial class Handler
+    {
+        [GenerateEventArgsAction(Name = ""FirstRoutedAction"")]
+        [GenerateEventArgsAction(Name = ""SecondRoutedAction"", Project = ""OriginalSource"")]
+        public void OnRouted(RoutedEventArgs args) { }
+    }
+}
+";
+#else
         var source = @"
 using Avalonia.Interactivity;
 using Xaml.Behaviors.SourceGenerators;
@@ -225,12 +265,17 @@ namespace TestNamespace
     }
 }
 ";
+#endif
 
         var (diagnostics, sources) = GeneratorTestHelper.RunGenerator(source);
 
         Assert.Empty(diagnostics);
         Assert.Contains(sources, s => s.Contains("FirstRoutedAction", StringComparison.Ordinal));
         Assert.Contains(sources, s => s.Contains("SecondRoutedAction", StringComparison.Ordinal));
+#if UNO
+        Assert.Contains(sources, s => s.Contains("OriginalSourceProperty", StringComparison.Ordinal));
+#else
         Assert.Contains(sources, s => s.Contains("HandledProperty", StringComparison.Ordinal));
+#endif
     }
 }

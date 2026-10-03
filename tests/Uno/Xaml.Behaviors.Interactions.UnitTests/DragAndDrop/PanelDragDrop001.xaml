@@ -1,0 +1,29 @@
+<compat:HeadlessTestWindow x:Class="Xaml.Interactions.UnitTests.DragAndDrop.PanelDragDrop001"
+                           xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                           xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                           xmlns:compat="using:Xaml.Behaviors.Uno.TestCompat"
+                           xmlns:i="using:Xaml.Interactivity"
+                           xmlns:idd="using:Xaml.Interactions.DragAndDrop"
+                           Title="PanelDragDrop001" Width="200" Height="100">
+  <Grid>
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition Width="*" />
+      <ColumnDefinition Width="*" />
+    </Grid.ColumnDefinitions>
+    <StackPanel x:Name="LeftPanel" x:FieldModifier="internal" Background="LightGray" Margin="5">
+      <i:Interaction.Behaviors>
+        <idd:PanelDropBehavior />
+      </i:Interaction.Behaviors>
+      <Rectangle x:Name="DragRectangle" x:FieldModifier="internal" Width="20" Height="20" Fill="Red" Margin="5">
+        <i:Interaction.Behaviors>
+          <idd:PanelDragBehavior />
+        </i:Interaction.Behaviors>
+      </Rectangle>
+    </StackPanel>
+    <StackPanel x:Name="RightPanel" x:FieldModifier="internal" Grid.Column="1" Background="LightGray" Margin="5">
+      <i:Interaction.Behaviors>
+        <idd:PanelDropBehavior />
+      </i:Interaction.Behaviors>
+    </StackPanel>
+  </Grid>
+</compat:HeadlessTestWindow>

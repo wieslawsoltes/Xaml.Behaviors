@@ -3,7 +3,11 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using Xunit;
 
+#if UNO
+namespace Xaml.Behaviors.SourceGenerators.UnitTests;
+#else
 namespace Avalonia.Xaml.Behaviors.SourceGenerators.UnitTests;
+#endif
 
 public class EventCommandGeneratorTests
 {
@@ -27,6 +31,22 @@ using Xaml.Behaviors.SourceGenerators;
     [Fact]
     public void Should_Honor_Assembly_Attribute_ParameterPath()
     {
+#if UNO
+        // WinUI: RoutedEventArgs.OriginalSource, Click is declared on ButtonBase.
+        var source = @"
+using Microsoft.UI.Xaml.Controls;
+using Xaml.Behaviors.SourceGenerators;
+
+[assembly: GenerateEventCommand(typeof(Button), ""Click"", ParameterPath = ""OriginalSource"")]
+";
+
+        var (diagnostics, sources) = GeneratorTestHelper.RunGenerator(source);
+
+        Assert.Empty(diagnostics);
+        var trigger = Assert.Single(sources.Where(s => s.Contains("ButtonBaseClickEventCommandTrigger")));
+        Assert.Contains("nameof(ParameterPath), typeof(string), typeof(ButtonBaseClickEventCommandTrigger), new global::Microsoft.UI.Xaml.PropertyMetadata(\"OriginalSource\"", trigger);
+        Assert.Contains("TryResolveParameterPath", trigger);
+#else
         var source = @"
 using Avalonia.Controls;
 using Xaml.Behaviors.SourceGenerators;
@@ -40,11 +60,27 @@ using Xaml.Behaviors.SourceGenerators;
         var trigger = Assert.Single(sources.Where(s => s.Contains("ButtonClickEventCommandTrigger")));
         Assert.Contains("nameof(ParameterPath), \"Source\"", trigger);
         Assert.Contains("TryResolveParameterPath", trigger);
+#endif
     }
 
     [Fact]
     public void Assembly_Attribute_Allows_Constant_ParameterPath()
     {
+#if UNO
+        // WinUI: RoutedEventArgs.OriginalSource, Click is declared on ButtonBase.
+        var source = @"
+using Microsoft.UI.Xaml.Controls;
+using Xaml.Behaviors.SourceGenerators;
+
+[assembly: GenerateEventCommand(typeof(Button), ""Click"", ParameterPath = nameof(Microsoft.UI.Xaml.RoutedEventArgs.OriginalSource))]
+";
+
+        var (diagnostics, sources) = GeneratorTestHelper.RunGenerator(source);
+
+        Assert.Empty(diagnostics);
+        var trigger = Assert.Single(sources.Where(s => s.Contains("ButtonBaseClickEventCommandTrigger")));
+        Assert.Contains("new global::Microsoft.UI.Xaml.PropertyMetadata(\"OriginalSource\"", trigger);
+#else
         var source = @"
 using Avalonia.Controls;
 using Xaml.Behaviors.SourceGenerators;
@@ -57,11 +93,35 @@ using Xaml.Behaviors.SourceGenerators;
         Assert.Empty(diagnostics);
         var trigger = Assert.Single(sources.Where(s => s.Contains("ButtonClickEventCommandTrigger")));
         Assert.Contains("nameof(ParameterPath), \"Source\"", trigger);
+#endif
     }
 
     [Fact]
     public void ParameterPath_Can_Target_Base_EventArgs_Property()
     {
+#if UNO
+        // WinUI RoutedEventArgs has no Handled property: target its OriginalSource.
+        var source = @"
+using System;
+using Microsoft.UI.Xaml;
+using Xaml.Behaviors.SourceGenerators;
+
+public class DerivedArgs : RoutedEventArgs { }
+
+public class Host
+{
+    [GenerateEventCommand(ParameterPath = nameof(RoutedEventArgs.OriginalSource))]
+    public event EventHandler<DerivedArgs>? Fired;
+}
+";
+
+        var (diagnostics, sources) = GeneratorTestHelper.RunGenerator(source);
+
+        Assert.Empty(diagnostics);
+        var trigger = Assert.Single(sources.Where(s => s.Contains("FiredEventCommandTrigger", StringComparison.Ordinal)));
+        Assert.Contains("new global::Microsoft.UI.Xaml.PropertyMetadata(\"OriginalSource\"", trigger);
+        Assert.Contains(".OriginalSource", trigger);
+#else
         var source = @"
 using System;
 using Avalonia.Interactivity;
@@ -82,6 +142,7 @@ public class Host
         var trigger = Assert.Single(sources.Where(s => s.Contains("FiredEventCommandTrigger", StringComparison.Ordinal)));
         Assert.Contains("nameof(ParameterPath), \"Handled\"", trigger);
         Assert.Contains(".Handled", trigger);
+#endif
     }
 
     [Fact]
@@ -248,6 +309,21 @@ public class Host
     [Fact]
     public void Multiple_EventCommands_With_Different_Options_Are_Distinct()
     {
+#if UNO
+        // WinUI RoutedEventArgs only has OriginalSource: use the pointer event arguments for a second path.
+        var source = @"
+using System;
+using Microsoft.UI.Xaml.Input;
+using Xaml.Behaviors.SourceGenerators;
+
+public class Host
+{
+    [GenerateEventCommand(Name = ""Shared"", ParameterPath = nameof(PointerRoutedEventArgs.OriginalSource))]
+    [GenerateEventCommand(Name = ""Shared"", ParameterPath = nameof(PointerRoutedEventArgs.Pointer), UseDispatcher = true)]
+    public event EventHandler<PointerRoutedEventArgs>? Fired;
+}
+";
+#else
         var source = @"
 using System;
 using Avalonia.Interactivity;
@@ -260,6 +336,7 @@ public class Host
     public event EventHandler<RoutedEventArgs>? Fired;
 }
 ";
+#endif
 
         var (diagnostics, sources) = GeneratorTestHelper.RunGenerator(source);
 
@@ -272,17 +349,40 @@ public class Host
         Assert.True(triggerSources.Count >= 2, "Expected two generated triggers for differing options.");
 
         var defaults = triggerSources
+#if UNO
+            .SelectMany(s => Regex.Matches(s, @"nameof\(ParameterPath\), typeof\(string\), typeof\(\w+\), new global::Microsoft\.UI\.Xaml\.PropertyMetadata\((?<val>""[^""]*""|default\(string\?\))").Select(m => m.Groups["val"].Value))
+#else
             .SelectMany(s => Regex.Matches(s, @"ParameterPath\),\s*(?<val>""[^""]*""|default\(string\?\))").Select(m => m.Groups["val"].Value))
+#endif
             .Distinct(StringComparer.Ordinal)
             .ToList();
 
+#if UNO
+        Assert.Contains("\"OriginalSource\"", defaults);
+        Assert.Contains("\"Pointer\"", defaults);
+#else
         Assert.Contains("\"Source\"", defaults);
         Assert.Contains("\"RoutedEvent\"", defaults);
+#endif
     }
 
     [Fact]
     public void Parameter_Should_Override_ParameterPath_Default()
     {
+#if UNO
+        // WinUI: RoutedEventArgs.OriginalSource, Click is declared on ButtonBase.
+        var source = @"
+using Microsoft.UI.Xaml.Controls;
+using Xaml.Behaviors.SourceGenerators;
+
+[assembly: GenerateEventCommand(typeof(Button), ""Click"", ParameterPath = nameof(Microsoft.UI.Xaml.RoutedEventArgs.OriginalSource))]
+";
+
+        var (diagnostics, sources) = GeneratorTestHelper.RunGenerator(source);
+
+        Assert.Empty(diagnostics);
+        var trigger = Assert.Single(sources.Where(s => s.Contains("ButtonBaseClickEventCommandTrigger")));
+#else
         var source = @"
 using Avalonia.Controls;
 using Xaml.Behaviors.SourceGenerators;
@@ -294,6 +394,7 @@ using Xaml.Behaviors.SourceGenerators;
 
         Assert.Empty(diagnostics);
         var trigger = Assert.Single(sources.Where(s => s.Contains("ButtonClickEventCommandTrigger")));
+#endif
         var parameterCheck = trigger.IndexOf("IsSet(ParameterProperty)", StringComparison.Ordinal);
         var pathCheck = trigger.IndexOf("TryResolveParameterPath", StringComparison.Ordinal);
         Assert.True(parameterCheck >= 0);

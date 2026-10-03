@@ -1,0 +1,38 @@
+<UserControl x:Class="BehaviorsTestApplication.Controls.EditableItem"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:i="using:Xaml.Interactivity"
+             xmlns:icustom="using:Xaml.Interactions.Custom"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Name="EditableItemUserControl">
+  <!-- InlineEditBehavior shows either the edit TextBox or the display panel (Avalonia binds !TextBoxEdit.IsVisible). -->
+  <Grid Background="Transparent">
+    <i:Interaction.Behaviors>
+      <icustom:InlineEditBehavior EditControl="{x:Bind TextBoxEdit}"
+                                  DisplayControl="{x:Bind TextStackPanel}"
+                                  EditOnAssociatedObjectDoubleTapped="True" />
+    </i:Interaction.Behaviors>
+    <TextBox x:Name="TextBoxEdit"
+             Visibility="Collapsed"
+             VerticalContentAlignment="Center"
+             VerticalAlignment="Center"
+             Margin="0"
+             Padding="6,0,6,0"
+             BorderThickness="0"
+             Text="{x:Bind Text, Mode=TwoWay}">
+      <i:Interaction.Behaviors>
+        <icustom:TextBoxSelectAllOnGotFocusBehavior />
+      </i:Interaction.Behaviors>
+    </TextBox>
+    <StackPanel x:Name="TextStackPanel"
+                Orientation="Horizontal"
+                Background="Transparent"
+                IsTabStop="True">
+      <TextBlock x:Name="StyleTextBlock"
+                 Text="{x:Bind Text, Mode=OneWay}"
+                 Margin="6,8,6,8" />
+    </StackPanel>
+  </Grid>
+</UserControl>

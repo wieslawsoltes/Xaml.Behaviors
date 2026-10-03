@@ -1,0 +1,40 @@
+<Project Sdk="Uno.Sdk">
+
+  <!-- Consumes the headless host through a ProjectReference, so import its buildTransitive files like a package consumer would get them. -->
+  <Import Project="..\..\..\src\Uno\Xaml.Behaviors.Uno.Headless.Host\buildTransitive\Xaml.Behaviors.Uno.Headless.Host.props" />
+
+  <!--
+    Uno twin of tests/Xaml.Behaviors.Interactions.UnitTests: its tests are shared (tests/Uno/UnoSharedTests.targets),
+    minus the files listed in SharedTests.props. Uno.Sdk compiles the XAML test pages (.xaml next to this project).
+  -->
+  <PropertyGroup>
+    <TargetFrameworks>net10.0</TargetFrameworks>
+    <OutputType>Exe</OutputType>
+    <IsPackable>False</IsPackable>
+    <Nullable>enable</Nullable>
+    <UnoFeatures></UnoFeatures>
+    <AssemblyName>Xaml.Behaviors.Uno.Interactions.UnitTests</AssemblyName>
+    <RootNamespace>Xaml.Interactions.UnitTests</RootNamespace>
+    <UnoSharedTestProject>Xaml.Behaviors.Interactions.UnitTests</UnoSharedTestProject>
+  </PropertyGroup>
+
+  <Import Project="SharedTests.props" />
+  <Import Project="..\..\..\build\XUnit.props" />
+  <Import Project="..\..\..\build\SignAssembly.props" />
+  <Import Project="..\..\..\build\XamlPropertyGenerator.props" />
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\src\Uno\Xaml.Behaviors.Uno.Headless.XUnit\Xaml.Behaviors.Uno.Headless.XUnit.csproj" />
+    <ProjectReference Include="..\..\..\src\Uno\Xaml.Behaviors.Interactivity\Xaml.Behaviors.Interactivity.csproj" />
+    <ProjectReference Include="..\..\..\src\Uno\Xaml.Behaviors.Interactions\Xaml.Behaviors.Interactions.csproj" />
+    <ProjectReference Include="..\..\..\src\Uno\Xaml.Behaviors.Interactions.Custom\Xaml.Behaviors.Interactions.Custom.csproj" />
+    <ProjectReference Include="..\..\..\src\Uno\Xaml.Behaviors.Interactions.DragAndDrop\Xaml.Behaviors.Interactions.DragAndDrop.csproj" />
+    <ProjectReference Include="..\..\..\src\Uno\Xaml.Behaviors.Interactions.Draggable\Xaml.Behaviors.Interactions.Draggable.csproj" />
+    <ProjectReference Include="..\..\..\src\Uno\Xaml.Behaviors.Interactions.Events\Xaml.Behaviors.Interactions.Events.csproj" />
+    <ProjectReference Include="..\..\..\src\Uno\Xaml.Behaviors.Interactions.Responsive\Xaml.Behaviors.Interactions.Responsive.csproj" />
+  </ItemGroup>
+
+  <Import Project="..\UnoSharedTests.targets" />
+  <Import Project="..\..\..\src\Uno\Xaml.Behaviors.Uno.Headless.Host\buildTransitive\Xaml.Behaviors.Uno.Headless.Host.targets" />
+
+</Project>

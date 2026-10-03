@@ -1,61 +1,44 @@
+#if UNO
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Xaml.Interactivity;
+#else
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.LogicalTree;
 using Avalonia.Metadata;
 using Avalonia.Xaml.Interactivity;
+#endif
 
+#if UNO
+namespace Xaml.Interactions.Custom;
+#else
 namespace Avalonia.Xaml.Interactions.Custom;
+#endif
 
 /// <summary>
 /// An action that executes different collections of actions depending on the specified condition.
 /// </summary>
-public class ConditionalAction : StyledElementAction
+public partial class ConditionalAction : StyledElementAction
 {
-    /// <summary>
-    /// Identifies the <seealso cref="Condition"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<bool> ConditionProperty =
-        AvaloniaProperty.Register<ConditionalAction, bool>(nameof(Condition));
-
-    /// <summary>
-    /// Identifies the <seealso cref="Actions"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<ActionCollection?> ActionsProperty =
-        AvaloniaProperty.Register<ConditionalAction, ActionCollection?>(nameof(Actions));
-
-    /// <summary>
-    /// Identifies the <seealso cref="ElseActions"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<ActionCollection?> ElseActionsProperty =
-        AvaloniaProperty.Register<ConditionalAction, ActionCollection?>(nameof(ElseActions));
 
     /// <summary>
     /// Gets or sets the condition that determines which actions are executed.
     /// </summary>
-    public bool Condition
-    {
-        get => GetValue(ConditionProperty);
-        set => SetValue(ConditionProperty, value);
-    }
+    [StyledProperty]
+    public partial bool Condition { get; set; }
 
     /// <summary>
     /// Gets the actions executed when <see cref="Condition"/> evaluates to <c>true</c>.
     /// </summary>
-    [Content]
-    public ActionCollection? Actions
-    {
-        get => GetValue(ActionsProperty);
-        set => SetValue(ActionsProperty, value);
-    }
+    [StyledProperty(Content = true)]
+    public partial ActionCollection? Actions { get; set; }
 
     /// <summary>
     /// Gets the actions executed when <see cref="Condition"/> evaluates to <c>false</c>.
     /// </summary>
-    public ActionCollection? ElseActions
-    {
-        get => GetValue(ElseActionsProperty);
-        set => SetValue(ElseActionsProperty, value);
-    }
+    [StyledProperty]
+    public partial ActionCollection? ElseActions { get; set; }
 
     /// <summary>
     /// Initializes a new instance of the <see cref="ConditionalAction"/> class.

@@ -1,0 +1,50 @@
+<UserControl xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:samplecontrols="using:AnimationsTestApplication.Controls"
+             xmlns:controls="using:AnimationsTestApplication.Controls"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             x:Class="AnimationsTestApplication.Views.Pages.KeyFrameAnimationsView"
+             mc:Ignorable="d"
+             d:DesignWidth="850"
+             d:DesignHeight="600">
+  <ScrollViewer>
+    <StackPanel Margin="28" Spacing="20">
+      <TextBlock Text="Key-frame animation factory and runner"
+                 FontSize="24"
+                 FontWeight="SemiBold" />
+      <TextBlock Text="These controls call AnimationFactory and AnimationRunner directly. Click either card to replay."
+                 TextWrapping="Wrap" />
+      <!-- Uno WrapPanel has no ItemSpacing/LineSpacing: the items get a margin of half the spacing. -->
+      <samplecontrols:WrapPanel Margin="-10,-10">
+        <controls:KeyFrameAnimationDemoControl Margin="10" Width="300"
+                                               Height="190"
+                                               IsTabStop="True">
+          <Border Background="#DDEBFF" CornerRadius="14" Padding="24">
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="8">
+              <TextBlock Text="Factory + runner" FontSize="19" FontWeight="SemiBold" />
+              <TextBlock Text="AnimationFactory.CreateFadeIn → AnimationRunner.TryRun"
+                         TextAlignment="Center"
+                         TextWrapping="Wrap" />
+              <TextBlock Text="Click to replay" Foreground="#3F51B5" />
+            </StackPanel>
+          </Border>
+        </controls:KeyFrameAnimationDemoControl>
+        <controls:KeyFrameAnimationDemoControl Margin="10" Width="300"
+                                               Height="190"
+                                               UseBuilder="True"
+                                               IsTabStop="True">
+          <Border Background="#E8F5E9" CornerRadius="14" Padding="24">
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="8">
+              <TextBlock Text="Builder + runner" FontSize="19" FontWeight="SemiBold" />
+              <TextBlock Text="IAnimationBuilder → AnimationRunner.TryBuildAndRun"
+                         TextAlignment="Center"
+                         TextWrapping="Wrap" />
+              <TextBlock Text="Click to replay" Foreground="#2E7D32" />
+            </StackPanel>
+          </Border>
+        </controls:KeyFrameAnimationDemoControl>
+      </samplecontrols:WrapPanel>
+    </StackPanel>
+  </ScrollViewer>
+</UserControl>

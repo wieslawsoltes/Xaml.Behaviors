@@ -1,0 +1,19 @@
+<!-- A WinUI Window has no Width/Height; ShowWindowAction activates it with the size chosen by the platform. -->
+<Window x:Class="BehaviorsTestApplication.Views.Windows.SampleWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:i="using:Xaml.Interactivity"
+        xmlns:ic="using:Xaml.Interactions.Core"
+        xmlns:icustom="using:Xaml.Interactions.Custom"
+        Title="Sample Window">
+  <StackPanel Margin="10" Spacing="5">
+    <TextBlock Text="This is a window" />
+    <Button Content="Close">
+      <i:Interaction.Behaviors>
+        <ic:EventTriggerBehavior EventName="Click">
+          <icustom:CloseWindowAction />
+        </ic:EventTriggerBehavior>
+      </i:Interaction.Behaviors>
+    </Button>
+  </StackPanel>
+</Window>

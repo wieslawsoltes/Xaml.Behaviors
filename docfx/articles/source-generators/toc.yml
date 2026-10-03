@@ -22,6 +22,8 @@
   href: typed-async-trigger.md
 - name: Typed Observable Trigger
   href: typed-observable-trigger.md
+- name: Uno Platform (WinUI)
+  href: uno-platform.md
 - name: Diagnostics
   href: diagnostics.md
 - name: Third-Party Integration

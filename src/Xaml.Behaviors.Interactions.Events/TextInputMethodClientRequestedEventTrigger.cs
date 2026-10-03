@@ -1,17 +1,29 @@
 // Copyright (c) Wiesław Šoltés. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for details.
+#if UNO
+using Microsoft.UI.Xaml.Input;
+using Microsoft.UI.Xaml;
+using Xaml.Interactivity;
+#else
 using Avalonia.Input;
 using Avalonia.Input.TextInput;
 using Avalonia.Interactivity;
 using Avalonia.Xaml.Interactivity;
+#endif
 
+#if UNO
+namespace Xaml.Interactions.Events;
+#else
 namespace Avalonia.Xaml.Interactions.Events;
+#endif
 
 /// <summary>
 /// Trigger that listens for the <see cref="InputElement.TextInputMethodClientRequestedEvent"/>.
 /// </summary>
 public class TextInputMethodClientRequestedEventTrigger : InteractiveTriggerBase
 {
+    private System.IDisposable? _subscription;
+
     static TextInputMethodClientRequestedEventTrigger()
     {
         RoutingStrategiesProperty.OverrideMetadata<TextInputMethodClientRequestedEventTrigger>(
@@ -22,13 +34,15 @@ public class TextInputMethodClientRequestedEventTrigger : InteractiveTriggerBase
     /// <inheritdoc />
     protected override void OnAttachedToVisualTree()
     {
-        AssociatedObject?.AddHandler(InputElement.TextInputMethodClientRequestedEvent, OnClientRequested, RoutingStrategies);
+        _subscription?.Dispose();
+        _subscription = AssociatedObject?.AddDisposableRoutedEventHandler(InputElement.TextInputMethodClientRequestedEvent, OnClientRequested, RoutingStrategies);
     }
 
     /// <inheritdoc />
     protected override void OnDetachedFromVisualTree()
     {
-        AssociatedObject?.RemoveHandler(InputElement.TextInputMethodClientRequestedEvent, OnClientRequested);
+        _subscription?.Dispose();
+        _subscription = null;
     }
 
     private void OnClientRequested(object? sender, TextInputMethodClientRequestedEventArgs e)

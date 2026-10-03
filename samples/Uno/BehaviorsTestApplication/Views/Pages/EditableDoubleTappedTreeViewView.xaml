@@ -1,0 +1,29 @@
+<UserControl x:Class="BehaviorsTestApplication.Views.Pages.EditableDoubleTappedTreeViewView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:BehaviorsTestApplication.ViewModels"
+             xmlns:controls="using:BehaviorsTestApplication.Controls"
+             mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="450">
+  <!--
+    Avalonia TreeDataTemplate: a WinUI TreeView in ItemsSource mode uses the TreeViewItem at the root of the item
+    template as the container and its ItemsSource for the children. The built-in item drag is disabled (the Avalonia
+    TreeView has none).
+  -->
+  <TreeView ItemsSource="{x:Bind ViewModel.Items, Mode=OneWay}"
+            CanDragItems="False"
+            CanReorderItems="False">
+    <TreeView.ItemTemplate>
+      <DataTemplate x:DataType="vm:ItemViewModel">
+        <TreeViewItem ItemsSource="{x:Bind Items, Mode=OneWay}"
+                      HorizontalAlignment="Stretch"
+                      HorizontalContentAlignment="Stretch"
+                      Margin="0"
+                      Padding="0">
+          <controls:EditableItem Text="{x:Bind Value, Mode=TwoWay}" />
+        </TreeViewItem>
+      </DataTemplate>
+    </TreeView.ItemTemplate>
+  </TreeView>
+</UserControl>

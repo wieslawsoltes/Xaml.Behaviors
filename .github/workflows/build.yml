@@ -12,6 +12,10 @@ on:
     branches:
     - master
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   build:
     strategy:
@@ -33,10 +37,10 @@ jobs:
           6.0.x
 
     - name: Build Release
-      run: dotnet build --configuration Release
+      run: dotnet build AvaloniaBehaviors.slnx --configuration Release
 
     - name: Test Release
-      run: dotnet test --configuration Release
+      run: dotnet test AvaloniaBehaviors.slnx --configuration Release
 
     - name: Check Documentation
       if: matrix.os == 'ubuntu-latest'
@@ -54,4 +58,82 @@ jobs:
       with:
         name: nuget-packages
         path: artifacts/NuGet
+        if-no-files-found: error
+
+  uno:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+    name: Uno ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+
+    - name: Setup .NET SDKs
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: |
+          10.0.x
+
+    - name: Build Uno Release
+      run: dotnet build UnoBehaviors.slnx --configuration Release
+
+    - name: Test Uno Release
+      run: dotnet test UnoBehaviors.slnx --configuration Release --no-build
+
+    - name: Pack Uno NuGet
+      if: matrix.os == 'ubuntu-latest'
+      run: dotnet pack UnoBehaviors.slnx --configuration Release --no-build --output artifacts/NuGet.Uno
+
+    - name: Upload Uno NuGet artifacts
+      if: matrix.os == 'ubuntu-latest'
+      uses: actions/upload-artifact@v4
+      with:
+        name: nuget-packages-uno
+        path: artifacts/NuGet.Uno
+        if-no-files-found: error
+
+  winui:
+    name: WinUI windows-latest
+    runs-on: windows-latest
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+
+    - name: Setup .NET SDKs
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: |
+          10.0.x
+
+    - name: Build WinUI Release
+      run: dotnet build WinUIBehaviors.slnx --configuration Release
+
+    # The WinUI tests show a real window and inject real input (WinUI has no headless mode). On the hosted runners
+    # a few input tests fail intermittently (a flyout that does not open, an extra pointer event), so the step is
+    # informative: see docfx/articles/winui/winui-differences.md.
+    - name: Test WinUI Release
+      continue-on-error: true
+      shell: pwsh
+      run: build/WinUIPort/run-tests.ps1 -Results artifacts/winui-tests
+
+    - name: Upload WinUI test results
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: winui-test-results
+        path: artifacts/winui-tests
+        if-no-files-found: warn
+
+    - name: Pack WinUI NuGet
+      run: dotnet pack WinUIBehaviors.slnx --configuration Release --no-build --output artifacts/NuGet.WinUI
+
+    - name: Upload WinUI NuGet artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: nuget-packages-winui
+        path: artifacts/NuGet.WinUI
         if-no-files-found: error

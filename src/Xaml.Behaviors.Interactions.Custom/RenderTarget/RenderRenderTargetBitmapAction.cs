@@ -1,30 +1,31 @@
 // Copyright (c) Wiesław Šoltés. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for details.
+#if UNO
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Xaml.Interactivity;
+#else
 using Avalonia.Controls;
 using Avalonia.Xaml.Interactivity;
+#endif
 
+#if UNO
+namespace Xaml.Interactions.Custom;
+#else
 namespace Avalonia.Xaml.Interactions.Custom;
+#endif
 
 /// <summary>
 /// Action that invokes <see cref="IRenderTargetBitmapRenderHost.Render"/> on the specified target.
 /// </summary>
-public class RenderRenderTargetBitmapAction : StyledElementAction
+public partial class RenderRenderTargetBitmapAction : StyledElementAction
 {
-    /// <summary>
-    /// Identifies the <see cref="Target"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<IRenderTargetBitmapRenderHost?> TargetProperty =
-        AvaloniaProperty.Register<RenderRenderTargetBitmapAction, IRenderTargetBitmapRenderHost?>(nameof(Target));
 
     /// <summary>
     /// Gets or sets the render host. This is an avalonia property.
     /// </summary>
-    [ResolveByName]
-    public IRenderTargetBitmapRenderHost? Target
-    {
-        get => GetValue(TargetProperty);
-        set => SetValue(TargetProperty, value);
-    }
+    [StyledProperty(ResolveByName = true)]
+    public partial IRenderTargetBitmapRenderHost? Target { get; set; }
 
     /// <inheritdoc />
     public override object Execute(object? sender, object? parameter)

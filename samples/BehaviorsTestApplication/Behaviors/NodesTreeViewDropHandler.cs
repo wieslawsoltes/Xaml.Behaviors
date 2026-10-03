@@ -1,8 +1,16 @@
+#if UNO
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Input;
+using Microsoft.UI.Xaml.Media;
+using Xaml.Interactions.DragAndDrop;
+#else
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.LogicalTree;
 using Avalonia.VisualTree;
 using Avalonia.Xaml.Interactions.DragAndDrop;
+#endif
 using BehaviorsTestApplication.ViewModels;
 
 namespace BehaviorsTestApplication.Behaviors;

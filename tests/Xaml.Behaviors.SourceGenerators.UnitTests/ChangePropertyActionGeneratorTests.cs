@@ -1,13 +1,23 @@
 using System;
 using System.Linq;
 using System.Text.RegularExpressions;
+#if UNO
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Xaml.Interactivity;
+#else
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Headless.XUnit;
 using Avalonia.Xaml.Interactivity;
+#endif
 using Xunit;
 
+#if UNO
+namespace Xaml.Behaviors.SourceGenerators.UnitTests;
+#else
 namespace Avalonia.Xaml.Behaviors.SourceGenerators.UnitTests;
+#endif
 
 public class ChangePropertyActionGeneratorTests
 {
@@ -64,6 +74,9 @@ public class ChangePropertyActionGeneratorTests
         Assert.Equal("Original", control.Tag);
     }
 
+#if !UNO
+    // Avalonia only: the reversible value is an animation-priority overlay above the binding. WinUI has no value
+    // priorities (a local value replaces the binding), so Revert restores the captured value on Uno Platform.
     [AvaloniaFact]
     public void SetTagAction_Should_Restore_Latest_Avalonia_Source_Value()
     {
@@ -84,6 +97,7 @@ public class ChangePropertyActionGeneratorTests
         Assert.True((bool)action.Revert(control, null)!);
         Assert.Equal("Latest", control.Tag);
     }
+#endif
 
     [Fact]
     public void ChangePropertyAction_Should_Handle_Global_Namespace()
@@ -139,6 +153,7 @@ public class Host
     }
 
 
+#if !UNO
     private sealed class TagSource : AvaloniaObject
     {
         public static readonly StyledProperty<object?> ValueProperty =
@@ -150,4 +165,5 @@ public class Host
             set => SetValue(ValueProperty, value);
         }
     }
+#endif
 }

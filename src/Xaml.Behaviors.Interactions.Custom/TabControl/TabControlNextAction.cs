@@ -1,30 +1,32 @@
 // Copyright (c) Wiesław Šoltés. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for details.
+#if UNO
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Xaml.Interactivity;
+using TabControl = Microsoft.UI.Xaml.Controls.TabView;
+#else
 using Avalonia.Controls;
 using Avalonia.Xaml.Interactivity;
+#endif
 
+#if UNO
+namespace Xaml.Interactions.Custom;
+#else
 namespace Avalonia.Xaml.Interactions.Custom;
+#endif
 
 /// <summary>
 /// Advances the target <see cref="TabControl"/> to the next tab.
 /// </summary>
-public class TabControlNextAction : StyledElementAction
+public partial class TabControlNextAction : StyledElementAction
 {
-    /// <summary>
-    /// Identifies the <seealso cref="TabControl"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<TabControl?> TabControlProperty =
-        AvaloniaProperty.Register<TabControlNextAction, TabControl?>(nameof(TabControl));
 
     /// <summary>
     /// Gets or sets the tab control instance this action will operate on. This is an avalonia property.
     /// </summary>
-    [ResolveByName]
-    public TabControl? TabControl
-    {
-        get => GetValue(TabControlProperty);
-        set => SetValue(TabControlProperty, value);
-    }
+    [StyledProperty(ResolveByName = true)]
+    public partial TabControl? TabControl { get; set; }
 
     /// <inheritdoc />
     public override object? Execute(object? sender, object? parameter)

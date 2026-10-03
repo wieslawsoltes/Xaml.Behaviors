@@ -1,0 +1,12 @@
+<!--
+  Not available: the cursor behaviors (SetCursorBehavior, PointerOverCursorBehavior) are not part of the Uno port
+  (src/Uno/Xaml.Behaviors.Interactions.Custom/SharedSources.props: Cursor/**). WinUI only exposes the element cursor
+  through the protected UIElement.ProtectedCursor, and Uno Platform has no Avalonia Cursor/StandardCursorType.
+-->
+<UserControl x:Class="BehaviorsTestApplication.Views.Pages.CursorView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:controls="using:BehaviorsTestApplication.Controls">
+  <controls:NotAvailableOnUnoView Title="Cursor Behavior"
+                                  Reason="WinUI only exposes the element cursor through the protected UIElement.ProtectedCursor, so the cursor behaviors (SetCursorBehavior, PointerOverCursorBehavior) and the Avalonia cursors of the sample have no WinUI counterpart." />
+</UserControl>

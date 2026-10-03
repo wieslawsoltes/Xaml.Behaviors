@@ -1,10 +1,21 @@
 // Copyright (c) Wiesław Šoltés. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for details.
+#if UNO
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Input;
+using Xaml.Interactivity;
+#else
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Xaml.Interactivity;
+#endif
 
+#if UNO
+namespace Xaml.Interactions.Custom;
+#else
 namespace Avalonia.Xaml.Interactions.Custom;
+#endif
 
 /// <summary>
 /// An action that moves focus to the next element in the tab order.
@@ -19,6 +30,15 @@ public class FocusNextElementAction : StyledElementAction
             return null;
         }
 
+#if UNO
+        var topLevel = source.XamlRoot?.Content;
+        var current = (source.XamlRoot is { } xamlRoot ? FocusManager.GetFocusedElement(xamlRoot) : null) ?? source;
+        if (topLevel is not null
+            && FocusNavigationHelper.FindAdjacent(topLevel, current, FocusNavigationDirection.Next, wrap: false) is { } next)
+        {
+            next.Focus(FocusState.Keyboard);
+        }
+#else
         var topLevel = TopLevel.GetTopLevel(source);
         var current = topLevel?.FocusManager?.GetFocusedElement() ?? source;
         if (topLevel is not null
@@ -26,6 +46,7 @@ public class FocusNextElementAction : StyledElementAction
         {
             next.Focus(NavigationMethod.Tab, KeyModifiers.None);
         }
+#endif
 
         return null;
     }

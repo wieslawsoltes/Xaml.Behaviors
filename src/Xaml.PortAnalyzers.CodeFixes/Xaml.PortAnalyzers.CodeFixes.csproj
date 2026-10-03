@@ -1,0 +1,32 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <LangVersion>latest</LangVersion>
+    <Nullable>enable</Nullable>
+    <IsTrimmable>false</IsTrimmable>
+    <EnableTrimAnalyzer>false</EnableTrimAnalyzer>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <!-- Shipped inside the Xaml.PortAnalyzers package (see ..\Xaml.PortAnalyzers\Xaml.PortAnalyzers.csproj). -->
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- Roslyn 4.8 (VS 17.8 / .NET 8 SDK) is the minimum compiler host the package supports. -->
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" VersionOverride="4.8.0" PrivateAssets="all" />
+    <PackageReference Include="Microsoft.CodeAnalysis.Analyzers" PrivateAssets="all" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- Diagnostic ids are shared by source so the code fixes do not depend on the analyzer assembly. -->
+    <Compile Include="..\Xaml.PortAnalyzers\DiagnosticIds.cs" Link="DiagnosticIds.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="Xaml.PortAnalyzers.UnitTests" Key="00240000048000009400000006020000002400005253413100040000010001002940ed211918fcf63c506fad1d3f7f958b21ff8f06fd2089398296173f9ca93a69b9b380a828bf13fa80d1745beeb917ec3692f4d10e44b4c941619fc7bbd5052b26880697e6fa3f0ce322c4fa902d20b67a48b4144371218f6d39ad39145ea1fe5484052dd51a2ee62af3acd0759bcf92aaefec03978ded3cfaa84798e92de8" />
+  </ItemGroup>
+
+  <Import Project="..\..\build\SignAssembly.props" />
+  <Import Project="..\..\build\SourceLink.props" />
+
+</Project>

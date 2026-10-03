@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Input;
 using ReactiveUI;
+using ReactiveUI.Reactive;
 
 namespace BehaviorsTestApplication.ViewModels;
 
@@ -24,12 +25,17 @@ public class FluidMoveBehaviorViewModel : ViewModelBase
 
     private void Shuffle()
     {
-        var rnd = new Random();
-        var array = Items.ToList();
-        Items.Clear();
-        foreach (var value in array.OrderBy(_ => rnd.Next()))
+        // Move the items into a shuffled order instead of clearing and re-adding them; FluidMoveBehavior animates
+        // every item from its previous position.
+        var order = Items.ToArray();
+        Random.Shared.Shuffle(order);
+        for (var i = 0; i < order.Length; i++)
         {
-            Items.Add(value);
+            var index = Items.IndexOf(order[i]);
+            if (index != i)
+            {
+                Items.Move(index, i);
+            }
         }
     }
 }

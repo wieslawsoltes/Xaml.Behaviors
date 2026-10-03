@@ -1,0 +1,31 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!-- WinUI 3 (Windows App SDK) twin of src/Uno/Xaml.Behaviors.Interactions.Custom: compiles its sources (see src/WinUI/Directory.Build.targets). -->
+
+  <PropertyGroup>
+    <TargetFrameworks>$(WinUITargetFrameworks)</TargetFrameworks>
+    <AssemblyName>Xaml.Behaviors.WinUI.Interactions.Custom</AssemblyName>
+    <RootNamespace>Xaml.Interactions.Custom</RootNamespace>
+    <WinUIUnoProject>Xaml.Behaviors.Interactions.Custom</WinUIUnoProject>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <PackageId>Xaml.Behaviors.WinUI.Interactions.Custom</PackageId>
+    <Description>Custom behaviors and actions for common WinUI 3 (Windows App SDK) controls.</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Using Include="Xaml.Interactivity" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Xaml.Behaviors.Animations\Xaml.Behaviors.Animations.csproj" />
+    <ProjectReference Include="..\Xaml.Behaviors.Interactivity\Xaml.Behaviors.Interactivity.csproj" />
+    <!--
+      ScreenshotAction saves through the IStorageProvider abstraction of the Interactions package (Avalonia uses the
+      TopLevel storage provider of Avalonia itself).
+    -->
+    <ProjectReference Include="..\Xaml.Behaviors.Interactions\Xaml.Behaviors.Interactions.csproj" />
+  </ItemGroup>
+
+</Project>

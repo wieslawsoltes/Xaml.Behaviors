@@ -1,66 +1,48 @@
 // Copyright (c) Wiesław Šoltés. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for details.
+#if UNO
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Xaml.Interactivity;
+#else
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Xaml.Interactivity;
+#endif
 
+#if UNO
+namespace Xaml.Interactions.Custom;
+#else
 namespace Avalonia.Xaml.Interactions.Custom;
+#endif
 
 /// <summary>
 /// A behavior that listens for a <see cref="RoutedEvent"/> event on its source and executes its actions when that event is fired.
 /// </summary>
-public class RoutedEventTriggerBehavior : StyledElementTrigger<Interactive>
+public partial class RoutedEventTriggerBehavior : StyledElementTrigger<Interactive>
 {
-    /// <summary>
-    /// Identifies the <seealso cref="RoutedEvent"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<RoutedEvent?> RoutedEventProperty =
-        AvaloniaProperty.Register<RoutedEventTriggerBehavior, RoutedEvent?>(nameof(RoutedEvent));
 
-    /// <summary>
-    /// Identifies the <seealso cref="RoutingStrategies"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<RoutingStrategies> RoutingStrategiesProperty =
-        AvaloniaProperty.Register<RoutedEventTriggerBehavior, RoutingStrategies>(nameof(RoutingStrategies),
-            RoutingStrategies.Direct | RoutingStrategies.Bubble);
-
-    /// <summary>
-    /// Identifies the <seealso cref="SourceInteractive"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<Interactive?> SourceInteractiveProperty =
-        AvaloniaProperty.Register<RoutedEventTriggerBehavior, Interactive?>(nameof(SourceInteractive));
-
-    private bool _isInitialized;
+    private System.IDisposable? _subscription;
     private bool _isAttached;
 
     /// <summary>
     /// Gets or sets routing event to listen for. This is an avalonia property.
     /// </summary>
-    public RoutedEvent? RoutedEvent
-    {
-        get => GetValue(RoutedEventProperty);
-        set => SetValue(RoutedEventProperty, value);
-    }
+    [StyledProperty]
+    public partial RoutedEvent? RoutedEvent { get; set; }
 
     /// <summary>
     /// Gets or sets the routing event <see cref="RoutingStrategies"/>. This is an avalonia property.
     /// </summary>
-    public RoutingStrategies RoutingStrategies
-    {
-        get => GetValue(RoutingStrategiesProperty);
-        set => SetValue(RoutingStrategiesProperty, value);
-    }
+    [StyledProperty(DefaultValue = RoutingStrategies.Direct | RoutingStrategies.Bubble)]
+    public partial RoutingStrategies RoutingStrategies { get; set; }
 
     /// <summary>
     /// Gets or sets the source object from which this behavior listens for events.
     /// If <seealso cref="SourceInteractive"/> is not set, the source will default to <seealso cref="IBehavior.AssociatedObject"/>. This is an avalonia property.
     /// </summary>
-    [ResolveByName]
-    public Interactive? SourceInteractive
-    {
-        get => GetValue(SourceInteractiveProperty);
-        set => SetValue(SourceInteractiveProperty, value);
-    }
+    [StyledProperty(ResolveByName = true)]
+    public partial Interactive? SourceInteractive { get; set; }
 
     /// <inheritdoc />
     protected override void OnPropertyChanged(AvaloniaPropertyChangedEventArgs change)
@@ -85,15 +67,16 @@ public class RoutedEventTriggerBehavior : StyledElementTrigger<Interactive>
 
     private void OnValueChanged(AvaloniaPropertyChangedEventArgs args)
     {
-        if (args.Sender is not RoutedEventTriggerBehavior behavior || behavior.AssociatedObject is null)
+        // Property changes of this behavior are always raised on this instance.
+        if (AssociatedObject is null)
         {
             return;
         }
 
-        if (behavior._isInitialized && behavior._isAttached)
+        if (_subscription is not null && _isAttached)
         {
-            behavior.RemoveHandler();
-            behavior.AddHandler();
+            RemoveHandler();
+            AddHandler();
         }
     }
 
@@ -109,10 +92,15 @@ public class RoutedEventTriggerBehavior : StyledElementTrigger<Interactive>
     {
         _isAttached = false;
 
+#if UNO
+        // WinUI has no top level element that stays attached while its content is unloaded.
+        RemoveHandler();
+#else
         if (AssociatedObject is not TopLevel || ComputeResolvedSourceInteractive() is not TopLevel)
         {
             RemoveHandler();
         }
+#endif
     }
 
     /// <inheritdoc />
@@ -125,7 +113,7 @@ public class RoutedEventTriggerBehavior : StyledElementTrigger<Interactive>
 
     private void AddHandler()
     {
-        if (_isInitialized)
+        if (_subscription is not null)
         {
             return;
         }
@@ -133,18 +121,19 @@ public class RoutedEventTriggerBehavior : StyledElementTrigger<Interactive>
         var interactive = ComputeResolvedSourceInteractive();
         if (interactive is not null && RoutedEvent is not null)
         {
-            interactive.AddHandler(RoutedEvent, Handler, RoutingStrategies);
-            _isInitialized = true;
+            // The routing adapter subscribes on the routes the event is raised on, so the handler is invoked whatever
+            // the routing strategies of the event.
+            _subscription = interactive.AddDisposableUntypedRoutedEventHandler(RoutedEvent, Handler, RoutingStrategies);
         }
     }
 
     private void RemoveHandler()
     {
-        var interactive = ComputeResolvedSourceInteractive();
-        if (interactive is not null && RoutedEvent is not null && _isInitialized)
+        if (_subscription is not null)
         {
-            interactive.RemoveHandler(RoutedEvent, Handler);
-            _isInitialized = false;
+            var subscription = _subscription;
+            _subscription = null;
+            subscription.Dispose();
         }
     }
 

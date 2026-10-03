@@ -1,0 +1,51 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <OutputType>Exe</OutputType>
+    <IsPackable>False</IsPackable>
+    <Nullable>enable</Nullable>
+    <RootNamespace>Xaml.PropertyGenerator.UnitTests</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Avalonia" />
+    <PackageReference Include="Avalonia.Headless.XUnit" />
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" />
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" />
+    <!-- WinUI reference assemblies for compile-only generator tests (not referenced by the test assembly). -->
+    <PackageDownload Include="Uno.WinUI" Version="[$(UnoWinUIVersion)]" />
+    <PackageDownload Include="Uno.Foundation" Version="[$(UnoWinUIVersion)]" />
+    <PackageDownload Include="Uno.WinRT" Version="[$(UnoWinUIVersion)]" />
+    <!-- The trim analyzer of the SDK (ILLink.RoslynAnalyzer) checks the trimming annotations of the generated code. -->
+    <PackageDownload Include="Microsoft.NET.ILLink.Tasks" Version="[$(BundledNETCoreAppPackageVersion)]" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <AssemblyAttribute Include="System.Reflection.AssemblyMetadataAttribute">
+      <_Parameter1>NuGetPackageRoot</_Parameter1>
+      <_Parameter2>$(NuGetPackageRoot)</_Parameter2>
+    </AssemblyAttribute>
+    <AssemblyAttribute Include="System.Reflection.AssemblyMetadataAttribute">
+      <_Parameter1>UnoWinUIVersion</_Parameter1>
+      <_Parameter2>$(UnoWinUIVersion)</_Parameter2>
+    </AssemblyAttribute>
+    <AssemblyAttribute Include="System.Reflection.AssemblyMetadataAttribute">
+      <_Parameter1>ILLinkAnalyzerPath</_Parameter1>
+      <_Parameter2>$([MSBuild]::NormalizePath('$(NuGetPackageRoot)', 'microsoft.net.illink.tasks', '$(BundledNETCoreAppPackageVersion)', 'analyzers', 'dotnet', 'cs', 'ILLink.RoslynAnalyzer.dll'))</_Parameter2>
+    </AssemblyAttribute>
+  </ItemGroup>
+
+  <Import Project="..\..\build\XUnit.props" />
+  <Import Project="..\..\build\SignAssembly.props" />
+
+  <ItemGroup>
+    <!-- The generator runs on this project (runtime tests) and is referenced for driver based tests. -->
+    <ProjectReference Include="..\..\src\Xaml.PropertyGenerator\Xaml.PropertyGenerator.csproj"
+                      OutputItemType="Analyzer"
+                      ReferenceOutputAssembly="true"
+                      PrivateAssets="all" />
+    <ProjectReference Include="..\..\src\Xaml.PropertyGenerator.CodeFixes\Xaml.PropertyGenerator.CodeFixes.csproj" />
+  </ItemGroup>
+
+</Project>

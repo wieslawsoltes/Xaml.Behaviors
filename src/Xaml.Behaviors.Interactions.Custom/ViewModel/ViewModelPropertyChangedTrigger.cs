@@ -1,31 +1,34 @@
 // Copyright (c) Wiesław Šoltés. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for details.
 using System.ComponentModel;
+#if UNO
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Dispatching;
+using Xaml.Interactivity;
+#else
 using Avalonia.Controls;
 using Avalonia.Threading;
 using Avalonia.Xaml.Interactivity;
+#endif
 
+#if UNO
+namespace Xaml.Interactions.Custom;
+#else
 namespace Avalonia.Xaml.Interactions.Custom;
+#endif
 
 /// <summary>
 /// Triggers when the specified view model property changes.
 /// </summary>
-public class ViewModelPropertyChangedTrigger : StyledElementTrigger<Control>
+public partial class ViewModelPropertyChangedTrigger : StyledElementTrigger<Control>
 {
-    /// <summary>
-    /// Identifies the <see cref="PropertyName"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<string?> PropertyNameProperty =
-        AvaloniaProperty.Register<ViewModelPropertyChangedTrigger, string?>(nameof(PropertyName));
 
     /// <summary>
     /// Gets or sets the name of the property to monitor. This is an avalonia property.
     /// </summary>
-    public string? PropertyName
-    {
-        get => GetValue(PropertyNameProperty);
-        set => SetValue(PropertyNameProperty, value);
-    }
+    [StyledProperty]
+    public partial string? PropertyName { get; set; }
 
     private INotifyPropertyChanged? _inpc;
 

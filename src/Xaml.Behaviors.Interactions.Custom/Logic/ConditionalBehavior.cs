@@ -1,45 +1,38 @@
+#if UNO
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Xaml.Interactivity;
+#else
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.LogicalTree;
 using Avalonia.Metadata;
 using Avalonia.Xaml.Interactivity;
+#endif
 
+#if UNO
+namespace Xaml.Interactions.Custom;
+#else
 namespace Avalonia.Xaml.Interactions.Custom;
+#endif
 
 /// <summary>
 /// A behavior that executes different collections of actions depending on the specified condition.
 /// </summary>
-public class ConditionalBehavior : StyledElementTrigger
+public partial class ConditionalBehavior : StyledElementTrigger
 {
-    /// <summary>
-    /// Identifies the <seealso cref="Condition"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<bool> ConditionProperty =
-        AvaloniaProperty.Register<ConditionalBehavior, bool>(nameof(Condition));
-
-    /// <summary>
-    /// Identifies the <seealso cref="ElseActions"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<ActionCollection?> ElseActionsProperty =
-        AvaloniaProperty.Register<ConditionalBehavior, ActionCollection?>(nameof(ElseActions));
 
     /// <summary>
     /// Gets or sets the condition that determines which actions are executed.
     /// </summary>
-    public bool Condition
-    {
-        get => GetValue(ConditionProperty);
-        set => SetValue(ConditionProperty, value);
-    }
+    [StyledProperty]
+    public partial bool Condition { get; set; }
 
     /// <summary>
     /// Gets the actions executed when <see cref="Condition"/> evaluates to <c>false</c>.
     /// </summary>
-    public ActionCollection? ElseActions
-    {
-        get => GetValue(ElseActionsProperty);
-        set => SetValue(ElseActionsProperty, value);
-    }
+    [StyledProperty]
+    public partial ActionCollection? ElseActions { get; set; }
 
     /// <summary>
     /// Initializes a new instance of the <see cref="ConditionalBehavior"/> class.
@@ -96,6 +89,15 @@ public class ConditionalBehavior : StyledElementTrigger
             return;
         }
 
+#if UNO
+        // WinUI has no top level element: the behavior (its associated object) hosts the actions.
+        if (AssociatedObject is null)
+        {
+            return;
+        }
+
+        var parent = this;
+#else
         StyledElement? parent;
             
         if (AssociatedObject is TopLevel topLevel)
@@ -111,6 +113,7 @@ public class ConditionalBehavior : StyledElementTrigger
 
             parent = this;
         }
+#endif
 
         foreach (var action in actions)
         {
@@ -128,6 +131,15 @@ public class ConditionalBehavior : StyledElementTrigger
             return;
         }
 
+#if UNO
+        // WinUI has no top level element: the behavior (its associated object) hosts the actions.
+        if (AssociatedObject is null)
+        {
+            return;
+        }
+
+        var parent = this;
+#else
         StyledElement? parent;
             
         if (AssociatedObject is TopLevel topLevel)
@@ -143,6 +155,7 @@ public class ConditionalBehavior : StyledElementTrigger
 
             parent = this;
         }
+#endif
 
         foreach (var action in actions)
         {

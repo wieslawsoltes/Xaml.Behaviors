@@ -1,30 +1,31 @@
 // Copyright (c) Wiesław Šoltés. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for details.
+#if UNO
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Xaml.Interactivity;
+#else
 using Avalonia.Controls;
 using Avalonia.Xaml.Interactivity;
+#endif
 
+#if UNO
+namespace Xaml.Interactions.Custom;
+#else
 namespace Avalonia.Xaml.Interactions.Custom;
+#endif
 
 /// <summary>
 /// Moves the associated or target element to a specified <see cref="Panel"/>.
 /// </summary>
-public sealed class MoveElementToPanelAction : StyledElementAction
+public sealed partial class MoveElementToPanelAction : StyledElementAction
 {
-    /// <summary>
-    /// Identifies the <see cref="TargetPanel"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<Panel?> TargetPanelProperty =
-        AvaloniaProperty.Register<MoveElementToPanelAction, Panel?>(nameof(TargetPanel));
 
     /// <summary>
     /// Gets or sets the panel to move the element into. If not set, the sender is used as target.
     /// </summary>
-    [ResolveByName]
-    public Panel? TargetPanel
-    {
-        get => GetValue(TargetPanelProperty);
-        set => SetValue(TargetPanelProperty, value);
-    }
+    [StyledProperty(ResolveByName = true)]
+    public partial Panel? TargetPanel { get; set; }
 
     /// <inheritdoc />
     public override object Execute(object? sender, object? parameter)

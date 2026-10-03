@@ -1,32 +1,35 @@
 // Copyright (c) Wiesław Šoltés. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for details.
+#if UNO
+using Microsoft.UI.Xaml.Media.Animation;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Xaml.Interactivity;
+#else
 using Avalonia.Animation;
 using Avalonia.Controls;
 using Avalonia.Xaml.Interactivity;
+#endif
 
+#if UNO
+namespace Xaml.Interactions.Custom;
+#else
 namespace Avalonia.Xaml.Interactions.Custom;
+#endif
 
 /// <summary>
 /// Sets the <see cref="Avalonia.Animation.Transitions"/> collection on the associated control when attached.
 /// </summary>
-public class TransitionsBehavior : AttachedToVisualTreeBehavior<Control>
+public partial class TransitionsBehavior : AttachedToVisualTreeBehavior<Control>
 {
-    /// <summary>
-    /// Identifies the <seealso cref="TransitionsSource"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<Transitions?> TransitionsSourceProperty =
-        AvaloniaProperty.Register<TransitionsBehavior, Transitions?>(nameof(TransitionsSource));
 
     private Transitions? _oldTransitions;
 
     /// <summary>
     /// Gets or sets the transitions collection to apply. This is an avalonia property.
     /// </summary>
-    public Transitions? TransitionsSource
-    {
-        get => GetValue(TransitionsSourceProperty);
-        set => SetValue(TransitionsSourceProperty, value);
-    }
+    [StyledProperty]
+    public partial Transitions? TransitionsSource { get; set; }
 
     /// <inheritdoc />
     protected override System.IDisposable OnAttachedToVisualTreeOverride()

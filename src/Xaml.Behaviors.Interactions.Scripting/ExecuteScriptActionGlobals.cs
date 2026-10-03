@@ -1,6 +1,10 @@
 // Copyright (c) Wiesław Šoltés. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for details.
+#if UNO
+namespace Xaml.Interactions.Scripting;
+#else
 namespace Avalonia.Xaml.Interactions.Scripting;
+#endif
 
 /// <summary>
 /// Provides global variables for script execution, including the sender and parameter.

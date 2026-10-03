@@ -1,49 +1,43 @@
 // Copyright (c) Wiesław Šoltés. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for details.
 using System;
+#if UNO
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Input;
+using Xaml.Interactivity;
+#else
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Xaml.Interactivity;
+#endif
 
+#if UNO
+namespace Xaml.Interactions.Draggable;
+#else
 namespace Avalonia.Xaml.Interactions.Draggable;
+#endif
 
 /// <summary>
 /// Automatically scrolls the associated <see cref="ScrollViewer"/> when the pointer is dragged near its edges.
 /// </summary>
-public class AutoScrollDuringDragBehavior : StyledElementBehavior<ScrollViewer>
+public partial class AutoScrollDuringDragBehavior : StyledElementBehavior<ScrollViewer>
 {
-    /// <summary>
-    /// Identifies the <see cref="EdgeDistance"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<double> EdgeDistanceProperty =
-        AvaloniaProperty.Register<AutoScrollDuringDragBehavior, double>(nameof(EdgeDistance), 20);
-
-    /// <summary>
-    /// Identifies the <see cref="ScrollDelta"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<double> ScrollDeltaProperty =
-        AvaloniaProperty.Register<AutoScrollDuringDragBehavior, double>(nameof(ScrollDelta), 10);
 
     private bool _dragging;
 
     /// <summary>
     /// Gets or sets the distance from the edge that triggers scrolling.
     /// </summary>
-    public double EdgeDistance
-    {
-        get => GetValue(EdgeDistanceProperty);
-        set => SetValue(EdgeDistanceProperty, value);
-    }
+    [StyledProperty(DefaultValue = 20)]
+    public partial double EdgeDistance { get; set; }
 
     /// <summary>
     /// Gets or sets the amount scrolled when triggered.
     /// </summary>
-    public double ScrollDelta
-    {
-        get => GetValue(ScrollDeltaProperty);
-        set => SetValue(ScrollDeltaProperty, value);
-    }
+    [StyledProperty(DefaultValue = 10)]
+    public partial double ScrollDelta { get; set; }
 
     /// <inheritdoc />
     protected override void OnAttachedToVisualTree()
@@ -66,10 +60,10 @@ public class AutoScrollDuringDragBehavior : StyledElementBehavior<ScrollViewer>
 
         if (AssociatedObject is not null)
         {
-            AssociatedObject.RemoveHandler(InputElement.PointerPressedEvent, Pressed);
-            AssociatedObject.RemoveHandler(InputElement.PointerReleasedEvent, Released);
-            AssociatedObject.RemoveHandler(InputElement.PointerMovedEvent, Moved);
-            AssociatedObject.RemoveHandler(InputElement.PointerCaptureLostEvent, CaptureLost);
+            AssociatedObject.RemoveRoutedEventHandler(InputElement.PointerPressedEvent, Pressed);
+            AssociatedObject.RemoveRoutedEventHandler(InputElement.PointerReleasedEvent, Released);
+            AssociatedObject.RemoveRoutedEventHandler(InputElement.PointerMovedEvent, Moved);
+            AssociatedObject.RemoveRoutedEventHandler(InputElement.PointerCaptureLostEvent, CaptureLost);
         }
     }
 
@@ -103,13 +97,24 @@ public class AutoScrollDuringDragBehavior : StyledElementBehavior<ScrollViewer>
 
         var pos = e.GetPosition(AssociatedObject);
         var bounds = AssociatedObject.Bounds;
+#if UNO
+        var offsetX = AssociatedObject.HorizontalOffset;
+        var offsetY = AssociatedObject.VerticalOffset;
+        var extentWidth = AssociatedObject.ExtentWidth;
+        var extentHeight = AssociatedObject.ExtentHeight;
+#else
         var offset = AssociatedObject.Offset;
         var extent = AssociatedObject.Extent;
+        var offsetX = offset.X;
+        var offsetY = offset.Y;
+        var extentWidth = extent.Width;
+        var extentHeight = extent.Height;
+#endif
         var delta = ScrollDelta;
         var threshold = EdgeDistance;
 
-        double newX = offset.X;
-        double newY = offset.Y;
+        double newX = offsetX;
+        double newY = offsetY;
 
         if (pos.X < threshold)
         {
@@ -117,7 +122,7 @@ public class AutoScrollDuringDragBehavior : StyledElementBehavior<ScrollViewer>
         }
         else if (pos.X > bounds.Width - threshold)
         {
-            newX = Math.Min(newX + delta, Math.Max(extent.Width - bounds.Width, 0));
+            newX = Math.Min(newX + delta, Math.Max(extentWidth - bounds.Width, 0));
         }
 
         if (pos.Y < threshold)
@@ -126,12 +131,16 @@ public class AutoScrollDuringDragBehavior : StyledElementBehavior<ScrollViewer>
         }
         else if (pos.Y > bounds.Height - threshold)
         {
-            newY = Math.Min(newY + delta, Math.Max(extent.Height - bounds.Height, 0));
+            newY = Math.Min(newY + delta, Math.Max(extentHeight - bounds.Height, 0));
         }
 
-        if (Math.Abs(newX - offset.X) > double.Epsilon || Math.Abs(newY - offset.Y) > double.Epsilon)
+        if (Math.Abs(newX - offsetX) > double.Epsilon || Math.Abs(newY - offsetY) > double.Epsilon)
         {
+#if UNO
+            AssociatedObject.ChangeView(newX, newY, null, true);
+#else
             AssociatedObject.Offset = new Vector(newX, newY);
+#endif
         }
     }
 }

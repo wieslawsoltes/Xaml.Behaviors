@@ -1,0 +1,35 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!-- xUnit v3 integration of the WinUI test harness: [WinUIFact] and [WinUITheory] run tests on the UI thread. -->
+  <PropertyGroup>
+    <TargetFrameworks>$(WinUITargetFrameworks)</TargetFrameworks>
+    <AssemblyName>Xaml.Behaviors.WinUI.Testing.XUnit</AssemblyName>
+    <RootNamespace>Xaml.Behaviors.WinUI.Testing.XUnit</RootNamespace>
+    <!-- Not an Avalonia-shared-source project: no port type aliases. -->
+    <UnoPortAliases>false</UnoPortAliases>
+    <!-- Not trimmable: test infrastructure; xUnit discovers and runs tests through reflection. -->
+    <IsTrimmable>false</IsTrimmable>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <PackageId>Xaml.Behaviors.WinUI.Testing.XUnit</PackageId>
+    <Description>xUnit v3 integration for the WinUI 3 test harness: [WinUIFact] and [WinUITheory] run tests on the UI thread of the test session.</Description>
+    <PackageTags>WinUI;WinUI3;WindowsAppSDK;Testing;xunit</PackageTags>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\Xaml.Behaviors.WinUI.Testing\README.md" Link="README.md" Pack="true" PackagePath="" />
+    <!-- Shared with the xUnit integration of the Uno Platform headless harness. -->
+    <Compile Include="$(UnoRootDirectory)Xaml.Behaviors.Uno.Headless.XUnit/Internal/ExecutionContextFlowingSynchronizationContext.cs" Link="Internal/ExecutionContextFlowingSynchronizationContext.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="xunit.v3.extensibility.core" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Xaml.Behaviors.WinUI.Testing\Xaml.Behaviors.WinUI.Testing.csproj" />
+  </ItemGroup>
+
+</Project>

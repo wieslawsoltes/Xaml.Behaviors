@@ -1,0 +1,11 @@
+<Project>
+  <!--
+    The Avalonia samples use ReactiveUI.Avalonia.Reactive 12.1.5 (ReactiveUI 25.1), which requires Avalonia 12.1.3; the libraries
+    keep building against the minimum supported Avalonia version (Directory.Packages.props).
+  -->
+  <PropertyGroup>
+    <AvaloniaVersion>12.1.3</AvaloniaVersion>
+  </PropertyGroup>
+
+  <Import Project="$([MSBuild]::GetPathOfFileAbove('Directory.Build.props', '$(MSBuildThisFileDirectory)../'))" />
+</Project>

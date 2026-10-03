@@ -1,4 +1,15 @@
 using System;
+#if UNO
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Input;
+using Microsoft.UI.Xaml.Media;
+using Microsoft.UI.Dispatching;
+using Xaml.Interactions.Core;
+using Xaml.Interactions.Custom;
+using Xaml.Interactions.UnitTests.Core;
+using Xaml.Interactivity;
+#else
 using Avalonia.Controls;
 using Avalonia.Headless;
 using Avalonia.Headless.XUnit;
@@ -10,9 +21,14 @@ using Avalonia.Xaml.Interactions.Core;
 using Avalonia.Xaml.Interactions.Custom;
 using Avalonia.Xaml.Interactions.UnitTests.Core;
 using Avalonia.Xaml.Interactivity;
+#endif
 using Xunit;
 
+#if UNO
+namespace Xaml.Interactions.UnitTests.Custom;
+#else
 namespace Avalonia.Xaml.Interactions.UnitTests.Custom;
+#endif
 
 public class AttachedToVisualTreeLifecycleTests
 {
@@ -140,7 +156,12 @@ public class AttachedToVisualTreeLifecycleTests
     public void AttachedToVisualTreeTriggerBase_DisposesForEachVisualTreeLifetime()
     {
         var target = new Border();
+#if WINUI
+        // WinUI Panel cannot be created directly (Uno Platform and Avalonia allow it).
+        var panel = new Grid { Children = { target } };
+#else
         var panel = new Panel { Children = { target } };
+#endif
         var trigger = new TrackingTrigger();
         Interaction.GetBehaviors(target).Add(trigger);
         var window = new Window { Content = panel };
@@ -149,16 +170,28 @@ public class AttachedToVisualTreeLifecycleTests
         Assert.Equal(1, trigger.ActiveSubscriptions);
 
         panel.Children.Remove(target);
+#if WINUI
+        // Native WinUI raises Unloaded for a removed element asynchronously (Uno Platform raises it at once).
+        Dispatcher.UIThread.RunJobs();
+#endif
 
         Assert.Equal(0, trigger.ActiveSubscriptions);
         Assert.Equal(1, trigger.DisposedSubscriptions);
 
         panel.Children.Add(target);
+#if UNO
+        // WinUI raises Loaded for an element added to a loaded tree with the next layout pass.
+        Dispatcher.UIThread.RunJobs();
+#endif
 
         Assert.Equal(1, trigger.ActiveSubscriptions);
         Assert.Equal(2, trigger.CreatedSubscriptions);
 
         panel.Children.Remove(target);
+#if WINUI
+        // Native WinUI raises Unloaded for a removed element asynchronously (Uno Platform raises it at once).
+        Dispatcher.UIThread.RunJobs();
+#endif
 
         Assert.Equal(0, trigger.ActiveSubscriptions);
         Assert.Equal(2, trigger.DisposedSubscriptions);
@@ -168,7 +201,12 @@ public class AttachedToVisualTreeLifecycleTests
     public void AttachedToVisualTreeBehavior_DisposesForEachVisualTreeLifetime()
     {
         var target = new Border();
+#if WINUI
+        // WinUI Panel cannot be created directly (Uno Platform and Avalonia allow it).
+        var panel = new Grid { Children = { target } };
+#else
         var panel = new Panel { Children = { target } };
+#endif
         var behavior = new TrackingBehavior();
         Interaction.GetBehaviors(target).Add(behavior);
         var window = new Window { Content = panel };
@@ -177,16 +215,28 @@ public class AttachedToVisualTreeLifecycleTests
         Assert.Equal(1, behavior.ActiveSubscriptions);
 
         panel.Children.Remove(target);
+#if WINUI
+        // Native WinUI raises Unloaded for a removed element asynchronously (Uno Platform raises it at once).
+        Dispatcher.UIThread.RunJobs();
+#endif
 
         Assert.Equal(0, behavior.ActiveSubscriptions);
         Assert.Equal(1, behavior.DisposedSubscriptions);
 
         panel.Children.Add(target);
+#if UNO
+        // WinUI raises Loaded for an element added to a loaded tree with the next layout pass.
+        Dispatcher.UIThread.RunJobs();
+#endif
 
         Assert.Equal(1, behavior.ActiveSubscriptions);
         Assert.Equal(2, behavior.CreatedSubscriptions);
 
         panel.Children.Remove(target);
+#if WINUI
+        // Native WinUI raises Unloaded for a removed element asynchronously (Uno Platform raises it at once).
+        Dispatcher.UIThread.RunJobs();
+#endif
 
         Assert.Equal(0, behavior.ActiveSubscriptions);
         Assert.Equal(2, behavior.DisposedSubscriptions);

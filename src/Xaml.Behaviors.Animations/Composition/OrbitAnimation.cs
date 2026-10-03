@@ -3,10 +3,20 @@
 
 using System;
 using System.Numerics;
+#if UNO
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Composition;
+#else
 using Avalonia.Controls;
 using Avalonia.Rendering.Composition;
+#endif
 
+#if UNO
+namespace Xaml.Interactions.Custom;
+#else
 namespace Avalonia.Xaml.Interactions.Custom;
+#endif
 
 /// <summary>
 /// Maintains and applies a composition orientation for an orbit-style pointer interaction.
@@ -53,10 +63,7 @@ public sealed class OrbitAnimation
         }
 
         Orientation = CalculateOrientation(Orientation, pointerDelta, sensitivity);
-        var animation = visual.Compositor.CreateQuaternionKeyFrameAnimation();
-        animation.InsertKeyFrame(1f, Orientation);
-        animation.Duration = TimeSpan.FromMilliseconds(1);
-        visual.StartAnimation("Orientation", animation);
+        CompositionAnimationHelpers.StartOrientationAnimation(visual, Orientation, TimeSpan.FromMilliseconds(1));
         return true;
     }
 

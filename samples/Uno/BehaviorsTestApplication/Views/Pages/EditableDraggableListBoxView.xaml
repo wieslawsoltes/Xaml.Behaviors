@@ -1,0 +1,68 @@
+<UserControl x:Class="BehaviorsTestApplication.Views.Pages.EditableDraggableListBoxView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:i="using:Xaml.Interactivity"
+             xmlns:idd="using:Xaml.Interactions.DragAndDrop"
+             xmlns:icustom="using:Xaml.Interactions.Custom"
+             xmlns:vm="using:BehaviorsTestApplication.ViewModels"
+             xmlns:behaviors="using:BehaviorsTestApplication.Behaviors"
+             mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="450">
+  <UserControl.Resources>
+    <behaviors:ItemsListBoxDropHandler x:Key="ItemsListBoxDropHandler" />
+  </UserControl.Resources>
+  <!--
+    Avalonia ListBox.EditableDragList style: the list gets the ContextDropBehavior, every item container a
+    ContextDragBehavior (Interaction.BehaviorsTemplate, one behavior collection per ListViewItem).
+  -->
+  <ListView ItemsSource="{x:Bind ViewModel.Items, Mode=OneWay}">
+    <i:Interaction.Behaviors>
+      <idd:ContextDropBehavior Handler="{StaticResource ItemsListBoxDropHandler}" />
+    </i:Interaction.Behaviors>
+    <ListView.ItemContainerStyle>
+      <Style TargetType="ListViewItem">
+        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+        <Setter Property="Margin" Value="0" />
+        <Setter Property="Padding" Value="0" />
+        <Setter Property="i:Interaction.BehaviorsTemplate">
+          <Setter.Value>
+            <DataTemplate>
+              <i:BehaviorCollectionHost>
+                <idd:ContextDragBehavior HorizontalDragThreshold="3" VerticalDragThreshold="3" />
+              </i:BehaviorCollectionHost>
+            </DataTemplate>
+          </Setter.Value>
+        </Setter>
+      </Style>
+    </ListView.ItemContainerStyle>
+    <ListView.ItemTemplate>
+      <DataTemplate x:DataType="vm:DragItemViewModel">
+        <!--
+          Avalonia binds the edit box height to #DisplayPanel.Bounds.Height; InlineEditBehavior collapses the display
+          panel while editing, so the edit box is centered in the row instead.
+        -->
+        <Grid Background="Transparent">
+          <i:Interaction.Behaviors>
+            <!-- Uno x:Bind cannot reference named elements of a DataTemplate: ElementName bindings (no path). -->
+            <icustom:InlineEditBehavior DisplayControl="{Binding ElementName=DisplayPanel}" EditControl="{Binding ElementName=EditBox}" />
+          </i:Interaction.Behaviors>
+          <TextBox x:Name="EditBox"
+                   Visibility="Collapsed"
+                   VerticalAlignment="Center"
+                   VerticalContentAlignment="Center"
+                   Margin="0"
+                   Padding="6,0,6,0"
+                   BorderThickness="0"
+                   Text="{x:Bind Title, Mode=TwoWay}" />
+          <StackPanel x:Name="DisplayPanel"
+                      Orientation="Horizontal"
+                      Background="Transparent"
+                      IsTabStop="True">
+            <TextBlock Text="{x:Bind Title, Mode=OneWay}" Margin="6,8,6,8" />
+          </StackPanel>
+        </Grid>
+      </DataTemplate>
+    </ListView.ItemTemplate>
+  </ListView>
+</UserControl>

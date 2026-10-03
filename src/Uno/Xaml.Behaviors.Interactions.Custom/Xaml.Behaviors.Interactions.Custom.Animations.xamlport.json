@@ -1,0 +1,17 @@
+{
+  "$schema": "../../Xaml.PortAnalyzers/xamlport.schema.json",
+  "mapped": {
+    "types": [
+      // Per-file aliases in the Animations, Composition and Transitions folders:
+      // PlatformAnimation (Animation → Storyboard), Vector (→ Windows.Foundation.Point),
+      // Transitions (→ TransitionCollection); TransitionBase maps to WinUI Transition.
+      "Avalonia.Animation.Animation",
+      "Avalonia.Animation.TransitionBase",
+      "Avalonia.Animation.Transitions",
+      "Avalonia.Vector"
+    ],
+    "members": [
+      "Avalonia.Input.InputElement.PointerExited"
+    ]
+  }
+}

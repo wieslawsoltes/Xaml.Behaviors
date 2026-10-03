@@ -1,0 +1,35 @@
+<UserControl x:Class="BehaviorsTestApplication.Views.Pages.DialogActionView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:i="using:Xaml.Interactivity"
+             xmlns:ic="using:Xaml.Interactions.Core"
+             xmlns:icustom="using:Xaml.Interactions.Custom"
+             xmlns:dialogs="using:BehaviorsTestApplication.Dialogs"
+             mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="450">
+  <UserControl.Resources>
+    <!-- SimpleDialog is a WinUI ContentDialog on Uno Platform (an Avalonia Window). -->
+    <dialogs:SimpleDialog x:Key="SampleDialog" />
+  </UserControl.Resources>
+  <StackPanel>
+    <TextBlock x:Name="Status" Margin="5" />
+    <Button x:Name="OpenButton" Content="Open Dialog" Margin="5" />
+    <Button x:Name="CloseButton" Content="Close Dialog" Margin="5" />
+  </StackPanel>
+  <i:Interaction.Behaviors>
+    <ic:EventTriggerBehavior EventName="Click" SourceObject="{x:Bind OpenButton}">
+      <icustom:ShowDialogAction Dialog="{StaticResource SampleDialog}" />
+    </ic:EventTriggerBehavior>
+    <ic:EventTriggerBehavior EventName="Click" SourceObject="{x:Bind CloseButton}">
+      <!-- Avalonia: CloseWindowAction (the dialog is a Window); a ContentDialog is closed with Hide(). -->
+      <ic:CallMethodAction TargetObject="{StaticResource SampleDialog}" MethodName="Hide" />
+    </ic:EventTriggerBehavior>
+    <icustom:DialogOpenedTrigger SourceObject="{StaticResource SampleDialog}">
+      <ic:ChangePropertyAction TargetObject="{x:Bind Status}" PropertyName="Text" Value="Opened" />
+    </icustom:DialogOpenedTrigger>
+    <icustom:DialogClosedTrigger SourceObject="{StaticResource SampleDialog}">
+      <ic:ChangePropertyAction TargetObject="{x:Bind Status}" PropertyName="Text" Value="Closed" />
+    </icustom:DialogClosedTrigger>
+  </i:Interaction.Behaviors>
+</UserControl>

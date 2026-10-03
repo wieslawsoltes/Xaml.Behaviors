@@ -1,4 +1,11 @@
 using System.Collections.Specialized;
+#if UNO
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Dispatching;
+using Xaml.Interactivity;
+using CaseList = Xaml.Interactions.Custom.CaseCollection;
+#else
 using Avalonia;
 using Avalonia.Collections;
 using Avalonia.Controls;
@@ -6,66 +13,45 @@ using Avalonia.LogicalTree;
 using Avalonia.Metadata;
 using Avalonia.Threading;
 using Avalonia.Xaml.Interactivity;
+using CaseList = Avalonia.Collections.AvaloniaList<Avalonia.Xaml.Interactions.Custom.Case>;
+#endif
 
+#if UNO
+namespace Xaml.Interactions.Custom;
+#else
 namespace Avalonia.Xaml.Interactions.Custom;
+#endif
 
 /// <summary>
 /// A behavior that executes a specific set of actions based on a value match.
 /// </summary>
-public class SwitchCaseBehavior : StyledElementTrigger
+public partial class SwitchCaseBehavior : StyledElementTrigger
 {
-    /// <summary>
-    /// Identifies the <seealso cref="Value"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<object?> ValueProperty =
-        AvaloniaProperty.Register<SwitchCaseBehavior, object?>(nameof(Value));
-
-    /// <summary>
-    /// Identifies the <seealso cref="Cases"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<AvaloniaList<Case>?> CasesProperty =
-        AvaloniaProperty.Register<SwitchCaseBehavior, AvaloniaList<Case>?>(nameof(Cases));
-
-    /// <summary>
-    /// Identifies the <seealso cref="DefaultActions"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<ActionCollection?> DefaultActionsProperty =
-        AvaloniaProperty.Register<SwitchCaseBehavior, ActionCollection?>(nameof(DefaultActions));
 
     /// <summary>
     /// Gets or sets the value to switch on.
     /// </summary>
-    public object? Value
-    {
-        get => GetValue(ValueProperty);
-        set => SetValue(ValueProperty, value);
-    }
+    [StyledProperty]
+    public partial object? Value { get; set; }
 
     /// <summary>
     /// Gets the collection of cases.
     /// </summary>
-    [Content]
-    public AvaloniaList<Case>? Cases
-    {
-        get => GetValue(CasesProperty);
-        set => SetValue(CasesProperty, value);
-    }
+    [StyledProperty(Content = true)]
+    public partial CaseList? Cases { get; set; }
 
     /// <summary>
     /// Gets the actions to execute if no case matches.
     /// </summary>
-    public ActionCollection? DefaultActions
-    {
-        get => GetValue(DefaultActionsProperty);
-        set => SetValue(DefaultActionsProperty, value);
-    }
+    [StyledProperty]
+    public partial ActionCollection? DefaultActions { get; set; }
 
     /// <summary>
     /// Initializes a new instance of the <see cref="SwitchCaseBehavior"/> class.
     /// </summary>
     public SwitchCaseBehavior()
     {
-        SetCurrentValue(CasesProperty, new AvaloniaList<Case>());
+        SetCurrentValue(CasesProperty, new CaseList());
         SetCurrentValue(DefaultActionsProperty, new ActionCollection());
     }
 
@@ -80,8 +66,8 @@ public class SwitchCaseBehavior : StyledElementTrigger
         }
         else if (change.Property == CasesProperty)
         {
-            var oldCases = change.GetOldValue<AvaloniaList<Case>?>();
-            var newCases = change.GetNewValue<AvaloniaList<Case>?>();
+            var oldCases = change.GetOldValue<CaseList?>();
+            var newCases = change.GetNewValue<CaseList?>();
 
             if (oldCases is not null)
             {
@@ -120,14 +106,10 @@ public class SwitchCaseBehavior : StyledElementTrigger
 
     private void OnValueChanged(AvaloniaPropertyChangedEventArgs args)
     {
-        if (args.Sender is not SwitchCaseBehavior behavior)
-        {
-            return;
-        }
-
+        // Property changes of this behavior are always raised on this instance.
         Dispatcher.UIThread.Post(() =>
         {
-            behavior.Execute(parameter: args);
+            Execute(parameter: args);
         });
     }
 
@@ -175,7 +157,7 @@ public class SwitchCaseBehavior : StyledElementTrigger
         base.OnDetachedFromLogicalTree(e);
     }
 
-    private void AttachCasesToLogicalTree(System.Collections.IList? cases)
+    private void AttachCasesToLogicalTree(System.Collections.IEnumerable? cases)
     {
         if (cases is null)
         {
@@ -191,7 +173,7 @@ public class SwitchCaseBehavior : StyledElementTrigger
         }
     }
 
-    private void DetachCasesFromLogicalTree(System.Collections.IList? cases)
+    private void DetachCasesFromLogicalTree(System.Collections.IEnumerable? cases)
     {
         if (cases is null)
         {

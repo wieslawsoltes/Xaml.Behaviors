@@ -1,50 +1,44 @@
 // Copyright (c) Wiesław Šoltés. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for details.
 using System;
+#if UNO
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Media.Imaging;
+using Microsoft.UI.Dispatching;
+using Xaml.Interactivity;
+#else
 using Avalonia.Controls;
 using Avalonia.Media.Imaging;
 using Avalonia.Threading;
 using Avalonia.Xaml.Interactivity;
+#endif
 
+#if UNO
+namespace Xaml.Interactions.Custom;
+#else
 namespace Avalonia.Xaml.Interactions.Custom;
+#endif
 
 /// <summary>
 /// A trigger that fires its actions on a timer and passes a <see cref="WriteableBitmap"/> as parameter.
 /// </summary>
-public class WriteableBitmapTimerTrigger : StyledElementTrigger
+public partial class WriteableBitmapTimerTrigger : StyledElementTrigger
 {
-    /// <summary>
-    /// Identifies the <see cref="Bitmap"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<WriteableBitmap?> BitmapProperty =
-        AvaloniaProperty.Register<WriteableBitmapTimerTrigger, WriteableBitmap?>(nameof(Bitmap));
-
-    /// <summary>
-    /// Identifies the <see cref="MillisecondsPerTick"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<int> MillisecondsPerTickProperty =
-        AvaloniaProperty.Register<WriteableBitmapTimerTrigger, int>(nameof(MillisecondsPerTick), 16);
 
     private DispatcherTimer? _timer;
 
     /// <summary>
     /// Gets or sets the bitmap passed to actions. This is an avalonia property.
     /// </summary>
-    [ResolveByName]
-    public WriteableBitmap? Bitmap
-    {
-        get => GetValue(BitmapProperty);
-        set => SetValue(BitmapProperty, value);
-    }
+    [StyledProperty(ResolveByName = true)]
+    public partial WriteableBitmap? Bitmap { get; set; }
 
     /// <summary>
     /// Gets or sets the timer interval in milliseconds. This is an avalonia property.
     /// </summary>
-    public int MillisecondsPerTick
-    {
-        get => GetValue(MillisecondsPerTickProperty);
-        set => SetValue(MillisecondsPerTickProperty, value);
-    }
+    [StyledProperty(DefaultValue = 16)]
+    public partial int MillisecondsPerTick { get; set; }
 
     /// <inheritdoc />
     protected override void OnAttached()
@@ -84,7 +78,11 @@ public class WriteableBitmapTimerTrigger : StyledElementTrigger
         _timer = null;
     }
 
+#if UNO
+    private void OnTick(object? sender, object e)
+#else
     private void OnTick(object? sender, EventArgs e)
+#endif
     {
         if (!IsEnabled)
         {

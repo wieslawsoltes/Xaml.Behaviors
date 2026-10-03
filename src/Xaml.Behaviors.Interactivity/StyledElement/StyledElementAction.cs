@@ -1,30 +1,30 @@
 // Copyright (c) Wiesław Šoltés. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for details.
+#if UNO
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+#else
 using Avalonia.Controls;
+#endif
 
+#if UNO
+namespace Xaml.Interactivity;
+#else
 namespace Avalonia.Xaml.Interactivity;
+#endif
 
 /// <summary>
 /// A base class for action that calls a method on a specified object when invoked.
 /// </summary>
-public abstract class StyledElementAction : StyledElement, IAction
+public abstract partial class StyledElementAction : StyledElement, IAction
 {
-    /// <summary>
-    /// Identifies the <seealso cref="IsEnabled"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<bool> IsEnabledProperty =
-        AvaloniaProperty.Register<Avalonia.Xaml.Interactivity.StyledElementAction, bool>(nameof(IsEnabled),
-            defaultValue: true);
 
     /// <summary>
     /// Gets or sets a value indicating whether this instance is enabled.
     /// </summary>
     /// <value><c>true</c> if this instance is enabled; otherwise, <c>false</c>.</value>
-    public bool IsEnabled
-    {
-        get => GetValue(IsEnabledProperty);
-        set => SetValue(IsEnabledProperty, value);
-    }
+    [StyledProperty(DefaultValue = true)]
+    public partial bool IsEnabled { get; set; }
 
     /// <summary>
     /// Executes the action.

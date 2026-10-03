@@ -1,0 +1,43 @@
+<UserControl x:Class="BehaviorsTestApplication.Views.Pages.OneTimeBinding"
+             x:Name="Root"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:i="using:Xaml.Interactivity"
+             xmlns:ic="using:Xaml.Interactions.Core"
+             xmlns:vm="using:BehaviorsTestApplication.ViewModels"
+             mc:Ignorable="d" d:DesignWidth="500" d:DesignHeight="450">
+  <!-- Avalonia: Carousel; WinUI: FlipView. -->
+  <FlipView ItemsSource="{x:Bind ViewModel.Items, Mode=OneTime}">
+    <FlipView.ItemTemplate>
+      <DataTemplate x:DataType="vm:ItemViewModel">
+        <Border Width="200"
+                Height="200"
+                Background="LightGray"
+                x:Name="Border">
+          <TextBlock
+            Text="{x:Bind Value, Mode=OneTime}"
+            VerticalAlignment="Center"
+            HorizontalAlignment="Center">
+            <i:Interaction.Behaviors>
+              <!--
+                x:Bind in a data template only reaches the item (Uno Platform does not x:Bind to the template's named
+                elements), so the source border and the command of the view's data context are bound by element name
+                (Avalonia: SourceObject="Border" and
+                Command="{Binding $parent[UserControl].((vm:MainWindowViewModel)DataContext).OpenItemCommand, Mode=OneTime}").
+              -->
+              <ic:EventTriggerBehavior EventName="PointerPressed" SourceObject="{Binding ElementName=Border}">
+                <ic:InvokeCommandAction
+                  Command="{Binding DataContext.OpenItemCommand, ElementName=Root, Mode=OneTime}"
+                  CommandParameter="{x:Bind}"
+                  PassEventArgsToCommand="False" />
+              </ic:EventTriggerBehavior>
+            </i:Interaction.Behaviors>
+          </TextBlock>
+        </Border>
+      </DataTemplate>
+    </FlipView.ItemTemplate>
+  </FlipView>
+
+</UserControl>

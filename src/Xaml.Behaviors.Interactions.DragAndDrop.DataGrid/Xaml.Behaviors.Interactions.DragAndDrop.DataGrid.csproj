@@ -18,6 +18,12 @@
     <PackageReference Include="Avalonia.Controls.DataGrid" />
   </ItemGroup>
 
+  <PropertyGroup>
+    <XamlPortEnabled>true</XamlPortEnabled>
+  </PropertyGroup>
+
+  <Import Project="..\..\build\XamlPropertyGenerator.props" />
+  <Import Project="..\..\build\XamlPort.props" />
   <Import Project="..\..\build\SignAssembly.props" />
   <Import Project="..\..\build\SourceLink.props" />
   <Import Project="..\..\build\TrimmingEnable.targets" />
@@ -25,5 +31,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Xaml.Behaviors.Interactions.DragAndDrop\Xaml.Behaviors.Interactions.DragAndDrop.csproj" />
   </ItemGroup>
+
+  <Import Project="..\..\build\XamlPort.targets" />
 
 </Project>

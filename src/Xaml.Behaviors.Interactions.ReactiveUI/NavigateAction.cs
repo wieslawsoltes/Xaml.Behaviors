@@ -1,45 +1,37 @@
 // Copyright (c) Wiesław Šoltés. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for details.
 using System;
+#if UNO
+using Xaml.Interactivity;
+#else
 using Avalonia.Xaml.Interactivity;
+#endif
 using ReactiveUI;
+using ReactiveUI.Reactive;
 
+#if UNO
+namespace Xaml.Interactions.ReactiveUI;
+#else
 namespace Avalonia.Xaml.Interactions.ReactiveUI;
+#endif
 
 /// <summary>
 /// An action that navigates to a specified <see cref="IRoutableViewModel"/>.
 /// </summary>
-public class NavigateAction : StyledElementAction
+public partial class NavigateAction : StyledElementAction
 {
-    /// <summary>
-    /// Identifies the <seealso cref="Router"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<RoutingState?> RouterProperty =
-        AvaloniaProperty.Register<NavigateAction, RoutingState?>(nameof(Router));
-
-    /// <summary>
-    /// Identifies the <seealso cref="ViewModel"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<IRoutableViewModel?> ViewModelProperty =
-        AvaloniaProperty.Register<NavigateAction, IRoutableViewModel?>(nameof(ViewModel));
 
     /// <summary>
     /// Gets or sets the router used for navigation. This is an avalonia property.
     /// </summary>
-    public RoutingState? Router
-    {
-        get => GetValue(RouterProperty);
-        set => SetValue(RouterProperty, value);
-    }
+    [StyledProperty]
+    public partial RoutingState? Router { get; set; }
 
     /// <summary>
     /// Gets or sets the view model to navigate to. This is an avalonia property.
     /// </summary>
-    public IRoutableViewModel? ViewModel
-    {
-        get => GetValue(ViewModelProperty);
-        set => SetValue(ViewModelProperty, value);
-    }
+    [StyledProperty]
+    public partial IRoutableViewModel? ViewModel { get; set; }
 
     /// <summary>
     /// Executes the action.

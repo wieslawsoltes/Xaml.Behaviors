@@ -1,0 +1,36 @@
+<Project Sdk="Uno.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>$(UnoTargetFrameworks)</TargetFrameworks>
+    <AssemblyName>Xaml.Behaviors.Uno</AssemblyName>
+    <RootNamespace>Xaml.Behaviors</RootNamespace>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <PackageId>Xaml.Behaviors.Uno</PackageId>
+    <Description>Complete library of behaviors, actions and triggers for Uno Platform (WinUI) applications in a single assembly.</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Using Include="Xaml.Interactivity" />
+  </ItemGroup>
+
+  <!--
+    Single assembly build of the Uno port, like src/Xaml.Behaviors for Avalonia (shared with the WinUI build, see
+    Xaml.Behaviors.Sources.targets).
+  -->
+  <PropertyGroup>
+    <XamlBehaviorsSharedProjectsRoot>../../</XamlBehaviorsSharedProjectsRoot>
+    <XamlBehaviorsUnoProjectsRoot>../</XamlBehaviorsUnoProjectsRoot>
+  </PropertyGroup>
+  <Import Project="Xaml.Behaviors.Sources.targets" />
+
+  <ItemGroup>
+    <ProjectReference Include="$(AvaloniaSourcesDirectory)Xaml.Behaviors.SourceGenerators\Xaml.Behaviors.SourceGenerators.csproj"
+                      OutputItemType="Analyzer"
+                      ReferenceOutputAssembly="false" />
+  </ItemGroup>
+
+  <Import Project="$(AvaloniaSourcesDirectory)../build/XamlPropertyGenerator.props" />
+
+</Project>

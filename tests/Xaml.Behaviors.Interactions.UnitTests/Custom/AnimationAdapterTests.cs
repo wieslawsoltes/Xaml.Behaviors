@@ -4,6 +4,17 @@
 using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
+#if UNO
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Media.Animation;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Markup;
+using Microsoft.UI.Xaml.Media;
+using Microsoft.UI.Composition;
+using Microsoft.UI.Dispatching;
+using Xaml.Interactions.Custom;
+using Xaml.Interactivity;
+#else
 using Avalonia;
 using Avalonia.Animation;
 using Avalonia.Controls;
@@ -15,24 +26,46 @@ using Avalonia.Styling;
 using Avalonia.Threading;
 using Avalonia.Xaml.Interactions.Custom;
 using Avalonia.Xaml.Interactivity;
+#endif
 using Xunit;
 
+#if UNO
+namespace Xaml.Interactions.UnitTests.Custom;
+#else
 namespace Avalonia.Xaml.Interactions.UnitTests.Custom;
+#endif
 
+#if UNO
+// Uno's dependency object generator requires the declaring types of dependency objects to be partial.
+public partial class AnimationAdapterTests
+#else
 public class AnimationAdapterTests
+#endif
 {
     private sealed class RecordingAnimationBuilder : IAnimationBuilder
     {
         public int BuildCount { get; private set; }
 
+#if UNO
+        public Storyboard? Build(Control control)
+        {
+            BuildCount++;
+            return new Storyboard { Duration = new Duration(TimeSpan.Zero) };
+        }
+#else
         public Avalonia.Animation.Animation? Build(Control control)
         {
             BuildCount++;
             return new Avalonia.Animation.Animation { Duration = TimeSpan.Zero };
         }
+#endif
     }
 
+#if UNO
+    private sealed partial class RecordingAction : AvaloniaObject, IAction
+#else
     private sealed class RecordingAction : AvaloniaObject, IAction
+#endif
     {
         public int ExecutionCount { get; private set; }
 
@@ -49,7 +82,12 @@ public class AnimationAdapterTests
         var original = new Transitions();
         var replacement = new Transitions();
         var target = new Border { Transitions = original };
+#if WINUI
+        // WinUI Panel cannot be created directly (Uno Platform and Avalonia allow it).
+        var panel = new Grid { Children = { target } };
+#else
         var panel = new Panel { Children = { target } };
+#endif
         var behavior = new TransitionsBehavior();
         behavior.SetValue(TransitionsBehavior.TransitionsSourceProperty, replacement);
         Assert.Same(replacement, behavior.TransitionsSource);
@@ -61,11 +99,17 @@ public class AnimationAdapterTests
         Assert.Same(replacement, target.Transitions);
 
         panel.Children.Remove(target);
+#if WINUI
+        // Native WinUI raises Unloaded for a removed element asynchronously.
+        Dispatcher.UIThread.RunJobs();
+#endif
 
         Assert.Same(original, target.Transitions);
         window.Close();
     }
 
+#if !UNO
+    // Avalonia runtime XAML loader (AvaloniaRuntimeXamlLoader); Uno Platform compiles XAML at build time.
     [AvaloniaFact]
     [UnconditionalSuppressMessage(
         "Trimming",
@@ -98,6 +142,7 @@ public class AnimationAdapterTests
         var border = Assert.IsType<Border>(panel.Children[1]);
         Assert.IsType<FadeInBehavior>(Assert.Single(Interaction.GetBehaviors(border)));
     }
+#endif
 
     [AvaloniaFact]
     public void TransitionsChangedTrigger_ExecutesForSharedTransitionObservation()
@@ -119,6 +164,9 @@ public class AnimationAdapterTests
     [AvaloniaFact]
     public void FluidMoveBehavior_AnimatesChangedChildPositionThroughSharedPrimitive()
     {
+#if WINUI
+        Assert.Skip("Native WinUI moves the child of a Canvas without a layout pass (no LayoutUpdated), so FluidMoveBehavior does not see Canvas.Left/Top changes.");
+#endif
         var child = new Border { Width = 40d, Height = 40d };
         Canvas.SetLeft(child, 0d);
         var canvas = new Canvas { Width = 200d, Height = 100d, Children = { child } };
@@ -150,6 +198,11 @@ public class AnimationAdapterTests
         {
             Width = 300d,
             Height = 300d,
+#if UNO
+            // A WinUI scroll viewer does not scroll horizontally by default.
+            HorizontalScrollBarVisibility = ScrollBarVisibility.Auto,
+            HorizontalScrollMode = ScrollMode.Enabled,
+#endif
             Content = content
         };
         var behavior = new ParallaxBehavior
@@ -162,12 +215,24 @@ public class AnimationAdapterTests
         window.Show();
         Dispatcher.UIThread.RunJobs();
 
+#if UNO
+        // WinUI scrolls with ChangeView (once the extent is measured); composition offsets are relative to the layout
+        // position on Uno Skia.
+        window.CaptureRenderedFrame();
+        scrollViewer.ChangeView(20d, 100d, null, disableAnimation: true);
+        window.CaptureRenderedFrame();
+
+        Assert.Equal(
+            new System.Numerics.Vector3(5f, 25f, 0f),
+            Microsoft.UI.Xaml.Hosting.ElementCompositionPreview.GetElementVisual(target)?.GetLayoutRelativeOffset());
+#else
         scrollViewer.Offset = new Vector(20d, 100d);
         Dispatcher.UIThread.RunJobs();
 
         Assert.Equal(
             new System.Numerics.Vector3(35f, 65f, 0f),
             ElementComposition.GetElementVisual(target)?.Offset);
+#endif
         window.Close();
     }
 
@@ -175,7 +240,11 @@ public class AnimationAdapterTests
     public void AnimationActions_PreserveTargetsResultsAndBuilderPrecedence()
     {
         var target = new Border();
+#if UNO
+        var animation = new Storyboard { Duration = new Duration(TimeSpan.Zero) };
+#else
         var animation = new Avalonia.Animation.Animation { Duration = TimeSpan.Zero };
+#endif
 
         var start = new StartAnimationAction { Animation = animation };
         Assert.False(Assert.IsType<bool>(start.Execute(null, null)));
@@ -218,6 +287,17 @@ public class AnimationAdapterTests
     public void PlayAnimationBehavior_RunsConfiguredAnimationOnAssociatedVisual()
     {
         var target = new Border();
+#if UNO
+        // A WinUI storyboard animating the opacity to 0.25 and holding the end value.
+        var opacity = new DoubleAnimation
+        {
+            To = 0.25d,
+            Duration = new Duration(TimeSpan.Zero),
+            FillBehavior = FillBehavior.HoldEnd
+        };
+        Storyboard.SetTargetProperty(opacity, nameof(UIElement.Opacity));
+        var animation = new Storyboard { Children = { opacity } };
+#else
         var animation = new Avalonia.Animation.Animation
         {
             Duration = TimeSpan.Zero,
@@ -231,6 +311,7 @@ public class AnimationAdapterTests
                 }
             }
         };
+#endif
         Interaction.GetBehaviors(target).Add(new PlayAnimationBehavior { Animation = animation });
         var window = new Window { Content = target };
 

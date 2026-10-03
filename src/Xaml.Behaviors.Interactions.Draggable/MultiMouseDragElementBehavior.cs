@@ -2,6 +2,14 @@
 // Licensed under the MIT license. See LICENSE file in the project root for details.
 using System;
 using System.Collections.Generic;
+#if UNO
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Input;
+using Microsoft.UI.Xaml.Media;
+using Windows.Foundation;
+using Xaml.Interactivity;
+#else
 using Avalonia.Collections;
 using Avalonia.Controls;
 using Avalonia.Input;
@@ -9,46 +17,39 @@ using Avalonia.Interactivity;
 using Avalonia.Media;
 using Avalonia.Metadata;
 using Avalonia.Xaml.Interactivity;
+#endif
 
+#if UNO
+namespace Xaml.Interactions.Draggable;
+#else
 namespace Avalonia.Xaml.Interactions.Draggable;
+#endif
 
 /// <summary>
 /// Enables dragging of multiple controls with the mouse using <see cref="TranslateTransform"/>.
 /// </summary>
-public class MultiMouseDragElementBehavior : StyledElementBehavior<Control>
+public partial class MultiMouseDragElementBehavior : StyledElementBehavior<Control>
 {
-    private AvaloniaList<Control>? _targetControls;
     private bool _captured;
     private Point _start;
     private readonly Dictionary<Control, TranslateTransform> _transforms = new();
     private Control? _parent;
 
     /// <summary>
-    /// Identifies the <see cref="TargetControls"/> avalonia property.
-    /// </summary>
-    public static readonly DirectProperty<MultiMouseDragElementBehavior, AvaloniaList<Control>> TargetControlsProperty =
-        AvaloniaProperty.RegisterDirect<MultiMouseDragElementBehavior, AvaloniaList<Control>>(nameof(TargetControls), b => b.TargetControls);
-
-    /// <summary>
-    /// Identifies the <see cref="ConstrainToParentBounds"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<bool> ConstrainToParentBoundsProperty =
-        AvaloniaProperty.Register<MultiMouseDragElementBehavior, bool>(nameof(ConstrainToParentBounds));
-
-    /// <summary>
     /// Gets the collection of controls that should be dragged together. This is an avalonia property.
     /// </summary>
-    [Content]
-    public AvaloniaList<Control> TargetControls => _targetControls ??= [];
+    [DirectProperty(Lazy = true, Content = true)]
+#if UNO
+    public partial System.Collections.ObjectModel.ObservableCollection<FrameworkElement> TargetControls { get; }
+#else
+    public partial AvaloniaList<Control> TargetControls { get; }
+#endif
 
     /// <summary>
     /// Gets or sets whether dragging should be constrained to the bounds of the parent control.
     /// </summary>
-    public bool ConstrainToParentBounds
-    {
-        get => GetValue(ConstrainToParentBoundsProperty);
-        set => SetValue(ConstrainToParentBoundsProperty, value);
-    }
+    [StyledProperty]
+    public partial bool ConstrainToParentBounds { get; set; }
 
     /// <inheritdoc />
     protected override void OnAttachedToVisualTree()
@@ -67,10 +68,10 @@ public class MultiMouseDragElementBehavior : StyledElementBehavior<Control>
     {
         if (AssociatedObject is not null)
         {
-            AssociatedObject.RemoveHandler(InputElement.PointerPressedEvent, Pressed);
-            AssociatedObject.RemoveHandler(InputElement.PointerReleasedEvent, Released);
-            AssociatedObject.RemoveHandler(InputElement.PointerMovedEvent, Moved);
-            AssociatedObject.RemoveHandler(InputElement.PointerCaptureLostEvent, CaptureLost);
+            AssociatedObject.RemoveRoutedEventHandler(InputElement.PointerPressedEvent, Pressed);
+            AssociatedObject.RemoveRoutedEventHandler(InputElement.PointerReleasedEvent, Released);
+            AssociatedObject.RemoveRoutedEventHandler(InputElement.PointerMovedEvent, Moved);
+            AssociatedObject.RemoveRoutedEventHandler(InputElement.PointerCaptureLostEvent, CaptureLost);
         }
     }
 
@@ -90,6 +91,10 @@ public class MultiMouseDragElementBehavior : StyledElementBehavior<Control>
             }
 
             _captured = true;
+#if UNO
+            // Avalonia captures the pointer implicitly on press; WinUI only does so for touch.
+            AssociatedObject.CapturePointer(e.Pointer);
+#endif
         }
     }
 

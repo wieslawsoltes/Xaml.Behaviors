@@ -1,0 +1,3 @@
+<Project>
+  <Import Project="$(MSBuildThisFileDirectory)../src/Xaml.PortAnalyzers/buildTransitive/Xaml.PortAnalyzers.targets" Condition="'$(XamlPortEnabled)' == 'true'" />
+</Project>

@@ -2,7 +2,11 @@
 // Licensed under the MIT license. See LICENSE file in the project root for details.
 using System;
 
+#if UNO
+namespace Xaml.Interactivity;
+#else
 namespace Avalonia.Xaml.Interactivity;
+#endif
 
 /// <summary>
 /// A base class for behaviors making them code compatible with older frameworks,
@@ -14,13 +18,13 @@ public abstract class StyledElementBehavior<T> : StyledElementBehavior where T :
     /// <summary>
     /// Gets the object to which this behavior is attached.
     /// </summary>
-    public new T? AssociatedObject => base.AssociatedObject as T;
+    public new T? AssociatedObject => base.AssociatedObject is T value ? value : default;
 
     /// <summary>
-    /// Called after the behavior is attached to the <see cref="StyledElementBehavior.AssociatedObject"/>.
+    /// Called after the behavior is attached to the <see cref="IBehavior.AssociatedObject"/>.
     /// </summary>
     /// <remarks>
-    /// Override this to hook up functionality to the <see cref="StyledElementBehavior.AssociatedObject"/>
+    /// Override this to hook up functionality to the <see cref="IBehavior.AssociatedObject"/>
     /// </remarks>
     protected override void OnAttached()
     {

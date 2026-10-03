@@ -3,16 +3,25 @@
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+#if UNO
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+#else
 using Avalonia.Controls;
 using Avalonia.LogicalTree;
 using Avalonia.Platform.Storage;
+#endif
 
+#if UNO
+namespace Xaml.Interactions.Core;
+#else
 namespace Avalonia.Xaml.Interactions.Core;
+#endif
 
 /// <summary>
 /// An action that will open a folder picker dialog.
 /// </summary>
-public class OpenFolderPickerAction : PickerActionBase
+public partial class OpenFolderPickerAction : PickerActionBase
 {
     /// <summary>
     /// Occurs after the folder picker successfully returns one or more folders.
@@ -20,19 +29,10 @@ public class OpenFolderPickerAction : PickerActionBase
     public event EventHandler<FolderPickerEventArgs>? Pick;
 
     /// <summary>
-    /// Identifies the <seealso cref="AllowMultiple"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<bool> AllowMultipleProperty =
-        AvaloniaProperty.Register<OpenFolderPickerAction, bool>(nameof(AllowMultiple));
-
-    /// <summary>
     /// Gets or sets an option indicating whether open picker allows users to select multiple folders. This is an avalonia property.
     /// </summary>
-    public bool AllowMultiple
-    {
-        get => GetValue(AllowMultipleProperty);
-        set => SetValue(AllowMultipleProperty, value);
-    }
+    [StyledProperty]
+    public partial bool AllowMultiple { get; set; }
     
     /// <summary>
     /// Initializes a new instance of the <see cref="OpenFolderPickerAction"/> class.

@@ -1,31 +1,33 @@
 // Copyright (c) Wiesław Šoltés. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for details.
+#if UNO
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Input;
+using Xaml.Interactivity;
+#else
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Xaml.Interactivity;
+#endif
 
+#if UNO
+namespace Xaml.Interactions.Custom;
+#else
 namespace Avalonia.Xaml.Interactions.Custom;
+#endif
 
 /// <summary>
 /// Captures the pointer.
 /// </summary>
-public class CapturePointerAction : StyledElementAction
+public partial class CapturePointerAction : StyledElementAction
 {
-    /// <summary>
-    /// Identifies the <seealso cref="TargetControl"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<Control?> TargetControlProperty =
-        AvaloniaProperty.Register<CapturePointerAction, Control?>(nameof(TargetControl));
 
     /// <summary>
     /// Gets or sets the target control. This is an avalonia property.
     /// </summary>
-    [ResolveByName]
-    public Control? TargetControl
-    {
-        get => GetValue(TargetControlProperty);
-        set => SetValue(TargetControlProperty, value);
-    }
+    [StyledProperty(ResolveByName = true)]
+    public partial Control? TargetControl { get; set; }
 
     /// <summary>
     /// Executes the action.
@@ -40,6 +42,16 @@ public class CapturePointerAction : StyledElementAction
             return null;
         }
 
+#if UNO
+        if (pointerEventArgs.OriginalSource is not UIElement inputElement)
+        {
+            return null;
+        }
+
+        var control = TargetControl ?? inputElement;
+
+        control.CapturePointer(pointerEventArgs.Pointer);
+#else
         if (pointerEventArgs.Source is not IInputElement inputElement)
         {
             return null;
@@ -48,6 +60,7 @@ public class CapturePointerAction : StyledElementAction
         var control = TargetControl ?? inputElement;
 
         pointerEventArgs.Pointer.Capture(control);
+#endif
 
         return null;
     }

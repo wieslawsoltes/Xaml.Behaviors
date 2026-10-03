@@ -2,34 +2,33 @@
 // Licensed under the MIT license. See LICENSE file in the project root for details.
 using System;
 using System.Threading.Tasks;
+#if UNO
+using Xaml.Interactivity;
+#else
 using Avalonia.Xaml.Interactivity;
+#endif
 using ReactiveUI;
+using ReactiveUI.Binding.Reactive;
+using ReactiveUI.Reactive;
 
+#if UNO
+namespace Xaml.Interactions.ReactiveUI;
+#else
 namespace Avalonia.Xaml.Interactions.ReactiveUI;
+#endif
 
 /// <summary>
 /// A behavior that registers a handler for a <see cref="Interaction{TInput,TOutput}"/> and executes its actions when the interaction is triggered.
 /// </summary>
-public class InteractionTriggerBehavior<TInput, TOutput> : StyledElementTrigger<Visual>
+public partial class InteractionTriggerBehavior<TInput, TOutput> : StyledElementTrigger<Visual>
 {
     private IDisposable? _disposable;
 
     /// <summary>
-    /// Identifies the <see cref="Interaction"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<Interaction<TInput, TOutput>?> InteractionProperty =
-#pragma warning disable AVP1002
-        AvaloniaProperty.Register<InteractionTriggerBehavior<TInput, TOutput>, Interaction<TInput, TOutput>?>(nameof(Interaction));
-#pragma warning restore AVP1002
-
-    /// <summary>
     /// Gets or sets the interaction to register the handler for. This is an avalonia property.
     /// </summary>
-    public Interaction<TInput, TOutput>? Interaction
-    {
-        get => GetValue(InteractionProperty);
-        set => SetValue(InteractionProperty, value);
-    }
+    [StyledProperty]
+    public partial Interaction<TInput, TOutput>? Interaction { get; set; }
 
     /// <inheritdoc/>
     protected override void OnAttachedToVisualTree()
@@ -43,7 +42,11 @@ public class InteractionTriggerBehavior<TInput, TOutput> : StyledElementTrigger<
 
         _disposable = Interaction.RegisterHandler(context =>
         {
+#if UNO
+            global::Xaml.Interactivity.Interaction.ExecuteActions(AssociatedObject, Actions, context.Input);
+#else
             Avalonia.Xaml.Interactivity.Interaction.ExecuteActions(AssociatedObject, Actions, context.Input);
+#endif
             context.SetOutput(default!);
             return Task.CompletedTask;
         });

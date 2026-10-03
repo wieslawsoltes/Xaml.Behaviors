@@ -1,9 +1,18 @@
 // Copyright (c) Wiesław Šoltés. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for details.
+#if UNO
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Input;
+#else
 using Avalonia.Input;
 using Avalonia.Interactivity;
+#endif
 
+#if UNO
+namespace Xaml.Interactions.Custom;
+#else
 namespace Avalonia.Xaml.Interactions.Custom;
+#endif
 
 /// <summary>
 /// 
@@ -24,15 +33,20 @@ public class TextInputTrigger : RoutedEventTriggerBase<TextInputEventArgs>
     /// <summary>
     /// 
     /// </summary>
+#if UNO
+    public static readonly AvaloniaProperty TextProperty =
+        AvaloniaProperty.Register(nameof(Text), typeof(string), typeof(TextInputTrigger), new PropertyMetadata(null));
+#else
     public static readonly StyledProperty<string?> TextProperty =
-        AvaloniaProperty.Register<KeyDownTrigger, string?>(nameof(Text));
+        AvaloniaProperty.Register<TextInputTrigger, string?>(nameof(Text));
+#endif
 
     /// <summary>
     /// 
     /// </summary>
     public string? Text
     {
-        get => GetValue(TextProperty);
+        get => (string?)GetValue(TextProperty);
         set => SetValue(TextProperty, value);
     }
 

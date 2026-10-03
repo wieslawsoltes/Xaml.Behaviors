@@ -1,45 +1,39 @@
 // Copyright (c) Wiesław Šoltés. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for details.
+#if UNO
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Xaml.Interactivity;
+using Microsoft.UI.Xaml.Media.Imaging;
+#else
 using Avalonia.Controls;
+using Avalonia.Media.Imaging;
 using Avalonia.Xaml.Interactivity;
+#endif
 
+#if UNO
+namespace Xaml.Interactions.Custom;
+#else
 namespace Avalonia.Xaml.Interactions.Custom;
+#endif
 
 /// <summary>
 /// Invokes an <see cref="IWriteableBitmapRenderer"/> to render into a bitmap.
 /// </summary>
-public class WriteableBitmapRenderAction : StyledElementAction
+public partial class WriteableBitmapRenderAction : StyledElementAction
 {
-    /// <summary>
-    /// Identifies the <see cref="Renderer"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<IWriteableBitmapRenderer?> RendererProperty =
-        AvaloniaProperty.Register<WriteableBitmapRenderAction, IWriteableBitmapRenderer?>(nameof(Renderer));
-
-    /// <summary>
-    /// Identifies the <see cref="Bitmap"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<Media.Imaging.WriteableBitmap?> BitmapProperty =
-        AvaloniaProperty.Register<WriteableBitmapRenderAction, Media.Imaging.WriteableBitmap?>(nameof(Bitmap));
 
     /// <summary>
     /// Gets or sets the renderer used when executing the action. This is an avalonia property.
     /// </summary>
-    public IWriteableBitmapRenderer? Renderer
-    {
-        get => GetValue(RendererProperty);
-        set => SetValue(RendererProperty, value);
-    }
+    [StyledProperty]
+    public partial IWriteableBitmapRenderer? Renderer { get; set; }
 
     /// <summary>
     /// Gets or sets the target bitmap. This is an avalonia property.
     /// </summary>
-    [ResolveByName]
-    public Media.Imaging.WriteableBitmap? Bitmap
-    {
-        get => GetValue(BitmapProperty);
-        set => SetValue(BitmapProperty, value);
-    }
+    [StyledProperty(ResolveByName = true)]
+    public partial WriteableBitmap? Bitmap { get; set; }
 
     /// <inheritdoc />
     public override object Execute(object? sender, object? parameter)

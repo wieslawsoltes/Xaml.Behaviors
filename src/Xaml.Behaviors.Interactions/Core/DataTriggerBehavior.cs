@@ -3,16 +3,25 @@
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Diagnostics.CodeAnalysis;
+#if UNO
+using Microsoft.UI.Dispatching;
+using Xaml.Interactivity;
+#else
 using Avalonia.Threading;
 using Avalonia.Xaml.Interactivity;
+#endif
 
+#if UNO
+namespace Xaml.Interactions.Core;
+#else
 namespace Avalonia.Xaml.Interactions.Core;
+#endif
 
 /// <summary>
 /// A behavior that performs actions when the bound data meets a specified condition.
 /// </summary>
 [RequiresUnreferencedCode("This functionality is not compatible with trimming.")]
-public class DataTriggerBehavior : StyledElementTrigger
+public partial class DataTriggerBehavior : StyledElementTrigger
 {
     private bool _isConditionMet;
     private bool _hasConditionState;
@@ -20,65 +29,29 @@ public class DataTriggerBehavior : StyledElementTrigger
     private ActionCollection? _subscribedActions;
 
     /// <summary>
-    /// Identifies the <seealso cref="Binding"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<object?> BindingProperty =
-        AvaloniaProperty.Register<DataTriggerBehavior, object?>(nameof(Binding));
-
-    /// <summary>
-    /// Identifies the <seealso cref="ComparisonCondition"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<ComparisonConditionType> ComparisonConditionProperty =
-        AvaloniaProperty.Register<DataTriggerBehavior, ComparisonConditionType>(nameof(ComparisonCondition));
-
-    /// <summary>
-    /// Identifies the <seealso cref="Value"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<object?> ValueProperty =
-        AvaloniaProperty.Register<DataTriggerBehavior, object?>(nameof(Value));
-
-    /// <summary>
-    /// Identifies the <seealso cref="RevertOnFalse"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<bool> RevertOnFalseProperty =
-        AvaloniaProperty.Register<DataTriggerBehavior, bool>(nameof(RevertOnFalse), defaultValue: false);
-
-    /// <summary>
     /// Gets or sets the bound object that the <see cref="DataTriggerBehavior"/> will listen to. This is an avalonia property.
     /// </summary>
-    public object? Binding
-    {
-        get => GetValue(BindingProperty);
-        set => SetValue(BindingProperty, value);
-    }
+    [StyledProperty]
+    public partial object? Binding { get; set; }
 
     /// <summary>
     /// Gets or sets the type of comparison to be performed between <see cref="DataTriggerBehavior.Binding"/> and <see cref="DataTriggerBehavior.Value"/>. This is an avalonia property.
     /// </summary>
-    public ComparisonConditionType ComparisonCondition
-    {
-        get => GetValue(ComparisonConditionProperty);
-        set => SetValue(ComparisonConditionProperty, value);
-    }
+    [StyledProperty]
+    public partial ComparisonConditionType ComparisonCondition { get; set; }
 
     /// <summary>
     /// Gets or sets the value to be compared with the value of <see cref="DataTriggerBehavior.Binding"/>. This is an avalonia property.
     /// </summary>
-    public object? Value
-    {
-        get => GetValue(ValueProperty);
-        set => SetValue(ValueProperty, value);
-    }
+    [StyledProperty]
+    public partial object? Value { get; set; }
 
     /// <summary>
     /// Gets or sets a value indicating whether reversible actions should be reverted when the condition becomes false.
     /// When false, behavior matches legacy semantics and only executes actions when the condition is true.
     /// </summary>
-    public bool RevertOnFalse
-    {
-        get => GetValue(RevertOnFalseProperty);
-        set => SetValue(RevertOnFalseProperty, value);
-    }
+    [StyledProperty(DefaultValue = false)]
+    public partial bool RevertOnFalse { get; set; }
 
     /// <inheritdoc />
     protected override void OnPropertyChanged(AvaloniaPropertyChangedEventArgs change)
@@ -168,14 +141,10 @@ public class DataTriggerBehavior : StyledElementTrigger
 
     private void OnValueChanged(AvaloniaPropertyChangedEventArgs args)
     {
-        if (args.Sender is not DataTriggerBehavior behavior)
-        {
-            return;
-        }
-
+        // Property changes of this behavior are always raised on this instance.
         Dispatcher.UIThread.Post(() =>
         {
-            behavior.Execute(parameter: args);
+            Execute(parameter: args);
         });
     }
 
@@ -185,6 +154,15 @@ public class DataTriggerBehavior : StyledElementTrigger
         {
             return;
         }
+
+#if UNO
+        // The bindings of the behavior resolve through the data context inherited when the associated object enters
+        // the tree: evaluate from the initialized event (raised when it is loaded), not from changes queued before.
+        if (!IsInitializedNotified)
+        {
+            return;
+        }
+#endif
 
         if (!IsEnabled)
         {

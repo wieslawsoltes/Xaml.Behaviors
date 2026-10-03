@@ -1,0 +1,60 @@
+<compat:HeadlessTestWindow x:Class="Xaml.Interactions.UnitTests.Core.DataTriggerBehavior004"
+                           xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                           xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                           xmlns:compat="using:Xaml.Behaviors.Uno.TestCompat"
+                           xmlns:i="using:Xaml.Interactivity"
+                           xmlns:ic="using:Xaml.Interactions.Core"
+                           xmlns:local="using:Xaml.Interactions.UnitTests.Core"
+                           Title="DataTriggerBehavior004">
+  <compat:HeadlessTestWindow.DataContext>
+    <local:DataTriggerBehavior004BindingSource TestProperty="Initial value" />
+  </compat:HeadlessTestWindow.DataContext>
+
+  <StackPanel>
+    <TextBlock x:Name="TargetTextBlock" x:FieldModifier="internal"
+               Text="Red">
+      <i:Interaction.Behaviors>
+        <ic:DataTriggerBehavior Binding="{x:Bind TargetCheckBox.IsChecked, Mode=OneWay}"
+                                RevertOnFalse="True"
+                                ComparisonCondition="Equal"
+                                Value="True">
+          <ic:ChangePropertyAction PropertyName="Text"
+                                   Value="Blue" />
+          <ic:ChangePropertyAction PropertyName="Text"
+                                   Value="Green" />
+        </ic:DataTriggerBehavior>
+      </i:Interaction.Behaviors>
+    </TextBlock>
+    <CheckBox x:Name="TargetCheckBox" x:FieldModifier="internal"
+              Content="Check"
+              IsChecked="False" />
+
+    <TextBlock x:Name="NullTargetTextBlock" x:FieldModifier="internal" Text="Not empty">
+      <i:Interaction.Behaviors>
+        <ic:DataTriggerBehavior Binding="{Binding TestProperty}"
+                                ComparisonCondition="Equal"
+                                Value="{x:Null}">
+          <ic:ChangePropertyAction PropertyName="Text" Value="Empty" />
+        </ic:DataTriggerBehavior>
+      </i:Interaction.Behaviors>
+    </TextBlock>
+
+    <TextBlock x:Name="UnconfiguredTextBlock" x:FieldModifier="internal" Text="Unchanged">
+      <i:Interaction.Behaviors>
+        <ic:DataTriggerBehavior ComparisonCondition="Equal" Value="{x:Null}">
+          <ic:ChangePropertyAction PropertyName="Text" Value="Incorrectly executed" />
+        </ic:DataTriggerBehavior>
+      </i:Interaction.Behaviors>
+    </TextBlock>
+
+    <TextBlock x:Name="RelationalTextBlock" x:FieldModifier="internal" Text="Unchanged">
+      <i:Interaction.Behaviors>
+        <ic:DataTriggerBehavior Binding="{Binding TestProperty}"
+                                ComparisonCondition="GreaterThan"
+                                Value="z">
+          <ic:ChangePropertyAction PropertyName="Text" Value="Incorrectly executed" />
+        </ic:DataTriggerBehavior>
+      </i:Interaction.Behaviors>
+    </TextBlock>
+  </StackPanel>
+</compat:HeadlessTestWindow>

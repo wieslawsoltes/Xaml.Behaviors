@@ -1,6 +1,11 @@
 using System;
 using BehaviorsTestApplication.Views.Pages;
 using ReactiveUI;
+using ReactiveUI.Reactive;
+#if UNO
+// ReactiveUI 25 (ReactiveUI.Uno): IViewFor<T> lives in ReactiveUI.Binding.
+using ReactiveUI.Binding.Reactive;
+#endif
 using Splat;
 
 namespace BehaviorsTestApplication.ViewModels;

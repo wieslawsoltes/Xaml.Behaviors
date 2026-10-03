@@ -1,10 +1,20 @@
 // Copyright (c) Wiesław Šoltés. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for details.
+#if UNO
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Input;
+using Xaml.Interactivity;
+#else
 using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Xaml.Interactivity;
+#endif
 
+#if UNO
+namespace Xaml.Interactions.Custom;
+#else
 namespace Avalonia.Xaml.Interactions.Custom;
+#endif
 
 /// <summary>
 /// A behavior that allows to show control on tapped event.
@@ -17,8 +27,17 @@ public class ShowOnTappedBehavior : ShowBehaviorBase
     /// <returns>A disposable that removes the event handler.</returns>
     protected override System.IDisposable OnAttachedToVisualTreeOverride()
     {
+#if UNO
+        if (AssociatedObject is not { } element)
+        {
+            return DisposableAction.Empty;
+        }
+
+        element.AddHandler(InputElement.TappedEvent, AssociatedObject_Tapped, EventRoutingStrategy);
+        return DisposableAction.Create(() => element.RemoveRoutedEventHandler(InputElement.TappedEvent, AssociatedObject_Tapped));
+#else
         var dispose = AssociatedObject?
-            .AddDisposableHandler(
+            .AddDisposableRoutedEventHandler(
                 InputElement.TappedEvent,
                 AssociatedObject_Tapped, 
                 EventRoutingStrategy);
@@ -29,6 +48,7 @@ public class ShowOnTappedBehavior : ShowBehaviorBase
         }
         
         return DisposableAction.Empty;
+#endif
     }
 
     private void AssociatedObject_Tapped(object? sender, RoutedEventArgs e)

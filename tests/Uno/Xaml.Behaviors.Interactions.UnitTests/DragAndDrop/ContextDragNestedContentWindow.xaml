@@ -1,0 +1,28 @@
+<compat:HeadlessTestWindow x:Class="Xaml.Interactions.UnitTests.DragAndDrop.ContextDragNestedContentWindow"
+                           xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                           xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                           xmlns:compat="using:Xaml.Behaviors.Uno.TestCompat"
+                           xmlns:i="using:Xaml.Interactivity"
+                           xmlns:local="using:Xaml.Interactions.UnitTests.DragAndDrop">
+  <Border x:Name="DragSource" x:FieldModifier="internal" Width="200" Height="60" Background="Gray" DataContext="Outer"
+          HorizontalAlignment="Left" VerticalAlignment="Top">
+    <i:Interaction.Behaviors>
+      <local:TestContextDragBehavior x:Name="SourceBehavior" x:FieldModifier="internal" HorizontalDragThreshold="0" VerticalDragThreshold="0" />
+    </i:Interaction.Behaviors>
+    <StackPanel Orientation="Horizontal">
+      <!-- The template content gets the content ("Inner") as its data context. -->
+      <ContentControl x:Name="TemplatedContent" x:FieldModifier="internal" Content="Inner" Width="60" Height="40">
+        <ContentControl.ContentTemplate>
+          <DataTemplate>
+            <Border Width="60" Height="40" Background="Transparent" />
+          </DataTemplate>
+        </ContentControl.ContentTemplate>
+      </ContentControl>
+      <Border x:Name="NestedSource" x:FieldModifier="internal" Width="60" Height="40" Background="Blue">
+        <i:Interaction.Behaviors>
+          <local:TestContextDragBehavior x:Name="NestedBehavior" x:FieldModifier="internal" HorizontalDragThreshold="0" VerticalDragThreshold="0" />
+        </i:Interaction.Behaviors>
+      </Border>
+    </StackPanel>
+  </Border>
+</compat:HeadlessTestWindow>

@@ -1,11 +1,21 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+#if UNO
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Dispatching;
+#else
 using Avalonia.Controls;
 using Avalonia.Headless.XUnit;
 using Avalonia.Threading;
+#endif
 using Xunit;
 
+#if UNO
+namespace Xaml.Interactivity.UnitTests;
+#else
 namespace Avalonia.Xaml.Interactivity.UnitTests;
+#endif
 
 public class InteractionTest
 {
@@ -37,7 +47,12 @@ public class InteractionTest
         }
     }
 
+#if UNO
+    // WinUI has no TopLevel: the test window (the root of the shown content) plays its role.
+    private sealed class TopLevelLoadedTrigger : StyledElementTrigger<Window>
+#else
     private sealed class TopLevelLoadedTrigger : StyledElementTrigger<TopLevel>
+#endif
     {
         public int InitializedCount { get; private set; }
         public int LogicalAttachCount { get; private set; }
@@ -264,7 +279,11 @@ public class InteractionTest
     private sealed class RecordingTopLevelPhaseTrigger(
         string name,
         List<string> eventOrder,
+#if UNO
+        AvaloniaObject? siblingToAdd = null) : StyledElementTrigger<Window>
+#else
         AvaloniaObject? siblingToAdd = null) : StyledElementTrigger<TopLevel>
+#endif
     {
         private bool _addSiblingOnNextVisual;
 
@@ -300,7 +319,12 @@ public class InteractionTest
         Assert.Equal(1, trigger.LogicalAttachCount);
         Assert.Equal(1, trigger.VisualAttachCount);
         Assert.Equal(1, trigger.LoadedCount);
+#if UNO
+        // WinUI has no logical tree: the behavior joins the tree of its associated object.
+        Assert.Same(button, trigger.AssociatedObject);
+#else
         Assert.Same(button, trigger.Parent);
+#endif
     }
 
     [AvaloniaFact]
@@ -415,7 +439,12 @@ public class InteractionTest
         var behavior = new TestBehavior();
         var collection = new BehaviorCollection { behavior };
         var button = new Button();
+#if WINUI
+        // WinUI Panel cannot be created directly (Uno Platform and Avalonia allow it).
+        var panel = new Grid { Children = { button } };
+#else
         var panel = new Panel { Children = { button } };
+#endif
         var window = new Window { Content = panel };
         Interaction.SetBehaviors(button, collection);
 
@@ -457,6 +486,8 @@ public class InteractionTest
         Assert.Same(button, newBehavior.AssociatedObject);
     }
 
+#if !UNO
+    // WinUI has no TopLevel: the deferred detach of top level behaviors on close is Avalonia specific.
     [AvaloniaFact]
     public void SetBehaviors_TopLevelClose_DefersThenDetachesCollection()
     {
@@ -477,6 +508,7 @@ public class InteractionTest
         Assert.Null(behavior.AssociatedObject);
         Assert.Equal(1, behavior.DetachCount);
     }
+#endif
 
     [AvaloniaFact]
     public void ExecuteActions_NullParameters_ReturnsEmptyEnumerable()
@@ -731,6 +763,8 @@ public class InteractionTest
         window.Close();
     }
 
+#if !UNO
+    // WinUI has no AttachedToVisualTree event (the Loaded handler variant is shared).
     [AvaloniaFact]
     public void EarlierVisualHandler_Replays_Addition_After_Existing_Behaviors()
     {
@@ -751,7 +785,10 @@ public class InteractionTest
         Assert.Contains(added, behaviors);
         window.Close();
     }
+#endif
 
+#if !UNO
+    // WinUI has no Initialized event (the Loaded handler variant is shared).
     [AvaloniaFact]
     public void EarlierInitializedHandler_Replays_Addition_After_Existing_Behaviors()
     {
@@ -772,6 +809,7 @@ public class InteractionTest
         Assert.Contains(added, behaviors);
         window.Close();
     }
+#endif
 
     [AvaloniaFact]
     public void TopLevelOpened_Replays_Visual_Addition_After_Existing_Logical_Phase()
@@ -843,6 +881,8 @@ public class InteractionTest
         window.Close();
     }
 
+#if !UNO
+    // WinUI has no AttachedToVisualTree event (the Loaded handler variant is shared).
     [AvaloniaFact]
     public void AddBehaviorFromEarlierVisualAttachHandler_NotifiesLifecycleOnce()
     {
@@ -859,7 +899,10 @@ public class InteractionTest
         AssertCurrentLifecycle(trigger, button);
         window.Close();
     }
+#endif
 
+#if !UNO
+    // WinUI has no Initialized event (the Loaded handler variant is shared).
     [AvaloniaFact]
     public void AddBehaviorFromEarlierInitializedHandler_NotifiesLifecycleOnce()
     {
@@ -876,6 +919,7 @@ public class InteractionTest
         AssertCurrentLifecycle(trigger, button);
         window.Close();
     }
+#endif
 
     [AvaloniaFact]
     public void AddBehaviorAfterShow_AllowsBehaviorToRemoveItselfDuringLoaded()
@@ -951,7 +995,11 @@ public class InteractionTest
         Assert.Equal(1, trigger.LogicalAttachCount);
         Assert.Equal(1, trigger.VisualAttachCount);
         Assert.Equal(1, trigger.LoadedCount);
+#if UNO
+        Assert.Same(window, trigger.AssociatedObject);
+#else
         Assert.Same(window, trigger.Parent);
+#endif
 
         window.Close();
     }

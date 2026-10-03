@@ -1,0 +1,107 @@
+<UserControl x:Class="BehaviorsTestApplication.Views.Pages.WriteableBitmapView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:i="using:Xaml.Interactivity"
+             xmlns:ic="using:Xaml.Interactions.Core"
+             xmlns:icustom="using:Xaml.Interactions.Custom"
+             xmlns:renderers="using:BehaviorsTestApplication.Renderers"
+             mc:Ignorable="d" d:DesignWidth="700" d:DesignHeight="600">
+  <StackPanel Spacing="16" Margin="10">
+    <TextBlock Text="WriteableBitmap behaviors render custom content into bitmaps. The samples below show animated, manual, trigger-based, and timer-based scenarios." TextWrapping="Wrap" />
+
+    <StackPanel Spacing="10">
+      <TextBlock Text="Animated" />
+      <Image Width="256" Height="256">
+        <i:Interaction.Behaviors>
+          <icustom:WriteableBitmapRenderBehavior x:Name="AnimatedBehavior">
+            <icustom:WriteableBitmapRenderBehavior.Renderer>
+              <renderers:SampleWriteableBitmapRenderer />
+            </icustom:WriteableBitmapRenderBehavior.Renderer>
+          </icustom:WriteableBitmapRenderBehavior>
+        </i:Interaction.Behaviors>
+      </Image>
+    </StackPanel>
+
+    <StackPanel Spacing="10">
+      <TextBlock Text="Manual render action" />
+      <Image Width="256" Height="256">
+        <i:Interaction.Behaviors>
+          <icustom:WriteableBitmapBehavior x:Name="StaticWriteableBehavior">
+            <icustom:WriteableBitmapBehavior.Renderer>
+              <renderers:SampleWriteableBitmapRenderer />
+            </icustom:WriteableBitmapBehavior.Renderer>
+          </icustom:WriteableBitmapBehavior>
+        </i:Interaction.Behaviors>
+      </Image>
+      <Button Content="Render Once">
+        <i:Interaction.Behaviors>
+          <ic:EventTriggerBehavior EventName="Click">
+            <icustom:WriteableBitmapRenderAction Bitmap="{x:Bind StaticWriteableBehavior.Bitmap, Mode=OneWay}">
+              <icustom:WriteableBitmapRenderAction.Renderer>
+                <renderers:SampleWriteableBitmapRenderer />
+              </icustom:WriteableBitmapRenderAction.Renderer>
+            </icustom:WriteableBitmapRenderAction>
+            <icustom:SetViewModelPropertyAction PropertyName="WriteableBitmapStatusMessage"
+                                                Value="Static bitmap rendered via WriteableBitmapRenderAction." />
+          </ic:EventTriggerBehavior>
+        </i:Interaction.Behaviors>
+      </Button>
+      <TextBlock Text="{x:Bind ViewModel.WriteableBitmapStatusMessage, Mode=OneWay}" FontSize="12" />
+    </StackPanel>
+
+    <StackPanel Spacing="10">
+      <TextBlock Text="Trigger-driven rendering" />
+      <!-- Avalonia: ToggleSwitch Content/IsChecked (WinUI: Header/IsOn). -->
+      <ToggleSwitch Header="Enable timer"
+                    IsOn="{x:Bind ViewModel.IsWriteableBitmapTimerEnabled, Mode=TwoWay}" />
+      <StackPanel Orientation="Horizontal" Spacing="8" VerticalAlignment="Center">
+        <TextBlock Text="Interval (ms)" VerticalAlignment="Center" />
+        <!-- Avalonia: NumericUpDown with Increment="50" (WinUI: NumberBox with SmallChange="50"). -->
+        <NumberBox Width="100"
+                   Minimum="50"
+                   Maximum="2000"
+                   SmallChange="50"
+                   SpinButtonPlacementMode="Compact"
+                   Value="{x:Bind ViewModel.WriteableBitmapTimerInterval, Mode=TwoWay}" />
+      </StackPanel>
+      <Image Width="256" Height="256">
+        <i:Interaction.Behaviors>
+          <icustom:WriteableBitmapBehavior x:Name="TriggerWriteableBehavior">
+            <icustom:WriteableBitmapBehavior.Renderer>
+              <renderers:SampleWriteableBitmapRenderer />
+            </icustom:WriteableBitmapBehavior.Renderer>
+          </icustom:WriteableBitmapBehavior>
+          <icustom:WriteableBitmapTrigger x:Name="ManualWriteableTrigger"
+                                          Bitmap="{x:Bind TriggerWriteableBehavior.Bitmap, Mode=OneWay}">
+            <icustom:WriteableBitmapRenderAction Bitmap="{x:Bind TriggerWriteableBehavior.Bitmap, Mode=OneWay}">
+              <icustom:WriteableBitmapRenderAction.Renderer>
+                <renderers:SampleWriteableBitmapRenderer />
+              </icustom:WriteableBitmapRenderAction.Renderer>
+            </icustom:WriteableBitmapRenderAction>
+            <ic:InvokeCommandAction Command="{x:Bind ViewModel.UpdateManualWriteableBitmapMessageCommand}" />
+          </icustom:WriteableBitmapTrigger>
+          <icustom:WriteableBitmapTimerTrigger Bitmap="{x:Bind TriggerWriteableBehavior.Bitmap, Mode=OneWay}"
+                                               MillisecondsPerTick="{x:Bind ViewModel.WriteableBitmapTimerInterval, Mode=OneWay}"
+                                               IsEnabled="{x:Bind ViewModel.IsWriteableBitmapTimerEnabled, Mode=OneWay}">
+            <icustom:WriteableBitmapRenderAction Bitmap="{x:Bind TriggerWriteableBehavior.Bitmap, Mode=OneWay}">
+              <icustom:WriteableBitmapRenderAction.Renderer>
+                <renderers:SampleWriteableBitmapRenderer />
+              </icustom:WriteableBitmapRenderAction.Renderer>
+            </icustom:WriteableBitmapRenderAction>
+            <ic:InvokeCommandAction Command="{x:Bind ViewModel.UpdateWriteableBitmapTimerMessageCommand}" />
+          </icustom:WriteableBitmapTimerTrigger>
+        </i:Interaction.Behaviors>
+      </Image>
+      <Button Content="Trigger manually">
+        <i:Interaction.Behaviors>
+          <ic:EventTriggerBehavior EventName="Click">
+            <ic:CallMethodAction TargetObject="{x:Bind ManualWriteableTrigger}" MethodName="Trigger" />
+          </ic:EventTriggerBehavior>
+        </i:Interaction.Behaviors>
+      </Button>
+      <TextBlock Text="{x:Bind ViewModel.WriteableBitmapTimerMessage, Mode=OneWay}" FontSize="12" />
+    </StackPanel>
+  </StackPanel>
+</UserControl>

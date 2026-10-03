@@ -1,45 +1,40 @@
 // Copyright (c) Wiesław Šoltés. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for details.
 using System;
+#if UNO
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Xaml.Interactivity;
+using PlatformAnimation = Microsoft.UI.Xaml.Media.Animation.Storyboard;
+#else
 using Avalonia.Controls;
 using Avalonia.Xaml.Interactivity;
+using PlatformAnimation = Avalonia.Animation.Animation;
+#endif
 
+#if UNO
+namespace Xaml.Interactions.Custom;
+#else
 namespace Avalonia.Xaml.Interactions.Custom;
+#endif
 
 /// <summary>
 /// Runs an animation when the associated control is attached to the visual tree.
 /// </summary>
-public class AnimateOnAttachedBehavior : AttachedToVisualTreeBehavior<Control>
+public partial class AnimateOnAttachedBehavior : AttachedToVisualTreeBehavior<Control>
 {
-    /// <summary>
-    /// Identifies the <see cref="Animation"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<Animation.Animation?> AnimationProperty =
-        AvaloniaProperty.Register<AnimateOnAttachedBehavior, Animation.Animation?>(nameof(Animation));
-
-    /// <summary>
-    /// Identifies the <see cref="AnimationBuilder"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<IAnimationBuilder?> AnimationBuilderProperty =
-        AvaloniaProperty.Register<AnimateOnAttachedBehavior, IAnimationBuilder?>(nameof(AnimationBuilder));
 
     /// <summary>
     /// Gets or sets the animation to run.
     /// </summary>
-    public Animation.Animation? Animation
-    {
-        get => GetValue(AnimationProperty);
-        set => SetValue(AnimationProperty, value);
-    }
+    [StyledProperty]
+    public partial PlatformAnimation? Animation { get; set; }
 
     /// <summary>
     /// Gets or sets the animation builder used to create an animation.
     /// </summary>
-    public IAnimationBuilder? AnimationBuilder
-    {
-        get => GetValue(AnimationBuilderProperty);
-        set => SetValue(AnimationBuilderProperty, value);
-    }
+    [StyledProperty]
+    public partial IAnimationBuilder? AnimationBuilder { get; set; }
 
     /// <inheritdoc />
     protected override IDisposable OnAttachedToVisualTreeOverride()

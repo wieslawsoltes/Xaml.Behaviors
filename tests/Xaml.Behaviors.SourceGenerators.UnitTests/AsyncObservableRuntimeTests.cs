@@ -2,12 +2,23 @@ using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+#if UNO
+using Microsoft.UI.Xaml;
+using Xaml.Behaviors.Uno.Headless;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Dispatching;
+#else
 using Avalonia.Controls;
 using Avalonia.Headless.XUnit;
 using Avalonia.Threading;
+#endif
 using Xunit;
 
+#if UNO
+namespace Xaml.Behaviors.SourceGenerators.UnitTests;
+#else
 namespace Avalonia.Xaml.Behaviors.SourceGenerators.UnitTests;
+#endif
 
 public class AsyncObservableRuntimeTests
 {
@@ -440,6 +451,11 @@ public class AsyncObservableRuntimeTests
 
     private static async Task FlushDispatcherAsync()
     {
+#if UNO
+        // Runs the work queued before this call (the test compat InvokeAsync runs inline on the UI thread).
+        await UnoHeadlessSession.Current.WaitForIdleAsync();
+#else
         await Dispatcher.UIThread.InvokeAsync(() => { });
+#endif
     }
 }

@@ -1,29 +1,33 @@
 // Copyright (c) Wiesław Šoltés. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for details.
+#if UNO
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Xaml.Interactivity;
+using PlatformAnimation = Microsoft.UI.Xaml.Media.Animation.Storyboard;
+#else
 using Avalonia.Controls;
 using Avalonia.Xaml.Interactivity;
+using PlatformAnimation = Avalonia.Animation.Animation;
+#endif
 
+#if UNO
+namespace Xaml.Interactions.Custom;
+#else
 namespace Avalonia.Xaml.Interactions.Custom;
+#endif
 
 /// <summary>
 /// Starts an <see cref="Animation.Animation"/> on the associated control.
 /// </summary>
-public class StartAnimationAction : AvaloniaObject, IAction
+public partial class StartAnimationAction : AvaloniaObject, IAction
 {
-    /// <summary>
-    /// Gets or sets the animation to run.
-    /// </summary>
-    public static readonly StyledProperty<Animation.Animation?> AnimationProperty =
-        AvaloniaProperty.Register<StartAnimationAction, Animation.Animation?>(nameof(Animation));
 
     /// <summary>
     /// 
     /// </summary>
-    public Animation.Animation? Animation
-    {
-        get => GetValue(AnimationProperty);
-        set => SetValue(AnimationProperty, value);
-    }
+    [StyledProperty]
+    public partial PlatformAnimation? Animation { get; set; }
 
     /// <summary>
     /// Executes the action.

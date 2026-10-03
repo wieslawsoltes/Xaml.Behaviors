@@ -1,0 +1,21 @@
+<Project>
+  <!--
+    Uses Xaml.PropertyGenerator (src/Xaml.PropertyGenerator) from source: generated Avalonia or WinUI/Uno Platform
+    properties for [StyledProperty], [DirectProperty] and [AttachedProperty] declarations shared by both ports.
+    The generator is a build-time only dependency and does not flow to the produced packages.
+  -->
+  <ItemGroup>
+    <ProjectReference Include="$(MSBuildThisFileDirectory)../src/Xaml.PropertyGenerator/Xaml.PropertyGenerator.csproj"
+                      OutputItemType="Analyzer"
+                      ReferenceOutputAssembly="false"
+                      PrivateAssets="all" />
+    <!-- Same layout as the package: the code fixes ship next to the generator (used by dotnet format / IDEs). -->
+    <ProjectReference Include="$(MSBuildThisFileDirectory)../src/Xaml.PropertyGenerator.CodeFixes/Xaml.PropertyGenerator.CodeFixes.csproj"
+                      OutputItemType="Analyzer"
+                      ReferenceOutputAssembly="false"
+                      PrivateAssets="all" />
+    <Using Include="Xaml.PropertyGenerator" />
+  </ItemGroup>
+
+  <Import Project="$(MSBuildThisFileDirectory)../src/Xaml.PropertyGenerator/buildTransitive/Xaml.PropertyGenerator.props" />
+</Project>

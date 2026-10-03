@@ -4,13 +4,25 @@ using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Diagnostics.CodeAnalysis;
+#if UNO
+using System.Collections.ObjectModel;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Data;
+using Xaml.Interactivity;
+#else
 using Avalonia.Collections;
 using Avalonia.Controls;
 using Avalonia.Data;
 using Avalonia.Metadata;
 using Avalonia.Xaml.Interactivity;
+#endif
 
+#if UNO
+namespace Xaml.Interactions.Custom;
+#else
 namespace Avalonia.Xaml.Interactions.Custom;
+#endif
 
 /// <summary>
 /// Base behavior that validates a property value using a set of rules.
@@ -18,68 +30,38 @@ namespace Avalonia.Xaml.Interactions.Custom;
 /// <typeparam name="TControl">Associated control type.</typeparam>
 /// <typeparam name="TValue">Property type.</typeparam>
 [SuppressMessage("AvaloniaProperty", "AVP1002:AvaloniaProperty objects should not be owned by a generic type")]
-public class PropertyValidationBehavior<TControl, TValue> : DisposingBehavior<TControl>
+public partial class PropertyValidationBehavior<TControl, TValue> : DisposingBehavior<TControl>
     where TControl : AvaloniaObject
 {
-    private AvaloniaList<IValidationRule<TValue>>? _rules;
-
-    /// <summary>
-    /// Identifies the <seealso cref="Property"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<AvaloniaProperty?> PropertyProperty =
-        AvaloniaProperty.Register<PropertyValidationBehavior<TControl, TValue>, AvaloniaProperty?>(nameof(Property));
-
-    /// <summary>
-    /// Identifies the <seealso cref="IsValid"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<bool> IsValidProperty =
-        AvaloniaProperty.Register<PropertyValidationBehavior<TControl, TValue>, bool>(nameof(IsValid),
-            defaultValue: true, defaultBindingMode: BindingMode.TwoWay);
-
-    /// <summary>
-    /// Identifies the <seealso cref="Error"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<string?> ErrorProperty =
-        AvaloniaProperty.Register<PropertyValidationBehavior<TControl, TValue>, string?>(nameof(Error));
-
-    /// <summary>
-    /// Identifies the <seealso cref="Rules"/> avalonia property.
-    /// </summary>
-    public static readonly DirectProperty<PropertyValidationBehavior<TControl, TValue>, AvaloniaList<IValidationRule<TValue>>> RulesProperty =
-        AvaloniaProperty.RegisterDirect<PropertyValidationBehavior<TControl, TValue>, AvaloniaList<IValidationRule<TValue>>>(nameof(Rules), b => b.Rules);
 
     /// <summary>
     /// Gets or sets the property to validate. This is an avalonia property.
     /// </summary>
-    public AvaloniaProperty? Property
-    {
-        get => GetValue(PropertyProperty);
-        set => SetValue(PropertyProperty, value);
-    }
+    [StyledProperty]
+    public partial AvaloniaProperty? Property { get; set; }
 
     /// <summary>
     /// Gets validation rules collection. This is an avalonia property.
     /// </summary>
-    [Content]
-    public AvaloniaList<IValidationRule<TValue>> Rules => _rules ??= [];
+#if UNO
+    [DirectProperty(Lazy = true, Content = true)]
+    public partial ObservableCollection<IValidationRule<TValue>> Rules { get; }
+#else
+    [DirectProperty(Lazy = true, Content = true)]
+    public partial AvaloniaList<IValidationRule<TValue>> Rules { get; }
+#endif
 
     /// <summary>
     /// Gets or sets value indicating whether the property value is valid. This is an avalonia property.
     /// </summary>
-    public bool IsValid
-    {
-        get => GetValue(IsValidProperty);
-        set => SetValue(IsValidProperty, value);
-    }
+    [StyledProperty(DefaultValue = true, DefaultBindingMode = PropertyBindingMode.TwoWay)]
+    public partial bool IsValid { get; set; }
 
     /// <summary>
     /// Gets or sets the validation error message. This is an avalonia property.
     /// </summary>
-    public string? Error
-    {
-        get => GetValue(ErrorProperty);
-        set => SetValue(ErrorProperty, value);
-    }
+    [StyledProperty]
+    public partial string? Error { get; set; }
 
     /// <inheritdoc />
     protected override IDisposable OnAttachedOverride()
@@ -89,6 +71,12 @@ public class PropertyValidationBehavior<TControl, TValue> : DisposingBehavior<TC
             return DisposableAction.Empty;
         }
 
+#if UNO
+        // WinUI assigns x:Bind values after the behavior is attached: Property is observed (see OnPropertyChanged).
+        SubscribeToProperty();
+        return DisposableAction.Create(UnsubscribeFromProperty);
+    }
+#else
         if (Property is not AvaloniaProperty<TValue> property)
         {
             return DisposableAction.Empty;
@@ -157,6 +145,7 @@ public class PropertyValidationBehavior<TControl, TValue> : DisposingBehavior<TC
             subscribedRules.Clear();
         });
     }
+#endif
 
     /// <inheritdoc />
     protected override void OnLoaded()
@@ -168,10 +157,17 @@ public class PropertyValidationBehavior<TControl, TValue> : DisposingBehavior<TC
 
     private void Validate()
     {
+#if UNO
+        if (AssociatedObject is not null && Property is { } property)
+        {
+            Validate(AssociatedObject.GetValue(property) is TValue value ? value : default!);
+        }
+#else
         if (AssociatedObject is not null && Property is AvaloniaProperty<TValue> property)
         {
             Validate(AssociatedObject.GetValue<TValue>(property));
         }
+#endif
     }
 
     private void Validate(TValue value)
@@ -194,9 +190,12 @@ public class PropertyValidationBehavior<TControl, TValue> : DisposingBehavior<TC
         IsValid = valid;
         Error = errors.Count > 0 ? string.Join(Environment.NewLine, errors) : null;
 
+#if !UNO
+        // WinUI has no data validation error presentation; the errors are exposed through IsValid and Error.
         if (AssociatedObject is Control control)
         {
             DataValidationErrors.SetErrors(control, errors.Count > 0 ? errors : null);
         }
+#endif
     }
 }

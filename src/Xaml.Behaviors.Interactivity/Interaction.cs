@@ -2,24 +2,52 @@
 // Licensed under the MIT license. See LICENSE file in the project root for details.
 using System;
 using System.Collections.Generic;
+#if UNO
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Dispatching;
+#else
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.LogicalTree;
 using Avalonia.Reactive;
 using Avalonia.Threading;
 using Avalonia.VisualTree;
+#endif
 
+#if UNO
+namespace Xaml.Interactivity;
+#else
 namespace Avalonia.Xaml.Interactivity;
+#endif
 
 /// <summary>
 /// Defines a <see cref="BehaviorCollection"/> attached property and provides a method for executing an <seealso cref="ActionCollection"/>.
 /// </summary>
-public class Interaction
+public partial class Interaction
 {
+#if UNO
+    /// <summary>
+    /// Gets or sets the <see cref="BehaviorCollection"/> associated with a specified object.
+    /// </summary>
+    public static readonly DependencyProperty BehaviorsProperty =
+        DependencyProperty.RegisterAttached(
+            "Behaviors",
+#if WINUI
+            // Native WinUI only gives the behaviors the tree of the element (data context, element names) when the
+            // property has a type it knows: the type of the application or library is opaque to it.
+            typeof(DependencyObjectCollection),
+#else
+            typeof(BehaviorCollection),
+#endif
+            typeof(Interaction),
+            new PropertyMetadata(null, static (d, e) => BehaviorsChanged(d, e.OldValue as BehaviorCollection, e.NewValue as BehaviorCollection)));
+#else
     static Interaction()
     {
         BehaviorsProperty.Changed.Subscribe(
-            new AnonymousObserver<AvaloniaPropertyChangedEventArgs<BehaviorCollection?>>(BehaviorsChanged));
+            new AnonymousObserver<AvaloniaPropertyChangedEventArgs<BehaviorCollection?>>(
+                static e => BehaviorsChanged(e.Sender, e.OldValue.GetValueOrDefault(), e.NewValue.GetValueOrDefault())));
     }
 
     /// <summary>
@@ -27,6 +55,7 @@ public class Interaction
     /// </summary>
     public static readonly AttachedProperty<BehaviorCollection?> BehaviorsProperty =
         AvaloniaProperty.RegisterAttached<Interaction, AvaloniaObject, BehaviorCollection?>("Behaviors");
+#endif
 
     /// <summary>
     /// Gets the <see cref="BehaviorCollection"/> associated with a specified object.
@@ -40,7 +69,7 @@ public class Interaction
             throw new ArgumentNullException(nameof(obj));
         }
 
-        var behaviorCollection = obj.GetValue(BehaviorsProperty);
+        var behaviorCollection = (BehaviorCollection?)obj.GetValue(BehaviorsProperty);
         if (behaviorCollection is null)
         {
             behaviorCollection = [];
@@ -53,7 +82,7 @@ public class Interaction
 
     private static BehaviorCollection? GetExistingBehaviors(AvaloniaObject obj)
     {
-        return obj.GetValue(BehaviorsProperty);
+        return (BehaviorCollection?)obj.GetValue(BehaviorsProperty);
     }
 
     /// <summary>
@@ -103,17 +132,14 @@ public class Interaction
         return results;
     }
 
-    private static void BehaviorsChanged(AvaloniaPropertyChangedEventArgs<BehaviorCollection?> e)
+    private static void BehaviorsChanged(AvaloniaObject sender, BehaviorCollection? oldCollection, BehaviorCollection? newCollection)
     {
-        var oldCollection = e.OldValue.GetValueOrDefault();
-        var newCollection = e.NewValue.GetValueOrDefault();
-
         if (oldCollection == newCollection)
         {
             return;
         }
 
-        var isAttachedToVisualTree = e.Sender is Visual visual && visual.IsAttachedToVisualTree();
+        var isAttachedToVisualTree = IsAttachedToVisualTree(sender);
 
         if (oldCollection is { AssociatedObject: not null })
         {
@@ -127,8 +153,8 @@ public class Interaction
 
         if (newCollection is not null)
         {
-            SetVisualTreeEventHandlersFromChangedEvent(e.Sender);
-            newCollection.Attach(e.Sender);
+            SetVisualTreeEventHandlersFromChangedEvent(sender);
+            newCollection.Attach(sender);
 
             if (isAttachedToVisualTree)
             {
@@ -136,6 +162,113 @@ public class Interaction
             }
         }
     }
+
+#if UNO
+    // WinUI has a single live tree notification pair. Loaded raises the Avalonia initialization, logical tree,
+    // visual tree and loaded phases (in that order) and Unloaded raises them in reverse order.
+
+    private static bool IsAttachedToVisualTree(AvaloniaObject obj) => obj is FrameworkElement element && LoadedState.IsLoaded(element);
+
+    private static void SetVisualTreeEventHandlersFromGetter(AvaloniaObject obj)
+    {
+        if (obj is not FrameworkElement element)
+        {
+            return;
+        }
+
+        // The loaded state is captured before the Loaded handlers are added (see LoadedState).
+        _ = LoadedState.IsLoaded(element);
+
+        element.Loaded -= Element_Loaded_FromChangedEvent;
+        element.Unloaded -= Element_Unloaded_FromChangedEvent;
+        element.Loaded -= Element_Loaded_FromGetter;
+        element.Loaded += Element_Loaded_FromGetter;
+        element.Unloaded -= Element_Unloaded_FromGetter;
+        element.Unloaded += Element_Unloaded_FromGetter;
+        SetStateEventHandlers(element);
+    }
+
+    private static void SetVisualTreeEventHandlersFromChangedEvent(AvaloniaObject obj)
+    {
+        if (obj is not FrameworkElement element)
+        {
+            return;
+        }
+
+        // The loaded state is captured before the Loaded handlers are added (see LoadedState).
+        _ = LoadedState.IsLoaded(element);
+
+        element.Loaded -= Element_Loaded_FromGetter;
+        element.Unloaded -= Element_Unloaded_FromGetter;
+        element.Loaded -= Element_Loaded_FromChangedEvent;
+        element.Loaded += Element_Loaded_FromChangedEvent;
+        element.Unloaded -= Element_Unloaded_FromChangedEvent;
+        element.Unloaded += Element_Unloaded_FromChangedEvent;
+        SetStateEventHandlers(element);
+    }
+
+    private static void SetStateEventHandlers(FrameworkElement element)
+    {
+        element.DataContextChanged -= Element_DataContextChanged;
+        element.DataContextChanged += Element_DataContextChanged;
+        element.ActualThemeChanged -= Element_ActualThemeChanged;
+        element.ActualThemeChanged += Element_ActualThemeChanged;
+    }
+
+    private static void Element_Loaded_FromGetter(object sender, RoutedEventArgs e)
+    {
+        if (sender is not AvaloniaObject d || GetExistingBehaviors(d) is not { } behaviors)
+        {
+            return;
+        }
+
+        behaviors.Attach(d);
+        RaiseAttached(behaviors);
+    }
+
+    private static void Element_Unloaded_FromGetter(object sender, RoutedEventArgs e)
+    {
+        if (sender is not AvaloniaObject d || GetExistingBehaviors(d) is not { } behaviors)
+        {
+            return;
+        }
+
+        RaiseDetached(behaviors);
+        behaviors.Detach();
+    }
+
+    private static void Element_Loaded_FromChangedEvent(object sender, RoutedEventArgs e)
+    {
+        if (sender is AvaloniaObject d && GetExistingBehaviors(d) is { } behaviors)
+        {
+            RaiseAttached(behaviors);
+        }
+    }
+
+    private static void Element_Unloaded_FromChangedEvent(object sender, RoutedEventArgs e)
+    {
+        if (sender is AvaloniaObject d && GetExistingBehaviors(d) is { } behaviors)
+        {
+            RaiseDetached(behaviors);
+        }
+    }
+
+    private static void Element_DataContextChanged(FrameworkElement sender, DataContextChangedEventArgs args)
+        => GetExistingBehaviors(sender)?.DataContextChanged();
+
+    private static void Element_ActualThemeChanged(FrameworkElement sender, object args)
+        => GetExistingBehaviors(sender)?.ActualThemeVariantChanged();
+
+    private static void RaiseAttached(BehaviorCollection behaviors) => behaviors.AttachedToLiveTree();
+
+    private static void RaiseDetached(BehaviorCollection behaviors)
+    {
+        behaviors.Unloaded();
+        behaviors.DetachedFromVisualTree();
+        behaviors.DetachedFromLogicalTree();
+    }
+#else
+    private static bool IsAttachedToVisualTree(AvaloniaObject obj) => obj is Visual visual && visual.IsAttachedToVisualTree();
 
     private static void SetVisualTreeEventHandlersFromGetter(AvaloniaObject obj)
     {
@@ -477,7 +610,7 @@ public class Interaction
             return;
         }
 
-        GetExistingBehaviors(d)?.DataContextChanged();
+        GetExistingBehaviors(d)?.NotifyDataContextChanged();
     }
 
     private static void StyledElement_DataContextChanged_FromChangedEvent(object? sender, EventArgs e)
@@ -487,7 +620,7 @@ public class Interaction
             return;
         }
 
-        GetExistingBehaviors(d)?.DataContextChanged();
+        GetExistingBehaviors(d)?.NotifyDataContextChanged();
     }
 
     // ResourcesChanged
@@ -557,4 +690,5 @@ public class Interaction
 
         GetExistingBehaviors(d)?.Opened();
     }
+#endif
 }

@@ -1,0 +1,70 @@
+<!--
+  Avalonia: TabControl/TabItem (WinUI: TabView/TabViewItem) and Panel ClipToBounds="True" (WinUI has no ClipToBounds;
+  the panels are grids, and the sliding content is not clipped).
+-->
+<UserControl x:Class="BehaviorsTestApplication.Views.Pages.SlidingAnimationView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:icustom="using:Xaml.Interactions.Custom"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450">
+  <TabView IsAddTabButtonVisible="False">
+    <TabViewItem Header="Left" IsClosable="False">
+      <Grid>
+        <Border x:Name="Border1"
+                Background="Transparent"
+                icustom:SlidingAnimation.Left="500">
+          <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="6">
+            <TextBlock Text="TextBlock" />
+            <CheckBox IsChecked="True" Content="CheckBox" />
+            <TextBlock Text="TextBlock" />
+            <TextBox Text="TextBox" />
+          </StackPanel>
+        </Border>
+      </Grid>
+    </TabViewItem>
+    <TabViewItem Header="Right" IsClosable="False">
+      <Grid>
+        <Border x:Name="Border2"
+                Background="Transparent"
+                icustom:SlidingAnimation.Right="500">
+          <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="6">
+            <TextBlock Text="TextBlock" />
+            <CheckBox IsChecked="True" Content="CheckBox" />
+            <TextBlock Text="TextBlock" />
+            <TextBox Text="TextBox" />
+          </StackPanel>
+        </Border>
+      </Grid>
+    </TabViewItem>
+    <TabViewItem Header="Top" IsClosable="False">
+      <Grid>
+        <Border x:Name="Border3"
+                Background="Transparent"
+                icustom:SlidingAnimation.Top="500">
+          <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="6">
+            <TextBlock Text="TextBlock" />
+            <CheckBox IsChecked="True" Content="CheckBox" />
+            <TextBlock Text="TextBlock" />
+            <TextBox Text="TextBox" />
+          </StackPanel>
+        </Border>
+      </Grid>
+    </TabViewItem>
+    <TabViewItem Header="Bottom" IsClosable="False">
+      <Grid>
+        <Border x:Name="Border4"
+                Background="Transparent"
+                icustom:SlidingAnimation.Bottom="500">
+          <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="6">
+            <TextBlock Text="TextBlock" />
+            <CheckBox IsChecked="True" Content="CheckBox" />
+            <TextBlock Text="TextBlock" />
+            <TextBox Text="TextBox" />
+          </StackPanel>
+        </Border>
+      </Grid>
+    </TabViewItem>
+  </TabView>
+</UserControl>

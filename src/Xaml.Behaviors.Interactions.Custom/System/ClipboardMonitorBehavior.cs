@@ -1,53 +1,46 @@
 using System;
 using System.Linq;
+#if UNO
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Input;
+using Microsoft.UI.Dispatching;
+using Xaml.Interactivity;
+using Windows.ApplicationModel.DataTransfer;
+using VisualTreeAttachmentEventArgs = Microsoft.UI.Xaml.RoutedEventArgs;
+#else
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Input.Platform;
 using Avalonia.Threading;
 using Avalonia.Xaml.Interactivity;
+#endif
 
+#if UNO
+namespace Xaml.Interactions.Custom;
+#else
 namespace Avalonia.Xaml.Interactions.Custom;
+#endif
 
 /// <summary>
 /// A behavior that monitors the system clipboard for specific data formats.
 /// </summary>
-public class ClipboardMonitorBehavior : StyledElementBehavior<Control>
+public partial class ClipboardMonitorBehavior : StyledElementBehavior<Control>
 {
     private DispatcherTimer? _timer;
-    private bool _hasData;
-
-    /// <summary>
-    /// Identifies the <see cref="Formats"/> property.
-    /// </summary>
-    public static readonly StyledProperty<string> FormatsProperty =
-        AvaloniaProperty.Register<ClipboardMonitorBehavior, string>(nameof(Formats), "Text");
-
-    /// <summary>
-    /// Identifies the <see cref="HasData"/> property.
-    /// </summary>
-    public static readonly DirectProperty<ClipboardMonitorBehavior, bool> HasDataProperty =
-        AvaloniaProperty.RegisterDirect<ClipboardMonitorBehavior, bool>(
-            nameof(HasData),
-            o => o.HasData);
 
     /// <summary>
     /// Gets or sets the comma-separated list of clipboard formats to listen for (e.g., "Text,FileNames").
     /// </summary>
-    public string Formats
-    {
-        get => GetValue(FormatsProperty);
-        set => SetValue(FormatsProperty, value);
-    }
+    [StyledProperty(DefaultValue = "Text")]
+    public partial string Formats { get; set; }
 
     /// <summary>
     /// Gets a value indicating whether the clipboard contains data in any of the specified <see cref="Formats"/>.
     /// </summary>
-    public bool HasData
-    {
-        get => _hasData;
-        private set => SetAndRaise(HasDataProperty, ref _hasData, value);
-    }
+    [DirectProperty]
+    public partial bool HasData { get; private set; }
 
     /// <summary>
     /// Occurs when the clipboard content availability changes.
@@ -60,11 +53,22 @@ public class ClipboardMonitorBehavior : StyledElementBehavior<Control>
         base.OnAttached();
         if (AssociatedObject != null)
         {
+#if UNO
+            // Read before the Loaded handler is added (see LoadedState).
+            var isLoaded = LoadedState.IsLoaded(AssociatedObject);
+            AssociatedObject.Loaded += AssociatedObject_AttachedToVisualTree;
+            AssociatedObject.Unloaded += AssociatedObject_DetachedFromVisualTree;
+#else
             AssociatedObject.AttachedToVisualTree += AssociatedObject_AttachedToVisualTree;
             AssociatedObject.DetachedFromVisualTree += AssociatedObject_DetachedFromVisualTree;
+#endif
             
             // If already attached to visual tree, start monitoring
+#if UNO
+            if (isLoaded)
+#else
             if (AssociatedObject.IsLoaded)
+#endif
             {
                 StartMonitoring();
             }
@@ -76,8 +80,13 @@ public class ClipboardMonitorBehavior : StyledElementBehavior<Control>
     {
         if (AssociatedObject != null)
         {
+#if UNO
+            AssociatedObject.Loaded -= AssociatedObject_AttachedToVisualTree;
+            AssociatedObject.Unloaded -= AssociatedObject_DetachedFromVisualTree;
+#else
             AssociatedObject.AttachedToVisualTree -= AssociatedObject_AttachedToVisualTree;
             AssociatedObject.DetachedFromVisualTree -= AssociatedObject_DetachedFromVisualTree;
+#endif
         }
         StopMonitoring();
         base.OnDetaching();
@@ -117,7 +126,11 @@ public class ClipboardMonitorBehavior : StyledElementBehavior<Control>
         }
     }
 
+#if UNO
+    private void Timer_Tick(object? sender, object e)
+#else
     private void Timer_Tick(object? sender, EventArgs e)
+#endif
     {
         CheckClipboard();
     }
@@ -126,12 +139,21 @@ public class ClipboardMonitorBehavior : StyledElementBehavior<Control>
     {
         if (AssociatedObject == null) return;
 
+#if UNO
+        // WinUI has a single application clipboard (Windows.ApplicationModel.DataTransfer.Clipboard).
+        if (AssociatedObject.XamlRoot is not null)
+        {
+            try
+            {
+                var formats = await GetDataFormatsAsync();
+#else
         var topLevel = TopLevel.GetTopLevel(AssociatedObject);
         if (topLevel?.Clipboard is { } clipboard)
         {
             try
             {
                 var formats = await ClipboardExtensions.GetDataFormatsAsync(clipboard);
+#endif
                 var requestedFormats = (Formats ?? "").Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
                                                       .Select(f => f.Trim())
                                                       .Where(f => !string.IsNullOrEmpty(f))
@@ -151,7 +173,7 @@ public class ClipboardMonitorBehavior : StyledElementBehavior<Control>
                         normalizedFormats.Any(format => string.Equals(format, NormalizeRequestedFormat(requestedFormat), StringComparison.OrdinalIgnoreCase)));
                 }
 
-                if (_hasData != hasData)
+                if (HasData != hasData)
                 {
                     HasData = hasData;
                     ContentChanged?.Invoke(this, EventArgs.Empty);
@@ -164,6 +186,22 @@ public class ClipboardMonitorBehavior : StyledElementBehavior<Control>
         }
     }
 
+#if UNO
+    private static string ConvertDataFormatIdentifier(string format)
+    {
+        if (StandardDataFormats.Text.Equals(format, StringComparison.Ordinal))
+        {
+            return TextFormat;
+        }
+
+        if (StandardDataFormats.StorageItems.Equals(format, StringComparison.Ordinal))
+        {
+            return FilesFormat;
+        }
+
+        return format;
+    }
+#else
     private static string ConvertDataFormatIdentifier(DataFormat format)
     {
         if (DataFormat.Text.Equals(format))
@@ -178,6 +216,7 @@ public class ClipboardMonitorBehavior : StyledElementBehavior<Control>
 
         return format.Identifier;
     }
+#endif
 
     private static string NormalizeRequestedFormat(string format)
     {

@@ -1,8 +1,10 @@
 ﻿<Project>
   <PropertyGroup>
     <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
-    <AvaloniaVersion>12.0.5</AvaloniaVersion>
+    <!-- The libraries build against the minimum supported Avalonia version; samples/Directory.Build.props raises it. -->
+    <AvaloniaVersion Condition="'$(AvaloniaVersion)' == ''">12.0.5</AvaloniaVersion>
     <AvaloniaDataGridVersion>12.0.1</AvaloniaDataGridVersion>
+    <UnoWinUIVersion>6.7.135</UnoWinUIVersion>
   </PropertyGroup>
   <ItemGroup>
     <PackageVersion Include="Avalonia" Version="$(AvaloniaVersion)" />
@@ -15,19 +17,34 @@
     <PackageVersion Include="Avalonia.Headless.XUnit" Version="$(AvaloniaVersion)" />
     <PackageVersion Include="Avalonia.Markup.Xaml.Loader" Version="$(AvaloniaVersion)" />
     <PackageVersion Include="Avalonia.Controls.DataGrid" Version="$(AvaloniaDataGridVersion)" />
+    <PackageVersion Include="Uno.WinUI.Runtime.Skia" Version="$(UnoWinUIVersion)" />
+    <PackageVersion Include="Uno.CommunityToolkit.WinUI.UI.Controls.DataGrid" Version="7.1.206" />
+    <!-- WinUI 3 port (src/WinUI): the Windows App SDK and the Windows Community Toolkit DataGrid. -->
+    <PackageVersion Include="Microsoft.WindowsAppSDK" Version="2.5.1" />
+    <PackageVersion Include="CommunityToolkit.WinUI.UI.Controls.DataGrid" Version="7.1.2" />
+    <PackageVersion Include="SkiaSharp" Version="3.119.2" />
+    <PackageVersion Include="SkiaSharp.NativeAssets.Linux" Version="3.119.2" />
+    <PackageVersion Include="HarfBuzzSharp" Version="8.3.1.1" />
+    <PackageVersion Include="HarfBuzzSharp.NativeAssets.Linux" Version="8.3.1.1" />
+    <PackageVersion Include="Uno.icu-win" Version="77.3.2" />
+    <PackageVersion Include="Uno.icu-macos" Version="77.3.2" />
     <PackageVersion Include="Microsoft.Build.Locator" Version="1.11.1" />
     <PackageVersion Include="Microsoft.CodeAnalysis.CSharp" Version="5.0.0" />
     <PackageVersion Include="Microsoft.CodeAnalysis.CSharp.Workspaces" Version="5.0.0" />
     <PackageVersion Include="Microsoft.CodeAnalysis.Workspaces.MSBuild" Version="5.0.0" />
     <PackageVersion Include="Microsoft.CodeAnalysis.Analyzers" Version="3.11.0" />
     <PackageVersion Include="NuGet.Packaging" Version="6.12.5" />
-    <PackageVersion Include="ReactiveUI.Avalonia" Version="12.0.3" />
+    <!-- The System.Reactive flavor of ReactiveUI (Unit, IScheduler, System.Reactive operators). -->
+    <PackageVersion Include="ReactiveUI.Avalonia.Reactive" Version="12.1.5" />
+    <PackageVersion Include="ReactiveUI.Uno.Reactive" Version="25.0.0" />
+    <PackageVersion Include="ReactiveUI.WinUI.Reactive" Version="25.1.1" />
     <PackageVersion Include="ReactiveGenerator" Version="0.12.0" />
-    <PackageVersion Include="ReactiveUI" Version="23.2.28" />
+    <PackageVersion Include="ReactiveUI.Reactive" Version="25.1.1" />
     <PackageVersion Include="System.Collections.Immutable" Version="8.0.0" />
     <PackageVersion Include="System.Security.Cryptography.Xml" Version="9.0.18" />
     <PackageVersion Include="xunit.v3.assert" Version="3.2.2" />
     <PackageVersion Include="xunit.v3.core" Version="3.2.2" />
+    <PackageVersion Include="xunit.v3.extensibility.core" Version="3.2.2" />
     <PackageVersion Include="xunit.runner.visualstudio" Version="3.1.5">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>

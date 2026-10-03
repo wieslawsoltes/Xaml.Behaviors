@@ -1,0 +1,11 @@
+<!--
+  Not available: RenderTargetBitmapBehavior and StaticRenderTargetBitmapBehavior (and the sample renderers) draw with an
+  immediate mode DrawingContext into a bitmap; WinUI RenderTargetBitmap only captures elements (see src/Uno/PORTING.md).
+-->
+<UserControl x:Class="BehaviorsTestApplication.Views.Pages.RenderTargetBitmapView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:controls="using:BehaviorsTestApplication.Controls">
+  <controls:NotAvailableOnUnoView Title="RenderTargetBitmap"
+                                  Reason="RenderTargetBitmapBehavior and StaticRenderTargetBitmapBehavior draw into a bitmap with an immediate mode DrawingContext; WinUI has no immediate mode drawing and its RenderTargetBitmap only captures elements." />
+</UserControl>

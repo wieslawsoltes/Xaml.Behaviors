@@ -1,0 +1,52 @@
+<UserControl x:Class="BehaviorsTestApplication.Views.Pages.SwitchCaseActionView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:i="using:Xaml.Interactivity"
+             xmlns:ic="using:Xaml.Interactions.Core"
+             xmlns:icustom="using:Xaml.Interactions.Custom"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450">
+    <ScrollViewer>
+        <StackPanel Spacing="20" Margin="20">
+            <TextBlock Text="SwitchCaseAction" FontWeight="Bold" FontSize="24" />
+            <TextBlock Text="Executes different actions based on a value match." />
+
+            <TextBlock Text="Select a color:" />
+            <ComboBox x:Name="ColorSelector" SelectedIndex="0">
+                <x:String>Red</x:String>
+                <x:String>Green</x:String>
+                <x:String>Blue</x:String>
+                <x:String>Unknown</x:String>
+            </ComboBox>
+
+            <Button Content="Apply Color">
+                <i:Interaction.Behaviors>
+                    <ic:EventTriggerBehavior EventName="Click">
+                        <icustom:SwitchCaseAction Value="{x:Bind ColorSelector.SelectedItem, Mode=OneWay}">
+                            <icustom:Case Value="Red">
+                                <ic:ChangePropertyAction TargetObject="{x:Bind ColorBox}" PropertyName="Background" Value="Red" />
+                                <ic:ChangePropertyAction TargetObject="{x:Bind StatusText}" PropertyName="Text" Value="Selected Red" />
+                            </icustom:Case>
+                            <icustom:Case Value="Green">
+                                <ic:ChangePropertyAction TargetObject="{x:Bind ColorBox}" PropertyName="Background" Value="Green" />
+                                <ic:ChangePropertyAction TargetObject="{x:Bind StatusText}" PropertyName="Text" Value="Selected Green" />
+                            </icustom:Case>
+                            <icustom:Case Value="Blue">
+                                <ic:ChangePropertyAction TargetObject="{x:Bind ColorBox}" PropertyName="Background" Value="Blue" />
+                                <ic:ChangePropertyAction TargetObject="{x:Bind StatusText}" PropertyName="Text" Value="Selected Blue" />
+                            </icustom:Case>
+                            <icustom:SwitchCaseAction.DefaultActions>
+                                <ic:ChangePropertyAction TargetObject="{x:Bind ColorBox}" PropertyName="Background" Value="Gray" />
+                                <ic:ChangePropertyAction TargetObject="{x:Bind StatusText}" PropertyName="Text" Value="Selected Unknown (Default)" />
+                            </icustom:SwitchCaseAction.DefaultActions>
+                        </icustom:SwitchCaseAction>
+                    </ic:EventTriggerBehavior>
+                </i:Interaction.Behaviors>
+            </Button>
+
+            <Border x:Name="ColorBox" Width="100" Height="100" Background="Gray" CornerRadius="5" />
+            <TextBlock x:Name="StatusText" Text="Waiting..." />
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>

@@ -2,16 +2,32 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
+#if UNO
+using Microsoft.UI.Xaml;
+using Xaml.Behaviors.Uno.Headless;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Dispatching;
+using Xaml.Interactivity;
+#else
 using Avalonia.Controls;
 using Avalonia.Headless.XUnit;
 using Avalonia.Threading;
 using Avalonia.Xaml.Interactivity;
+#endif
 using Xaml.Behaviors.SourceGenerators;
 using Xunit;
 
+#if UNO
+[assembly: GenerateTypedChangePropertyAction(typeof(Xaml.Behaviors.SourceGenerators.UnitTests.DispatcherHost), "Message", UseDispatcher = true)]
+#else
 [assembly: GenerateTypedChangePropertyAction(typeof(Avalonia.Xaml.Behaviors.SourceGenerators.UnitTests.DispatcherHost), "Message", UseDispatcher = true)]
+#endif
 
+#if UNO
+namespace Xaml.Behaviors.SourceGenerators.UnitTests;
+#else
 namespace Avalonia.Xaml.Behaviors.SourceGenerators.UnitTests;
+#endif
 
 public partial class DispatcherHost : Control
 {
@@ -283,7 +299,12 @@ public class DispatcherGeneratorRuntimeTests
 
     private static async Task FlushDispatcherAsync()
     {
+#if UNO
+        // Runs the work queued before this call (the test compat InvokeAsync runs inline on the UI thread).
+        await UnoHeadlessSession.Current.WaitForIdleAsync();
+#else
         await Dispatcher.UIThread.InvokeAsync(() => { });
+#endif
     }
 
     private static async Task WaitForExecutionToCompleteAsync(dynamic action)

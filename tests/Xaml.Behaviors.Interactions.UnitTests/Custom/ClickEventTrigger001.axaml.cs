@@ -1,9 +1,20 @@
+#if UNO
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Input;
+using Microsoft.UI.Xaml.Media;
+#else
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.VisualTree;
+#endif
 
+#if UNO
+namespace Xaml.Interactions.UnitTests.Custom;
+#else
 namespace Avalonia.Xaml.Interactions.UnitTests.Custom;
+#endif
 
 public partial class ClickEventTrigger001 : Window
 {
@@ -30,9 +41,43 @@ public partial class ClickEventTrigger001 : Window
         InitializeComponent();
         DataContext = this;
         HandleEventFalseButtonTarget.Click += OnHandleEventFalseButtonNativeClick;
+#if UNO
+        // WinUI click events are CLR events of ButtonBase (no routed Button.ClickEvent): the trigger cannot raise a
+        // click event on other controls, so only the button's own click is observed.
+        HandleEventFalseButtonTarget.Click += OnHandleEventFalseButtonClickEvent;
+#else
         HandleEventFalseButtonTarget.AddHandler(Button.ClickEvent, OnHandleEventFalseButtonClickEvent, RoutingStrategies.Bubble);
         HandleEventFalseTextBoxTarget.AddHandler(Button.ClickEvent, OnHandleEventFalseTextBoxClickEvent, RoutingStrategies.Bubble);
+#endif
 
+#if UNO
+        // The Avalonia routed event helpers of the Uno port (the WinUI instance AddHandler takes three arguments).
+        this.AddHandler(
+            InputElement.PointerPressedEvent,
+            OnHandledEventsTooWindowPointerPressed,
+            RoutingStrategies.Tunnel,
+            handledEventsToo: false);
+        this.AddHandler(
+            InputElement.PointerReleasedEvent,
+            OnHandledEventsTooWindowPointerReleased,
+            RoutingStrategies.Tunnel,
+            handledEventsToo: false);
+        this.AddHandler(
+            InputElement.KeyDownEvent,
+            OnHandledEventsTooWindowKeyDown,
+            RoutingStrategies.Tunnel,
+            handledEventsToo: false);
+        this.AddHandler(
+            InputElement.KeyUpEvent,
+            OnHandledEventsTooWindowKeyUp,
+            RoutingStrategies.Tunnel,
+            handledEventsToo: false);
+        this.AddHandler(
+            InputElement.KeyUpEvent,
+            OnHandleEventFalseWindowKeyUp,
+            RoutingStrategies.Bubble,
+            handledEventsToo: false);
+#else
         AddHandler(
             InputElement.PointerPressedEvent,
             OnHandledEventsTooWindowPointerPressed,
@@ -53,6 +98,7 @@ public partial class ClickEventTrigger001 : Window
             InputElement.KeyUpEvent,
             OnHandleEventFalseWindowKeyUp,
             RoutingStrategies.Bubble);
+#endif
     }
 
     public void OnReleaseClicked() => ReleaseClicks++;

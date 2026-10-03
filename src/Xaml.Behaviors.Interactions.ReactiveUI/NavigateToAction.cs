@@ -1,35 +1,34 @@
 // Copyright (c) Wiesław Šoltés. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for details.
 using System;
+#if UNO
+using Xaml.Interactivity;
+#else
 using Avalonia.Xaml.Interactivity;
+#endif
 using ReactiveUI;
+using ReactiveUI.Reactive;
 using Splat;
 
+#if UNO
+namespace Xaml.Interactions.ReactiveUI;
+#else
 namespace Avalonia.Xaml.Interactions.ReactiveUI;
+#endif
 
 /// <summary>
 /// An action that resolves and navigates to a view model of type <typeparamref name="TViewModel"/>.
 /// </summary>
 /// <typeparam name="TViewModel">The view model type to navigate to.</typeparam>
-public class NavigateToAction<TViewModel> 
+public partial class NavigateToAction<TViewModel> 
     : StyledElementAction where TViewModel : class, IRoutableViewModel
 {
-    /// <summary>
-    /// Identifies the <seealso cref="Router"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<RoutingState?> RouterProperty =
-#pragma warning disable AVP1002
-        AvaloniaProperty.Register<NavigateToAction<TViewModel>, RoutingState?>(nameof(Router));
-#pragma warning restore AVP1002
 
     /// <summary>
     /// Gets or sets the router used for navigation. This is an avalonia property.
     /// </summary>
-    public RoutingState? Router
-    {
-        get => GetValue(RouterProperty);
-        set => SetValue(RouterProperty, value);
-    }
+    [StyledProperty]
+    public partial RoutingState? Router { get; set; }
 
     /// <summary>
     /// Resolves an instance of <typeparamref name="TViewModel"/> from the service locator.

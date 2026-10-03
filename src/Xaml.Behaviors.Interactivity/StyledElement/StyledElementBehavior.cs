@@ -3,28 +3,32 @@
 using System;
 using System.Diagnostics;
 using System.Globalization;
+#if UNO
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Controls.Primitives;
+#else
 using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
 using Avalonia.Reactive;
+#endif
 
+#if UNO
+namespace Xaml.Interactivity;
+#else
 namespace Avalonia.Xaml.Interactivity;
+#endif
 
 /// <summary>
 /// A base class for behaviors, implementing the basic plumbing of <see cref="IBehavior"/>.
 /// </summary>
-public abstract class StyledElementBehavior : StyledElement, IBehavior, IBehaviorEventsHandler
+public abstract partial class StyledElementBehavior : StyledElement, IBehavior, IBehaviorEventsHandler
 {
     private IDisposable? _dataContextDisposable;
     private bool _isAttachedToLogicalTree;
     private bool _isAttachedToVisualTree;
     private bool _isInitializedNotified;
     private bool _isLoaded;
-
-    /// <summary>
-    /// Identifies the <seealso cref="IsEnabled"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<bool> IsEnabledProperty =
-        AvaloniaProperty.Register<StyledElementBehavior, bool>(nameof(IsEnabled), defaultValue: true);
 
     /// <summary>
     /// Gets the <see cref="AvaloniaObject"/> to which the behavior is attached.
@@ -40,11 +44,8 @@ public abstract class StyledElementBehavior : StyledElement, IBehavior, IBehavio
     /// Gets or sets a value indicating whether this instance is enabled.
     /// </summary>
     /// <value><c>true</c> if this instance is enabled; otherwise, <c>false</c>.</value>
-    public bool IsEnabled
-    {
-        get => GetValue(IsEnabledProperty);
-        set => SetValue(IsEnabledProperty, value);
-    }
+    [StyledProperty(DefaultValue = true)]
+    public partial bool IsEnabled { get; set; }
 
     /// <summary>
     /// Attaches the behavior to the specified <see cref="AvaloniaObject"/>.
@@ -83,6 +84,13 @@ public abstract class StyledElementBehavior : StyledElement, IBehavior, IBehavio
     /// </summary>
     public void Detach()
     {
+        // A behavior removed while its associated object stays loaded observes the same teardown as when the
+        // object unloads, so handlers subscribed on attach are released (the handlers are idempotent).
+        IBehaviorEventsHandler lifecycle = this;
+        lifecycle.UnloadedEventHandler();
+        lifecycle.DetachedFromVisualTreeEventHandler();
+        lifecycle.DetachedFromLogicalTreeEventHandler();
+
         OnDetaching();
 
         if (Parent is not null || TemplatedParent is not null)

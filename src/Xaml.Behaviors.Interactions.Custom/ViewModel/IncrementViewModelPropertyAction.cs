@@ -4,45 +4,38 @@ using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Reflection;
+#if UNO
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Xaml.Interactivity;
+#else
 using Avalonia.Controls;
 using Avalonia.Xaml.Interactivity;
+#endif
 
+#if UNO
+namespace Xaml.Interactions.Custom;
+#else
 namespace Avalonia.Xaml.Interactions.Custom;
+#endif
 
 /// <summary>
 /// Increments a numeric view model property when invoked.
 /// </summary>
-public class IncrementViewModelPropertyAction : StyledElementAction
+public partial class IncrementViewModelPropertyAction : StyledElementAction
 {
-    /// <summary>
-    /// Identifies the <see cref="PropertyName"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<string?> PropertyNameProperty =
-        AvaloniaProperty.Register<IncrementViewModelPropertyAction, string?>(nameof(PropertyName));
-
-    /// <summary>
-    /// Identifies the <see cref="Delta"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<double> DeltaProperty =
-        AvaloniaProperty.Register<IncrementViewModelPropertyAction, double>(nameof(Delta), 1);
 
     /// <summary>
     /// Gets or sets the name of the property to change. This is an avalonia property.
     /// </summary>
-    public string? PropertyName
-    {
-        get => GetValue(PropertyNameProperty);
-        set => SetValue(PropertyNameProperty, value);
-    }
+    [StyledProperty]
+    public partial string? PropertyName { get; set; }
 
     /// <summary>
     /// Gets or sets the value to add. This is an avalonia property.
     /// </summary>
-    public double Delta
-    {
-        get => GetValue(DeltaProperty);
-        set => SetValue(DeltaProperty, value);
-    }
+    [StyledProperty(DefaultValue = 1)]
+    public partial double Delta { get; set; }
 
     /// <inheritdoc />
     [UnconditionalSuppressMessage("Trimming", "IL2072", Justification = "Reflection is used to reach view-model members provided by the application.")]

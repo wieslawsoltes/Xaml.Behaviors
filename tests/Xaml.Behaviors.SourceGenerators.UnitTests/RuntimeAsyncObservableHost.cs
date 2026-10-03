@@ -1,11 +1,24 @@
 using System;
 using System.Threading.Tasks;
+#if UNO
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+#else
 using Avalonia.Controls;
+#endif
 using Xaml.Behaviors.SourceGenerators;
 
+#if UNO
+[assembly: GenerateAsyncTrigger(typeof(Xaml.Behaviors.SourceGenerators.UnitTests.AssemblyAsyncHost), "BackgroundTask")]
+#else
 [assembly: GenerateAsyncTrigger(typeof(Avalonia.Xaml.Behaviors.SourceGenerators.UnitTests.AssemblyAsyncHost), "BackgroundTask")]
+#endif
 
+#if UNO
+namespace Xaml.Behaviors.SourceGenerators.UnitTests;
+#else
 namespace Avalonia.Xaml.Behaviors.SourceGenerators.UnitTests;
+#endif
 
 public class RuntimeAsyncObservableHost : Control
 {

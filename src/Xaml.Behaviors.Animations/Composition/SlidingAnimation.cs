@@ -2,10 +2,20 @@
 // Licensed under the MIT license. See LICENSE file in the project root for details.
 using System;
 using System.Numerics;
+#if UNO
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Composition;
+#else
 using Avalonia.Controls;
 using Avalonia.Rendering.Composition;
+#endif
 
+#if UNO
+namespace Xaml.Interactions.Custom;
+#else
 namespace Avalonia.Xaml.Interactions.Custom;
+#endif
 
 /// <summary>
 /// 
@@ -89,4 +99,36 @@ public static class SlidingAnimation
                 new(1.0f, Vector3.Zero)
             });
     }
+
+#if UNO
+    // WinUI XAML takes the type of an attached property from its getter. These attached properties are write-only (the
+    // value starts the animation), so their getters return NaN.
+    /// <summary>
+    /// The getter WinUI XAML requires for the write-only <see cref="SetLeft"/> attached property; always <see cref="double.NaN"/>.
+    /// </summary>
+    /// <param name="element">The element.</param>
+    /// <returns><see cref="double.NaN"/>.</returns>
+    public static double GetLeft(Control element) => double.NaN;
+
+    /// <summary>
+    /// The getter WinUI XAML requires for the write-only <see cref="SetRight"/> attached property; always <see cref="double.NaN"/>.
+    /// </summary>
+    /// <param name="element">The element.</param>
+    /// <returns><see cref="double.NaN"/>.</returns>
+    public static double GetRight(Control element) => double.NaN;
+
+    /// <summary>
+    /// The getter WinUI XAML requires for the write-only <see cref="SetTop"/> attached property; always <see cref="double.NaN"/>.
+    /// </summary>
+    /// <param name="element">The element.</param>
+    /// <returns><see cref="double.NaN"/>.</returns>
+    public static double GetTop(Control element) => double.NaN;
+
+    /// <summary>
+    /// The getter WinUI XAML requires for the write-only <see cref="SetBottom"/> attached property; always <see cref="double.NaN"/>.
+    /// </summary>
+    /// <param name="element">The element.</param>
+    /// <returns><see cref="double.NaN"/>.</returns>
+    public static double GetBottom(Control element) => double.NaN;
+#endif
 }

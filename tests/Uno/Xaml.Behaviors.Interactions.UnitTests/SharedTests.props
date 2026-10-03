@@ -1,0 +1,49 @@
+<Project>
+  <!--
+    Files of tests/Xaml.Behaviors.Interactions.UnitTests that are not compiled for Uno Platform, one block per folder.
+    Pending files are listed under "not ported yet"; files that stay excluded name the reason.
+  -->
+  <PropertyGroup>
+    <UnoSharedTestExcludes></UnoSharedTestExcludes>
+  </PropertyGroup>
+
+  <!-- (root): ported. -->
+
+  <!-- Core: ported. -->
+
+  <!-- Custom. -->
+  <PropertyGroup>
+    <UnoSharedTestExcludes>$(UnoSharedTestExcludes);
+      <!-- Avalonia runtime XAML loader (AvaloniaRuntimeXamlLoader) and XmlnsDefinition resolution; Uno compiles XAML at build time. -->
+      Custom/XmlnsDefinitionRuntimeXamlTests.cs;
+      <!-- Window.WindowClosedEvent is an Avalonia routed event of the top level; WinUI windows raise a CLR Closed event. -->
+      Custom/WindowClosedRoutedEventWindow.axaml.cs;
+      <!--
+        Avalonia top level storage provider (Avalonia.Platform.Storage); the Uno ScreenshotAction tests (fake provider) are in
+        tests/Uno/Xaml.Behaviors.Interactions.Custom.General.UnitTests/ScreenshotActionTests.cs.
+      -->
+      Custom/ScreenshotActionTests.cs;
+    </UnoSharedTestExcludes>
+  </PropertyGroup>
+
+  <!--
+    DragAndDrop: ManagedContextDropBehaviorTests tests the Avalonia managed (in-process) drag and drop
+    (ManagedDragDrop/**: ManagedPayloadDataTransfer, ManagedContextDropBehavior), which is not ported: it builds
+    DragEventArgs and top-level windows, and the WinUI drag is already in-process on Uno Platform (see src/Uno/PORTING.md).
+  -->
+  <PropertyGroup>
+    <UnoSharedTestExcludes>$(UnoSharedTestExcludes);
+      DragAndDrop/ManagedContextDropBehaviorTests.cs;
+    </UnoSharedTestExcludes>
+  </PropertyGroup>
+
+  <!--
+    Events: DragEventTriggerTests raises Avalonia DragEventArgs; WinUI DragEventArgs cannot be created. The Uno
+    counterpart (DragEventTriggerTests in tests/Uno/Xaml.Behaviors.Interactions.DragAndDrop.UnitTests) drives real drags.
+  -->
+  <PropertyGroup>
+    <UnoSharedTestExcludes>$(UnoSharedTestExcludes);
+      Events/DragEventTriggerTests.cs;
+    </UnoSharedTestExcludes>
+  </PropertyGroup>
+</Project>

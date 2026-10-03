@@ -1,7 +1,15 @@
 ﻿// Copyright (c) Wiesław Šoltés. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for details.
 
+#if UNO
+using Microsoft.UI.Xaml;
+#endif
+
+#if UNO
+namespace Xaml.Interactivity;
+#else
 namespace Avalonia.Xaml.Interactivity;
+#endif
 
 /// <summary>
 /// Provides C# 14 extension members that surface <see cref="Interaction.BehaviorsProperty"/> directly on <see cref="AvaloniaObject"/>.
@@ -36,7 +44,11 @@ public static class AvaloniaObjectBehaviorsExtensions
         /// </code>
         /// where <c>i</c> is the behaviors namespace prefix.
         /// </remarks>
+#if UNO
+        public static DependencyProperty BehaviorsProperty => Interaction.BehaviorsProperty;
+#else
         public static AttachedProperty<BehaviorCollection?> BehaviorsProperty => Interaction.BehaviorsProperty;
+#endif
 
         /// <summary>
         /// Delegates to <see cref="Interaction.GetBehaviors(AvaloniaObject)"/>.

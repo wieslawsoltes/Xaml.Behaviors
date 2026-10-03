@@ -1,0 +1,153 @@
+// Copyright (c) Wiesław Šoltés. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for details.
+using System.Threading.Tasks;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Automation.Peers;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Media;
+using Xaml.Behaviors.Uno.Headless;
+using Xaml.Behaviors.Uno.Headless.XUnit;
+using Xaml.Behaviors.Uno.XamlPages;
+using Xaml.Behaviors.Uno.XamlPages.Pages;
+using Xunit;
+
+namespace Xaml.Behaviors.Uno.Xaml.UnitTests;
+
+/// <summary>
+/// Behaviors declared in XAML pages compiled by the Uno XAML generator.
+/// </summary>
+public class XamlPageTests
+{
+    private static UnoHeadlessSession Session => UnoHeadlessSession.Current;
+
+    private static async Task<(BehaviorsPage Page, PagesViewModel ViewModel)> ShowPageAsync()
+    {
+        var viewModel = new PagesViewModel();
+        var page = new BehaviorsPage { DataContext = viewModel };
+        await Session.ShowAsync(page);
+        await Session.WaitForIdleAsync();
+        return (page, viewModel);
+    }
+
+    private static T Find<T>(FrameworkElement root, string name) where T : class
+        => Assert.IsType<T>(root.FindName(name), exactMatch: false);
+
+    private static void Click(Button button) => new ButtonAutomationPeer(button).Invoke();
+
+    [UnoHeadlessFact]
+    public async Task EventTrigger_Invokes_Bound_Command_With_Parameter()
+    {
+        var (page, viewModel) = await ShowPageAsync();
+
+        Click(Find<Button>(page, "IncrementButton"));
+
+        Assert.Equal(1, viewModel.Count);
+        Assert.Equal(["from-xaml"], viewModel.Parameters);
+    }
+
+    [UnoHeadlessFact]
+    public async Task CallMethodAction_Calls_Method_On_Bound_Target()
+    {
+        var (page, viewModel) = await ShowPageAsync();
+        viewModel.Count = 5;
+
+        Click(Find<Button>(page, "ResetButton"));
+
+        Assert.Equal(0, viewModel.Count);
+    }
+
+    [UnoHeadlessFact]
+    public async Task ChangePropertyAction_Targets_Named_Element()
+    {
+        var (page, _) = await ShowPageAsync();
+
+        Click(Find<Button>(page, "ChangeButton"));
+
+        Assert.Equal(42d, Find<Border>(page, "Target").Width);
+    }
+
+    [UnoHeadlessFact]
+    public async Task ChangeAvaloniaPropertyAction_Converts_Strings_With_A_Property_Type_Declared_In_Xaml()
+    {
+        var (page, _) = await ShowPageAsync();
+
+        Click(Find<Button>(page, "BackgroundButton"));
+
+        var brush = Assert.IsType<SolidColorBrush>(Find<Border>(page, "BackgroundTarget").Background);
+        Assert.Equal(Microsoft.UI.Colors.Black, brush.Color);
+    }
+
+    [UnoHeadlessFact]
+    public async Task DataTrigger_Reacts_To_Bound_Value()
+    {
+        var (page, viewModel) = await ShowPageAsync();
+        var text = Find<TextBlock>(page, "StatusText");
+        Assert.Equal("idle", text.Text);
+
+        viewModel.Count = 2;
+        await Session.WaitForIdleAsync();
+
+        Assert.Equal("many", text.Text);
+    }
+
+    [UnoHeadlessFact]
+    public async Task Style_Behaviors_Template_Creates_Behaviors_Per_Element()
+    {
+        var viewModel = new PagesViewModel();
+        var page = new TemplatePage { DataContext = viewModel };
+        await Session.ShowAsync(page);
+        await Session.WaitForIdleAsync();
+        var first = Find<Button>(page, "First");
+        var second = Find<Button>(page, "Second");
+
+        Click(first);
+        Click(second);
+
+        Assert.Equal(2, viewModel.Count);
+        Assert.Equal(["styled", "styled"], viewModel.Parameters);
+        Assert.NotSame(global::Xaml.Interactivity.Interaction.GetBehaviors(first), global::Xaml.Interactivity.Interaction.GetBehaviors(second));
+    }
+
+    [UnoHeadlessFact]
+    public async Task Events_Trigger_Declared_In_Xaml_Fires()
+    {
+        var (page, viewModel) = await ShowPageAsync();
+
+        Find<TextBox>(page, "FocusBox").Focus(FocusState.Programmatic);
+        await Session.WaitForIdleAsync();
+
+        Assert.Contains("focus", viewModel.Parameters);
+    }
+
+    // Regression test for https://github.com/wieslawsoltes/Xaml.Behaviors/issues/378: the data context is assigned
+    // before the page loads, while x:Bind values are applied when it loads.
+    [UnoHeadlessFact]
+    public async Task DataContext_Change_Before_Load_Reaches_Behavior_With_XBind_Values()
+    {
+        var page = new DataContextPage { DataContext = new PagesViewModel() };
+        await Session.ShowAsync(page);
+        await Session.WaitForIdleAsync();
+        var behavior = Assert.IsType<DataContextMessageBehavior>(
+            Assert.Single(global::Xaml.Interactivity.Interaction.GetBehaviors(Find<Border>(page, "Target"))));
+
+        Assert.Equal("DataContext Changed", Find<TextBlock>(page, "MessageText").Text);
+        Assert.Equal(1, behavior.Notifications);
+
+        page.DataContext = new PagesViewModel();
+        await Session.WaitForIdleAsync();
+
+        Assert.Equal(2, behavior.Notifications);
+    }
+
+    // Regression test for https://github.com/wieslawsoltes/Xaml.Behaviors/issues/384: the repeater prepares its initial
+    // elements in the first layout pass, before Loaded.
+    [UnoHeadlessFact]
+    public async Task ItemsRepeater_Container_Trigger_Observes_The_Initial_Elements()
+    {
+        var page = new ItemsRepeaterPage();
+        await Session.ShowAsync(page);
+        await Session.WaitForIdleAsync();
+
+        Assert.Equal("prepared", Find<TextBlock>(page, "PreparedText").Text);
+    }
+}

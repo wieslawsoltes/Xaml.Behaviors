@@ -1,60 +1,43 @@
 // Copyright (c) Wiesław Šoltés. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for details.
+#if UNO
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Xaml.Interactivity;
+#else
 using Avalonia.Controls;
 using Avalonia.Xaml.Interactivity;
+#endif
 
+#if UNO
+namespace Xaml.Interactions.Custom;
+#else
 namespace Avalonia.Xaml.Interactions.Custom;
+#endif
 
 /// <summary>
 /// Scrolls a <see cref="ScrollViewer"/> to the specified offsets when executed.
 /// </summary>
-public class ScrollToOffsetAction : StyledElementAction
+public partial class ScrollToOffsetAction : StyledElementAction
 {
-    /// <summary>
-    /// Identifies the <see cref="ScrollViewer"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<ScrollViewer?> ScrollViewerProperty =
-        AvaloniaProperty.Register<ScrollToOffsetAction, ScrollViewer?>(nameof(ScrollViewer));
-
-    /// <summary>
-    /// Identifies the <see cref="HorizontalOffset"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<double?> HorizontalOffsetProperty =
-        AvaloniaProperty.Register<ScrollToOffsetAction, double?>(nameof(HorizontalOffset));
-
-    /// <summary>
-    /// Identifies the <see cref="VerticalOffset"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<double?> VerticalOffsetProperty =
-        AvaloniaProperty.Register<ScrollToOffsetAction, double?>(nameof(VerticalOffset));
 
     /// <summary>
     /// Gets or sets the <see cref="ScrollViewer"/> instance to scroll. This is an avalonia property.
     /// </summary>
-    [ResolveByName]
-    public ScrollViewer? ScrollViewer
-    {
-        get => GetValue(ScrollViewerProperty);
-        set => SetValue(ScrollViewerProperty, value);
-    }
+    [StyledProperty(ResolveByName = true)]
+    public partial ScrollViewer? ScrollViewer { get; set; }
 
     /// <summary>
     /// Gets or sets the horizontal offset to scroll to. This is an avalonia property.
     /// </summary>
-    public double? HorizontalOffset
-    {
-        get => GetValue(HorizontalOffsetProperty);
-        set => SetValue(HorizontalOffsetProperty, value);
-    }
+    [StyledProperty]
+    public partial double? HorizontalOffset { get; set; }
 
     /// <summary>
     /// Gets or sets the vertical offset to scroll to. This is an avalonia property.
     /// </summary>
-    public double? VerticalOffset
-    {
-        get => GetValue(VerticalOffsetProperty);
-        set => SetValue(VerticalOffsetProperty, value);
-    }
+    [StyledProperty]
+    public partial double? VerticalOffset { get; set; }
 
     /// <inheritdoc />
     public override object Execute(object? sender, object? parameter)
@@ -70,6 +53,10 @@ public class ScrollToOffsetAction : StyledElementAction
             return false;
         }
 
+#if UNO
+        // WinUI scrolls through ChangeView; a null offset keeps the current one.
+        scroller.ChangeView(HorizontalOffset, VerticalOffset, null, disableAnimation: true);
+#else
         var offset = scroller.Offset;
 
         if (HorizontalOffset.HasValue)
@@ -83,6 +70,7 @@ public class ScrollToOffsetAction : StyledElementAction
         }
 
         scroller.Offset = offset;
+#endif
         return true;
     }
 }

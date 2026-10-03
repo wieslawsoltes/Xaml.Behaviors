@@ -1,0 +1,24 @@
+<compat:HeadlessTestWindow x:Class="Xaml.Interactions.UnitTests.DragAndDrop.ContextDragEscapeWindow"
+                           xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                           xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                           xmlns:compat="using:Xaml.Behaviors.Uno.TestCompat"
+                           xmlns:i="using:Xaml.Interactivity"
+                           xmlns:local="using:Xaml.Interactions.UnitTests.DragAndDrop">
+  <StackPanel>
+    <!-- IsTabStop: a WinUI Border only takes the focus (and the Escape key) when it is a tab stop. -->
+    <Border x:Name="TargetBorder" x:FieldModifier="internal" Width="100" Height="100" Background="Gray" IsTabStop="True">
+      <i:Interaction.Behaviors>
+        <!-- A threshold above zero: real pointer input (native WinUI) reports moves of a fraction of a pixel after a press. -->
+        <local:TestContextDragBehavior x:Name="TestBehavior" x:FieldModifier="internal" HorizontalDragThreshold="3" VerticalDragThreshold="3" />
+      </i:Interaction.Behaviors>
+    </Border>
+    <ListBoxItem IsSelected="True">
+      <i:Interaction.Behaviors>
+        <local:TestContextDragBehavior />
+      </i:Interaction.Behaviors>
+      <Border x:Name="SelectedItemContent" x:FieldModifier="internal" Width="100" Height="30" Background="Transparent">
+        <TextBlock Text="Selected item content" />
+      </Border>
+    </ListBoxItem>
+  </StackPanel>
+</compat:HeadlessTestWindow>

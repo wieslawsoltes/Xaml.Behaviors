@@ -1,7 +1,11 @@
 using System.Linq;
 using Xunit;
 
+#if UNO
+namespace Xaml.Behaviors.SourceGenerators.UnitTests;
+#else
 namespace Avalonia.Xaml.Behaviors.SourceGenerators.UnitTests;
+#endif
 
 public class GranularActionGeneratorTests
 {
@@ -48,7 +52,11 @@ namespace TestNamespace
         Assert.Empty(diagnostics);
         var generated = sources.FirstOrDefault(s => s.Contains("class TestMethodAction"));
         Assert.NotNull(generated);
+#if UNO
+        Assert.Contains("PostOnUIThread(() => typedTarget.TestMethod());", generated);
+#else
         Assert.Contains("Dispatcher.UIThread.Post(() => typedTarget.TestMethod());", generated);
+#endif
     }
 
     [Fact]
@@ -252,8 +260,13 @@ namespace TestNamespace
         Assert.Empty(diagnostics);
         var generated = sources.FirstOrDefault(s => s.Contains("class TestMethodAction"));
         Assert.NotNull(generated);
+#if UNO
+        Assert.Contains("DependencyProperty.Register(nameof(P1), typeof(string)", generated);
+        Assert.Contains("DependencyProperty.Register(nameof(P2), typeof(int)", generated);
+#else
         Assert.Contains("public static readonly StyledProperty<string", generated);
         Assert.Contains("public static readonly StyledProperty<int> P2Property", generated);
+#endif
         Assert.Contains("typedTarget.TestMethod(P1, P2)", generated);
     }
 
@@ -277,7 +290,12 @@ namespace TestNamespace
         var generated = sources.FirstOrDefault(s => s.Contains("class TestMethodAction"));
         Assert.NotNull(generated);
         // Should NOT generate properties for sender/parameter
+#if UNO
+        Assert.DoesNotContain("nameof(Sender)", generated);
+        Assert.DoesNotContain("nameof(Parameter)", generated);
+#else
         Assert.DoesNotContain("public static readonly StyledProperty<object>", generated);
+#endif
         Assert.Contains("var p1 = sender is object", generated);
         Assert.Contains("typedTarget.TestMethod(p1, p2)", generated);
     }
@@ -301,8 +319,13 @@ namespace TestNamespace
         Assert.Empty(diagnostics);
         var generated = sources.FirstOrDefault(s => s.Contains("class TestMethodAction"));
         Assert.NotNull(generated);
+#if UNO
+        Assert.Contains("DependencyProperty.Register(nameof(Sender), typeof(object)", generated);
+        Assert.Contains("DependencyProperty.Register(nameof(Value), typeof(int)", generated);
+#else
         Assert.Contains("public static readonly StyledProperty<object", generated);
         Assert.Contains("public static readonly StyledProperty<int> ValueProperty", generated);
+#endif
         Assert.DoesNotContain("sender is object", generated);
         Assert.Contains("typedTarget.TestMethod(Sender, Value)", generated);
     }
@@ -327,7 +350,11 @@ namespace TestNamespace
         Assert.Empty(diagnostics);
         var generated = sources.FirstOrDefault(s => s.Contains("class TestMethodAsyncAction"));
         Assert.NotNull(generated);
+#if UNO
+        Assert.Contains("DependencyProperty.Register(nameof(IsExecuting), typeof(bool)", generated);
+#else
         Assert.Contains("public static readonly StyledProperty<bool> IsExecutingProperty", generated);
+#endif
         Assert.Contains("var t = task;", generated);
         Assert.Contains("TrackTask(t, version);", generated);
         Assert.Contains("IsExecuting = true;", generated);
@@ -376,7 +403,11 @@ namespace TestNamespace
         Assert.Empty(diagnostics);
         var generated = sources.FirstOrDefault(s => s.Contains("class TestMethodAction"));
         Assert.NotNull(generated);
+#if UNO
+        Assert.Contains("DependencyProperty.Register(nameof(MethodParameterTargetObject), typeof(string)", generated);
+#else
         Assert.Contains("public static readonly StyledProperty<string", generated);
+#endif
         Assert.Contains("typedTarget.TestMethod(MethodParameterTargetObject", generated);
     }
 
@@ -604,7 +635,11 @@ namespace TestNamespace
         var generated = sources.FirstOrDefault(s => s.Contains("class UseInternalAction"));
         Assert.NotNull(generated);
         Assert.Contains("internal partial class UseInternalAction", generated);
+#if UNO
+        Assert.Contains("typeof(global::TestNamespace.InternalType)", generated);
+#else
         Assert.Contains("StyledProperty<global::TestNamespace.InternalType>", generated);
+#endif
     }
 
     [Fact]

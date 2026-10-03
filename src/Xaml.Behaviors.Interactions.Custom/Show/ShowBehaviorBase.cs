@@ -1,46 +1,43 @@
 // Copyright (c) Wiesław Šoltés. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for details.
+#if UNO
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Dispatching;
+#else
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Threading;
+#endif
 
+#if UNO
+namespace Xaml.Interactions.Custom;
+#else
 namespace Avalonia.Xaml.Interactions.Custom;
+#endif
 
 /// <summary>
 /// Base class for behaviors that show a control in response to an event.
 /// </summary>
-public abstract class ShowBehaviorBase : AttachedToVisualTreeBehavior<Control>
+public abstract partial class ShowBehaviorBase : AttachedToVisualTreeBehavior<Control>
 {
-    /// <summary>
-    /// Identifies the <seealso cref="TargetControl"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<Control?> TargetControlProperty =
-        AvaloniaProperty.Register<ShowBehaviorBase, Control?>(nameof(TargetControl));
-
-    /// <summary>
-    /// Gets or sets the routing strategy used for the triggering event.
-    /// </summary>
-    public static readonly StyledProperty<RoutingStrategies> EventRoutingStrategyProperty =
-        AvaloniaProperty.Register<ShowBehaviorBase, RoutingStrategies>(nameof(EventRoutingStrategy), RoutingStrategies.Bubble);
 
     /// <summary>
     /// Gets or sets the target control. This is an avalonia property.
     /// </summary>
-    [ResolveByName]
-    public Control? TargetControl
-    {
-        get => GetValue(TargetControlProperty);
-        set => SetValue(TargetControlProperty, value);
-    }
+    [StyledProperty(ResolveByName = true)]
+    public partial Control? TargetControl { get; set; }
 
     /// <summary>
-    /// 
+    /// Gets or sets the routing strategies used to subscribe to the routed event. This is an avalonia property.
     /// </summary>
-    public RoutingStrategies EventRoutingStrategy
-    {
-        get => GetValue(EventRoutingStrategyProperty);
-        set => SetValue(EventRoutingStrategyProperty, value);
-    }
+    /// <remarks>
+    /// <see cref="RoutingStrategies.Bubble"/> (the default) and <see cref="RoutingStrategies.Tunnel"/> also handle the
+    /// events raised by the descendants of the element; <see cref="RoutingStrategies.Direct"/> alone only handles the
+    /// events raised by the element itself.
+    /// </remarks>
+    [StyledProperty(DefaultValue = RoutingStrategies.Bubble)]
+    public partial RoutingStrategies EventRoutingStrategy { get; set; }
 
     /// <summary>
     /// Shows the <see cref="TargetControl"/> when the behavior is triggered.
@@ -50,7 +47,11 @@ public abstract class ShowBehaviorBase : AttachedToVisualTreeBehavior<Control>
     {
         if (IsEnabled && TargetControl is { IsVisible: false })
         {
+#if UNO
+            TargetControl.IsVisible = true;
+#else
             TargetControl.SetCurrentValue(Visual.IsVisibleProperty, true);
+#endif
 
             Dispatcher.UIThread.Post(() => TargetControl.Focus());
 

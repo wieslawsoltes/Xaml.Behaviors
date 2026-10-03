@@ -1,36 +1,39 @@
 // Copyright (c) Wiesław Šoltés. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for details.
 
+#if UNO
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Input;
+using Windows.Foundation;
+using Xaml.Interactivity;
+#else
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Xaml.Interactivity;
+#endif
 
+#if UNO
+namespace Xaml.Interactions.Custom;
+#else
 namespace Avalonia.Xaml.Interactions.Custom;
+#endif
 
 /// <summary>
 /// A behavior that allows rotating the attached control in 3D space using pointer manipulation.
 /// </summary>
-public class OrbitEffectBehavior : StyledElementBehavior<Control>
+public partial class OrbitEffectBehavior : StyledElementBehavior<Control>
 {
     private readonly OrbitAnimation _animation = new();
     private bool _isPressed;
     private Point _lastPosition;
 
     /// <summary>
-    /// Identifies the <seealso cref="Sensitivity"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<double> SensitivityProperty =
-        AvaloniaProperty.Register<OrbitEffectBehavior, double>(nameof(Sensitivity), 0.5);
-
-    /// <summary>
     /// Gets or sets the sensitivity of the rotation.
     /// </summary>
-    public double Sensitivity
-    {
-        get => GetValue(SensitivityProperty);
-        set => SetValue(SensitivityProperty, value);
-    }
+    [StyledProperty(DefaultValue = 0.5)]
+    public partial double Sensitivity { get; set; }
 
     /// <inheritdoc />
     protected override void OnAttachedToVisualTree()
@@ -63,14 +66,23 @@ public class OrbitEffectBehavior : StyledElementBehavior<Control>
     private void OnPointerPressed(object? sender, PointerPressedEventArgs e)
     {
         _isPressed = true;
+#if UNO
+        _lastPosition = e.GetCurrentPoint(AssociatedObject).Position;
+        AssociatedObject?.CapturePointer(e.Pointer);
+#else
         _lastPosition = e.GetPosition(AssociatedObject);
         e.Pointer.Capture(AssociatedObject);
+#endif
     }
 
     private void OnPointerReleased(object? sender, PointerReleasedEventArgs e)
     {
         _isPressed = false;
+#if UNO
+        AssociatedObject?.ReleasePointerCapture(e.Pointer);
+#else
         e.Pointer.Capture(null);
+#endif
     }
 
     private void OnPointerMoved(object? sender, PointerEventArgs e)
@@ -80,8 +92,13 @@ public class OrbitEffectBehavior : StyledElementBehavior<Control>
             return;
         }
 
+#if UNO
+        Point currentPosition = e.GetCurrentPoint(AssociatedObject).Position;
+        Point delta = new(currentPosition.X - _lastPosition.X, currentPosition.Y - _lastPosition.Y);
+#else
         var currentPosition = e.GetPosition(AssociatedObject);
         var delta = currentPosition - _lastPosition;
+#endif
         _lastPosition = currentPosition;
 
         _animation.Rotate(AssociatedObject, delta, Sensitivity);

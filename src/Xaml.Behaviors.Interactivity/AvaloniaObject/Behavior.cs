@@ -3,25 +3,28 @@
 using System;
 using System.Diagnostics;
 using System.Globalization;
+#if UNO
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+#else
 using Avalonia.Controls;
+#endif
 
+#if UNO
+namespace Xaml.Interactivity;
+#else
 namespace Avalonia.Xaml.Interactivity;
+#endif
 
 /// <summary>
 /// A base class for behaviors, implementing the basic plumbing of <see cref="IBehavior"/>.
 /// </summary>
-public abstract class Behavior : AvaloniaObject, IBehavior, IBehaviorEventsHandler
+public abstract partial class Behavior : AvaloniaObject, IBehavior, IBehaviorEventsHandler
 {
     private bool _isAttachedToLogicalTree;
     private bool _isAttachedToVisualTree;
     private bool _isInitializedNotified;
     private bool _isLoaded;
-
-    /// <summary>
-    /// Identifies the <seealso cref="IsEnabled"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<bool> IsEnabledProperty =
-        AvaloniaProperty.Register<Behavior, bool>(nameof(IsEnabled), defaultValue: true);
 
     /// <summary>
     /// Gets the <see cref="AvaloniaObject"/> to which the behavior is attached.
@@ -32,11 +35,8 @@ public abstract class Behavior : AvaloniaObject, IBehavior, IBehaviorEventsHandl
     /// Gets or sets a value indicating whether this instance is enabled.
     /// </summary>
     /// <value><c>true</c> if this instance is enabled; otherwise, <c>false</c>.</value>
-    public bool IsEnabled
-    {
-        get => GetValue(IsEnabledProperty);
-        set => SetValue(IsEnabledProperty, value);
-    }
+    [StyledProperty(DefaultValue = true)]
+    public partial bool IsEnabled { get; set; }
 
     /// <summary>
     /// Attaches the behavior to the specified <see cref="AvaloniaObject"/>.
@@ -59,6 +59,9 @@ public abstract class Behavior : AvaloniaObject, IBehavior, IBehaviorEventsHandl
 
         Debug.Assert(associatedObject is not null, "Cannot attach the behavior to a null object.");
         AssociatedObject = associatedObject ?? throw new ArgumentNullException(nameof(associatedObject));
+#if UNO
+        UpdateActionsHost(AssociatedObject);
+#endif
 
         OnAttached();
     }
@@ -68,7 +71,17 @@ public abstract class Behavior : AvaloniaObject, IBehavior, IBehaviorEventsHandl
     /// </summary>
     public void Detach()
     {
+        // A behavior removed while its associated object stays loaded observes the same teardown as when the
+        // object unloads, so handlers subscribed on attach are released (the handlers are idempotent).
+        IBehaviorEventsHandler lifecycle = this;
+        lifecycle.UnloadedEventHandler();
+        lifecycle.DetachedFromVisualTreeEventHandler();
+        lifecycle.DetachedFromLogicalTreeEventHandler();
+
         OnDetaching();
+#if UNO
+        UpdateActionsHost(null);
+#endif
         _isAttachedToLogicalTree = false;
         _isAttachedToVisualTree = false;
         _isInitializedNotified = false;

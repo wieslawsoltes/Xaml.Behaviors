@@ -1,35 +1,34 @@
 // Copyright (c) Wiesław Šoltés. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for details.
 using System;
+#if UNO
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Xaml.Interactivity;
+#else
 using Avalonia.Controls;
 using Avalonia.Platform;
 using Avalonia.Reactive;
 using Avalonia.Xaml.Interactivity;
+#endif
 
+#if UNO
+namespace Xaml.Interactions.Custom;
+#else
 namespace Avalonia.Xaml.Interactions.Custom;
+#endif
 
 /// <summary>
 /// A behavior that exposes the screen containing the associated <see cref="TopLevel"/>.
 /// </summary>
-public class ActiveScreenBehavior : AttachedToVisualTreeBehavior<TopLevel>
+public partial class ActiveScreenBehavior : AttachedToVisualTreeBehavior<TopLevel>
 {
-    /// <summary>
-    /// Identifies the <see cref="ActiveScreen"/> avalonia property.
-    /// </summary>
-    public static readonly DirectProperty<ActiveScreenBehavior, Screen?> ActiveScreenProperty =
-        AvaloniaProperty.RegisterDirect<ActiveScreenBehavior, Screen?>(nameof(ActiveScreen),
-            o => o.ActiveScreen);
-
-    private Screen? _activeScreen;
 
     /// <summary>
     /// Gets the active screen of the associated <see cref="TopLevel"/>. This is an avalonia property.
     /// </summary>
-    public Screen? ActiveScreen
-    {
-        get => _activeScreen;
-        private set => SetAndRaise(ActiveScreenProperty, ref _activeScreen, value);
-    }
+    [DirectProperty]
+    public partial Screen? ActiveScreen { get; private set; }
 
     /// <inheritdoc />
     protected override IDisposable OnAttachedToVisualTreeOverride()

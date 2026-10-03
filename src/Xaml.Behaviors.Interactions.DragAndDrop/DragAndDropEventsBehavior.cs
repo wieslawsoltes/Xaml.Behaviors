@@ -1,31 +1,33 @@
 // Copyright (c) Wiesław Šoltés. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for details.
+#if UNO
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Input;
+using Xaml.Interactivity;
+#else
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Xaml.Interactivity;
+#endif
 
+#if UNO
+namespace Xaml.Interactions.DragAndDrop;
+#else
 namespace Avalonia.Xaml.Interactions.DragAndDrop;
+#endif
 
 /// <summary>
 /// Base class for behaviors that respond to drag-and-drop events.
 /// </summary>
-public abstract class DragAndDropEventsBehavior : StyledElementBehavior<Control>
+public abstract partial class DragAndDropEventsBehavior : StyledElementBehavior<Control>
 {
-    /// <summary>
-    /// Identifies the <seealso cref="TargetControl"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<Control?> TargetControlProperty =
-        AvaloniaProperty.Register<DragAndDropEventsBehavior, Control?>(nameof(TargetControl));
     
     /// <summary>
     /// Gets or sets the control that is used as source for drag and drop events. This is an avalonia property.
     /// </summary>
-    [ResolveByName]
-    public Control? TargetControl
-    {
-        get => GetValue(TargetControlProperty);
-        set => SetValue(TargetControlProperty, value);
-    }
+    [StyledProperty(ResolveByName = true)]
+    public partial Control? TargetControl { get; set; }
     
     /// <inheritdoc />
     protected override void OnAttachedToVisualTree()
@@ -63,10 +65,10 @@ public abstract class DragAndDropEventsBehavior : StyledElementBehavior<Control>
     private void DetachEvents(Control targetControl)
     {
         DragDrop.SetAllowDrop(targetControl, false);
-        targetControl.RemoveHandler(DragDrop.DragEnterEvent, DragEnter);
-        targetControl.RemoveHandler(DragDrop.DragLeaveEvent, DragLeave);
-        targetControl.RemoveHandler(DragDrop.DragOverEvent, DragOver);
-        targetControl.RemoveHandler(DragDrop.DropEvent, Drop);
+        targetControl.RemoveRoutedEventHandler(DragDrop.DragEnterEvent, DragEnter);
+        targetControl.RemoveRoutedEventHandler(DragDrop.DragLeaveEvent, DragLeave);
+        targetControl.RemoveRoutedEventHandler(DragDrop.DragOverEvent, DragOver);
+        targetControl.RemoveRoutedEventHandler(DragDrop.DropEvent, Drop);
     }
 
     /// <inheritdoc />

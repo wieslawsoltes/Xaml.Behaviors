@@ -3,29 +3,26 @@
 using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
+#if UNO
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+#else
 using Avalonia.Controls;
+#endif
 
+#if UNO
+namespace Xaml.Interactivity;
+#else
 namespace Avalonia.Xaml.Interactivity;
+#endif
 
 /// <summary>
 /// A behavior that listens for a specified event on its source and executes its actions when that event is fired.
 /// </summary>
 [RequiresUnreferencedCode("This functionality is not compatible with trimming.")]
-public abstract class EventTriggerBase : StyledElementTrigger
+public abstract partial class EventTriggerBase : StyledElementTrigger
 {
     private const string EventNameDefaultValue = "AttachedToVisualTree";
-
-    /// <summary>
-    /// Identifies the <seealso cref="EventName"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<string?> EventNameProperty =
-        AvaloniaProperty.Register<EventTriggerBase, string?>(nameof(EventName), EventNameDefaultValue);
-
-    /// <summary>
-    /// Identifies the <seealso cref="SourceObject"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<object?> SourceObjectProperty =
-        AvaloniaProperty.Register<EventTriggerBase, object?>(nameof(SourceObject));
 
     private object? _resolvedSource;
     private Delegate? _eventHandler;
@@ -35,22 +32,15 @@ public abstract class EventTriggerBase : StyledElementTrigger
     /// <summary>
     /// Gets or sets the name of the event to listen for. This is an avalonia property.
     /// </summary>
-    public string? EventName
-    {
-        get => GetValue(EventNameProperty);
-        set => SetValue(EventNameProperty, value);
-    }
+    [StyledProperty(DefaultValue = EventNameDefaultValue)]
+    public partial string? EventName { get; set; }
 
     /// <summary>
     /// Gets or sets the source object from which this behavior listens for events.
     /// If <seealso cref="SourceObject"/> is not set, the source will default to <seealso cref="IBehavior.AssociatedObject"/>. This is an avalonia property.
     /// </summary>
-    [ResolveByName]
-    public object? SourceObject
-    {
-        get => GetValue(SourceObjectProperty);
-        set => SetValue(SourceObjectProperty, value);
-    }
+    [StyledProperty(ResolveByName = true)]
+    public partial object? SourceObject { get; set; }
 
     /// <inheritdoc />
     protected override void OnPropertyChanged(AvaloniaPropertyChangedEventArgs change)
@@ -225,7 +215,12 @@ public abstract class EventTriggerBase : StyledElementTrigger
         if (resolvedSource is Control element && !IsElementLoaded(element))
         {
             _isLoadedEventRegistered = true;
+#if UNO
+            // WinUI raises Loaded when the element joins the live visual tree.
+            element.Loaded += Element_Loaded;
+#else
             element.AttachedToVisualTree += AttachedToVisualTree;
+#endif
         }
     }
 
@@ -234,9 +229,17 @@ public abstract class EventTriggerBase : StyledElementTrigger
         _isLoadedEventRegistered = false;
         if (resolvedSource is Control element)
         {
+#if UNO
+            element.Loaded -= Element_Loaded;
+#else
             element.AttachedToVisualTree -= AttachedToVisualTree; 
+#endif
         }
     }
+
+#if UNO
+    private void Element_Loaded(object sender, RoutedEventArgs e) => AttachedToVisualTree(sender, e);
+#endif
 
     /// <summary>
     /// Raised when the control is attached to a rooted visual tree.
@@ -245,6 +248,22 @@ public abstract class EventTriggerBase : StyledElementTrigger
     /// <param name="eventArgs">The event args.</param>
     protected virtual void AttachedToVisualTree(object? sender, object eventArgs)
     {
+#if WINUI
+        // Native WinUI resolves the ElementName bindings of the actions after the Loaded event of the element is
+        // raised: the actions of a Loaded trigger run once the event is dispatched.
+        if (EventName is "Loaded" or EventNameDefaultValue)
+        {
+            Dispatcher.UIThread.Post(() =>
+            {
+                if (AssociatedObject is not null)
+                {
+                    OnEvent(eventArgs);
+                }
+            });
+            return;
+        }
+
+#endif
         OnEvent(eventArgs);
     }
 
@@ -262,5 +281,9 @@ public abstract class EventTriggerBase : StyledElementTrigger
         Interaction.ExecuteActions(_resolvedSource, Actions, eventArgs);
     }
 
+#if UNO
+    private static bool IsElementLoaded(Control element) => LoadedState.IsLoaded(element);
+#else
     private static bool IsElementLoaded(Control element) => element.Parent is not null;
+#endif
 }

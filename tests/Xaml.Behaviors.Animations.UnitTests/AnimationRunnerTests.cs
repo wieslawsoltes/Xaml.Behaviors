@@ -3,10 +3,19 @@
 
 using System;
 using System.Threading.Tasks;
+#if UNO
+using Microsoft.UI.Xaml.Media.Animation;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Xaml.Interactions.Custom;
+// The Avalonia Animation is a WinUI Storyboard on Uno Platform (the PlatformAnimation of the library).
+using Animation = Microsoft.UI.Xaml.Media.Animation.Storyboard;
+#else
 using Avalonia.Animation;
 using Avalonia.Controls;
 using Avalonia.Headless.XUnit;
 using Avalonia.Xaml.Interactions.Custom;
+#endif
 using Xunit;
 
 namespace Xaml.Behaviors.Animations.UnitTests;

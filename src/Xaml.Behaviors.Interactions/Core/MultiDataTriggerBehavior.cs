@@ -4,32 +4,33 @@ using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Diagnostics.CodeAnalysis;
+#if UNO
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Media;
+using Microsoft.UI.Dispatching;
+using Xaml.Interactivity;
+#else
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.LogicalTree;
 using Avalonia.Reactive;
 using Avalonia.Threading;
 using Avalonia.Xaml.Interactivity;
+#endif
 
+#if UNO
+namespace Xaml.Interactions.Core;
+#else
 namespace Avalonia.Xaml.Interactions.Core;
+#endif
 
 /// <summary>
 /// A behavior that performs actions when all bound data conditions are satisfied.
 /// </summary>
 [RequiresUnreferencedCode("This functionality is not compatible with trimming.")]
-public class MultiDataTriggerBehavior : StyledElementTrigger
+public partial class MultiDataTriggerBehavior : StyledElementTrigger
 {
-    /// <summary>
-    /// Identifies the <seealso cref="RevertOnFalse"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<bool> RevertOnFalseProperty =
-        AvaloniaProperty.Register<MultiDataTriggerBehavior, bool>(nameof(RevertOnFalse), defaultValue: false);
-
-    /// <summary>
-    /// Identifies the <seealso cref="Conditions"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<ConditionCollection?> ConditionsProperty =
-        AvaloniaProperty.Register<MultiDataTriggerBehavior, ConditionCollection?>(nameof(Conditions));
 
     private bool _isConditionMet;
     private bool _hasConditionState;
@@ -51,21 +52,15 @@ public class MultiDataTriggerBehavior : StyledElementTrigger
     /// <summary>
     /// Gets or sets the collection of conditions that must all be satisfied before actions are executed. This is an avalonia property.
     /// </summary>
-    public ConditionCollection? Conditions
-    {
-        get => GetValue(ConditionsProperty);
-        set => SetValue(ConditionsProperty, value);
-    }
+    [StyledProperty]
+    public partial ConditionCollection? Conditions { get; set; }
 
     /// <summary>
     /// Gets or sets a value indicating whether reversible actions should be reverted when conditions become false.
     /// When false, behavior matches legacy semantics and only executes actions when all conditions are true.
     /// </summary>
-    public bool RevertOnFalse
-    {
-        get => GetValue(RevertOnFalseProperty);
-        set => SetValue(RevertOnFalseProperty, value);
-    }
+    [StyledProperty(DefaultValue = false)]
+    public partial bool RevertOnFalse { get; set; }
 
     /// <inheritdoc />
     protected override void OnPropertyChanged(AvaloniaPropertyChangedEventArgs change)
@@ -317,6 +312,20 @@ public class MultiDataTriggerBehavior : StyledElementTrigger
         if (!string.IsNullOrEmpty(condition.SourceName))
         {
             var sourceName = condition.SourceName!;
+#if UNO
+            // WinUI has no logical tree: query the name scope of the element and of its parents (Uno Platform's
+            // FindName only searches the subtree of the element).
+            for (var current = AssociatedObject as FrameworkElement; current is not null;
+                 current = (current.Parent ?? VisualTreeHelper.GetParent(current)) as FrameworkElement)
+            {
+                if (current.FindName(sourceName) is AvaloniaObject found)
+                {
+                    return found;
+                }
+            }
+
+            return null;
+#else
 
             var namedTarget = FindInNameScope(AssociatedObject, sourceName) ??
                               FindInNameScope(AssociatedStyledElement, sourceName);
@@ -340,11 +349,13 @@ public class MultiDataTriggerBehavior : StyledElementTrigger
             }
 
             return null;
+#endif
         }
 
         return AssociatedObject;
     }
 
+#if !UNO
     private static AvaloniaObject? FindInNameScope(AvaloniaObject? source, string sourceName)
     {
         if (source is not ILogical logicalSource)
@@ -366,6 +377,7 @@ public class MultiDataTriggerBehavior : StyledElementTrigger
 
         return null;
     }
+#endif
 
     private void RefreshConditionSubscriptions()
     {
@@ -410,6 +422,15 @@ public class MultiDataTriggerBehavior : StyledElementTrigger
         {
             return;
         }
+
+#if UNO
+        // The bindings of the behavior resolve through the data context inherited when the associated object enters
+        // the tree: evaluate from the initialized event (raised when it is loaded), not from changes queued before.
+        if (!IsInitializedNotified)
+        {
+            return;
+        }
+#endif
 
         if (!IsEnabled)
         {

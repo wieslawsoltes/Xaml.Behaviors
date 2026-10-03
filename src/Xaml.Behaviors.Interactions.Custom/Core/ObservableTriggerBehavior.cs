@@ -1,52 +1,60 @@
 // Copyright (c) Wiesław Šoltés. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for details.
 using System;
+#if UNO
+using Microsoft.UI.Dispatching;
+using Xaml.Interactivity;
+#else
 using Avalonia.Reactive;
 using Avalonia.Threading;
 using Avalonia.Xaml.Interactivity;
+#endif
 
+#if UNO
+namespace Xaml.Interactions.Custom;
+#else
 namespace Avalonia.Xaml.Interactions.Custom;
+#endif
 
 /// <summary>
 /// A trigger that subscribes to an <see cref="IObservable{T}"/> and executes its actions whenever a new value is produced.
 /// The emitted value is exposed through the <see cref="Value"/> property and passed to the actions as a parameter.
 /// </summary>
 /// <typeparam name="T">The type of the observable sequence.</typeparam>
-public class ObservableTriggerBehavior<T> : StyledElementTrigger
+public partial class ObservableTriggerBehavior<T> : StyledElementTrigger
 {
-    /// <summary>
-    /// Identifies the <seealso cref="Observable"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<IObservable<T>?> ObservableProperty =
-#pragma warning disable AVP1002
-        AvaloniaProperty.Register<ObservableTriggerBehavior<T>, IObservable<T>?>(nameof(Observable));
 #pragma warning restore AVP1002
 
     /// <summary>
     /// Identifies the <seealso cref="Value"/> avalonia property.
     /// </summary>
+#if UNO
+    // The generator does not emit properties typed by a type parameter; WinUI only needs the value type for XAML.
+#pragma warning disable IL2087
+    public static readonly AvaloniaProperty ValueProperty =
+        AvaloniaProperty.Register(nameof(Value), typeof(T), typeof(ObservableTriggerBehavior<T>), new Microsoft.UI.Xaml.PropertyMetadata(default(T)));
+#pragma warning restore IL2087
+#else
     public static readonly StyledProperty<T?> ValueProperty =
 #pragma warning disable AVP1002
         AvaloniaProperty.Register<ObservableTriggerBehavior<T>, T?>(nameof(Value));
 #pragma warning restore AVP1002
+#endif
 
     private IDisposable? _subscription;
 
     /// <summary>
     /// Gets or sets the observable sequence that triggers the actions. This is an avalonia property.
     /// </summary>
-    public IObservable<T>? Observable
-    {
-        get => GetValue(ObservableProperty);
-        set => SetValue(ObservableProperty, value);
-    }
+    [StyledProperty]
+    public partial IObservable<T>? Observable { get; set; }
 
     /// <summary>
     /// Gets the last value received from the <see cref="Observable"/>. This is an avalonia property.
     /// </summary>
     public T? Value
     {
-        get => GetValue(ValueProperty);
+        get => (T?)GetValue(ValueProperty);
         private set => SetCurrentValue(ValueProperty, value);
     }
 

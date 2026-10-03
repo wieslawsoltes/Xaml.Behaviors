@@ -1,6 +1,10 @@
 using System;
 
+#if UNO
+namespace Xaml.Behaviors.SourceGenerators.UnitTests;
+#else
 namespace Avalonia.Xaml.Behaviors.SourceGenerators.UnitTests;
+#endif
 
 public class TestCommand : System.Windows.Input.ICommand
 {

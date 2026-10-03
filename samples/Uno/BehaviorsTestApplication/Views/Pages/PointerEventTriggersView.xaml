@@ -1,0 +1,38 @@
+<UserControl x:Class="BehaviorsTestApplication.Views.Pages.PointerEventTriggersView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:i="using:Xaml.Interactivity"
+             xmlns:ic="using:Xaml.Interactions.Core"
+             xmlns:ie="using:Xaml.Interactions.Events"
+             mc:Ignorable="d" d:DesignWidth="300" d:DesignHeight="200">
+  <StackPanel Margin="5">
+    <TextBlock x:Name="InfoText" Text="Interact" Margin="5" />
+    <Border Width="200" Height="100" Background="LightGray" Margin="5">
+      <i:Interaction.Behaviors>
+        <ie:PointerEnteredEventTrigger>
+          <ic:ChangePropertyAction TargetObject="{x:Bind InfoText}" PropertyName="Text" Value="Pointer Entered" />
+        </ie:PointerEnteredEventTrigger>
+        <ie:PointerExitedEventTrigger>
+          <ic:ChangePropertyAction TargetObject="{x:Bind InfoText}" PropertyName="Text" Value="Pointer Exited" />
+        </ie:PointerExitedEventTrigger>
+        <ie:PointerPressedEventTrigger>
+          <ic:ChangePropertyAction TargetObject="{x:Bind InfoText}" PropertyName="Text" Value="Pointer Pressed" />
+        </ie:PointerPressedEventTrigger>
+        <ie:PointerReleasedEventTrigger>
+          <ic:ChangePropertyAction TargetObject="{x:Bind InfoText}" PropertyName="Text" Value="Pointer Released" />
+        </ie:PointerReleasedEventTrigger>
+        <ie:PointerMovedEventTrigger>
+          <ic:ChangePropertyAction TargetObject="{x:Bind InfoText}" PropertyName="Text" Value="Pointer Moved" />
+        </ie:PointerMovedEventTrigger>
+        <ie:PointerWheelChangedEventTrigger>
+          <ic:ChangePropertyAction TargetObject="{x:Bind InfoText}" PropertyName="Text" Value="Wheel Changed" />
+        </ie:PointerWheelChangedEventTrigger>
+        <ie:PointerCaptureLostEventTrigger>
+          <ic:ChangePropertyAction TargetObject="{x:Bind InfoText}" PropertyName="Text" Value="Capture Lost" />
+        </ie:PointerCaptureLostEventTrigger>
+      </i:Interaction.Behaviors>
+    </Border>
+  </StackPanel>
+</UserControl>

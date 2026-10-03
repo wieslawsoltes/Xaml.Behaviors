@@ -1,0 +1,32 @@
+<Project Sdk="Uno.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>$(UnoTargetFrameworks)</TargetFrameworks>
+    <AssemblyName>Xaml.Behaviors.Uno.Interactions.Custom</AssemblyName>
+    <RootNamespace>Xaml.Interactions.Custom</RootNamespace>
+    <UnoSharedSourceProject>Xaml.Behaviors.Interactions.Custom</UnoSharedSourceProject>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <PackageId>Xaml.Behaviors.Uno.Interactions.Custom</PackageId>
+    <Description>Custom behaviors and actions for common Uno Platform (WinUI) controls.</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Using Include="Xaml.Interactivity" />
+  </ItemGroup>
+
+  <!-- Avalonia-only sources, shared with the Avalonia build for the portability analyzers. -->
+  <Import Project="SharedSources.props" />
+
+  <ItemGroup>
+    <ProjectReference Include="..\Xaml.Behaviors.Animations\Xaml.Behaviors.Animations.csproj" />
+    <ProjectReference Include="..\Xaml.Behaviors.Interactivity\Xaml.Behaviors.Interactivity.csproj" />
+    <!--
+      ScreenshotAction saves through the IStorageProvider abstraction of the Interactions package (Avalonia uses the
+      TopLevel storage provider of Avalonia itself).
+    -->
+    <ProjectReference Include="..\Xaml.Behaviors.Interactions\Xaml.Behaviors.Interactions.csproj" />
+  </ItemGroup>
+
+</Project>

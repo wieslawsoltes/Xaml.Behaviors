@@ -2,62 +2,41 @@
 // Licensed under the MIT license. See LICENSE file in the project root for details.
 using System.Linq;
 using System.Windows.Input;
+#if UNO
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Dispatching;
+using Xaml.Interactivity;
+#else
 using Avalonia.Controls;
 using Avalonia.LogicalTree;
 using Avalonia.Threading;
 using Avalonia.Xaml.Interactivity;
+#endif
 
+#if UNO
+namespace Xaml.Interactions.Custom;
+#else
 namespace Avalonia.Xaml.Interactions.Custom;
+#endif
 
 /// <summary>
 /// 
 /// </summary>
-public abstract class ExecuteCommandBehaviorBase : AttachedToVisualTreeBehavior<Control>
+public abstract partial class ExecuteCommandBehaviorBase : AttachedToVisualTreeBehavior<Control>
 {
     private readonly CommandCanExecuteObserver _commandCanExecuteObserver;
-    private bool _canExecuteCommand = true;
 
     /// <summary>
     /// 
     /// </summary>
-    public static readonly StyledProperty<TopLevel?> TopLevelProperty =
-        AvaloniaProperty.Register<ExecuteCommandBehaviorBase, TopLevel?>(nameof(TopLevel));
-    
-    /// <summary>
-    /// 
-    /// </summary>
-    public static readonly StyledProperty<ICommand?> CommandProperty =
-        AvaloniaProperty.Register<ExecuteCommandBehaviorBase, ICommand?>(nameof(Command));
-
-    /// <summary>
-    /// Identifies the <seealso cref="CanExecuteCommand"/> avalonia property.
-    /// </summary>
-    public static readonly DirectProperty<ExecuteCommandBehaviorBase, bool> CanExecuteCommandProperty =
-        AvaloniaProperty.RegisterDirect<ExecuteCommandBehaviorBase, bool>(nameof(CanExecuteCommand), behavior => behavior.CanExecuteCommand);
-
-    /// <summary>
-    /// 
-    /// </summary>
-    public static readonly StyledProperty<object?> CommandParameterProperty =
-        AvaloniaProperty.Register<ExecuteCommandBehaviorBase, object?>(nameof(CommandParameter));
-
-    /// <summary>
-    /// 
-    /// </summary>
-    public static readonly StyledProperty<bool> FocusTopLevelProperty =
-        AvaloniaProperty.Register<ExecuteCommandBehaviorBase, bool>(nameof(FocusTopLevel));
-
-    /// <summary>
-    /// 
-    /// </summary>
+#if UNO
+    public static readonly AvaloniaProperty FocusControlProperty =
+        AvaloniaProperty.Register(nameof(FocusControl), typeof(Control), typeof(ExecuteCommandBehaviorBase), new PropertyMetadata(null));
+#else
     public static readonly StyledProperty<Control?> FocusControlProperty =
-        AvaloniaProperty.Register<ExecuteCommandBehaviorBase, Control?>(nameof(CommandParameter));
- 
-    /// <summary>
-    /// 
-    /// </summary>
-    public static readonly StyledProperty<Control?> SourceControlProperty =
-        AvaloniaProperty.Register<ExecuteCommandBehaviorBase, Control?>(nameof(SourceControl));
+        AvaloniaProperty.Register<ExecuteCommandBehaviorBase, Control?>(nameof(FocusControl));
+#endif
 
     /// <summary>
     /// Initializes a new instance of the <see cref="ExecuteCommandBehaviorBase"/> class.
@@ -70,47 +49,38 @@ public abstract class ExecuteCommandBehaviorBase : AttachedToVisualTreeBehavior<
     /// <summary>
     /// 
     /// </summary>
-    public TopLevel? TopLevel
-    {
-        get => GetValue(TopLevelProperty);
-        set => SetValue(TopLevelProperty, value);
-    }
+#if UNO
+    // WinUI has no top level element type: the root element to focus (defaults to XamlRoot.Content).
+    [StyledProperty]
+    public partial UIElement? TopLevel { get; set; }
+#else
+    [StyledProperty]
+    public partial TopLevel? TopLevel { get; set; }
+#endif
     
     /// <summary>
     /// 
     /// </summary>
-    public ICommand? Command
-    {
-        get => GetValue(CommandProperty);
-        set => SetValue(CommandProperty, value);
-    }
+    [StyledProperty]
+    public partial ICommand? Command { get; set; }
 
     /// <summary>
     /// Gets a value indicating whether <see cref="Command"/> can execute with the current <see cref="CommandParameter"/>.
     /// </summary>
-    public bool CanExecuteCommand
-    {
-        get => _canExecuteCommand;
-        private set => SetAndRaise(CanExecuteCommandProperty, ref _canExecuteCommand, value);
-    }
+    [DirectProperty(DefaultValue = true)]
+    public partial bool CanExecuteCommand { get; private set; }
 
     /// <summary>
     /// 
     /// </summary>
-    public object? CommandParameter
-    {
-        get => GetValue(CommandParameterProperty);
-        set => SetValue(CommandParameterProperty, value);
-    }
+    [StyledProperty]
+    public partial object? CommandParameter { get; set; }
 
     /// <summary>
     /// 
     /// </summary>
-    public bool FocusTopLevel
-    {
-        get => GetValue(FocusTopLevelProperty);
-        set => SetValue(FocusTopLevelProperty, value);
-    }
+    [StyledProperty]
+    public partial bool FocusTopLevel { get; set; }
 
     /// <summary>
     /// 
@@ -118,19 +88,15 @@ public abstract class ExecuteCommandBehaviorBase : AttachedToVisualTreeBehavior<
     [ResolveByName]
     public Control? FocusControl
     {
-        get => GetValue(FocusControlProperty);
+        get => (Control?)GetValue(FocusControlProperty);
         set => SetValue(FocusControlProperty, value);
     }
 
     /// <summary>
     /// 
     /// </summary>
-    [ResolveByName]
-    public Control? SourceControl
-    {
-        get => GetValue(SourceControlProperty);
-        set => SetValue(SourceControlProperty, value);
-    }
+    [StyledProperty(ResolveByName = true)]
+    public partial Control? SourceControl { get; set; }
 
     /// <inheritdoc />
     protected override void OnAttached()
@@ -182,7 +148,11 @@ public abstract class ExecuteCommandBehaviorBase : AttachedToVisualTreeBehavior<
 
         if (FocusTopLevel)
         {
+#if UNO
+            Dispatcher.UIThread.Post(() => (TopLevel ?? AssociatedObject?.XamlRoot?.Content)?.Focus());
+#else
             Dispatcher.UIThread.Post(() => (TopLevel ?? AssociatedObject?.GetSelfAndLogicalAncestors().LastOrDefault() as TopLevel)?.Focus());
+#endif
         }
 
         if (FocusControl is { } focusControl)

@@ -1,45 +1,36 @@
 // Copyright (c) Wiesław Šoltés. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for details.
+#if UNO
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Input;
+#else
 using Avalonia.Input;
 using Avalonia.Interactivity;
+#endif
 
+#if UNO
+namespace Xaml.Interactions.Custom;
+#else
 namespace Avalonia.Xaml.Interactions.Custom;
+#endif
 
 /// <summary>
 /// Trigger that listens for a key gesture.
 /// </summary>
-public class KeyGestureTrigger : RoutedEventTriggerBase<KeyEventArgs>
+public partial class KeyGestureTrigger : RoutedEventTriggerBase<KeyEventArgs>
 {
-    /// <summary>
-    /// Identifies the <see cref="Gesture"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<KeyGesture?> GestureProperty =
-        AvaloniaProperty.Register<KeyGestureTrigger, KeyGesture?>(nameof(Gesture));
-
-    /// <summary>
-    /// Identifies the <see cref="FiredOn"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<KeyGestureTriggerFiredOn> FiredOnProperty =
-        AvaloniaProperty.Register<KeyGestureTrigger, KeyGestureTriggerFiredOn>(nameof(FiredOn),
-            defaultValue: KeyGestureTriggerFiredOn.KeyDown);
 
     /// <summary>
     /// Gets or sets the gesture that will fire the trigger.
     /// </summary>
-    public KeyGesture? Gesture
-    {
-        get => GetValue(GestureProperty);
-        set => SetValue(GestureProperty, value);
-    }
+    [StyledProperty]
+    public partial KeyGesture? Gesture { get; set; }
 
     /// <summary>
     /// Gets or sets whether the trigger reacts on key down or key up.
     /// </summary>
-    public KeyGestureTriggerFiredOn FiredOn
-    {
-        get => GetValue(FiredOnProperty);
-        set => SetValue(FiredOnProperty, value);
-    }
+    [StyledProperty(DefaultValue = KeyGestureTriggerFiredOn.KeyDown)]
+    public partial KeyGestureTriggerFiredOn FiredOn { get; set; }
 
     static KeyGestureTrigger()
     {

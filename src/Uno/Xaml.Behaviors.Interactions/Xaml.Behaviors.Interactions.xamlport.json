@@ -1,0 +1,39 @@
+{
+  "$schema": "../../../src/Xaml.PortAnalyzers/xamlport.schema.json",
+  "sourceNamespacePrefixes": [
+    "Avalonia"
+  ],
+  "mapped": {
+    "types": [
+      "Avalonia.Controls.Button",
+      "Avalonia.Controls.MenuItem",
+      "Avalonia.Platform.Storage.FilePickerFileType",
+      "Avalonia.Platform.Storage.FilePickerOpenOptions",
+      "Avalonia.Platform.Storage.FilePickerSaveOptions",
+      "Avalonia.Platform.Storage.FolderPickerOpenOptions",
+      "Avalonia.Platform.Storage.IStorageFile",
+      "Avalonia.Platform.Storage.IStorageFolder",
+      "Avalonia.Platform.Storage.IStorageItem",
+      "Avalonia.Platform.Storage.IStorageProvider",
+      "Avalonia.Platform.Storage.PickerOptions"
+    ],
+    "members": [
+      "Avalonia.Controls.Button.Click",
+      "Avalonia.Controls.MenuItem.Click",
+      "Avalonia.Platform.Storage.FilePickerFileType.Patterns",
+      "Avalonia.Platform.Storage.FilePickerOpenOptions.AllowMultiple",
+      "Avalonia.Platform.Storage.FilePickerOpenOptions.FileTypeFilter",
+      "Avalonia.Platform.Storage.FilePickerSaveOptions.DefaultExtension",
+      "Avalonia.Platform.Storage.FilePickerSaveOptions.FileTypeChoices",
+      "Avalonia.Platform.Storage.FilePickerSaveOptions.ShowOverwritePrompt",
+      "Avalonia.Platform.Storage.FolderPickerOpenOptions.AllowMultiple",
+      "Avalonia.Platform.Storage.IStorageProvider.OpenFilePickerAsync",
+      "Avalonia.Platform.Storage.IStorageProvider.OpenFolderPickerAsync",
+      "Avalonia.Platform.Storage.IStorageProvider.SaveFilePickerAsync",
+      "Avalonia.Platform.Storage.IStorageProvider.TryGetFolderFromPathAsync",
+      "Avalonia.Platform.Storage.PickerOptions.SuggestedFileName",
+      "Avalonia.Platform.Storage.PickerOptions.SuggestedStartLocation",
+      "Avalonia.Platform.Storage.PickerOptions.Title"
+    ]
+  }
+}

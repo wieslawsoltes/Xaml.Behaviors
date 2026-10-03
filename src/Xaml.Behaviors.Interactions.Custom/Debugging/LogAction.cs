@@ -1,9 +1,19 @@
 using System;
 using System.Diagnostics;
+#if UNO
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Xaml.Interactivity;
+#else
 using Avalonia.Controls;
 using Avalonia.Xaml.Interactivity;
+#endif
 
+#if UNO
+namespace Xaml.Interactions.Custom;
+#else
 namespace Avalonia.Xaml.Interactions.Custom;
+#endif
 
 /// <summary>
 /// Specifies the severity level of the log message.
@@ -34,52 +44,26 @@ public enum LogActionLevel
 /// <summary>
 /// An action that logs a message to the debug output.
 /// </summary>
-public class LogAction : StyledElementAction
+public partial class LogAction : StyledElementAction
 {
-    /// <summary>
-    /// Identifies the <seealso cref="Message"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<string?> MessageProperty =
-        AvaloniaProperty.Register<LogAction, string?>(nameof(Message));
-
-    /// <summary>
-    /// Identifies the <seealso cref="Argument"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<object?> ArgumentProperty =
-        AvaloniaProperty.Register<LogAction, object?>(nameof(Argument));
-
-    /// <summary>
-    /// Identifies the <seealso cref="Level"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<LogActionLevel> LevelProperty =
-        AvaloniaProperty.Register<LogAction, LogActionLevel>(nameof(Level), LogActionLevel.Info);
 
     /// <summary>
     /// Gets or sets the message format string.
     /// </summary>
-    public string? Message
-    {
-        get => GetValue(MessageProperty);
-        set => SetValue(MessageProperty, value);
-    }
+    [StyledProperty]
+    public partial string? Message { get; set; }
 
     /// <summary>
     /// Gets or sets an optional argument to format the message with.
     /// </summary>
-    public object? Argument
-    {
-        get => GetValue(ArgumentProperty);
-        set => SetValue(ArgumentProperty, value);
-    }
+    [StyledProperty]
+    public partial object? Argument { get; set; }
 
     /// <summary>
     /// Gets or sets the log level.
     /// </summary>
-    public LogActionLevel Level
-    {
-        get => GetValue(LevelProperty);
-        set => SetValue(LevelProperty, value);
-    }
+    [StyledProperty(DefaultValue = LogActionLevel.Info)]
+    public partial LogActionLevel Level { get; set; }
 
     /// <inheritdoc />
     public override object? Execute(object? sender, object? parameter)

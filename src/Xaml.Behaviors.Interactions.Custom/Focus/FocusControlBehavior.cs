@@ -1,31 +1,34 @@
 // Copyright (c) Wiesław Šoltés. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for details.
 using System;
+#if UNO
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Dispatching;
+using Xaml.Interactivity;
+#else
 using Avalonia.Controls;
 using Avalonia.Threading;
 using Avalonia.Xaml.Interactivity;
+#endif
 
+#if UNO
+namespace Xaml.Interactions.Custom;
+#else
 namespace Avalonia.Xaml.Interactions.Custom;
+#endif
 
 /// <summary>
 /// Sets focus on the associated control when <see cref="FocusFlag"/> is true.
 /// </summary>
-public class FocusControlBehavior : AttachedToVisualTreeBehavior<Control>
+public partial class FocusControlBehavior : AttachedToVisualTreeBehavior<Control>
 {
-    /// <summary>
-    /// Gets or sets a value indicating whether the control should be focused.
-    /// </summary>
-    public static readonly StyledProperty<bool> FocusFlagProperty =
-        AvaloniaProperty.Register<FocusControlBehavior, bool>(nameof(FocusFlag));
 
     /// <summary>
     /// 
     /// </summary>
-    public bool FocusFlag
-    {
-        get => GetValue(FocusFlagProperty);
-        set => SetValue(FocusFlagProperty, value);
-    }
+    [StyledProperty]
+    public partial bool FocusFlag { get; set; }
 
     /// <inheritdoc />
     protected override void OnPropertyChanged(AvaloniaPropertyChangedEventArgs change)

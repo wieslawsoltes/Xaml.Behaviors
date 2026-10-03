@@ -1,0 +1,46 @@
+<UserControl x:Class="BehaviorsTestApplication.Views.Pages.ThemeVariantTriggerView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:i="using:Xaml.Interactivity"
+             xmlns:icustom="using:Xaml.Interactions.Custom"
+             xmlns:converters="using:BehaviorsTestApplication.Converters"
+             xmlns:wuxc="using:Microsoft.UI.Xaml.Controls"
+             mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="200">
+  <!--
+    Avalonia: ThemeVariantScope (WinUI: any element scopes its theme with RequestedTheme, the behavior sets it) and
+    ThemeVariant items (WinUI: the names of the ElementTheme values, converted by SampleFormat.ThemeVariant).
+  -->
+  <Grid x:Name="Scope">
+    <i:Interaction.Behaviors>
+      <icustom:ThemeVariantBehavior ThemeVariant="{x:Bind converters:SampleFormat.ThemeVariant(VariantSelector.SelectedItem), Mode=OneWay}" />
+    </i:Interaction.Behaviors>
+    <StackPanel>
+      <Border x:Name="TargetBorder" Width="120" Height="80" Background="Gray">
+        <i:Interaction.Behaviors>
+          <!--
+            WinUI dependency properties do not expose their type: ChangeAvaloniaPropertyAction infers it from the
+            current Background ("Gray") to convert "Black" and "White". Set TargetPropertyType="media:Brush"
+            (xmlns:media="using:Microsoft.UI.Xaml.Media") when the property has neither a default nor a current value.
+          -->
+          <icustom:ThemeVariantTrigger ThemeVariant="Dark">
+            <icustom:ChangeAvaloniaPropertyAction TargetObject="{x:Bind TargetBorder}"
+                                                  TargetProperty="{x:Bind wuxc:Border.BackgroundProperty}"
+                                                  Value="Black" />
+          </icustom:ThemeVariantTrigger>
+          <icustom:ThemeVariantTrigger ThemeVariant="Light">
+            <icustom:ChangeAvaloniaPropertyAction TargetObject="{x:Bind TargetBorder}"
+                                                  TargetProperty="{x:Bind wuxc:Border.BackgroundProperty}"
+                                                  Value="White" />
+          </icustom:ThemeVariantTrigger>
+        </i:Interaction.Behaviors>
+      </Border>
+      <ComboBox x:Name="VariantSelector" SelectedIndex="0" Margin="0,10,0,0">
+        <x:String>Default</x:String>
+        <x:String>Dark</x:String>
+        <x:String>Light</x:String>
+      </ComboBox>
+    </StackPanel>
+  </Grid>
+</UserControl>

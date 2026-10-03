@@ -1,0 +1,141 @@
+<UserControl x:Class="BehaviorsTestApplication.Views.Pages.ExecuteCommandBehaviorsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:i="using:Xaml.Interactivity"
+             xmlns:icustom="using:Xaml.Interactions.Custom"
+             mc:Ignorable="d"
+             d:DesignWidth="560"
+             d:DesignHeight="500">
+  <!--
+    Avalonia theme brushes: ThemeControlLow/Mid/HighBrush, ThemeBackgroundBrush and ThemeBorderBrush map to the WinUI
+    fill and stroke theme brushes. The text input method client, pull, scroll and touch pad gesture behaviors have no
+    WinUI routed event (see src/Uno/PORTING.md): their areas say so instead.
+  -->
+  <i:Interaction.Behaviors>
+    <icustom:ExecuteCommandOnActivatedBehavior Command="{x:Bind ViewModel.ActivatedCommand}" />
+  </i:Interaction.Behaviors>
+
+  <ScrollViewer>
+    <StackPanel Spacing="16" Margin="16">
+      <TextBlock Text="ExecuteCommand behaviors wire common UI events to commands without code-behind. Interact with each area and watch the log update."
+                 TextWrapping="Wrap" />
+
+      <StackPanel Spacing="8">
+        <TextBlock Text="Focus events" FontWeight="SemiBold" />
+        <TextBlock Text="Tab between the boxes to fire focus commands." FontSize="12" TextWrapping="Wrap" />
+        <StackPanel Orientation="Horizontal" Spacing="12">
+          <TextBox Width="160" PlaceholderText="Focus me">
+            <i:Interaction.Behaviors>
+              <icustom:ExecuteCommandOnGotFocusBehavior Command="{x:Bind ViewModel.GotFocusCommand}" />
+            </i:Interaction.Behaviors>
+          </TextBox>
+          <TextBox Width="160" PlaceholderText="... then leave">
+            <i:Interaction.Behaviors>
+              <icustom:ExecuteCommandOnLostFocusBehavior Command="{x:Bind ViewModel.LostFocusCommand}" />
+            </i:Interaction.Behaviors>
+          </TextBox>
+        </StackPanel>
+      </StackPanel>
+
+      <StackPanel Spacing="8">
+        <TextBlock Text="Keyboard and text input" FontWeight="SemiBold" />
+        <TextBlock Text="Key down/up and text input all route to commands." FontSize="12" TextWrapping="Wrap" />
+        <TextBox Width="260" HorizontalAlignment="Center" PlaceholderText="Type here" AcceptsReturn="False">
+          <i:Interaction.Behaviors>
+            <icustom:ExecuteCommandOnKeyDownBehavior Command="{x:Bind ViewModel.KeyDownCommand}" />
+            <icustom:ExecuteCommandOnKeyUpBehavior Command="{x:Bind ViewModel.KeyUpCommand}" />
+            <icustom:ExecuteCommandOnTextInputBehavior Command="{x:Bind ViewModel.TextInputCommand}" />
+          </i:Interaction.Behaviors>
+        </TextBox>
+      </StackPanel>
+
+      <StackPanel Spacing="8">
+        <TextBlock Text="Text input method client requested" FontWeight="SemiBold" />
+        <TextBlock Text="Some platforms raise this when the OS needs an input panel. Focus the box while using an IME to trigger the command." FontSize="12" TextWrapping="Wrap" />
+        <TextBox Width="260" HorizontalAlignment="Center" PlaceholderText="Not available on Uno Platform" IsEnabled="False" />
+      </StackPanel>
+
+      <StackPanel Spacing="8">
+        <TextBlock Text="Pull gestures" FontWeight="SemiBold" />
+        <TextBlock Text="Requires touch hardware that supports pull gestures." FontSize="12" TextWrapping="Wrap" />
+        <Border Height="100" Background="{ThemeResource SubtleFillColorTertiaryBrush}" CornerRadius="6">
+          <TextBlock Text="Pull gesture area (not available on Uno Platform)" HorizontalAlignment="Center" VerticalAlignment="Center" />
+        </Border>
+      </StackPanel>
+
+      <StackPanel Spacing="8">
+        <TextBlock Text="Scroll gestures" FontWeight="SemiBold" />
+        <TextBlock Text="Touchpad scroll gestures trigger three commands." FontSize="12" TextWrapping="Wrap" />
+        <Border Height="100" Background="{ThemeResource SubtleFillColorSecondaryBrush}" CornerRadius="6">
+          <TextBlock Text="Scroll gesture area (not available on Uno Platform)" HorizontalAlignment="Center" VerticalAlignment="Center" />
+        </Border>
+      </StackPanel>
+
+      <StackPanel Spacing="8">
+        <TextBlock Text="Touchpad gestures" FontWeight="SemiBold" />
+        <TextBlock Text="Magnify, rotate, and swipe gestures send commands." FontSize="12" TextWrapping="Wrap" />
+        <Border Height="100" Background="{ThemeResource ControlStrongFillColorDisabledBrush}" CornerRadius="6">
+          <TextBlock Text="Touchpad gesture area (not available on Uno Platform)" HorizontalAlignment="Center" VerticalAlignment="Center" />
+        </Border>
+      </StackPanel>
+
+      <StackPanel Spacing="8">
+        <TextBlock Text="Tapped gestures" FontWeight="SemiBold" />
+        <TextBlock Text="Try tap, double tap and right tap on the card." FontSize="12" TextWrapping="Wrap" />
+        <!-- Avalonia Cursor="Hand": WinUI only exposes the element cursor through the protected ProtectedCursor. -->
+        <Border Padding="16" Background="{ThemeResource ControlStrongFillColorDisabledBrush}">
+          <i:Interaction.Behaviors>
+            <icustom:ExecuteCommandOnTappedBehavior Command="{x:Bind ViewModel.TappedCommand}" />
+            <icustom:ExecuteCommandOnDoubleTappedBehavior Command="{x:Bind ViewModel.DoubleTappedCommand}" />
+            <icustom:ExecuteCommandOnRightTappedBehavior Command="{x:Bind ViewModel.RightTappedCommand}" />
+            <icustom:ExecuteCommandOnHoldingBehavior Command="{x:Bind ViewModel.HoldingCommand}" />
+          </i:Interaction.Behaviors>
+          <TextBlock Text="Tap, double tap, right tap or hold here" HorizontalAlignment="Center" TextWrapping="Wrap" />
+        </Border>
+      </StackPanel>
+
+      <StackPanel Spacing="8">
+        <TextBlock Text="Pointer events" FontWeight="SemiBold" />
+        <TextBlock Text="Move the pointer across the panel, press/release, or capture and drag outside to exercise pointer commands." FontSize="12" TextWrapping="Wrap" />
+        <Border Padding="24"
+                Background="{ThemeResource SolidBackgroundFillColorBaseBrush}"
+                BorderBrush="{ThemeResource ControlStrongStrokeColorDefaultBrush}"
+                BorderThickness="1">
+          <i:Interaction.Behaviors>
+            <icustom:ExecuteCommandOnPointerEnteredBehavior Command="{x:Bind ViewModel.PointerEnteredCommand}" />
+            <icustom:ExecuteCommandOnPointerMovedBehavior Command="{x:Bind ViewModel.PointerMovedCommand}" />
+            <icustom:ExecuteCommandOnPointerExitedBehavior Command="{x:Bind ViewModel.PointerExitedCommand}" />
+            <icustom:ExecuteCommandOnPointerPressedBehavior Command="{x:Bind ViewModel.PointerPressedCommand}" />
+            <icustom:ExecuteCommandOnPointerReleasedBehavior Command="{x:Bind ViewModel.PointerReleasedCommand}" />
+            <icustom:ExecuteCommandOnPointerCaptureLostBehavior Command="{x:Bind ViewModel.PointerCaptureLostCommand}" />
+          </i:Interaction.Behaviors>
+          <TextBlock Text="Pointer interactions region" HorizontalAlignment="Center" />
+        </Border>
+      </StackPanel>
+
+      <StackPanel Spacing="8">
+        <TextBlock Text="Pointer wheel" FontWeight="SemiBold" />
+        <TextBlock Text="Scroll the mouse wheel over the box to trigger the command." FontSize="12" TextWrapping="Wrap" />
+        <Border Padding="16"
+                Background="{ThemeResource SolidBackgroundFillColorBaseBrush}"
+                BorderBrush="{ThemeResource ControlStrongStrokeColorDefaultBrush}"
+                BorderThickness="1">
+          <i:Interaction.Behaviors>
+            <icustom:ExecuteCommandOnPointerWheelChangedBehavior Command="{x:Bind ViewModel.PointerWheelChangedCommand}" />
+          </i:Interaction.Behaviors>
+          <TextBlock Text="Scroll here" HorizontalAlignment="Center" />
+        </Border>
+      </StackPanel>
+
+      <StackPanel Spacing="8">
+        <StackPanel Orientation="Horizontal" Spacing="8">
+          <TextBlock Text="Event log" FontWeight="SemiBold" VerticalAlignment="Center" />
+          <Button Content="Clear" Command="{x:Bind ViewModel.ClearLogCommand}" />
+        </StackPanel>
+        <ListView ItemsSource="{x:Bind ViewModel.Events}" Height="180" />
+      </StackPanel>
+    </StackPanel>
+  </ScrollViewer>
+</UserControl>

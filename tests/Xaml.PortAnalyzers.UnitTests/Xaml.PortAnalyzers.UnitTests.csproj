@@ -1,0 +1,26 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <OutputType>Exe</OutputType>
+    <IsPackable>False</IsPackable>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>disable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- Avalonia provides the real source platform symbols used by the in-memory test compilations. -->
+    <PackageReference Include="Avalonia" />
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" />
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Xaml.PortAnalyzers\Xaml.PortAnalyzers.csproj" />
+    <ProjectReference Include="..\..\src\Xaml.PortAnalyzers.CodeFixes\Xaml.PortAnalyzers.CodeFixes.csproj" />
+  </ItemGroup>
+
+  <Import Project="..\..\build\XUnit.props" />
+  <Import Project="..\..\build\SignAssembly.props" />
+
+</Project>

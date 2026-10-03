@@ -1,11 +1,21 @@
 using System;
 using System.Windows.Input;
+#if UNO
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Input;
+#else
 using Avalonia.Controls;
 using Avalonia.Headless.XUnit;
 using Avalonia.Input;
+#endif
 using Xunit;
 
+#if UNO
+namespace Xaml.Interactivity.UnitTests;
+#else
 namespace Avalonia.Xaml.Interactivity.UnitTests;
+#endif
 
 public class InvokeCommandBehaviorBaseTests
 {
@@ -125,7 +135,11 @@ public class InvokeCommandBehaviorBaseTests
         };
         var isEnabled = new BooleanObservable(true);
         var button = new Button();
+#if UNO
+        button.Bind(Microsoft.UI.Xaml.Controls.Control.IsEnabledProperty, isEnabled);
+#else
         button.Bind(InputElement.IsEnabledProperty, isEnabled);
+#endif
 
         behavior.Attach(button);
 

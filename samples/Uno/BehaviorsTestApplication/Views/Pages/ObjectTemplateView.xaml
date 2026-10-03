@@ -1,0 +1,65 @@
+<UserControl x:Class="BehaviorsTestApplication.Views.Pages.ObjectTemplateView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:i="using:Xaml.Interactivity"
+             xmlns:ic="using:Xaml.Interactions.Core"
+             xmlns:icustom="using:Xaml.Interactions.Custom"
+             xmlns:vm="using:BehaviorsTestApplication.ViewModels"
+             mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="450">
+  <!--
+    Avalonia: the add/insert actions build a new ItemViewModel (x:Arguments) from an ObjectTemplate on every click.
+    WinUI templates (DataTemplate) only create UI elements and WinUI XAML has no x:Arguments: the actions use an
+    ItemFactory (ItemViewModelFactory) that creates a new ItemViewModel on every click.
+  -->
+  <StackPanel Spacing="10" Margin="5">
+    <StackPanel Orientation="Horizontal" Spacing="5">
+      <Button Content="Add Item">
+        <i:Interaction.Behaviors>
+          <ic:EventTriggerBehavior EventName="Click">
+            <icustom:AddItemToItemsControlAction ItemsControl="{x:Bind ItemsControl}">
+              <icustom:AddItemToItemsControlAction.ItemFactory>
+                <vm:ItemViewModelFactory Value="Added Item" Color="Black" />
+              </icustom:AddItemToItemsControlAction.ItemFactory>
+            </icustom:AddItemToItemsControlAction>
+          </ic:EventTriggerBehavior>
+        </i:Interaction.Behaviors>
+      </Button>
+      <Button Content="Insert Item At 0">
+        <i:Interaction.Behaviors>
+          <ic:EventTriggerBehavior EventName="Click">
+            <icustom:InsertItemToItemsControlAction ItemsControl="{x:Bind ItemsControl}" Index="0">
+              <icustom:InsertItemToItemsControlAction.ItemFactory>
+                <vm:ItemViewModelFactory Value="Inserted Item" Color="Black" />
+              </icustom:InsertItemToItemsControlAction.ItemFactory>
+            </icustom:InsertItemToItemsControlAction>
+          </ic:EventTriggerBehavior>
+        </i:Interaction.Behaviors>
+      </Button>
+    </StackPanel>
+    <ItemsControl x:Name="ItemsControl" ItemsSource="{x:Bind ViewModel.Items, Mode=OneWay}">
+      <ItemsControl.ItemTemplate>
+        <DataTemplate x:DataType="vm:ItemViewModel">
+          <!-- Avalonia DockPanel: label left, button right, text box filling the rest. -->
+          <Grid>
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="Auto" />
+              <ColumnDefinition Width="*" />
+              <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Column="0" Text="Value:" Margin="5" VerticalAlignment="Center" />
+            <Button Grid.Column="2" Content="Remove" Margin="5">
+              <i:Interaction.Behaviors>
+                <ic:EventTriggerBehavior EventName="Click">
+                  <icustom:RemoveItemInItemsControlAction />
+                </ic:EventTriggerBehavior>
+              </i:Interaction.Behaviors>
+            </Button>
+            <TextBox Grid.Column="1" Text="{x:Bind Value, Mode=TwoWay}" Margin="5" />
+          </Grid>
+        </DataTemplate>
+      </ItemsControl.ItemTemplate>
+    </ItemsControl>
+  </StackPanel>
+</UserControl>

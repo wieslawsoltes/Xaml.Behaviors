@@ -1,0 +1,443 @@
+// Copyright (c) Wiesław Šoltés. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for details.
+using System;
+using System.Collections.Generic;
+using System.Reflection;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
+using System.Windows.Input;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Automation.Peers;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Input;
+using Windows.Foundation;
+using Windows.System;
+using Windows.UI.Input.Preview.Injection;
+using Xaml.Behaviors.Uno.Headless;
+using Xaml.Interactivity;
+
+namespace Xaml.Interactions.Custom.General.UnitTests;
+
+public sealed class TestViewModel : INotifyPropertyChanged
+{
+    private int _count;
+    private bool _flag;
+    private string? _name;
+
+    public event PropertyChangedEventHandler? PropertyChanged;
+
+    public int Count
+    {
+        get => _count;
+        set { _count = value; OnPropertyChanged(); }
+    }
+
+    public bool Flag
+    {
+        get => _flag;
+        set { _flag = value; OnPropertyChanged(); }
+    }
+
+    public string? Name
+    {
+        get => _name;
+        set { _name = value; OnPropertyChanged(); }
+    }
+
+    private void OnPropertyChanged([CallerMemberName] string? name = null) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+}
+
+public sealed class RecordingCommand : ICommand
+{
+    public List<object?> Parameters { get; } = [];
+
+    public bool CanExecuteResult { get; set; } = true;
+
+    public event EventHandler? CanExecuteChanged { add { } remove { } }
+
+    public bool CanExecute(object? parameter) => CanExecuteResult;
+
+    public void Execute(object? parameter) => Parameters.Add(parameter);
+}
+
+public partial class RecordingAction : Xaml.Interactivity.Action
+{
+    public List<object?> Parameters { get; } = [];
+
+    public List<object?> Senders { get; } = [];
+
+    public DependencyObject? ObservedHost => Host;
+
+    public override object? Execute(object? sender, object? parameter)
+    {
+        Senders.Add(sender);
+        Parameters.Add(parameter);
+        return null;
+    }
+}
+
+public partial class BindableRecordingAction : Xaml.Interactivity.Action
+{
+    public List<object?> Values { get; } = [];
+
+    [StyledProperty]
+    public partial object? Value { get; set; }
+
+    public override object? Execute(object? sender, object? parameter)
+    {
+        Values.Add(Value);
+        return null;
+    }
+}
+
+public partial class RecordingStyledAction : StyledElementAction
+{
+    public List<object?> Parameters { get; } = [];
+
+    public DependencyObject? ObservedHost => Host;
+
+    public override object? Execute(object? sender, object? parameter)
+    {
+        Parameters.Add(parameter);
+        return null;
+    }
+}
+
+/// <summary>
+/// A minimal observable used to drive <see cref="ObservableTriggerBehavior{T}"/>.
+/// </summary>
+public sealed class TestObservable<T> : IObservable<T>
+{
+    private readonly List<IObserver<T>> _observers = [];
+
+    public int SubscriberCount => _observers.Count;
+
+    public void OnNext(T value)
+    {
+        foreach (var observer in _observers.ToArray())
+        {
+            observer.OnNext(value);
+        }
+    }
+
+    public IDisposable Subscribe(IObserver<T> observer)
+    {
+        _observers.Add(observer);
+        return new Unsubscriber(() => _observers.Remove(observer));
+    }
+
+    private sealed class Unsubscriber(System.Action dispose) : IDisposable
+    {
+        public void Dispose() => dispose();
+    }
+}
+
+internal static class TestInput
+{
+    public static UnoHeadlessSession Session => UnoHeadlessSession.Current;
+
+    public static void Click(Button button) => new ButtonAutomationPeer(button).Invoke();
+
+    private static InputInjector? s_injector;
+
+    /// <summary>
+    /// Gets the shared injector (the injected mouse position is tracked per injector instance).
+    /// </summary>
+    public static InputInjector? CreateInjector() => s_injector ??= InputInjector.TryCreate();
+
+    // Uno Platform injects mouse moves relative to the current position (the Absolute option is ignored).
+#if !WINUI
+    private static readonly ConditionalWeakTable<InputInjector, StrongBox<Point>> s_positions = new();
+#endif
+
+#if WINUI
+    // Native WinUI: the mouse of the WinUI test harness (the injector is not used: Windows input injection takes screen
+    // coordinates, and the harness converts them).
+    public static async Task TapAsync(InputInjector injector, UIElement element, double x = 10, double y = 10)
+    {
+        Session.Mouse.Click((FrameworkElement)element, new Point(x, y));
+        await Session.WaitForIdleAsync();
+    }
+
+    public static async Task MoveAsync(InputInjector injector, UIElement? element, double x, double y)
+    {
+        Session.Mouse.MoveTo(new Point(x, y), element);
+        await Session.WaitForIdleAsync();
+    }
+
+    public static async Task LeftDownAsync(InputInjector injector)
+    {
+        Session.Mouse.Down();
+        await Session.WaitForIdleAsync();
+    }
+
+    public static async Task LeftUpAsync(InputInjector injector)
+    {
+        Session.Mouse.Up();
+        await Session.WaitForIdleAsync();
+    }
+#else
+    public static async Task TapAsync(InputInjector injector, UIElement element, double x = 10, double y = 10)
+    {
+        MoveTo(injector, element.TransformToVisual(null).TransformPoint(new Point(x, y)));
+        injector.InjectMouseInput([new InjectedInputMouseInfo { MouseOptions = InjectedInputMouseOptions.LeftDown }]);
+        injector.InjectMouseInput([new InjectedInputMouseInfo { MouseOptions = InjectedInputMouseOptions.LeftUp }]);
+        await Session.WaitForIdleAsync();
+    }
+
+    public static async Task MoveAsync(InputInjector injector, UIElement? element, double x, double y)
+    {
+        MoveTo(injector, element is null ? new Point(x, y) : element.TransformToVisual(null).TransformPoint(new Point(x, y)));
+        await Session.WaitForIdleAsync();
+    }
+
+    public static async Task LeftDownAsync(InputInjector injector)
+    {
+        injector.InjectMouseInput([new InjectedInputMouseInfo { MouseOptions = InjectedInputMouseOptions.LeftDown }]);
+        await Session.WaitForIdleAsync();
+    }
+
+    public static async Task LeftUpAsync(InputInjector injector)
+    {
+        injector.InjectMouseInput([new InjectedInputMouseInfo { MouseOptions = InjectedInputMouseOptions.LeftUp }]);
+        await Session.WaitForIdleAsync();
+    }
+
+    private static void MoveTo(InputInjector injector, Point position)
+    {
+        var current = s_positions.GetValue(injector, static _ => new StrongBox<Point>(default));
+        var deltaX = (int)Math.Round(position.X - current.Value.X);
+        var deltaY = (int)Math.Round(position.Y - current.Value.Y);
+        current.Value = new Point(current.Value.X + deltaX, current.Value.Y + deltaY);
+        injector.InjectMouseInput([new InjectedInputMouseInfo
+        {
+            DeltaX = deltaX,
+            DeltaY = deltaY,
+            MouseOptions = InjectedInputMouseOptions.Move,
+        }]);
+    }
+#endif
+
+#if WINUI
+    /// <summary>
+    /// Raises the key events of a key press on an element: native WinUI cannot create key event arguments, so the
+    /// element is focused and the key is pressed with the keyboard of the WinUI test harness.
+    /// </summary>
+    /// <returns>The arguments of the key event the element received.</returns>
+    public static KeyRoutedEventArgs RaiseKey(UIElement target, VirtualKey key, bool keyUp = false)
+    {
+        Focus(target);
+        KeyRoutedEventArgs? received = null;
+        KeyEventHandler handler = (_, e) => received ??= e;
+        var routedEvent = keyUp ? UIElement.KeyUpEvent : UIElement.KeyDownEvent;
+        target.AddHandler(routedEvent, handler, handledEventsToo: true);
+        try
+        {
+            if (keyUp)
+            {
+                Session.Keyboard.KeyUp(key);
+            }
+            else
+            {
+                Session.Keyboard.KeyDown(key);
+            }
+        }
+        finally
+        {
+            target.RemoveHandler(routedEvent, handler);
+        }
+
+        return received ?? throw new InvalidOperationException($"The element did not receive the {key} key (is it focusable?).");
+    }
+
+    /// <summary>
+    /// Presses and releases a key on an element (focused first), holding the given modifier keys.
+    /// </summary>
+    public static async Task PressKeyAsync(UIElement target, VirtualKey key, params VirtualKey[] modifiers)
+    {
+        Focus(target);
+        var modifierFlags = VirtualKeyModifiers.None;
+        foreach (var modifier in modifiers)
+        {
+            modifierFlags |= modifier switch
+            {
+                VirtualKey.Control or VirtualKey.LeftControl or VirtualKey.RightControl => VirtualKeyModifiers.Control,
+                VirtualKey.Shift or VirtualKey.LeftShift or VirtualKey.RightShift => VirtualKeyModifiers.Shift,
+                VirtualKey.Menu or VirtualKey.LeftMenu or VirtualKey.RightMenu => VirtualKeyModifiers.Menu,
+                _ => VirtualKeyModifiers.Windows,
+            };
+        }
+
+        Session.Keyboard.Press(key, modifierFlags);
+        await Session.WaitForIdleAsync();
+    }
+
+    /// <summary>
+    /// Raises the character received (text input) event on an element (focused first, then the character is typed).
+    /// </summary>
+    /// <returns>The arguments of the character event the element received.</returns>
+    public static CharacterReceivedRoutedEventArgs RaiseCharacter(UIElement target, char character)
+    {
+        Focus(target);
+        CharacterReceivedRoutedEventArgs? received = null;
+        // Handled events too: a behavior under test may handle the character.
+        TypedEventHandler<UIElement, CharacterReceivedRoutedEventArgs> handler = (_, e) => received ??= e;
+        target.AddHandler(UIElement.CharacterReceivedEvent, handler, handledEventsToo: true);
+        try
+        {
+            Session.Keyboard.TypeText(character.ToString());
+        }
+        finally
+        {
+            target.RemoveHandler(UIElement.CharacterReceivedEvent, handler);
+        }
+
+        return received ?? throw new InvalidOperationException($"The element did not receive the character '{character}' (is it focusable?).");
+    }
+
+    private static void Focus(UIElement target)
+    {
+        if (target is Microsoft.UI.Xaml.Controls.Control control)
+        {
+            control.Focus(FocusState.Keyboard);
+        }
+
+        Session.RunJobs();
+    }
+#else
+    /// <summary>
+    /// Raises the key events of a key press on an element (tunneling preview event, then the bubbling event).
+    /// </summary>
+    /// <remarks>
+    /// The headless host has no keyboard input source (keyboard injection raises nothing), so the key events are
+    /// raised through the Uno Platform input pipeline entry points (test only reflection).
+    /// </remarks>
+    public static KeyRoutedEventArgs RaiseKey(UIElement target, VirtualKey key, bool keyUp = false)
+    {
+        var args = (KeyRoutedEventArgs)Activator.CreateInstance(
+            typeof(KeyRoutedEventArgs),
+            BindingFlags.NonPublic | BindingFlags.Instance,
+            binder: null,
+            args: [target, key, VirtualKeyModifiers.None, null, null],
+            culture: null)!;
+        RaiseTunneling(target, keyUp ? UIElement.PreviewKeyUpEvent : UIElement.PreviewKeyDownEvent, args);
+        RaiseBubbling(target, keyUp ? UIElement.KeyUpEvent : UIElement.KeyDownEvent, args);
+        return args;
+    }
+
+    /// <summary>
+    /// Presses and releases a key on an element, holding the given modifier keys.
+    /// </summary>
+    public static async Task PressKeyAsync(UIElement target, VirtualKey key, params VirtualKey[] modifiers)
+    {
+        foreach (var modifier in modifiers)
+        {
+            RaiseKey(target, modifier);
+        }
+
+        RaiseKey(target, key);
+        RaiseKey(target, key, keyUp: true);
+
+        for (var i = modifiers.Length - 1; i >= 0; i--)
+        {
+            RaiseKey(target, modifiers[i], keyUp: true);
+        }
+
+        await Session.WaitForIdleAsync();
+    }
+
+    /// <summary>
+    /// Raises the character received (text input) event on an element.
+    /// </summary>
+    public static CharacterReceivedRoutedEventArgs RaiseCharacter(UIElement target, char character)
+    {
+        var args = (CharacterReceivedRoutedEventArgs)Activator.CreateInstance(
+            typeof(CharacterReceivedRoutedEventArgs),
+            BindingFlags.NonPublic | BindingFlags.Instance,
+            binder: null,
+            args: [target, character, default(Windows.UI.Core.CorePhysicalKeyStatus)],
+            culture: null)!;
+        RaiseBubbling(target, UIElement.CharacterReceivedEvent, args);
+        return args;
+    }
+#endif
+
+#if !WINUI
+    private static void RaiseTunneling(UIElement target, RoutedEvent routedEvent, RoutedEventArgs args)
+    {
+        var method = typeof(UIElement).GetMethod("SafeRaiseTunnelingEvent", BindingFlags.NonPublic | BindingFlags.Instance)!;
+        method.Invoke(target, [routedEvent, args]);
+    }
+
+    private static void RaiseBubbling(UIElement target, RoutedEvent routedEvent, RoutedEventArgs args)
+    {
+        var method = typeof(UIElement).GetMethod("SafeRaiseEvent", BindingFlags.NonPublic | BindingFlags.Instance)!;
+        var context = Activator.CreateInstance(method.GetParameters()[2].ParameterType);
+        method.Invoke(target, [routedEvent, args, context]);
+    }
+#endif
+
+    public static async Task WaitUntilAsync(Func<bool> condition, int timeoutMilliseconds = 3000)
+    {
+        var start = Environment.TickCount64;
+        while (!condition())
+        {
+            if (Environment.TickCount64 - start > timeoutMilliseconds)
+            {
+                return;
+            }
+
+            await Task.Delay(20);
+            await Session.WaitForIdleAsync();
+        }
+    }
+}
+
+/// <summary>
+/// A user-defined dependency object validation rule (generated dependency properties) that opts in to revalidation
+/// through the public <see cref="IValidationRuleChanged"/> contract.
+/// </summary>
+public partial class MaxLengthTestRule : DependencyObject, IValidationRule<string>, IValidationRuleChanged
+{
+    private EventHandler? _changed;
+
+    public event EventHandler? Changed
+    {
+        add { _changed += value; SubscriberCount++; }
+        remove { _changed -= value; SubscriberCount--; }
+    }
+
+    public int SubscriberCount { get; private set; }
+
+    [StyledProperty(DefaultValue = int.MaxValue)]
+    public partial int MaxLength { get; set; }
+
+    [StyledProperty(DefaultValue = "too long")]
+    public partial string? ErrorMessage { get; set; }
+
+    public bool Validate(string? value) => value is null || value.Length <= MaxLength;
+
+    // The generated properties route their changes here.
+    private void OnPropertyChanged(DependencyPropertyChangedEventArgs e) => _changed?.Invoke(this, EventArgs.Empty);
+}
+
+/// <summary>
+/// A user-defined plain CLR validation rule that raises <see cref="IValidationRuleChanged.Changed"/> from its setters.
+/// </summary>
+public sealed class ForbiddenTextTestRule : IValidationRule<string>, IValidationRuleChanged
+{
+    private string? _forbidden;
+
+    public event EventHandler? Changed;
+
+    public string? Forbidden
+    {
+        get => _forbidden;
+        set { _forbidden = value; Changed?.Invoke(this, EventArgs.Empty); }
+    }
+
+    public string? ErrorMessage { get; set; } = "forbidden";
+
+    public bool Validate(string? value) => value != Forbidden;
+}

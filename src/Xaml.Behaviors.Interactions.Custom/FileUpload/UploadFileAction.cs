@@ -4,45 +4,37 @@ using System;
 using System.IO;
 using System.Net.Http;
 using System.Threading.Tasks;
+#if UNO
+using Microsoft.UI.Dispatching;
+using Xaml.Interactivity;
+#else
 using Avalonia.Threading;
 using Avalonia.Xaml.Interactivity;
+#endif
 
+#if UNO
+namespace Xaml.Interactions.Custom;
+#else
 namespace Avalonia.Xaml.Interactions.Custom;
+#endif
 
 /// <summary>
 /// Asynchronously uploads a file to a specified URL and invokes a command when completed.
 /// </summary>
-public class UploadFileAction : InvokeCommandActionBase
+public partial class UploadFileAction : InvokeCommandActionBase
 {
-    /// <summary>
-    /// Identifies the <see cref="FilePath"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<string?> FilePathProperty =
-        AvaloniaProperty.Register<UploadFileAction, string?>(nameof(FilePath));
-
-    /// <summary>
-    /// Identifies the <see cref="Url"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<string?> UrlProperty =
-        AvaloniaProperty.Register<UploadFileAction, string?>(nameof(Url));
 
     /// <summary>
     /// Gets or sets the path of the file to upload. This is an avalonia property.
     /// </summary>
-    public string? FilePath
-    {
-        get => GetValue(FilePathProperty);
-        set => SetValue(FilePathProperty, value);
-    }
+    [StyledProperty]
+    public partial string? FilePath { get; set; }
 
     /// <summary>
     /// Gets or sets the destination URL. This is an avalonia property.
     /// </summary>
-    public string? Url
-    {
-        get => GetValue(UrlProperty);
-        set => SetValue(UrlProperty, value);
-    }
+    [StyledProperty]
+    public partial string? Url { get; set; }
 
     /// <summary>
     /// Initializes a new instance of the <see cref="UploadFileAction"/> class.

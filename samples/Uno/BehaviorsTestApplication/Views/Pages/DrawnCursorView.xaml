@@ -1,0 +1,13 @@
+<!--
+  Not available: the cursor behaviors and actions (SetCursorFromProviderBehavior, SetCursorFromProviderAction,
+  SetCursorAction) are not part of the Uno port (src/Uno/Xaml.Behaviors.Interactions.Custom/SharedSources.props:
+  Cursor/**). WinUI only exposes the element cursor through the protected UIElement.ProtectedCursor and has no cursor
+  created from a drawn bitmap (DrawnCursorViewModel draws into an Avalonia RenderTargetBitmap).
+-->
+<UserControl x:Class="BehaviorsTestApplication.Views.Pages.DrawnCursorView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:controls="using:BehaviorsTestApplication.Controls">
+  <controls:NotAvailableOnUnoView Title="Drawn Cursor"
+                                  Reason="WinUI only exposes the element cursor through the protected UIElement.ProtectedCursor and cannot create a cursor from a drawn bitmap, so the cursor provider behaviors and actions have no WinUI counterpart." />
+</UserControl>

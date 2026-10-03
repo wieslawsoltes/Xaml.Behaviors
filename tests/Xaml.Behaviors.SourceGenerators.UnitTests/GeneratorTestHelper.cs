@@ -7,13 +7,21 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Xaml.Behaviors.SourceGenerators;
 
+#if UNO
+namespace Xaml.Behaviors.SourceGenerators.UnitTests;
+#else
 namespace Avalonia.Xaml.Behaviors.SourceGenerators.UnitTests;
+#endif
 
 public static class GeneratorTestHelper
 {
     public static (ImmutableArray<Diagnostic> Diagnostics, ImmutableArray<string> GeneratedSources) RunGenerator(string source)
     {
         source = NormalizeAssemblyAttributes(source);
+#if UNO
+        // The scenarios are written against Avalonia: run them against WinUI (the generator emits the WinUI code).
+        source = WinUISourceTranslator.Translate(source);
+#endif
 
         var attributeSource = @"
 using System;
@@ -133,6 +141,9 @@ namespace Xaml.Behaviors.SourceGenerators
             ? new[] { sourceTree }
             : new[] { attributeTree, sourceTree };
         
+#if UNO
+        var references = new List<MetadataReference>(WinUIGeneratorTestHelper.References);
+#else
         var references = new List<MetadataReference>
         {
             MetadataReference.CreateFromFile(typeof(object).Assembly.Location),
@@ -148,6 +159,7 @@ namespace Xaml.Behaviors.SourceGenerators
             MetadataReference.CreateFromFile(Assembly.Load("System.Runtime").Location),
             MetadataReference.CreateFromFile(Assembly.Load("System.ObjectModel").Location),
         };
+#endif
 
         var compilation = CSharpCompilation.Create(
             "Tests",
@@ -196,6 +208,12 @@ namespace Xaml.Behaviors.SourceGenerators
         var generatedSources = result.Results[0].GeneratedSources
             .Select(s => s.SourceText.ToString())
             .ToImmutableArray();
+#if UNO
+        if (generatedSources.Any(s => s.Contains("using Avalonia", StringComparison.Ordinal)))
+        {
+            throw new InvalidOperationException("The generator did not select the WinUI platform for the scenario.");
+        }
+#endif
 
         if (Environment.GetEnvironmentVariable("GENERATOR_TEST_DEBUG") == "1")
         {

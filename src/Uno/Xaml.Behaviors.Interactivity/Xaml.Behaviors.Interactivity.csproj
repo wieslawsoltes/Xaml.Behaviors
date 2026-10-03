@@ -1,0 +1,22 @@
+<Project Sdk="Uno.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>$(UnoTargetFrameworks)</TargetFrameworks>
+    <AssemblyName>Xaml.Behaviors.Uno.Interactivity</AssemblyName>
+    <RootNamespace>Xaml.Interactivity</RootNamespace>
+    <UnoSharedSourceProject>Xaml.Behaviors.Interactivity</UnoSharedSourceProject>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <PackageId>Xaml.Behaviors.Uno.Interactivity</PackageId>
+    <Description>Foundation library providing base classes for actions, triggers and behaviors for Uno Platform (WinUI).</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Using Include="Xaml.Interactivity" />
+  </ItemGroup>
+
+  <!-- Avalonia-only sources, shared with the Avalonia build for the portability analyzers. -->
+  <Import Project="SharedSources.props" />
+
+</Project>

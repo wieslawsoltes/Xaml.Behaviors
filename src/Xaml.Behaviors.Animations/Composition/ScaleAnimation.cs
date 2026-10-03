@@ -2,10 +2,20 @@
 // Licensed under the MIT license. See LICENSE file in the project root for details.
 using System;
 using System.Numerics;
+#if UNO
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Composition;
+#else
 using Avalonia.Controls;
 using Avalonia.Rendering.Composition;
+#endif
 
+#if UNO
+namespace Xaml.Interactions.Custom;
+#else
 namespace Avalonia.Xaml.Interactions.Custom;
+#endif
 
 /// <summary>
 /// Provides scale animation helpers using composition animations.
@@ -145,4 +155,43 @@ public static class ScaleAnimation
                 new(1f, Vector3.One)
             });
     }
+
+#if UNO
+    // WinUI XAML takes the type of an attached property from its getter. These attached properties are write-only (the
+    // value starts the animation), so their getters return NaN.
+    /// <summary>
+    /// The getter WinUI XAML requires for the write-only <see cref="SetScaleIn"/> attached property; always <see cref="double.NaN"/>.
+    /// </summary>
+    /// <param name="element">The element.</param>
+    /// <returns><see cref="double.NaN"/>.</returns>
+    public static double GetScaleIn(Control element) => double.NaN;
+
+    /// <summary>
+    /// The getter WinUI XAML requires for the write-only <see cref="SetScaleOut"/> attached property; always <see cref="double.NaN"/>.
+    /// </summary>
+    /// <param name="element">The element.</param>
+    /// <returns><see cref="double.NaN"/>.</returns>
+    public static double GetScaleOut(Control element) => double.NaN;
+
+    /// <summary>
+    /// The getter WinUI XAML requires for the write-only <see cref="SetZoomIn"/> attached property; always <see cref="double.NaN"/>.
+    /// </summary>
+    /// <param name="element">The element.</param>
+    /// <returns><see cref="double.NaN"/>.</returns>
+    public static double GetZoomIn(Control element) => double.NaN;
+
+    /// <summary>
+    /// The getter WinUI XAML requires for the write-only <see cref="SetZoomOut"/> attached property; always <see cref="double.NaN"/>.
+    /// </summary>
+    /// <param name="element">The element.</param>
+    /// <returns><see cref="double.NaN"/>.</returns>
+    public static double GetZoomOut(Control element) => double.NaN;
+
+    /// <summary>
+    /// The getter WinUI XAML requires for the write-only <see cref="SetBounce"/> attached property; always <see cref="double.NaN"/>.
+    /// </summary>
+    /// <param name="element">The element.</param>
+    /// <returns><see cref="double.NaN"/>.</returns>
+    public static double GetBounce(Control element) => double.NaN;
+#endif
 }

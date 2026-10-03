@@ -1,15 +1,24 @@
 // Copyright (c) Wiesław Šoltés. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for details.
+#if UNO
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Input;
+#else
 using Avalonia.Input;
 using Avalonia.Interactivity;
+#endif
 
+#if UNO
+namespace Xaml.Interactions.Custom;
+#else
 namespace Avalonia.Xaml.Interactions.Custom;
+#endif
 
 /// <summary>
 /// A trigger that listens for key events and executes its actions when the
 /// specified key or gesture is detected.
 /// </summary>
-public class KeyTrigger : RoutedEventTriggerBase<KeyEventArgs>
+public partial class KeyTrigger : RoutedEventTriggerBase<KeyEventArgs>
 {
     /// <summary>
     /// Specifies which keyboard event will fire the trigger.
@@ -32,49 +41,22 @@ public class KeyTrigger : RoutedEventTriggerBase<KeyEventArgs>
         => Event == FiredOn.KeyDown ? InputElement.KeyDownEvent : InputElement.KeyUpEvent;
 
     /// <summary>
-    /// Identifies the <seealso cref="Key"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<Key?> KeyProperty =
-        AvaloniaProperty.Register<KeyTrigger, Key?>(nameof(Key));
-
-    /// <summary>
-    /// Identifies the <seealso cref="Gesture"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<KeyGesture?> GestureProperty =
-        AvaloniaProperty.Register<KeyTrigger, KeyGesture?>(nameof(Gesture));
-
-    /// <summary>
-    /// Identifies the <seealso cref="Event"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<FiredOn> EventProperty =
-        AvaloniaProperty.Register<KeyTrigger, FiredOn>(nameof(Event), FiredOn.KeyDown);
-
-    /// <summary>
     /// Gets or sets the key to listen for. This is an avalonia property.
     /// </summary>
-    public Key? Key
-    {
-        get => GetValue(KeyProperty);
-        set => SetValue(KeyProperty, value);
-    }
+    [StyledProperty]
+    public partial Key? Key { get; set; }
 
     /// <summary>
     /// Gets or sets the key gesture to match. This is an avalonia property.
     /// </summary>
-    public KeyGesture? Gesture
-    {
-        get => GetValue(GestureProperty);
-        set => SetValue(GestureProperty, value);
-    }
+    [StyledProperty]
+    public partial KeyGesture? Gesture { get; set; }
 
     /// <summary>
     /// Gets or sets which key event fires the trigger. This is an avalonia property.
     /// </summary>
-    public FiredOn Event
-    {
-        get => GetValue(EventProperty);
-        set => SetValue(EventProperty, value);
-    }
+    [StyledProperty(DefaultValue = FiredOn.KeyDown)]
+    public partial FiredOn Event { get; set; }
 
     /// <inheritdoc />
     protected override void Handler(object? sender, KeyEventArgs e)

@@ -1,0 +1,40 @@
+<UserControl x:Class="BehaviorsTestApplication.Views.Pages.WindowInteractionsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:i="using:Xaml.Interactivity"
+             xmlns:ic="using:Xaml.Interactions.Core"
+             xmlns:icustom="using:Xaml.Interactions.Custom"
+             xmlns:views="using:BehaviorsTestApplication.Views.Windows"
+             mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="200">
+  <i:Interaction.Behaviors>
+    <!--
+      Avalonia: CenterWindowBehavior Window="{Binding $parent[Window]}" centers the window on its screen. It needs the
+      screen working area (DisplayArea), which Uno Platform does not implement, so it is not part of the Uno port.
+      The window state triggers find the window of the view (TopLevel) like on Avalonia.
+    -->
+    <icustom:WindowStateTrigger State="Maximized">
+      <ic:ChangePropertyAction TargetObject="{x:Bind StateText}" PropertyName="Text" Value="Window state: Maximized" />
+    </icustom:WindowStateTrigger>
+    <!--
+      Avalonia binds the text to {Binding $parent[Window].WindowState, StringFormat={}Window state: {0}}; the WinUI
+      window state is not a bindable property, so a trigger restores the text of the normal state.
+    -->
+    <icustom:WindowStateTrigger State="Normal">
+      <ic:ChangePropertyAction TargetObject="{x:Bind StateText}" PropertyName="Text" Value="Window state: Normal" />
+    </icustom:WindowStateTrigger>
+  </i:Interaction.Behaviors>
+  <StackPanel Spacing="5" Margin="5">
+    <Button Content="Open Window">
+      <i:Interaction.Behaviors>
+        <ic:EventTriggerBehavior EventName="Click">
+          <icustom:ShowWindowAction>
+            <views:SampleWindow />
+          </icustom:ShowWindowAction>
+        </ic:EventTriggerBehavior>
+      </i:Interaction.Behaviors>
+    </Button>
+    <TextBlock x:Name="StateText" Text="Window state: Normal" />
+  </StackPanel>
+</UserControl>

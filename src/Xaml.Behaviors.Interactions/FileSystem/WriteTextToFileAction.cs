@@ -1,58 +1,40 @@
 using System;
 using System.IO;
+#if UNO
+using Xaml.Interactivity;
+#else
 using Avalonia.Xaml.Interactivity;
+#endif
 
+#if UNO
+namespace Xaml.Interactions.FileSystem;
+#else
 namespace Avalonia.Xaml.Interactions.FileSystem;
+#endif
 
 /// <summary>
 /// An action that writes text to a file.
 /// </summary>
-public class WriteTextToFileAction : StyledElementAction
+public partial class WriteTextToFileAction : StyledElementAction
 {
-    /// <summary>
-    /// Identifies the <seealso cref="Path"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<string?> PathProperty =
-        AvaloniaProperty.Register<WriteTextToFileAction, string?>(nameof(Path));
-
-    /// <summary>
-    /// Identifies the <seealso cref="Text"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<string?> TextProperty =
-        AvaloniaProperty.Register<WriteTextToFileAction, string?>(nameof(Text));
-
-    /// <summary>
-    /// Identifies the <seealso cref="Append"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<bool> AppendProperty =
-        AvaloniaProperty.Register<WriteTextToFileAction, bool>(nameof(Append));
 
     /// <summary>
     /// Gets or sets the path of the file.
     /// </summary>
-    public string? Path
-    {
-        get => GetValue(PathProperty);
-        set => SetValue(PathProperty, value);
-    }
+    [StyledProperty]
+    public partial string? Path { get; set; }
 
     /// <summary>
     /// Gets or sets the text to write.
     /// </summary>
-    public string? Text
-    {
-        get => GetValue(TextProperty);
-        set => SetValue(TextProperty, value);
-    }
+    [StyledProperty]
+    public partial string? Text { get; set; }
 
     /// <summary>
     /// Gets or sets a value indicating whether to append text to the file.
     /// </summary>
-    public bool Append
-    {
-        get => GetValue(AppendProperty);
-        set => SetValue(AppendProperty, value);
-    }
+    [StyledProperty]
+    public partial bool Append { get; set; }
 
     /// <inheritdoc />
     public override object? Execute(object? sender, object? parameter)

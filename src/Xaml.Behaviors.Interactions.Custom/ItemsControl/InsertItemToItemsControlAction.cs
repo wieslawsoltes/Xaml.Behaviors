@@ -2,65 +2,59 @@
 // Licensed under the MIT license. See LICENSE file in the project root for details.
 using System.Collections;
 using System.Linq;
+#if UNO
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Xaml.Interactivity;
+#else
 using Avalonia.Controls;
 using Avalonia.LogicalTree;
 using Avalonia.Metadata;
 using Avalonia.Styling;
 using Avalonia.Xaml.Interactivity;
+#endif
 
+#if UNO
+namespace Xaml.Interactions.Custom;
+#else
 namespace Avalonia.Xaml.Interactions.Custom;
+#endif
 
 /// <summary>
 /// Allows a user to insert the item to a <see cref="ItemsControl"/>.
 /// </summary>
-public sealed class InsertItemToItemsControlAction : StyledElementAction
+public sealed partial class InsertItemToItemsControlAction : StyledElementAction
 {
-    /// <summary>
-    /// Identifies the <see cref="ItemsControl"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<ItemsControl?> ItemsControlProperty =
-        AvaloniaProperty.Register<InsertItemToItemsControlAction, ItemsControl?>(nameof(ItemsControl));
-
-    /// <summary>
-    /// Identifies the <see cref="Item"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<object?> ItemProperty =
-        AvaloniaProperty.Register<InsertItemToItemsControlAction, object?>(nameof(Item));
-    
-    /// <summary>
-    /// Identifies the <see cref="Index"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<int> IndexProperty =
-        AvaloniaProperty.Register<InsertItemToItemsControlAction, int>(nameof(Index));
   
     /// <summary>
     /// Gets or sets items control.
     /// </summary>
-    [ResolveByName]
-    public ItemsControl? ItemsControl
-    {
-        get => GetValue(ItemsControlProperty);
-        set => SetValue(ItemsControlProperty, value);
-    }
+    [StyledProperty(ResolveByName = true)]
+    public partial ItemsControl? ItemsControl { get; set; }
 
     /// <summary>
     /// Gets or sets item to insert.
     /// </summary>
-    [Content]
-    public object? Item
-    {
-        get => GetValue(ItemProperty);
-        set => SetValue(ItemProperty, value);
-    }
+    [StyledProperty(Content = true)]
+    public partial object? Item { get; set; }
+
+#if UNO
+    /// <summary>
+    /// Gets or sets the factory that creates a new item on every execution. This is a dependency property.
+    /// </summary>
+    /// <remarks>
+    /// Uno Platform counterpart of an Avalonia <c>ObjectTemplate</c> assigned to <see cref="Item"/>: WinUI templates only
+    /// create UI elements. When set, the created item is used instead of <see cref="Item"/>.
+    /// </remarks>
+    [StyledProperty]
+    public partial IItemFactory? ItemFactory { get; set; }
+#endif
 
     /// <summary>
     /// Gets or sets item index to insert.
     /// </summary>
-    public int Index
-    {
-        get => GetValue(IndexProperty);
-        set => SetValue(IndexProperty, value);
-    }
+    [StyledProperty]
+    public partial int Index { get; set; }
 
     /// <inheritdoc />
     public override object Execute(object? sender, object? parameter)
@@ -70,16 +64,27 @@ public sealed class InsertItemToItemsControlAction : StyledElementAction
             return false;
         }
 
+#if UNO
+        var item = ItemFactory is { } itemFactory ? itemFactory.CreateItem() : Item;
+#else
         var item = Item;
+#endif
         if (item is null)
         {
             return false;
         }
 
+#if UNO
+        if (item is DataTemplate template)
+        {
+            item = template.LoadContent();
+        }
+#else
         if (item is ITemplate template)
         {
             item = template.Build();
         }
+#endif
 
         var itemsControl = ItemsControl;
         if (itemsControl is null)

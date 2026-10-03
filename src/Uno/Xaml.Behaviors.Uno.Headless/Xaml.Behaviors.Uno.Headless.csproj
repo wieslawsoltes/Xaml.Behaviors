@@ -1,0 +1,29 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <AssemblyName>Xaml.Behaviors.Uno.Headless</AssemblyName>
+    <RootNamespace>Xaml.Behaviors.Uno.Headless</RootNamespace>
+    <!-- Not an Avalonia-shared-source project: no port type aliases. -->
+    <UnoPortAliases>false</UnoPortAliases>
+    <!-- Not trimmable: test infrastructure (never trimmed or AOT published) on top of the non-trimmable headless host. -->
+    <IsTrimmable>false</IsTrimmable>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <IsPackable>true</IsPackable>
+    <PackageId>Xaml.Behaviors.Uno.Headless</PackageId>
+    <Description>Test harness for running Uno Platform (WinUI) UI code headlessly: starts one offscreen Skia application per process and runs code on its UI thread.</Description>
+    <PackageTags>Uno;UnoPlatform;WinUI;Skia;Headless;Testing</PackageTags>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="README.md" Pack="true" PackagePath="" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Xaml.Behaviors.Uno.Headless.Host\Xaml.Behaviors.Uno.Headless.Host.csproj" />
+  </ItemGroup>
+
+</Project>

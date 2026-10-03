@@ -16,18 +16,18 @@ This page lists the analyzer diagnostics emitted by `Xaml.Behaviors.SourceGenera
 | XBG008 | All generators | Generic target/member/type parameter found | Use non-generic types/members for generation |
 | XBG009 | Typed Action | Method parameter uses `ref`/`out`/`in` | Pass parameters by value |
 | XBG010 | Actions/Triggers/ChangeProperty | Static member targeted | Use instance members |
-| XBG011 | Typed MultiDataTrigger | Target type not derived from `StyledElementTrigger` | Derive from `Avalonia.Xaml.Interactivity.StyledElementTrigger` |
-| XBG012 | Typed InvokeCommandAction | Target type not derived from `StyledElementAction` | Derive from `Avalonia.Xaml.Interactivity.StyledElementAction` |
+| XBG011 | Typed MultiDataTrigger (Avalonia; XBG036 on WinUI) | Target type not derived from `StyledElementTrigger` | Derive from `Avalonia.Xaml.Interactivity.StyledElementTrigger` |
+| XBG012 | Typed InvokeCommandAction (Avalonia; XBG036 on WinUI) | Target type not derived from `StyledElementAction` | Derive from `Avalonia.Xaml.Interactivity.StyledElementAction` |
 | XBG013 | Typed MultiDataTrigger | Missing non-static `bool Evaluate()` | Add `bool Evaluate()` |
 | XBG014 | All generators | Target or its types are not accessible | Make members/types public or grant `InternalsVisibleTo` access to the consuming assembly |
 | XBG015 | ChangePropertyAction | Property setter is inaccessible | Expose a public/internal setter |
 | XBG016 | MultiDataTrigger/InvokeCommand | Target type is not `partial` | Mark the class `partial` |
 | XBG017 | ChangePropertyAction | Property uses an `init`-only setter | Use a settable property |
 | XBG018 | MultiDataTrigger/InvokeCommand/EventCommand | Target type is nested | Move the class to the top level |
-| XBG019 | PropertyTrigger | Target is not an Avalonia styled/direct property | Point the attribute at a styled or direct Avalonia property |
+| XBG019 | PropertyTrigger | Target is not an Avalonia styled/direct property (on WinUI: an instance field, or a static member that is not a `DependencyProperty`) | Point the attribute at a styled or direct Avalonia property (a `DependencyProperty` on WinUI) |
 | XBG020 | Event Command | `ParameterPath` does not resolve on event args | Use a valid public property chain for `ParameterPath` |
 | XBG021 | Event Command | `ParameterPath` references an inaccessible member | Make the member public or expose internals |
-| XBG022 | PropertyTrigger | `SourceName` specified on a type without a `NameScope` | Use SourceObject/AssociatedObject or target a logical element |
+| XBG022 | PropertyTrigger | `SourceName` specified on a type without a `NameScope` (on WinUI: not a `FrameworkElement`) | Use SourceObject/AssociatedObject or target a logical element |
 | XBG023 | AsyncTrigger | Property name pattern did not match a Task/ValueTask property | Point the attribute at an existing Task/ValueTask property |
 | XBG024 | ObservableTrigger | Property name pattern did not match an `IObservable<T>` property | Point the attribute at an existing observable property |
 | XBG025 | AsyncTrigger | Property is not Task/ValueTask | Use Task/Task<T>/ValueTask/ValueTask<T> for async triggers |
@@ -40,6 +40,11 @@ This page lists the analyzer diagnostics emitted by `Xaml.Behaviors.SourceGenera
 | XBG031 | MultiDataTrigger | No fields marked with `[TriggerProperty]` | Add at least one `[TriggerProperty]` field |
 | XBG032 | MultiDataTrigger/InvokeCommand | `[TriggerProperty]`/`[ActionCommand]`/`[ActionParameter]` field is read-only | Make the field mutable |
 | XBG033 | EventArgsAction | Method does not declare exactly one parameter | Add a single parameter (the event args) to the target method |
+| XBG036 | MultiDataTrigger/InvokeCommand (WinUI) | Target type not derived from the `Xaml.Interactivity` base class | Derive from `Xaml.Interactivity.StyledElementTrigger`/`StyledElementAction` |
+| XBG037 | PropertyTrigger (WinUI) | Member is neither a `DependencyProperty` nor a property of an `INotifyPropertyChanged` type | Target a dependency property or implement `INotifyPropertyChanged` |
+| XBG038 | PropertyTrigger (WinUI) | Dependency property identifier declared on a type that is not a `DependencyObject` | Target the identifier on the observed `DependencyObject` type |
+
+See [Uno Platform (WinUI) Support](uno-platform.md) for the WinUI specific emission.
 
 ## Trigger diagnostics (XBG001-XBG004)
 
@@ -284,7 +289,7 @@ internal class ViewModel
 ## MultiDataTrigger and InvokeCommand diagnostics (XBG011-XBG013, XBG016, XBG018)
 
 ### XBG011 Invalid multi data trigger target
-`[GenerateTypedMultiDataTrigger]` must be applied to a type deriving from `Avalonia.Xaml.Interactivity.StyledElementTrigger`.
+`[GenerateTypedMultiDataTrigger]` must be applied to a type deriving from `Avalonia.Xaml.Interactivity.StyledElementTrigger`. Avalonia only: WinUI / Uno Platform reports [XBG036](#xbg036-invalid-winui-base-type) instead.
 
 ```csharp
 using Xaml.Behaviors.SourceGenerators;
@@ -303,7 +308,7 @@ public partial class ValidationTrigger : StyledElementTrigger { } // OK
 ```
 
 ### XBG012 Invalid invoke command action target
-`[GenerateTypedInvokeCommandAction]` must be applied to a type deriving from `Avalonia.Xaml.Interactivity.StyledElementAction`.
+`[GenerateTypedInvokeCommandAction]` must be applied to a type deriving from `Avalonia.Xaml.Interactivity.StyledElementAction`. Avalonia only: WinUI / Uno Platform reports [XBG036](#xbg036-invalid-winui-base-type) instead.
 
 ```csharp
 [GenerateTypedInvokeCommandAction]
@@ -389,6 +394,10 @@ public class InvalidTriggerHost : Avalonia.Controls.Control
 
 **Fix**: Point the attribute at a styled/direct Avalonia property.
 
+On WinUI / Uno Platform, XBG019 is reported for instance fields and for static fields or properties that are not a
+`DependencyProperty`; CLR properties that cannot be observed report [XBG037](#xbg037-property-cannot-be-observed-on-winui)
+instead.
+
 ```csharp
 public static readonly Avalonia.StyledProperty<string?> TitleProperty =
     Avalonia.AvaloniaProperty.Register<InvalidTriggerHost, string?>(nameof(Title));
@@ -406,6 +415,9 @@ public class HeadlessHost : Avalonia.StyledElement { }
 ```
 
 **Fix**: Remove `SourceName` or target a logical element/control where name scopes exist.
+
+On WinUI / Uno Platform, `SourceName` is resolved with `FrameworkElement.FindName`, so XBG022 is reported when the
+observed type does not derive from `Microsoft.UI.Xaml.FrameworkElement`.
 
 ## Async/Observable trigger diagnostics (XBG023-XBG026)
 
@@ -629,3 +641,72 @@ public partial class InvokeSave : Avalonia.Xaml.Interactivity.StyledElementActio
 ```csharp
 [ActionCommand] private ICommand? _command; // OK
 ```
+
+## WinUI / Uno Platform diagnostics (XBG036-XBG038)
+
+These diagnostics are only reported when the generator emits WinUI code (see [Uno Platform (WinUI) Support](uno-platform.md)).
+
+### XBG036 Invalid WinUI base type
+`[GenerateTypedMultiDataTrigger]` and `[GenerateTypedInvokeCommandAction]` types must derive from the Uno Platform interactivity base classes.
+
+```csharp
+[GenerateTypedMultiDataTrigger]
+public partial class RangeTrigger // XBG036
+{
+    [TriggerProperty] private int _minimum;
+    private bool Evaluate() => _minimum > 0;
+}
+```
+
+**Fix**: Derive from `Xaml.Interactivity.StyledElementTrigger` (or `Xaml.Interactivity.StyledElementAction` for invoke command actions).
+
+```csharp
+[GenerateTypedMultiDataTrigger]
+public partial class RangeTrigger : Xaml.Interactivity.StyledElementTrigger
+{
+    [TriggerProperty] private int _minimum;
+    private bool Evaluate() => _minimum > 0;
+}
+```
+
+### XBG037 Property cannot be observed on WinUI
+WinUI property triggers observe a `DependencyProperty` with `RegisterPropertyChangedCallback` or a CLR property through `INotifyPropertyChanged`. A plain CLR property of a type that does not raise change notifications cannot be observed.
+
+```csharp
+public class Settings
+{
+    [GeneratePropertyTrigger]
+    public int Volume { get; set; } // XBG037
+}
+```
+
+**Fix**: Back the property with a `DependencyProperty` (`VolumeProperty`) or implement `INotifyPropertyChanged` on the declaring type.
+
+```csharp
+public class Settings : INotifyPropertyChanged
+{
+    private int _volume;
+    public event PropertyChangedEventHandler? PropertyChanged;
+
+    [GeneratePropertyTrigger]
+    public int Volume
+    {
+        get => _volume;
+        set { _volume = value; PropertyChanged?.Invoke(this, new(nameof(Volume))); }
+    }
+}
+```
+
+### XBG038 Dependency property owner is not a DependencyObject
+The generated trigger observes instances of the type declaring the dependency property identifier. Attached properties declared on static helper classes cannot be observed that way.
+
+```csharp
+public static class Attached
+{
+    [GeneratePropertyTrigger] // XBG038
+    public static readonly DependencyProperty ModeProperty =
+        DependencyProperty.RegisterAttached("Mode", typeof(int), typeof(Attached), new PropertyMetadata(0));
+}
+```
+
+**Fix**: Declare the dependency property on the observed `DependencyObject` type, or use a regular data trigger bound to the attached property.

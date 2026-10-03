@@ -1,47 +1,38 @@
 // Copyright (c) Wiesław Šoltés. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for details.
+#if UNO
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Xaml.Interactivity;
+#else
 using Avalonia.Controls;
 using Avalonia.Metadata;
 using Avalonia.Xaml.Interactivity;
+#endif
 
+#if UNO
+namespace Xaml.Interactions.Custom;
+#else
 namespace Avalonia.Xaml.Interactions.Custom;
+#endif
 
 /// <summary>
 /// Filters a <see cref="TreeView"/> using the provided query string.
 /// </summary>
-public sealed class ApplyTreeViewFilterAction : StyledElementAction
+public sealed partial class ApplyTreeViewFilterAction : StyledElementAction
 {
-    /// <summary>
-    /// Identifies the <seealso cref="TreeView"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<TreeView?> TreeViewProperty =
-        AvaloniaProperty.Register<ApplyTreeViewFilterAction, TreeView?>(nameof(TreeView));
-
-    /// <summary>
-    /// Identifies the <seealso cref="Query"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<string?> QueryProperty =
-        AvaloniaProperty.Register<ApplyTreeViewFilterAction, string?>(nameof(Query));
 
     /// <summary>
     /// Gets or sets the tree view to filter.
     /// </summary>
-    [ResolveByName]
-    public TreeView? TreeView
-    {
-        get => GetValue(TreeViewProperty);
-        set => SetValue(TreeViewProperty, value);
-    }
+    [StyledProperty(ResolveByName = true)]
+    public partial TreeView? TreeView { get; set; }
 
     /// <summary>
     /// Gets or sets the filter query string.
     /// </summary>
-    [Content]
-    public string? Query
-    {
-        get => GetValue(QueryProperty);
-        set => SetValue(QueryProperty, value);
-    }
+    [StyledProperty(Content = true)]
+    public partial string? Query { get; set; }
 
     /// <inheritdoc />
     public override object Execute(object? sender, object? parameter)

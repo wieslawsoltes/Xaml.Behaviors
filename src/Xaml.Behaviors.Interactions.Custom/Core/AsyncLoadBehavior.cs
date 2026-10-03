@@ -3,47 +3,40 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using System.Threading.Tasks;
+#if UNO
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Xaml.Interactivity;
+using Microsoft.UI.Dispatching;
+#else
 using Avalonia.Controls;
 using Avalonia.Xaml.Interactivity;
 using Avalonia.Threading;
+#endif
 
+#if UNO
+namespace Xaml.Interactions.Custom;
+#else
 namespace Avalonia.Xaml.Interactions.Custom;
+#endif
 
 /// <summary>
 /// Behavior that calls an asynchronous method when the associated control is loaded.
 /// </summary>
-public class AsyncLoadBehavior : Behavior<Control>
+public partial class AsyncLoadBehavior : Behavior<Control>
 {
-    /// <summary>
-    /// Identifies the <see cref="MethodName"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<string?> MethodNameProperty =
-        AvaloniaProperty.Register<AsyncLoadBehavior, string?>(nameof(MethodName));
-
-    /// <summary>
-    /// Identifies the <see cref="TargetObject"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<object?> TargetObjectProperty =
-        AvaloniaProperty.Register<AsyncLoadBehavior, object?>(nameof(TargetObject));
 
     /// <summary>
     /// Gets or sets the name of the method to invoke on load.
     /// </summary>
-    public string? MethodName
-    {
-        get => GetValue(MethodNameProperty);
-        set => SetValue(MethodNameProperty, value);
-    }
+    [StyledProperty]
+    public partial string? MethodName { get; set; }
 
     /// <summary>
     /// Gets or sets the object that exposes the method of interest. If null the DataContext is used.
     /// </summary>
-    [ResolveByName]
-    public object? TargetObject
-    {
-        get => GetValue(TargetObjectProperty);
-        set => SetValue(TargetObjectProperty, value);
-    }
+    [StyledProperty(ResolveByName = true)]
+    public partial object? TargetObject { get; set; }
 
     /// <inheritdoc />
     protected override void OnAttached()
@@ -51,7 +44,12 @@ public class AsyncLoadBehavior : Behavior<Control>
         base.OnAttached();
         if (AssociatedObject is not null)
         {
+#if UNO
+            // WinUI raises Loaded when the element joins the live (visual) tree.
+            AssociatedObject.Loaded += OnLoaded;
+#else
             AssociatedObject.AttachedToVisualTree += OnLoaded;
+#endif
         }
     }
 
@@ -60,17 +58,30 @@ public class AsyncLoadBehavior : Behavior<Control>
     {
         if (AssociatedObject is not null)
         {
+#if UNO
+            AssociatedObject.Loaded -= OnLoaded;
+#else
             AssociatedObject.AttachedToVisualTree -= OnLoaded;
+#endif
         }
         base.OnDetaching();
     }
 
+#if UNO
+    private void OnLoaded(object? sender, RoutedEventArgs e)
+    {
+        if (AssociatedObject is not null)
+        {
+            AssociatedObject.Loaded -= OnLoaded;
+        }
+#else
     private void OnLoaded(object? sender, VisualTreeAttachmentEventArgs e)
     {
         if (AssociatedObject is not null)
         {
             AssociatedObject.AttachedToVisualTree -= OnLoaded;
         }
+#endif
 
         _ = Dispatcher.UIThread.InvokeAsync(async () => await InvokeAsync());
     }

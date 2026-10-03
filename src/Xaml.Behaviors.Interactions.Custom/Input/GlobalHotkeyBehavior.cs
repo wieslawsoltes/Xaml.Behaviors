@@ -1,51 +1,53 @@
+#if UNO
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Input;
+using Xaml.Interactivity;
+#else
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Xaml.Interactivity;
+#endif
 
+#if UNO
+namespace Xaml.Interactions.Custom;
+#else
 namespace Avalonia.Xaml.Interactions.Custom;
+#endif
 
 /// <summary>
 /// A behavior that registers a global hotkey (window-wide) to execute actions.
 /// </summary>
-public class GlobalHotkeyBehavior : StyledElementTrigger<Control>
+public partial class GlobalHotkeyBehavior : StyledElementTrigger<Control>
 {
+#if UNO
+    private UIElement? _topLevel;
+#else
     private TopLevel? _topLevel;
-
-    /// <summary>
-    /// Identifies the <seealso cref="Key"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<Key> KeyProperty =
-        AvaloniaProperty.Register<GlobalHotkeyBehavior, Key>(nameof(Key));
-
-    /// <summary>
-    /// Identifies the <seealso cref="KeyModifiers"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<KeyModifiers> KeyModifiersProperty =
-        AvaloniaProperty.Register<GlobalHotkeyBehavior, KeyModifiers>(nameof(KeyModifiers));
+#endif
 
     /// <summary>
     /// Gets or sets the key to listen for.
     /// </summary>
-    public Key Key
-    {
-        get => GetValue(KeyProperty);
-        set => SetValue(KeyProperty, value);
-    }
+    [StyledProperty]
+    public partial Key Key { get; set; }
 
     /// <summary>
     /// Gets or sets the key modifiers to listen for.
     /// </summary>
-    public KeyModifiers KeyModifiers
-    {
-        get => GetValue(KeyModifiersProperty);
-        set => SetValue(KeyModifiersProperty, value);
-    }
+    [StyledProperty]
+    public partial KeyModifiers KeyModifiers { get; set; }
 
     /// <inheritdoc />
     protected override void OnAttachedToVisualTree()
     {
+#if UNO
+        // WinUI: the root element of the XAML island hosting the associated object.
+        _topLevel = AssociatedObject?.XamlRoot?.Content;
+#else
         _topLevel = TopLevel.GetTopLevel(AssociatedObject);
+#endif
         if (_topLevel != null)
         {
             _topLevel.AddHandler(InputElement.KeyDownEvent, OnKeyDown, RoutingStrategies.Tunnel);
@@ -57,7 +59,7 @@ public class GlobalHotkeyBehavior : StyledElementTrigger<Control>
     {
         if (_topLevel != null)
         {
-            _topLevel.RemoveHandler(InputElement.KeyDownEvent, OnKeyDown);
+            _topLevel.RemoveRoutedEventHandler(InputElement.KeyDownEvent, OnKeyDown);
             _topLevel = null;
         }
     }

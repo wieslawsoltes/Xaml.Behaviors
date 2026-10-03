@@ -1,32 +1,34 @@
 // Copyright (c) Wiesław Šoltés. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for details.
 using System;
+#if UNO
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Xaml.Interactivity;
+#else
 using Avalonia.Controls;
 using Avalonia.Controls.Notifications;
 using Avalonia.VisualTree;
 using Avalonia.Xaml.Interactivity;
+#endif
 
+#if UNO
+namespace Xaml.Interactions.Custom;
+#else
 namespace Avalonia.Xaml.Interactions.Custom;
+#endif
 
 /// <summary>
 /// Provides a <see cref="INotificationManager"/> for the associated <see cref="Control"/>.
 /// </summary>
-public class NotificationManagerBehavior : AttachedToVisualTreeBehavior<Control>
+public partial class NotificationManagerBehavior : AttachedToVisualTreeBehavior<Control>
 {
-    /// <summary>
-    /// Identifies the <seealso cref="NotificationManager"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<INotificationManager?> NotificationManagerProperty =
-        AvaloniaProperty.Register<NotificationManagerBehavior, INotificationManager?>(nameof(NotificationManager));
 
     /// <summary>
     /// Gets the <see cref="INotificationManager"/> instance. This is an avalonia property.
     /// </summary>
-    public INotificationManager? NotificationManager
-    {
-        get => GetValue(NotificationManagerProperty);
-        private set => SetValue(NotificationManagerProperty, value);
-    }
+    [StyledProperty]
+    public partial INotificationManager? NotificationManager { get; private set; }
 
     /// <inheritdoc />
     protected override IDisposable OnAttachedToVisualTreeOverride()

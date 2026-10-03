@@ -1,0 +1,56 @@
+<UserControl x:Class="BehaviorsTestApplication.Views.Pages.NetworkView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:i="using:Xaml.Interactivity"
+             xmlns:ic="using:Xaml.Interactions.Core"
+             xmlns:inet="using:Xaml.Interactions.Network"
+             xmlns:vm="using:BehaviorsTestApplication.ViewModels"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450">
+  <UserControl.DataContext>
+    <vm:NetworkViewModel />
+  </UserControl.DataContext>
+
+  <i:Interaction.Behaviors>
+    <inet:NetworkInformationTrigger>
+      <ic:InvokeCommandAction Command="{x:Bind ViewModel.UpdateNetworkStatusCommand}" PassEventArgsToCommand="True" />
+    </inet:NetworkInformationTrigger>
+  </i:Interaction.Behaviors>
+
+  <ScrollViewer>
+    <StackPanel Spacing="20" Margin="20">
+      <TextBlock Text="Network Interactions" FontSize="24" FontWeight="Bold" />
+
+      <StackPanel Orientation="Horizontal" Spacing="10">
+        <TextBlock Text="Network Available:" FontWeight="Bold" />
+        <TextBlock Text="{x:Bind ViewModel.IsNetworkAvailable, Mode=OneWay}" />
+      </StackPanel>
+
+      <StackPanel Spacing="10">
+        <TextBlock Text="URL:" />
+        <TextBox Text="{x:Bind ViewModel.Url, Mode=TwoWay}" />
+
+        <Button Content="Make GET Request">
+          <i:Interaction.Behaviors>
+            <ic:EventTriggerBehavior EventName="Click">
+              <!-- Avalonia: ResponseContent/ResponseStatusCode bind OneWayToSource (WinUI has no such mode). -->
+              <inet:HttpRequestAction Url="{x:Bind ViewModel.Url, Mode=OneWay}"
+                                      Method="GET"
+                                      ResponseContent="{x:Bind ViewModel.ResponseContent, Mode=TwoWay}"
+                                      ResponseStatusCode="{x:Bind ViewModel.ResponseStatusCode, Mode=TwoWay}" />
+            </ic:EventTriggerBehavior>
+          </i:Interaction.Behaviors>
+        </Button>
+      </StackPanel>
+
+      <StackPanel Spacing="10">
+        <TextBlock Text="Status Code:" FontWeight="Bold" />
+        <TextBlock Text="{x:Bind ViewModel.ResponseStatusCode, Mode=OneWay}" />
+
+        <TextBlock Text="Response:" FontWeight="Bold" />
+        <TextBox Text="{x:Bind ViewModel.ResponseContent, Mode=OneWay}" AcceptsReturn="True" TextWrapping="Wrap" Height="200" IsReadOnly="True" />
+      </StackPanel>
+    </StackPanel>
+  </ScrollViewer>
+</UserControl>

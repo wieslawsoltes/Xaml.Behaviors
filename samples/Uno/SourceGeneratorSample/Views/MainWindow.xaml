@@ -1,0 +1,78 @@
+<Window x:Class="SourceGeneratorSample.Views.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:i="using:Xaml.Interactivity"
+        xmlns:vm="using:SourceGeneratorSample.ViewModels"
+        xmlns:pages="using:SourceGeneratorSample.Views.Pages"
+        Title="{x:Bind ViewModel.Title}">
+
+  <!--
+    WinUI twin of MainWindow.axaml. A WinUI window is not a DependencyObject: it has no data context and hosts no
+    behaviors. The composition root sets the typed ViewModel of the window (compiled bindings, applied when the window
+    is activated); the content root passes it on as the data context that the pages inherit and hosts the window
+    behaviors.
+  -->
+  <Grid x:Name="RootPanel" Margin="20" DataContext="{x:Bind ViewModel}">
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="*" />
+    </Grid.RowDefinitions>
+
+    <i:Interaction.Behaviors>
+      <vm:ProcessingFinishedTrigger SourceObject="{x:Bind ViewModel}">
+        <vm:SetProcessingMessageAction TargetObject="{x:Bind ViewModel}" Value="Processing Finished!" />
+      </vm:ProcessingFinishedTrigger>
+    </i:Interaction.Behaviors>
+
+    <!-- DockPanel.Dock="Top" in Avalonia: WinUI has no DockPanel, the header is the first grid row. -->
+    <StackPanel Grid.Row="0" Spacing="10" Margin="0,0,0,20">
+      <TextBlock Text="Source Generator Sample" FontSize="20" FontWeight="Bold" />
+      <TextBlock Text="{x:Bind ViewModel.StatusText, Mode=OneWay}" />
+      <TextBlock>
+        <Run Text="Value: " /><Run Text="{x:Bind ViewModel.Value, Mode=OneWay}" />
+      </TextBlock>
+      <TextBlock Text="{x:Bind ViewModel.ProcessingMessage, Mode=OneWay}" />
+    </StackPanel>
+
+    <!-- TabControl with TabStripPlacement="Left" in Avalonia: WinUI's TabView only has a top tab strip. -->
+    <TabView Grid.Row="1"
+             IsAddTabButtonVisible="False"
+             CanReorderTabs="False"
+             CanDragTabs="False"
+             TabWidthMode="SizeToContent">
+      <TabViewItem Header="Internal" IsClosable="False">
+        <pages:InternalSamplesPage />
+      </TabViewItem>
+      <TabViewItem Header="External" IsClosable="False">
+        <pages:ExternalSamplesPage />
+      </TabViewItem>
+      <TabViewItem Header="Params" IsClosable="False">
+        <pages:ParameterBindingPage />
+      </TabViewItem>
+      <TabViewItem Header="DataTrigger" IsClosable="False">
+        <pages:DataTriggerPage />
+      </TabViewItem>
+      <TabViewItem Header="Async" IsClosable="False">
+        <pages:AsyncActionPage />
+      </TabViewItem>
+      <TabViewItem Header="MultiData" IsClosable="False">
+        <pages:MultiDataTriggerPage />
+      </TabViewItem>
+      <TabViewItem Header="Command" IsClosable="False">
+        <pages:InvokeCommandActionPage />
+      </TabViewItem>
+      <TabViewItem Header="Event Command" IsClosable="False">
+        <pages:EventCommandPage />
+      </TabViewItem>
+      <TabViewItem Header="Event Args" IsClosable="False">
+        <pages:EventArgsActionPage />
+      </TabViewItem>
+      <TabViewItem Header="Async/Observable" IsClosable="False">
+        <pages:AsyncObservableTriggerPage />
+      </TabViewItem>
+      <TabViewItem Header="Property Trigger" IsClosable="False">
+        <pages:PropertyTriggerPage />
+      </TabViewItem>
+    </TabView>
+  </Grid>
+</Window>

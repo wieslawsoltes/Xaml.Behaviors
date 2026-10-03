@@ -1,0 +1,36 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!-- WinUI 3 (Windows App SDK) twin of src/Uno/Xaml.Behaviors.Interactions.ReactiveUI: compiles its sources (see src/WinUI/Directory.Build.targets). -->
+
+  <PropertyGroup>
+    <TargetFrameworks>$(WinUITargetFrameworks)</TargetFrameworks>
+    <AssemblyName>Xaml.Behaviors.WinUI.Interactions.ReactiveUI</AssemblyName>
+    <RootNamespace>Xaml.Interactions.ReactiveUI</RootNamespace>
+    <WinUIUnoProject>Xaml.Behaviors.Interactions.ReactiveUI</WinUIUnoProject>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <PackageId>Xaml.Behaviors.WinUI.Interactions.ReactiveUI</PackageId>
+    <Description>Behaviors integrating ReactiveUI navigation patterns for WinUI 3 (Windows App SDK).</Description>
+    <PackageTags>WinUI;WinUI3;WindowsAppSDK;ReactiveUI;Behavior;Navigation;Xaml</PackageTags>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Using Include="Xaml.Interactivity" />
+  </ItemGroup>
+
+  <!--
+    The behaviors only use ReactiveUI core (RoutingState, IRoutableViewModel, Interaction<TInput, TOutput>, Splat's
+    Locator), exactly like the Avalonia package. The UI integration packages (ReactiveUI.WinUI for WinUI views and
+    routing hosts) are an application choice and are intentionally not referenced by this library.
+  -->
+  <ItemGroup>
+    <!-- The System.Reactive flavor of ReactiveUI 25.1, like ReactiveUI.WinUI.Reactive (the WinUI integration). -->
+    <PackageReference Include="ReactiveUI.Reactive" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Xaml.Behaviors.Interactivity\Xaml.Behaviors.Interactivity.csproj" />
+  </ItemGroup>
+
+</Project>

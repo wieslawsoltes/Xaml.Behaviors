@@ -1,0 +1,42 @@
+<UserControl x:Class="BehaviorsTestApplication.Views.Pages.ContextDialogView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:i="using:Xaml.Interactivity"
+             xmlns:ic="using:Xaml.Interactions.Core"
+             xmlns:icustom="using:Xaml.Interactions.Custom"
+             mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="450">
+  <i:Interaction.Behaviors>
+    <ic:EventTriggerBehavior EventName="Click" SourceObject="{x:Bind OpenButton}">
+      <icustom:ShowContextDialogAction TargetDialog="{x:Bind Dialog}" />
+    </ic:EventTriggerBehavior>
+    <ic:EventTriggerBehavior EventName="Click" SourceObject="{x:Bind CloseButton}">
+      <icustom:HideContextDialogAction TargetDialog="{x:Bind Dialog}" />
+    </ic:EventTriggerBehavior>
+    <icustom:ContextDialogOpenedTrigger SourceObject="{x:Bind Dialog}">
+      <ic:ChangePropertyAction TargetObject="{x:Bind Status}" PropertyName="Text" Value="Opened" />
+    </icustom:ContextDialogOpenedTrigger>
+    <icustom:ContextDialogClosedTrigger SourceObject="{x:Bind Dialog}">
+      <ic:ChangePropertyAction TargetObject="{x:Bind Status}" PropertyName="Text" Value="Closed" />
+    </icustom:ContextDialogClosedTrigger>
+  </i:Interaction.Behaviors>
+  <StackPanel>
+    <TextBlock x:Name="Status" Margin="5" />
+    <Button x:Name="OpenButton" Content="Open Context Dialog" Margin="5" />
+    <Button x:Name="CloseButton" Content="Close Context Dialog" Margin="5" />
+    <Border x:Name="Target" Margin="5" Padding="20" Background="{StaticResource GrayBrush}">
+      <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="Target" />
+      <i:Interaction.Behaviors>
+        <!-- WinUI popups have no Center placement (PopupPlacementMode): the dialog opens below the target. -->
+        <icustom:ContextDialogBehavior x:Name="Dialog" Placement="Bottom" IsLightDismissEnabled="False">
+          <icustom:ContextDialogBehavior.DialogContent>
+            <Border Padding="10" Background="White" BorderBrush="Black" BorderThickness="1">
+              <TextBlock Text="Context Dialog Content" />
+            </Border>
+          </icustom:ContextDialogBehavior.DialogContent>
+        </icustom:ContextDialogBehavior>
+      </i:Interaction.Behaviors>
+    </Border>
+  </StackPanel>
+</UserControl>

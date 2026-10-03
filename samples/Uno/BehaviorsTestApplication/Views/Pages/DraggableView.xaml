@@ -1,0 +1,274 @@
+<UserControl x:Class="BehaviorsTestApplication.Views.Pages.DraggableView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:i="using:Xaml.Interactivity"
+             xmlns:idrag="using:Xaml.Interactions.Draggable"
+             xmlns:models="using:BehaviorsTestApplication.Models"
+             xmlns:behaviors="using:BehaviorsTestApplication.Behaviors"
+             xmlns:converters="using:BehaviorsTestApplication.Converters"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450">
+  <!--
+    WinUI twin of the Draggable sample. The Avalonia style classes of Xaml.Behaviors.Interactions.Draggable/Styles.axaml
+    (draggable, draggableVirtualizing) become keyed and implicit styles that create the drag behaviors of the item
+    containers (Interaction.BehaviorsTemplate). Not available on WinUI: the :dragging pseudo class styles (opacity,
+    ZIndex), the RenderTransform transitions (TransformOperationsTransition) and Grid.ShowGridLines.
+  -->
+  <UserControl.Resources>
+    <!-- Avalonia: the TextBlock style of the view. -->
+    <Style TargetType="TextBlock">
+      <Setter Property="HorizontalAlignment" Value="Center" />
+      <Setter Property="VerticalAlignment" Value="Center" />
+    </Style>
+
+    <!-- :is(TabControl).draggable > :is(TabItem) -->
+    <Style x:Key="DraggableTabViewItemStyle" TargetType="TabViewItem">
+      <Setter Property="IsClosable" Value="False" />
+      <!-- The tab content fills the tab control like the Avalonia TabItem content. -->
+      <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+      <Setter Property="VerticalContentAlignment" Value="Stretch" />
+      <Setter Property="i:Interaction.BehaviorsTemplate">
+        <Setter.Value>
+          <DataTemplate>
+            <i:BehaviorCollectionHost>
+              <idrag:ItemDragBehavior HorizontalDragThreshold="3" VerticalDragThreshold="3" />
+            </i:BehaviorCollectionHost>
+          </DataTemplate>
+        </Setter.Value>
+      </Setter>
+    </Style>
+
+    <!-- :is(TabControl).draggable.custom > :is(TabItem) (the custom look of Styles/DraggableCustomStyles.xaml). -->
+    <Style x:Key="DraggableCustomTabViewItemStyle" TargetType="TabViewItem" BasedOn="{StaticResource CustomTabViewItemStyle}">
+      <Setter Property="i:Interaction.BehaviorsTemplate">
+        <Setter.Value>
+          <DataTemplate>
+            <i:BehaviorCollectionHost>
+              <idrag:ItemDragBehavior HorizontalDragThreshold="3" VerticalDragThreshold="3" />
+            </i:BehaviorCollectionHost>
+          </DataTemplate>
+        </Setter.Value>
+      </Setter>
+    </Style>
+
+    <!-- :is(ListBox).draggable > :is(ListBoxItem) -->
+    <Style x:Key="DraggableListViewItemStyle" TargetType="ListViewItem">
+      <Setter Property="i:Interaction.BehaviorsTemplate">
+        <Setter.Value>
+          <DataTemplate>
+            <i:BehaviorCollectionHost>
+              <idrag:ItemDragBehavior HorizontalDragThreshold="3" VerticalDragThreshold="3" Orientation="Vertical" />
+            </i:BehaviorCollectionHost>
+          </DataTemplate>
+        </Setter.Value>
+      </Setter>
+    </Style>
+
+    <!-- :is(ItemsControl).draggable > :is(ContentPresenter) -->
+    <Style x:Key="CanvasDragContainerStyle" TargetType="ContentPresenter">
+      <Setter Property="i:Interaction.BehaviorsTemplate">
+        <Setter.Value>
+          <DataTemplate>
+            <i:BehaviorCollectionHost>
+              <idrag:CanvasDragBehavior />
+            </i:BehaviorCollectionHost>
+          </DataTemplate>
+        </Setter.Value>
+      </Setter>
+    </Style>
+
+    <!-- :is(ItemsControl) > :is(ContentPresenter) of the Grid (Items) sample -->
+    <Style x:Key="GridDragContainerStyle" TargetType="ContentPresenter">
+      <Setter Property="i:Interaction.BehaviorsTemplate">
+        <Setter.Value>
+          <DataTemplate>
+            <i:BehaviorCollectionHost>
+              <idrag:GridDragBehavior CopyColumn="True" CopyRow="True" CopyColumnSpan="True" CopyRowSpan="True" />
+            </i:BehaviorCollectionHost>
+          </DataTemplate>
+        </Setter.Value>
+      </Setter>
+    </Style>
+
+    <!-- :is(Canvas).draggable > :is(Control) -->
+    <Style x:Key="CanvasDragStyle" TargetType="FrameworkElement">
+      <Setter Property="i:Interaction.BehaviorsTemplate">
+        <Setter.Value>
+          <DataTemplate>
+            <i:BehaviorCollectionHost>
+              <idrag:CanvasDragBehavior />
+            </i:BehaviorCollectionHost>
+          </DataTemplate>
+        </Setter.Value>
+      </Setter>
+    </Style>
+
+    <!-- :is(Grid).draggable > :is(Control) -->
+    <Style x:Key="GridDragStyle" TargetType="FrameworkElement">
+      <Setter Property="i:Interaction.BehaviorsTemplate">
+        <Setter.Value>
+          <DataTemplate>
+            <i:BehaviorCollectionHost>
+              <idrag:GridDragBehavior CopyColumn="True" CopyRow="True" CopyColumnSpan="True" CopyRowSpan="True" />
+            </i:BehaviorCollectionHost>
+          </DataTemplate>
+        </Setter.Value>
+      </Setter>
+    </Style>
+  </UserControl.Resources>
+
+  <!-- Avalonia TabControl.draggable: the tabs of the sample can be reordered too (a WinUI TabView is top aligned). -->
+  <TabView IsAddTabButtonVisible="False" VerticalAlignment="Stretch">
+
+    <TabViewItem Header="TabControl (Items)" Style="{StaticResource DraggableTabViewItemStyle}">
+      <TabView Style="{StaticResource CustomTabViewStyle}"
+               TabItemsSource="{x:Bind ViewModel.Items}"
+               Background="LightGray">
+        <TabView.TabItemTemplate>
+          <DataTemplate x:DataType="models:DragItem">
+            <TabViewItem Header="{x:Bind Title}" Style="{StaticResource DraggableCustomTabViewItemStyle}">
+              <TextBlock Text="{x:Bind Title}" />
+            </TabViewItem>
+          </DataTemplate>
+        </TabView.TabItemTemplate>
+      </TabView>
+    </TabViewItem>
+
+    <TabViewItem Header="ListBox (Items)" Style="{StaticResource DraggableTabViewItemStyle}">
+      <!-- Avalonia ListBox.draggableVirtualizing: the virtualizing WinUI ListView. -->
+      <ListView ItemsSource="{x:Bind ViewModel.Strings}"
+                ItemContainerStyle="{StaticResource DraggableListViewItemStyle}">
+        <ListView.ItemTemplate>
+          <DataTemplate x:DataType="x:String">
+            <TextBlock Text="{x:Bind}" HorizontalAlignment="Left" />
+          </DataTemplate>
+        </ListView.ItemTemplate>
+      </ListView>
+    </TabViewItem>
+
+    <TabViewItem Header="Canvas (Items)" Style="{StaticResource DraggableTabViewItemStyle}">
+      <ItemsControl ItemsSource="{x:Bind ViewModel.Items}"
+                    ItemContainerStyle="{StaticResource CanvasDragContainerStyle}"
+                    Width="500" Height="300" Background="LightGray">
+        <ItemsControl.ItemsPanel>
+          <ItemsPanelTemplate>
+            <Canvas />
+          </ItemsPanelTemplate>
+        </ItemsControl.ItemsPanel>
+        <ItemsControl.ItemTemplate>
+          <DataTemplate x:DataType="models:DragItem">
+            <Rectangle Fill="Black" Width="30" Height="30">
+              <i:Interaction.Behaviors>
+                <!-- Avalonia: (Canvas.Left)/(Canvas.Top) bound by the ContentPresenter style. -->
+                <behaviors:ItemContainerPlacementBehavior CanvasLeft="{x:Bind X}" CanvasTop="{x:Bind Y}" />
+              </i:Interaction.Behaviors>
+            </Rectangle>
+          </DataTemplate>
+        </ItemsControl.ItemTemplate>
+      </ItemsControl>
+    </TabViewItem>
+
+    <TabViewItem Header="Grid (Items)" Style="{StaticResource DraggableTabViewItemStyle}">
+      <ItemsControl ItemsSource="{x:Bind ViewModel.Tiles}"
+                    ItemContainerStyle="{StaticResource GridDragContainerStyle}"
+                    Width="800" Height="300" Background="LightGray">
+        <ItemsControl.ItemsPanel>
+          <ItemsPanelTemplate>
+            <Grid>
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+              </Grid.ColumnDefinitions>
+              <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+              </Grid.RowDefinitions>
+            </Grid>
+          </ItemsPanelTemplate>
+        </ItemsControl.ItemsPanel>
+        <ItemsControl.ItemTemplate>
+          <DataTemplate x:DataType="models:Tile">
+            <Border Background="{x:Bind converters:SampleValues.ToBrush(Background)}" CornerRadius="6" Margin="6" BorderBrush="Gray" BorderThickness="2">
+              <i:Interaction.Behaviors>
+                <!-- Avalonia: (Grid.Column)/(Grid.Row)/(Grid.ColumnSpan)/(Grid.RowSpan) bound by the ContentPresenter style. -->
+                <behaviors:ItemContainerPlacementBehavior GridColumn="{x:Bind Column}"
+                                                          GridRow="{x:Bind Row}"
+                                                          GridColumnSpan="{x:Bind ColumnSpan}"
+                                                          GridRowSpan="{x:Bind RowSpan}" />
+              </i:Interaction.Behaviors>
+              <!-- Avalonia Label: a TextBlock. -->
+              <TextBlock Text="{x:Bind Title}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+            </Border>
+          </DataTemplate>
+        </ItemsControl.ItemTemplate>
+      </ItemsControl>
+    </TabViewItem>
+
+    <TabViewItem Header="TabControl" Style="{StaticResource DraggableTabViewItemStyle}">
+      <TabView Style="{StaticResource CustomTabViewStyle}" Background="LightGray">
+        <TabViewItem Header="Tab1" Style="{StaticResource DraggableCustomTabViewItemStyle}">
+          <TextBlock Text="Tab1" />
+        </TabViewItem>
+        <TabViewItem Header="Tab2" Style="{StaticResource DraggableCustomTabViewItemStyle}">
+          <TextBlock Text="Tab2" />
+        </TabViewItem>
+        <TabViewItem Header="Tab3" Style="{StaticResource DraggableCustomTabViewItemStyle}">
+          <TextBlock Text="Tab3" />
+        </TabViewItem>
+      </TabView>
+    </TabViewItem>
+
+    <TabViewItem Header="ListBox" Style="{StaticResource DraggableTabViewItemStyle}">
+      <!-- Avalonia ListBox.draggable (non virtualizing StackPanel items panel). -->
+      <ListView ItemContainerStyle="{StaticResource DraggableListViewItemStyle}">
+        <ListView.ItemsPanel>
+          <ItemsPanelTemplate>
+            <StackPanel Orientation="Vertical" />
+          </ItemsPanelTemplate>
+        </ListView.ItemsPanel>
+        <ListViewItem>
+          <TextBlock Text="Item1" HorizontalAlignment="Left" />
+        </ListViewItem>
+        <ListViewItem>
+          <TextBlock Text="Item2" HorizontalAlignment="Left" />
+        </ListViewItem>
+        <ListViewItem>
+          <TextBlock Text="Item3" HorizontalAlignment="Left" />
+        </ListViewItem>
+      </ListView>
+    </TabViewItem>
+
+    <TabViewItem Header="Canvas" Style="{StaticResource DraggableTabViewItemStyle}">
+      <Canvas Width="500" Height="300" Background="LightGray">
+        <Rectangle Style="{StaticResource CanvasDragStyle}" Fill="Blue" Width="60" Height="40" Canvas.Left="20" Canvas.Top="10" />
+        <Ellipse Style="{StaticResource CanvasDragStyle}" Fill="Red" Width="50" Height="50" Canvas.Left="120" Canvas.Top="30" />
+        <TextBlock Style="{StaticResource CanvasDragStyle}" Text="Hello from Avalonia" Canvas.Left="40" Canvas.Top="100" />
+        <Grid Style="{StaticResource CanvasDragStyle}" Background="Purple" Width="80" Height="70" Canvas.Left="250" Canvas.Top="100" />
+      </Canvas>
+    </TabViewItem>
+
+    <TabViewItem Header="Grid" Style="{StaticResource DraggableTabViewItemStyle}">
+      <Grid Width="500" Height="300" Background="LightGray">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="*" />
+          <ColumnDefinition Width="*" />
+          <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+          <RowDefinition Height="*" />
+          <RowDefinition Height="*" />
+          <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Rectangle Style="{StaticResource GridDragStyle}" Fill="Blue" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="0" />
+        <Ellipse Style="{StaticResource GridDragStyle}" Fill="Red" Grid.Column="2" Grid.Row="0" />
+        <TextBlock Style="{StaticResource GridDragStyle}" Text="Hello from Avalonia" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="0" Grid.Row="1" />
+        <Grid Style="{StaticResource GridDragStyle}" Background="Purple" Grid.Column="1" Grid.Row="1" Grid.RowSpan="2" />
+        <Ellipse Style="{StaticResource GridDragStyle}" Fill="Cyan" Grid.Column="2" Grid.Row="2" />
+      </Grid>
+    </TabViewItem>
+
+  </TabView>
+
+</UserControl>

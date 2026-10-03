@@ -1,60 +1,43 @@
 ﻿// Copyright (c) Wiesław Šoltés. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for details.
+#if UNO
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Xaml.Interactivity;
+#else
 using Avalonia.Controls;
 using Avalonia.Xaml.Interactivity;
+#endif
 
+#if UNO
+namespace Xaml.Interactions.Custom;
+#else
 namespace Avalonia.Xaml.Interactions.Custom;
+#endif
 
 /// <summary>
 /// Adds a specified <see cref="AddClassAction.ClassName"/> to the <see cref="StyledElement.Classes"/> collection when invoked. 
 /// </summary>
-public class AddClassAction : Avalonia.Xaml.Interactivity.StyledElementAction
+public partial class AddClassAction : Avalonia.Xaml.Interactivity.StyledElementAction
 {
-    /// <summary>
-    /// Identifies the <seealso cref="ClassName"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<string> ClassNameProperty =
-        AvaloniaProperty.Register<AddClassAction, string>(nameof(ClassName));
-
-    /// <summary>
-    /// Identifies the <seealso cref="StyledElement"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<StyledElement?> StyledElementProperty =
-        AvaloniaProperty.Register<AddClassAction, StyledElement?>(nameof(StyledElement));
-
-    /// <summary>
-    /// Identifies the <seealso cref="RemoveIfExists"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<bool> RemoveIfExistsProperty =
-        AvaloniaProperty.Register<AddClassAction, bool>(nameof(RemoveIfExists));
 
     /// <summary>
     /// Gets or sets the class name that should be added. This is an avalonia property.
     /// </summary>
-    public string ClassName
-    {
-        get => GetValue(ClassNameProperty);
-        set => SetValue(ClassNameProperty, value);
-    }
+    [StyledProperty]
+    public partial string ClassName { get; set; }
 
     /// <summary>
     /// Gets or sets the target styled element that class name that should be added to. This is an avalonia property.
     /// </summary>
-    [ResolveByName]
-    public StyledElement? StyledElement
-    {
-        get => GetValue(StyledElementProperty);
-        set => SetValue(StyledElementProperty, value);
-    }
+    [StyledProperty(ResolveByName = true)]
+    public partial StyledElement? StyledElement { get; set; }
 
     /// <summary>
     /// Gets or sets the flag indicated whether to remove the class if already exists before adding. This is an avalonia property.
     /// </summary>
-    public bool RemoveIfExists
-    {
-        get => GetValue(RemoveIfExistsProperty);
-        set => SetValue(RemoveIfExistsProperty, value);
-    }
+    [StyledProperty]
+    public partial bool RemoveIfExists { get; set; }
 
     /// <summary>
     /// Executes the action.

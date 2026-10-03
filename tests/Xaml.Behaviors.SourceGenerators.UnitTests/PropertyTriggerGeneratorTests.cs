@@ -1,10 +1,16 @@
 using System;
 using System.Linq;
 using System.Text.RegularExpressions;
+#if !UNO
 using Avalonia.Headless.XUnit;
+#endif
 using Xunit;
 
+#if UNO
+namespace Xaml.Behaviors.SourceGenerators.UnitTests;
+#else
 namespace Avalonia.Xaml.Behaviors.SourceGenerators.UnitTests;
+#endif
 
 public class PropertyTriggerGeneratorTests
 {
@@ -211,7 +217,11 @@ namespace TestNamespace
         Assert.Empty(diagnostics);
 
         var classNames = sources
+#if UNO
+            .SelectMany(s => Regex.Matches(s, @"class\s+(?<name>\w+)\s*:\s*global::Xaml\.Interactivity\.StyledElementTrigger")
+#else
             .SelectMany(s => Regex.Matches(s, @"class\s+(?<name>\w+)\s*:\s*Avalonia\.Xaml\.Interactivity\.StyledElementTrigger")
+#endif
                 .Select(m => m.Groups["name"].Value))
             .Where(n => n.Contains("CountTrigger", StringComparison.Ordinal))
             .Distinct()

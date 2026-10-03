@@ -1,46 +1,39 @@
 // Copyright (c) Wiesław Šoltés. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for details.
+#if UNO
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Input;
+using Xaml.Interactivity;
+#else
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Xaml.Interactivity;
+#endif
 
+#if UNO
+namespace Xaml.Interactions.Custom;
+#else
 namespace Avalonia.Xaml.Interactions.Custom;
+#endif
 
 /// <summary>
 /// Sets the cursor on a target control.
 /// </summary>
-public class SetCursorAction : StyledElementAction
+public partial class SetCursorAction : StyledElementAction
 {
-    /// <summary>
-    /// Identifies the <see cref="TargetControl"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<InputElement?> TargetControlProperty =
-        AvaloniaProperty.Register<SetCursorAction, InputElement?>(nameof(TargetControl));
-
-    /// <summary>
-    /// Identifies the <seealso cref="Cursor"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<Cursor?> CursorProperty =
-        AvaloniaProperty.Register<SetCursorAction, Cursor?>(nameof(Cursor));
 
     /// <summary>
     /// Gets or sets the target control. This is an avalonia property.
     /// </summary>
-    [ResolveByName]
-    public InputElement? TargetControl
-    {
-        get => GetValue(TargetControlProperty);
-        set => SetValue(TargetControlProperty, value);
-    }
+    [StyledProperty(ResolveByName = true)]
+    public partial InputElement? TargetControl { get; set; }
 
     /// <summary>
     /// Gets or sets the cursor to apply.
     /// </summary>
-    public Cursor? Cursor
-    {
-        get => GetValue(CursorProperty);
-        set => SetValue(CursorProperty, value);
-    }
+    [StyledProperty]
+    public partial Cursor? Cursor { get; set; }
 
     /// <inheritdoc />
     public override object Execute(object? sender, object? parameter)

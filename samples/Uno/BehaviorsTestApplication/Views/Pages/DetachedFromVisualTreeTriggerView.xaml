@@ -1,0 +1,31 @@
+<UserControl x:Class="BehaviorsTestApplication.Views.Pages.DetachedFromVisualTreeTriggerView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:i="using:Xaml.Interactivity"
+             xmlns:ic="using:Xaml.Interactions.Core"
+             xmlns:icustom="using:Xaml.Interactions.Custom"
+             mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="160">
+  <!-- WinUI raises no visual tree attachment events: the Uno Platform trigger fires when the element is unloaded. -->
+  <StackPanel Spacing="5">
+    <StackPanel x:Name="Container">
+      <Border x:Name="Target" Background="LightGray" Padding="20">
+        <i:Interaction.Behaviors>
+          <icustom:DetachedFromVisualTreeTrigger>
+            <ic:ChangePropertyAction TargetObject="{x:Bind MessageText}" PropertyName="Text" Value="Detached" />
+          </icustom:DetachedFromVisualTreeTrigger>
+        </i:Interaction.Behaviors>
+        <TextBlock Text="Target" />
+      </Border>
+    </StackPanel>
+    <Button x:Name="RemoveButton" Content="Remove" Width="80">
+      <i:Interaction.Behaviors>
+        <ic:EventTriggerBehavior EventName="Click" SourceObject="{x:Bind RemoveButton}">
+          <icustom:RemoveElementAction TargetObject="{x:Bind Target}" />
+        </ic:EventTriggerBehavior>
+      </i:Interaction.Behaviors>
+    </Button>
+    <TextBlock x:Name="MessageText" Text="Waiting" />
+  </StackPanel>
+</UserControl>

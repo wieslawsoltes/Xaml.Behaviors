@@ -1,0 +1,33 @@
+<Project>
+  <!-- Shared settings for all Uno Platform port projects (src/Uno/**). -->
+  <Import Project="$([MSBuild]::GetPathOfFileAbove('Directory.Build.props', '$(MSBuildThisFileDirectory)../'))" />
+
+  <PropertyGroup>
+    <UnoTargetFrameworks>net10.0</UnoTargetFrameworks>
+    <UnoRootDirectory>$(MSBuildThisFileDirectory)</UnoRootDirectory>
+    <!-- Root of the Avalonia projects whose sources are shared (source linked) with the Uno port. -->
+    <AvaloniaSourcesDirectory>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..'))/</AvaloniaSourcesDirectory>
+    <DefineConstants>$(DefineConstants);UNO</DefineConstants>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <OutputType>Library</OutputType>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <!--
+      CS8974: a method group converted to object. On WinUI this silently binds method groups to
+      UIElement.RemoveHandler(RoutedEvent, object) and similar APIs; shared code must use the compat helpers.
+    -->
+    <WarningsAsErrors>$(WarningsAsErrors);CS8974</WarningsAsErrors>
+    <!-- CS1574: the shared XML documentation is Avalonia first; some crefs have no Uno Platform target. -->
+    <NoWarn>$(NoWarn);CS1574</NoWarn>
+    <!-- Libraries do not need the app-level implicit packages of the Uno.Sdk. -->
+    <UnoFeatures></UnoFeatures>
+    <!-- Uno.Sdk libraries are not packable by default; every project under src/Uno ships as a NuGet package. -->
+    <IsPackable>true</IsPackable>
+    <!-- Uno.Sdk would build project references during a no-build pack (NETSDK1085); they are already built. -->
+    <BuildProjectReferences Condition="'$(NoBuild)' == 'true'">false</BuildProjectReferences>
+    <PackageTags>Uno;UnoPlatform;WinUI;Behavior;Action;Behaviors;Actions;Managed;C#;Interaction;Interactivity;Interactions;Xaml</PackageTags>
+  </PropertyGroup>
+
+  <!-- Type aliases that let the shared (Avalonia-first) sources compile against WinUI (also used by the shared tests). -->
+  <Import Project="UnoPortAliases.props" />
+</Project>

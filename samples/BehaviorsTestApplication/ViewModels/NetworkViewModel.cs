@@ -1,5 +1,6 @@
-using System.Reactive;
 using ReactiveUI;
+using ReactiveUI.Reactive;
+using System.Reactive;
 
 namespace BehaviorsTestApplication.ViewModels;
 

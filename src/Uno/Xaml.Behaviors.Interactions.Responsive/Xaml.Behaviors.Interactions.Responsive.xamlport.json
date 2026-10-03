@@ -1,0 +1,24 @@
+{
+  "$schema": "../../Xaml.PortAnalyzers/xamlport.schema.json",
+  "mapped": {
+    "types": [
+      "Avalonia.Rect",
+      "Avalonia.Controls.Classes",
+      "Avalonia.Controls.IPseudoClasses"
+    ],
+    "members": [
+      "Avalonia.Visual.BoundsProperty",
+      "Avalonia.Visual.Bounds",
+      "Avalonia.Rect.X",
+      "Avalonia.Rect.Y",
+      "Avalonia.Rect.Width",
+      "Avalonia.Rect.Height",
+      "Avalonia.StyledElement.Classes",
+      "Avalonia.Controls.Classes.Add",
+      "Avalonia.Controls.Classes.Remove",
+      "Avalonia.Controls.Classes.Contains",
+      "Avalonia.Controls.IPseudoClasses.Add",
+      "Avalonia.Controls.IPseudoClasses.Remove"
+    ]
+  }
+}

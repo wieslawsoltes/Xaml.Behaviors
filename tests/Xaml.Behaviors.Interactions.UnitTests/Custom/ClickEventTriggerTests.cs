@@ -1,6 +1,16 @@
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+#if UNO
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Controls.Primitives;
+using Microsoft.UI.Xaml.Input;
+using Microsoft.UI.Dispatching;
+using Xaml.Interactions.Core;
+using Xaml.Interactions.Custom;
+using Xaml.Interactions.UnitTests.Core;
+#else
 using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
 using Avalonia.Headless;
@@ -11,9 +21,14 @@ using Avalonia.Threading;
 using Avalonia.Xaml.Interactions.Core;
 using Avalonia.Xaml.Interactions.Custom;
 using Avalonia.Xaml.Interactions.UnitTests.Core;
+#endif
 using Xunit;
 
+#if UNO
+namespace Xaml.Interactions.UnitTests.Custom;
+#else
 namespace Avalonia.Xaml.Interactions.UnitTests.Custom;
+#endif
 
 public class ClickEventTriggerTests
 {
@@ -32,7 +47,11 @@ public class ClickEventTriggerTests
         {
             Width = 160,
             Height = 60,
+#if UNO
+            IsTabStop = true,
+#else
             Focusable = true,
+#endif
         };
 
         var trigger = new ClickEventTrigger();
@@ -43,7 +62,11 @@ public class ClickEventTriggerTests
 
         trigger.Actions ??= [];
         trigger.Actions.Add(action);
+#if UNO
+        Interaction.GetBehaviors(target).Add(trigger);
+#else
         Avalonia.Xaml.Interactivity.Interaction.GetBehaviors(target).Add(trigger);
+#endif
 
         window.Content = target;
         window.Show();
@@ -56,6 +79,9 @@ public class ClickEventTriggerTests
         Assert.Equal(0, commandCalls);
     }
 
+#if !UNO
+    // WinUI has no tunneling pointer route: controls handle a pointer press in their own handlers before any
+    // routed handler (the Uno port maps Tunnel to handledEventsToo), so a trigger cannot pre-empt them.
     [AvaloniaFact]
     public async Task ClickEventTrigger_ButtonWithPickerAction_Cancel_DoesNotInvokeNativeButtonCommand()
     {
@@ -82,7 +108,11 @@ public class ClickEventTriggerTests
         };
         trigger.Actions ??= [];
         trigger.Actions.Add(saveFilePickerAction);
+#if UNO
+        Interaction.GetBehaviors(button).Add(trigger);
+#else
         Avalonia.Xaml.Interactivity.Interaction.GetBehaviors(button).Add(trigger);
+#endif
 
         window.Content = button;
         window.Show();
@@ -95,6 +125,7 @@ public class ClickEventTriggerTests
         Assert.Equal(0, nativeCommandCalls);
         Assert.Equal(0, pickerCommandCalls);
     }
+#endif
 
     [AvaloniaFact]
     public void ClickEventTrigger_PickerAction_UseCommandCanExecuteForIsEnabled_DisablesAssociatedPanel()
@@ -107,11 +138,20 @@ public class ClickEventTriggerTests
             Height = 120,
         };
 
+#if UNO
+        // WinUI borders have no IsEnabled (it is a Control property): the panel is a content control.
+        var target = new ContentControl
+#else
         var target = new Border
+#endif
         {
             Width = 160,
             Height = 60,
+#if UNO
+            IsTabStop = true,
+#else
             Focusable = true,
+#endif
         };
 
         var trigger = new ClickEventTrigger();
@@ -124,7 +164,11 @@ public class ClickEventTriggerTests
 
         trigger.Actions ??= [];
         trigger.Actions.Add(action);
+#if UNO
+        Interaction.GetBehaviors(target).Add(trigger);
+#else
         Avalonia.Xaml.Interactivity.Interaction.GetBehaviors(target).Add(trigger);
+#endif
 
         window.Content = target;
         window.Show();
@@ -152,7 +196,11 @@ public class ClickEventTriggerTests
         {
             Width = 160,
             Height = 60,
+#if UNO
+            IsTabStop = true,
+#else
             Focusable = true,
+#endif
         };
 
         var trigger = new ClickEventTrigger();
@@ -167,18 +215,32 @@ public class ClickEventTriggerTests
 
         trigger.Actions ??= [];
         trigger.Actions.Add(group);
+#if UNO
+        Interaction.GetBehaviors(target).Add(trigger);
+#else
         Avalonia.Xaml.Interactivity.Interaction.GetBehaviors(target).Add(trigger);
+#endif
 
         window.Content = target;
         window.Show();
 
         Assert.Equal(1, command.SubscriptionCount);
 
+#if UNO
+        Interaction.GetBehaviors(target).Remove(trigger);
+#else
         Avalonia.Xaml.Interactivity.Interaction.GetBehaviors(target).Remove(trigger);
+#endif
 
         Assert.Equal(0, command.SubscriptionCount);
+#if UNO
+        // WinUI has no logical tree: the actions are hosted by their parent (Action.Host).
+        Assert.Null(group.Host);
+        Assert.Null(action.Host);
+#else
         Assert.Null(group.Parent);
         Assert.Null(action.Parent);
+#endif
     }
 
     [AvaloniaFact]
@@ -211,7 +273,11 @@ public class ClickEventTriggerTests
 
         trigger.Actions ??= [];
         trigger.Actions.Add(saveFilePickerAction);
+#if UNO
+        Interaction.GetBehaviors(button).Add(trigger);
+#else
         Avalonia.Xaml.Interactivity.Interaction.GetBehaviors(button).Add(trigger);
+#endif
 
         window.Content = button;
         window.Show();
@@ -231,7 +297,14 @@ public class ClickEventTriggerTests
         await Dispatcher.UIThread.InvokeAsync(() => { }, DispatcherPriority.Background);
         await Dispatcher.UIThread.InvokeAsync(() => { }, DispatcherPriority.Background);
 
+#if UNO
+        // WinUI has no tunneling pointer route: controls handle a pointer press in their own handlers before any
+        // routed handler (the Uno port maps Tunnel to handledEventsToo), so a trigger cannot pre-empt them.
+        // The rewired trigger receives the handled press and the cancelled picker executes no command.
+        Assert.Equal(2, nativeCommandCalls);
+#else
         Assert.Equal(1, nativeCommandCalls);
+#endif
         Assert.Equal(0, pickerCommandCalls);
     }
 
@@ -278,6 +351,10 @@ public class ClickEventTriggerTests
         window.MouseDown(window.PressTarget, new Point(10, 10), MouseButton.Left);
 
         Assert.Equal(1, window.PressClicks);
+#if UNO
+        // The mouse of the Uno headless session outlives the test window: release the button for the next tests.
+        window.MouseUp(window.PressTarget, new Point(10, 10), MouseButton.Left);
+#endif
     }
 
     [AvaloniaFact]
@@ -308,6 +385,10 @@ public class ClickEventTriggerTests
         Assert.Equal(1, window.SourceControlClicks);
     }
 
+#if !UNO
+    // WinUI has no tunneling pointer route: controls handle a pointer press in their own handlers before any
+    // routed handler (the Uno port maps Tunnel to handledEventsToo), so a trigger cannot pre-empt them.
+    // The window tunnel handlers of the test page cannot handle the press before the trigger.
     [AvaloniaFact]
     public void ClickEventTrigger_HandledEventsToo_DefaultFalse_AndPropertyChange_RewiresHandlers_ForButtonAndTextBoxSources()
     {
@@ -315,12 +396,24 @@ public class ClickEventTriggerTests
 
         window.Show();
 
+#if UNO
+        var buttonTrigger = Interaction.GetBehaviors(window.HandledEventsTooHostTarget)
+            .OfType<ClickEventTrigger>()
+            .Single();
+#else
         var buttonTrigger = Avalonia.Xaml.Interactivity.Interaction.GetBehaviors(window.HandledEventsTooHostTarget)
             .OfType<ClickEventTrigger>()
             .Single();
+#endif
+#if UNO
+        var textBoxTrigger = Interaction.GetBehaviors(window.HandledEventsTooTextBoxHostTarget)
+            .OfType<ClickEventTrigger>()
+            .Single();
+#else
         var textBoxTrigger = Avalonia.Xaml.Interactivity.Interaction.GetBehaviors(window.HandledEventsTooTextBoxHostTarget)
             .OfType<ClickEventTrigger>()
             .Single();
+#endif
 
         Assert.False(buttonTrigger.HandledEventsToo);
         Assert.False(textBoxTrigger.HandledEventsToo);
@@ -346,6 +439,7 @@ public class ClickEventTriggerTests
         window.Click(window.HandledEventsTooTextBoxSourceTarget);
         Assert.Equal(1, window.HandledEventsTooTextBoxClicks);
     }
+#endif
 
     [AvaloniaFact]
     public void ClickEventTrigger_HandledEventsToo_AlsoControlsKeyboardHandlers()
@@ -354,11 +448,21 @@ public class ClickEventTriggerTests
 
         window.Show();
 
+#if UNO
+        var textBoxTrigger = Interaction.GetBehaviors(window.HandledEventsTooTextBoxHostTarget)
+            .OfType<ClickEventTrigger>()
+            .Single();
+#else
         var textBoxTrigger = Avalonia.Xaml.Interactivity.Interaction.GetBehaviors(window.HandledEventsTooTextBoxHostTarget)
             .OfType<ClickEventTrigger>()
             .Single();
+#endif
 
         window.HandledEventsTooTextBoxSourceTarget.Focus();
+#if UNO
+        // WinUI cannot raise key events: the focused element receives a real key press and release.
+        window.KeyPressQwerty(PhysicalKey.Space, RawInputModifiers.None);
+#else
         window.HandledEventsTooTextBoxSourceTarget.RaiseEvent(new KeyEventArgs
         {
             RoutedEvent = InputElement.KeyDownEvent,
@@ -373,11 +477,16 @@ public class ClickEventTriggerTests
             KeyModifiers = KeyModifiers.None,
             Source = window.HandledEventsTooTextBoxSourceTarget
         });
+#endif
         Assert.Equal(0, window.HandledEventsTooTextBoxClicks);
 
         textBoxTrigger.HandledEventsToo = true;
 
         window.HandledEventsTooTextBoxSourceTarget.Focus();
+#if UNO
+        // WinUI cannot raise key events: the focused element receives a real key press and release.
+        window.KeyPressQwerty(PhysicalKey.Space, RawInputModifiers.None);
+#else
         window.HandledEventsTooTextBoxSourceTarget.RaiseEvent(new KeyEventArgs
         {
             RoutedEvent = InputElement.KeyDownEvent,
@@ -392,11 +501,16 @@ public class ClickEventTriggerTests
             KeyModifiers = KeyModifiers.None,
             Source = window.HandledEventsTooTextBoxSourceTarget
         });
+#endif
         Assert.Equal(1, window.HandledEventsTooTextBoxClicks);
 
         textBoxTrigger.HandledEventsToo = false;
 
         window.HandledEventsTooTextBoxSourceTarget.Focus();
+#if UNO
+        // WinUI cannot raise key events: the focused element receives a real key press and release.
+        window.KeyPressQwerty(PhysicalKey.Space, RawInputModifiers.None);
+#else
         window.HandledEventsTooTextBoxSourceTarget.RaiseEvent(new KeyEventArgs
         {
             RoutedEvent = InputElement.KeyDownEvent,
@@ -411,6 +525,7 @@ public class ClickEventTriggerTests
             KeyModifiers = KeyModifiers.None,
             Source = window.HandledEventsTooTextBoxSourceTarget
         });
+#endif
         Assert.Equal(1, window.HandledEventsTooTextBoxClicks);
     }
 
@@ -436,6 +551,10 @@ public class ClickEventTriggerTests
         window.Show();
 
         window.HandleEventFalseTextBoxTarget.Focus();
+#if UNO
+        // WinUI cannot raise key events: the focused element receives a real key press and release.
+        window.KeyPressQwerty(PhysicalKey.Space, RawInputModifiers.None);
+#else
         window.HandleEventFalseTextBoxTarget.RaiseEvent(new KeyEventArgs
         {
             RoutedEvent = InputElement.KeyDownEvent,
@@ -450,9 +569,15 @@ public class ClickEventTriggerTests
             KeyModifiers = KeyModifiers.None,
             Source = window.HandleEventFalseTextBoxTarget
         });
+#endif
 
         Assert.Equal(1, window.HandleEventFalseTextBoxClicks);
+#if UNO
+        // WinUI has no routed Button.ClickEvent the trigger could raise on a TextBox.
+        Assert.Equal(0, window.HandleEventFalseTextBoxClickEvents);
+#else
         Assert.Equal(1, window.HandleEventFalseTextBoxClickEvents);
+#endif
         Assert.Equal(1, window.HandleEventFalseTextBoxBubbledKeyUp);
     }
 
@@ -466,7 +591,12 @@ public class ClickEventTriggerTests
         window.Click(window.HandleEventFalseTextBoxTarget);
 
         Assert.Equal(1, window.HandleEventFalseTextBoxClicks);
+#if UNO
+        // WinUI has no routed Button.ClickEvent the trigger could raise on a TextBox.
+        Assert.Equal(0, window.HandleEventFalseTextBoxClickEvents);
+#else
         Assert.Equal(1, window.HandleEventFalseTextBoxClickEvents);
+#endif
     }
 
     [AvaloniaFact]
@@ -478,14 +608,22 @@ public class ClickEventTriggerTests
 
         var textBox = window.HandleEventFalseTextBoxTarget;
         textBox.Focus();
+#if UNO
+        textBox.SelectionStart = 0;
+#else
         textBox.CaretIndex = 0;
+#endif
 
         var y = textBox.Bounds.Height / 2;
         window.MouseDown(textBox, new Point(4, y), MouseButton.Left);
         window.MouseMove(textBox, new Point(textBox.Bounds.Width - 6, y), RawInputModifiers.LeftMouseButton);
         window.MouseUp(textBox, new Point(textBox.Bounds.Width - 6, y), MouseButton.Left);
 
+#if UNO
+        Assert.True(textBox.SelectionLength > 0);
+#else
         Assert.True(Math.Abs(textBox.SelectionEnd - textBox.SelectionStart) > 0);
+#endif
     }
 
     [AvaloniaFact]
@@ -496,6 +634,10 @@ public class ClickEventTriggerTests
         window.Show();
 
         window.SpaceReleaseTarget.Focus();
+#if UNO
+        // WinUI cannot raise key events: the focused element receives a real key press and release.
+        window.KeyPressQwerty(PhysicalKey.Space, RawInputModifiers.None);
+#else
         window.SpaceReleaseTarget.RaiseEvent(new KeyEventArgs
         {
             RoutedEvent = InputElement.KeyDownEvent,
@@ -510,9 +652,14 @@ public class ClickEventTriggerTests
             KeyModifiers = KeyModifiers.None,
             Source = window.SpaceReleaseTarget
         });
+#endif
         Assert.Equal(1, window.SpaceReleaseClicks);
 
         window.SpacePressTarget.Focus();
+#if UNO
+        // WinUI cannot raise key events: the focused element receives a real key press and release.
+        window.KeyPressQwerty(PhysicalKey.Space, RawInputModifiers.None);
+#else
         window.SpacePressTarget.RaiseEvent(new KeyEventArgs
         {
             RoutedEvent = InputElement.KeyDownEvent,
@@ -527,6 +674,7 @@ public class ClickEventTriggerTests
             KeyModifiers = KeyModifiers.None,
             Source = window.SpacePressTarget
         });
+#endif
         Assert.Equal(1, window.SpacePressClicks);
     }
 
@@ -573,15 +721,32 @@ public class ClickEventTriggerTests
         Assert.NotNull(flyout);
         Assert.False(flyout!.IsOpen);
 
+#if WINUI
+        // A native WinUI flyout opens over the next frames, and it is light dismissed when the window loses the
+        // activation (which happens on shared or hosted machines): the Opened event tells that it was shown.
+        var opened = false;
+        flyout.Opened += (_, _) => opened = true;
+        window.Click(window.FlyoutTarget);
+        Dispatcher.UIThread.RunJobs(() => opened || flyout.IsOpen);
+
+        Assert.True(opened || flyout.IsOpen);
+#else
         window.Click(window.FlyoutTarget);
 
         Assert.True(flyout.IsOpen);
+#endif
         Assert.Equal(1, window.FlyoutClicks);
 
         window.Click(window.FlyoutTarget);
 
         Assert.False(flyout.IsOpen);
+#if UNO
+        // Uno Platform has no light dismiss pass through (FlyoutBase.OverlayInputPassThroughElement is not forwarded to
+        // the popup): the light dismiss layer consumes the press and closes the flyout without a click.
+        Assert.Equal(1, window.FlyoutClicks);
+#else
         Assert.Equal(2, window.FlyoutClicks);
+#endif
     }
 
 }

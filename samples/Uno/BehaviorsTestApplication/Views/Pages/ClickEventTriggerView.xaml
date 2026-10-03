@@ -1,0 +1,313 @@
+<UserControl x:Class="BehaviorsTestApplication.Views.Pages.ClickEventTriggerView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:i="using:Xaml.Interactivity"
+             xmlns:ic="using:Xaml.Interactions.Core"
+             xmlns:icustom="using:Xaml.Interactions.Custom"
+             mc:Ignorable="d"
+             d:DesignWidth="900"
+             d:DesignHeight="700">
+  <!--
+    WinUI differences: a Border cannot take keyboard focus (Avalonia Focusable="True"), so the Space/Enter activation of
+    a focused target is not available; ButtonBase.Click is a CLR event, so the Avalonia RoutedEventTriggerBehavior on
+    Button.ClickEvent becomes an EventTriggerBehavior on Click for the button, and ClickEventTrigger cannot raise a
+    click event on the TextBox (its click-event status stays "waiting...").
+  -->
+  <ScrollViewer>
+    <StackPanel Spacing="8" Margin="10">
+      <TextBlock FontSize="18" FontWeight="Bold" Text="ClickEventTrigger" />
+      <TextBlock Text="Emulates Button click semantics on non-button controls." />
+
+      <TextBlock FontWeight="Bold" Text="ClickMode: Release vs Press" />
+      <StackPanel Orientation="Horizontal" Spacing="8">
+        <Border x:Name="ReleaseTarget"
+                Width="250"
+                Height="72"
+                Background="LightSteelBlue"
+                CornerRadius="4"
+                VerticalAlignment="Center">
+          <i:Interaction.Behaviors>
+            <icustom:ClickEventTrigger ClickMode="Release">
+              <ic:ChangePropertyAction TargetObject="{x:Bind ReleaseStatus}"
+                                       PropertyName="Text"
+                                       Value="Release target clicked." />
+            </icustom:ClickEventTrigger>
+          </i:Interaction.Behaviors>
+          <TextBlock HorizontalAlignment="Center"
+                     VerticalAlignment="Center"
+                     Text="Release (click on pointer up)" />
+        </Border>
+
+        <Border x:Name="PressTarget"
+                Width="250"
+                Height="72"
+                Background="PeachPuff"
+                CornerRadius="4"
+                VerticalAlignment="Center">
+          <i:Interaction.Behaviors>
+            <icustom:ClickEventTrigger ClickMode="Press">
+              <ic:ChangePropertyAction TargetObject="{x:Bind PressStatus}"
+                                       PropertyName="Text"
+                                       Value="Press target clicked." />
+            </icustom:ClickEventTrigger>
+          </i:Interaction.Behaviors>
+          <TextBlock HorizontalAlignment="Center"
+                     VerticalAlignment="Center"
+                     Text="Press (click on pointer down)" />
+        </Border>
+      </StackPanel>
+      <TextBlock x:Name="ReleaseStatus" Text="Release status: waiting..." />
+      <TextBlock x:Name="PressStatus" Text="Press status: waiting..." />
+
+      <TextBlock FontWeight="Bold" Text="KeyModifiers Filter" />
+      <Border x:Name="ModifierTarget"
+              Width="350"
+              Height="72"
+              Background="LightGoldenrodYellow"
+              CornerRadius="4">
+        <i:Interaction.Behaviors>
+          <icustom:ClickEventTrigger KeyModifiers="Control">
+            <ic:ChangePropertyAction TargetObject="{x:Bind ModifierStatus}"
+                                     PropertyName="Text"
+                                     Value="Modifier target clicked with Control." />
+          </icustom:ClickEventTrigger>
+        </i:Interaction.Behaviors>
+        <TextBlock HorizontalAlignment="Center"
+                   VerticalAlignment="Center"
+                   Text="Ctrl+Click required" />
+      </Border>
+      <TextBlock x:Name="ModifierStatus" Text="Modifier status: waiting..." />
+
+      <TextBlock FontWeight="Bold" Text="SourceControl (External Source Resolution)" />
+      <TextBlock Text="Behavior is attached to the right target, but listens on the left source via SourceControl." />
+      <StackPanel Orientation="Horizontal" Spacing="8">
+        <Border x:Name="SourceControlSourceTarget"
+                Width="300"
+                Height="72"
+                Background="LightCyan"
+                CornerRadius="4">
+          <TextBlock HorizontalAlignment="Center"
+                     VerticalAlignment="Center"
+                     Text="Source target (click me)" />
+        </Border>
+
+        <Border x:Name="SourceControlHostTarget"
+                Width="300"
+                Height="72"
+                Background="PowderBlue"
+                CornerRadius="4">
+          <i:Interaction.Behaviors>
+            <icustom:ClickEventTrigger SourceControl="{x:Bind SourceControlSourceTarget}">
+              <ic:ChangePropertyAction TargetObject="{x:Bind SourceControlStatus}"
+                                       PropertyName="Text"
+                                       Value="SourceControl example fired from the external source target." />
+            </icustom:ClickEventTrigger>
+          </i:Interaction.Behaviors>
+          <TextBlock HorizontalAlignment="Center"
+                     VerticalAlignment="Center"
+                     Text="Host target (behavior attached here)" />
+        </Border>
+      </StackPanel>
+      <TextBlock x:Name="SourceControlStatus" Text="SourceControl status: click the source target." />
+
+      <TextBlock FontWeight="Bold" Text="HandledEventsToo" />
+      <TextBlock Text="Source controls use HandleEvent=False so native control behavior remains intact (for TextBox, drag-selection still works)." />
+      <StackPanel Orientation="Horizontal" Spacing="8">
+        <Button x:Name="HandledEventsTooSourceTarget"
+                Width="300"
+                Height="48"
+                Content="HandledEventsToo button source">
+          <i:Interaction.Behaviors>
+            <icustom:ClickEventTrigger HandleEvent="False" HandledEventsToo="True">
+              <ic:ChangePropertyAction TargetObject="{x:Bind HandledEventsTooButtonSourceStatus}"
+                                       PropertyName="Text"
+                                       Value="Button source trigger fired with HandleEvent=False." />
+            </icustom:ClickEventTrigger>
+            <!-- Avalonia: RoutedEventTriggerBehavior RoutedEvent="{x:Static Button.ClickEvent}". -->
+            <ic:EventTriggerBehavior EventName="Click">
+              <ic:ChangePropertyAction TargetObject="{x:Bind HandledEventsTooButtonSourceClickEventStatus}"
+                                       PropertyName="Text"
+                                       Value="Button source raised Button.ClickEvent." />
+            </ic:EventTriggerBehavior>
+          </i:Interaction.Behaviors>
+        </Button>
+
+        <Border x:Name="HandledEventsTooHostTarget"
+                Width="300"
+                Height="72"
+                Background="LightSkyBlue"
+                CornerRadius="4">
+          <i:Interaction.Behaviors>
+            <icustom:ClickEventTrigger SourceControl="{x:Bind HandledEventsTooSourceTarget}" HandledEventsToo="True">
+              <ic:ChangePropertyAction TargetObject="{x:Bind HandledEventsTooButtonHostStatus}"
+                                       PropertyName="Text"
+                                       Value="HandledEventsToo host fired from the button source." />
+            </icustom:ClickEventTrigger>
+          </i:Interaction.Behaviors>
+          <TextBlock HorizontalAlignment="Center"
+                     VerticalAlignment="Center"
+                     Text="Host target (Button source)" />
+        </Border>
+      </StackPanel>
+      <TextBlock x:Name="HandledEventsTooButtonSourceStatus" Text="Button source status: waiting..." />
+      <TextBlock x:Name="HandledEventsTooButtonSourceClickEventStatus" Text="Button source click-event status: waiting..." />
+      <TextBlock x:Name="HandledEventsTooButtonHostStatus" Text="Button host status: waiting..." />
+
+      <StackPanel Orientation="Horizontal" Spacing="8">
+        <TextBox x:Name="HandledEventsTooTextBoxSourceTarget"
+                 Width="300"
+                 Text="HandledEventsToo TextBox source (click me)">
+          <i:Interaction.Behaviors>
+            <icustom:ClickEventTrigger HandleEvent="False" HandledEventsToo="True">
+              <ic:ChangePropertyAction TargetObject="{x:Bind HandledEventsTooTextBoxSourceStatus}"
+                                       PropertyName="Text"
+                                       Value="TextBox source trigger fired with HandleEvent=False." />
+            </icustom:ClickEventTrigger>
+            <!--
+              Avalonia: RoutedEventTriggerBehavior on Button.ClickEvent, raised on the TextBox by ClickEventTrigger. WinUI
+              cannot raise ButtonBase.Click (a CLR event) on other controls, so there is no counterpart.
+            -->
+          </i:Interaction.Behaviors>
+        </TextBox>
+
+        <Border x:Name="HandledEventsTooTextBoxHostTarget"
+                Width="300"
+                Height="72"
+                Background="CadetBlue"
+                CornerRadius="4">
+          <i:Interaction.Behaviors>
+            <icustom:ClickEventTrigger SourceControl="{x:Bind HandledEventsTooTextBoxSourceTarget}" HandledEventsToo="True">
+              <ic:ChangePropertyAction TargetObject="{x:Bind HandledEventsTooTextBoxHostStatus}"
+                                       PropertyName="Text"
+                                       Value="HandledEventsToo host fired from the TextBox source." />
+            </icustom:ClickEventTrigger>
+          </i:Interaction.Behaviors>
+          <TextBlock HorizontalAlignment="Center"
+                     VerticalAlignment="Center"
+                     Text="Host target (TextBox source)" />
+        </Border>
+      </StackPanel>
+      <TextBlock x:Name="HandledEventsTooTextBoxSourceStatus" Text="TextBox source status: waiting..." />
+      <TextBlock x:Name="HandledEventsTooTextBoxSourceClickEventStatus" Text="TextBox source click-event status: waiting..." />
+      <TextBlock x:Name="HandledEventsTooTextBoxHostStatus" Text="TextBox host status: waiting..." />
+
+      <TextBlock FontWeight="Bold" Text="IsDefault / IsCancel" />
+      <TextBlock Text="Focus the TextBox and press Enter or Escape." />
+      <TextBox x:Name="KeyboardSource"
+               Width="350"
+               PlaceholderText="Focus here, then press Enter (default) or Escape (cancel)." />
+      <StackPanel Orientation="Horizontal" Spacing="8">
+        <Border x:Name="DefaultTarget"
+                Width="250"
+                Height="62"
+                Background="Honeydew"
+                CornerRadius="4">
+          <i:Interaction.Behaviors>
+            <icustom:ClickEventTrigger IsDefault="True">
+              <ic:ChangePropertyAction TargetObject="{x:Bind DefaultCancelStatus}"
+                                       PropertyName="Text"
+                                       Value="Default target activated." />
+            </icustom:ClickEventTrigger>
+          </i:Interaction.Behaviors>
+          <TextBlock HorizontalAlignment="Center"
+                     VerticalAlignment="Center"
+                     Text="Default target (Enter)" />
+        </Border>
+        <Border x:Name="CancelTarget"
+                Width="250"
+                Height="62"
+                Background="MistyRose"
+                CornerRadius="4">
+          <i:Interaction.Behaviors>
+            <icustom:ClickEventTrigger IsCancel="True">
+              <ic:ChangePropertyAction TargetObject="{x:Bind DefaultCancelStatus}"
+                                       PropertyName="Text"
+                                       Value="Cancel target activated." />
+            </icustom:ClickEventTrigger>
+          </i:Interaction.Behaviors>
+          <TextBlock HorizontalAlignment="Center"
+                     VerticalAlignment="Center"
+                     Text="Cancel target (Escape)" />
+        </Border>
+      </StackPanel>
+      <TextBlock x:Name="DefaultCancelStatus" Text="Default/Cancel status: waiting..." />
+
+      <TextBlock FontWeight="Bold" Text="Flyout Toggle" />
+      <Border x:Name="FlyoutTarget"
+              Width="320"
+              Height="72"
+              Background="Lavender"
+              CornerRadius="4">
+        <FlyoutBase.AttachedFlyout>
+          <Flyout>
+            <StackPanel Margin="10" Spacing="4">
+              <TextBlock FontWeight="Bold" Text="Attached Flyout" />
+              <TextBlock Text="Click the target again to close." />
+            </StackPanel>
+          </Flyout>
+        </FlyoutBase.AttachedFlyout>
+        <i:Interaction.Behaviors>
+          <icustom:ClickEventTrigger>
+            <ic:ChangePropertyAction TargetObject="{x:Bind FlyoutStatus}"
+                                     PropertyName="Text"
+                                     Value="Flyout target clicked; flyout toggled." />
+          </icustom:ClickEventTrigger>
+        </i:Interaction.Behaviors>
+        <TextBlock HorizontalAlignment="Center"
+                   VerticalAlignment="Center"
+                   Text="Click to toggle attached flyout" />
+      </Border>
+      <TextBlock x:Name="FlyoutStatus" Text="Flyout status: waiting..." />
+
+      <TextBlock FontWeight="Bold" Text="Open/Save File Picker with MVVM Commands" />
+      <TextBlock Text="These targets use ClickEventTrigger + picker actions bound to OpenFilesCommand and SaveFileCommand." />
+      <StackPanel Orientation="Horizontal" Spacing="8">
+        <Border x:Name="OpenFilePickerTarget"
+                Width="300"
+                Height="72"
+                Background="LightGreen"
+                CornerRadius="4">
+          <i:Interaction.Behaviors>
+            <icustom:ClickEventTrigger>
+              <ic:OpenFilePickerAction Command="{x:Bind ViewModel.OpenFilesCommand}"
+                                       Title="Open Files from ClickEventTrigger"
+                                       SuggestedFileName="TriggerSample"
+                                       AllowMultiple="True"
+                                       FileTypeFilter="Text Files|*.txt|Markdown Files|*.md|All Files|*.*" />
+            </icustom:ClickEventTrigger>
+          </i:Interaction.Behaviors>
+          <TextBlock HorizontalAlignment="Center"
+                     VerticalAlignment="Center"
+                     Text="Open Files (ClickEventTrigger)" />
+        </Border>
+
+        <Border x:Name="SaveFilePickerTarget"
+                Width="300"
+                Height="72"
+                Background="LightSalmon"
+                CornerRadius="4">
+          <i:Interaction.Behaviors>
+            <icustom:ClickEventTrigger>
+              <ic:SaveFilePickerAction Command="{x:Bind ViewModel.SaveFileCommand}"
+                                       InputConverter="{x:Bind ic:StorageItemToPathConverter.Instance}"
+                                       Title="Save File from ClickEventTrigger"
+                                       SuggestedFileName="TriggerSample"
+                                       DefaultExtension="txt"
+                                       FileTypeChoices="Text Files (*.txt)|*.txt|Markdown Files (*.md)|*.md|All Files (*.*)|*.*" />
+            </icustom:ClickEventTrigger>
+          </i:Interaction.Behaviors>
+          <TextBlock HorizontalAlignment="Center"
+                     VerticalAlignment="Center"
+                     Text="Save File (ClickEventTrigger)" />
+        </Border>
+      </StackPanel>
+
+      <TextBlock FontWeight="SemiBold" Text="MVVM output (OpenFilesCommand / SaveFileCommand):" />
+      <Border BorderBrush="Gray" BorderThickness="1" CornerRadius="4" Padding="4">
+        <ListView Height="140" ItemsSource="{x:Bind ViewModel.FileItems, Mode=OneWay}" />
+      </Border>
+    </StackPanel>
+  </ScrollViewer>
+</UserControl>

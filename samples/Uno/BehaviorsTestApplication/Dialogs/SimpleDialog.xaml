@@ -1,0 +1,13 @@
+<!--
+  WinUI twin of Dialogs/SimpleDialog.axaml. ShowDialogAction shows a ContentDialog on Uno Platform; the dialog's close
+  button (CloseButtonText) replaces the Avalonia Close button and its code-behind Click handler.
+-->
+<ContentDialog x:Class="BehaviorsTestApplication.Dialogs.SimpleDialog"
+               xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+               xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+               CloseButtonText="Close"
+               DefaultButton="Close">
+  <StackPanel Margin="20" Width="260">
+    <TextBlock Text="Dialog content" Margin="0,0,0,10" />
+  </StackPanel>
+</ContentDialog>

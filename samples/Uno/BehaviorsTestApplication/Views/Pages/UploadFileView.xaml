@@ -1,0 +1,84 @@
+<UserControl x:Class="BehaviorsTestApplication.Views.Pages.UploadFileView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:i="using:Xaml.Interactivity"
+             xmlns:ic="using:Xaml.Interactions.Core"
+             xmlns:icustom="using:Xaml.Interactions.Custom"
+             mc:Ignorable="d"
+             d:DesignWidth="600"
+             d:DesignHeight="450">
+
+  <StackPanel Spacing="12" Margin="12">
+    <TextBlock Text="Demonstrates both UploadFileAction and ButtonUploadFileBehavior. The behavior listens for Button.Click automatically and forwards the request to the view-model command."
+               TextWrapping="Wrap" />
+
+    <StackPanel Spacing="4">
+      <TextBlock Text="Sample file path" FontWeight="SemiBold" />
+      <!-- Avalonia TextBox bindings are two-way and update the source on every change. -->
+      <TextBox PlaceholderText="File path" Text="{x:Bind ViewModel.UploadFilePath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+    </StackPanel>
+
+    <StackPanel Spacing="4">
+      <TextBlock Text="Upload URL" FontWeight="SemiBold" />
+      <TextBox PlaceholderText="Upload URL" Text="{x:Bind ViewModel.UploadUrl, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+    </StackPanel>
+
+    <StackPanel Spacing="6">
+      <Button Content="Upload (ButtonUploadFileBehavior)"
+              HorizontalAlignment="Left">
+        <i:Interaction.Behaviors>
+          <icustom:ButtonUploadFileBehavior FilePath="{x:Bind ViewModel.UploadFilePath, Mode=OneWay}"
+                                            Url="{x:Bind ViewModel.UploadUrl, Mode=OneWay}"
+                                            Command="{x:Bind ViewModel.UploadCompletedCommand}" />
+          <ic:EventTriggerBehavior EventName="Click">
+            <ic:InvokeCommandAction Command="{x:Bind ViewModel.BeginUploadCommand}" />
+          </ic:EventTriggerBehavior>
+        </i:Interaction.Behaviors>
+      </Button>
+      <TextBlock Text="Uses the behavior variant which hooks up the click handler for you."
+                 FontSize="12"
+                 TextWrapping="Wrap" />
+    </StackPanel>
+
+    <StackPanel Spacing="6">
+      <Button Content="Upload (UploadFileAction)"
+              HorizontalAlignment="Left">
+        <i:Interaction.Behaviors>
+          <ic:EventTriggerBehavior EventName="Click">
+            <ic:InvokeCommandAction Command="{x:Bind ViewModel.BeginUploadCommand}" />
+            <icustom:UploadFileAction FilePath="{x:Bind ViewModel.UploadFilePath, Mode=OneWay}"
+                                      Url="{x:Bind ViewModel.UploadUrl, Mode=OneWay}"
+                                      Command="{x:Bind ViewModel.UploadCompletedCommand}" />
+          </ic:EventTriggerBehavior>
+        </i:Interaction.Behaviors>
+      </Button>
+      <TextBlock Text="Retains the action-based approach for comparison with existing samples."
+                 FontSize="12"
+                 TextWrapping="Wrap" />
+    </StackPanel>
+
+    <Border Padding="12"
+            BorderThickness="1"
+            CornerRadius="4"
+            Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+            BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}">
+      <StackPanel Spacing="6">
+        <TextBlock Text="Status" FontWeight="SemiBold" />
+        <TextBlock Text="{x:Bind ViewModel.UploadStatusMessage, Mode=OneWay}"
+                   TextWrapping="Wrap" />
+        <TextBlock Text="Upload completed"
+                   Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}">
+          <i:Interaction.Behaviors>
+            <icustom:UploadCompletedTrigger IsCompleted="{x:Bind ViewModel.UploadCompleted, Mode=OneWay}" />
+          </i:Interaction.Behaviors>
+        </TextBlock>
+        <TextBlock Text="Success depends on the file path being valid and the URL accepting POST requests; failures are silently ignored by the behavior."
+                   FontSize="12"
+                   FontStyle="Italic"
+                   TextWrapping="Wrap" />
+      </StackPanel>
+    </Border>
+  </StackPanel>
+</UserControl>

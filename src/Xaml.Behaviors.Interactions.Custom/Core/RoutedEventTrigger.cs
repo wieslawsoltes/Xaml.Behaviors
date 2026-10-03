@@ -1,10 +1,19 @@
 // Copyright (c) Wiesław Šoltés. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for details.
 using System;
+#if UNO
+using Microsoft.UI.Xaml;
+using Xaml.Interactivity;
+#else
 using Avalonia.Interactivity;
 using Avalonia.Xaml.Interactivity;
+#endif
 
+#if UNO
+namespace Xaml.Interactions.Custom;
+#else
 namespace Avalonia.Xaml.Interactions.Custom;
+#endif
 
 /// <summary>
 /// 
@@ -24,12 +33,9 @@ public abstract class RoutedEventTrigger : RoutedEventTriggerBase
     {
         if (AssociatedObject is Interactive interactive)
         {
-            var disposable = AddDisposableHandler(
-                interactive,
-                RoutedEvent, 
-                Handler, 
-                EventRoutingStrategy);
-            return disposable;
+            // The routing adapter subscribes on the routes the event is raised on, so a Direct-only subscription to a
+            // tunneling or bubbling event handles the events raised by the element itself.
+            return interactive.AddDisposableUntypedRoutedEventHandler(RoutedEvent, Handler, EventRoutingStrategy);
         }
 
         return DisposableAction.Empty;
@@ -58,17 +64,5 @@ public abstract class RoutedEventTrigger : RoutedEventTriggerBase
     {
         e.Handled = MarkAsHandled;
         Interaction.ExecuteActions(AssociatedObject, Actions, e);
-    }
-
-    private static IDisposable AddDisposableHandler(
-        Interactive o, 
-        RoutedEvent routedEvent,
-        EventHandler<RoutedEventArgs> handler,
-        RoutingStrategies routes = RoutingStrategies.Direct | RoutingStrategies.Bubble,
-        bool handledEventsToo = false)
-    {
-        o.AddHandler(routedEvent, handler, routes, handledEventsToo);
-
-        return DisposableAction.Create(() => o.RemoveHandler(routedEvent, handler));
     }
 }

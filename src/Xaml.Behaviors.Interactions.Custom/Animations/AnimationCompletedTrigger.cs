@@ -1,30 +1,33 @@
 // Copyright (c) Wiesław Šoltés. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for details.
 using System.Threading.Tasks;
+#if UNO
+using Microsoft.UI.Dispatching;
+using Xaml.Interactivity;
+using PlatformAnimation = Microsoft.UI.Xaml.Media.Animation.Storyboard;
+#else
 using Avalonia.Threading;
 using Avalonia.Xaml.Interactivity;
+using PlatformAnimation = Avalonia.Animation.Animation;
+#endif
 
+#if UNO
+namespace Xaml.Interactions.Custom;
+#else
 namespace Avalonia.Xaml.Interactions.Custom;
+#endif
 
 /// <summary>
 /// Runs a specified <see cref="Animation.Animation"/> and executes actions when it completes.
 /// </summary>
-public class AnimationCompletedTrigger : AttachedToVisualTreeTrigger
+public partial class AnimationCompletedTrigger : AttachedToVisualTreeTrigger
 {
-    /// <summary>
-    /// Identifies the <see cref="Animation"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<Animation.Animation?> AnimationProperty =
-        AvaloniaProperty.Register<AnimationCompletedTrigger, Animation.Animation?>(nameof(Animation));
 
     /// <summary>
     /// Gets or sets the animation to run. This is an avalonia property.
     /// </summary>
-    public Animation.Animation? Animation
-    {
-        get => GetValue(AnimationProperty);
-        set => SetValue(AnimationProperty, value);
-    }
+    [StyledProperty]
+    public partial PlatformAnimation? Animation { get; set; }
 
     /// <inheritdoc />
     protected override void OnAttachedToVisualTree()

@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!-- WinUI 3 twin of tests/Uno/Xaml.Behaviors.Animations.UnitTests: compiles its sources (see tests/WinUI/WinUISharedTests.targets). -->
+  <PropertyGroup>
+    <AssemblyName>Xaml.Behaviors.WinUI.Animations.UnitTests</AssemblyName>
+    <RootNamespace>Xaml.Behaviors.Animations.UnitTests</RootNamespace>
+    <WinUIUnoTestProject>Xaml.Behaviors.Animations.UnitTests</WinUIUnoTestProject>
+    <UnoSharedTestProject>Xaml.Behaviors.Animations.UnitTests</UnoSharedTestProject>
+    <UnoSharedTestsUseInteractivity>false</UnoSharedTestsUseInteractivity>
+  </PropertyGroup>
+
+  <Import Project="..\..\..\build\XamlPropertyGenerator.props" />
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\src\WinUI\Xaml.Behaviors.Animations\Xaml.Behaviors.Animations.csproj" />
+  </ItemGroup>
+
+  <Import Project="..\WinUISharedTests.targets" />
+
+</Project>

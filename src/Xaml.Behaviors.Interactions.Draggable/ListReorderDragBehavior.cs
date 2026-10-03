@@ -1,6 +1,15 @@
 // Copyright (c) Wiesław Šoltés. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for details.
 using System;
+#if UNO
+using Xaml.Interactivity;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Controls.Primitives;
+using Microsoft.UI.Xaml.Input;
+using Windows.Foundation;
+#else
+using Avalonia.Xaml.Interactivity;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
@@ -9,20 +18,24 @@ using Avalonia.Interactivity;
 using Avalonia.Layout;
 using Avalonia.Media.Transformation;
 using Avalonia.Styling;
+#endif
 
+#if UNO
+namespace Xaml.Interactions.Draggable;
+#else
 namespace Avalonia.Xaml.Interactions.Draggable;
+#endif
 
 /// <summary>
 /// Allows reordering of items inside an <see cref="ItemsControl"/> while displaying
 /// a placeholder at the insertion point.
 /// </summary>
-public class ListReorderDragBehavior : ItemDragBehavior
+/// <remarks>
+/// WinUI has no adorner layer: on Uno Platform the placeholder is shown in a non interactive <c>Popup</c> placed over
+/// the target item container and sized like it.
+/// </remarks>
+public partial class ListReorderDragBehavior : ItemDragBehavior
 {
-    /// <summary>
-    /// Identifies the <see cref="PlaceholderTemplate"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<ITemplate?> PlaceholderTemplateProperty =
-        AvaloniaProperty.Register<ListReorderDragBehavior, ITemplate?>(nameof(PlaceholderTemplate));
 
     private bool _enableDrag;
     private bool _dragStarted;
@@ -34,15 +47,19 @@ public class ListReorderDragBehavior : ItemDragBehavior
     private bool _captured;
     private Control? _placeholder;
     private Control? _placeholderContainer;
+#if UNO
+    private Popup? _placeholderPopup;
+#endif
 
     /// <summary>
     /// Gets or sets template used to build placeholder shown while reordering.
     /// </summary>
-    public ITemplate? PlaceholderTemplate
-    {
-        get => GetValue(PlaceholderTemplateProperty);
-        set => SetValue(PlaceholderTemplateProperty, value);
-    }
+    [StyledProperty]
+#if UNO
+    public partial DataTemplate? PlaceholderTemplate { get; set; }
+#else
+    public partial ITemplate? PlaceholderTemplate { get; set; }
+#endif
 
     /// <inheritdoc />
     protected override void OnAttachedToVisualTree()
@@ -63,18 +80,23 @@ public class ListReorderDragBehavior : ItemDragBehavior
         base.OnDetachedFromVisualTree();
         if (AssociatedObject is not null)
         {
-            AssociatedObject.RemoveHandler(InputElement.PointerReleasedEvent, OnPointerReleased);
-            AssociatedObject.RemoveHandler(InputElement.PointerPressedEvent, OnPointerPressed);
-            AssociatedObject.RemoveHandler(InputElement.PointerMovedEvent, OnPointerMoved);
-            AssociatedObject.RemoveHandler(InputElement.PointerCaptureLostEvent, OnPointerCaptureLost);
+            AssociatedObject.RemoveRoutedEventHandler(InputElement.PointerReleasedEvent, OnPointerReleased);
+            AssociatedObject.RemoveRoutedEventHandler(InputElement.PointerPressedEvent, OnPointerPressed);
+            AssociatedObject.RemoveRoutedEventHandler(InputElement.PointerMovedEvent, OnPointerMoved);
+            AssociatedObject.RemoveRoutedEventHandler(InputElement.PointerCaptureLostEvent, OnPointerCaptureLost);
         }
     }
 
     private void OnPointerPressed(object? sender, PointerPressedEventArgs e)
     {
         var properties = e.GetCurrentPoint(AssociatedObject).Properties;
+#if UNO
+        if (properties.IsLeftButtonPressed
+            && AssociatedObject.TryGetItemContainer(out var itemsControl, out var container) && IsEnabled)
+#else
         if (properties.IsLeftButtonPressed
             && AssociatedObject?.Parent is ItemsControl itemsControl && IsEnabled)
+#endif
         {
             _enableDrag = true;
             _dragStarted = false;
@@ -82,7 +104,11 @@ public class ListReorderDragBehavior : ItemDragBehavior
             _draggedIndex = -1;
             _targetIndex = -1;
             _itemsControl = itemsControl;
+#if UNO
+            _draggedContainer = container;
+#else
             _draggedContainer = AssociatedObject;
+#endif
             _captured = true;
         }
     }
@@ -93,7 +119,7 @@ public class ListReorderDragBehavior : ItemDragBehavior
         {
             if (e.InitialPressMouseButton == MouseButton.Left)
             {
-                RemovePlaceholder();
+                ResetDrag();
             }
             _captured = false;
         }
@@ -101,12 +127,31 @@ public class ListReorderDragBehavior : ItemDragBehavior
 
     private void OnPointerCaptureLost(object? sender, PointerCaptureLostEventArgs e)
     {
-        RemovePlaceholder();
+        ResetDrag();
         _captured = false;
+    }
+
+    private void ResetDrag()
+    {
+        RemovePlaceholder();
+
+        _enableDrag = false;
+        _dragStarted = false;
+        _draggedIndex = -1;
+        _targetIndex = -1;
+        _itemsControl = null;
+        _draggedContainer = null;
     }
 
     private void RemovePlaceholder()
     {
+#if UNO
+        if (_placeholderPopup is not null)
+        {
+            PlaceholderOverlay.Hide(_placeholderPopup);
+            _placeholderPopup = null;
+        }
+#else
         if (_placeholderContainer is not null && _placeholder is not null)
         {
             var layer = AdornerLayer.GetAdornerLayer(_placeholderContainer);
@@ -116,13 +161,10 @@ public class ListReorderDragBehavior : ItemDragBehavior
             }
             ((ISetLogicalParent)_placeholder).SetParent(null);
         }
+#endif
 
         _placeholder = null;
         _placeholderContainer = null;
-        _enableDrag = false;
-        _dragStarted = false;
-        _itemsControl = null;
-        _draggedContainer = null;
     }
 
     private void AddPlaceholder(Control container)
@@ -139,6 +181,19 @@ public class ListReorderDragBehavior : ItemDragBehavior
 
         RemovePlaceholder();
 
+#if UNO
+        if (container.XamlRoot is null)
+        {
+            return;
+        }
+
+        if (PlaceholderTemplate.LoadContent() is Control adorner)
+        {
+            _placeholderPopup = PlaceholderOverlay.Show(container, adorner);
+            _placeholder = adorner;
+            _placeholderContainer = container;
+        }
+#else
         var layer = AdornerLayer.GetAdornerLayer(container);
         if (layer is null)
         {
@@ -153,6 +208,7 @@ public class ListReorderDragBehavior : ItemDragBehavior
             _placeholder = adorner;
             _placeholderContainer = container;
         }
+#endif
     }
 
     private void OnPointerMoved(object? sender, PointerEventArgs e)
@@ -171,10 +227,11 @@ public class ListReorderDragBehavior : ItemDragBehavior
 
             if (!_dragStarted)
             {
-                var diff = _start - position;
+                var diffX = _start.X - position.X;
+                var diffY = _start.Y - position.Y;
                 if (orientation == Orientation.Horizontal)
                 {
-                    if (Math.Abs(diff.X) > HorizontalDragThreshold)
+                    if (Math.Abs(diffX) > HorizontalDragThreshold)
                     {
                         _dragStarted = true;
                     }
@@ -185,7 +242,7 @@ public class ListReorderDragBehavior : ItemDragBehavior
                 }
                 else
                 {
-                    if (Math.Abs(diff.Y) > VerticalDragThreshold)
+                    if (Math.Abs(diffY) > VerticalDragThreshold)
                     {
                         _dragStarted = true;
                     }
@@ -220,7 +277,7 @@ public class ListReorderDragBehavior : ItemDragBehavior
 
             foreach (var _ in _itemsControl.Items)
             {
-                var targetContainer = _itemsControl.ContainerFromIndex(i);
+                var targetContainer = _itemsControl.ContainerFromIndex(i) as Control;
                 if (targetContainer is null || ReferenceEquals(targetContainer, _draggedContainer))
                 {
                     i++;
@@ -253,7 +310,7 @@ public class ListReorderDragBehavior : ItemDragBehavior
 
             if (_targetIndex >= 0)
             {
-                var container = _itemsControl.ContainerFromIndex(_targetIndex);
+                var container = _itemsControl.ContainerFromIndex(_targetIndex) as Control;
                 if (container is not null)
                 {
                     AddPlaceholder(container);

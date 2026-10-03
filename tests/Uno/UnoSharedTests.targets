@@ -1,0 +1,40 @@
+<Project>
+  <!--
+    Shares the tests of an Avalonia test project with its Uno Platform twin, like src/Uno shares the library sources.
+    A Uno test project (Uno.Sdk, xUnit v3 exe) sets:
+      <UnoSharedTestProject>   the folder name of the Avalonia test project under tests/
+      <UnoSharedTestExcludes>  files (relative paths or globs, ';' separated) that are not compiled for Uno,
+                               usually in a SharedTests.props next to the project (see tests/Uno/README.md)
+      <UnoSharedTestsUseInteractivity>false</UnoSharedTestsUseInteractivity> when the project does not reference
+                               Xaml.Behaviors.Uno.Interactivity (the test compat then provides its own dispatcher)
+    and imports this file after its references. The shared sources compile with the UNO symbol, the port aliases of
+    src/Uno and the Avalonia headless test compat layer (tests/Uno/Shared/TestCompat). Uno XAML test pages (.xaml)
+    live next to the Uno project at the relative path of the Avalonia page and share its code-behind (.axaml.cs).
+  -->
+  <PropertyGroup>
+    <DefineConstants>$(DefineConstants);UNO</DefineConstants>
+    <DefineConstants Condition="'$(UnoSharedTestsUseInteractivity)' != 'false'">$(DefineConstants);UNO_TESTS_INTERACTIVITY</DefineConstants>
+    <_UnoSharedTestRoot>$([MSBuild]::EnsureTrailingSlash($([MSBuild]::MakeRelative('$(MSBuildProjectDirectory)', '$(MSBuildThisFileDirectory)../$(UnoSharedTestProject)'))))</_UnoSharedTestRoot>
+    <_UnoSharedTestExcludes>$([System.Text.RegularExpressions.Regex]::Replace('$(UnoSharedTestExcludes)', '\s+', '').Trim(';'))</_UnoSharedTestExcludes>
+    <_UnoSharedTestExcludes Condition="'$(_UnoSharedTestExcludes)' != ''">$(_UnoSharedTestRoot)$(_UnoSharedTestExcludes.Replace(';', ';$(_UnoSharedTestRoot)'))</_UnoSharedTestExcludes>
+    <_UnoSharedTestExcludes>$([MSBuild]::Unescape('$(_UnoSharedTestExcludes)'))</_UnoSharedTestExcludes>
+    <_UnoTestCompatRoot>$([MSBuild]::EnsureTrailingSlash($([MSBuild]::MakeRelative('$(MSBuildProjectDirectory)', '$(MSBuildThisFileDirectory)Shared/TestCompat'))))</_UnoTestCompatRoot>
+  </PropertyGroup>
+
+  <ItemGroup Condition="'$(UnoSharedTestProject)' != ''">
+    <!-- The Avalonia test application bootstrap is replaced by the Uno headless session. -->
+    <Compile Include="$(_UnoSharedTestRoot)**/*.cs"
+             Exclude="$(_UnoSharedTestRoot)bin/**;$(_UnoSharedTestRoot)obj/**;$(_UnoSharedTestRoot)Properties/**;$(_UnoSharedTestRoot)TestAppBuilder.cs;$(_UnoSharedTestRoot)App.axaml.cs;$(_UnoSharedTestExcludes)"
+             Link="Shared/%(RecursiveDir)%(Filename)%(Extension)" />
+    <Compile Include="$(_UnoTestCompatRoot)**/*.cs" Link="TestCompat/%(RecursiveDir)%(Filename)%(Extension)" />
+
+    <Using Include="Xaml.Behaviors.Uno.TestCompat" />
+    <!-- The compat members of the library (parameterless Focus, IsVisible, RoutedEvent helpers, ...). -->
+    <Using Include="Xaml.Interactivity" Condition="'$(UnoSharedTestsUseInteractivity)' != 'false'" />
+    <Using Include="Xaml.Behaviors.Uno.Headless.XUnit.UnoHeadlessFactAttribute" Alias="AvaloniaFactAttribute" />
+    <Using Include="Xaml.Behaviors.Uno.Headless.XUnit.UnoHeadlessTheoryAttribute" Alias="AvaloniaTheoryAttribute" />
+    <Using Include="Xaml.Behaviors.Uno.TestCompat.HeadlessTestWindow" Alias="Window" />
+  </ItemGroup>
+
+  <Import Project="$(MSBuildThisFileDirectory)../../src/Uno/UnoPortAliases.props" />
+</Project>

@@ -33,11 +33,13 @@
     <PackageReference Include="Avalonia.Themes.Fluent" />
     <PackageReference Include="Avalonia.Fonts.Inter" />
     <PackageReference Include="Avalonia.Controls.DataGrid" />
+    <!-- ReactiveGenerator emits RaiseAndSetIfChanged calls, which the System.Reactive flavor of ReactiveUI declares in ReactiveUI.Reactive. -->
+    <Using Include="ReactiveUI.Reactive" />
     <PackageReference Include="ReactiveGenerator">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="ReactiveUI.Avalonia" />
+    <PackageReference Include="ReactiveUI.Avalonia.Reactive" />
   </ItemGroup>
 
   <ItemGroup>

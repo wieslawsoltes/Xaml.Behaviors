@@ -1,0 +1,37 @@
+<Project Sdk="Uno.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>$(UnoTargetFrameworks)</TargetFrameworks>
+    <AssemblyName>Xaml.Behaviors.Uno.Interactions.ReactiveUI</AssemblyName>
+    <RootNamespace>Xaml.Interactions.ReactiveUI</RootNamespace>
+    <UnoSharedSourceProject>Xaml.Behaviors.Interactions.ReactiveUI</UnoSharedSourceProject>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <PackageId>Xaml.Behaviors.Uno.Interactions.ReactiveUI</PackageId>
+    <Description>Behaviors integrating ReactiveUI navigation patterns for Uno Platform (WinUI).</Description>
+    <PackageTags>Uno;UnoPlatform;WinUI;ReactiveUI;Behavior;Navigation;Xaml</PackageTags>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Using Include="Xaml.Interactivity" />
+  </ItemGroup>
+
+  <!-- Avalonia-only sources, shared with the Avalonia build for the portability analyzers. -->
+  <Import Project="SharedSources.props" />
+
+  <!--
+    The behaviors only use ReactiveUI core (RoutingState, IRoutableViewModel, Interaction<TInput, TOutput>, Splat's
+    Locator), exactly like the Avalonia package. The UI integration packages (ReactiveUI.Uno for Uno Platform views and
+    routing hosts) are an application choice and are intentionally not referenced by this library.
+  -->
+  <ItemGroup>
+    <!-- The System.Reactive flavor of ReactiveUI 25.1, like ReactiveUI.Uno.Reactive (the Uno Platform integration). -->
+    <PackageReference Include="ReactiveUI.Reactive" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Xaml.Behaviors.Interactivity\Xaml.Behaviors.Interactivity.csproj" />
+  </ItemGroup>
+
+</Project>

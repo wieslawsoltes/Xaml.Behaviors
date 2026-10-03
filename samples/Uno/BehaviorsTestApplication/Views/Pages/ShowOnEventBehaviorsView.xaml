@@ -1,0 +1,125 @@
+<UserControl x:Class="BehaviorsTestApplication.Views.Pages.ShowOnEventBehaviorsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:i="using:Xaml.Interactivity"
+             xmlns:ic="using:Xaml.Interactions.Core"
+             xmlns:icustom="using:Xaml.Interactions.Custom"
+             mc:Ignorable="d"
+             d:DesignWidth="800"
+             d:DesignHeight="450">
+
+  <ScrollViewer>
+    <StackPanel Spacing="20" Margin="16">
+      <TextBlock Text="ShowOn* behaviors toggle the visibility of a target control when a specific gesture occurs. Each section demonstrates a different trigger."
+                 TextWrapping="Wrap" />
+
+      <Grid ColumnSpacing="16">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="*" />
+          <ColumnDefinition Width="*" />
+          <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <!-- Tapped -->
+        <StackPanel Spacing="10">
+          <TextBlock Text="ShowOnTappedBehavior" FontWeight="SemiBold" />
+          <!-- Avalonia: Cursor="Hand" (WinUI only exposes the element cursor through the protected ProtectedCursor). -->
+          <Border Padding="16"
+                  Background="{ThemeResource ControlFillColorSecondaryBrush}">
+            <i:Interaction.Behaviors>
+              <icustom:ShowOnTappedBehavior TargetControl="{x:Bind TappedReveal}" />
+            </i:Interaction.Behaviors>
+            <TextBlock Text="Tap here to reveal the message" HorizontalAlignment="Center" />
+          </Border>
+          <!-- Avalonia IsVisible maps to WinUI Visibility. -->
+          <Border x:Name="TappedReveal"
+                  Visibility="Collapsed"
+                  Padding="12"
+                  CornerRadius="4"
+                  Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                  BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                  BorderThickness="1">
+            <StackPanel Spacing="6">
+              <TextBlock Text="The tapped gesture just revealed this content." />
+              <Button Content="Hide again" HorizontalAlignment="Left">
+                <i:Interaction.Behaviors>
+                  <ic:EventTriggerBehavior EventName="Click">
+                    <ic:ChangePropertyAction TargetObject="{x:Bind TappedReveal}"
+                                             PropertyName="Visibility"
+                                             Value="Collapsed" />
+                  </ic:EventTriggerBehavior>
+                </i:Interaction.Behaviors>
+              </Button>
+            </StackPanel>
+          </Border>
+        </StackPanel>
+
+        <!-- DoubleTapped -->
+        <StackPanel Grid.Column="1" Spacing="10">
+          <TextBlock Text="ShowOnDoubleTappedBehavior" FontWeight="SemiBold" />
+          <Border Padding="16"
+                  Background="{ThemeResource ControlFillColorSecondaryBrush}">
+            <i:Interaction.Behaviors>
+              <icustom:ShowOnDoubleTappedBehavior TargetControl="{x:Bind DoubleTappedReveal}" />
+            </i:Interaction.Behaviors>
+            <TextBlock Text="Double-tap to toggle visibility" HorizontalAlignment="Center" />
+          </Border>
+          <Border x:Name="DoubleTappedReveal"
+                  Visibility="Collapsed"
+                  Padding="12"
+                  CornerRadius="4"
+                  Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                  BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                  BorderThickness="1">
+            <StackPanel Spacing="6">
+              <TextBlock Text="Double tapping the trigger surface shows this card." />
+              <Button Content="Hide again" HorizontalAlignment="Left">
+                <i:Interaction.Behaviors>
+                  <ic:EventTriggerBehavior EventName="Click">
+                    <ic:ChangePropertyAction TargetObject="{x:Bind DoubleTappedReveal}"
+                                             PropertyName="Visibility"
+                                             Value="Collapsed" />
+                  </ic:EventTriggerBehavior>
+                </i:Interaction.Behaviors>
+              </Button>
+            </StackPanel>
+          </Border>
+        </StackPanel>
+
+        <!-- KeyDown -->
+        <StackPanel Grid.Column="2" Spacing="10">
+          <TextBlock Text="ShowOnKeyDownBehavior" FontWeight="SemiBold" />
+          <TextBlock Text="Focus the textbox and press Enter to display the panel." FontSize="12" TextWrapping="Wrap" />
+          <TextBox Width="220"
+                   PlaceholderText="Press Enter">
+            <i:Interaction.Behaviors>
+              <!-- Key is a Windows.System.VirtualKey on Uno Platform. -->
+              <icustom:ShowOnKeyDownBehavior TargetControl="{x:Bind KeyDownReveal}" Key="Enter" />
+            </i:Interaction.Behaviors>
+          </TextBox>
+          <Border x:Name="KeyDownReveal"
+                  Visibility="Collapsed"
+                  Padding="12"
+                  CornerRadius="4"
+                  Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                  BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                  BorderThickness="1">
+            <StackPanel Spacing="6">
+              <TextBlock Text="The Enter key revealed this content." />
+              <Button Content="Hide again" HorizontalAlignment="Left">
+                <i:Interaction.Behaviors>
+                  <ic:EventTriggerBehavior EventName="Click">
+                    <ic:ChangePropertyAction TargetObject="{x:Bind KeyDownReveal}"
+                                             PropertyName="Visibility"
+                                             Value="Collapsed" />
+                  </ic:EventTriggerBehavior>
+                </i:Interaction.Behaviors>
+              </Button>
+            </StackPanel>
+          </Border>
+        </StackPanel>
+      </Grid>
+    </StackPanel>
+  </ScrollViewer>
+</UserControl>

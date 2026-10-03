@@ -1,0 +1,30 @@
+<UserControl x:Class="BehaviorsTestApplication.Views.Pages.ValueChangedTriggerBehaviorView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:i="using:Xaml.Interactivity"
+             xmlns:ic="using:Xaml.Interactions.Core"
+             xmlns:icustom="using:Xaml.Interactions.Custom"
+             xmlns:behaviors="using:BehaviorsTestApplication.Behaviors"
+             xmlns:converters="using:BehaviorsTestApplication.Converters"
+             mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="450">
+  <Grid>
+    <TextBlock x:Name="Text" HorizontalAlignment="Center" VerticalAlignment="Center">
+      <i:Interaction.Behaviors>
+        <!--
+          Avalonia binds the observable with the stream binding operator ({Binding Values^}). WinUI bindings cannot bind
+          to an IObservable<T>: ObservableTriggerBehavior<int> (no actions) subscribes to it and exposes the latest value
+          as its Value property, which the value changed trigger binds to.
+        -->
+        <behaviors:Int32ObservableTriggerBehavior x:Name="Values" Observable="{x:Bind ViewModel.Values}" />
+        <icustom:ValueChangedTriggerBehavior Binding="{x:Bind Values.Value, Mode=OneWay}">
+          <!-- Avalonia: StringFormat={} Value: {0} (WinUI bindings have no StringFormat; x:Bind calls a formatter). -->
+          <ic:ChangePropertyAction TargetObject="{x:Bind Text}"
+                                   PropertyName="Text"
+                                   Value="{x:Bind converters:SampleFormat.Value(Values.Value), Mode=OneWay}" />
+        </icustom:ValueChangedTriggerBehavior>
+      </i:Interaction.Behaviors>
+    </TextBlock>
+  </Grid>
+</UserControl>

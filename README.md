@@ -19,6 +19,12 @@ Animation definitions and composition helpers are also available independently t
 
 The [standalone animations sample](samples/AnimationsTestApplication/README.md) demonstrates every feature family in a dedicated tab without referencing the behaviors framework.
 
+## Uno Platform
+
+XAML Behaviors is also available for [Uno Platform](https://platform.uno) (WinUI API), built from the same sources.
+See [src/Uno/README.md](src/Uno/README.md) for packages and usage, and [src/Uno/PORTING.md](src/Uno/PORTING.md) for how
+the sources are shared. Build and test the port with `dotnet build UnoBehaviors.slnx` and `dotnet test UnoBehaviors.slnx`.
+
 ## Building XAML Behaviors Avalonia
 
 First, clone the repository or download the latest zip.

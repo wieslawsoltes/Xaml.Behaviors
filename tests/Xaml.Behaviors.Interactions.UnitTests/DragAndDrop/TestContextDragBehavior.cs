@@ -1,7 +1,17 @@
+#if UNO
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Input;
+using Xaml.Interactions.DragAndDrop;
+#else
 using Avalonia.Input;
 using Avalonia.Xaml.Interactions.DragAndDrop;
+#endif
 
+#if UNO
+namespace Xaml.Interactions.UnitTests.DragAndDrop;
+#else
 namespace Avalonia.Xaml.Interactions.UnitTests.DragAndDrop;
+#endif
 
 internal class TestContextDragBehavior : ContextDragBehaviorBase
 {

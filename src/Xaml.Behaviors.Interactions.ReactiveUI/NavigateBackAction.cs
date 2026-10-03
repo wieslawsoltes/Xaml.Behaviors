@@ -1,30 +1,31 @@
 // Copyright (c) Wiesław Šoltés. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for details.
 using System;
+#if UNO
+using Xaml.Interactivity;
+#else
 using Avalonia.Xaml.Interactivity;
+#endif
 using ReactiveUI;
+using ReactiveUI.Reactive;
 
+#if UNO
+namespace Xaml.Interactions.ReactiveUI;
+#else
 namespace Avalonia.Xaml.Interactions.ReactiveUI;
+#endif
 
 /// <summary>
 /// An action that navigates back in the <see cref="RoutingState"/> stack.
 /// </summary>
-public class NavigateBackAction : StyledElementAction
+public partial class NavigateBackAction : StyledElementAction
 {
-    /// <summary>
-    /// Identifies the <seealso cref="Router"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<RoutingState?> RouterProperty =
-        AvaloniaProperty.Register<NavigateBackAction, RoutingState?>(nameof(Router));
 
     /// <summary>
     /// Gets or sets the router used for navigation. This is an avalonia property.
     /// </summary>
-    public RoutingState? Router
-    {
-        get => GetValue(RouterProperty);
-        set => SetValue(RouterProperty, value);
-    }
+    [StyledProperty]
+    public partial RoutingState? Router { get; set; }
 
     /// <summary>
     /// Executes the action.

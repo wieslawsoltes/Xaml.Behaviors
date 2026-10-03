@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!-- WinUI 3 twin of tests/Uno/Xaml.Behaviors.Interactions.Custom.Controls.UnitTests: compiles its sources (see tests/WinUI/WinUISharedTests.targets). -->
+  <PropertyGroup>
+    <AssemblyName>Xaml.Behaviors.WinUI.Interactions.Custom.Controls.UnitTests</AssemblyName>
+    <RootNamespace>Xaml.Interactions.Custom.Controls.UnitTests</RootNamespace>
+    <WinUIUnoTestProject>Xaml.Behaviors.Interactions.Custom.Controls.UnitTests</WinUIUnoTestProject>
+    <WinUIUnoTestExcludes>
+      <!-- The Uno fixture loads the control resources in the application constructor; the WinUI test application loads them (AssemblyInfo.cs next to this project). -->
+      AssemblyInfo.cs
+    </WinUIUnoTestExcludes>
+  </PropertyGroup>
+
+  <Import Project="..\..\..\build\XamlPropertyGenerator.props" />
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\src\WinUI\Xaml.Behaviors.Interactions.Custom\Xaml.Behaviors.Interactions.Custom.csproj" />
+  </ItemGroup>
+
+  <Import Project="..\WinUISharedTests.targets" />
+
+</Project>

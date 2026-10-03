@@ -1,16 +1,30 @@
 ﻿// Copyright (c) Wiesław Šoltés. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for details.
+#if UNO
+using Microsoft.UI.Xaml.Input;
+using Microsoft.UI.Xaml;
+using Xaml.Interactivity;
+#else
 using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Xaml.Interactivity;
+#endif
 
+#if UNO
+namespace Xaml.Interactions.Events;
+#else
 namespace Avalonia.Xaml.Interactions.Events;
+#endif
 
 /// <summary>
 /// Behavior that listens for multiple pointer events.
 /// </summary>
 public abstract class PointerEventsBehavior : InteractiveBehaviorBase
 {
+    private System.IDisposable? _pressedSubscription;
+    private System.IDisposable? _releasedSubscription;
+    private System.IDisposable? _movedSubscription;
+
     static PointerEventsBehavior()
     {
         RoutingStrategiesProperty.OverrideMetadata<PointerEventsBehavior>(
@@ -21,23 +35,30 @@ public abstract class PointerEventsBehavior : InteractiveBehaviorBase
     /// <inheritdoc />
     protected override void OnAttachedToVisualTree()
     {
+        DisposeSubscriptions();
+
         if (AssociatedObject is not null)
         {
-            AssociatedObject.AddHandler(InputElement.PointerPressedEvent, PointerPressed, RoutingStrategies);
-            AssociatedObject.AddHandler(InputElement.PointerReleasedEvent, PointerReleased, RoutingStrategies);
-            AssociatedObject.AddHandler(InputElement.PointerMovedEvent, PointerMoved, RoutingStrategies);
-        } 
+            _pressedSubscription = AssociatedObject.AddDisposableRoutedEventHandler(InputElement.PointerPressedEvent, PointerPressed, RoutingStrategies);
+            _releasedSubscription = AssociatedObject.AddDisposableRoutedEventHandler(InputElement.PointerReleasedEvent, PointerReleased, RoutingStrategies);
+            _movedSubscription = AssociatedObject.AddDisposableRoutedEventHandler(InputElement.PointerMovedEvent, PointerMoved, RoutingStrategies);
+        }
     }
 
     /// <inheritdoc />
     protected override void OnDetachedFromVisualTree()
     {
-        if (AssociatedObject is not null)
-        {
-            AssociatedObject.RemoveHandler(InputElement.PointerPressedEvent, PointerPressed);
-            AssociatedObject.RemoveHandler(InputElement.PointerReleasedEvent, PointerReleased);
-            AssociatedObject.RemoveHandler(InputElement.PointerMovedEvent, PointerMoved);
-        }
+        DisposeSubscriptions();
+    }
+
+    private void DisposeSubscriptions()
+    {
+        _pressedSubscription?.Dispose();
+        _pressedSubscription = null;
+        _releasedSubscription?.Dispose();
+        _releasedSubscription = null;
+        _movedSubscription?.Dispose();
+        _movedSubscription = null;
     }
 
     private void PointerPressed(object? sender, PointerPressedEventArgs e)

@@ -2,21 +2,32 @@
 // Licensed under the MIT license. See LICENSE file in the project root for details.
 using System;
 using System.Globalization;
+#if UNO
+using Microsoft.UI.Xaml.Data;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Input;
+#else
 using Avalonia.Data.Converters;
 using Avalonia.Input;
+#endif
 
+#if UNO
+namespace Xaml.Interactions.Custom.Converters;
+#else
 namespace Avalonia.Xaml.Interactions.Custom.Converters;
+#endif
 
 /// <summary>
 /// Converter for <see cref="PointerEventArgs"/>.
 /// </summary>
-public class PointerEventArgsConverter : IValueConverter
+public partial class PointerEventArgsConverter : IValueConverter
 {
     /// <summary>
     /// Gets the instance of <see cref="PointerEventArgsConverter"/>.
     /// </summary>
     public static readonly PointerEventArgsConverter Instance = new();
 
+#if !UNO
     /// <inheritdoc />
     public object Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
     {
@@ -77,6 +88,7 @@ public class PointerEventArgsConverter : IValueConverter
     {
         return AvaloniaProperty.UnsetValue;
     }
+#endif
 
     /// <summary>
     /// Provides a cached instance of the converter.

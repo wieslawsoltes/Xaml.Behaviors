@@ -1,0 +1,26 @@
+<UserControl x:Class="BehaviorsTestApplication.Views.Pages.DragDropCommandsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:i="using:Xaml.Interactivity"
+             xmlns:idd="using:Xaml.Interactions.DragAndDrop"
+             mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="200">
+  <!-- The view model (DragDropCommandsViewModel) is the data context set by the shared code-behind. -->
+  <StackPanel Spacing="12" Margin="5">
+    <Border Background="LightGray" Height="100" CornerRadius="4">
+      <i:Interaction.Behaviors>
+        <idd:DragDropCommandsBehavior DragEnterCommand="{x:Bind ViewModel.EnterCommand}"
+                                      DragOverCommand="{x:Bind ViewModel.OverCommand}"
+                                      DragLeaveCommand="{x:Bind ViewModel.LeaveCommand}"
+                                      DropCommand="{x:Bind ViewModel.DropCommand}" />
+      </i:Interaction.Behaviors>
+      <TextBlock Text="{x:Bind ViewModel.Status, Mode=OneWay}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+    </Border>
+    <Rectangle Fill="SkyBlue" Width="80" Height="40" HorizontalAlignment="Center">
+      <i:Interaction.Behaviors>
+        <idd:ContextDragBehavior Context="DragMe" />
+      </i:Interaction.Behaviors>
+    </Rectangle>
+  </StackPanel>
+</UserControl>

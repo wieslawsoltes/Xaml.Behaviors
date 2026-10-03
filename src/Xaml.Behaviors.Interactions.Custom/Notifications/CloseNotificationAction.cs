@@ -1,30 +1,27 @@
 // Copyright (c) Wiesław Šoltés. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for details.
+#if !UNO
 using Avalonia.Controls.Notifications;
 using Avalonia.Metadata;
+#endif
 
+#if UNO
+namespace Xaml.Interactions.Custom;
+#else
 namespace Avalonia.Xaml.Interactions.Custom;
+#endif
 
 /// <summary>
 /// Action that closes the specified <see cref="NotificationCard"/>.
 /// </summary>
-public class CloseNotificationAction : Interactivity.StyledElementAction
+public partial class CloseNotificationAction : Interactivity.StyledElementAction
 {
-    /// <summary>
-    /// Gets or sets the notification card to close.
-    /// </summary>
-    public static readonly StyledProperty<NotificationCard?> NotificationCardProperty =
-        AvaloniaProperty.Register<CloseNotificationAction, NotificationCard?>(nameof(NotificationCard));
 
     /// <summary>
     /// 
     /// </summary>
-    [Content]
-    public NotificationCard? NotificationCard
-    {
-        get => GetValue(NotificationCardProperty);
-        set => SetValue(NotificationCardProperty, value);
-    }
+    [StyledProperty(Content = true)]
+    public partial NotificationCard? NotificationCard { get; set; }
 
     /// <summary>
     /// Executes the action.

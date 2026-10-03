@@ -1,0 +1,12 @@
+<UserControl x:Class="BehaviorsTestApplication.Views.Pages.TemplateBindingView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:controls="using:BehaviorsTestApplication.Controls"
+             mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="450">
+
+  <!-- The template of CustomControl is defined in Controls/CustomControl.xaml (merged in App.xaml). -->
+  <controls:CustomControl />
+
+</UserControl>

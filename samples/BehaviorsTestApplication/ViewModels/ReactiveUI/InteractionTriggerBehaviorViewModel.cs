@@ -1,6 +1,8 @@
 using System;
-using System.Reactive;
 using ReactiveUI;
+using ReactiveUI.Reactive;
+using ReactiveUI.Binding.Reactive;
+using System.Reactive;
 
 namespace BehaviorsTestApplication.ViewModels;
 
@@ -17,6 +19,7 @@ public class InteractionTriggerBehaviorViewModel : ViewModelBase
 
     private void Trigger()
     {
-        TestInteraction.Handle(Unit.Default).Subscribe();
+        // ReactiveUI 25: Handle returns a task instead of a cold observable.
+        _ = TestInteraction.Handle(Unit.Default);
     }
 }

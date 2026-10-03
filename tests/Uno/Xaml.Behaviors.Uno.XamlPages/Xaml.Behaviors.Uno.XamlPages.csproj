@@ -1,0 +1,22 @@
+<Project Sdk="Uno.Sdk">
+
+  <!-- XAML pages compiled by the Uno XAML generator, used by the XAML integration tests. -->
+  <PropertyGroup>
+    <TargetFrameworks>net10.0</TargetFrameworks>
+    <OutputType>Library</OutputType>
+    <IsPackable>false</IsPackable>
+    <Nullable>enable</Nullable>
+    <UnoFeatures></UnoFeatures>
+    <UnoPortAliases>false</UnoPortAliases>
+    <RootNamespace>Xaml.Behaviors.Uno.XamlPages</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\src\Uno\Xaml.Behaviors.Interactions\Xaml.Behaviors.Interactions.csproj" />
+    <ProjectReference Include="..\..\..\src\Uno\Xaml.Behaviors.Interactions.Events\Xaml.Behaviors.Interactions.Events.csproj" />
+    <ProjectReference Include="..\..\..\src\Uno\Xaml.Behaviors.Interactions.Custom\Xaml.Behaviors.Interactions.Custom.csproj" />
+  </ItemGroup>
+
+  <Import Project="..\..\..\build\SignAssembly.props" />
+
+</Project>

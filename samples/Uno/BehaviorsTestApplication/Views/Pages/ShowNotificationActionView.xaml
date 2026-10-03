@@ -1,0 +1,11 @@
+<!--
+  Not available: NotificationManagerBehavior and ShowNotificationAction (Notifications/**) use the Avalonia
+  WindowNotificationManager and NotificationCard, which have no WinUI counterpart (see src/Uno/PORTING.md).
+-->
+<UserControl x:Class="BehaviorsTestApplication.Views.Pages.ShowNotificationActionView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:controls="using:BehaviorsTestApplication.Controls">
+  <controls:NotAvailableOnUnoView Title="ShowNotificationAction"
+                                  Reason="NotificationManagerBehavior and ShowNotificationAction use the Avalonia WindowNotificationManager and NotificationCard (in-window notifications), which have no WinUI counterpart." />
+</UserControl>

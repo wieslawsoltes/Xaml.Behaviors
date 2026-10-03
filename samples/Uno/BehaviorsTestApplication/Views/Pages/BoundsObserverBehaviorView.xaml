@@ -1,0 +1,23 @@
+<UserControl x:Class="BehaviorsTestApplication.Views.Pages.BoundsObserverBehaviorView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:i="using:Xaml.Interactivity"
+             xmlns:icustom="using:Xaml.Interactions.Custom"
+             xmlns:behaviors="using:BehaviorsTestApplication.Behaviors"
+             xmlns:converters="using:BehaviorsTestApplication.Converters"
+             mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="180">
+  <StackPanel Spacing="10" HorizontalAlignment="Center">
+    <Slider x:Name="WidthSlider" Minimum="50" Maximum="300" Value="150" Width="200" />
+    <Border x:Name="Target" Background="LightBlue" Height="80" Width="{x:Bind WidthSlider.Value, Mode=OneWay}">
+      <i:Interaction.Behaviors>
+        <!-- Avalonia: Bounds="{Binding #Target.Bounds}"; WinUI elements have no bindable bounds (ElementBoundsBehavior). -->
+        <behaviors:ElementBoundsBehavior x:Name="TargetBounds" />
+        <icustom:BoundsObserverBehavior x:Name="Observer" Bounds="{x:Bind TargetBounds.Bounds, Mode=OneWay}" />
+      </i:Interaction.Behaviors>
+    </Border>
+    <TextBlock Text="{x:Bind converters:SampleFormat.Width(Observer.Width), Mode=OneWay}" />
+    <TextBlock Text="{x:Bind converters:SampleFormat.Height(Observer.Height), Mode=OneWay}" />
+  </StackPanel>
+</UserControl>

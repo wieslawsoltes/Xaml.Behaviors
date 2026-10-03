@@ -1,17 +1,48 @@
 using System;
 using ReactiveUI;
+using ReactiveUI.Reactive;
 using System.Windows.Input;
 using System.Reactive;
 using Xaml.Behaviors.SourceGenerators;
 using SourceGeneratorSample.Models;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
+#if UNO
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Input;
+using Microsoft.UI.Xaml.Controls;
+#else
 using Avalonia;
 using Avalonia.Input;
 using Avalonia.Controls;
 using Avalonia.Layout;
+#endif
 using System.Diagnostics.CodeAnalysis;
 
+#if UNO
+// The Uno Platform twin generates the same actions and triggers for the WinUI counterparts of the Avalonia types.
+[assembly: GenerateTypedChangePropertyAction(typeof(Microsoft.UI.Xaml.Controls.TextBlock), "Foreground")]
+[assembly: GenerateTypedChangePropertyAction(typeof(Microsoft.UI.Xaml.Controls.TextBlock), "Text")]
+// Click is declared on ButtonBase in WinUI: the trigger is Microsoft.UI.Xaml.Controls.Primitives.ButtonBaseClickTrigger.
+[assembly: GenerateTypedTrigger(typeof(Microsoft.UI.Xaml.Controls.Button), "Click")]
+[assembly: GenerateTypedTrigger(typeof(SourceGeneratorSample.ViewModels.MainViewModel), "ProcessingFinished")]
+[assembly: GenerateTypedDataTrigger(typeof(double))]
+[assembly: GenerateTypedDataTrigger(typeof(string))]
+// WinUI routed event arguments expose the element that raised the event as OriginalSource (Avalonia: Source).
+[assembly: GenerateEventCommand(typeof(Microsoft.UI.Xaml.Controls.Button), "Click", ParameterPath = "OriginalSource")]
+[assembly: GenerateAsyncTrigger(typeof(SourceGeneratorSample.ViewModels.MainViewModel), "DemoTask")]
+[assembly: GenerateObservableTrigger(typeof(SourceGeneratorSample.ViewModels.MainViewModel), "DemoObservable")]
+// WinUI has no IsVisible and Bounds properties: Visibility is the visibility property, and the layout width (Width) is
+// the closest observable dependency property to the bounds (ActualWidth does not raise property change notifications).
+[assembly: GeneratePropertyTrigger(typeof(Microsoft.UI.Xaml.UIElement), "VisibilityProperty")]
+[assembly: GeneratePropertyTrigger(typeof(Microsoft.UI.Xaml.FrameworkElement), "WidthProperty")]
+[assembly: GeneratePropertyTrigger(typeof(Microsoft.UI.Xaml.Controls.TextBox), "TextProperty", UseDispatcher = true, Name = "DispatchingTextPropertyTrigger")]
+
+// Wildcard examples, you can also use regex patterns (UIElement is the WinUI counterpart of Avalonia's InputElement).
+[assembly: GenerateTypedAction(typeof(Microsoft.UI.Xaml.Controls.TextBox), "Copy*")]
+[assembly: GenerateTypedTrigger(typeof(Microsoft.UI.Xaml.UIElement), "*")]
+[assembly: GenerateTypedChangePropertyAction(typeof(Microsoft.UI.Xaml.UIElement), "*")]
+#else
 [assembly: GenerateTypedChangePropertyAction(typeof(Avalonia.Controls.TextBlock), "Foreground")]
 [assembly: GenerateTypedChangePropertyAction(typeof(Avalonia.Controls.TextBlock), "Text")]
 [assembly: GenerateTypedTrigger(typeof(Avalonia.Controls.Button), "Click")]
@@ -29,6 +60,7 @@ using System.Diagnostics.CodeAnalysis;
 [assembly: GenerateTypedAction(typeof(Avalonia.Controls.TextBox), "Copy*")]
 [assembly: GenerateTypedTrigger(typeof(Avalonia.Input.InputElement), "*")]
 [assembly: GenerateTypedChangePropertyAction(typeof(Avalonia.Input.InputElement), "*")]
+#endif
 
 namespace SourceGeneratorSample.ViewModels
 {
@@ -216,6 +248,44 @@ namespace SourceGeneratorSample.ViewModels
             set => this.RaiseAndSetIfChanged(ref _internalSubmitMessage, value);
         }
 
+#if UNO
+        // WinUI pointer arguments (PointerRoutedEventArgs) have no click count: the pointer device type is shown instead.
+        [GenerateEventArgsAction(Project = "KeyModifiers")]
+        public void OnPointerPressed(PointerPressedEventArgs args)
+        {
+            var modifiers = args.KeyModifiers == KeyModifiers.None ? "no modifiers" : args.KeyModifiers.ToString();
+            PointerStatus = $"Pointer pressed ({args.Pointer.PointerDeviceType}, {modifiers})";
+        }
+
+        // WinUI key arguments (KeyRoutedEventArgs) have no modifiers: they are read from the keyboard state.
+        [GenerateEventArgsAction(UseDispatcher = true, Project = "Key")]
+        public void OnKeyCaptured(KeyEventArgs args)
+        {
+            var modifiers = GetKeyModifiers();
+            KeyStatus = $"Key: {args.Key} ({(modifiers == KeyModifiers.None ? "no modifiers" : modifiers.ToString())})";
+        }
+
+        private static KeyModifiers GetKeyModifiers()
+        {
+            var modifiers = KeyModifiers.None;
+            if (IsKeyDown(Windows.System.VirtualKey.Control))
+            {
+                modifiers |= KeyModifiers.Control;
+            }
+            if (IsKeyDown(Windows.System.VirtualKey.Shift))
+            {
+                modifiers |= KeyModifiers.Shift;
+            }
+            if (IsKeyDown(Windows.System.VirtualKey.Menu))
+            {
+                modifiers |= KeyModifiers.Menu;
+            }
+            return modifiers;
+
+            static bool IsKeyDown(Windows.System.VirtualKey key)
+                => Microsoft.UI.Input.InputKeyboardSource.GetKeyStateForCurrentThread(key).HasFlag(Windows.UI.Core.CoreVirtualKeyStates.Down);
+        }
+#else
         [GenerateEventArgsAction(Project = "KeyModifiers,ClickCount")]
         public void OnPointerPressed(PointerPressedEventArgs args)
         {
@@ -229,6 +299,7 @@ namespace SourceGeneratorSample.ViewModels
             var modifiers = args.KeyModifiers == KeyModifiers.None ? "no modifiers" : args.KeyModifiers.ToString();
             KeyStatus = $"Key: {args.Key} ({modifiers})";
         }
+#endif
         
         public void TriggerExternal()
         {

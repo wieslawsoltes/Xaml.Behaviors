@@ -1,66 +1,65 @@
 // Copyright (c) Wiesław Šoltés. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for details.
 using System;
+using System.Collections.Generic;
+#if UNO
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Windows.Foundation;
+using Xaml.Interactivity;
+#else
 using Avalonia.Collections;
 using Avalonia.Controls;
 using Avalonia.Metadata;
 using Avalonia.Reactive;
 using Avalonia.Xaml.Interactivity;
+#endif
 
+#if UNO
+namespace Xaml.Interactions.Responsive;
+#else
 namespace Avalonia.Xaml.Interactions.Responsive;
+#endif
 
 /// <summary>
 /// Observes bounds changes of a control (or a specified source) and conditionally adds or removes classes
 /// based on <see cref="AspectRatioClassSetter"/> rules.
 /// </summary>
-public class AspectRatioBehavior : StyledElementBehavior<Control>
+/// <remarks>
+/// WinUI has no style classes: on Uno Platform adding or removing a class (or pseudo class) moves the target control
+/// to the visual state of the same name (leading <c>:</c> removed, PascalCase accepted) and back to its <c>Not{Name}</c>,
+/// <c>Normal</c> or <c>Default</c> state (see <c>VisualStateManager</c>).
+/// </remarks>
+public partial class AspectRatioBehavior : StyledElementBehavior<Control>
 {
     private IDisposable? _disposable;
-    private AvaloniaList<AspectRatioClassSetter>? _setters;
-
-    /// <summary>
-    /// Identifies the <seealso cref="SourceControl"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<Control?> SourceControlProperty =
-        AvaloniaProperty.Register<AspectRatioBehavior, Control?>(nameof(SourceControl));
-
-    /// <summary>
-    /// Identifies the <seealso cref="TargetControl"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<Control?> TargetControlProperty =
-        AvaloniaProperty.Register<AspectRatioBehavior, Control?>(nameof(TargetControl));
-
-    /// <summary>
-    /// Identifies the <seealso cref="Setters"/> avalonia property.
-    /// </summary>
-    public static readonly DirectProperty<AspectRatioBehavior, AvaloniaList<AspectRatioClassSetter>> SettersProperty =
-        AvaloniaProperty.RegisterDirect<AspectRatioBehavior, AvaloniaList<AspectRatioClassSetter>>(nameof(Setters), t => t.Setters);
 
     /// <summary>
     /// Gets or sets the control whose bounds are observed. If not set, <see cref="StyledElementBehavior{T}.AssociatedObject"/> is used. This is an avalonia property.
     /// </summary>
-    [ResolveByName]
-    public Control? SourceControl
-    {
-        get => GetValue(SourceControlProperty);
-        set => SetValue(SourceControlProperty, value);
-    }
+    [StyledProperty(ResolveByName = true)]
+    public partial Control? SourceControl { get; set; }
 
     /// <summary>
     /// Gets or sets the target control to add or remove classes from. If not set, the associated object or setter TargetControl is used. This is an avalonia property.
     /// </summary>
-    [ResolveByName]
-    public Control? TargetControl
-    {
-        get => GetValue(TargetControlProperty);
-        set => SetValue(TargetControlProperty, value);
-    }
+    [StyledProperty(ResolveByName = true)]
+    public partial Control? TargetControl { get; set; }
 
     /// <summary>
     /// Gets aspect ratio class setters collection. This is an avalonia property.
     /// </summary>
-    [Content]
-    public AvaloniaList<AspectRatioClassSetter> Setters => _setters ??= [];
+    /// <remarks>
+    /// On Uno Platform the setters are a <c>DependencyObjectCollection</c> so they inherit the data context of the behavior.
+    /// </remarks>
+    [DirectProperty(Lazy = true, Content = true)]
+#if WINUI
+    public partial AspectRatioClassSetterCollection Setters { get; }
+#elif UNO
+    public partial DependencyObjectCollection<AspectRatioClassSetter> Setters { get; }
+#else
+    public partial AvaloniaList<AspectRatioClassSetter> Setters { get; }
+#endif
 
     /// <inheritdoc />
     protected override void OnAttachedToVisualTree()
@@ -107,7 +106,7 @@ public class AspectRatioBehavior : StyledElementBehavior<Control>
             .Subscribe(new AnonymousObserver<Rect>(bounds => Execute(sourceControl, Setters, bounds)));
     }
 
-    private void Execute(Control? sourceControl, AvaloniaList<AspectRatioClassSetter>? setters, Rect bounds)
+    private void Execute(Control? sourceControl, IEnumerable<AspectRatioClassSetter>? setters, Rect bounds)
     {
         if (sourceControl is null || setters is null)
         {

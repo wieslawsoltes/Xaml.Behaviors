@@ -1,31 +1,32 @@
 // Copyright (c) Wiesław Šoltés. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for details.
+#if UNO
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Xaml.Interactivity;
+#else
 using Avalonia.Controls;
 using Avalonia.VisualTree;
 using Avalonia.Xaml.Interactivity;
+#endif
 
+#if UNO
+namespace Xaml.Interactions.Custom;
+#else
 namespace Avalonia.Xaml.Interactions.Custom;
+#endif
 
 /// <summary>
 /// Centers the attached window on the current screen when it is attached to the visual tree.
 /// </summary>
-public class CenterWindowBehavior : StyledElementBehavior<Control>
+public partial class CenterWindowBehavior : StyledElementBehavior<Control>
 {
-    /// <summary>
-    /// Identifies the <see cref="Window"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<Window?> WindowProperty =
-        AvaloniaProperty.Register<CenterWindowBehavior, Window?>(nameof(Window));
 
     /// <summary>
     /// Gets or sets the window to center. If not set, the visual root window is used.
     /// </summary>
-    [ResolveByName]
-    public Window? Window
-    {
-        get => GetValue(WindowProperty);
-        set => SetValue(WindowProperty, value);
-    }
+    [StyledProperty(ResolveByName = true)]
+    public partial Window? Window { get; set; }
 
     /// <inheritdoc />
     protected override void OnAttachedToVisualTree()

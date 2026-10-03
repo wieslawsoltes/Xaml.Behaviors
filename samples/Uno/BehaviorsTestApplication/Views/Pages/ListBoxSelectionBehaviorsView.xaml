@@ -1,0 +1,87 @@
+<UserControl x:Class="BehaviorsTestApplication.Views.Pages.ListBoxSelectionBehaviorsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:i="using:Xaml.Interactivity"
+             xmlns:icustom="using:Xaml.Interactions.Custom"
+             xmlns:vm="using:BehaviorsTestApplication.ViewModels"
+             mc:Ignorable="d"
+             d:DesignWidth="800"
+             d:DesignHeight="600">
+  <ScrollViewer>
+    <StackPanel Spacing="16" Margin="16">
+      <TextBlock Text="ListBox selection helpers demonstrate automatic select-all, clearing selection, and pointer-driven focus."
+                 TextWrapping="Wrap" />
+
+      <Grid ColumnSpacing="16">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="*" />
+          <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <StackPanel Spacing="8">
+          <TextBlock Text="ListBoxSelectAllBehavior" FontWeight="SemiBold" />
+          <TextBlock Text="Attaching automatically selects every item when the list loads."
+                     FontSize="12"
+                     TextWrapping="Wrap" />
+          <ListView ItemsSource="{x:Bind ViewModel.Items, Mode=OneWay}"
+                    SelectionMode="Multiple"
+                    Height="180">
+            <i:Interaction.Behaviors>
+              <icustom:ListBoxSelectAllBehavior />
+            </i:Interaction.Behaviors>
+          </ListView>
+        </StackPanel>
+
+        <StackPanel Grid.Column="1" Spacing="8">
+          <TextBlock Text="ListBoxUnselectAllBehavior" FontWeight="SemiBold" />
+          <TextBlock Text="Clears the initial selection when the control is attached."
+                     FontSize="12"
+                     TextWrapping="Wrap" />
+          <ListView ItemsSource="{x:Bind ViewModel.Items, Mode=OneWay}"
+                    SelectedIndex="0"
+                    Height="180">
+            <i:Interaction.Behaviors>
+              <icustom:ListBoxUnselectAllBehavior />
+            </i:Interaction.Behaviors>
+          </ListView>
+        </StackPanel>
+      </Grid>
+
+      <StackPanel Spacing="8">
+        <TextBlock Text="SelectListBoxItemOnPointerMovedBehavior" FontWeight="SemiBold" />
+        <TextBlock Text="Hover an item to select it and place keyboard focus."
+                   FontSize="12"
+                   TextWrapping="Wrap" />
+        <ListView ItemsSource="{x:Bind ViewModel.Items, Mode=OneWay}"
+                  Height="220">
+          <ListView.ItemTemplate>
+            <DataTemplate x:DataType="vm:ItemViewModel">
+              <Border Margin="2"
+                      Padding="8"
+                      Background="{ThemeResource ControlFillColorSecondaryBrush}"
+                      CornerRadius="4">
+                <i:Interaction.Behaviors>
+                  <icustom:SelectListBoxItemOnPointerMovedBehavior />
+                </i:Interaction.Behaviors>
+                <TextBlock Text="{x:Bind Value, Mode=OneWay}" />
+              </Border>
+            </DataTemplate>
+          </ListView.ItemTemplate>
+        </ListView>
+      </StackPanel>
+
+      <StackPanel Spacing="8">
+        <TextBlock Text="TextBoxSelectAllTextBehavior" FontWeight="SemiBold" />
+        <TextBlock Text="The text below is fully selected when the box attaches to the visual tree, making it easy to overwrite."
+                   FontSize="12"
+                   TextWrapping="Wrap" />
+        <TextBox Text="Hover to edit this text" Width="240">
+          <i:Interaction.Behaviors>
+            <icustom:TextBoxSelectAllTextBehavior />
+          </i:Interaction.Behaviors>
+        </TextBox>
+      </StackPanel>
+    </StackPanel>
+  </ScrollViewer>
+</UserControl>

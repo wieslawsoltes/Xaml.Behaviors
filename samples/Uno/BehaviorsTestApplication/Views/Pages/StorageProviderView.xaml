@@ -1,0 +1,178 @@
+<UserControl x:Class="BehaviorsTestApplication.Views.Pages.StorageProviderView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:i="using:Xaml.Interactivity"
+             xmlns:ic="using:Xaml.Interactions.Core"
+             xmlns:converters="using:BehaviorsTestApplication.Converters"
+             mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="450">
+  <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="*" />
+    </Grid.RowDefinitions>
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition Width="30*" />
+      <ColumnDefinition Width="5" />
+      <ColumnDefinition Width="30*" />
+      <ColumnDefinition Width="5" />
+      <ColumnDefinition Width="30*" />
+    </Grid.ColumnDefinitions>
+    <!-- MenuItem Behaviors (Avalonia Menu/MenuItem: WinUI MenuBar/MenuBarItem/MenuFlyoutItem). -->
+    <MenuBar Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="5">
+      <MenuBarItem Title="File">
+        <MenuFlyoutItem Text="Open Files">
+          <i:Interaction.Behaviors>
+            <ic:MenuItemOpenFilePickerBehavior Command="{x:Bind ViewModel.OpenFilesCommand}"
+                                               Title="Open Files"
+                                               SuggestedFileName="MyFile"
+                                               AllowMultiple="True"
+                                               FileTypeFilter="Text Files|*.txt|Markdown Files|*.md|All Files|*.*" />
+          </i:Interaction.Behaviors>
+        </MenuFlyoutItem>
+        <MenuFlyoutItem Text="Open Folders">
+          <i:Interaction.Behaviors>
+            <!--
+              Avalonia overrides the StorageProvider with {Binding $parent[TopLevel].StorageProvider}; WinUI has no top
+              level storage provider, the behavior uses the system pickers (SystemStorageProvider).
+            -->
+            <ic:MenuItemOpenFolderPickerBehavior Command="{x:Bind ViewModel.OpenFoldersCommand}"
+                                                 Title="Open Folders"
+                                                 AllowMultiple="True" />
+          </i:Interaction.Behaviors>
+        </MenuFlyoutItem>
+        <MenuFlyoutItem Text="Save File">
+          <i:Interaction.Behaviors>
+            <ic:MenuItemSaveFilePickerBehavior Command="{x:Bind ViewModel.SaveFileCommand}"
+                                               InputConverter="{x:Bind ic:StorageItemToPathConverter.Instance}"
+                                               Title="Save Files"
+                                               SuggestedFileName="MyFile"
+                                               DefaultExtension="txt"
+                                               FileTypeChoices="Text Files (*.txt)|*.txt|Markdown Files (*.md)|*.md|All Files (*.*)|*.*" />
+          </i:Interaction.Behaviors>
+        </MenuFlyoutItem>
+      </MenuBarItem>
+    </MenuBar>
+    <!-- Generic Actions -->
+    <Button x:Name="OpenFilesButton" Content="Open Files" Grid.Row="1" Grid.Column="0" Margin="5,5,0,5">
+      <i:Interaction.Behaviors>
+        <ic:EventTriggerBehavior EventName="Click">
+          <ic:OpenFilePickerAction Command="{x:Bind ViewModel.OpenFilesCommand}"
+                                   Title="Open Files"
+                                   SuggestedFileName="MyFile"
+                                   AllowMultiple="True"
+                                   FileTypeFilter="Text Files|*.txt|Markdown Files|*.md|All Files|*.*" />
+        </ic:EventTriggerBehavior>
+      </i:Interaction.Behaviors>
+    </Button>
+    <Button x:Name="OpenFoldersButton" Content="Open Folders" Grid.Row="1" Grid.Column="2" Margin="0,5,0,5">
+      <i:Interaction.Behaviors>
+        <ic:EventTriggerBehavior EventName="Click">
+          <ic:OpenFolderPickerAction Command="{x:Bind ViewModel.OpenFoldersCommand}"
+                                     Title="Open Folders"
+                                     AllowMultiple="True" />
+        </ic:EventTriggerBehavior>
+      </i:Interaction.Behaviors>
+    </Button>
+    <Button x:Name="SaveFileButton" Content="Save File" Grid.Row="1" Grid.Column="4" Margin="0,5,5,5">
+      <i:Interaction.Behaviors>
+        <ic:EventTriggerBehavior EventName="Click">
+          <ic:SaveFilePickerAction Command="{x:Bind ViewModel.SaveFileCommand}"
+                                   InputConverter="{x:Bind ic:StorageItemToPathConverter.Instance}"
+                                   Title="Save Files"
+                                   SuggestedFileName="MyFile"
+                                   DefaultExtension="txt"
+                                   FileTypeChoices="Text Files (*.txt)|*.txt|Markdown Files (*.md)|*.md|All Files (*.*)|*.*" />
+        </ic:EventTriggerBehavior>
+      </i:Interaction.Behaviors>
+    </Button>
+    <!-- Button Behaviors -->
+    <Button Content="Open Files" Grid.Row="2" Grid.Column="0" Margin="5,5,0,5">
+      <i:Interaction.Behaviors>
+        <ic:ButtonOpenFilePickerBehavior Command="{x:Bind ViewModel.OpenFilesCommand}"
+                                         Title="Open Files"
+                                         SuggestedFileName="MyFile"
+                                         AllowMultiple="True"
+                                         FileTypeFilter="Text Files|*.txt|Markdown Files|*.md|All Files|*.*" />
+      </i:Interaction.Behaviors>
+    </Button>
+    <Button Content="Open Folders" Grid.Row="2" Grid.Column="2" Margin="0,5,0,5">
+      <i:Interaction.Behaviors>
+        <ic:ButtonOpenFolderPickerBehavior Title="Open Folders"
+                                           AllowMultiple="True"
+                                           Pick="ButtonOpenFolderPickerBehavior_OnPick"
+                                           SuggestedStartLocationPath="{x:Bind ViewModel.DocumentsFolderPath, Mode=OneWay}" />
+      </i:Interaction.Behaviors>
+    </Button>
+    <Button Content="Save File" Grid.Row="2" Grid.Column="4" Margin="0,5,5,5">
+      <i:Interaction.Behaviors>
+        <ic:ButtonSaveFilePickerBehavior Command="{x:Bind ViewModel.SaveFileCommand}"
+                                         InputConverter="{x:Bind ic:StorageItemToPathConverter.Instance}"
+                                         Title="Save Files"
+                                         SuggestedFileName="MyFile"
+                                         DefaultExtension="txt"
+                                         FileTypeChoices="Text Files (*.txt)|*.txt|Markdown Files (*.md)|*.md|All Files (*.*)|*.*" />
+      </i:Interaction.Behaviors>
+    </Button>
+    <!-- Section Header -->
+    <TextBlock Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="5"
+               Margin="5,10,5,5"
+               FontWeight="Bold"
+               Text="SuggestedStartLocationPath with Directory Creation:" />
+    <!-- Path Display (Avalonia: StringFormat='Path: {0}'). -->
+    <TextBlock Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="5"
+               Margin="5,0,5,5"
+               TextWrapping="Wrap"
+               Text="{x:Bind converters:SampleFormat.Path(ViewModel.NewDirectoryPath), Mode=OneWay}" />
+    <!-- Buttons Row -->
+    <Button Content="Save with Directory Creation" Grid.Row="5" Grid.Column="0" Margin="5,5,0,5">
+      <i:Interaction.Behaviors>
+        <ic:EventTriggerBehavior EventName="Click">
+          <ic:SaveFilePickerAction Command="{x:Bind ViewModel.SaveFileCommand}"
+                                   InputConverter="{x:Bind ic:StorageItemToPathConverter.Instance}"
+                                   Title="Save File (Create Directory)"
+                                   SuggestedStartLocationPath="{x:Bind ViewModel.NewDirectoryPath, Mode=OneWay}"
+                                   CreateSuggestedStartLocationDirectory="True"
+                                   SuggestedFileName="TestFile"
+                                   DefaultExtension="txt"
+                                   FileTypeChoices="Text Files (*.txt)|*.txt|All Files (*.*)|*.*" />
+        </ic:EventTriggerBehavior>
+      </i:Interaction.Behaviors>
+    </Button>
+    <Button Content="Save without Directory Creation" Grid.Row="5" Grid.Column="2" Margin="0,5,0,5">
+      <i:Interaction.Behaviors>
+        <ic:EventTriggerBehavior EventName="Click">
+          <ic:SaveFilePickerAction Command="{x:Bind ViewModel.SaveFileCommand}"
+                                   InputConverter="{x:Bind ic:StorageItemToPathConverter.Instance}"
+                                   Title="Save File (No Create)"
+                                   SuggestedStartLocationPath="{x:Bind ViewModel.NewDirectoryPath, Mode=OneWay}"
+                                   CreateSuggestedStartLocationDirectory="False"
+                                   SuggestedFileName="TestFile"
+                                   DefaultExtension="txt"
+                                   FileTypeChoices="Text Files (*.txt)|*.txt|All Files (*.*)|*.*" />
+        </ic:EventTriggerBehavior>
+      </i:Interaction.Behaviors>
+    </Button>
+    <Button Content="Save with SuggestedStartLocation" Grid.Row="5" Grid.Column="4" Margin="0,5,5,5"
+            ToolTipService.ToolTip="Uses IStorageFolder from 'Open Folders' button. Click 'Open Folders' first to set a location.">
+      <i:Interaction.Behaviors>
+        <ic:ButtonSaveFilePickerBehavior Command="{x:Bind ViewModel.SaveFileCommand}"
+                                         InputConverter="{x:Bind ic:StorageItemToPathConverter.Instance}"
+                                         Title="Save File (IStorageFolder)"
+                                         SuggestedStartLocation="{x:Bind ViewModel.DocumentsFolder, Mode=OneWay}"
+                                         SuggestedFileName="TestFile"
+                                         DefaultExtension="txt"
+                                         FileTypeChoices="Text Files (*.txt)|*.txt|All Files (*.*)|*.*" />
+      </i:Interaction.Behaviors>
+    </Button>
+    <!-- Results ListBox (WinUI: ListView). -->
+    <ListView Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="5"
+              ItemsSource="{x:Bind ViewModel.FileItems, Mode=OneWay}" />
+  </Grid>
+</UserControl>

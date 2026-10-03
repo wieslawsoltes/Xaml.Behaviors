@@ -2,17 +2,29 @@
 // Licensed under the MIT license. See LICENSE file in the project root for details.
 using System;
 using System.Threading.Tasks;
+#if UNO
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Input;
+using Xaml.Interactivity;
+using Windows.Foundation;
+#else
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Xaml.Interactivity;
+#endif
 
+#if UNO
+namespace Xaml.Interactions.DragAndDrop;
+#else
 namespace Avalonia.Xaml.Interactions.DragAndDrop;
+#endif
 
 /// <summary>
 /// Behavior base class that starts a drag operation using the associated context data.
 /// </summary>
-public abstract class ContextDragBehaviorBase : StyledElementBehavior<Control>
+public abstract partial class ContextDragBehaviorBase : StyledElementBehavior<Control>
 {
     private Point _dragStartPoint;
     private PointerPressedEventArgs? _triggerEvent;
@@ -20,49 +32,22 @@ public abstract class ContextDragBehaviorBase : StyledElementBehavior<Control>
     private bool _captured;
 
     /// <summary>
-    /// Identifies the <see cref="Context"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<object?> ContextProperty =
-        AvaloniaProperty.Register<ContextDragBehaviorBase, object?>(nameof(Context));
-
-    /// <summary>
-    /// Identifies the <see cref="HorizontalDragThreshold"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<double> HorizontalDragThresholdProperty =
-        AvaloniaProperty.Register<ContextDragBehaviorBase, double>(nameof(HorizontalDragThreshold), 3);
-
-    /// <summary>
-    /// Identifies the <see cref="VerticalDragThreshold"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<double> VerticalDragThresholdProperty =
-        AvaloniaProperty.Register<ContextDragBehaviorBase, double>(nameof(VerticalDragThreshold), 3);
-
-    /// <summary>
     /// Gets or sets context data passed to the drag handler.
     /// </summary>
-    public object? Context
-    {
-        get => GetValue(ContextProperty);
-        set => SetValue(ContextProperty, value);
-    }
+    [StyledProperty]
+    public partial object? Context { get; set; }
 
     /// <summary>
     /// Gets or sets the horizontal distance in pixels required to start a drag.
     /// </summary>
-    public double HorizontalDragThreshold
-    {
-        get => GetValue(HorizontalDragThresholdProperty);
-        set => SetValue(HorizontalDragThresholdProperty, value);
-    }
+    [StyledProperty(DefaultValue = 3)]
+    public partial double HorizontalDragThreshold { get; set; }
 
     /// <summary>
     /// Gets or sets the vertical distance in pixels required to start a drag.
     /// </summary>
-    public double VerticalDragThreshold
-    {
-        get => GetValue(VerticalDragThresholdProperty);
-        set => SetValue(VerticalDragThresholdProperty, value);
-    }
+    [StyledProperty(DefaultValue = 3)]
+    public partial double VerticalDragThreshold { get; set; }
 
     /// <inheritdoc />
     protected override void OnAttachedToVisualTree()
@@ -77,11 +62,14 @@ public abstract class ContextDragBehaviorBase : StyledElementBehavior<Control>
     /// <inheritdoc />
     protected override void OnDetachedFromVisualTree()
     {
-        AssociatedObject?.RemoveHandler(InputElement.PointerPressedEvent, AssociatedObject_PointerPressed);
-        AssociatedObject?.RemoveHandler(InputElement.PointerReleasedEvent, AssociatedObject_PointerReleased);
-        AssociatedObject?.RemoveHandler(InputElement.PointerMovedEvent, AssociatedObject_PointerMoved);
-        AssociatedObject?.RemoveHandler(InputElement.PointerCaptureLostEvent, AssociatedObject_CaptureLost);
-        AssociatedObject?.RemoveHandler(InputElement.KeyDownEvent, AssociatedObject_KeyDown);
+        AssociatedObject?.RemoveRoutedEventHandler(InputElement.PointerPressedEvent, AssociatedObject_PointerPressed);
+        AssociatedObject?.RemoveRoutedEventHandler(InputElement.PointerReleasedEvent, AssociatedObject_PointerReleased);
+        AssociatedObject?.RemoveRoutedEventHandler(InputElement.PointerMovedEvent, AssociatedObject_PointerMoved);
+        AssociatedObject?.RemoveRoutedEventHandler(InputElement.PointerCaptureLostEvent, AssociatedObject_CaptureLost);
+        AssociatedObject?.RemoveRoutedEventHandler(InputElement.KeyDownEvent, AssociatedObject_KeyDown);
+#if WINUI
+        StopEscapeTracking();
+#endif
     }
 
     /// <summary>
@@ -143,28 +131,80 @@ public abstract class ContextDragBehaviorBase : StyledElementBehavior<Control>
     {
         _triggerEvent = null;
         _lock = false;
+#if WINUI
+        StopEscapeTracking();
+#endif
     }
+
+#if WINUI
+    // Native WinUI can move the focus to the root of the window when the pointer is pressed, so the Escape key does
+    // not reach the associated object: while a press is pending the key is handled at the root.
+    private UIElement? _escapeRoot;
+    private Microsoft.UI.Xaml.Input.KeyEventHandler? _escapeHandler;
+
+    private void StartEscapeTracking()
+    {
+        StopEscapeTracking();
+        if (AssociatedObject?.XamlRoot?.Content is not { } root)
+        {
+            return;
+        }
+
+        _escapeRoot = root;
+        _escapeHandler = (_, e) =>
+        {
+            if (e.Key == Key.Escape)
+            {
+                Released();
+                _captured = false;
+            }
+        };
+        root.AddHandler(UIElement.KeyDownEvent, _escapeHandler, true);
+    }
+
+    private void StopEscapeTracking()
+    {
+        if (_escapeRoot is not null && _escapeHandler is not null)
+        {
+            _escapeRoot.RemoveHandler(UIElement.KeyDownEvent, _escapeHandler);
+        }
+
+        _escapeRoot = null;
+        _escapeHandler = null;
+    }
+#endif
 
     private void AssociatedObject_PointerPressed(object? sender, PointerPressedEventArgs e)
     {
         var properties = e.GetCurrentPoint(AssociatedObject).Properties;
         if (properties.IsLeftButtonPressed && IsEnabled)
         {
-            if (e.Source is Control control
-                && AssociatedObject?.DataContext == control.DataContext)
+            if (AssociatedObject is not null
+                && DragSourcePressFilter.BelongsToDragSource(AssociatedObject, e.Source))
             {
                 _dragStartPoint = e.GetPosition(null);
                 _triggerEvent = e;
                 _lock = true;
                 _captured = true;
+#if WINUI
+                StartEscapeTracking();
+#endif
 
                 // Drag detection must not consume the initial press. Selection and
                 // interactive content still need to observe it before a drag starts.
+#if UNO
+                // WinUI has no pointer tunnel phase: the handler also receives handled events, after the
+                // element's own handlers, so resetting Handled would un-handle a press the element (for
+                // example a list item) consumed. The press is left as is.
+#else
                 e.Handled = false;
+#endif
                 return;
             }
         }
+#if !UNO
         e.Handled = false;
+#endif
     }
 
     private void AssociatedObject_PointerReleased(object? sender, PointerReleasedEventArgs e)
@@ -177,6 +217,9 @@ public abstract class ContextDragBehaviorBase : StyledElementBehavior<Control>
             }
 
             _captured = false;
+#if WINUI
+            StopEscapeTracking();
+#endif
         }
     }
 
@@ -188,11 +231,12 @@ public abstract class ContextDragBehaviorBase : StyledElementBehavior<Control>
             _triggerEvent is not null)
         {
             var point = e.GetPosition(null);
-            var diff = _dragStartPoint - point;
+            var diffX = _dragStartPoint.X - point.X;
+            var diffY = _dragStartPoint.Y - point.Y;
             var horizontalDragThreshold = HorizontalDragThreshold;
             var verticalDragThreshold = VerticalDragThreshold;
 
-            if (Math.Abs(diff.X) > horizontalDragThreshold || Math.Abs(diff.Y) > verticalDragThreshold)
+            if (Math.Abs(diffX) > horizontalDragThreshold || Math.Abs(diffY) > verticalDragThreshold)
             {
                 if (_lock)
                 {

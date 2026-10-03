@@ -3,11 +3,18 @@
 
 using System;
 using System.Collections.Generic;
+#if UNO
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Media.Animation;
+using Microsoft.UI.Xaml.Controls;
+using Xaml.Interactions.Custom;
+#else
 using Avalonia;
 using Avalonia.Animation;
 using Avalonia.Controls;
 using Avalonia.Headless.XUnit;
 using Avalonia.Xaml.Interactions.Custom;
+#endif
 using Xunit;
 
 namespace Xaml.Behaviors.Animations.UnitTests;
@@ -18,8 +25,14 @@ public class TransitionOperationsTests
     public void AddRemoveAndClear_ManageTransitions()
     {
         var target = new Border();
+#if UNO
+        // WinUI has no property transitions (DoubleTransition); its transitions are theme transitions.
+        var first = new EntranceThemeTransition();
+        var second = new RepositionThemeTransition();
+#else
         var first = new DoubleTransition { Property = Visual.OpacityProperty };
         var second = new DoubleTransition { Property = Border.WidthProperty };
+#endif
 
         Assert.True(TransitionOperations.Add(target, first));
         Assert.True(TransitionOperations.Add(target, second));
@@ -63,13 +76,22 @@ public class TransitionOperationsTests
         using (TransitionOperations.Observe(target, observed.Add))
         {
             target.Transitions = replacement;
+#if WINUI
+            // Native WinUI raises the change before the new collection can be read: it is reported once applied.
+            UnoHeadlessSession.Current.RunJobs();
+#endif
         }
 
         target.Transitions = afterDisposal;
 
         Assert.Collection(
             observed,
+            #if WINUI
+            // Native WinUI creates an empty transition collection on first access (Uno Platform returns null).
+            transitions => Assert.True(transitions is null || transitions.Count == 0),
+#else
             transitions => Assert.Null(transitions),
+#endif
             transitions => Assert.Same(replacement, transitions));
     }
 

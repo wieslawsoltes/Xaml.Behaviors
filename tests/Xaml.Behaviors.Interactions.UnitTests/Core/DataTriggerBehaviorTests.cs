@@ -1,4 +1,12 @@
 using System.Diagnostics.CodeAnalysis;
+#if UNO
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Input;
+using Microsoft.UI.Dispatching;
+using Xaml.Interactions.Core;
+using Xaml.Interactivity;
+#else
 using Avalonia.Controls;
 using Avalonia.Headless;
 using Avalonia.Headless.XUnit;
@@ -6,9 +14,14 @@ using Avalonia.Input;
 using Avalonia.Threading;
 using Avalonia.Xaml.Interactions.Core;
 using Avalonia.Xaml.Interactivity;
+#endif
 using Xunit;
 
+#if UNO
+namespace Xaml.Interactions.UnitTests.Core;
+#else
 namespace Avalonia.Xaml.Interactions.UnitTests.Core;
+#endif
 
 public class DataTriggerBehaviorTests
 {
@@ -196,7 +209,11 @@ public class DataTriggerBehaviorTests
     {
         var initialAction = new CountingAction();
         var replacementAction = new CountingAction();
+#if UNO
+        var button = new Button();
+#else
         var button = new Avalonia.Controls.Button();
+#endif
         var behavior = new DataTriggerBehavior
         {
             Binding = true,
@@ -204,7 +221,11 @@ public class DataTriggerBehaviorTests
             Actions = new ActionCollection { initialAction },
         };
         Interaction.SetBehaviors(button, new BehaviorCollection { behavior });
+#if UNO
+        var window = new Window { Content = button };
+#else
         var window = new Avalonia.Controls.Window { Content = button };
+#endif
         window.Show();
         Dispatcher.UIThread.RunJobs();
         Assert.True(initialAction.ExecutionCount > 0);
@@ -232,7 +253,11 @@ public class DataTriggerBehaviorTests
         Assert.Equal("Red", window.TargetTextBlock.Text);
         var laterAction = new ChangePropertyAction
         {
+#if UNO
+            PropertyName = nameof(TextBlock.Text),
+#else
             PropertyName = nameof(Avalonia.Controls.TextBlock.Text),
+#endif
             Value = "Blue",
         };
         Assert.True((bool)((IReversibleAction)laterAction).ExecuteReversibly(window.TargetTextBlock, null)!);
@@ -258,7 +283,11 @@ public class DataTriggerBehaviorTests
 
         behavior.Actions.Add(new ChangePropertyAction
         {
+#if UNO
+            PropertyName = nameof(TextBlock.Text),
+#else
             PropertyName = nameof(Avalonia.Controls.TextBlock.Text),
+#endif
             Value = "Blue",
         });
         Dispatcher.UIThread.RunJobs();

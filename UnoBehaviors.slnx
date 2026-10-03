@@ -1,0 +1,74 @@
+<Solution>
+  <Folder Name="/build/">
+    <File Path="Directory.Build.props" />
+    <File Path="Directory.Packages.props" />
+    <File Path="global.json" />
+    <File Path="build/XamlPropertyGenerator.props" />
+    <File Path="build/XamlPort.props" />
+    <File Path="build/XamlPort.targets" />
+    <File Path="build/UnoPort/avalonia-to-uno.xamlport.json" />
+    <File Path="build/UnoPort/uno_share.py" />
+    <File Path="build/UnoPort/api-compat.sh" />
+    <File Path="src/Uno/Directory.Build.props" />
+    <File Path="src/Uno/Directory.Build.targets" />
+    <File Path="src/Uno/PORTING.md" />
+    <File Path="src/Uno/UnoPortAliases.props" />
+    <File Path="tests/Uno/README.md" />
+    <File Path="tests/Uno/UnoSharedTests.targets" />
+  </Folder>
+  <Folder Name="/samples/">
+    <Project Path="samples/Uno/AnimationsTestApplication/AnimationsTestApplication.csproj" />
+    <Project Path="samples/Uno/BehaviorsTestApplication/BehaviorsTestApplication.csproj" />
+    <Project Path="samples/Uno/SourceGeneratorSample.Core/SourceGeneratorSample.Core.csproj" />
+    <Project Path="samples/Uno/SourceGeneratorSample/SourceGeneratorSample.csproj" />
+  </Folder>
+  <Folder Name="/src/">
+    <Project Path="src/Uno/Xaml.Behaviors.Interactivity/Xaml.Behaviors.Interactivity.csproj" />
+    <Project Path="src/Uno/Xaml.Behaviors.Interactions/Xaml.Behaviors.Interactions.csproj" />
+    <Project Path="src/Uno/Xaml.Behaviors.Interactions.Events/Xaml.Behaviors.Interactions.Events.csproj" />
+    <Project Path="src/Uno/Xaml.Behaviors.Interactions.Custom/Xaml.Behaviors.Interactions.Custom.csproj" />
+    <Project Path="src/Uno/Xaml.Behaviors.Animations/Xaml.Behaviors.Animations.csproj" />
+    <Project Path="src/Uno/Xaml.Behaviors.Interactions.ReactiveUI/Xaml.Behaviors.Interactions.ReactiveUI.csproj" />
+    <Project Path="src/Uno/Xaml.Behaviors.Interactions.Scripting/Xaml.Behaviors.Interactions.Scripting.csproj" />
+    <Project Path="src/Uno/Xaml.Behaviors.Interactions.Responsive/Xaml.Behaviors.Interactions.Responsive.csproj" />
+    <Project Path="src/Uno/Xaml.Behaviors.Interactions.Draggable/Xaml.Behaviors.Interactions.Draggable.csproj" />
+    <Project Path="src/Uno/Xaml.Behaviors.Interactions.DragAndDrop/Xaml.Behaviors.Interactions.DragAndDrop.csproj" />
+    <Project Path="src/Uno/Xaml.Behaviors.Interactions.DragAndDrop.DataGrid/Xaml.Behaviors.Interactions.DragAndDrop.DataGrid.csproj" />
+    <Project Path="src/Uno/Xaml.Behaviors/Xaml.Behaviors.csproj" />
+    <Project Path="src/Uno/Xaml.Behaviors.All/Xaml.Behaviors.All.csproj" />
+  </Folder>
+  <Folder Name="/testing/">
+    <Project Path="src/Uno/Xaml.Behaviors.Uno.Headless.Host/Xaml.Behaviors.Uno.Headless.Host.csproj" />
+    <Project Path="src/Uno/Xaml.Behaviors.Uno.Headless/Xaml.Behaviors.Uno.Headless.csproj" />
+    <Project Path="src/Uno/Xaml.Behaviors.Uno.Headless.XUnit/Xaml.Behaviors.Uno.Headless.XUnit.csproj" />
+  </Folder>
+  <Folder Name="/tools/">
+    <Project Path="src/Xaml.PropertyGenerator/Xaml.PropertyGenerator.csproj" />
+    <Project Path="src/Xaml.PropertyGenerator.CodeFixes/Xaml.PropertyGenerator.CodeFixes.csproj" />
+    <Project Path="src/Xaml.PortAnalyzers/Xaml.PortAnalyzers.csproj" />
+    <Project Path="src/Xaml.PortAnalyzers.CodeFixes/Xaml.PortAnalyzers.CodeFixes.csproj" />
+    <Project Path="src/Xaml.Behaviors.SourceGenerators/Xaml.Behaviors.SourceGenerators.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/Uno/Xaml.Behaviors.Interactivity.UnitTests/Xaml.Behaviors.Interactivity.UnitTests.csproj" />
+    <Project Path="tests/Uno/Xaml.Behaviors.Interactions.UnitTests/Xaml.Behaviors.Interactions.UnitTests.csproj" />
+    <Project Path="tests/Uno/Xaml.Behaviors.Interactions.Events.UnitTests/Xaml.Behaviors.Interactions.Events.UnitTests.csproj" />
+    <Project Path="tests/Uno/Xaml.Behaviors.Uno.XamlPages/Xaml.Behaviors.Uno.XamlPages.csproj" />
+    <Project Path="tests/Uno/Xaml.Behaviors.Uno.Xaml.UnitTests/Xaml.Behaviors.Uno.Xaml.UnitTests.csproj" />
+    <Project Path="tests/Uno/Xaml.Behaviors.SourceGenerators.UnitTests/Xaml.Behaviors.SourceGenerators.UnitTests.csproj" />
+    <Project Path="tests/Uno/Xaml.Behaviors.Interactions.Custom.General.UnitTests/Xaml.Behaviors.Interactions.Custom.General.UnitTests.csproj" />
+    <Project Path="tests/Uno/Xaml.Behaviors.Interactions.Custom.Controls.UnitTests/Xaml.Behaviors.Interactions.Custom.Controls.UnitTests.csproj" />
+    <Project Path="tests/Uno/Xaml.Behaviors.Animations.UnitTests/Xaml.Behaviors.Animations.UnitTests.csproj" />
+    <Project Path="tests/Uno/Xaml.Behaviors.Interactions.Custom.Animations.UnitTests/Xaml.Behaviors.Interactions.Custom.Animations.UnitTests.csproj" />
+    <Project Path="tests/Uno/Xaml.Behaviors.Interactions.ReactiveUI.UnitTests/Xaml.Behaviors.Interactions.ReactiveUI.UnitTests.csproj" />
+    <Project Path="tests/Uno/Xaml.Behaviors.Interactions.Scripting.UnitTests/Xaml.Behaviors.Interactions.Scripting.UnitTests.csproj" />
+    <Project Path="tests/Uno/Xaml.Behaviors.Interactions.Responsive.UnitTests/Xaml.Behaviors.Interactions.Responsive.UnitTests.csproj" />
+    <Project Path="tests/Uno/Xaml.Behaviors.Interactions.Draggable.UnitTests/Xaml.Behaviors.Interactions.Draggable.UnitTests.csproj" />
+    <Project Path="tests/Uno/Xaml.Behaviors.Interactions.DragAndDrop.UnitTests/Xaml.Behaviors.Interactions.DragAndDrop.UnitTests.csproj" />
+    <Project Path="tests/Uno/Xaml.Behaviors.Interactions.DragAndDrop.DataGrid.UnitTests/Xaml.Behaviors.Interactions.DragAndDrop.DataGrid.UnitTests.csproj" />
+    <Project Path="tests/Uno/Xaml.Behaviors.UnitTests/Xaml.Behaviors.UnitTests.csproj" />
+    <Project Path="tests/Uno/Xaml.Behaviors.Uno.Headless.UnitTests/Xaml.Behaviors.Uno.Headless.UnitTests.csproj" />
+    <Project Path="tests/Xaml.PropertyGenerator.UnitTests/Xaml.PropertyGenerator.UnitTests.csproj" />
+    <Project Path="tests/Xaml.PortAnalyzers.UnitTests/Xaml.PortAnalyzers.UnitTests.csproj" />
+  </Folder>
+</Solution>

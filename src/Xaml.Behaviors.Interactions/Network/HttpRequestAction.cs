@@ -2,107 +2,62 @@ using System;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+#if UNO
+using Microsoft.UI.Dispatching;
+using Xaml.Interactivity;
+#else
 using Avalonia.Threading;
 using Avalonia.Xaml.Interactivity;
+#endif
 
+#if UNO
+namespace Xaml.Interactions.Network;
+#else
 namespace Avalonia.Xaml.Interactions.Network;
+#endif
 
 /// <summary>
 /// An action that performs an HTTP request.
 /// </summary>
-public class HttpRequestAction : StyledElementAction
+public partial class HttpRequestAction : StyledElementAction
 {
     private static readonly HttpClient _client = new HttpClient();
 
     /// <summary>
-    /// Identifies the <seealso cref="Url"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<string?> UrlProperty =
-        AvaloniaProperty.Register<HttpRequestAction, string?>(nameof(Url));
-
-    /// <summary>
-    /// Identifies the <seealso cref="Method"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<string?> MethodProperty =
-        AvaloniaProperty.Register<HttpRequestAction, string?>(nameof(Method), "GET");
-
-    /// <summary>
-    /// Identifies the <seealso cref="Content"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<string?> ContentProperty =
-        AvaloniaProperty.Register<HttpRequestAction, string?>(nameof(Content));
-
-    /// <summary>
-    /// Identifies the <seealso cref="ContentType"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<string?> ContentTypeProperty =
-        AvaloniaProperty.Register<HttpRequestAction, string?>(nameof(ContentType), "application/json");
-
-    /// <summary>
-    /// Identifies the <seealso cref="ResponseContent"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<string?> ResponseContentProperty =
-        AvaloniaProperty.Register<HttpRequestAction, string?>(nameof(ResponseContent));
-
-    /// <summary>
-    /// Identifies the <seealso cref="ResponseStatusCode"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<int> ResponseStatusCodeProperty =
-        AvaloniaProperty.Register<HttpRequestAction, int>(nameof(ResponseStatusCode));
-
-    /// <summary>
     /// Gets or sets the URL.
     /// </summary>
-    public string? Url
-    {
-        get => GetValue(UrlProperty);
-        set => SetValue(UrlProperty, value);
-    }
+    [StyledProperty]
+    public partial string? Url { get; set; }
 
     /// <summary>
     /// Gets or sets the HTTP method.
     /// </summary>
-    public string? Method
-    {
-        get => GetValue(MethodProperty);
-        set => SetValue(MethodProperty, value);
-    }
+    [StyledProperty(DefaultValue = "GET")]
+    public partial string? Method { get; set; }
 
     /// <summary>
     /// Gets or sets the content to send.
     /// </summary>
-    public string? Content
-    {
-        get => GetValue(ContentProperty);
-        set => SetValue(ContentProperty, value);
-    }
+    [StyledProperty]
+    public partial string? Content { get; set; }
 
     /// <summary>
     /// Gets or sets the content type.
     /// </summary>
-    public string? ContentType
-    {
-        get => GetValue(ContentTypeProperty);
-        set => SetValue(ContentTypeProperty, value);
-    }
+    [StyledProperty(DefaultValue = "application/json")]
+    public partial string? ContentType { get; set; }
 
     /// <summary>
     /// Gets or sets the response content.
     /// </summary>
-    public string? ResponseContent
-    {
-        get => GetValue(ResponseContentProperty);
-        set => SetValue(ResponseContentProperty, value);
-    }
+    [StyledProperty]
+    public partial string? ResponseContent { get; set; }
 
     /// <summary>
     /// Gets or sets the response status code.
     /// </summary>
-    public int ResponseStatusCode
-    {
-        get => GetValue(ResponseStatusCodeProperty);
-        set => SetValue(ResponseStatusCodeProperty, value);
-    }
+    [StyledProperty]
+    public partial int ResponseStatusCode { get; set; }
 
     /// <inheritdoc />
     public override object? Execute(object? sender, object? parameter)

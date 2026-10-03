@@ -1,0 +1,73 @@
+<!-- WinUI XAML cannot close a generic base type: the root is the Uno-only ReactiveNavigationViewBase (ReactiveUserControl<ReactiveNavigationViewModel>). -->
+<views:ReactiveNavigationViewBase x:Class="BehaviorsTestApplication.Views.Pages.ReactiveNavigationView"
+                                  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                                  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                                  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                                  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                                  xmlns:i="using:Xaml.Interactivity"
+                                  xmlns:ic="using:Xaml.Interactions.Core"
+                                  xmlns:irx="using:Xaml.Interactions.ReactiveUI"
+                                  xmlns:behaviors="using:BehaviorsTestApplication.Behaviors"
+                                  xmlns:views="using:BehaviorsTestApplication.Views.Pages"
+                                  mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="450">
+  <Grid Margin="5" RowSpacing="5">
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="*" />
+    </Grid.RowDefinitions>
+    <!-- WinUI has no WrapPanel: the buttons scroll horizontally. -->
+    <ScrollViewer HorizontalScrollBarVisibility="Auto" HorizontalScrollMode="Enabled"
+                  VerticalScrollBarVisibility="Disabled" VerticalScrollMode="Disabled">
+      <StackPanel Orientation="Horizontal" Spacing="5">
+        <Button Content="Navigate to Details">
+          <i:Interaction.Behaviors>
+            <ic:EventTriggerBehavior EventName="Click">
+              <irx:NavigateAction Router="{x:Bind ViewModel.Router}"
+                                  ViewModel="{x:Bind ViewModel.DetailsViewModel}" />
+            </ic:EventTriggerBehavior>
+          </i:Interaction.Behaviors>
+        </Button>
+        <Button Content="Navigate to Details (Generic)">
+          <i:Interaction.Behaviors>
+            <ic:EventTriggerBehavior EventName="Click">
+              <!-- NavigateToAction<DetailPageViewModel> (WinUI XAML has no x:TypeArguments). -->
+              <behaviors:NavigateToDetailPageAction Router="{x:Bind ViewModel.Router}" />
+            </ic:EventTriggerBehavior>
+          </i:Interaction.Behaviors>
+        </Button>
+        <Button Content="Navigate to Home and Reset">
+          <i:Interaction.Behaviors>
+            <ic:EventTriggerBehavior EventName="Click">
+              <irx:NavigateAndReset Router="{x:Bind ViewModel.Router}"
+                                    ViewModel="{x:Bind ViewModel.HomePageViewModel}" />
+            </ic:EventTriggerBehavior>
+          </i:Interaction.Behaviors>
+        </Button>
+        <Button Content="Navigate to Home and Reset (Generic)">
+          <i:Interaction.Behaviors>
+            <ic:EventTriggerBehavior EventName="Click">
+              <!-- NavigateToAndResetAction<HomePageViewModel> (WinUI XAML has no x:TypeArguments). -->
+              <behaviors:NavigateToHomePageAndResetAction Router="{x:Bind ViewModel.Router}" />
+            </ic:EventTriggerBehavior>
+          </i:Interaction.Behaviors>
+        </Button>
+        <Button Content="Navigate Back">
+          <i:Interaction.Behaviors>
+            <ic:EventTriggerBehavior EventName="Click">
+              <irx:NavigateBackAction Router="{x:Bind ViewModel.Router}" />
+            </ic:EventTriggerBehavior>
+          </i:Interaction.Behaviors>
+        </Button>
+        <Button Content="Clear Navigation">
+          <i:Interaction.Behaviors>
+            <ic:EventTriggerBehavior EventName="Click">
+              <irx:ClearNavigationStackAction Router="{x:Bind ViewModel.Router}" />
+            </ic:EventTriggerBehavior>
+          </i:Interaction.Behaviors>
+        </Button>
+      </StackPanel>
+    </ScrollViewer>
+    <views:SampleRoutedViewHost Router="{x:Bind ViewModel.Router}" Grid.Row="1"
+                         HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" />
+  </Grid>
+</views:ReactiveNavigationViewBase>

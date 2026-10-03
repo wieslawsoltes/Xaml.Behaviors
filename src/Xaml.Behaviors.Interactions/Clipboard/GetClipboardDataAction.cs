@@ -8,6 +8,13 @@ using System.Threading.Tasks;
 #if NETSTANDARD2_0
 using System.Runtime.Serialization.Formatters.Binary;
 #endif
+#if UNO
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Input;
+using Microsoft.UI.Dispatching;
+using Xaml.Interactivity;
+#else
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Input.Platform;
@@ -15,43 +22,31 @@ using Avalonia.LogicalTree;
 using Avalonia.Platform.Storage;
 using Avalonia.Threading;
 using Avalonia.Xaml.Interactivity;
+#endif
 
+#if UNO
+namespace Xaml.Interactions.Core;
+#else
 namespace Avalonia.Xaml.Interactions.Core;
+#endif
 
 /// <summary>
 /// An action that will get the data from the clipboard.
 /// </summary>
-public class GetClipboardDataAction : InvokeCommandActionBase
+public partial class GetClipboardDataAction : InvokeCommandActionBase
 {
-    /// <summary>
-    /// Identifies the <seealso cref="Clipboard"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<IClipboard?> ClipboardProperty =
-        AvaloniaProperty.Register<GetClipboardDataAction, IClipboard?>(nameof(Clipboard));
-
-    /// <summary>
-    /// Identifies the <seealso cref="Format"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<string?> FormatProperty =
-        AvaloniaProperty.Register<GetClipboardDataAction, string?>(nameof(Format));
 
     /// <summary>
     /// Gets or sets the clipboard to use. This is an avalonia property.
     /// </summary>
-    public IClipboard? Clipboard
-    {
-        get => GetValue(ClipboardProperty);
-        set => SetValue(ClipboardProperty, value);
-    }
+    [StyledProperty]
+    public partial IClipboard? Clipboard { get; set; }
 
     /// <summary>
     /// Gets or sets the format to get from the clipboard. This is an avalonia property.
     /// </summary>
-    public string? Format
-    {
-        get => GetValue(FormatProperty);
-        set => SetValue(FormatProperty, value);
-    }
+    [StyledProperty]
+    public partial string? Format { get; set; }
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GetClipboardDataAction"/> class.

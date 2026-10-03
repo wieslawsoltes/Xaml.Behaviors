@@ -1,0 +1,35 @@
+<UserControl x:Class="BehaviorsTestApplication.Views.Pages.ConditionalActionView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:converters="using:BehaviorsTestApplication.Converters"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:i="using:Xaml.Interactivity"
+             xmlns:ic="using:Xaml.Interactions.Core"
+             xmlns:icustom="using:Xaml.Interactions.Custom"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450">
+    <ScrollViewer>
+        <StackPanel Spacing="20" Margin="20">
+            <TextBlock Text="ConditionalAction" FontWeight="Bold" FontSize="24" />
+            <TextBlock Text="Executes actions based on a boolean condition." />
+            <CheckBox x:Name="EnableAction" Content="Enable Action" IsChecked="True" />
+            <Button Content="Click Me">
+                <i:Interaction.Behaviors>
+                    <ic:EventTriggerBehavior EventName="Click">
+                        <icustom:ConditionalAction Condition="{x:Bind converters:SampleCheck.IsTrue(EnableAction.IsChecked), Mode=OneWay}">
+                            <icustom:ConditionalAction.Actions>
+                                <ic:ChangePropertyAction TargetObject="{x:Bind StatusText}" PropertyName="Text" Value="Action Executed (True)!" />
+                                <ic:ChangePropertyAction TargetObject="{x:Bind StatusText}" PropertyName="Foreground" Value="Green" />
+                            </icustom:ConditionalAction.Actions>
+                            <icustom:ConditionalAction.ElseActions>
+                                <ic:ChangePropertyAction TargetObject="{x:Bind StatusText}" PropertyName="Text" Value="Action Executed (False)!" />
+                                <ic:ChangePropertyAction TargetObject="{x:Bind StatusText}" PropertyName="Foreground" Value="Red" />
+                            </icustom:ConditionalAction.ElseActions>
+                        </icustom:ConditionalAction>
+                    </ic:EventTriggerBehavior>
+                </i:Interaction.Behaviors>
+            </Button>
+            <TextBlock x:Name="StatusText" Text="Waiting..." FontSize="16" FontWeight="Bold" />
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>

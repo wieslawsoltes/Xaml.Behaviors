@@ -1,5 +1,15 @@
 // Copyright (c) Wiesław Šoltés. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for details.
+#if UNO
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Controls.Primitives;
+using Microsoft.UI.Xaml.Input;
+using Microsoft.UI.Xaml.Media;
+using Xaml.Interactivity;
+using EventRoutingStrategies = Xaml.Interactivity.RoutingStrategies;
+using IInputElement = Microsoft.UI.Xaml.UIElement;
+#else
 using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
 using Avalonia.Input;
@@ -7,173 +17,85 @@ using Avalonia.Interactivity;
 using Avalonia.VisualTree;
 using Avalonia.Xaml.Interactivity;
 using EventRoutingStrategies = Avalonia.Interactivity.RoutingStrategies;
+#endif
 
+#if UNO
+namespace Xaml.Interactions.Custom;
+#else
 namespace Avalonia.Xaml.Interactions.Custom;
+#endif
 
 /// <summary>
 /// Trigger that emulates <see cref="Button"/> click semantics on any <see cref="Control"/>.
 /// </summary>
-public class ClickEventTrigger : StyledElementTrigger<Control>
+public partial class ClickEventTrigger : StyledElementTrigger<Control>
 {
     private bool _isPressed;
     private bool _ownsPointerCapture;
     private Control? _resolvedSourceControl;
     private IInputElement? _rootInputElement;
-
-    /// <summary>
-    /// Identifies the <see cref="SourceControl"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<Control?> SourceControlProperty =
-        AvaloniaProperty.Register<ClickEventTrigger, Control?>(nameof(SourceControl));
-
-    /// <summary>
-    /// Identifies the <see cref="ClickMode"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<ClickMode> ClickModeProperty =
-        AvaloniaProperty.Register<ClickEventTrigger, ClickMode>(nameof(ClickMode), ClickMode.Release);
-
-    /// <summary>
-    /// Identifies the <see cref="RoutingStrategies"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<EventRoutingStrategies> RoutingStrategiesProperty =
-        AvaloniaProperty.Register<ClickEventTrigger, EventRoutingStrategies>(
-            nameof(RoutingStrategies),
-            EventRoutingStrategies.Tunnel);
-
-    /// <summary>
-    /// Identifies the <see cref="KeyModifiers"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<KeyModifiers?> KeyModifiersProperty =
-        AvaloniaProperty.Register<ClickEventTrigger, KeyModifiers?>(nameof(KeyModifiers));
-
-    /// <summary>
-    /// Identifies the <see cref="IsDefault"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<bool> IsDefaultProperty =
-        AvaloniaProperty.Register<ClickEventTrigger, bool>(nameof(IsDefault));
-
-    /// <summary>
-    /// Identifies the <see cref="IsCancel"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<bool> IsCancelProperty =
-        AvaloniaProperty.Register<ClickEventTrigger, bool>(nameof(IsCancel));
-
-    /// <summary>
-    /// Identifies the <see cref="Flyout"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<FlyoutBase?> FlyoutProperty =
-        AvaloniaProperty.Register<ClickEventTrigger, FlyoutBase?>(nameof(Flyout));
-
-    /// <summary>
-    /// Identifies the <see cref="UseAttachedFlyout"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<bool> UseAttachedFlyoutProperty =
-        AvaloniaProperty.Register<ClickEventTrigger, bool>(nameof(UseAttachedFlyout), true);
-
-    /// <summary>
-    /// Identifies the <see cref="HandleEvent"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<bool> HandleEventProperty =
-        AvaloniaProperty.Register<ClickEventTrigger, bool>(nameof(HandleEvent), true);
-
-    /// <summary>
-    /// Identifies the <see cref="HandledEventsToo"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<bool> HandledEventsTooProperty =
-        AvaloniaProperty.Register<ClickEventTrigger, bool>(nameof(HandledEventsToo), false);
+    private System.IDisposable[]? _inputSubscriptions;
 
     /// <summary>
     /// Gets or sets the source control from which this trigger listens for click semantics.
     /// If not set, it defaults to the associated object.
     /// </summary>
-    [ResolveByName]
-    public Control? SourceControl
-    {
-        get => GetValue(SourceControlProperty);
-        set => SetValue(SourceControlProperty, value);
-    }
+    [StyledProperty(ResolveByName = true)]
+    public partial Control? SourceControl { get; set; }
 
     /// <summary>
     /// Gets or sets how this trigger reacts to pointer and keyboard clicks.
     /// </summary>
-    public ClickMode ClickMode
-    {
-        get => GetValue(ClickModeProperty);
-        set => SetValue(ClickModeProperty, value);
-    }
+    [StyledProperty(DefaultValue = ClickMode.Release)]
+    public partial ClickMode ClickMode { get; set; }
 
     /// <summary>
     /// Gets or sets the routed event strategies used when subscribing to pointer and keyboard input events.
     /// </summary>
-    public EventRoutingStrategies RoutingStrategies
-    {
-        get => GetValue(RoutingStrategiesProperty);
-        set => SetValue(RoutingStrategiesProperty, value);
-    }
+    [StyledProperty(DefaultValue = EventRoutingStrategies.Tunnel)]
+    public partial EventRoutingStrategies RoutingStrategies { get; set; }
 
     /// <summary>
     /// Gets or sets required key modifiers for click execution.
     /// </summary>
-    public KeyModifiers? KeyModifiers
-    {
-        get => GetValue(KeyModifiersProperty);
-        set => SetValue(KeyModifiersProperty, value);
-    }
+    [StyledProperty]
+    public partial KeyModifiers? KeyModifiers { get; set; }
 
     /// <summary>
     /// Gets or sets whether Enter on the visual root should invoke this trigger.
     /// </summary>
-    public bool IsDefault
-    {
-        get => GetValue(IsDefaultProperty);
-        set => SetValue(IsDefaultProperty, value);
-    }
+    [StyledProperty]
+    public partial bool IsDefault { get; set; }
 
     /// <summary>
     /// Gets or sets whether Escape on the visual root should invoke this trigger.
     /// </summary>
-    public bool IsCancel
-    {
-        get => GetValue(IsCancelProperty);
-        set => SetValue(IsCancelProperty, value);
-    }
+    [StyledProperty]
+    public partial bool IsCancel { get; set; }
 
     /// <summary>
     /// Gets or sets an explicit flyout instance used for toggle-on-click behavior.
     /// </summary>
-    [ResolveByName]
-    public FlyoutBase? Flyout
-    {
-        get => GetValue(FlyoutProperty);
-        set => SetValue(FlyoutProperty, value);
-    }
+    [StyledProperty(ResolveByName = true)]
+    public partial FlyoutBase? Flyout { get; set; }
 
     /// <summary>
     /// Gets or sets whether to fallback to <see cref="FlyoutBase.AttachedFlyoutProperty"/> when <see cref="Flyout"/> is not set.
     /// </summary>
-    public bool UseAttachedFlyout
-    {
-        get => GetValue(UseAttachedFlyoutProperty);
-        set => SetValue(UseAttachedFlyoutProperty, value);
-    }
+    [StyledProperty(DefaultValue = true)]
+    public partial bool UseAttachedFlyout { get; set; }
 
     /// <summary>
     /// Gets or sets whether handled semantics should be applied to routed events.
     /// </summary>
-    public bool HandleEvent
-    {
-        get => GetValue(HandleEventProperty);
-        set => SetValue(HandleEventProperty, value);
-    }
+    [StyledProperty(DefaultValue = true)]
+    public partial bool HandleEvent { get; set; }
 
     /// <summary>
     /// Gets or sets whether this trigger should receive already handled routed events.
     /// </summary>
-    public bool HandledEventsToo
-    {
-        get => GetValue(HandledEventsTooProperty);
-        set => SetValue(HandledEventsTooProperty, value);
-    }
+    [StyledProperty(DefaultValue = false)]
+    public partial bool HandledEventsToo { get; set; }
 
     /// <inheritdoc />
     protected override void OnAttachedToVisualTree()
@@ -237,7 +159,11 @@ public class ClickEventTrigger : StyledElementTrigger<Control>
 
         if (ShouldCapturePointer(sourceControl))
         {
+#if UNO
+            sourceControl.CapturePointer(e.Pointer);
+#else
             e.Pointer?.Capture(sourceControl);
+#endif
             _ownsPointerCapture = true;
         }
 
@@ -251,13 +177,21 @@ public class ClickEventTrigger : StyledElementTrigger<Control>
 
     private void OnPointerReleased(object? sender, PointerReleasedEventArgs e)
     {
+#if UNO
+        if (_isPressed && e.GetCurrentPoint(null).Properties.PointerUpdateKind == Microsoft.UI.Input.PointerUpdateKind.LeftButtonReleased)
+#else
         if (_isPressed && e.InitialPressMouseButton == MouseButton.Left)
+#endif
         {
             _isPressed = false;
 
             if (_ownsPointerCapture)
             {
+#if UNO
+                _resolvedSourceControl?.ReleasePointerCapture(e.Pointer);
+#else
                 e.Pointer?.Capture(null);
+#endif
                 _ownsPointerCapture = false;
             }
 
@@ -272,6 +206,17 @@ public class ClickEventTrigger : StyledElementTrigger<Control>
 
     private void OnPointerCaptureLost(object? sender, PointerCaptureLostEventArgs e)
     {
+#if UNO
+        // WinUI has no tunneling route: controls such as Button release the capture in their own release handler,
+        // before the routed release handler of this trigger runs. A capture lost by the release itself keeps the
+        // press so that the release handler completes the click.
+        if (_ownsPointerCapture
+            && e.GetCurrentPoint(null).Properties.PointerUpdateKind == Microsoft.UI.Input.PointerUpdateKind.LeftButtonReleased)
+        {
+            _ownsPointerCapture = false;
+            return;
+        }
+#endif
         if (_ownsPointerCapture)
         {
             _isPressed = false;
@@ -369,7 +314,12 @@ public class ClickEventTrigger : StyledElementTrigger<Control>
 
         ToggleFlyout(sourceControl);
 
+#if UNO
+        // WinUI click events are CLR events of ButtonBase; the actions receive plain routed event arguments.
+        var clickArgs = new RoutedEventArgs();
+#else
         var clickArgs = new RoutedEventArgs(Button.ClickEvent, sourceControl);
+#endif
         RaiseClickEventIfNeeded(sourceControl, clickArgs);
         Interaction.ExecuteActions(sourceControl, Actions, clickArgs);
         return true;
@@ -377,6 +327,11 @@ public class ClickEventTrigger : StyledElementTrigger<Control>
 
     private static void RaiseClickEventIfNeeded(Control sourceControl, RoutedEventArgs clickArgs)
     {
+#if UNO
+        // WinUI cannot raise ButtonBase.Click (a CLR event) on other controls; buttons raise it natively.
+        _ = sourceControl;
+        _ = clickArgs;
+#else
         // Button-derived controls already raise ClickEvent through native control logic.
         if (sourceControl is Button)
         {
@@ -384,6 +339,7 @@ public class ClickEventTrigger : StyledElementTrigger<Control>
         }
 
         sourceControl.RaiseEvent(clickArgs);
+#endif
     }
 
     private void ToggleFlyout(Control associatedObject)
@@ -435,8 +391,14 @@ public class ClickEventTrigger : StyledElementTrigger<Control>
             return false;
         }
 
+#if UNO
+        // WinUI hit testing works in root (host) coordinates.
+        var position = e.GetCurrentPoint(null).Position;
+        foreach (var visual in VisualTreeHelper.FindElementsInHostCoordinates(position, _resolvedSourceControl))
+#else
         var position = e.GetPosition(_resolvedSourceControl);
         foreach (var visual in _resolvedSourceControl.GetVisualsAt(position))
+#endif
         {
             if (ReferenceEquals(visual, _resolvedSourceControl) || _resolvedSourceControl.IsVisualAncestorOf(visual))
             {
@@ -496,7 +458,11 @@ public class ClickEventTrigger : StyledElementTrigger<Control>
             return;
         }
 
+#if UNO
+        var rootInputElement = _resolvedSourceControl.XamlRoot?.Content;
+#else
         var rootInputElement = TopLevel.GetTopLevel(_resolvedSourceControl) as IInputElement;
+#endif
         if (!forceReattach && ReferenceEquals(_rootInputElement, rootInputElement))
         {
             return;
@@ -565,22 +531,32 @@ public class ClickEventTrigger : StyledElementTrigger<Control>
     {
         var inputRoutingStrategies = RoutingStrategies;
 
-        sourceControl.AddHandler(InputElement.PointerPressedEvent, OnPointerPressed, inputRoutingStrategies, HandledEventsToo);
-        sourceControl.AddHandler(InputElement.PointerReleasedEvent, OnPointerReleased, inputRoutingStrategies, HandledEventsToo);
+        // The routing adapter subscribes on the routes the events are raised on, so a Direct-only routing strategy
+        // handles the input events raised by the source control itself.
+        _inputSubscriptions =
+        [
+            sourceControl.AddDisposableRoutedEventHandler(InputElement.PointerPressedEvent, OnPointerPressed, inputRoutingStrategies, HandledEventsToo),
+            sourceControl.AddDisposableRoutedEventHandler(InputElement.PointerReleasedEvent, OnPointerReleased, inputRoutingStrategies, HandledEventsToo),
+            sourceControl.AddDisposableRoutedEventHandler(InputElement.KeyDownEvent, OnKeyDown, inputRoutingStrategies, HandledEventsToo),
+            sourceControl.AddDisposableRoutedEventHandler(InputElement.KeyUpEvent, OnKeyUp, inputRoutingStrategies, HandledEventsToo),
+        ];
         sourceControl.AddHandler(InputElement.PointerCaptureLostEvent, OnPointerCaptureLost, EventRoutingStrategies.Direct, HandledEventsToo);
-        sourceControl.AddHandler(InputElement.KeyDownEvent, OnKeyDown, inputRoutingStrategies, HandledEventsToo);
-        sourceControl.AddHandler(InputElement.KeyUpEvent, OnKeyUp, inputRoutingStrategies, HandledEventsToo);
         sourceControl.AddHandler(InputElement.LostFocusEvent, OnLostFocus, EventRoutingStrategies.Bubble, HandledEventsToo);
     }
 
     private void UnregisterInputHandlers(Control sourceControl)
     {
-        sourceControl.RemoveHandler(InputElement.PointerPressedEvent, OnPointerPressed);
-        sourceControl.RemoveHandler(InputElement.PointerReleasedEvent, OnPointerReleased);
-        sourceControl.RemoveHandler(InputElement.PointerCaptureLostEvent, OnPointerCaptureLost);
-        sourceControl.RemoveHandler(InputElement.KeyDownEvent, OnKeyDown);
-        sourceControl.RemoveHandler(InputElement.KeyUpEvent, OnKeyUp);
-        sourceControl.RemoveHandler(InputElement.LostFocusEvent, OnLostFocus);
+        if (_inputSubscriptions is { } subscriptions)
+        {
+            _inputSubscriptions = null;
+            foreach (var subscription in subscriptions)
+            {
+                subscription.Dispose();
+            }
+        }
+
+        sourceControl.RemoveRoutedEventHandler(InputElement.PointerCaptureLostEvent, OnPointerCaptureLost);
+        sourceControl.RemoveRoutedEventHandler(InputElement.LostFocusEvent, OnLostFocus);
     }
 
     private void DetachRootSubscription()
@@ -590,7 +566,11 @@ public class ClickEventTrigger : StyledElementTrigger<Control>
             return;
         }
 
+#if UNO
+        _rootInputElement.RemoveRoutedEventHandler(InputElement.KeyDownEvent, OnRootKeyDown);
+#else
         _rootInputElement.RemoveHandler(InputElement.KeyDownEvent, OnRootKeyDown);
+#endif
         _rootInputElement = null;
     }
 }

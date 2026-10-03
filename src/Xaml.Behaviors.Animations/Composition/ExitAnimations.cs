@@ -2,10 +2,20 @@
 // Licensed under the MIT license. See LICENSE file in the project root for details.
 using System;
 using System.Numerics;
+#if UNO
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Composition;
+#else
 using Avalonia.Controls;
 using Avalonia.Rendering.Composition;
+#endif
 
+#if UNO
+namespace Xaml.Interactions.Custom;
+#else
 namespace Avalonia.Xaml.Interactions.Custom;
+#endif
 
 /// <summary>
 /// Provides exit animation helpers inspired by animate.css.
@@ -362,7 +372,7 @@ public static class ExitAnimations
 
             if (definition.InitialOffset.HasValue)
             {
-                visual.Offset = CompositionAnimationHelpers.GetLayoutOffset(element, definition.InitialOffset.Value);
+                CompositionAnimationHelpers.SetOffset(visual, CompositionAnimationHelpers.GetLayoutOffset(element, definition.InitialOffset.Value));
             }
 
             if (definition.InitialScale.HasValue)
@@ -778,4 +788,302 @@ public static class ExitAnimations
                 new CompositionAnimationHelpers.ScalarKeyFrame(1.0f, 0f)
             },
             initialOpacity: 1f);
+
+#if UNO
+    // WinUI XAML takes the type of an attached property from its getter. These attached properties are write-only (the
+    // value starts the animation), so their getters return NaN.
+    /// <summary>
+    /// The getter WinUI XAML requires for the write-only <see cref="SetBackOutDown"/> attached property; always <see cref="double.NaN"/>.
+    /// </summary>
+    /// <param name="element">The element.</param>
+    /// <returns><see cref="double.NaN"/>.</returns>
+    public static double GetBackOutDown(Control element) => double.NaN;
+
+    /// <summary>
+    /// The getter WinUI XAML requires for the write-only <see cref="SetBackOutLeft"/> attached property; always <see cref="double.NaN"/>.
+    /// </summary>
+    /// <param name="element">The element.</param>
+    /// <returns><see cref="double.NaN"/>.</returns>
+    public static double GetBackOutLeft(Control element) => double.NaN;
+
+    /// <summary>
+    /// The getter WinUI XAML requires for the write-only <see cref="SetBackOutRight"/> attached property; always <see cref="double.NaN"/>.
+    /// </summary>
+    /// <param name="element">The element.</param>
+    /// <returns><see cref="double.NaN"/>.</returns>
+    public static double GetBackOutRight(Control element) => double.NaN;
+
+    /// <summary>
+    /// The getter WinUI XAML requires for the write-only <see cref="SetBackOutUp"/> attached property; always <see cref="double.NaN"/>.
+    /// </summary>
+    /// <param name="element">The element.</param>
+    /// <returns><see cref="double.NaN"/>.</returns>
+    public static double GetBackOutUp(Control element) => double.NaN;
+
+    /// <summary>
+    /// The getter WinUI XAML requires for the write-only <see cref="SetBounceOut"/> attached property; always <see cref="double.NaN"/>.
+    /// </summary>
+    /// <param name="element">The element.</param>
+    /// <returns><see cref="double.NaN"/>.</returns>
+    public static double GetBounceOut(Control element) => double.NaN;
+
+    /// <summary>
+    /// The getter WinUI XAML requires for the write-only <see cref="SetBounceOutDown"/> attached property; always <see cref="double.NaN"/>.
+    /// </summary>
+    /// <param name="element">The element.</param>
+    /// <returns><see cref="double.NaN"/>.</returns>
+    public static double GetBounceOutDown(Control element) => double.NaN;
+
+    /// <summary>
+    /// The getter WinUI XAML requires for the write-only <see cref="SetBounceOutLeft"/> attached property; always <see cref="double.NaN"/>.
+    /// </summary>
+    /// <param name="element">The element.</param>
+    /// <returns><see cref="double.NaN"/>.</returns>
+    public static double GetBounceOutLeft(Control element) => double.NaN;
+
+    /// <summary>
+    /// The getter WinUI XAML requires for the write-only <see cref="SetBounceOutRight"/> attached property; always <see cref="double.NaN"/>.
+    /// </summary>
+    /// <param name="element">The element.</param>
+    /// <returns><see cref="double.NaN"/>.</returns>
+    public static double GetBounceOutRight(Control element) => double.NaN;
+
+    /// <summary>
+    /// The getter WinUI XAML requires for the write-only <see cref="SetBounceOutUp"/> attached property; always <see cref="double.NaN"/>.
+    /// </summary>
+    /// <param name="element">The element.</param>
+    /// <returns><see cref="double.NaN"/>.</returns>
+    public static double GetBounceOutUp(Control element) => double.NaN;
+
+    /// <summary>
+    /// The getter WinUI XAML requires for the write-only <see cref="SetFadeOut"/> attached property; always <see cref="double.NaN"/>.
+    /// </summary>
+    /// <param name="element">The element.</param>
+    /// <returns><see cref="double.NaN"/>.</returns>
+    public static double GetFadeOut(Control element) => double.NaN;
+
+    /// <summary>
+    /// The getter WinUI XAML requires for the write-only <see cref="SetFadeOutDown"/> attached property; always <see cref="double.NaN"/>.
+    /// </summary>
+    /// <param name="element">The element.</param>
+    /// <returns><see cref="double.NaN"/>.</returns>
+    public static double GetFadeOutDown(Control element) => double.NaN;
+
+    /// <summary>
+    /// The getter WinUI XAML requires for the write-only <see cref="SetFadeOutDownBig"/> attached property; always <see cref="double.NaN"/>.
+    /// </summary>
+    /// <param name="element">The element.</param>
+    /// <returns><see cref="double.NaN"/>.</returns>
+    public static double GetFadeOutDownBig(Control element) => double.NaN;
+
+    /// <summary>
+    /// The getter WinUI XAML requires for the write-only <see cref="SetFadeOutLeft"/> attached property; always <see cref="double.NaN"/>.
+    /// </summary>
+    /// <param name="element">The element.</param>
+    /// <returns><see cref="double.NaN"/>.</returns>
+    public static double GetFadeOutLeft(Control element) => double.NaN;
+
+    /// <summary>
+    /// The getter WinUI XAML requires for the write-only <see cref="SetFadeOutLeftBig"/> attached property; always <see cref="double.NaN"/>.
+    /// </summary>
+    /// <param name="element">The element.</param>
+    /// <returns><see cref="double.NaN"/>.</returns>
+    public static double GetFadeOutLeftBig(Control element) => double.NaN;
+
+    /// <summary>
+    /// The getter WinUI XAML requires for the write-only <see cref="SetFadeOutRight"/> attached property; always <see cref="double.NaN"/>.
+    /// </summary>
+    /// <param name="element">The element.</param>
+    /// <returns><see cref="double.NaN"/>.</returns>
+    public static double GetFadeOutRight(Control element) => double.NaN;
+
+    /// <summary>
+    /// The getter WinUI XAML requires for the write-only <see cref="SetFadeOutRightBig"/> attached property; always <see cref="double.NaN"/>.
+    /// </summary>
+    /// <param name="element">The element.</param>
+    /// <returns><see cref="double.NaN"/>.</returns>
+    public static double GetFadeOutRightBig(Control element) => double.NaN;
+
+    /// <summary>
+    /// The getter WinUI XAML requires for the write-only <see cref="SetFadeOutUp"/> attached property; always <see cref="double.NaN"/>.
+    /// </summary>
+    /// <param name="element">The element.</param>
+    /// <returns><see cref="double.NaN"/>.</returns>
+    public static double GetFadeOutUp(Control element) => double.NaN;
+
+    /// <summary>
+    /// The getter WinUI XAML requires for the write-only <see cref="SetFadeOutUpBig"/> attached property; always <see cref="double.NaN"/>.
+    /// </summary>
+    /// <param name="element">The element.</param>
+    /// <returns><see cref="double.NaN"/>.</returns>
+    public static double GetFadeOutUpBig(Control element) => double.NaN;
+
+    /// <summary>
+    /// The getter WinUI XAML requires for the write-only <see cref="SetFadeOutTopLeft"/> attached property; always <see cref="double.NaN"/>.
+    /// </summary>
+    /// <param name="element">The element.</param>
+    /// <returns><see cref="double.NaN"/>.</returns>
+    public static double GetFadeOutTopLeft(Control element) => double.NaN;
+
+    /// <summary>
+    /// The getter WinUI XAML requires for the write-only <see cref="SetFadeOutTopRight"/> attached property; always <see cref="double.NaN"/>.
+    /// </summary>
+    /// <param name="element">The element.</param>
+    /// <returns><see cref="double.NaN"/>.</returns>
+    public static double GetFadeOutTopRight(Control element) => double.NaN;
+
+    /// <summary>
+    /// The getter WinUI XAML requires for the write-only <see cref="SetFadeOutBottomLeft"/> attached property; always <see cref="double.NaN"/>.
+    /// </summary>
+    /// <param name="element">The element.</param>
+    /// <returns><see cref="double.NaN"/>.</returns>
+    public static double GetFadeOutBottomLeft(Control element) => double.NaN;
+
+    /// <summary>
+    /// The getter WinUI XAML requires for the write-only <see cref="SetFadeOutBottomRight"/> attached property; always <see cref="double.NaN"/>.
+    /// </summary>
+    /// <param name="element">The element.</param>
+    /// <returns><see cref="double.NaN"/>.</returns>
+    public static double GetFadeOutBottomRight(Control element) => double.NaN;
+
+    /// <summary>
+    /// The getter WinUI XAML requires for the write-only <see cref="SetFlipOutX"/> attached property; always <see cref="double.NaN"/>.
+    /// </summary>
+    /// <param name="element">The element.</param>
+    /// <returns><see cref="double.NaN"/>.</returns>
+    public static double GetFlipOutX(Control element) => double.NaN;
+
+    /// <summary>
+    /// The getter WinUI XAML requires for the write-only <see cref="SetFlipOutY"/> attached property; always <see cref="double.NaN"/>.
+    /// </summary>
+    /// <param name="element">The element.</param>
+    /// <returns><see cref="double.NaN"/>.</returns>
+    public static double GetFlipOutY(Control element) => double.NaN;
+
+    /// <summary>
+    /// The getter WinUI XAML requires for the write-only <see cref="SetLightSpeedOutLeft"/> attached property; always <see cref="double.NaN"/>.
+    /// </summary>
+    /// <param name="element">The element.</param>
+    /// <returns><see cref="double.NaN"/>.</returns>
+    public static double GetLightSpeedOutLeft(Control element) => double.NaN;
+
+    /// <summary>
+    /// The getter WinUI XAML requires for the write-only <see cref="SetLightSpeedOutRight"/> attached property; always <see cref="double.NaN"/>.
+    /// </summary>
+    /// <param name="element">The element.</param>
+    /// <returns><see cref="double.NaN"/>.</returns>
+    public static double GetLightSpeedOutRight(Control element) => double.NaN;
+
+    /// <summary>
+    /// The getter WinUI XAML requires for the write-only <see cref="SetRotateOut"/> attached property; always <see cref="double.NaN"/>.
+    /// </summary>
+    /// <param name="element">The element.</param>
+    /// <returns><see cref="double.NaN"/>.</returns>
+    public static double GetRotateOut(Control element) => double.NaN;
+
+    /// <summary>
+    /// The getter WinUI XAML requires for the write-only <see cref="SetRotateOutDownLeft"/> attached property; always <see cref="double.NaN"/>.
+    /// </summary>
+    /// <param name="element">The element.</param>
+    /// <returns><see cref="double.NaN"/>.</returns>
+    public static double GetRotateOutDownLeft(Control element) => double.NaN;
+
+    /// <summary>
+    /// The getter WinUI XAML requires for the write-only <see cref="SetRotateOutDownRight"/> attached property; always <see cref="double.NaN"/>.
+    /// </summary>
+    /// <param name="element">The element.</param>
+    /// <returns><see cref="double.NaN"/>.</returns>
+    public static double GetRotateOutDownRight(Control element) => double.NaN;
+
+    /// <summary>
+    /// The getter WinUI XAML requires for the write-only <see cref="SetRotateOutUpLeft"/> attached property; always <see cref="double.NaN"/>.
+    /// </summary>
+    /// <param name="element">The element.</param>
+    /// <returns><see cref="double.NaN"/>.</returns>
+    public static double GetRotateOutUpLeft(Control element) => double.NaN;
+
+    /// <summary>
+    /// The getter WinUI XAML requires for the write-only <see cref="SetRotateOutUpRight"/> attached property; always <see cref="double.NaN"/>.
+    /// </summary>
+    /// <param name="element">The element.</param>
+    /// <returns><see cref="double.NaN"/>.</returns>
+    public static double GetRotateOutUpRight(Control element) => double.NaN;
+
+    /// <summary>
+    /// The getter WinUI XAML requires for the write-only <see cref="SetSlideOutDown"/> attached property; always <see cref="double.NaN"/>.
+    /// </summary>
+    /// <param name="element">The element.</param>
+    /// <returns><see cref="double.NaN"/>.</returns>
+    public static double GetSlideOutDown(Control element) => double.NaN;
+
+    /// <summary>
+    /// The getter WinUI XAML requires for the write-only <see cref="SetSlideOutLeft"/> attached property; always <see cref="double.NaN"/>.
+    /// </summary>
+    /// <param name="element">The element.</param>
+    /// <returns><see cref="double.NaN"/>.</returns>
+    public static double GetSlideOutLeft(Control element) => double.NaN;
+
+    /// <summary>
+    /// The getter WinUI XAML requires for the write-only <see cref="SetSlideOutRight"/> attached property; always <see cref="double.NaN"/>.
+    /// </summary>
+    /// <param name="element">The element.</param>
+    /// <returns><see cref="double.NaN"/>.</returns>
+    public static double GetSlideOutRight(Control element) => double.NaN;
+
+    /// <summary>
+    /// The getter WinUI XAML requires for the write-only <see cref="SetSlideOutUp"/> attached property; always <see cref="double.NaN"/>.
+    /// </summary>
+    /// <param name="element">The element.</param>
+    /// <returns><see cref="double.NaN"/>.</returns>
+    public static double GetSlideOutUp(Control element) => double.NaN;
+
+    /// <summary>
+    /// The getter WinUI XAML requires for the write-only <see cref="SetZoomOut"/> attached property; always <see cref="double.NaN"/>.
+    /// </summary>
+    /// <param name="element">The element.</param>
+    /// <returns><see cref="double.NaN"/>.</returns>
+    public static double GetZoomOut(Control element) => double.NaN;
+
+    /// <summary>
+    /// The getter WinUI XAML requires for the write-only <see cref="SetZoomOutDown"/> attached property; always <see cref="double.NaN"/>.
+    /// </summary>
+    /// <param name="element">The element.</param>
+    /// <returns><see cref="double.NaN"/>.</returns>
+    public static double GetZoomOutDown(Control element) => double.NaN;
+
+    /// <summary>
+    /// The getter WinUI XAML requires for the write-only <see cref="SetZoomOutLeft"/> attached property; always <see cref="double.NaN"/>.
+    /// </summary>
+    /// <param name="element">The element.</param>
+    /// <returns><see cref="double.NaN"/>.</returns>
+    public static double GetZoomOutLeft(Control element) => double.NaN;
+
+    /// <summary>
+    /// The getter WinUI XAML requires for the write-only <see cref="SetZoomOutRight"/> attached property; always <see cref="double.NaN"/>.
+    /// </summary>
+    /// <param name="element">The element.</param>
+    /// <returns><see cref="double.NaN"/>.</returns>
+    public static double GetZoomOutRight(Control element) => double.NaN;
+
+    /// <summary>
+    /// The getter WinUI XAML requires for the write-only <see cref="SetZoomOutUp"/> attached property; always <see cref="double.NaN"/>.
+    /// </summary>
+    /// <param name="element">The element.</param>
+    /// <returns><see cref="double.NaN"/>.</returns>
+    public static double GetZoomOutUp(Control element) => double.NaN;
+
+    /// <summary>
+    /// The getter WinUI XAML requires for the write-only <see cref="SetHinge"/> attached property; always <see cref="double.NaN"/>.
+    /// </summary>
+    /// <param name="element">The element.</param>
+    /// <returns><see cref="double.NaN"/>.</returns>
+    public static double GetHinge(Control element) => double.NaN;
+
+    /// <summary>
+    /// The getter WinUI XAML requires for the write-only <see cref="SetRollOut"/> attached property; always <see cref="double.NaN"/>.
+    /// </summary>
+    /// <param name="element">The element.</param>
+    /// <returns><see cref="double.NaN"/>.</returns>
+    public static double GetRollOut(Control element) => double.NaN;
+#endif
 }

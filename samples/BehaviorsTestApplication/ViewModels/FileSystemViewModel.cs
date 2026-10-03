@@ -1,7 +1,8 @@
 using System.Collections.ObjectModel;
 using System.IO;
-using System.Reactive;
 using ReactiveUI;
+using ReactiveUI.Reactive;
+using System.Reactive;
 
 namespace BehaviorsTestApplication.ViewModels;
 

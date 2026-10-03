@@ -1,0 +1,27 @@
+<UserControl x:Class="BehaviorsTestApplication.Views.Pages.ObservableTriggerBehaviorView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:i="using:Xaml.Interactivity"
+             xmlns:ic="using:Xaml.Interactions.Core"
+             xmlns:behaviors="using:BehaviorsTestApplication.Behaviors"
+             xmlns:converters="using:BehaviorsTestApplication.Converters"
+             mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="450">
+  <Grid>
+    <TextBlock x:Name="Text"
+               FontSize="20"
+               HorizontalAlignment="Center"
+               VerticalAlignment="Center">
+      <i:Interaction.Behaviors>
+        <!-- ObservableTriggerBehavior<int> (WinUI XAML has no x:TypeArguments). -->
+        <behaviors:Int32ObservableTriggerBehavior x:Name="Observer"
+                                                  Observable="{x:Bind ViewModel.Values}">
+          <!-- Avalonia: StringFormat={} Value: {0} (WinUI bindings have no StringFormat; x:Bind calls a formatter). -->
+          <ic:ChangePropertyAction PropertyName="Text"
+                                   Value="{x:Bind converters:SampleFormat.Value(Observer.Value), Mode=OneWay}" />
+        </behaviors:Int32ObservableTriggerBehavior>
+      </i:Interaction.Behaviors>
+    </TextBlock>
+  </Grid>
+</UserControl>

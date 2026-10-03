@@ -1,50 +1,53 @@
 // Copyright (c) Wiesław Šoltés. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for details.
 using System;
+#if UNO
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Xaml.Interactivity;
+using System.Collections.Generic;
+using Windows.Foundation;
+#else
 using Avalonia.Collections;
 using Avalonia.Controls;
 using Avalonia.Metadata;
 using Avalonia.Reactive;
 using Avalonia.Xaml.Interactivity;
+#endif
 
+#if UNO
+namespace Xaml.Interactions.Custom;
+#else
 namespace Avalonia.Xaml.Interactions.Custom;
+#endif
 
 /// <summary>
 /// Updates <see cref="SplitView"/> properties based on size conditions.
 /// </summary>
-public class SplitViewStateBehavior : StyledElementBehavior<SplitView>
+public partial class SplitViewStateBehavior : StyledElementBehavior<SplitView>
 {
     private IDisposable? _disposable;
-    private AvaloniaList<SplitViewStateSetter>? _setters;
-
-    /// <summary>
-    /// Identifies the <seealso cref="SourceControl"/> avalonia property.
-    /// </summary>
-    public static readonly StyledProperty<Control?> SourceControlProperty =
-        AvaloniaProperty.Register<SplitViewStateBehavior, Control?>(nameof(SourceControl));
-
-    /// <summary>
-    /// Identifies the <seealso cref="Setters"/> avalonia property.
-    /// </summary>
-    public static readonly DirectProperty<SplitViewStateBehavior, AvaloniaList<SplitViewStateSetter>> SettersProperty =
-        AvaloniaProperty.RegisterDirect<SplitViewStateBehavior, AvaloniaList<SplitViewStateSetter>>(nameof(Setters), b => b.Setters);
 
     /// <summary>
     /// Gets or sets the control whose bounds are observed. If not set, the associated object is used.
     /// This is an avalonia property.
     /// </summary>
-    [ResolveByName]
-    public Control? SourceControl
-    {
-        get => GetValue(SourceControlProperty);
-        set => SetValue(SourceControlProperty, value);
-    }
+    [StyledProperty(ResolveByName = true)]
+    public partial Control? SourceControl { get; set; }
 
     /// <summary>
     /// Gets split view state setters collection. This is an avalonia property.
     /// </summary>
-    [Content]
-    public AvaloniaList<SplitViewStateSetter> Setters => _setters ??= [];
+#if WINUI
+    [DirectProperty(Lazy = true, Content = true)]
+    public partial SplitViewStateSetterCollection Setters { get; }
+#elif UNO
+    [DirectProperty(Lazy = true, Content = true)]
+    public partial DependencyObjectCollection<SplitViewStateSetter> Setters { get; }
+#else
+    [DirectProperty(Lazy = true, Content = true)]
+    public partial AvaloniaList<SplitViewStateSetter> Setters { get; }
+#endif
 
     /// <inheritdoc />
     protected override void OnAttachedToVisualTree()
@@ -72,6 +75,19 @@ public class SplitViewStateBehavior : StyledElementBehavior<SplitView>
 
     private void StopObserving() => _disposable?.Dispose();
 
+#if UNO
+    private IDisposable ObserveBounds(Control source)
+    {
+        // WinUI has no observable Bounds property: the size changes are observed instead.
+        void OnSizeChanged(object sender, SizeChangedEventArgs e) => Execute(Setters, new Rect(0, 0, e.NewSize.Width, e.NewSize.Height));
+
+        Execute(Setters, new Rect(0, 0, source.ActualWidth, source.ActualHeight));
+        source.SizeChanged += OnSizeChanged;
+        return DisposableAction.Create(() => source.SizeChanged -= OnSizeChanged);
+    }
+
+    private void Execute(IEnumerable<SplitViewStateSetter>? setters, Rect bounds)
+#else
     private IDisposable ObserveBounds(Control source)
     {
         Execute(Setters, source.Bounds);
@@ -80,6 +96,7 @@ public class SplitViewStateBehavior : StyledElementBehavior<SplitView>
     }
 
     private void Execute(AvaloniaList<SplitViewStateSetter>? setters, Rect bounds)
+#endif
     {
         if (AssociatedObject is null || setters is null)
         {

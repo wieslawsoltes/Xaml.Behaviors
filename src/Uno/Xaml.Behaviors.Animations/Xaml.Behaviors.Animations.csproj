@@ -1,0 +1,23 @@
+<Project Sdk="Uno.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>$(UnoTargetFrameworks)</TargetFrameworks>
+    <AssemblyName>Xaml.Behaviors.Uno.Animations</AssemblyName>
+    <!--
+      The types live in Xaml.Interactions.Custom (like the Avalonia twin). The root namespace differs from the
+      Xaml.Behaviors.Uno.Interactions.Custom one so the Uno XAML generator's GlobalStaticResources types do not collide.
+    -->
+    <RootNamespace>Xaml.Behaviors.Animations</RootNamespace>
+    <UnoSharedSourceProject>Xaml.Behaviors.Animations</UnoSharedSourceProject>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <PackageId>Xaml.Behaviors.Uno.Animations</PackageId>
+    <Description>Reusable Uno Platform (WinUI) storyboards, composition effects, and animation helpers with no behaviors dependency.</Description>
+    <PackageTags>Uno;UnoPlatform;WinUI;Animation;Animations;Composition;Transition;Transitions;Xaml</PackageTags>
+  </PropertyGroup>
+
+  <!-- Avalonia-only sources, shared with the Avalonia build for the portability analyzers. -->
+  <Import Project="SharedSources.props" />
+
+</Project>

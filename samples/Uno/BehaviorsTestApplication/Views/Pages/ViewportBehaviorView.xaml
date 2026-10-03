@@ -1,0 +1,29 @@
+<UserControl x:Class="BehaviorsTestApplication.Views.Pages.ViewportBehaviorView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:i="using:Xaml.Interactivity"
+             xmlns:icustom="using:Xaml.Interactions.Custom"
+             xmlns:converters="using:BehaviorsTestApplication.Converters"
+             mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="250">
+  <StackPanel Spacing="10">
+    <ScrollViewer Height="150">
+      <StackPanel Spacing="20">
+        <Border Height="40" Background="LightGray" />
+        <Border Height="40" Background="LightGray" />
+        <Border Height="40" Background="LightGray" />
+        <Border x:Name="Target" Height="60" Background="LightBlue">
+          <i:Interaction.Behaviors>
+            <icustom:ViewportBehavior x:Name="Observer" IsAlwaysOn="True" />
+          </i:Interaction.Behaviors>
+          <TextBlock Text="Target" HorizontalAlignment="Center" VerticalAlignment="Center" />
+        </Border>
+        <Border Height="600" Background="LightGray" />
+      </StackPanel>
+    </ScrollViewer>
+    <!-- Avalonia: StringFormat={}In viewport: {0} (WinUI bindings have no StringFormat; x:Bind calls a formatter). -->
+    <TextBlock Text="{x:Bind converters:SampleFormat.InViewport(Observer.IsInViewport), Mode=OneWay}" />
+    <TextBlock Text="{x:Bind converters:SampleFormat.FullyInViewport(Observer.IsFullyInViewport), Mode=OneWay}" />
+  </StackPanel>
+</UserControl>
