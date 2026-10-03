@@ -721,13 +721,20 @@ public class ClickEventTriggerTests
         Assert.NotNull(flyout);
         Assert.False(flyout!.IsOpen);
 
-        window.Click(window.FlyoutTarget);
 #if WINUI
-        // A native WinUI flyout opens over the next frames.
-        Dispatcher.UIThread.RunJobs(() => flyout.IsOpen);
-#endif
+        // A native WinUI flyout opens over the next frames, and it is light dismissed when the window loses the
+        // activation (which happens on shared or hosted machines): the Opened event tells that it was shown.
+        var opened = false;
+        flyout.Opened += (_, _) => opened = true;
+        window.Click(window.FlyoutTarget);
+        Dispatcher.UIThread.RunJobs(() => opened || flyout.IsOpen);
+
+        Assert.True(opened || flyout.IsOpen);
+#else
+        window.Click(window.FlyoutTarget);
 
         Assert.True(flyout.IsOpen);
+#endif
         Assert.Equal(1, window.FlyoutClicks);
 
         window.Click(window.FlyoutTarget);
