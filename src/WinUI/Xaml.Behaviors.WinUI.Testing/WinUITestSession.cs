@@ -339,9 +339,15 @@ public sealed class WinUITestSession
             }
         }
 
-        return loaded || element.IsLoaded
-            ? element
-            : throw new InvalidOperationException("The element was not loaded after running the queued UI work.");
+        if (!loaded && !element.IsLoaded)
+        {
+            throw new InvalidOperationException("The element was not loaded after running the queued UI work.");
+        }
+
+        // WinUI moves the focus away from the removed content with the next frame: let it settle, so that a focus set
+        // by the test is not taken away.
+        RenderFrame();
+        return element;
     }
 
     /// <summary>
@@ -522,6 +528,8 @@ public sealed class WinUITestSession
             element.Loaded -= OnLoaded;
         }
 
+        // WinUI moves the focus away from the removed content with the next frame: let it settle.
+        await WaitForIdleAsync();
         return element;
     }
 

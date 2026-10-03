@@ -273,8 +273,9 @@ internal static class RoutedEventCompatExtensions
     private static DragEventHandler WrapDragHandler(RoutedEvent routedEvent, DragEventHandler handler)
     {
 #if WINUI
-        // Native WinUI drag events have no original source: the element that receives the event is recorded, so that
-        // the source can be found under the pointer (see DragEventArgsCompatExtensions.Source).
+        // The original source of a native WinUI drag event is the drop target, not the element under the pointer: the
+        // element that receives the event is recorded, so that the source can be found under the pointer (see
+        // DragEventArgsCompatExtensions.Source).
         var inner = handler;
         handler = (s, e) =>
         {

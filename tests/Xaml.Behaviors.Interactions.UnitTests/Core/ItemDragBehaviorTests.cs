@@ -53,6 +53,11 @@ public class ItemDragBehaviorTests
 
         window.TargetListBox.SelectedIndex = index;
 
+#if WINUI
+        // Real input: a second press at the same place within the double click time is a double click, which does not
+        // start a drag.
+        UnoHeadlessSession.Current.Mouse.Wait(System.TimeSpan.FromSeconds(1));
+#endif
         window.MouseDown(container, new Point(5, 5), MouseButton.Left);
 
         Assert.Contains(":dragging", container.Classes);

@@ -153,9 +153,13 @@ from the UI thread deadlocks (the test waits inside the loop for a release it wo
 background thread and let the UI thread (or the modal loop) process the input; the drag and drop test helpers use them.
 The test runner stops a test project after a timeout. **In progress.**
 
-The drag events of native WinUI have no `OriginalSource`. The drop handlers that look for the item under the pointer
-(`BaseTreeViewDropHandler`, `BaseDataGridDropHandler`) get the element under the pointer in the element that
-receives the event. **Done.**
+The `OriginalSource` of a native WinUI drag event is the drop target (the element that allows the drop), not the
+element under the pointer. The drop handlers that look for the item under the pointer (`BaseDataGridDropHandler`,
+`BaseTreeViewDropHandler`) get the element under the pointer in the element that receives the event. **Done.**
+
+WinUI does not route a handled drag event to the ancestors, and a native `TreeViewItem` handles the drag events over
+it: a drop handler attached to a `TreeView` (`BaseTreeViewDropHandler`) is called over the empty area of the tree
+view but not over its items. Two tests are skipped. **Open (platform).**
 
 The data of a drag is also read asynchronously on WinUI (`DataPackageView.GetTextAsync`, `GetStorageItemsAsync`
 complete later; on Uno Platform they are complete for a drag inside the application). The drop behaviors read the data

@@ -289,7 +289,7 @@ internal static class DragEventArgsCompatExtensions
     private static readonly ConditionalWeakTable<DragEventArgs, object> s_assigned = new();
 
 #if WINUI
-    // The element that received a drag event (native WinUI drag events have no original source).
+    // The element that received a drag event (the original source of a native WinUI drag event is the drop target).
     private static readonly ConditionalWeakTable<DragEventArgs, UIElement> s_receivers = new();
 
     /// <summary>
@@ -313,23 +313,14 @@ internal static class DragEventArgsCompatExtensions
         /// Gets the element that raised the event (Avalonia <c>RoutedEventArgs.Source</c>).
         /// </summary>
         /// <remarks>
-        /// Native WinUI drag events have no original source: the source is the element under the pointer in the
-        /// element that receives the event.
+        /// The original source of a native WinUI drag event is the drop target (the element that allows the drop),
+        /// not the element under the pointer: the source is the element under the pointer in the element that
+        /// receives the event.
         /// </remarks>
         public object? Source
-        {
-            get
-            {
-                if (e.OriginalSource is { } originalSource)
-                {
-                    return originalSource;
-                }
-
-                return s_receivers.TryGetValue(e, out var receiver)
-                    ? receiver.GetVisualAt(e.GetPosition(receiver)) ?? receiver
-                    : null;
-            }
-        }
+            => s_receivers.TryGetValue(e, out var receiver)
+                ? receiver.GetVisualAt(e.GetPosition(receiver)) ?? e.OriginalSource ?? receiver
+                : e.OriginalSource;
 
 #endif
         /// <summary>Gets the dragged data (Avalonia <c>DataTransfer</c>, WinUI <c>DataView</c>).</summary>
