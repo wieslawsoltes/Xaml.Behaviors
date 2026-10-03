@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using Xunit;
 
@@ -230,5 +231,85 @@ public class GeneratorTests
 
         Assert.Empty(run.CompilationErrors);
         Assert.DoesNotContain("XAML_PROPERTY_GENERATOR_ATTRIBUTES", run.GeneratedSource.Split('\n').Where(static l => l.StartsWith("#define", System.StringComparison.Ordinal)));
+    }
+
+    private const string EnumSource = """
+        using Microsoft.UI.Xaml;
+        using Xaml.PropertyGenerator;
+
+        namespace TestNs;
+
+        public enum Mode { First, Second }
+
+        public partial class Host : BASE
+        {
+            [StyledProperty(DefaultValue = Mode.Second)]
+            public partial Mode Mode { get; set; }
+
+            [StyledProperty]
+            public partial Mode? OptionalMode { get; set; }
+
+            [StyledProperty]
+            public partial string? Text { get; set; }
+
+            [StyledProperty]
+            public partial DependencyProperty? Target { get; set; }
+
+            [StyledProperty]
+            public partial Host? Other { get; set; }
+
+            [StyledProperty]
+            public partial System.Collections.Generic.List<Host>? Others { get; set; }
+
+            [StyledProperty]
+            public partial System.TimeSpan Delay { get; set; }
+
+            [StyledProperty]
+            public partial System.Windows.Input.ICommand? Command { get; set; }
+
+            [StyledProperty]
+            public partial System.Type? Kind { get; set; }
+
+            [StyledProperty]
+            public partial double? Size { get; set; }
+
+            [StyledProperty]
+            public partial DependencyObject? Child { get; set; }
+        }
+        """;
+
+    [Fact]
+    public void NativeWinUI_Registers_Properties_Of_Other_Than_Framework_Types_As_Object()
+    {
+        var run = GeneratorTestHelper.Run(EnumSource.Replace("BASE", "DependencyObject", StringComparison.Ordinal), TestPlatform.NativeWinUI);
+
+        Assert.Empty(run.CompilationErrors);
+        Assert.Contains("Register(nameof(Mode), typeof(object)", run.GeneratedSource, StringComparison.Ordinal);
+        Assert.Contains("Register(nameof(OptionalMode), typeof(object)", run.GeneratedSource, StringComparison.Ordinal);
+        Assert.Contains("Register(nameof(Text), typeof(string)", run.GeneratedSource, StringComparison.Ordinal);
+        Assert.Contains("Register(nameof(Target), typeof(object)", run.GeneratedSource, StringComparison.Ordinal);
+        // Types that are not framework types are opaque to native WinUI: dependency objects stored in such a
+        // property would not join the tree of their owner.
+        Assert.Contains("Register(nameof(Other), typeof(object)", run.GeneratedSource, StringComparison.Ordinal);
+        Assert.Contains("Register(nameof(Others), typeof(object)", run.GeneratedSource, StringComparison.Ordinal);
+        Assert.Contains("Register(nameof(Delay), typeof(global::System.TimeSpan)", run.GeneratedSource, StringComparison.Ordinal);
+        // System types that are not WinUI classes have no base type in the XAML type information: asking for it
+        // terminates the application.
+        Assert.Contains("Register(nameof(Command), typeof(object)", run.GeneratedSource, StringComparison.Ordinal);
+        Assert.Contains("Register(nameof(Kind), typeof(object)", run.GeneratedSource, StringComparison.Ordinal);
+        Assert.Contains("Register(nameof(Size), typeof(double?)", run.GeneratedSource, StringComparison.Ordinal);
+        Assert.Contains("Register(nameof(Child), typeof(global::Microsoft.UI.Xaml.DependencyObject)", run.GeneratedSource, StringComparison.Ordinal);
+        Assert.Contains("get => (global::TestNs.Mode)GetValue(ModeProperty)", run.GeneratedSource, StringComparison.Ordinal);
+    }
+
+    [Fact]
+    public void UnoPlatform_Registers_Enum_Properties_With_Their_Type()
+    {
+        // Uno Platform implements DependencyObject through its own generator: the host is a FrameworkElement.
+        var run = GeneratorTestHelper.Run(EnumSource.Replace("BASE", "FrameworkElement", StringComparison.Ordinal), TestPlatform.WinUI);
+
+        Assert.Empty(run.CompilationErrors);
+        Assert.DoesNotContain("typeof(object)", run.GeneratedSource, StringComparison.Ordinal);
+        Assert.Contains("Register(nameof(Mode), typeof(global::TestNs.Mode)", run.GeneratedSource, StringComparison.Ordinal);
     }
 }

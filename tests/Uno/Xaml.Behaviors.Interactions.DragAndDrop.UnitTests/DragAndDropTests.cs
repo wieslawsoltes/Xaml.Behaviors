@@ -64,7 +64,12 @@ public class DragAndDropTests
         await Session.WaitForIdleAsync();
     }
 
+#if WINUI
+    // DependencyObject is a class on native WinUI (an interface on Uno Platform).
+    private static T? FindDescendant<T>(DependencyObject element) where T : DependencyObject
+#else
     private static T? FindDescendant<T>(DependencyObject element) where T : class, DependencyObject
+#endif
     {
         for (var i = 0; i < VisualTreeHelper.GetChildrenCount(element); i++)
         {
@@ -169,11 +174,15 @@ public class DragAndDropTests
         var dropHandler = new RecordingDropHandler();
         Interaction.GetBehaviors(source).Add(new TypedDragBehavior { DataType = typeof(int), Handler = dragHandler });
         Interaction.GetBehaviors(target).Add(new ContextDropBehavior { Handler = dropHandler });
-        await Session.ShowAsync(new Grid { Children = { source, target } });
+        var first = new Grid { Children = { source, target } };
+        await Session.ShowAsync(first);
 
         await DragAsync(input, source, target, () => dragHandler.Calls.Count == 2);
 
         Assert.Equal(42, dropHandler.SourceContext);
+
+        // An element has one parent (WinUI throws when it is added to a second one).
+        first.Children.Clear();
 
         var other = CreateBox();
         other.DataContext = "text";

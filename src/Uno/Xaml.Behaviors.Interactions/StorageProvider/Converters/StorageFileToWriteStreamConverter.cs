@@ -11,7 +11,7 @@ namespace Xaml.Interactions.Core;
 /// <summary>
 /// Converts a <see cref="IStorageFile"/> to a write stream (<c>Task&lt;Stream&gt;</c>).
 /// </summary>
-public class StorageFileToWriteStreamConverter : IValueConverter
+public partial class StorageFileToWriteStreamConverter : IValueConverter
 {
     /// <summary>
     /// Gets a static instance of <see cref="StorageFileToWriteStreamConverter"/>.

@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 #if UNO
 using Microsoft.UI.Xaml;
+using Xaml.Behaviors.Uno.Headless;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Dispatching;
 using Xaml.Interactivity;
@@ -300,7 +301,7 @@ public class DispatcherGeneratorRuntimeTests
     {
 #if UNO
         // Runs the work queued before this call (the test compat InvokeAsync runs inline on the UI thread).
-        await Xaml.Behaviors.Uno.Headless.UnoHeadlessSession.Current.WaitForIdleAsync();
+        await UnoHeadlessSession.Current.WaitForIdleAsync();
 #else
         await Dispatcher.UIThread.InvokeAsync(() => { });
 #endif

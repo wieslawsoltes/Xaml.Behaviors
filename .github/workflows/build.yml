@@ -94,3 +94,45 @@ jobs:
         name: nuget-packages-uno
         path: artifacts/NuGet.Uno
         if-no-files-found: error
+
+  winui:
+    name: WinUI windows-latest
+    runs-on: windows-latest
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+
+    - name: Setup .NET SDKs
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: |
+          10.0.x
+
+    - name: Build WinUI Release
+      run: dotnet build WinUIBehaviors.slnx --configuration Release
+
+    # The WinUI tests show a real window and inject real input (WinUI has no headless mode). They are informative
+    # until they are stable on the hosted runners: see docfx/articles/winui/winui-differences.md.
+    - name: Test WinUI Release
+      continue-on-error: true
+      shell: pwsh
+      run: build/WinUIPort/run-tests.ps1 -Results artifacts/winui-tests
+
+    - name: Upload WinUI test results
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: winui-test-results
+        path: artifacts/winui-tests
+        if-no-files-found: warn
+
+    - name: Pack WinUI NuGet
+      run: dotnet pack WinUIBehaviors.slnx --configuration Release --no-build --output artifacts/NuGet.WinUI
+
+    - name: Upload WinUI NuGet artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: nuget-packages-winui
+        path: artifacts/NuGet.WinUI
+        if-no-files-found: error

@@ -11,7 +11,7 @@ namespace Xaml.Interactions.Core;
 /// <summary>
 /// Converts a <see cref="IStorageFile"/> to a read stream (<c>Task&lt;Stream&gt;</c>).
 /// </summary>
-public class StorageFileToReadStreamConverter : IValueConverter
+public partial class StorageFileToReadStreamConverter : IValueConverter
 {
     /// <summary>
     /// Gets a static instance of <see cref="StorageFileToReadStreamConverter"/>.

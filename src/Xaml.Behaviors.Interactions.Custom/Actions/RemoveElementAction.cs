@@ -69,7 +69,7 @@ public partial class RemoveElementAction : StyledElementAction
 
         if (parent is ContentControl contentControl)
         {
-            if (contentControl.Content == element)
+            if (ReferenceEquals(contentControl.Content, element))
             {
                 contentControl.Content = null;
                 return true;
@@ -78,7 +78,7 @@ public partial class RemoveElementAction : StyledElementAction
 
         if (parent is ContentPresenter presenter)
         {
-            if (presenter.Content == element)
+            if (ReferenceEquals(presenter.Content, element))
             {
                 presenter.Content = null;
                 return true;

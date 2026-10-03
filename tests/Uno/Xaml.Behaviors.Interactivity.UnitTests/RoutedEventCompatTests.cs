@@ -9,7 +9,6 @@ using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 using Windows.Foundation;
 using Windows.System;
-using Windows.UI.Input.Preview.Injection;
 using Xaml.Behaviors.Uno.Headless;
 using Xaml.Behaviors.Uno.Headless.XUnit;
 using Xunit;
@@ -25,25 +24,20 @@ public class RoutedEventCompatTests
     [UnoHeadlessFact]
     public async Task Plain_RoutedEventArgs_Handler_Receives_Pointer_Events()
     {
-        var injector = InputInjector.TryCreate();
-        Assert.SkipWhen(injector is null, "Input injection is not available.");
-
-        // Fills the window, so the press hits it wherever the pointer currently is.
+        // Fills the window.
         var border = new Border { Background = new SolidColorBrush(Microsoft.UI.Colors.Red) };
         var received = 0;
         EventHandler<RoutedEventArgs> handler = (_, _) => received++;
         border.AddHandler(UIElement.PointerPressedEvent, handler, RoutingStrategies.Bubble);
         await Session.ShowAsync(border);
 
-        injector!.InjectMouseInput([new InjectedInputMouseInfo { MouseOptions = InjectedInputMouseOptions.LeftDown }]);
-        injector.InjectMouseInput([new InjectedInputMouseInfo { MouseOptions = InjectedInputMouseOptions.LeftUp }]);
+        Session.Mouse.Click(border, new Point(20, 20));
         await Session.WaitForIdleAsync();
 
         Assert.Equal(1, received);
 
         border.RemoveRoutedEventHandler(UIElement.PointerPressedEvent, handler);
-        injector.InjectMouseInput([new InjectedInputMouseInfo { MouseOptions = InjectedInputMouseOptions.LeftDown }]);
-        injector.InjectMouseInput([new InjectedInputMouseInfo { MouseOptions = InjectedInputMouseOptions.LeftUp }]);
+        Session.Mouse.Click(border, new Point(20, 20));
         await Session.WaitForIdleAsync();
 
         Assert.Equal(1, received);

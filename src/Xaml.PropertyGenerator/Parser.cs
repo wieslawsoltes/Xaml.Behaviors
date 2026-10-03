@@ -103,7 +103,8 @@ namespace Xaml.PropertyGenerator
                 Lazy: lazy,
                 HasChangedHook: HasChangedHook(owner, symbol.Name, 2),
                 HostType: string.Empty,
-                Trimming: GetTrimming(owner, symbol.Type));
+                Trimming: GetTrimming(owner, symbol.Type),
+                IsEnum: IsEnumType(symbol.Type));
 
             return new CandidateModel(CreateTypeModel(platform, owner, syntax, property, context.SemanticModel.Compilation), diagnostics.ToEquatableArray());
         }
@@ -167,7 +168,8 @@ namespace Xaml.PropertyGenerator
                     Lazy: false,
                     HasChangedHook: HasChangedHook(owner, name, 3),
                     HostType: hostType,
-                    Trimming: GetTrimming(owner, valueType));
+                    Trimming: GetTrimming(owner, valueType),
+                    IsEnum: IsEnumType(valueType));
 
                 yield return new CandidateModel(CreateTypeModel(platform, owner, syntax, property, compilation), diagnostics.ToEquatableArray());
             }
@@ -239,7 +241,124 @@ namespace Xaml.PropertyGenerator
                 FindChangedMethod(compilation, owner),
                 compilation.GetTypeByMetadataName(DynamicallyAccessedMembersAttributeName) is not null &&
                 compilation.GetTypeByMetadataName(UnconditionalSuppressMessageAttributeName) is not null,
-                new[] { property }.ToEquatableArray());
+                new[] { property }.ToEquatableArray(),
+                IsNativeWinUI: platform == TargetPlatform.WinUI && !ReferencesUnoPlatform(compilation));
+        }
+
+        /// <summary>
+        /// Whether the compilation targets Uno Platform (references Uno.UI) rather than native WinUI.
+        /// </summary>
+        private static bool ReferencesUnoPlatform(Compilation compilation)
+        {
+            foreach (var reference in compilation.ReferencedAssemblyNames)
+            {
+                if (reference.Name == "Uno.UI")
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// Whether native WinUI registers the property as <c>object</c>: every type other than the simple value types,
+        /// <c>string</c>, <c>object</c>, the WinUI structures and the WinUI dependency object classes.
+        /// </summary>
+        /// <remarks>
+        /// <para>
+        /// Native WinUI resolves the type a dependency property is registered with through the XAML type information
+        /// of the application, unless it is a type WinUI itself knows. The type information of an application only
+        /// describes the types its XAML uses, and it describes a system type that is not a WinUI class (for example
+        /// <c>DependencyProperty</c>, <c>RoutedEvent</c>, <c>Window</c>, <c>IValueConverter</c> or <c>System.Type</c>)
+        /// without a base type: asking for it terminates the application.
+        /// </para>
+        /// <para>
+        /// A type that the XAML type information does not know (a type of a library or of the application that is
+        /// not used in XAML) is opaque to native WinUI: a dependency object stored in a property of such a type does
+        /// not join the tree of its owner, so its bindings get no data context and resolve no element names. Stored
+        /// in an <c>object</c> property it does.
+        /// </para>
+        /// </remarks>
+        private static bool IsEnumType(ITypeSymbol type)
+        {
+            if (type is INamedTypeSymbol { OriginalDefinition.SpecialType: SpecialType.System_Nullable_T } nullable)
+            {
+                type = nullable.TypeArguments[0];
+            }
+
+            return !IsNativeWinUIKnownType(type);
+        }
+
+        private static bool IsNativeWinUIKnownType(ITypeSymbol type)
+        {
+            type = type.WithNullableAnnotation(NullableAnnotation.NotAnnotated);
+            switch (type.SpecialType)
+            {
+                case SpecialType.System_Object:
+                case SpecialType.System_String:
+                case SpecialType.System_Boolean:
+                case SpecialType.System_Char:
+                case SpecialType.System_Byte:
+                case SpecialType.System_Int16:
+                case SpecialType.System_UInt16:
+                case SpecialType.System_Int32:
+                case SpecialType.System_UInt32:
+                case SpecialType.System_Int64:
+                case SpecialType.System_UInt64:
+                case SpecialType.System_Single:
+                case SpecialType.System_Double:
+                    return true;
+            }
+
+            if (type is not INamedTypeSymbol named || named.IsGenericType)
+            {
+                return false;
+            }
+
+            if (named.TypeKind == TypeKind.Struct)
+            {
+                return named.ToDisplayString() is "System.TimeSpan" or "System.DateTimeOffset" or "System.Guid"
+                    || IsWinUINamespace(named.ContainingNamespace);
+            }
+
+            if (named.TypeKind != TypeKind.Class || !IsWinUINamespace(named.ContainingNamespace))
+            {
+                return false;
+            }
+
+            for (INamedTypeSymbol? current = named; current is not null; current = current.BaseType)
+            {
+                if (current.ToDisplayString() == "Microsoft.UI.Xaml.DependencyObject")
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        private static bool IsWinUINamespace(INamespaceSymbol? @namespace)
+        {
+            if (@namespace is null || @namespace.IsGlobalNamespace)
+            {
+                return false;
+            }
+
+            var root = @namespace;
+            INamespaceSymbol? second = null;
+            while (root.ContainingNamespace is { IsGlobalNamespace: false } parent)
+            {
+                second = root;
+                root = parent;
+            }
+
+            return root.Name switch
+            {
+                "Windows" => true,
+                "Microsoft" => second?.Name is "UI",
+                _ => false,
+            };
         }
 
         private static string CollectUsings(SyntaxNode syntax)

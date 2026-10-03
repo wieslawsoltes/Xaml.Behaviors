@@ -38,7 +38,11 @@ public class TransitionsTests
 
         Assert.Equal(true, new AddTransitionAction { Transition = transition, StyledElement = target }.Execute(sender, null));
 
+#if WINUI
+        Assert.Empty(sender.Transitions);
+#else
         Assert.Null(sender.Transitions);
+#endif
         Assert.Same(transition, Assert.Single(target.Transitions!));
         Assert.Equal(true, new ClearTransitionsAction { StyledElement = target }.Execute(sender, null));
         Assert.Empty(target.Transitions!);
@@ -52,9 +56,17 @@ public class TransitionsTests
         Assert.Equal(false, new AddTransitionAction { Transition = new EntranceThemeTransition(), IsEnabled = false }.Execute(sender, null));
         Assert.Equal(false, new AddTransitionAction().Execute(sender, null));
         Assert.Equal(false, new RemoveTransitionAction { Transition = new EntranceThemeTransition() }.Execute(sender, null));
+#if WINUI
+        // Native WinUI creates an empty transition collection on first access (Uno Platform returns null): there is
+        // a collection to clear.
+        Assert.Equal(true, new ClearTransitionsAction().Execute(sender, null));
+        Assert.Equal(false, new ClearTransitionsAction { IsEnabled = false }.Execute(sender, null));
+        Assert.Empty(sender.Transitions);
+#else
         Assert.Equal(false, new ClearTransitionsAction().Execute(sender, null));
         Assert.Equal(false, new ClearTransitionsAction { IsEnabled = false }.Execute(sender, null));
         Assert.Null(sender.Transitions);
+#endif
     }
 
     [UnoHeadlessFact]

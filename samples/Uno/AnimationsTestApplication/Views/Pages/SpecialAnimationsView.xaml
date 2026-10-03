@@ -1,5 +1,6 @@
 <UserControl xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:samplecontrols="using:AnimationsTestApplication.Controls"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:custom="using:Xaml.Interactions.Custom"
@@ -12,13 +13,13 @@
     </Grid.RowDefinitions>
     <TextBlock Text="Special Animations" FontSize="20" Margin="12" />
     <!-- Uno WrapPanel has no ItemSpacing/LineSpacing: the items get a margin of half the spacing. -->
-    <WrapPanel Grid.Row="1" Margin="4,12" HorizontalAlignment="Center">
+    <samplecontrols:WrapPanel Grid.Row="1" Margin="4,12" HorizontalAlignment="Center">
       <Border Margin="8,0" Width="220" Height="160" Background="#FFFDE7" CornerRadius="12" custom:SpecialAnimations.Flip="1000">
         <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="6">
           <TextBlock Text="Flip" FontSize="18" HorizontalAlignment="Center" />
           <TextBlock Text="Approximation of animate.css flip" TextWrapping="Wrap" MaxWidth="180" HorizontalAlignment="Center" />
         </StackPanel>
       </Border>
-    </WrapPanel>
+    </samplecontrols:WrapPanel>
   </Grid>
 </UserControl>

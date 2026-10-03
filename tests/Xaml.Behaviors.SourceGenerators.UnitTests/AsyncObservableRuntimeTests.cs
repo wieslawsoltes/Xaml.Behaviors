@@ -4,6 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 #if UNO
 using Microsoft.UI.Xaml;
+using Xaml.Behaviors.Uno.Headless;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Dispatching;
 #else
@@ -452,7 +453,7 @@ public class AsyncObservableRuntimeTests
     {
 #if UNO
         // Runs the work queued before this call (the test compat InvokeAsync runs inline on the UI thread).
-        await Xaml.Behaviors.Uno.Headless.UnoHeadlessSession.Current.WaitForIdleAsync();
+        await UnoHeadlessSession.Current.WaitForIdleAsync();
 #else
         await Dispatcher.UIThread.InvokeAsync(() => { });
 #endif

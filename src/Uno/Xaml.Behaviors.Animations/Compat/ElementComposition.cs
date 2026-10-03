@@ -19,6 +19,24 @@ internal static class ElementComposition
     /// </summary>
     /// <param name="element">The element.</param>
     /// <returns>The element visual.</returns>
+    /// <remarks>
+    /// On native WinUI the translation of the visual is enabled: layout owns <c>Visual.Offset</c> there, so the
+    /// animations move elements with <c>Translation</c> (see <c>CompositionAnimationHelpers.SetOffset</c>).
+    /// </remarks>
     public static CompositionVisual? GetElementVisual(UIElement element)
-        => ElementCompositionPreview.GetElementVisual(element);
+    {
+#if WINUI
+        var visual = ElementCompositionPreview.GetElementVisual(element);
+
+        // Enabling the translation (again) resets it: only enable it when the visual has none yet.
+        if (visual.Properties.TryGetVector3("Translation", out _) != Microsoft.UI.Composition.CompositionGetValueStatus.Succeeded)
+        {
+            ElementCompositionPreview.SetIsTranslationEnabled(element, true);
+        }
+
+        return visual;
+#else
+        return ElementCompositionPreview.GetElementVisual(element);
+#endif
+    }
 }

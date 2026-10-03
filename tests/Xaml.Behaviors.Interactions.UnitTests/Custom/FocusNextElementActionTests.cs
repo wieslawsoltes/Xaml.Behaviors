@@ -223,6 +223,9 @@ public class FocusNextElementActionTests
     [AvaloniaFact]
     public void Execute_Respects_Local_TabNavigation_Subtree_Order()
     {
+#if WINUI
+        Assert.Skip("Native WinUI focus navigation (FocusManager.FindNextElement) leaves a panel with local tab navigation for the next element outside it instead of following the tab indexes inside the panel.");
+#endif
         var localFirst = CreateButton("LocalFirst");
         localFirst.TabIndex = 10;
 

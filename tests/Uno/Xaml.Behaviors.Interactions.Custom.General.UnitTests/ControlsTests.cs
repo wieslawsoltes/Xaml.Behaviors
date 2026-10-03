@@ -114,14 +114,19 @@ public class ControlsTests
         var behavior = new ButtonHideFlyoutBehavior { IsFlyoutOpen = true };
         Interaction.GetBehaviors(button).Add(behavior);
         await Session.ShowAsync(button);
+        var closed = false;
+        flyout.Closed += (_, _) => closed = true;
         flyout.ShowAt(button);
-        await Session.WaitForIdleAsync();
+        await TestInput.WaitUntilAsync(() => flyout.IsOpen);
         Assert.True(flyout.IsOpen);
 
         behavior.IsFlyoutOpen = false;
         await Session.WaitForIdleAsync();
 
         Assert.False(flyout.IsOpen);
+
+        // A native WinUI flyout closes over several frames: do not leave it closing for the next test.
+        await TestInput.WaitUntilAsync(() => closed);
     }
 
     [UnoHeadlessFact]
@@ -259,7 +264,12 @@ public class ControlsTests
     [UnoHeadlessFact]
     public async Task InlineEditBehavior_Switches_Between_Display_And_Edit()
     {
+#if WINUI
+        // Native WinUI key input goes to the focused element, which has to be a control.
+        var display = new ContentControl { IsTabStop = true, Content = new TextBlock { Text = "value" } };
+#else
         var display = new TextBlock { Text = "value" };
+#endif
         var edit = new TextBox { Text = "value" };
         var host = new StackPanel { Children = { display, edit } };
         Interaction.GetBehaviors(host).Add(new InlineEditBehavior { DisplayControl = display, EditControl = edit });
@@ -311,14 +321,19 @@ public class ControlsTests
         var behavior = new HideAttachedFlyoutBehavior { IsFlyoutOpen = true };
         Interaction.GetBehaviors(border).Add(behavior);
         await Session.ShowAsync(border);
+        var closed = false;
+        flyout.Closed += (_, _) => closed = true;
         FlyoutBase.ShowAttachedFlyout(border);
-        await Session.WaitForIdleAsync();
+        await TestInput.WaitUntilAsync(() => flyout.IsOpen);
         Assert.True(flyout.IsOpen);
 
         behavior.IsFlyoutOpen = false;
         await Session.WaitForIdleAsync();
 
         Assert.False(flyout.IsOpen);
+
+        // A native WinUI flyout closes over several frames: do not leave it closing for the next test.
+        await TestInput.WaitUntilAsync(() => closed);
     }
 
     [UnoHeadlessFact]

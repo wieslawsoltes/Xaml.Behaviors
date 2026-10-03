@@ -44,8 +44,7 @@ public sealed partial class BrushFromNameConverter : IValueConverter
 
 /// <summary>
 /// Values for bindings in behavior templates, where compiled bindings are not evaluated and element names of the view
-/// are not in scope: dependency properties (Avalonia: <c>{x:Static TemplatedControl.BackgroundProperty}</c>, WinUI XAML
-/// has no <c>x:Static</c>) and an element of the view (Avalonia: <c>{Binding $parent[ItemsControl]}</c>).
+/// are not in scope: an element of the view (Avalonia: <c>{Binding $parent[ItemsControl]}</c>).
 /// </summary>
 public sealed partial class SampleProperties : DependencyObject
 {
@@ -63,9 +62,4 @@ public sealed partial class SampleProperties : DependencyObject
         get => (DependencyObject?)GetValue(ElementProperty);
         set => SetValue(ElementProperty, value);
     }
-
-    /// <summary>
-    /// Gets the <see cref="Control.BackgroundProperty"/>.
-    /// </summary>
-    public DependencyProperty ControlBackground => Control.BackgroundProperty;
 }

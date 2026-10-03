@@ -147,8 +147,37 @@ internal static class TestInput
     public static InputInjector? CreateInjector() => s_injector ??= InputInjector.TryCreate();
 
     // Uno Platform injects mouse moves relative to the current position (the Absolute option is ignored).
+#if !WINUI
     private static readonly ConditionalWeakTable<InputInjector, StrongBox<Point>> s_positions = new();
+#endif
 
+#if WINUI
+    // Native WinUI: the mouse of the WinUI test harness (the injector is not used: Windows input injection takes screen
+    // coordinates, and the harness converts them).
+    public static async Task TapAsync(InputInjector injector, UIElement element, double x = 10, double y = 10)
+    {
+        Session.Mouse.Click((FrameworkElement)element, new Point(x, y));
+        await Session.WaitForIdleAsync();
+    }
+
+    public static async Task MoveAsync(InputInjector injector, UIElement? element, double x, double y)
+    {
+        Session.Mouse.MoveTo(new Point(x, y), element);
+        await Session.WaitForIdleAsync();
+    }
+
+    public static async Task LeftDownAsync(InputInjector injector)
+    {
+        Session.Mouse.Down();
+        await Session.WaitForIdleAsync();
+    }
+
+    public static async Task LeftUpAsync(InputInjector injector)
+    {
+        Session.Mouse.Up();
+        await Session.WaitForIdleAsync();
+    }
+#else
     public static async Task TapAsync(InputInjector injector, UIElement element, double x = 10, double y = 10)
     {
         MoveTo(injector, element.TransformToVisual(null).TransformPoint(new Point(x, y)));
@@ -188,7 +217,95 @@ internal static class TestInput
             MouseOptions = InjectedInputMouseOptions.Move,
         }]);
     }
+#endif
 
+#if WINUI
+    /// <summary>
+    /// Raises the key events of a key press on an element: native WinUI cannot create key event arguments, so the
+    /// element is focused and the key is pressed with the keyboard of the WinUI test harness.
+    /// </summary>
+    /// <returns>The arguments of the key event the element received.</returns>
+    public static KeyRoutedEventArgs RaiseKey(UIElement target, VirtualKey key, bool keyUp = false)
+    {
+        Focus(target);
+        KeyRoutedEventArgs? received = null;
+        KeyEventHandler handler = (_, e) => received ??= e;
+        var routedEvent = keyUp ? UIElement.KeyUpEvent : UIElement.KeyDownEvent;
+        target.AddHandler(routedEvent, handler, handledEventsToo: true);
+        try
+        {
+            if (keyUp)
+            {
+                Session.Keyboard.KeyUp(key);
+            }
+            else
+            {
+                Session.Keyboard.KeyDown(key);
+            }
+        }
+        finally
+        {
+            target.RemoveHandler(routedEvent, handler);
+        }
+
+        return received ?? throw new InvalidOperationException($"The element did not receive the {key} key (is it focusable?).");
+    }
+
+    /// <summary>
+    /// Presses and releases a key on an element (focused first), holding the given modifier keys.
+    /// </summary>
+    public static async Task PressKeyAsync(UIElement target, VirtualKey key, params VirtualKey[] modifiers)
+    {
+        Focus(target);
+        var modifierFlags = VirtualKeyModifiers.None;
+        foreach (var modifier in modifiers)
+        {
+            modifierFlags |= modifier switch
+            {
+                VirtualKey.Control or VirtualKey.LeftControl or VirtualKey.RightControl => VirtualKeyModifiers.Control,
+                VirtualKey.Shift or VirtualKey.LeftShift or VirtualKey.RightShift => VirtualKeyModifiers.Shift,
+                VirtualKey.Menu or VirtualKey.LeftMenu or VirtualKey.RightMenu => VirtualKeyModifiers.Menu,
+                _ => VirtualKeyModifiers.Windows,
+            };
+        }
+
+        Session.Keyboard.Press(key, modifierFlags);
+        await Session.WaitForIdleAsync();
+    }
+
+    /// <summary>
+    /// Raises the character received (text input) event on an element (focused first, then the character is typed).
+    /// </summary>
+    /// <returns>The arguments of the character event the element received.</returns>
+    public static CharacterReceivedRoutedEventArgs RaiseCharacter(UIElement target, char character)
+    {
+        Focus(target);
+        CharacterReceivedRoutedEventArgs? received = null;
+        // Handled events too: a behavior under test may handle the character.
+        TypedEventHandler<UIElement, CharacterReceivedRoutedEventArgs> handler = (_, e) => received ??= e;
+        target.AddHandler(UIElement.CharacterReceivedEvent, handler, handledEventsToo: true);
+        try
+        {
+            Session.Keyboard.TypeText(character.ToString());
+        }
+        finally
+        {
+            target.RemoveHandler(UIElement.CharacterReceivedEvent, handler);
+        }
+
+        return received ?? throw new InvalidOperationException($"The element did not receive the character '{character}' (is it focusable?).");
+    }
+
+    private static void Focus(UIElement target)
+    {
+        if (target is Microsoft.UI.Xaml.Controls.Control control)
+        {
+            control.Focus(FocusState.Keyboard);
+        }
+
+        Session.RunJobs();
+    }
+#else
     /// <summary>
     /// Raises the key events of a key press on an element (tunneling preview event, then the bubbling event).
     /// </summary>
@@ -244,7 +361,9 @@ internal static class TestInput
         RaiseBubbling(target, UIElement.CharacterReceivedEvent, args);
         return args;
     }
+#endif
 
+#if !WINUI
     private static void RaiseTunneling(UIElement target, RoutedEvent routedEvent, RoutedEventArgs args)
     {
         var method = typeof(UIElement).GetMethod("SafeRaiseTunnelingEvent", BindingFlags.NonPublic | BindingFlags.Instance)!;
@@ -257,6 +376,7 @@ internal static class TestInput
         var context = Activator.CreateInstance(method.GetParameters()[2].ParameterType);
         method.Invoke(target, [routedEvent, args, context]);
     }
+#endif
 
     public static async Task WaitUntilAsync(Func<bool> condition, int timeoutMilliseconds = 3000)
     {

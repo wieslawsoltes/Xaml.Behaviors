@@ -6,7 +6,7 @@
              xmlns:i="using:Xaml.Interactivity"
              xmlns:ic="using:Xaml.Interactions.Core"
              xmlns:icustom="using:Xaml.Interactions.Custom"
-             xmlns:sys="using:System"
+             xmlns:converters="using:BehaviorsTestApplication.Converters"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450">
   <StackPanel Spacing="20" Margin="20">
     <TextBlock Text="LogAction" FontWeight="Bold" FontSize="18" />
@@ -16,7 +16,7 @@
       <i:Interaction.Behaviors>
         <ic:EventTriggerBehavior EventName="Click">
           <!-- Avalonia: Argument="{x:Static sys:DateTime.Now}" (evaluated once, when the view loads). -->
-          <icustom:LogAction Message="Info button clicked at {0}" Argument="{x:Bind sys:DateTime.Now}" Level="Info" />
+          <icustom:LogAction Message="Info button clicked at {0}" Argument="{x:Bind converters:SampleValues.Now}" Level="Info" />
         </ic:EventTriggerBehavior>
       </i:Interaction.Behaviors>
     </Button>

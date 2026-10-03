@@ -248,6 +248,22 @@ public abstract partial class EventTriggerBase : StyledElementTrigger
     /// <param name="eventArgs">The event args.</param>
     protected virtual void AttachedToVisualTree(object? sender, object eventArgs)
     {
+#if WINUI
+        // Native WinUI resolves the ElementName bindings of the actions after the Loaded event of the element is
+        // raised: the actions of a Loaded trigger run once the event is dispatched.
+        if (EventName is "Loaded" or EventNameDefaultValue)
+        {
+            Dispatcher.UIThread.Post(() =>
+            {
+                if (AssociatedObject is not null)
+                {
+                    OnEvent(eventArgs);
+                }
+            });
+            return;
+        }
+
+#endif
         OnEvent(eventArgs);
     }
 
@@ -266,7 +282,7 @@ public abstract partial class EventTriggerBase : StyledElementTrigger
     }
 
 #if UNO
-    private static bool IsElementLoaded(Control element) => element.IsLoaded;
+    private static bool IsElementLoaded(Control element) => LoadedState.IsLoaded(element);
 #else
     private static bool IsElementLoaded(Control element) => element.Parent is not null;
 #endif

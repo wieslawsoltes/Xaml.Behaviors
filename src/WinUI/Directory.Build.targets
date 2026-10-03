@@ -1,0 +1,82 @@
+<Project>
+  <Import Project="$([MSBuild]::GetPathOfFileAbove('Directory.Build.targets', '$(MSBuildThisFileDirectory)../'))" />
+
+  <!--
+    Source linking of the Uno Platform twin. A WinUI library sets <WinUIUnoProject> to the folder name of its Uno
+    project (src/Uno/<WinUIUnoProject>) and compiles exactly the sources of that project:
+      * the shared Avalonia sources (src/<UnoSharedSourceProject>) minus the files listed in the SharedSources.props
+        of the Uno project (the same lists the Uno build and the portability analyzers use),
+      * the Uno-only sources next to the Uno project file,
+      * its InternalsVisibleTo attributes (Properties/), with the WinUI assembly names.
+    <WinUIUnoProjectSharesSources>false</WinUIUnoProjectSharesSources> skips the Avalonia sources (projects whose Uno
+    twin does not set UnoSharedSourceProject).
+  -->
+  <PropertyGroup Condition="'$(WinUIUnoProject)' != ''">
+    <_WinUIUnoProjectDirectory>$(UnoRootDirectory)$(WinUIUnoProject)/</_WinUIUnoProjectDirectory>
+    <UnoSharedSourceProject Condition="'$(UnoSharedSourceProject)' == '' AND '$(WinUIUnoProjectSharesSources)' != 'false'">$(WinUIUnoProject)</UnoSharedSourceProject>
+  </PropertyGroup>
+
+  <Import Project="$(_WinUIUnoProjectDirectory)SharedSources.props"
+          Condition="'$(WinUIUnoProject)' != '' AND Exists('$(_WinUIUnoProjectDirectory)SharedSources.props')" />
+
+  <PropertyGroup Condition="'$(UnoSharedSourceProject)' != ''">
+    <!-- Relative to the project directory: MSBuild ignores glob excludes on absolute paths outside the project cone. -->
+    <_UnoSharedSourceRoot>$([MSBuild]::EnsureTrailingSlash($([MSBuild]::MakeRelative('$(MSBuildProjectDirectory)', '$(AvaloniaSourcesDirectory)$(UnoSharedSourceProject)'))))</_UnoSharedSourceRoot>
+    <_UnoSharedSourceExcludes>$([System.Text.RegularExpressions.Regex]::Replace('$(UnoSharedSourceExcludes)', '\s+', '').Trim(';'))</_UnoSharedSourceExcludes>
+    <_UnoSharedSourceExcludes Condition="'$(_UnoSharedSourceExcludes)' != ''">$(_UnoSharedSourceRoot)$(_UnoSharedSourceExcludes.Replace(';', ';$(_UnoSharedSourceRoot)'))</_UnoSharedSourceExcludes>
+    <_UnoSharedSourceExcludes>$([MSBuild]::Unescape('$(_UnoSharedSourceExcludes)'))</_UnoSharedSourceExcludes>
+  </PropertyGroup>
+
+  <ItemGroup Condition="'$(UnoSharedSourceProject)' != ''">
+    <Compile Include="$(_UnoSharedSourceRoot)**/*.cs"
+             Exclude="$(_UnoSharedSourceRoot)bin/**;$(_UnoSharedSourceRoot)obj/**;$(_UnoSharedSourceRoot)Properties/**;$(_UnoSharedSourceExcludes)"
+             Link="Shared/%(RecursiveDir)%(Filename)%(Extension)" />
+  </ItemGroup>
+
+  <PropertyGroup Condition="'$(WinUIUnoProject)' != ''">
+    <_WinUIUnoSourceRoot>$([MSBuild]::EnsureTrailingSlash($([MSBuild]::MakeRelative('$(MSBuildProjectDirectory)', '$(_WinUIUnoProjectDirectory)'))))</_WinUIUnoSourceRoot>
+  </PropertyGroup>
+
+  <ItemGroup Condition="'$(WinUIUnoProject)' != ''">
+    <Compile Include="$(_WinUIUnoSourceRoot)**/*.cs"
+             Exclude="$(_WinUIUnoSourceRoot)bin/**;$(_WinUIUnoSourceRoot)obj/**;$(_WinUIUnoSourceRoot)Properties/**;$(WinUIUnoSourceExcludes)"
+             Link="Uno/%(RecursiveDir)%(Filename)%(Extension)" />
+    <_WinUIUnoAssemblyInfo Include="$(_WinUIUnoProjectDirectory)Properties/*.cs" />
+  </ItemGroup>
+
+  <!--
+    The InternalsVisibleTo attributes of the Uno project, renamed to the WinUI assemblies (Xaml.Behaviors.Uno.X ->
+    Xaml.Behaviors.WinUI.X), so the WinUI libraries and test projects see the same internals as their Uno twins.
+  -->
+  <Target Name="_WinUIGenerateUnoAssemblyInfo"
+          BeforeTargets="BeforeCompile;CoreCompile"
+          Condition="'@(_WinUIUnoAssemblyInfo)' != ''"
+          Inputs="@(_WinUIUnoAssemblyInfo)"
+          Outputs="$(IntermediateOutputPath)WinUI.%(_WinUIUnoAssemblyInfo.Filename).g.cs">
+    <PropertyGroup>
+      <_WinUIUnoAssemblyInfoText>$([System.IO.File]::ReadAllText('%(_WinUIUnoAssemblyInfo.FullPath)').Replace('"Xaml.Behaviors.Uno.', '"Xaml.Behaviors.WinUI.'))</_WinUIUnoAssemblyInfoText>
+    </PropertyGroup>
+    <WriteLinesToFile File="$(IntermediateOutputPath)WinUI.%(_WinUIUnoAssemblyInfo.Filename).g.cs"
+                      Lines="$(_WinUIUnoAssemblyInfoText)"
+                      Overwrite="true"
+                      WriteOnlyWhenDifferent="true" />
+  </Target>
+
+  <Target Name="_WinUIAddUnoAssemblyInfo" BeforeTargets="BeforeCompile;CoreCompile" DependsOnTargets="_WinUIGenerateUnoAssemblyInfo"
+          Condition="'@(_WinUIUnoAssemblyInfo)' != ''">
+    <ItemGroup>
+      <Compile Include="@(_WinUIUnoAssemblyInfo->'$(IntermediateOutputPath)WinUI.%(Filename).g.cs')" />
+      <FileWrites Include="@(_WinUIUnoAssemblyInfo->'$(IntermediateOutputPath)WinUI.%(Filename).g.cs')" />
+    </ItemGroup>
+  </Target>
+
+  <ItemGroup Condition="'$(IsPackable)' == 'true'">
+    <PackageReference Include="Microsoft.WindowsAppSDK" />
+  </ItemGroup>
+
+  <Import Project="$(AvaloniaSourcesDirectory)../build/XamlPropertyGenerator.props" Condition="'$(UnoSharedSourceProject)' != '' OR '$(WinUIUnoProject)' != ''" />
+  <!-- Trimming and Native AOT, like the Avalonia and Uno libraries (see build/TrimmingEnable.targets). -->
+  <Import Project="$(AvaloniaSourcesDirectory)../build/TrimmingEnable.targets" Condition="'$(IsPackable)' == 'true' AND '$(IsTrimmable)' != 'false'" />
+  <Import Project="$(AvaloniaSourcesDirectory)../build/SignAssembly.props" />
+  <Import Project="$(AvaloniaSourcesDirectory)../build/SourceLink.props" />
+</Project>

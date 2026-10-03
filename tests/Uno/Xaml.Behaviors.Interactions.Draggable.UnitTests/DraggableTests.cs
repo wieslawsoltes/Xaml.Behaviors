@@ -117,7 +117,12 @@ public class DraggableTests
         var start = MouseInput.Center(box);
         await input.DragAsync(start, new Point(start.X + 40, start.Y + 20));
 
+#if WINUI
+        // Native WinUI returns an identity MatrixTransform when no render transform is set (Uno Platform returns null).
+        Assert.Equal(DependencyProperty.UnsetValue, box.ReadLocalValue(UIElement.RenderTransformProperty));
+#else
         Assert.Null(box.RenderTransform);
+#endif
     }
 
     [UnoHeadlessFact]
@@ -318,6 +323,11 @@ public class DraggableTests
         var start = MouseInput.Center(box);
         await input.DragAsync(start, new Point(start.X + 40, start.Y + 20));
 
+#if WINUI
+        // Native WinUI returns an identity MatrixTransform when no render transform is set (Uno Platform returns null).
+        Assert.Equal(DependencyProperty.UnsetValue, box.ReadLocalValue(UIElement.RenderTransformProperty));
+#else
         Assert.Null(box.RenderTransform);
+#endif
     }
 }

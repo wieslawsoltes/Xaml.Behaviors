@@ -22,7 +22,8 @@
     </ItemsControl.ItemContainerStyle>
     <ItemsControl.ItemsPanel>
       <ItemsPanelTemplate>
-        <StackPanel Orientation="Horizontal" />
+        <!-- Top aligned: native WinUI hits a text only container on its text, not on the empty area below it. -->
+        <StackPanel Orientation="Horizontal" VerticalAlignment="Top" />
       </ItemsPanelTemplate>
     </ItemsControl.ItemsPanel>
   </ItemsControl>

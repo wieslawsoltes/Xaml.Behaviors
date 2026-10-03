@@ -58,13 +58,22 @@ public class HideAttachedFlyoutBehaviorTests
         var window = new Window { Width = 200, Height = 200, Content = target };
 
         window.Show();
+#if WINUI
+        // A native WinUI flyout closes over several frames and cannot be shown again before it is closed.
+        var closed = 0;
+        flyout.Closed += (_, _) => closed++;
+#endif
 
         FlyoutBase.ShowAttachedFlyout(target);
         Dispatcher.UIThread.RunJobs();
         Assert.True(flyout.IsOpen);
 
         behavior.IsFlyoutOpen = false;
+#if WINUI
+        Dispatcher.UIThread.RunJobs(() => closed == 1);
+#else
         Dispatcher.UIThread.RunJobs();
+#endif
         Assert.False(flyout.IsOpen);
 
         FlyoutBase.ShowAttachedFlyout(target);
@@ -73,7 +82,11 @@ public class HideAttachedFlyoutBehaviorTests
         Assert.True(flyout.IsOpen);
 
         behavior.IsFlyoutOpen = false;
+#if WINUI
+        Dispatcher.UIThread.RunJobs(() => closed == 2);
+#else
         Dispatcher.UIThread.RunJobs();
+#endif
         Assert.False(flyout.IsOpen);
 
         window.Close();

@@ -439,7 +439,12 @@ public class InteractionTest
         var behavior = new TestBehavior();
         var collection = new BehaviorCollection { behavior };
         var button = new Button();
+#if WINUI
+        // WinUI Panel cannot be created directly (Uno Platform and Avalonia allow it).
+        var panel = new Grid { Children = { button } };
+#else
         var panel = new Panel { Children = { button } };
+#endif
         var window = new Window { Content = panel };
         Interaction.SetBehaviors(button, collection);
 

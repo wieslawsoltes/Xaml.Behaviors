@@ -34,6 +34,9 @@ public class SelectingItemsControlAnimationTests
     [AvaloniaFact]
     public void SelectionIndicatorAnimation_InstallsImplicitAnimationForTemplatedContainers()
     {
+#if WINUI
+        Assert.Skip("Native WinUI runs composition animations in the compositor: the UI thread cannot read the animated value (docfx/articles/winui/winui-differences.md, W5).");
+#endif
         var oldIndicator = new Border { Name = "PART_SelectedPipe", Width = 4d, Height = 30d };
         var newIndicator = new Border { Name = "PART_SelectedPipe", Width = 4d, Height = 30d };
         var oldSelection = new ContentControl { Content = oldIndicator, Height = 40d };

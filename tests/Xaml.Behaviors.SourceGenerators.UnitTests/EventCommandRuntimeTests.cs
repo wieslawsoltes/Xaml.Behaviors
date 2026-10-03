@@ -4,6 +4,7 @@ using System.Reflection;
 using System.Threading.Tasks;
 #if UNO
 using Microsoft.UI.Xaml;
+using Xaml.Behaviors.Uno.Headless;
 using Microsoft.UI.Xaml.Controls;
 using Xaml.Interactivity;
 using Microsoft.UI.Dispatching;
@@ -47,7 +48,7 @@ public class EventCommandRuntimeTests
         trigger.Attach(button);
 
         button.Command = command;
-        Xaml.Behaviors.Uno.Headless.UnoHeadlessSession.Current.Show(button);
+        UnoHeadlessSession.Current.Show(button);
         new Microsoft.UI.Xaml.Automation.Peers.ButtonAutomationPeer(button).Invoke();
 #else
         dynamic trigger = GeneratedTypeHelper.CreateInstance("ButtonClickEventCommandTrigger", "Avalonia.Controls");
@@ -141,7 +142,7 @@ public class EventCommandRuntimeTests
     {
 #if UNO
         // Runs the work queued before this call (the test compat InvokeAsync runs inline on the UI thread).
-        await Xaml.Behaviors.Uno.Headless.UnoHeadlessSession.Current.WaitForIdleAsync();
+        await UnoHeadlessSession.Current.WaitForIdleAsync();
 #else
         await Dispatcher.UIThread.InvokeAsync(() => { });
 #endif

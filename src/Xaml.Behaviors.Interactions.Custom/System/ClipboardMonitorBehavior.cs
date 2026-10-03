@@ -54,6 +54,8 @@ public partial class ClipboardMonitorBehavior : StyledElementBehavior<Control>
         if (AssociatedObject != null)
         {
 #if UNO
+            // Read before the Loaded handler is added (see LoadedState).
+            var isLoaded = LoadedState.IsLoaded(AssociatedObject);
             AssociatedObject.Loaded += AssociatedObject_AttachedToVisualTree;
             AssociatedObject.Unloaded += AssociatedObject_DetachedFromVisualTree;
 #else
@@ -62,7 +64,11 @@ public partial class ClipboardMonitorBehavior : StyledElementBehavior<Control>
 #endif
             
             // If already attached to visual tree, start monitoring
+#if UNO
+            if (isLoaded)
+#else
             if (AssociatedObject.IsLoaded)
+#endif
             {
                 StartMonitoring();
             }

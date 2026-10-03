@@ -2,7 +2,6 @@
 // Licensed under the MIT license. See LICENSE file in the project root for details.
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Windows.UI.Input.Preview.Injection;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Windows.Foundation;
@@ -89,9 +88,6 @@ public class EventsTests
     [UnoHeadlessFact]
     public async Task PointerPressed_Trigger_Receives_Injected_Input()
     {
-        var injector = InputInjector.TryCreate();
-        Assert.SkipWhen(injector is null, "Input injection is not available.");
-
         var border = new Border { Width = 100, Height = 100, Background = new Microsoft.UI.Xaml.Media.SolidColorBrush(Microsoft.UI.Colors.Red) };
         var trigger = new PointerPressedEventTrigger();
         var action = new RecordingAction();
@@ -99,16 +95,7 @@ public class EventsTests
         Interaction.GetBehaviors(border).Add(trigger);
         await Session.ShowAsync(border);
 
-        var position = border.TransformToVisual(null).TransformPoint(new Point(50, 50));
-        injector!.InitializeTouchInjection(InjectedInputVisualizationMode.None);
-        injector.InjectMouseInput([new InjectedInputMouseInfo
-        {
-            DeltaX = (int)position.X,
-            DeltaY = (int)position.Y,
-            MouseOptions = InjectedInputMouseOptions.Absolute | InjectedInputMouseOptions.Move,
-        }]);
-        injector.InjectMouseInput([new InjectedInputMouseInfo { MouseOptions = InjectedInputMouseOptions.LeftDown }]);
-        injector.InjectMouseInput([new InjectedInputMouseInfo { MouseOptions = InjectedInputMouseOptions.LeftUp }]);
+        Session.Mouse.Click(border, new Point(50, 50));
         await Session.WaitForIdleAsync();
 
         Assert.NotEmpty(action.Parameters);

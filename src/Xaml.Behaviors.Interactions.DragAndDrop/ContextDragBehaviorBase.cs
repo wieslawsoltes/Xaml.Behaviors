@@ -67,6 +67,9 @@ public abstract partial class ContextDragBehaviorBase : StyledElementBehavior<Co
         AssociatedObject?.RemoveRoutedEventHandler(InputElement.PointerMovedEvent, AssociatedObject_PointerMoved);
         AssociatedObject?.RemoveRoutedEventHandler(InputElement.PointerCaptureLostEvent, AssociatedObject_CaptureLost);
         AssociatedObject?.RemoveRoutedEventHandler(InputElement.KeyDownEvent, AssociatedObject_KeyDown);
+#if WINUI
+        StopEscapeTracking();
+#endif
     }
 
     /// <summary>
@@ -128,7 +131,48 @@ public abstract partial class ContextDragBehaviorBase : StyledElementBehavior<Co
     {
         _triggerEvent = null;
         _lock = false;
+#if WINUI
+        StopEscapeTracking();
+#endif
     }
+
+#if WINUI
+    // Native WinUI can move the focus to the root of the window when the pointer is pressed, so the Escape key does
+    // not reach the associated object: while a press is pending the key is handled at the root.
+    private UIElement? _escapeRoot;
+    private Microsoft.UI.Xaml.Input.KeyEventHandler? _escapeHandler;
+
+    private void StartEscapeTracking()
+    {
+        StopEscapeTracking();
+        if (AssociatedObject?.XamlRoot?.Content is not { } root)
+        {
+            return;
+        }
+
+        _escapeRoot = root;
+        _escapeHandler = (_, e) =>
+        {
+            if (e.Key == Key.Escape)
+            {
+                Released();
+                _captured = false;
+            }
+        };
+        root.AddHandler(UIElement.KeyDownEvent, _escapeHandler, true);
+    }
+
+    private void StopEscapeTracking()
+    {
+        if (_escapeRoot is not null && _escapeHandler is not null)
+        {
+            _escapeRoot.RemoveHandler(UIElement.KeyDownEvent, _escapeHandler);
+        }
+
+        _escapeRoot = null;
+        _escapeHandler = null;
+    }
+#endif
 
     private void AssociatedObject_PointerPressed(object? sender, PointerPressedEventArgs e)
     {
@@ -142,6 +186,9 @@ public abstract partial class ContextDragBehaviorBase : StyledElementBehavior<Co
                 _triggerEvent = e;
                 _lock = true;
                 _captured = true;
+#if WINUI
+                StartEscapeTracking();
+#endif
 
                 // Drag detection must not consume the initial press. Selection and
                 // interactive content still need to observe it before a drag starts.
@@ -170,6 +217,9 @@ public abstract partial class ContextDragBehaviorBase : StyledElementBehavior<Co
             }
 
             _captured = false;
+#if WINUI
+            StopEscapeTracking();
+#endif
         }
     }
 

@@ -2,7 +2,11 @@
 // Licensed under the MIT license. See LICENSE file in the project root for details.
 using System;
 using System.Threading.Tasks;
+#if WINUI
+using Microsoft.UI.Dispatching;
+#else
 using Windows.ApplicationModel.Core;
+#endif
 using Windows.UI.Core;
 
 namespace Xaml.Interactivity;
@@ -47,12 +51,53 @@ internal sealed class UIThreadDispatcher
     /// </summary>
     public static UIThreadDispatcher Instance { get; } = new();
 
+#if WINUI
+    // Native WinUI has no main view dispatcher (CoreApplication.MainView): the dispatcher queue of the UI thread is
+    // captured the first time the behaviors run on it (a behavior is attached or a window is tracked).
+    private static DispatcherQueue? s_uiThread;
+
+    /// <summary>
+    /// Records the dispatcher queue of the calling thread as the UI thread, if it has one and none is known yet.
+    /// </summary>
+    internal static void CaptureCurrentThread()
+    {
+        if (s_uiThread is null && DispatcherQueue.GetForCurrentThread() is { } current)
+        {
+            s_uiThread = current;
+        }
+    }
+
+    /// <summary>
+    /// Records the dispatcher queue of the UI thread, if none is known yet.
+    /// </summary>
+    /// <param name="dispatcherQueue">The dispatcher queue of the UI thread.</param>
+    internal static void Capture(DispatcherQueue dispatcherQueue) => s_uiThread ??= dispatcherQueue;
+
+    private static DispatcherQueue Queue
+    {
+        get
+        {
+            CaptureCurrentThread();
+            return s_uiThread ?? throw new InvalidOperationException("The UI thread is not known yet: attach a behavior or track a window (WindowTracker) first.");
+        }
+    }
+
+    /// <summary>
+    /// Determines whether the calling thread is the UI thread.
+    /// </summary>
+    public bool CheckAccess()
+    {
+        CaptureCurrentThread();
+        return s_uiThread?.HasThreadAccess ?? false;
+    }
+#else
     private static CoreDispatcher Core => CoreApplication.MainView.Dispatcher;
 
     /// <summary>
     /// Determines whether the calling thread is the UI thread.
     /// </summary>
     public bool CheckAccess() => Core.HasThreadAccess;
+#endif
 
     /// <summary>
     /// Throws when the calling thread is not the UI thread.
@@ -71,7 +116,14 @@ internal sealed class UIThreadDispatcher
     public void Post(System.Action action)
     {
         ArgumentNullException.ThrowIfNull(action);
+#if WINUI
+        if (!Queue.TryEnqueue(() => action()))
+        {
+            throw new InvalidOperationException("The UI thread is shutting down.");
+        }
+#else
         _ = Core.RunAsync(CoreDispatcherPriority.Normal, () => action());
+#endif
     }
 
     /// <summary>

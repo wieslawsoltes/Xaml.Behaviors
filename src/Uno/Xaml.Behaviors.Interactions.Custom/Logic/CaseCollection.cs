@@ -15,7 +15,7 @@ namespace Xaml.Interactions.Custom;
 /// A dependency object collection, so the cases inherit the data context of their switch like the actions of an
 /// <see cref="ActionCollection"/>. Items that are not <see cref="Case"/> instances are ignored.
 /// </remarks>
-public class CaseCollection : DependencyObjectCollection, INotifyCollectionChanged
+public partial class CaseCollection : DependencyObjectCollection, INotifyCollectionChanged
 {
     private readonly VectorChangeTranslator<DependencyObject> _changes = new();
 

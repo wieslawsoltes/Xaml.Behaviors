@@ -52,7 +52,9 @@ public partial class AdaptiveBehavior : StyledElementBehavior<Control>
     /// On Uno Platform the setters are a <c>DependencyObjectCollection</c> so they inherit the data context of the behavior.
     /// </remarks>
     [DirectProperty(Lazy = true, Content = true)]
-#if UNO
+#if WINUI
+    public partial AdaptiveClassSetterCollection Setters { get; }
+#elif UNO
     public partial DependencyObjectCollection<AdaptiveClassSetter> Setters { get; }
 #else
     public partial AvaloniaList<AdaptiveClassSetter> Setters { get; }
@@ -108,7 +110,7 @@ public partial class AdaptiveBehavior : StyledElementBehavior<Control>
             }));
     }
 
-    private void Execute(Control? sourceControl, IList<AdaptiveClassSetter>? setters, Rect bounds)
+    private void Execute(Control? sourceControl, IEnumerable<AdaptiveClassSetter>? setters, Rect bounds)
     {
         if (sourceControl is null || setters is null)
         {

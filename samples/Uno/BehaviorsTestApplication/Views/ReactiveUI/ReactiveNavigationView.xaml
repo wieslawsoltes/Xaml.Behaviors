@@ -7,7 +7,6 @@
                                   xmlns:i="using:Xaml.Interactivity"
                                   xmlns:ic="using:Xaml.Interactions.Core"
                                   xmlns:irx="using:Xaml.Interactions.ReactiveUI"
-                                  xmlns:rxui="using:ReactiveUI.Uno.Reactive"
                                   xmlns:behaviors="using:BehaviorsTestApplication.Behaviors"
                                   xmlns:views="using:BehaviorsTestApplication.Views.Pages"
                                   mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="450">
@@ -68,7 +67,7 @@
         </Button>
       </StackPanel>
     </ScrollViewer>
-    <rxui:RoutedViewHost Router="{x:Bind ViewModel.Router}" Grid.Row="1"
+    <views:SampleRoutedViewHost Router="{x:Bind ViewModel.Router}" Grid.Row="1"
                          HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" />
   </Grid>
 </views:ReactiveNavigationViewBase>

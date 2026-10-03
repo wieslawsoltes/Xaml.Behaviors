@@ -69,7 +69,7 @@ public sealed class ParallaxAnimation
     public void Apply(Vector scrollOffset, double parallaxRatio)
     {
         Vector3 delta = CalculateOffset(scrollOffset, parallaxRatio);
-        _visual.Offset = CompositionAnimationHelpers.GetLayoutOffset(_target, delta);
+        CompositionAnimationHelpers.SetOffset(_visual, CompositionAnimationHelpers.GetLayoutOffset(_target, delta));
     }
 
     /// <summary>

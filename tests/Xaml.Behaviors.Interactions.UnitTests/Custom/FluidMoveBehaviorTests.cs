@@ -45,7 +45,13 @@ public class FluidMoveBehaviorTests
     private static object? GetRenderTransform(ItemsControl itemsControl, string item)
     {
         var container = Assert.IsAssignableFrom<Control>(itemsControl.ContainerFromItem(item));
+#if WINUI
+        // The default render transform of a native WinUI element is an identity MatrixTransform (null on Uno Platform
+        // and Avalonia).
+        return container.RenderTransform is Microsoft.UI.Xaml.Media.MatrixTransform { Matrix.IsIdentity: true } ? null : container.RenderTransform;
+#else
         return container.RenderTransform;
+#endif
     }
 
     [AvaloniaFact]

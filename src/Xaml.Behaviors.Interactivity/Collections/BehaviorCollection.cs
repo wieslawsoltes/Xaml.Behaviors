@@ -25,9 +25,9 @@ namespace Avalonia.Xaml.Interactivity;
 /// Represents a collection of <see cref="IBehavior"/>'s with a shared <see cref="AssociatedObject"/>.
 /// </summary>
 #if UNO
-public class BehaviorCollection : DependencyObjectCollection
+public partial class BehaviorCollection : DependencyObjectCollection
 #else
-public class BehaviorCollection : AvaloniaList<AvaloniaObject>
+public partial class BehaviorCollection : AvaloniaList<AvaloniaObject>
 #endif
 {
     // After a VectorChanged event we need to compare the current state of the collection
@@ -72,6 +72,10 @@ public class BehaviorCollection : AvaloniaList<AvaloniaObject>
     /// <exception cref="InvalidOperationException">The <see cref="BehaviorCollection"/> is already attached to a different <see cref="AvaloniaObject"/>.</exception>
     public void Attach(AvaloniaObject? associatedObject)
     {
+#if WINUI
+        // Behaviors are attached on the UI thread: the dispatcher compat learns it here (see Compat/Dispatcher.cs).
+        UIThreadDispatcher.CaptureCurrentThread();
+#endif
         if (Equals(associatedObject, AssociatedObject))
         {
             return;
@@ -661,16 +665,16 @@ public class BehaviorCollection : AvaloniaList<AvaloniaObject>
     // WinUI has no initialization, logical tree or visual tree attachment notifications distinct from
     // Loaded/Unloaded; Interaction raises all of them from FrameworkElement.Loaded/Unloaded.
     private static bool IsHostInitialized(AvaloniaObject? associatedObject)
-        => associatedObject is FrameworkElement { IsLoaded: true };
+        => associatedObject is FrameworkElement element && LoadedState.IsLoaded(element);
 
     private static bool IsHostAttachedToLogicalTree(AvaloniaObject? associatedObject)
-        => associatedObject is FrameworkElement { IsLoaded: true };
+        => associatedObject is FrameworkElement element && LoadedState.IsLoaded(element);
 
     private static bool IsHostAttachedToVisualTree(AvaloniaObject? associatedObject)
-        => associatedObject is FrameworkElement { IsLoaded: true };
+        => associatedObject is FrameworkElement element && LoadedState.IsLoaded(element);
 
     private static bool IsHostLoaded(AvaloniaObject? associatedObject)
-        => associatedObject is FrameworkElement { IsLoaded: true };
+        => associatedObject is FrameworkElement element && LoadedState.IsLoaded(element);
 #else
     private static bool IsHostInitialized(AvaloniaObject? associatedObject)
         => associatedObject is StyledElement { IsInitialized: true };

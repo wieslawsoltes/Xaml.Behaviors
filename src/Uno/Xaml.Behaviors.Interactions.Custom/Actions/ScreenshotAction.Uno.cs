@@ -45,7 +45,14 @@ public partial class ScreenshotAction
         }
 
         var bitmap = new RenderTargetBitmap();
+#if WINUI
+        // Native WinUI renders the requested (logical) size at the rasterization scale of the element: request the
+        // size that renders to the element's size in device independent pixels, like Avalonia and Uno Platform.
+        var scale = target.XamlRoot?.RasterizationScale ?? 1d;
+        await bitmap.RenderAsync(target, Math.Max(1, (int)Math.Round(width / scale)), Math.Max(1, (int)Math.Round(height / scale)));
+#else
         await bitmap.RenderAsync(target, width, height);
+#endif
 
         // RenderAsync logs render failures instead of throwing; an empty bitmap means nothing was rendered.
         if (bitmap.PixelWidth <= 0 || bitmap.PixelHeight <= 0)

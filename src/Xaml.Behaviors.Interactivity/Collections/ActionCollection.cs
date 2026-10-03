@@ -19,7 +19,7 @@ namespace Avalonia.Xaml.Interactivity;
 /// Represents a collection of <see cref="IAction"/>'s.
 /// </summary>
 #if UNO
-public class ActionCollection : DependencyObjectCollection, INotifyCollectionChanged
+public partial class ActionCollection : DependencyObjectCollection, INotifyCollectionChanged
 {
     private readonly System.Collections.Generic.List<DependencyObject> _items = [];
     private readonly VectorChangeTranslator<DependencyObject> _changes = new();
@@ -149,7 +149,7 @@ public class ActionCollection : DependencyObjectCollection, INotifyCollectionCha
         }
     }
 #else
-public class ActionCollection : AvaloniaList<AvaloniaObject>
+public partial class ActionCollection : AvaloniaList<AvaloniaObject>
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="ActionCollection"/> class.

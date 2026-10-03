@@ -1,0 +1,31 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!--
+    Test harness for native WinUI 3: runs a WinUI application with a test window on a dedicated UI thread and drives
+    it with real (injected) keyboard and mouse input. It offers the API of the Uno Platform headless harness
+    (src/Uno/Xaml.Behaviors.Uno.Headless), so the tests shared by both ports run unchanged (see tests/WinUI/README.md).
+  -->
+  <PropertyGroup>
+    <TargetFrameworks>$(WinUITargetFrameworks)</TargetFrameworks>
+    <AssemblyName>Xaml.Behaviors.WinUI.Testing</AssemblyName>
+    <RootNamespace>Xaml.Behaviors.WinUI.Testing</RootNamespace>
+    <!-- Not an Avalonia-shared-source project: no port type aliases. -->
+    <UnoPortAliases>false</UnoPortAliases>
+    <!-- Not trimmable: test infrastructure, never trimmed or AOT published. -->
+    <IsTrimmable>false</IsTrimmable>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <PackageId>Xaml.Behaviors.WinUI.Testing</PackageId>
+    <Description>Test harness for WinUI 3 (Windows App SDK) applications: a WinUI application and test window on a dedicated UI thread, queued work and layout on demand, and injected keyboard and mouse input.</Description>
+    <PackageTags>WinUI;WinUI3;WindowsAppSDK;Testing;UI;Input</PackageTags>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="README.md" Pack="true" PackagePath="" />
+    <!-- Shared with the Uno Platform headless harness. -->
+    <Compile Include="$(UnoRootDirectory)Xaml.Behaviors.Uno.Headless/Internal/DispatcherQueueInvoker.cs" Link="Internal/DispatcherQueueInvoker.cs" />
+  </ItemGroup>
+
+</Project>

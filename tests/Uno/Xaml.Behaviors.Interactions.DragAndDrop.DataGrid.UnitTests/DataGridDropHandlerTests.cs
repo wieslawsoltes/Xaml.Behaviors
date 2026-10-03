@@ -33,7 +33,9 @@ public sealed class ItemsDropHandler(ObservableCollection<Item> items) : BaseDat
 
     protected override bool Validate(DataGrid dg, DragEventArgs e, object? sourceContext, object? targetContext, bool execute)
     {
-        if (sourceContext is not Item source || (e.OriginalSource as FrameworkElement)?.DataContext is not Item target)
+        // The element under the pointer (the original source of a native WinUI drag event is the drop target, here
+        // the data grid).
+        if (sourceContext is not Item source || (e.Source as FrameworkElement)?.DataContext is not Item target)
         {
             return false;
         }
@@ -71,11 +73,13 @@ public class DataGridDropHandlerTests
         var input = MouseInput.TryCreate();
         Assert.SkipWhen(input is null, "Input injection is not available.");
 
+#if !WINUI
         // The headless session has no generated application initialization: register the toolkit resources and
-        // default styles (DataGrid templates) like an app head does.
+        // default styles (DataGrid templates) like an app head does (native WinUI loads them from the toolkit itself).
         CommunityToolkit.WinUI.UI.Controls.DG.GlobalStaticResources.Initialize();
         CommunityToolkit.WinUI.UI.Controls.DG.GlobalStaticResources.RegisterResourceDictionariesBySource();
         CommunityToolkit.WinUI.UI.Controls.DG.GlobalStaticResources.RegisterDefaultStyles();
+#endif
 
         var items = new ObservableCollection<Item> { new("a"), new("b"), new("c") };
         var handler = new ItemsDropHandler(items);

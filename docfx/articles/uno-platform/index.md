@@ -45,3 +45,6 @@ The repository documents the port in more detail:
 
 See [Known Issues and Differences](known-issues.md) for the open issues, the issues fixed during the port and the
 WinUI differences to keep in mind.
+
+The same sources also build the native [WinUI 3 (Windows App SDK)](../winui/index.md) packages; see
+[Differences from Uno Platform and Tracked Issues](../winui/winui-differences.md).

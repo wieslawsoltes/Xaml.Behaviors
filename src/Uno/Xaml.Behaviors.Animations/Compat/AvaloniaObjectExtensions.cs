@@ -31,26 +31,56 @@ internal static class AvaloniaObjectExtensions
             ArgumentNullException.ThrowIfNull(observer);
             observer.OnNext(Read());
 
+#if WINUI
+            // Native WinUI raises the change of some properties (FrameworkElement.Transitions) before GetValue returns
+            // the new value: a change that still reads the reported value is read again once the change is applied.
+            Subscription subscription = new(owner, property);
+            object? reported = owner.GetValue(property);
+            subscription.Token = owner.RegisterPropertyChangedCallback(property, (_, _) =>
+            {
+                object? current = owner.GetValue(property);
+                if (!ReferenceEquals(current, reported) || current is null)
+                {
+                    reported = current;
+                    observer.OnNext(Read());
+                    return;
+                }
+
+                owner.DispatcherQueue?.TryEnqueue(() =>
+                {
+                    object? applied = owner.GetValue(property);
+                    if (!subscription.IsDisposed && !ReferenceEquals(applied, reported))
+                    {
+                        reported = applied;
+                        observer.OnNext(Read());
+                    }
+                });
+            });
+            return subscription;
+#else
             long token = owner.RegisterPropertyChangedCallback(property, (_, _) => observer.OnNext(Read()));
-            return new Subscription(owner, property, token);
+            return new Subscription(owner, property) { Token = token };
+#endif
         }
 
         private T Read() => owner.GetValue(property) is T value ? value : default!;
     }
 
-    private sealed class Subscription(DependencyObject owner, DependencyProperty property, long token) : IDisposable
+    private sealed class Subscription(DependencyObject owner, DependencyProperty property) : IDisposable
     {
-        private bool _disposed;
+        public long Token { get; set; }
+
+        public bool IsDisposed { get; private set; }
 
         public void Dispose()
         {
-            if (_disposed)
+            if (IsDisposed)
             {
                 return;
             }
 
-            _disposed = true;
-            owner.UnregisterPropertyChangedCallback(property, token);
+            IsDisposed = true;
+            owner.UnregisterPropertyChangedCallback(property, Token);
         }
     }
 }

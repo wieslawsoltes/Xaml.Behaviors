@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!-- WinUI 3 twin of tests/Uno/Xaml.Behaviors.Interactions.Custom.Animations.UnitTests: compiles its sources (see tests/WinUI/WinUISharedTests.targets). -->
+  <PropertyGroup>
+    <AssemblyName>Xaml.Behaviors.WinUI.Interactions.Custom.Animations.UnitTests</AssemblyName>
+    <RootNamespace>Xaml.Interactions.Custom.Animations.UnitTests</RootNamespace>
+    <WinUIUnoTestProject>Xaml.Behaviors.Interactions.Custom.Animations.UnitTests</WinUIUnoTestProject>
+  </PropertyGroup>
+
+  <Import Project="..\..\..\build\XamlPropertyGenerator.props" />
+
+  <ItemGroup>
+    <!-- The composition offset helper of the test compat layer, like the Uno twin. -->
+    <Compile Include="..\..\Uno\Shared\TestCompat\CompositionTestCompat.cs" Link="TestCompat\CompositionTestCompat.cs" />
+    <ProjectReference Include="..\..\..\src\WinUI\Xaml.Behaviors.Interactions.Custom\Xaml.Behaviors.Interactions.Custom.csproj" />
+  </ItemGroup>
+
+  <Import Project="..\WinUISharedTests.targets" />
+
+</Project>

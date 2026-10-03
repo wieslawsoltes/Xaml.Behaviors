@@ -6,7 +6,6 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Windows.Foundation;
 using Windows.System;
-using Windows.UI.Input.Preview.Injection;
 using Xaml.Behaviors.Uno.Headless.XUnit;
 using Xunit;
 using static Xaml.Interactions.Custom.Controls.UnitTests.TestHelpers;
@@ -15,30 +14,6 @@ namespace Xaml.Interactions.Custom.Controls.UnitTests;
 
 public class InputTests
 {
-    private static InputInjector? CreateInjector()
-    {
-        var injector = InputInjector.TryCreate();
-        injector?.InitializeTouchInjection(InjectedInputVisualizationMode.None);
-        return injector;
-    }
-
-    private static void MoveTo(InputInjector injector, UIElement element, Point point)
-    {
-        var position = element.TransformToVisual(null).TransformPoint(point);
-        injector.InjectMouseInput([new InjectedInputMouseInfo
-        {
-            DeltaX = (int)position.X,
-            DeltaY = (int)position.Y,
-            MouseOptions = InjectedInputMouseOptions.Absolute | InjectedInputMouseOptions.Move,
-        }]);
-    }
-
-    private static void Click(InputInjector injector)
-    {
-        injector.InjectMouseInput([new InjectedInputMouseInfo { MouseOptions = InjectedInputMouseOptions.LeftDown }]);
-        injector.InjectMouseInput([new InjectedInputMouseInfo { MouseOptions = InjectedInputMouseOptions.LeftUp }]);
-    }
-
     [UnoHeadlessFact]
     public async Task CarouselKeyNavigationBehavior_Navigates_With_Arrow_Keys()
     {
@@ -85,9 +60,6 @@ public class InputTests
     [UnoHeadlessFact]
     public async Task SelectListBoxItemOnPointerMovedBehavior_Selects_The_Hovered_Item()
     {
-        var injector = CreateInjector();
-        Assert.SkipWhen(injector is null, "Input injection is not available.");
-
         var first = new Border { Height = 30, Width = 100, Background = new Microsoft.UI.Xaml.Media.SolidColorBrush(Microsoft.UI.Colors.Red) };
         var second = new Border { Height = 30, Width = 100, Background = new Microsoft.UI.Xaml.Media.SolidColorBrush(Microsoft.UI.Colors.Blue) };
         new SelectListBoxItemOnPointerMovedBehavior().AttachTo(second);
@@ -95,8 +67,8 @@ public class InputTests
         await Session.ShowAsync(listView);
         await Session.WaitForIdleAsync();
 
-        MoveTo(injector!, second, new Point(10, 10));
-        MoveTo(injector!, second, new Point(20, 15));
+        Session.Mouse.MoveTo(new Point(10, 10), second);
+        Session.Mouse.MoveTo(new Point(20, 15), second);
 
         Assert.True(await WaitUntilAsync(() => listView.SelectedIndex == 1));
     }
@@ -104,18 +76,14 @@ public class InputTests
     [UnoHeadlessFact]
     public async Task ToggleIsExpandedOnDoubleTappedBehavior_Toggles_The_Tree_Item()
     {
-        var injector = CreateInjector();
-        Assert.SkipWhen(injector is null, "Input injection is not available.");
-
         var header = new Border { Height = 30, Width = 100, Background = new Microsoft.UI.Xaml.Media.SolidColorBrush(Microsoft.UI.Colors.Red) };
         new ToggleIsExpandedOnDoubleTappedBehavior().AttachTo(header);
         var item = new TreeViewItem { Content = header };
         await Session.ShowAsync(new StackPanel { Children = { item } });
         await Session.WaitForIdleAsync();
 
-        MoveTo(injector!, header, new Point(10, 10));
-        Click(injector!);
-        Click(injector!);
+        Session.Mouse.Click(header, new Point(10, 10));
+        Session.Mouse.Click(header, new Point(10, 10));
 
         Assert.True(await WaitUntilAsync(() => item.IsExpanded));
     }

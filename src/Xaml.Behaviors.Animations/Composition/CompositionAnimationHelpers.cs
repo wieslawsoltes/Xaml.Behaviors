@@ -120,7 +120,7 @@ internal static class CompositionAnimationHelpers
         ValidateDuration(duration);
         if (duration == TimeSpan.Zero)
         {
-            visual.Offset = layoutOffset + keyFrames[keyFrames.Count - 1].Value;
+            SetOffset(visual, layoutOffset + keyFrames[keyFrames.Count - 1].Value);
             return;
         }
 
@@ -130,8 +130,33 @@ internal static class CompositionAnimationHelpers
             animation.InsertKeyFrame(keyFrame.Progress, layoutOffset + keyFrame.Value);
         }
 
-        ConfigureAndStartAnimation(visual, "Offset", duration, animation);
+        ConfigureAndStartAnimation(visual, OffsetPropertyName, duration, animation);
     }
+
+    /// <summary>
+    /// Sets the composition offset of an element visual, relative to its layout position on Uno Platform and WinUI.
+    /// </summary>
+    /// <remarks>
+    /// Native WinUI layout owns <c>Visual.Offset</c> (the arranged position of the element): the offset is the
+    /// <c>Translation</c> of the visual there, which <c>ElementComposition.GetElementVisual</c> enables.
+    /// </remarks>
+    public static void SetOffset(CompositionVisual visual, Vector3 value)
+    {
+#if WINUI
+        visual.Properties.InsertVector3(OffsetPropertyName, value);
+#else
+        visual.Offset = value;
+#endif
+    }
+
+    /// <summary>
+    /// The composition property animated for offsets: <c>Translation</c> on native WinUI, <c>Offset</c> elsewhere.
+    /// </summary>
+#if WINUI
+    internal const string OffsetPropertyName = "Translation";
+#else
+    internal const string OffsetPropertyName = "Offset";
+#endif
 
     public static Vector3 GetLayoutOffset(Control element)
     {
@@ -224,7 +249,7 @@ internal static class CompositionAnimationHelpers
         switch (propertyName)
         {
             case "Offset":
-                visual.Offset = value;
+                SetOffset(visual, value);
                 break;
             case "Scale":
                 visual.Scale = value;
@@ -267,6 +292,6 @@ internal static class CompositionAnimationHelpers
             keyFrameAnimation.IterationCount = 1;
         }
 
-        visual.StartAnimation(propertyName, animation);
+        visual.StartAnimation(propertyName == "Offset" ? OffsetPropertyName : propertyName, animation);
     }
 }

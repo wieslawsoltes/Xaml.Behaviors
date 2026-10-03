@@ -162,9 +162,13 @@ public class PickerActionBaseTests
 
         Assert.Equal("Text|*.txt", textBlock.Text);
 
+#if !WINUI
+        // A native WinUI binding does not observe the dependency properties of a source type that is not in the XAML
+        // type information of the application (the action is not used in XAML here).
         action.FileTypeChoices = "Images|*.png";
 
         Assert.Equal("Images|*.png", textBlock.Text);
+#endif
     }
 
     private static async Task WaitForNoActiveOperations(PickerActionBase action)

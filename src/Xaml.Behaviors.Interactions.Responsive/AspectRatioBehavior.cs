@@ -53,7 +53,9 @@ public partial class AspectRatioBehavior : StyledElementBehavior<Control>
     /// On Uno Platform the setters are a <c>DependencyObjectCollection</c> so they inherit the data context of the behavior.
     /// </remarks>
     [DirectProperty(Lazy = true, Content = true)]
-#if UNO
+#if WINUI
+    public partial AspectRatioClassSetterCollection Setters { get; }
+#elif UNO
     public partial DependencyObjectCollection<AspectRatioClassSetter> Setters { get; }
 #else
     public partial AvaloniaList<AspectRatioClassSetter> Setters { get; }
@@ -104,7 +106,7 @@ public partial class AspectRatioBehavior : StyledElementBehavior<Control>
             .Subscribe(new AnonymousObserver<Rect>(bounds => Execute(sourceControl, Setters, bounds)));
     }
 
-    private void Execute(Control? sourceControl, IList<AspectRatioClassSetter>? setters, Rect bounds)
+    private void Execute(Control? sourceControl, IEnumerable<AspectRatioClassSetter>? setters, Rect bounds)
     {
         if (sourceControl is null || setters is null)
         {

@@ -10,7 +10,8 @@ namespace Xaml.Interactivity;
 /// <remarks>
 /// WinUI has no top level element type: the top level of an element is the <see cref="Window"/> whose content shares
 /// the <see cref="XamlRoot"/> of the element. The open windows are enumerated through
-/// <c>Uno.UI.ApplicationHelper.Windows</c>.
+/// <c>Uno.UI.ApplicationHelper.Windows</c> on Uno Platform and through <c>WindowTracker.Windows</c> on native WinUI,
+/// which has no window enumeration API.
 /// </remarks>
 internal static class TopLevel
 {
@@ -26,7 +27,11 @@ internal static class TopLevel
             return null;
         }
 
+#if WINUI
+        foreach (var window in WindowTracker.Windows)
+#else
         foreach (var window in Uno.UI.ApplicationHelper.Windows)
+#endif
         {
             if (ReferenceEquals(window.Content?.XamlRoot, root))
             {

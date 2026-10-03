@@ -10,7 +10,7 @@ namespace Xaml.Interactions.Core;
 /// <summary>
 /// Converts a <see cref="IStorageItem"/> to its path.
 /// </summary>
-public class StorageItemToPathConverter : IValueConverter
+public partial class StorageItemToPathConverter : IValueConverter
 {
     /// <summary>
     /// Gets a static instance of <see cref="StorageItemToPathConverter"/>.

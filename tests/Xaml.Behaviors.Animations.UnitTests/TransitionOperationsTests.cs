@@ -76,13 +76,22 @@ public class TransitionOperationsTests
         using (TransitionOperations.Observe(target, observed.Add))
         {
             target.Transitions = replacement;
+#if WINUI
+            // Native WinUI raises the change before the new collection can be read: it is reported once applied.
+            UnoHeadlessSession.Current.RunJobs();
+#endif
         }
 
         target.Transitions = afterDisposal;
 
         Assert.Collection(
             observed,
+            #if WINUI
+            // Native WinUI creates an empty transition collection on first access (Uno Platform returns null).
+            transitions => Assert.True(transitions is null || transitions.Count == 0),
+#else
             transitions => Assert.Null(transitions),
+#endif
             transitions => Assert.Same(replacement, transitions));
     }
 

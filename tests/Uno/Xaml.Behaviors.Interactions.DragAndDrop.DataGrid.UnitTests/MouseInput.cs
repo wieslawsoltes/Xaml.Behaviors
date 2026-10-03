@@ -15,6 +15,47 @@ namespace Xaml.Interactions.DragAndDrop.DataGridTests;
 /// Uno Platform applies mouse moves as deltas from the injector's current position (starting at 0,0), whatever the
 /// <see cref="InjectedInputMouseOptions.Absolute"/> flag says, so the helper tracks the position.
 /// </remarks>
+#if WINUI
+// Native WinUI: the drag and drop of WinUI runs a modal loop on the UI thread, so the input is injected without
+// blocking it (the asynchronous mouse of the WinUI test harness, in window coordinates).
+internal sealed class MouseInput
+{
+    private static UnoHeadlessSession Session => UnoHeadlessSession.Current;
+
+    public static MouseInput? TryCreate() => new();
+
+    public static Point Center(FrameworkElement element)
+        => element.TransformToVisual(null).TransformPoint(new Point(element.ActualWidth / 2, element.ActualHeight / 2));
+
+    public Task MoveAsync(Point position) => Session.Mouse.MoveToAsync(position);
+
+    public Task DownAsync() => Session.Mouse.DownAsync();
+
+    public async Task UpAsync()
+    {
+        // The drag and drop loop of native WinUI processes the moves asynchronously: let the target see the last
+        // position before the button is released.
+        await Task.Delay(100);
+        await Session.Mouse.UpAsync();
+    }
+
+    public async Task PressAndMoveAsync(Point from, Point to, int steps = 4)
+    {
+        await MoveAsync(from);
+        await DownAsync();
+        for (var i = 1; i <= steps; i++)
+        {
+            await MoveAsync(new Point(from.X + (to.X - from.X) * i / steps, from.Y + (to.Y - from.Y) * i / steps));
+        }
+    }
+
+    public async Task DragAsync(Point from, Point to, int steps = 4)
+    {
+        await PressAndMoveAsync(from, to, steps);
+        await UpAsync();
+    }
+}
+#else
 internal sealed class MouseInput(InputInjector injector)
 {
     private int _x;
@@ -82,3 +123,4 @@ internal sealed class MouseInput(InputInjector injector)
         await UpAsync();
     }
 }
+#endif

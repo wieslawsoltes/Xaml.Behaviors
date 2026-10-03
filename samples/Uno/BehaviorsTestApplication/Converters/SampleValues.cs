@@ -23,6 +23,15 @@ public static class SampleValues
     public static DateTimeOffset? MaximumValidatedDate { get; } = new DateTimeOffset(new DateTime(2030, 12, 31));
 
     /// <summary>
+    /// Gets the time the value is read, as an object (LogActionView, Avalonia <c>Argument="{x:Static sys:DateTime.Now}"</c>).
+    /// </summary>
+    /// <remarks>
+    /// A compiled binding to <c>System.DateTime</c> itself crashes native WinUI (its XAML type information has no base
+    /// type); the object typed property avoids it on both platforms.
+    /// </remarks>
+    public static object Now => DateTime.Now;
+
+    /// <summary>
     /// Converts a color name of a model (for example <c>Tile.Background</c>) to a brush, like the Avalonia binding of a
     /// string to a brush property (compiled bindings do not convert strings).
     /// </summary>

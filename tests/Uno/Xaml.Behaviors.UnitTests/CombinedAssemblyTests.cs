@@ -49,7 +49,11 @@ public class CombinedAssemblyTests
     [InlineData(typeof(AdaptiveBehavior))]
     public void Components_Are_Compiled_Into_One_Assembly(Type type)
     {
+#if WINUI
+        Assert.Equal("Xaml.Behaviors.WinUI", type.Assembly.GetName().Name);
+#else
         Assert.Equal("Xaml.Behaviors.Uno", type.Assembly.GetName().Name);
+#endif
     }
 
     [UnoHeadlessFact]

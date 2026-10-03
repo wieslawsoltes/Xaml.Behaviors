@@ -1,0 +1,54 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!--
+    WinUI 3 twin of samples/Uno/BehaviorsTestApplication (and through it of samples/BehaviorsTestApplication): compiles
+    the sources and XAML of the Uno sample (see samples/WinUI/WinUISharedSample.targets).
+  -->
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>BehaviorsTestApplication</RootNamespace>
+    <WinUIUnoSampleProject>BehaviorsTestApplication</WinUIUnoSampleProject>
+    <UnoSharedSampleProject>BehaviorsTestApplication</UnoSharedSampleProject>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <!-- Same settings as the Avalonia sample: ReactiveGenerator emits the backing fields used by the view models. -->
+    <UseBackingFields>true</UseBackingFields>
+    <!-- IL2026/IL3050: reflection based sample behaviors and actions, like the Avalonia sample. -->
+    <NoWarn>$(NoWarn);IL2026;IL3050</NoWarn>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- The images used by the samples, from the Avalonia sample (ms-appx:///Assets/...). -->
+    <Content Include="..\..\BehaviorsTestApplication\Assets\*" Link="Assets\%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.WindowsAppSDK" />
+    <PackageReference Include="ReactiveUI.WinUI.Reactive" />
+    <!-- ReactiveGenerator emits RaiseAndSetIfChanged calls, which the System.Reactive flavor of ReactiveUI declares in ReactiveUI.Reactive. -->
+    <Using Include="ReactiveUI.Reactive" />
+    <PackageReference Include="ReactiveGenerator">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- The same libraries as the Uno and Avalonia samples. -->
+    <ProjectReference Include="..\..\..\src\WinUI\Xaml.Behaviors.Animations\Xaml.Behaviors.Animations.csproj" />
+    <ProjectReference Include="..\..\..\src\WinUI\Xaml.Behaviors.Interactions.Scripting\Xaml.Behaviors.Interactions.Scripting.csproj" />
+    <ProjectReference Include="..\..\..\src\WinUI\Xaml.Behaviors.Interactions\Xaml.Behaviors.Interactions.csproj" />
+    <ProjectReference Include="..\..\..\src\WinUI\Xaml.Behaviors.Interactions.Custom\Xaml.Behaviors.Interactions.Custom.csproj" />
+    <ProjectReference Include="..\..\..\src\WinUI\Xaml.Behaviors.Interactions.DragAndDrop\Xaml.Behaviors.Interactions.DragAndDrop.csproj" />
+    <ProjectReference Include="..\..\..\src\WinUI\Xaml.Behaviors.Interactions.DragAndDrop.DataGrid\Xaml.Behaviors.Interactions.DragAndDrop.DataGrid.csproj" />
+    <ProjectReference Include="..\..\..\src\WinUI\Xaml.Behaviors.Interactions.Draggable\Xaml.Behaviors.Interactions.Draggable.csproj" />
+    <ProjectReference Include="..\..\..\src\WinUI\Xaml.Behaviors.Interactions.Events\Xaml.Behaviors.Interactions.Events.csproj" />
+    <ProjectReference Include="..\..\..\src\WinUI\Xaml.Behaviors.Interactions.Responsive\Xaml.Behaviors.Interactions.Responsive.csproj" />
+    <ProjectReference Include="..\..\..\src\WinUI\Xaml.Behaviors.Interactivity\Xaml.Behaviors.Interactivity.csproj" />
+    <ProjectReference Include="..\..\..\src\WinUI\Xaml.Behaviors.Interactions.ReactiveUI\Xaml.Behaviors.Interactions.ReactiveUI.csproj" />
+  </ItemGroup>
+
+  <Import Project="..\WinUISharedSample.targets" />
+
+</Project>

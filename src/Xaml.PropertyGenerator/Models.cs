@@ -141,7 +141,8 @@ namespace Xaml.PropertyGenerator
         bool Lazy,
         bool HasChangedHook,
         string HostType,
-        TrimmingModel Trimming);
+        TrimmingModel Trimming,
+        bool IsEnum = false);
 
     /// <summary>All generated properties of one type.</summary>
     internal sealed record TypeModel(
@@ -153,7 +154,8 @@ namespace Xaml.PropertyGenerator
         string Usings,
         string? ChangedMethod,
         bool HasTrimmingAttributes,
-        EquatableArray<PropertyModel> Properties);
+        EquatableArray<PropertyModel> Properties,
+        bool IsNativeWinUI = false);
 
     /// <summary>The result of analyzing one annotated declaration.</summary>
     internal sealed record CandidateModel(TypeModel? Type, EquatableArray<DiagnosticModel> Diagnostics);

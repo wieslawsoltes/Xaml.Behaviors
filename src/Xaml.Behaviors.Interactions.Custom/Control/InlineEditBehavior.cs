@@ -103,9 +103,18 @@ public partial class InlineEditBehavior : StyledElementBehavior<Control>
         }
     }
 
+#if WINUI
+    // Native WinUI raises DoubleTapped while the pointer is still pressed and moves the focus away from the editor
+    // when the pointer is released over content that cannot be focused (which would end the edit): the editor is
+    // focused once the pointer is released.
+    private void OnAssociatedObjectActivate(object? sender, RoutedEventArgs e) => BeginEdit(sender as UIElement);
+
+    private void OnDisplayActivate(object? sender, RoutedEventArgs e) => BeginEdit(sender as UIElement);
+#else
     private void OnAssociatedObjectActivate(object? sender, RoutedEventArgs e) => BeginEdit();
 
     private void OnDisplayActivate(object? sender, RoutedEventArgs e) => BeginEdit();
+#endif
 
     private void OnDisplayKeyDown(object? sender, KeyEventArgs e)
     {
@@ -126,14 +135,35 @@ public partial class InlineEditBehavior : StyledElementBehavior<Control>
 
     private void OnEditLostFocus(object? sender, RoutedEventArgs e) => EndEdit();
 
+#if WINUI
+    private void BeginEdit(UIElement? pressed = null)
+#else
     private void BeginEdit()
+#endif
     {
         if (EditControl is null || DisplayControl is null || EditControl.IsVisible)
             return;
 
         DisplayControl.IsVisible = false;
         EditControl.IsVisible = true;
-#if UNO
+#if WINUI
+        if (pressed is not null)
+        {
+            var edited = EditControl;
+            Microsoft.UI.Xaml.Input.PointerEventHandler? released = null;
+            released = (_, _) =>
+            {
+                pressed.RemoveHandler(UIElement.PointerReleasedEvent, released);
+                pressed.RemoveHandler(UIElement.PointerCaptureLostEvent, released);
+                FocusEditor(edited);
+            };
+            pressed.AddHandler(UIElement.PointerReleasedEvent, released, true);
+            pressed.AddHandler(UIElement.PointerCaptureLostEvent, released, true);
+            return;
+        }
+
+        FocusEditor(EditControl);
+#elif UNO
         // Uno Platform unfocuses the focused element when the pointer is released over content that cannot be focused,
         // unless the focus changed after the pointer press was processed: a double tap on the display or associated
         // control would end the edit right away. Focus the editor once the current input is processed.
@@ -160,6 +190,25 @@ public partial class InlineEditBehavior : StyledElementBehavior<Control>
 #endif
     }
 
+#if WINUI
+    private void FocusEditor(Control editControl)
+    {
+        Dispatcher.UIThread.Post(() =>
+        {
+            if (!ReferenceEquals(EditControl, editControl) || !editControl.IsVisible)
+            {
+                return;
+            }
+
+            editControl.Focus();
+            if (editControl is TextBox tb)
+            {
+                tb.SelectAll();
+            }
+        });
+    }
+
+#endif
     private void EndEdit()
     {
         if (EditControl is null || DisplayControl is null)

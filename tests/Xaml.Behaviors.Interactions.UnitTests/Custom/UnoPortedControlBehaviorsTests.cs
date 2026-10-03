@@ -44,7 +44,12 @@ public class UnoPortedControlBehaviorsTests
         Assert.Equal("other", AutomationProperties.GetName(button));
 
         Interaction.GetBehaviors(button).Remove(behavior);
+#if WINUI
+        // The default automation name of native WinUI is an empty string.
+        Assert.Equal(string.Empty, AutomationProperties.GetName(button));
+#else
         Assert.Null(AutomationProperties.GetName(button));
+#endif
     }
 
     [AvaloniaFact]
