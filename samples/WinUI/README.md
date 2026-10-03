@@ -24,7 +24,9 @@ A sample project sets `<WinUIUnoSampleProject>` to the folder name of its Uno tw
 `Platforms` folder), its `.xaml` files as pages, its `App.xaml` as the application definition and the sources shared
 with the Avalonia sample.
 
+The window size of a WinUI application is in physical pixels: the samples scale it with the display scale.
+
 The WinUI XAML compiler is stricter than the Uno XAML generator. A page of the Uno samples must stay valid for both;
 the rules found so far are listed in
 [winui-differences.md](../../docfx/articles/winui/winui-differences.md) (attached property getters, `x:Bind` to
-nullable values, panels of the WinUI library only, ...).
+nullable values, panels of the WinUI library only, `x:Bind` for properties typed `DependencyProperty`, ...).

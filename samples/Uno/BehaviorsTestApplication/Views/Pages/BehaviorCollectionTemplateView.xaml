@@ -32,13 +32,16 @@
               <i:BehaviorCollectionHost>
                 <ic:EventTriggerBehavior EventName="PointerPressed">
                   <!--
-                    Avalonia: TargetObject="{Binding $parent[ItemsControl]}", TargetProperty="{x:Static TemplatedControl.BackgroundProperty}".
+                    Avalonia: ChangeAvaloniaPropertyAction TargetObject="{Binding $parent[ItemsControl]}",
+                    TargetProperty="{x:Static TemplatedControl.BackgroundProperty}".
                     The element names of the view are not in scope of the template (and WinUI has no ancestor bindings):
-                    the SampleProperties resource holds the ItemsControl and the dependency property.
+                    the SampleProperties resource holds the ItemsControl. A template is not compiled, and native WinUI
+                    only sets a property typed DependencyProperty from a compiled binding (x:Bind): the property is
+                    changed by name.
                   -->
-                  <icustom:ChangeAvaloniaPropertyAction TargetObject="{Binding Element, Source={StaticResource SampleProperties}}"
-                                                        TargetProperty="{Binding ControlBackground, Source={StaticResource SampleProperties}}"
-                                                        Value="{Binding Color, Converter={StaticResource BrushFromNameConverter}}" />
+                  <ic:ChangePropertyAction TargetObject="{Binding Element, Source={StaticResource SampleProperties}}"
+                                           PropertyName="Background"
+                                           Value="{Binding Color, Converter={StaticResource BrushFromNameConverter}}" />
                 </ic:EventTriggerBehavior>
                 <ic:EventTriggerBehavior EventName="DoubleTapped">
                   <icustom:PopupAction>

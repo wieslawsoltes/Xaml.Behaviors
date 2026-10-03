@@ -15,7 +15,7 @@ Windows App SDK 2.5.
 | Libraries (`src/WinUI`, 13 packages) | Done: build on Windows (0 errors, no compiler, CsWinRT or trimming warnings). |
 | Test harness (`Xaml.Behaviors.WinUI.Testing`) | Done. |
 | Test projects (`tests/WinUI`, 16 projects) | Done: 1,020 tests, none failing, 10 skipped (see [Test status](#test-status)). |
-| Samples (`samples/WinUI`, 3 applications) | Build and start on Windows. The Behaviors sample shows its pages; the pages that set a `DependencyProperty` typed property in XAML do not load yet ([W20](#w20-dependency-property-types)). |
+| Samples (`samples/WinUI`, 3 applications) | Done: build and start on Windows; all 234 pages of the Behaviors sample load without an unhandled exception (every page selected in turn). |
 | CI | A Windows job builds the solution, runs the tests (informative until they are stable on the hosted runners) and packs the packages. |
 
 ### Test status
@@ -42,8 +42,8 @@ Windows 11 ARM64 (Parallels), `build/WinUIPort/run-tests.ps1`:
 | WinUI test harness | 55 | 0 | 1 (also skipped on Uno Platform) |
 
 The tests inject real input: a window of another application that comes to the front while they run makes input
-tests fail (see [W11](#w11-input-is-real-operating-system-input)). On the shared validation machine an occasional
-input test of the harness project fails for that reason (a different one in each run, none in most runs).
+tests fail (see [W11](#w11-input-is-real-operating-system-input)). On a machine shared with other test runs an
+occasional input test of the harness project fails for that reason.
 
 ## Differences
 
@@ -239,12 +239,20 @@ types, `string`, the WinUI structures and the WinUI dependency object classes (t
 XAML still converts strings). `Interaction.Behaviors` is registered as a `DependencyObjectCollection`. Uno Platform
 registrations are unchanged. **Done.**
 
-**Open:** a CLR property typed `DependencyProperty` or `RoutedEvent` cannot be set from a XAML attribute on native
-WinUI (`ChangeAvaloniaPropertyAction.TargetProperty`, `BindingBehavior.TargetProperty`, `Condition.Property`,
-`PropertyValidationBehavior.Property`, `RoutedEventTriggerBehavior.RoutedEvent`): loading the XAML fails with
-"Cannot deserialize XBF metadata property list as 'TargetProperty' was not found", because WinUI cannot describe the
-property type. Uno Platform converts the `Type.Property` text at build time. The pages of the Behaviors sample that
-set these properties in XAML do not load on WinUI yet; setting the property from code works.
+A CLR property typed `DependencyProperty` or `RoutedEvent` (`ChangeAvaloniaPropertyAction.TargetProperty`,
+`BindingBehavior.TargetProperty`, `Condition.Property`, `PropertyValidationBehavior.Property`,
+`RoutedEventTriggerBehavior.RoutedEvent`) is set with a compiled binding on native WinUI:
+
+```xml
+<icustom:ChangeAvaloniaPropertyAction TargetProperty="{x:Bind controls:Border.BackgroundProperty}" ... />
+```
+
+The same XAML works on Uno Platform. WinUI cannot describe the type of such a property to its XAML reader, so the
+other forms (`{Binding}`, `{StaticResource}`, and the `Type.Property` text that Uno Platform converts at build time)
+fail when the XAML is loaded ("Cannot deserialize XBF metadata property list as 'TargetProperty' was not found").
+Where a compiled binding is not available (a `DataTemplate` without a data type, such as a behaviors template), change
+the property by name (`ChangePropertyAction PropertyName="Background"`). The samples follow both rules.
+**Documented.**
 
 ### W21. `FrameworkElement.IsLoaded` after a `Loaded` handler is added
 
@@ -265,6 +273,7 @@ same when it shows an element. **Done.**
 | `FrameworkElement.Parent` is set as soon as the element is added to a parent | `Parent` (and `VisualTreeHelper.GetParent`) is `null` until the tree is live | `RemoveElementAction` (and the other actions that use `Parent`) work on elements of a live tree. The tests show the elements. **Done.** |
 | The container of a directly added item has the item as its data context | The container has no data context | `RemoveItemInListBoxAction` uses `ItemFromContainer`. **Done.** |
 | `TransitionsChangedTrigger` runs its actions for the current collection when it is attached | The same, but an exception thrown by an action in a dispatcher callback terminates the process, and the `x:Bind` values of a view that is not shown (the content of a tab that is not selected) are never set | The current collection is not reported for an element that is not loaded (both WinUI platforms); changes are always reported. **Done.** |
+| A storyboard ignores a target property the target does not have | `Storyboard.Begin` throws, which terminates the application when it is not handled | The string animation of the samples targets `Tag` on elements that are not text blocks. **Done.** |
 | The default automation name is `null` | The default is an empty string | Test expectation. **Done.** |
 | `ElementName` bindings are resolved when `Loaded` is raised | They are resolved after the `Loaded` event is dispatched | The actions of a `Loaded` (or default) event trigger run on the dispatcher, after the event, so that their `ElementName` bindings have a value. **Done.** |
 | A popup, tool tip or flyout opens and closes with the queued work | It opens and closes over several frames, and a flyout cannot be shown again before it is closed | The shared tests wait for the `Opened`/`Closed` events. **Done.** |

@@ -40,8 +40,10 @@ public partial class CustomStringAnimationBuilder : AvaloniaObject, global::Xaml
             });
         }
 
+        // Avalonia sets TextBlock.Text on any control. A WinUI storyboard needs a property of the target (native
+        // WinUI throws when it cannot resolve it): elements that are not text blocks get the text as their Tag.
         Storyboard.SetTarget(animation, control);
-        Storyboard.SetTargetProperty(animation, nameof(TextBlock.Text));
+        Storyboard.SetTargetProperty(animation, control is TextBlock ? nameof(TextBlock.Text) : nameof(FrameworkElement.Tag));
 
         return new Storyboard
         {
