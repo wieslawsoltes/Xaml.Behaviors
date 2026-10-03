@@ -39,6 +39,8 @@ $ErrorActionPreference = 'Stop'
 $root = Resolve-Path (Join-Path $PSScriptRoot '..\..')
 $rid = if ($env:PROCESSOR_ARCHITECTURE -eq 'ARM64') { 'win-arm64' } else { 'win-x64' }
 New-Item -ItemType Directory -Force -Path $Results | Out-Null
+# The tests run in their output folder: a relative results path must not follow them.
+$Results = (Resolve-Path $Results).Path
 $failed = $false
 $arguments = '-noLogo -noColor -parallel none'
 if ($Class) { $arguments += " -class `"$Class`"" }
