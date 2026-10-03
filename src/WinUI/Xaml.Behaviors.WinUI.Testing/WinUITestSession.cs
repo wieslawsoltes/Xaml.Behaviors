@@ -307,17 +307,38 @@ public sealed class WinUITestSession
         ArgumentNullException.ThrowIfNull(element);
         EnsureThreadAccess();
 
-        Window.Content = element;
-        Mouse.StartNewSequence();
-        EnsureForeground();
-        RunJobs();
-        var stopwatch = Stopwatch.StartNew();
-        while (!element.IsLoaded && stopwatch.Elapsed < TimeSpan.FromSeconds(5))
+        // FrameworkElement.IsLoaded is not reliable: it becomes false when a first Loaded handler is added to a loaded
+        // element. The Loaded event of an element that is not the content yet tells that it is loaded.
+        var isContent = ReferenceEquals(Window.Content, element);
+        var loaded = isContent;
+        void OnLoaded(object sender, RoutedEventArgs e) => loaded = true;
+
+        if (!isContent)
         {
-            Pump(TimeSpan.FromMilliseconds(5));
+            element.Loaded += OnLoaded;
         }
 
-        return element.IsLoaded
+        try
+        {
+            Window.Content = element;
+            Mouse.StartNewSequence();
+            EnsureForeground();
+            RunJobs();
+            var stopwatch = Stopwatch.StartNew();
+            while (!loaded && !element.IsLoaded && stopwatch.Elapsed < TimeSpan.FromSeconds(5))
+            {
+                Pump(TimeSpan.FromMilliseconds(5));
+            }
+        }
+        finally
+        {
+            if (!isContent)
+            {
+                element.Loaded -= OnLoaded;
+            }
+        }
+
+        return loaded || element.IsLoaded
             ? element
             : throw new InvalidOperationException("The element was not loaded after running the queued UI work.");
     }
@@ -455,8 +476,10 @@ public sealed class WinUITestSession
     private async Task<TElement> ShowCoreAsync<TElement>(TElement element, CancellationToken cancellationToken)
         where TElement : FrameworkElement
     {
-        if (ReferenceEquals(Window.Content, element) && element.IsLoaded)
+        if (ReferenceEquals(Window.Content, element))
         {
+            // Already shown (FrameworkElement.IsLoaded is not reliable, see Show).
+            await WaitForIdleAsync();
             return element;
         }
 

@@ -325,7 +325,12 @@ public class InputTests
     public async Task KeyTriggers_Filter_By_Key_Gesture_And_Event()
     {
         // A plain element: controls such as Button handle keys like Enter themselves.
+#if WINUI
+        // Native WinUI key input goes to the focused element, which has to be a control.
+        var button = new ContentControl { IsTabStop = true, Content = new Border { Width = 50, Height = 50 } };
+#else
         var button = new Border();
+#endif
         await Session.ShowAsync(button);
         var keyDown = new KeyDownTrigger { Key = VirtualKey.Enter };
         var keyUp = new KeyUpTrigger { Gesture = KeyGesture.Parse("Ctrl+K") };

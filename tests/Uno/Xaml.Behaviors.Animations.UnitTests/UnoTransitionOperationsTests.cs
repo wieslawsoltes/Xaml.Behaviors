@@ -63,6 +63,10 @@ public class UnoTransitionOperationsTests
         using (TransitionOperations.Observe(target, observed.Add))
         {
             target.Transitions = replacement;
+#if WINUI
+            // Native WinUI raises the change before the new collection can be read: it is reported once applied.
+            UnoHeadlessSession.Current.RunJobs();
+#endif
         }
 
         target.Transitions = afterDisposal;

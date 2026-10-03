@@ -116,6 +116,16 @@ namespace Xaml.Behaviors.SourceGenerators
             sb.AppendLine();
             sb.AppendLine("        public override object Execute(object? sender, object? parameter)");
             sb.AppendLine("        {");
+            if (info.UseDispatcher)
+            {
+                // The properties of the action are read on the UI thread (dependency objects have thread affinity).
+                sb.AppendLine($"            if (!{dispatcher.CheckAccessExpression})");
+                sb.AppendLine("            {");
+                sb.AppendLine($"                {dispatcher.PostMethod}(() => Execute(sender, parameter));");
+                sb.AppendLine("                return true;");
+                sb.AppendLine("            }");
+                sb.AppendLine();
+            }
             sb.AppendLine("            var target = TargetObject ?? sender;");
             sb.AppendLine($"            if (target is {info.TargetTypeName} typedTarget)");
             sb.AppendLine("            {");
@@ -134,30 +144,32 @@ namespace Xaml.Behaviors.SourceGenerators
             sb.AppendLine();
             sb.AppendLine("        public object? ExecuteReversibly(object? sender, object? parameter)");
             sb.AppendLine("        {");
-            sb.AppendLine("            var target = TargetObject ?? sender;");
-            sb.AppendLine($"            if (target is {info.TargetTypeName} typedTarget)");
-            sb.AppendLine("            {");
             if (info.UseDispatcher)
             {
-                sb.AppendLine("                var version = Interlocked.Increment(ref _reversibleVersion);");
-                sb.AppendLine("                Volatile.Write(ref _reversibleState, 1);");
-                sb.AppendLine($"                var applied = {dispatcher.CheckAccessExpression}");
-                sb.AppendLine("                    ? ApplyReversibleCore(typedTarget)");
-                sb.AppendLine($"                    : {dispatcher.InvokeMethod}(() =>");
-                sb.AppendLine("                        Volatile.Read(ref _reversibleVersion) == version &&");
-                sb.AppendLine("                        ApplyReversibleCore(typedTarget));");
-                sb.AppendLine("                if (!applied && Volatile.Read(ref _reversibleVersion) == version)");
-                sb.AppendLine("                {");
-                sb.AppendLine("                    Volatile.Write(ref _reversibleState, 0);");
-                sb.AppendLine("                }");
-                sb.AppendLine("                return applied;");
+                // The target is resolved on the UI thread: the properties of the action cannot be read on another
+                // thread (dependency objects have thread affinity).
+                sb.AppendLine("            var version = Interlocked.Increment(ref _reversibleVersion);");
+                sb.AppendLine("            Volatile.Write(ref _reversibleState, 1);");
+                sb.AppendLine($"            var applied = {dispatcher.CheckAccessExpression}");
+                sb.AppendLine("                ? ApplyReversibleTarget(sender)");
+                sb.AppendLine($"                : {dispatcher.InvokeMethod}(() =>");
+                sb.AppendLine("                    Volatile.Read(ref _reversibleVersion) == version &&");
+                sb.AppendLine("                    ApplyReversibleTarget(sender));");
+                sb.AppendLine("            if (!applied && Volatile.Read(ref _reversibleVersion) == version)");
+                sb.AppendLine("            {");
+                sb.AppendLine("                Volatile.Write(ref _reversibleState, 0);");
+                sb.AppendLine("            }");
+                sb.AppendLine("            return applied;");
             }
             else
             {
-                sb.AppendLine("                return ApplyReversibleCore(typedTarget);");
+                sb.AppendLine("            return ApplyReversibleTarget(sender);");
             }
-            sb.AppendLine("            }");
-            sb.AppendLine("            return false;");
+            sb.AppendLine("        }");
+            sb.AppendLine();
+            sb.AppendLine("        private bool ApplyReversibleTarget(object? sender)");
+            sb.AppendLine("        {");
+            sb.AppendLine($"            return (TargetObject ?? sender) is {info.TargetTypeName} typedTarget && ApplyReversibleCore(typedTarget);");
             sb.AppendLine("        }");
             sb.AppendLine();
             sb.AppendLine("        public object? Revert(object? sender, object? parameter)");

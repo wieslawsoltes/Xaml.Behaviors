@@ -145,7 +145,29 @@ internal readonly struct DataTransferView(DataPackageView? view)
     /// <param name="identifier">The format identifier.</param>
     /// <returns><c>true</c> when the format is available.</returns>
     public bool Contains(string identifier)
-        => view is not null && (view.Contains(identifier) || view.Properties.ContainsKey(identifier));
+    {
+        if (view is null)
+        {
+            return false;
+        }
+
+        if (view.Properties.ContainsKey(identifier))
+        {
+            return true;
+        }
+
+        if (!view.Contains(identifier))
+        {
+            return false;
+        }
+
+#if WINUI
+        // Native WinUI reads the data asynchronously: the read is started when a target asks for the format (drag
+        // enter or over), so that its result is available when the data is dropped.
+        _ = GetOperation(view, identifier);
+#endif
+        return true;
+    }
 
     /// <summary>
     /// Gets a string value.
@@ -178,7 +200,11 @@ internal readonly struct DataTransferView(DataPackageView? view)
             return property;
         }
 
+#if WINUI
+        return view.Contains(identifier) ? GetCompleted((IAsyncOperation<object>)GetOperation(view, identifier)) : null;
+#else
         return view.Contains(identifier) ? GetCompleted(view.GetDataAsync(identifier)) : null;
+#endif
     }
 
     /// <summary>
@@ -186,7 +212,11 @@ internal readonly struct DataTransferView(DataPackageView? view)
     /// </summary>
     /// <returns>The text or <c>null</c>.</returns>
     public string? TryGetText()
+#if WINUI
+        => view is not null && view.Contains(StandardDataFormats.Text) ? GetCompleted((IAsyncOperation<string>)GetOperation(view, StandardDataFormats.Text)) : null;
+#else
         => view is not null && view.Contains(StandardDataFormats.Text) ? GetCompleted(view.GetTextAsync()) : null;
+#endif
 
     /// <summary>
     /// Gets the dropped files and folders.
@@ -199,7 +229,11 @@ internal readonly struct DataTransferView(DataPackageView? view)
             return null;
         }
 
+#if WINUI
+        var items = GetCompleted((IAsyncOperation<IReadOnlyList<IStorageItem>>)GetOperation(view, StandardDataFormats.StorageItems));
+#else
         var items = GetCompleted(view.GetStorageItemsAsync());
+#endif
         if (items is null)
         {
             return null;
@@ -214,6 +248,25 @@ internal readonly struct DataTransferView(DataPackageView? view)
         return result;
     }
 
+#if WINUI
+    /// <summary>
+    /// Gets the read of a format of the dragged data, starting it on the first call for the data of a drag.
+    /// </summary>
+    private static object GetOperation(DataPackageView view, string identifier)
+    {
+        var reads = DragDataReads.For(view);
+        if (!reads.TryGetValue(identifier, out var operation))
+        {
+            operation = identifier == StandardDataFormats.Text ? view.GetTextAsync()
+                : identifier == StandardDataFormats.StorageItems ? view.GetStorageItemsAsync()
+                : view.GetDataAsync(identifier);
+            reads.Add(identifier, operation);
+        }
+
+        return operation;
+    }
+
+#endif
     private static T? GetCompleted<T>(IAsyncOperation<T> operation)
     {
         try
@@ -273,3 +326,34 @@ internal static class DragEventArgsCompatExtensions
         }
     }
 }
+
+#if WINUI
+/// <summary>
+/// The reads started on the data of the current drag operation (native WinUI, see <see cref="DataTransferView"/>).
+/// </summary>
+/// <remarks>
+/// There is one drag operation at a time: the reads of the previous one are dropped when another data view is used.
+/// </remarks>
+internal static class DragDataReads
+{
+    private static DataPackageView? s_view;
+    private static Dictionary<string, object> s_reads = [];
+
+    /// <summary>
+    /// Gets the reads started on a data view, by format identifier.
+    /// </summary>
+    /// <param name="view">The data view of a drag event.</param>
+    /// <returns>The reads.</returns>
+    public static Dictionary<string, object> For(DataPackageView view)
+    {
+        if (s_view is null || !s_view.Equals(view))
+        {
+            s_view = view;
+            s_reads = [];
+        }
+
+        return s_reads;
+    }
+}
+#endif
+

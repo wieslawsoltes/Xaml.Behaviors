@@ -89,7 +89,12 @@ public class EventTriggerBehaviorTests
 #endif
 
         Assert.Equal(1, source.OpenedCount);
+#if WINUI
+        // The argument of the native WinUI flyout events is a plain WinRT object (EventArgs.Empty on Uno Platform).
+        Assert.NotNull(source.OpenedParameter);
+#else
         Assert.Same(EventArgs.Empty, source.OpenedParameter);
+#endif
         Assert.Equal(0, source.ClosedCount);
 
         flyout.Hide();
@@ -98,6 +103,11 @@ public class EventTriggerBehaviorTests
 #endif
 
         Assert.Equal(1, source.ClosedCount);
+#if WINUI
+        // The argument of the native WinUI flyout events is a plain WinRT object (EventArgs.Empty on Uno Platform).
+        Assert.NotNull(source.ClosedParameter);
+#else
         Assert.Same(EventArgs.Empty, source.ClosedParameter);
+#endif
     }
 }

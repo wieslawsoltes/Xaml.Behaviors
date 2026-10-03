@@ -161,7 +161,7 @@ public partial class Interaction
     // WinUI has a single live tree notification pair. Loaded raises the Avalonia initialization, logical tree,
     // visual tree and loaded phases (in that order) and Unloaded raises them in reverse order.
 
-    private static bool IsAttachedToVisualTree(AvaloniaObject obj) => obj is FrameworkElement { IsLoaded: true };
+    private static bool IsAttachedToVisualTree(AvaloniaObject obj) => obj is FrameworkElement element && LoadedState.IsLoaded(element);
 
     private static void SetVisualTreeEventHandlersFromGetter(AvaloniaObject obj)
     {
@@ -169,6 +169,9 @@ public partial class Interaction
         {
             return;
         }
+
+        // The loaded state is captured before the Loaded handlers are added (see LoadedState).
+        _ = LoadedState.IsLoaded(element);
 
         element.Loaded -= Element_Loaded_FromChangedEvent;
         element.Unloaded -= Element_Unloaded_FromChangedEvent;
@@ -185,6 +188,9 @@ public partial class Interaction
         {
             return;
         }
+
+        // The loaded state is captured before the Loaded handlers are added (see LoadedState).
+        _ = LoadedState.IsLoaded(element);
 
         element.Loaded -= Element_Loaded_FromGetter;
         element.Unloaded -= Element_Unloaded_FromGetter;

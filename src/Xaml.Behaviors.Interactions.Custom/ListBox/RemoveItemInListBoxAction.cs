@@ -62,14 +62,20 @@ public sealed class RemoveItemInListBoxAction : StyledElementAction
             if (listBoxItem is not null)
             {
 #if UNO
-                if (listBox.Items is System.Collections.Generic.IList<object> listItems && listItems.Contains(listBoxItem.DataContext))
+                // Native WinUI does not set the data context of the container of a directly added item.
+                var item = listBox.ItemFromContainer(listBoxItem) ?? listBoxItem.DataContext;
+                if (listBox.Items is System.Collections.Generic.IList<object> listItems && listItems.Contains(item))
+                {
+                    listItems.Remove(item);
+                    return true;
+                }
 #else
                 if (listBox.Items is IList listItems && listItems.Contains(listBoxItem.DataContext))
-#endif
                 {
                     listItems.Remove(listBoxItem.DataContext);
                     return true;
                 }
+#endif
             }
         }
 

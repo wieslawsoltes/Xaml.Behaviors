@@ -10,6 +10,10 @@
   Runs only the test projects whose folder name contains this text.
 .PARAMETER TimeoutMinutes
   The time after which a test project that has not finished is stopped (and reported as failed).
+.PARAMETER Class
+  Runs only the tests of this class (full name; xUnit v3 -class).
+.PARAMETER Method
+  Runs only this test method (full name, wildcards allowed; xUnit v3 -method).
 .PARAMETER Summary
   A file that receives the summary lines (in addition to the output) and, at the end, "RUN COMPLETE".
 #>
@@ -17,6 +21,8 @@ param(
     [string] $Results = (Join-Path $PSScriptRoot '..\..\artifacts\winui-tests'),
     [string] $Filter = '',
     [int] $TimeoutMinutes = 15,
+    [string] $Class = '',
+    [string] $Method = '',
     [string] $Summary = ''
 )
 
@@ -34,6 +40,9 @@ $root = Resolve-Path (Join-Path $PSScriptRoot '..\..')
 $rid = if ($env:PROCESSOR_ARCHITECTURE -eq 'ARM64') { 'win-arm64' } else { 'win-x64' }
 New-Item -ItemType Directory -Force -Path $Results | Out-Null
 $failed = $false
+$arguments = '-noLogo -noColor -parallel none'
+if ($Class) { $arguments += " -class `"$Class`"" }
+if ($Method) { $arguments += " -method `"$Method`"" }
 
 foreach ($project in Get-ChildItem (Join-Path $root 'tests\WinUI') -Directory | Where-Object { $_.Name -ne 'Shared' -and $_.Name -like "*$Filter*" }) {
     $output = Join-Path $project.FullName "bin\Release\net10.0-windows10.0.19041.0\$rid"
@@ -47,7 +56,7 @@ foreach ($project in Get-ChildItem (Join-Path $root 'tests\WinUI') -Directory | 
     $log = Join-Path $Results "$($project.Name).txt"
     Push-Location $output
     try {
-        $startInfo = [System.Diagnostics.ProcessStartInfo]::new($exe.FullName, '-noLogo -noColor -parallel none')
+        $startInfo = [System.Diagnostics.ProcessStartInfo]::new($exe.FullName, $arguments)
         $startInfo.WorkingDirectory = $output
         $startInfo.UseShellExecute = $false
         $startInfo.RedirectStandardOutput = $true

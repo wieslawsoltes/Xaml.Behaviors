@@ -118,7 +118,7 @@ public partial class ViewportBehavior : AttachedToVisualTreeBehavior<Visual>
         }
 
 #if UNO
-        if (AssociatedObject is FrameworkElement { IsLoaded: false })
+        if (AssociatedObject is FrameworkElement element && !LoadedState.IsLoaded(element))
         {
             return;
         }

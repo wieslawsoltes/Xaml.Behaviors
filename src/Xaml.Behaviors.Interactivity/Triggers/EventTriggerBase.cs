@@ -266,7 +266,7 @@ public abstract partial class EventTriggerBase : StyledElementTrigger
     }
 
 #if UNO
-    private static bool IsElementLoaded(Control element) => element.IsLoaded;
+    private static bool IsElementLoaded(Control element) => LoadedState.IsLoaded(element);
 #else
     private static bool IsElementLoaded(Control element) => element.Parent is not null;
 #endif

@@ -61,16 +61,21 @@ public class ActionsTests
     {
         var inPanel = new Border();
         var panel = new StackPanel { Children = { inPanel } };
+        var inBorder = new TextBlock();
+        var border = new Border { Child = inBorder };
+        var inContent = new TextBlock();
+        var contentControl = new ContentControl { Content = inContent };
+#if WINUI
+        // Native WinUI sets FrameworkElement.Parent of the elements of a live tree only.
+        Session.Show(new StackPanel { Children = { panel, border, contentControl } });
+#endif
+
         Assert.True((bool)new RemoveElementAction().Execute(inPanel, null));
         Assert.Empty(panel.Children);
 
-        var inBorder = new TextBlock();
-        var border = new Border { Child = inBorder };
         Assert.True((bool)new RemoveElementAction { TargetObject = inBorder }.Execute(null, null));
         Assert.Null(border.Child);
 
-        var inContent = new TextBlock();
-        var contentControl = new ContentControl { Content = inContent };
         Assert.True((bool)new RemoveElementAction().Execute(inContent, null));
         Assert.Null(contentControl.Content);
 

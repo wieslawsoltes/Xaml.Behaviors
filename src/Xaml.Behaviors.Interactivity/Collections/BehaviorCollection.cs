@@ -665,16 +665,16 @@ public partial class BehaviorCollection : AvaloniaList<AvaloniaObject>
     // WinUI has no initialization, logical tree or visual tree attachment notifications distinct from
     // Loaded/Unloaded; Interaction raises all of them from FrameworkElement.Loaded/Unloaded.
     private static bool IsHostInitialized(AvaloniaObject? associatedObject)
-        => associatedObject is FrameworkElement { IsLoaded: true };
+        => associatedObject is FrameworkElement element && LoadedState.IsLoaded(element);
 
     private static bool IsHostAttachedToLogicalTree(AvaloniaObject? associatedObject)
-        => associatedObject is FrameworkElement { IsLoaded: true };
+        => associatedObject is FrameworkElement element && LoadedState.IsLoaded(element);
 
     private static bool IsHostAttachedToVisualTree(AvaloniaObject? associatedObject)
-        => associatedObject is FrameworkElement { IsLoaded: true };
+        => associatedObject is FrameworkElement element && LoadedState.IsLoaded(element);
 
     private static bool IsHostLoaded(AvaloniaObject? associatedObject)
-        => associatedObject is FrameworkElement { IsLoaded: true };
+        => associatedObject is FrameworkElement element && LoadedState.IsLoaded(element);
 #else
     private static bool IsHostInitialized(AvaloniaObject? associatedObject)
         => associatedObject is StyledElement { IsInitialized: true };

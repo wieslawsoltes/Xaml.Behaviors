@@ -137,8 +137,10 @@ arguments (test-only reflection).
 **WinUI:** there is no headless host, routed events cannot be raised from code and event arguments cannot be created.
 **Port:** the WinUI test harness injects real input (`SendInput`) into its window, which is always on top, brought to the
 foreground and checked to be under the cursor; the test helpers use it on WinUI (focus the element, then type).
-The tests need an interactive desktop, and the mouse and keyboard must not be used while they run. **Done** (harness);
-**in progress** (helpers of the test projects).
+The tests need an interactive desktop, and the mouse and keyboard must not be used while they run: any other window
+that comes to the front (another test run on the same machine, a console window) takes the input. The idle wait of
+the session (`WaitForIdleAsync`) also waits for the layout and a rendered frame, because WinUI raises `SizeChanged`,
+`Loaded` and the focus events with its frames, not with the queued work. **Done** (harness and helpers).
 
 ### W12. Drag and drop runs a modal loop
 
@@ -208,7 +210,51 @@ implement: the application terminates on the first `SetValue` of *any* property 
 on native WinUI (the CLR property keeps its type, so XAML still converts strings). Uno Platform registrations are
 unchanged. **Done.**
 
-### W21. Packaging and trimming
+### W21. `FrameworkElement.IsLoaded` after a `Loaded` handler is added
+
+**Uno Platform:** `IsLoaded` tells whether the element is in a live tree.
+**WinUI:** adding the first `Loaded` handler to an element that is already loaded makes `IsLoaded` return `false`,
+and it stays `false`. Attaching behaviors to a loaded element adds such a handler, so behaviors added to a loaded
+element did not catch up with the lifecycle (`OnAttachedToVisualTree`, `OnLoaded`), and `ViewportBehavior` and the
+event triggers considered the element unloaded.
+**Port:** `LoadedState` (Interactivity compat) reads `IsLoaded` before the handlers are added and then tracks the state
+with the `Loaded` and `Unloaded` events; the behaviors use it instead of `IsLoaded`. The WinUI test session does the
+same when it shows an element. **Done.**
+
+### W22. `Unloaded` is raised asynchronously, and `Parent` exists in a live tree only
+
+| Uno Platform | WinUI | Port |
+|--------------|-------|------|
+| `Unloaded` is raised while the element is removed | `Unloaded` is raised later, on the UI thread (`IsLoaded` is `false` at once) | The detach lifecycle of the behaviors arrives with the event. The shared tests run the queued work after removing an element. **Done.** |
+| `FrameworkElement.Parent` is set as soon as the element is added to a parent | `Parent` (and `VisualTreeHelper.GetParent`) is `null` until the tree is live | `RemoveElementAction` (and the other actions that use `Parent`) work on elements of a live tree. The tests show the elements. **Done.** |
+| The container of a directly added item has the item as its data context | The container has no data context | `RemoveItemInListBoxAction` uses `ItemFromContainer`. **Done.** |
+| The default automation name is `null` | The default is an empty string | Test expectation. **Done.** |
+
+### W23. Bindings
+
+| Uno Platform | WinUI | Port |
+|--------------|-------|------|
+| A binding observes the dependency properties of any `DependencyObject` source | The dependency properties of a source type that is not in the XAML type information of the application (a type not used in XAML) are read once and not observed | Sources of such bindings implement `INotifyPropertyChanged`, or the binding is an `x:Bind`. Two shared tests use a notifying source or do not test the update. **Documented.** |
+| The change of a property is raised when the new value can be read | `FrameworkElement.Transitions` raises its change before `GetValue` returns the new collection | `TransitionOperations.Observe` reports such a change once it is applied (on the dispatcher). **Done.** |
+| A local value set while a temporary (animation) value is effective is kept below it ([W4](#w4-no-value-precedences)) | No precedences | `AnimationValueLayer` observes the property: a different local value becomes the value to restore, and the temporary value stays effective. **Done.** |
+
+### W24. Event arguments are not `System.EventArgs`
+
+**Uno Platform:** `RoutedEventArgs` derives from `System.EventArgs`, and events without data pass `EventArgs.Empty`.
+**WinUI:** event arguments are WinRT objects: `RoutedEventArgs` does not derive from `System.EventArgs`, and the
+argument of events such as `Flyout.Opened` is a plain object.
+**Port:** no change in the libraries. A method called by `CallMethodAction` with the `(object sender, EventArgs e)`
+signature is not found on WinUI: declare the second parameter as the WinUI argument type or as `object`.
+**Documented.**
+
+### W25. A `Canvas` moves its children without a layout pass
+
+**Uno Platform:** changing `Canvas.Left`/`Canvas.Top` raises `LayoutUpdated`.
+**WinUI:** the child is moved and no `LayoutUpdated` event is raised.
+**Port:** `FluidMoveBehavior` does not animate children of a `Canvas` moved with `Canvas.Left`/`Canvas.Top` on WinUI
+(panels that lay out their children are animated). **Open (limitation).**
+
+### W26. Packaging and trimming
 
 The WinUI libraries are marked trimmable and AOT compatible like the other ports. CsWinRT generates code for the types
 that implement WinRT interfaces: those types are `partial` (on all platforms) and the WinUI projects allow unsafe code.

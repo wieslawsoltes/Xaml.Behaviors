@@ -97,6 +97,27 @@ public class ConditionTests
             });
     }
 
+#if WINUI
+    // A native WinUI binding does not observe the dependency properties of a source type that is not in the XAML
+    // type information of the application (a type that is not used in XAML): the source notifies its changes.
+    private sealed class BindingSource : System.ComponentModel.INotifyPropertyChanged
+    {
+        private string? _value;
+
+        public event System.ComponentModel.PropertyChangedEventHandler? PropertyChanged;
+
+        public string? Value
+        {
+            get => _value;
+            set
+            {
+                _value = value;
+                PropertyChanged?.Invoke(this, new System.ComponentModel.PropertyChangedEventArgs(nameof(Value)));
+            }
+        }
+    }
+}
+#else
 #if UNO
     private partial class BindingSource : AvaloniaObject
     {
@@ -116,6 +137,7 @@ public class ConditionTests
         }
     }
 }
+#endif
 
 public class ConditionCollectionTests
 {

@@ -13,11 +13,13 @@ namespace Xaml.Interactivity;
 /// <remarks>
 /// The first temporary value of a property saves its local value, or the binding that sets it, and replaces it; the
 /// following ones replace the effective value. Clearing restores the saved binding or local value (or clears the
-/// property when it had none). A local value set while a temporary value is effective is lost when it is cleared.
+/// property when it had none). A different local value set while a temporary value is effective becomes the value
+/// that is restored, and the temporary value stays effective (a local value equal to the temporary value cannot be
+/// observed).
 /// </remarks>
 internal static class AnimationValueLayer
 {
-    private static readonly ConditionalWeakTable<DependencyObject, Dictionary<DependencyProperty, BaseValue>> s_baseValues = new();
+    private static readonly ConditionalWeakTable<DependencyObject, Dictionary<DependencyProperty, Entry>> s_entries = new();
 
     /// <summary>
     /// Sets the temporary value of a property.
@@ -27,21 +29,23 @@ internal static class AnimationValueLayer
     /// <param name="value">The temporary value.</param>
     public static void SetValue(DependencyObject dependencyObject, DependencyProperty property, object? value)
     {
-        var baseValues = s_baseValues.GetOrCreateValue(dependencyObject);
-        if (!baseValues.ContainsKey(property))
+        var entries = s_entries.GetOrCreateValue(dependencyObject);
+        if (!entries.TryGetValue(property, out var entry))
         {
-            var baseValue = BaseValue.Read(dependencyObject, property);
-            baseValues.Add(property, baseValue);
+            entry = new Entry(BaseValue.Read(dependencyObject, property));
+            entries.Add(property, entry);
 
             // A local value set on a property with a two-way binding updates the binding source instead of replacing
             // the binding: remove the binding (it is restored when the temporary value is cleared).
-            if (baseValue.HasBinding)
+            if (entry.Base.HasBinding)
             {
                 dependencyObject.ClearValue(property);
             }
+
+            entry.Token = dependencyObject.RegisterPropertyChangedCallback(property, (sender, changed) => OnValueChanged(sender, changed, entry));
         }
 
-        dependencyObject.SetValue(property, value);
+        entry.Apply(dependencyObject, property, value);
     }
 
     /// <summary>
@@ -51,18 +55,60 @@ internal static class AnimationValueLayer
     /// <param name="property">The property.</param>
     public static void ClearValue(DependencyObject dependencyObject, DependencyProperty property)
     {
-        if (!s_baseValues.TryGetValue(dependencyObject, out var baseValues) ||
-            !baseValues.Remove(property, out var baseValue))
+        if (!s_entries.TryGetValue(dependencyObject, out var entries) ||
+            !entries.Remove(property, out var entry))
         {
             return;
         }
 
-        if (baseValues.Count == 0)
+        if (entries.Count == 0)
         {
-            s_baseValues.Remove(dependencyObject);
+            s_entries.Remove(dependencyObject);
         }
 
-        baseValue.Restore(dependencyObject, property);
+        dependencyObject.UnregisterPropertyChangedCallback(property, entry.Token);
+        entry.Base.Restore(dependencyObject, property);
+    }
+
+    private static void OnValueChanged(DependencyObject sender, DependencyProperty property, Entry entry)
+    {
+        if (entry.IsApplying)
+        {
+            return;
+        }
+
+        // A local value replaced the temporary value: it is the value to restore, and the temporary value stays.
+        object? current = sender.GetValue(property);
+        if (!Equals(current, entry.Value))
+        {
+            entry.Base = BaseValue.FromLocalValue(current);
+            entry.Apply(sender, property, entry.Value);
+        }
+    }
+
+    private sealed class Entry(BaseValue baseValue)
+    {
+        public BaseValue Base { get; set; } = baseValue;
+
+        public object? Value { get; private set; }
+
+        public long Token { get; set; }
+
+        public bool IsApplying { get; private set; }
+
+        public void Apply(DependencyObject dependencyObject, DependencyProperty property, object? value)
+        {
+            Value = value;
+            IsApplying = true;
+            try
+            {
+                dependencyObject.SetValue(property, value);
+            }
+            finally
+            {
+                IsApplying = false;
+            }
+        }
     }
 
     private readonly struct BaseValue
@@ -77,6 +123,8 @@ internal static class AnimationValueLayer
         }
 
         public bool HasBinding => _binding is not null;
+
+        public static BaseValue FromLocalValue(object? value) => new(value, null);
 
         public static BaseValue Read(DependencyObject dependencyObject, DependencyProperty property)
         {
