@@ -1,0 +1,46 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!-- WinUI 3 (Windows App SDK) twin of src/Uno/Xaml.Behaviors: the single assembly build. -->
+  <PropertyGroup>
+    <TargetFrameworks>$(WinUITargetFrameworks)</TargetFrameworks>
+    <AssemblyName>Xaml.Behaviors.WinUI</AssemblyName>
+    <RootNamespace>Xaml.Behaviors</RootNamespace>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <PackageId>Xaml.Behaviors.WinUI</PackageId>
+    <Description>Complete library of behaviors, actions and triggers for WinUI 3 (Windows App SDK) applications in a single assembly.</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Using Include="Xaml.Interactivity" />
+  </ItemGroup>
+
+  <!-- Exactly the sources of the Uno single assembly build (see src/Uno/Xaml.Behaviors/Xaml.Behaviors.Sources.targets). -->
+  <PropertyGroup>
+    <XamlBehaviorsSharedProjectsRoot>../../</XamlBehaviorsSharedProjectsRoot>
+    <XamlBehaviorsUnoProjectsRoot>../../Uno/</XamlBehaviorsUnoProjectsRoot>
+  </PropertyGroup>
+  <Import Project="$(UnoRootDirectory)Xaml.Behaviors/Xaml.Behaviors.Sources.targets" />
+
+  <!-- Plus the native WinUI replacements next to the WinUI projects of the components. -->
+  <ItemGroup>
+    <Compile Include="../Xaml.Behaviors.Interactivity/**/*.cs" Exclude="../Xaml.Behaviors.Interactivity/bin/**;../Xaml.Behaviors.Interactivity/obj/**" Link="WinUI/Interactivity/%(RecursiveDir)%(Filename)%(Extension)" />
+    <Compile Include="../Xaml.Behaviors.Animations/**/*.cs" Exclude="../Xaml.Behaviors.Animations/bin/**;../Xaml.Behaviors.Animations/obj/**" Link="WinUI/Animations/%(RecursiveDir)%(Filename)%(Extension)" />
+    <Compile Include="../Xaml.Behaviors.Interactions/**/*.cs" Exclude="../Xaml.Behaviors.Interactions/bin/**;../Xaml.Behaviors.Interactions/obj/**" Link="WinUI/Interactions/%(RecursiveDir)%(Filename)%(Extension)" />
+    <Compile Include="../Xaml.Behaviors.Interactions.Custom/**/*.cs" Exclude="../Xaml.Behaviors.Interactions.Custom/bin/**;../Xaml.Behaviors.Interactions.Custom/obj/**" Link="WinUI/Interactions.Custom/%(RecursiveDir)%(Filename)%(Extension)" />
+    <Compile Include="../Xaml.Behaviors.Interactions.DragAndDrop/**/*.cs" Exclude="../Xaml.Behaviors.Interactions.DragAndDrop/bin/**;../Xaml.Behaviors.Interactions.DragAndDrop/obj/**" Link="WinUI/Interactions.DragAndDrop/%(RecursiveDir)%(Filename)%(Extension)" />
+    <Compile Include="../Xaml.Behaviors.Interactions.Draggable/**/*.cs" Exclude="../Xaml.Behaviors.Interactions.Draggable/bin/**;../Xaml.Behaviors.Interactions.Draggable/obj/**" Link="WinUI/Interactions.Draggable/%(RecursiveDir)%(Filename)%(Extension)" />
+    <Compile Include="../Xaml.Behaviors.Interactions.Events/**/*.cs" Exclude="../Xaml.Behaviors.Interactions.Events/bin/**;../Xaml.Behaviors.Interactions.Events/obj/**" Link="WinUI/Interactions.Events/%(RecursiveDir)%(Filename)%(Extension)" />
+    <Compile Include="../Xaml.Behaviors.Interactions.Responsive/**/*.cs" Exclude="../Xaml.Behaviors.Interactions.Responsive/bin/**;../Xaml.Behaviors.Interactions.Responsive/obj/**" Link="WinUI/Interactions.Responsive/%(RecursiveDir)%(Filename)%(Extension)" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="$(AvaloniaSourcesDirectory)Xaml.Behaviors.SourceGenerators\Xaml.Behaviors.SourceGenerators.csproj"
+                      OutputItemType="Analyzer"
+                      ReferenceOutputAssembly="false" />
+  </ItemGroup>
+
+  <Import Project="$(AvaloniaSourcesDirectory)../build/XamlPropertyGenerator.props" />
+
+</Project>

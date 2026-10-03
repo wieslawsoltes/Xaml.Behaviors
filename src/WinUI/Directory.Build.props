@@ -1,0 +1,41 @@
+<Project>
+  <!--
+    Shared settings for the WinUI 3 (Windows App SDK) port projects (src/WinUI/**).
+    The WinUI port has no sources of its own: every project source links its Uno Platform twin (src/Uno/<Project>),
+    which in turn source links the shared Avalonia sources (src/<Project>). Both ports compile the WinUI API surface
+    with the UNO symbol; the WINUI symbol marks the few places where native WinUI differs from Uno Platform.
+    See src/WinUI/README.md.
+  -->
+  <Import Project="$([MSBuild]::GetPathOfFileAbove('Directory.Build.props', '$(MSBuildThisFileDirectory)../'))" />
+
+  <PropertyGroup>
+    <WinUITargetFrameworks>net10.0-windows10.0.19041.0</WinUITargetFrameworks>
+    <WinUIRootDirectory>$(MSBuildThisFileDirectory)</WinUIRootDirectory>
+    <!-- The Uno Platform projects whose sources are linked (src/Uno). -->
+    <UnoRootDirectory>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)../Uno'))/</UnoRootDirectory>
+    <!-- Root of the Avalonia projects whose sources are shared (source linked) with both ports. -->
+    <AvaloniaSourcesDirectory>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..'))/</AvaloniaSourcesDirectory>
+    <DefineConstants>$(DefineConstants);UNO;WINUI</DefineConstants>
+    <TargetPlatformMinVersion>10.0.17763.0</TargetPlatformMinVersion>
+    <UseWinUI>true</UseWinUI>
+    <!-- Restores (and evaluates) on non-Windows machines; WinUI projects still build on Windows only. -->
+    <EnableWindowsTargeting>true</EnableWindowsTargeting>
+    <!-- CsWinRT generates unsafe code for the WinRT interfaces implemented by the behaviors (trimming and AOT). -->
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <OutputType>Library</OutputType>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <!-- CS8974: a method group converted to object (WinUI UIElement.RemoveHandler); see src/Uno/PORTING.md. -->
+    <WarningsAsErrors>$(WarningsAsErrors);CS8974</WarningsAsErrors>
+    <!-- CS1574: the shared XML documentation is Avalonia first; some crefs have no WinUI target. -->
+    <NoWarn>$(NoWarn);CS1574</NoWarn>
+    <IsPackable>true</IsPackable>
+    <!-- The resource index (makepri.exe) is a Windows tool: compile-only builds on other systems skip it. -->
+    <AppxGeneratePriEnabled Condition="'$(OS)' != 'Windows_NT'">false</AppxGeneratePriEnabled>
+    <PackageTags>WinUI;WinUI3;WindowsAppSDK;Behavior;Action;Behaviors;Actions;Managed;C#;Interaction;Interactivity;Interactions;Xaml</PackageTags>
+  </PropertyGroup>
+
+  <!-- Type aliases that let the shared (Avalonia-first) sources compile against WinUI, shared with the Uno port. -->
+  <Import Project="$(UnoRootDirectory)UnoPortAliases.props" />
+</Project>

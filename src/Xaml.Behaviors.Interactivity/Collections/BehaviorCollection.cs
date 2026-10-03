@@ -25,9 +25,9 @@ namespace Avalonia.Xaml.Interactivity;
 /// Represents a collection of <see cref="IBehavior"/>'s with a shared <see cref="AssociatedObject"/>.
 /// </summary>
 #if UNO
-public class BehaviorCollection : DependencyObjectCollection
+public partial class BehaviorCollection : DependencyObjectCollection
 #else
-public class BehaviorCollection : AvaloniaList<AvaloniaObject>
+public partial class BehaviorCollection : AvaloniaList<AvaloniaObject>
 #endif
 {
     // After a VectorChanged event we need to compare the current state of the collection

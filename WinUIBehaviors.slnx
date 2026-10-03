@@ -1,0 +1,32 @@
+<Solution>
+  <Folder Name="/build/">
+    <File Path="Directory.Build.props" />
+    <File Path="Directory.Packages.props" />
+    <File Path="global.json" />
+    <File Path="build/XamlPropertyGenerator.props" />
+    <File Path="src/Uno/UnoPortAliases.props" />
+    <File Path="src/Uno/Xaml.Behaviors/Xaml.Behaviors.Sources.targets" />
+    <File Path="src/WinUI/Directory.Build.props" />
+    <File Path="src/WinUI/Directory.Build.targets" />
+  </Folder>
+  <Folder Name="/src/">
+    <Project Path="src/WinUI/Xaml.Behaviors.Interactivity/Xaml.Behaviors.Interactivity.csproj" />
+    <Project Path="src/WinUI/Xaml.Behaviors.Interactions/Xaml.Behaviors.Interactions.csproj" />
+    <Project Path="src/WinUI/Xaml.Behaviors.Interactions.Events/Xaml.Behaviors.Interactions.Events.csproj" />
+    <Project Path="src/WinUI/Xaml.Behaviors.Interactions.Custom/Xaml.Behaviors.Interactions.Custom.csproj" />
+    <Project Path="src/WinUI/Xaml.Behaviors.Animations/Xaml.Behaviors.Animations.csproj" />
+    <Project Path="src/WinUI/Xaml.Behaviors.Interactions.ReactiveUI/Xaml.Behaviors.Interactions.ReactiveUI.csproj" />
+    <Project Path="src/WinUI/Xaml.Behaviors.Interactions.Scripting/Xaml.Behaviors.Interactions.Scripting.csproj" />
+    <Project Path="src/WinUI/Xaml.Behaviors.Interactions.Responsive/Xaml.Behaviors.Interactions.Responsive.csproj" />
+    <Project Path="src/WinUI/Xaml.Behaviors.Interactions.Draggable/Xaml.Behaviors.Interactions.Draggable.csproj" />
+    <Project Path="src/WinUI/Xaml.Behaviors.Interactions.DragAndDrop/Xaml.Behaviors.Interactions.DragAndDrop.csproj" />
+    <Project Path="src/WinUI/Xaml.Behaviors.Interactions.DragAndDrop.DataGrid/Xaml.Behaviors.Interactions.DragAndDrop.DataGrid.csproj" />
+    <Project Path="src/WinUI/Xaml.Behaviors/Xaml.Behaviors.csproj" />
+    <Project Path="src/WinUI/Xaml.Behaviors.All/Xaml.Behaviors.All.csproj" />
+  </Folder>
+  <Folder Name="/tools/">
+    <Project Path="src/Xaml.PropertyGenerator/Xaml.PropertyGenerator.csproj" />
+    <Project Path="src/Xaml.PropertyGenerator.CodeFixes/Xaml.PropertyGenerator.CodeFixes.csproj" />
+    <Project Path="src/Xaml.Behaviors.SourceGenerators/Xaml.Behaviors.SourceGenerators.csproj" />
+  </Folder>
+</Solution>

@@ -1,0 +1,34 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!-- WinUI 3 (Windows App SDK) twin of src/Uno/Xaml.Behaviors.Interactions.DragAndDrop.DataGrid: compiles its sources (see src/WinUI/Directory.Build.targets). -->
+
+  <PropertyGroup>
+    <TargetFrameworks>$(WinUITargetFrameworks)</TargetFrameworks>
+    <AssemblyName>Xaml.Behaviors.WinUI.Interactions.DragAndDrop.DataGrid</AssemblyName>
+    <RootNamespace>Xaml.Behaviors.WinUI.Interactions.DragAndDrop.DataGrid</RootNamespace>
+    <WinUIUnoProject>Xaml.Behaviors.Interactions.DragAndDrop.DataGrid</WinUIUnoProject>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <PackageId>Xaml.Behaviors.WinUI.Interactions.DragAndDrop.DataGrid</PackageId>
+    <Description>DataGrid-specific drag-and-drop helpers for WinUI 3 (Windows App SDK) behaviors (Windows Community Toolkit DataGrid).</Description>
+    <PackageTags>$(PackageTags);DragAndDrop;DataGrid</PackageTags>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Using Include="Xaml.Interactivity" />
+    <!-- Avalonia DragDropEffects has the same values as the WinUI DataPackageOperation (None, Copy, Move, Link). -->
+    <Using Include="Windows.ApplicationModel.DataTransfer.DataPackageOperation" Alias="DragDropEffects" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- The Windows Community Toolkit DataGrid (WinUI has no built-in DataGrid). -->
+    <PackageReference Include="CommunityToolkit.WinUI.UI.Controls.DataGrid" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Xaml.Behaviors.Interactivity\Xaml.Behaviors.Interactivity.csproj" />
+    <ProjectReference Include="..\Xaml.Behaviors.Interactions.DragAndDrop\Xaml.Behaviors.Interactions.DragAndDrop.csproj" />
+  </ItemGroup>
+
+</Project>

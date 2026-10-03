@@ -109,7 +109,7 @@ internal static partial class PropertyHelper
 
         var entry = new TemporaryValue(value);
         stack.Add(entry);
-        dependencyObject.SetValue(property, value, DependencyPropertyValuePrecedences.Animations);
+        dependencyObject.SetAnimationValue(property, value);
         return DisposableAction.Create(() => RemoveTemporaryValue(dependencyObject, property, entry));
     }
 
@@ -136,7 +136,7 @@ internal static partial class PropertyHelper
 
         if (stack.Count > 0)
         {
-            dependencyObject.SetValue(property, stack[^1].Value, DependencyPropertyValuePrecedences.Animations);
+            dependencyObject.SetAnimationValue(property, stack[^1].Value);
             return;
         }
 
@@ -146,7 +146,7 @@ internal static partial class PropertyHelper
             s_temporaryValues.Remove(dependencyObject);
         }
 
-        dependencyObject.SetValue(property, DependencyProperty.UnsetValue, DependencyPropertyValuePrecedences.Animations);
+        dependencyObject.ClearAnimationValue(property);
     }
 
     private static bool TrySplitAttachedName(string propertyName, out string ownerTypeName, out string name)

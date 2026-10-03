@@ -1,6 +1,8 @@
 ﻿// Copyright (c) Wiesław Šoltés. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for details.
-#if !UNO
+#if UNO
+using Microsoft.UI.Xaml;
+#else
 using Avalonia.Collections;
 #endif
 
@@ -15,12 +17,16 @@ namespace Avalonia.Xaml.Interactivity;
 /// </summary>
 /// <remarks>
 /// On Uno Platform the collection is a <c>DependencyObjectCollection&lt;Condition&gt;</c> so the conditions inherit the
-/// data context of the owning behavior.
+/// data context of the owning behavior (on native WinUI, the <c>DependencyObjectCollection&lt;T&gt;</c> of the WinUI port).
 /// </remarks>
 #if UNO
-public class ConditionCollection : Microsoft.UI.Xaml.DependencyObjectCollection<Condition>, System.Collections.Specialized.INotifyCollectionChanged
+public partial class ConditionCollection : DependencyObjectCollection<Condition>, System.Collections.Specialized.INotifyCollectionChanged
 {
+#if WINUI
+    private readonly VectorChangeTranslator<DependencyObject> _changes = new();
+#else
     private readonly VectorChangeTranslator<Condition> _changes = new();
+#endif
 
     /// <summary>
     /// Initializes a new instance of the <see cref="ConditionCollection"/> class.
@@ -36,7 +42,7 @@ public class ConditionCollection : Microsoft.UI.Xaml.DependencyObjectCollection<
     public event System.Collections.Specialized.NotifyCollectionChangedEventHandler? CollectionChanged;
 }
 #else
-public class ConditionCollection : AvaloniaList<Condition>
+public partial class ConditionCollection : AvaloniaList<Condition>
 {
 }
 #endif

@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!-- WinUI 3 (Windows App SDK) twin of src/Uno/Xaml.Behaviors.Interactions.Events: compiles its sources (see src/WinUI/Directory.Build.targets). -->
+
+  <PropertyGroup>
+    <TargetFrameworks>$(WinUITargetFrameworks)</TargetFrameworks>
+    <AssemblyName>Xaml.Behaviors.WinUI.Interactions.Events</AssemblyName>
+    <RootNamespace>Xaml.Interactions.Events</RootNamespace>
+    <WinUIUnoProject>Xaml.Behaviors.Interactions.Events</WinUIUnoProject>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <PackageId>Xaml.Behaviors.WinUI.Interactions.Events</PackageId>
+    <Description>Behaviors and triggers responding to input and focus events for WinUI 3 (Windows App SDK).</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Using Include="Xaml.Interactivity" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Xaml.Behaviors.Interactivity\Xaml.Behaviors.Interactivity.csproj" />
+  </ItemGroup>
+
+</Project>

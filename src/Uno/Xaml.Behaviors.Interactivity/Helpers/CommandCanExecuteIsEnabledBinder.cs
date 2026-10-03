@@ -9,8 +9,8 @@ namespace Xaml.Interactivity;
 /// Disables the associated control while the command cannot execute.
 /// </summary>
 /// <remarks>
-/// Uno Platform counterpart of the Avalonia binder. The disabled value is applied with the animation value
-/// precedence so the local value or binding of <c>IsEnabled</c> is preserved and restored afterwards.
+/// Uno Platform counterpart of the Avalonia binder. The disabled value is a temporary (animation) value, so the local
+/// value or binding of <c>IsEnabled</c> is preserved and restored afterwards (see <see cref="AnimationValueCompat"/>).
 /// </remarks>
 internal sealed class CommandCanExecuteIsEnabledBinder : IDisposable
 {
@@ -92,7 +92,7 @@ internal sealed class CommandCanExecuteIsEnabledBinder : IDisposable
         target.SetValue(s_blockCountProperty, count);
         if (count == 1)
         {
-            target.SetValue(Microsoft.UI.Xaml.Controls.Control.IsEnabledProperty, false, DependencyPropertyValuePrecedences.Animations);
+            target.SetAnimationValue(Microsoft.UI.Xaml.Controls.Control.IsEnabledProperty, false);
         }
     }
 
@@ -106,6 +106,6 @@ internal sealed class CommandCanExecuteIsEnabledBinder : IDisposable
         }
 
         target.ClearValue(s_blockCountProperty);
-        target.SetValue(Microsoft.UI.Xaml.Controls.Control.IsEnabledProperty, DependencyProperty.UnsetValue, DependencyPropertyValuePrecedences.Animations);
+        target.ClearAnimationValue(Microsoft.UI.Xaml.Controls.Control.IsEnabledProperty);
     }
 }

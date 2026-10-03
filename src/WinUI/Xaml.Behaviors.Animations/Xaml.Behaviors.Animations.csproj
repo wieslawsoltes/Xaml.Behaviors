@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!-- WinUI 3 (Windows App SDK) twin of src/Uno/Xaml.Behaviors.Animations: compiles its sources (see src/WinUI/Directory.Build.targets). -->
+
+  <PropertyGroup>
+    <TargetFrameworks>$(WinUITargetFrameworks)</TargetFrameworks>
+    <AssemblyName>Xaml.Behaviors.WinUI.Animations</AssemblyName>
+    <!-- The types live in Xaml.Interactions.Custom (like the Avalonia and Uno twins). -->
+    <RootNamespace>Xaml.Behaviors.Animations</RootNamespace>
+    <WinUIUnoProject>Xaml.Behaviors.Animations</WinUIUnoProject>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <PackageId>Xaml.Behaviors.WinUI.Animations</PackageId>
+    <Description>Reusable WinUI 3 (Windows App SDK) storyboards, composition effects, and animation helpers with no behaviors dependency.</Description>
+    <PackageTags>WinUI;WinUI3;WindowsAppSDK;Animation;Animations;Composition;Transition;Transitions;Xaml</PackageTags>
+  </PropertyGroup>
+
+</Project>
