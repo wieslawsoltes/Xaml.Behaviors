@@ -14,6 +14,7 @@ using Windows.Foundation;
 using Windows.UI.Input.Preview.Injection;
 using Xaml.Behaviors.Uno.Headless;
 using Xaml.Behaviors.Uno.Headless.XUnit;
+using Xaml.Behaviors.Uno.TestCompat;
 using Xaml.Interactivity;
 using Xunit;
 
@@ -45,7 +46,7 @@ public class CompositionBehaviorsTests
         scrollViewer.ChangeView(null, 100d, null, disableAnimation: true);
 
         Visual visual = ElementCompositionPreview.GetElementVisual(target);
-        await TestSupport.WaitUntilAsync(() => visual.Offset == new Vector3(0f, 50f, 0f), "the parallax offset is applied");
+        await TestSupport.WaitUntilAsync(() => visual.GetLayoutRelativeOffset() == new Vector3(0f, 50f, 0f), "the parallax offset is applied");
     }
 
     [UnoHeadlessFact]
@@ -62,7 +63,7 @@ public class CompositionBehaviorsTests
         await TestSupport.WaitUntilAsync(() => scrollViewer.VerticalOffset == 100d, "the view scrolled");
         await Session.WaitForIdleAsync();
 
-        Assert.Equal(Vector3.Zero, ElementCompositionPreview.GetElementVisual(target).Offset);
+        Assert.Equal(Vector3.Zero, ElementCompositionPreview.GetElementVisual(target).GetLayoutRelativeOffset());
     }
 
     [UnoHeadlessFact]

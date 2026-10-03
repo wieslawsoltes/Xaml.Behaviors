@@ -1,7 +1,9 @@
 // Copyright (c) Wiesław Šoltés. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for details.
 using Microsoft.UI.Xaml;
+#if !WINUI
 using ReactiveUI.Builder;
+#endif
 using ReactiveUI.Reactive.Builder;
 using SourceGeneratorSample.ViewModels;
 using SourceGeneratorSample.Views;
@@ -27,9 +29,18 @@ public partial class App : Application
         var viewModel = new MainViewModel();
         var window = new MainWindow { ViewModel = viewModel };
 
+#if WINUI
+        RxAppBuilder.CreateReactiveUIBuilder()
+            .WithWinUI()
+            .BuildApp();
+
+        // WinUI cannot enumerate the windows of an application: the window behaviors find this one through the tracker.
+        global::Xaml.Interactivity.WindowTracker.Track(window);
+#else
         RxAppBuilder.CreateReactiveUIBuilder()
             .WithUno(window)
             .BuildApp();
+#endif
 
         window.Activate();
     }

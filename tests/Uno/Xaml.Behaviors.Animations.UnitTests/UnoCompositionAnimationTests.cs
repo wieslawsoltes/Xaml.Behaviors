@@ -37,7 +37,7 @@ public class UnoCompositionAnimationTests
 
         Assert.True(applied);
         // WinUI composes Visual.Offset on top of the arranged position (30, 40).
-        Assert.Equal(new Vector3(5f, 12.5f, 0f), TestHelpers.GetVisual(target).Offset);
+        Assert.Equal(new Vector3(5f, 12.5f, 0f), TestHelpers.GetVisual(target).GetLayoutRelativeOffset());
         Assert.Equal(new Vector3(30f, 40f, 0f), target.ActualOffset);
     }
 
@@ -51,7 +51,7 @@ public class UnoCompositionAnimationTests
         animation.Apply(new Point(10d, 20d), 0.5d);
         animation.Apply(new Point(20d, 50d), 0.25d);
 
-        Assert.Equal(new Vector3(5f, 12.5f, 0f), TestHelpers.GetVisual(target).Offset);
+        Assert.Equal(new Vector3(5f, 12.5f, 0f), TestHelpers.GetVisual(target).GetLayoutRelativeOffset());
     }
 
     [UnoHeadlessFact]
@@ -236,7 +236,7 @@ public class UnoCompositionAnimationTests
 
         await Session.ShowAsync(new Canvas { Width = 300d, Height = 300d, Children = { target } });
 
-        TestHelpers.AssertNear(expectedOffset, TestHelpers.GetVisual(target).Offset, MovementTolerance);
+        TestHelpers.AssertNear(expectedOffset, TestHelpers.GetVisual(target).GetLayoutRelativeOffset(), MovementTolerance);
         Assert.Equal(new Vector3(30f, 40f, 0f), target.ActualOffset);
     }
 }

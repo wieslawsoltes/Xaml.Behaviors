@@ -108,7 +108,7 @@ public partial class AdaptiveBehavior : StyledElementBehavior<Control>
             }));
     }
 
-    private void Execute(Control? sourceControl, IList<AdaptiveClassSetter>? setters, Rect bounds)
+    private void Execute(Control? sourceControl, IEnumerable<AdaptiveClassSetter>? setters, Rect bounds)
     {
         if (sourceControl is null || setters is null)
         {

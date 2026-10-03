@@ -82,7 +82,12 @@ public class AnimationAdapterTests
         var original = new Transitions();
         var replacement = new Transitions();
         var target = new Border { Transitions = original };
+#if WINUI
+        // WinUI Panel cannot be created directly (Uno Platform and Avalonia allow it).
+        var panel = new Grid { Children = { target } };
+#else
         var panel = new Panel { Children = { target } };
+#endif
         var behavior = new TransitionsBehavior();
         behavior.SetValue(TransitionsBehavior.TransitionsSourceProperty, replacement);
         Assert.Same(replacement, behavior.TransitionsSource);
@@ -207,7 +212,7 @@ public class AnimationAdapterTests
 
         Assert.Equal(
             new System.Numerics.Vector3(5f, 25f, 0f),
-            Microsoft.UI.Xaml.Hosting.ElementCompositionPreview.GetElementVisual(target)?.Offset);
+            Microsoft.UI.Xaml.Hosting.ElementCompositionPreview.GetElementVisual(target)?.GetLayoutRelativeOffset());
 #else
         scrollViewer.Offset = new Vector(20d, 100d);
         Dispatcher.UIThread.RunJobs();

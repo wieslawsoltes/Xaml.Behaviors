@@ -30,6 +30,7 @@ public sealed class WinUITestSession
 {
     private const int MaxJobs = 100_000;
     private static SessionStart? s_start;
+    private readonly System.Collections.Generic.List<Exception> _unhandledExceptions = [];
 
     private WinUITestSession(WinUITestSessionOptions options, Application application, Window window, DispatcherQueue dispatcherQueue)
     {
@@ -38,6 +39,7 @@ public sealed class WinUITestSession
         Window = window;
         DispatcherQueue = dispatcherQueue;
         WindowHandle = WinRT.Interop.WindowNative.GetWindowHandle(window);
+        application.UnhandledException += OnUnhandledException;
         Keyboard = new WinUITestKeyboard(this);
         Mouse = new WinUITestMouse(this);
     }
@@ -54,6 +56,18 @@ public sealed class WinUITestSession
             return start is not null && start.Task.IsCompletedSuccessfully
                 ? start.Task.Result
                 : throw new InvalidOperationException("The WinUI test session has not started (use [WinUIFact] or WinUITestSession.StartAsync).");
+        }
+    }
+
+    /// <summary>
+    /// Gets the started session, or <c>null</c> when it has not started (yet).
+    /// </summary>
+    public static WinUITestSession? CurrentOrNull
+    {
+        get
+        {
+            SessionStart? start = Volatile.Read(ref s_start);
+            return start is not null && start.Task.IsCompletedSuccessfully ? start.Task.Result : null;
         }
     }
 
@@ -228,6 +242,7 @@ public sealed class WinUITestSession
 
         Window.Content = element;
         Mouse.StartNewSequence();
+        EnsureForeground();
         RunJobs();
         var stopwatch = Stopwatch.StartNew();
         while (!element.IsLoaded && stopwatch.Elapsed < TimeSpan.FromSeconds(5))
@@ -238,6 +253,33 @@ public sealed class WinUITestSession
         return element.IsLoaded
             ? element
             : throw new InvalidOperationException("The element was not loaded after running the queued UI work.");
+    }
+
+    /// <summary>
+    /// Returns and clears the exceptions that the UI thread did not handle since the last call.
+    /// </summary>
+    /// <returns>The exceptions, oldest first.</returns>
+    /// <remarks>
+    /// A WinUI application terminates on an unhandled exception of the UI thread: the session handles them (the test
+    /// framework integration fails the running test with them).
+    /// </remarks>
+    public Exception[] TakeUnhandledExceptions()
+    {
+        lock (_unhandledExceptions)
+        {
+            var exceptions = _unhandledExceptions.ToArray();
+            _unhandledExceptions.Clear();
+            return exceptions;
+        }
+    }
+
+    private void OnUnhandledException(object sender, Microsoft.UI.Xaml.UnhandledExceptionEventArgs e)
+    {
+        e.Handled = true;
+        lock (_unhandledExceptions)
+        {
+            _unhandledExceptions.Add(e.Exception ?? new InvalidOperationException(e.Message));
+        }
     }
 
     internal void EnsureThreadAccess()
@@ -317,6 +359,22 @@ public sealed class WinUITestSession
         throw new InvalidOperationException($"The test window is not the window at ({screenX}, {screenY}) on the screen: is the position outside the window or is another window in front of it?");
     }
 
+    /// <summary>
+    /// Brings the test window to the foreground without processing the messages of the UI thread (the asynchronous
+    /// input may run inside a modal loop, for example of a drag and drop operation).
+    /// </summary>
+    internal void EnsureForegroundAsyncSafe()
+    {
+        if (NativeMethods.GetForegroundWindow() == WindowHandle)
+        {
+            return;
+        }
+
+        NativeMethods.ShowWindow(WindowHandle, NativeMethods.SW_SHOW);
+        NativeMethods.BringWindowToTop(WindowHandle);
+        NativeMethods.SetForegroundWindow(WindowHandle);
+    }
+
     private void UpdateLayout()
     {
         if (Window.Content is UIElement content)
@@ -341,6 +399,7 @@ public sealed class WinUITestSession
         {
             Window.Content = element;
             Mouse.StartNewSequence();
+            EnsureForeground();
 
             if (!element.IsLoaded)
             {

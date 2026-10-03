@@ -72,6 +72,10 @@ public partial class BehaviorCollection : AvaloniaList<AvaloniaObject>
     /// <exception cref="InvalidOperationException">The <see cref="BehaviorCollection"/> is already attached to a different <see cref="AvaloniaObject"/>.</exception>
     public void Attach(AvaloniaObject? associatedObject)
     {
+#if WINUI
+        // Behaviors are attached on the UI thread: the dispatcher compat learns it here (see Compat/Dispatcher.cs).
+        UIThreadDispatcher.CaptureCurrentThread();
+#endif
         if (Equals(associatedObject, AssociatedObject))
         {
             return;

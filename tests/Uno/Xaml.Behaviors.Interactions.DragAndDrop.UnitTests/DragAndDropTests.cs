@@ -64,7 +64,12 @@ public class DragAndDropTests
         await Session.WaitForIdleAsync();
     }
 
+#if WINUI
+    // DependencyObject is a class on native WinUI (an interface on Uno Platform).
+    private static T? FindDescendant<T>(DependencyObject element) where T : DependencyObject
+#else
     private static T? FindDescendant<T>(DependencyObject element) where T : class, DependencyObject
+#endif
     {
         for (var i = 0; i < VisualTreeHelper.GetChildrenCount(element); i++)
         {

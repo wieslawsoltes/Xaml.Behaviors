@@ -104,7 +104,7 @@ public partial class AspectRatioBehavior : StyledElementBehavior<Control>
             .Subscribe(new AnonymousObserver<Rect>(bounds => Execute(sourceControl, Setters, bounds)));
     }
 
-    private void Execute(Control? sourceControl, IList<AspectRatioClassSetter>? setters, Rect bounds)
+    private void Execute(Control? sourceControl, IEnumerable<AspectRatioClassSetter>? setters, Rect bounds)
     {
         if (sourceControl is null || setters is null)
         {

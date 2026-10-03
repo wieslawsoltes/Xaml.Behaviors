@@ -62,7 +62,7 @@ namespace Xaml.Behaviors.SourceGenerators.Platforms
     /// <param name="Type">The property type, including nullable annotations.</param>
     /// <param name="TypeOf">The property type usable in a <c>typeof</c> expression.</param>
     /// <param name="DefaultValue">The default value expression, or <c>null</c> for <c>default</c>.</param>
-    /// <param name="PrivateSetter">Whether the setter is private.</param>
+    /// <param name="PrivateSetter">Whether the setter is private (Avalonia; WinUI dependency properties are always settable).</param>
     internal sealed record PropertySpec(string Name, string Type, string TypeOf, string? DefaultValue = null, bool PrivateSetter = false);
 
     /// <summary>

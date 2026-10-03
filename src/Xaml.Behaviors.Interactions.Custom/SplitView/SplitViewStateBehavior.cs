@@ -83,7 +83,7 @@ public partial class SplitViewStateBehavior : StyledElementBehavior<SplitView>
         return DisposableAction.Create(() => source.SizeChanged -= OnSizeChanged);
     }
 
-    private void Execute(IList<SplitViewStateSetter>? setters, Rect bounds)
+    private void Execute(IEnumerable<SplitViewStateSetter>? setters, Rect bounds)
 #else
     private IDisposable ObserveBounds(Control source)
     {

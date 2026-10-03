@@ -8,6 +8,16 @@
     <File Path="src/Uno/Xaml.Behaviors/Xaml.Behaviors.Sources.targets" />
     <File Path="src/WinUI/Directory.Build.props" />
     <File Path="src/WinUI/Directory.Build.targets" />
+    <File Path="samples/WinUI/Directory.Build.props" />
+    <File Path="samples/WinUI/WinUISharedSample.targets" />
+    <File Path="tests/WinUI/Directory.Build.props" />
+    <File Path="tests/WinUI/WinUISharedTests.targets" />
+  </Folder>
+  <Folder Name="/samples/">
+    <Project Path="samples/WinUI/AnimationsTestApplication/AnimationsTestApplication.csproj" />
+    <Project Path="samples/WinUI/BehaviorsTestApplication/BehaviorsTestApplication.csproj" />
+    <Project Path="samples/WinUI/SourceGeneratorSample.Core/SourceGeneratorSample.Core.csproj" />
+    <Project Path="samples/WinUI/SourceGeneratorSample/SourceGeneratorSample.csproj" />
   </Folder>
   <Folder Name="/src/">
     <Project Path="src/WinUI/Xaml.Behaviors.Interactivity/Xaml.Behaviors.Interactivity.csproj" />
@@ -27,6 +37,24 @@
   <Folder Name="/testing/">
     <Project Path="src/WinUI/Xaml.Behaviors.WinUI.Testing/Xaml.Behaviors.WinUI.Testing.csproj" />
     <Project Path="src/WinUI/Xaml.Behaviors.WinUI.Testing.XUnit/Xaml.Behaviors.WinUI.Testing.XUnit.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/WinUI/Xaml.Behaviors.Animations.UnitTests/Xaml.Behaviors.Animations.UnitTests.csproj" />
+    <Project Path="tests/WinUI/Xaml.Behaviors.Interactions.Custom.Animations.UnitTests/Xaml.Behaviors.Interactions.Custom.Animations.UnitTests.csproj" />
+    <Project Path="tests/WinUI/Xaml.Behaviors.Interactions.Custom.Controls.UnitTests/Xaml.Behaviors.Interactions.Custom.Controls.UnitTests.csproj" />
+    <Project Path="tests/WinUI/Xaml.Behaviors.Interactions.Custom.General.UnitTests/Xaml.Behaviors.Interactions.Custom.General.UnitTests.csproj" />
+    <Project Path="tests/WinUI/Xaml.Behaviors.Interactions.DragAndDrop.DataGrid.UnitTests/Xaml.Behaviors.Interactions.DragAndDrop.DataGrid.UnitTests.csproj" />
+    <Project Path="tests/WinUI/Xaml.Behaviors.Interactions.DragAndDrop.UnitTests/Xaml.Behaviors.Interactions.DragAndDrop.UnitTests.csproj" />
+    <Project Path="tests/WinUI/Xaml.Behaviors.Interactions.Draggable.UnitTests/Xaml.Behaviors.Interactions.Draggable.UnitTests.csproj" />
+    <Project Path="tests/WinUI/Xaml.Behaviors.Interactions.Events.UnitTests/Xaml.Behaviors.Interactions.Events.UnitTests.csproj" />
+    <Project Path="tests/WinUI/Xaml.Behaviors.Interactions.ReactiveUI.UnitTests/Xaml.Behaviors.Interactions.ReactiveUI.UnitTests.csproj" />
+    <Project Path="tests/WinUI/Xaml.Behaviors.Interactions.Responsive.UnitTests/Xaml.Behaviors.Interactions.Responsive.UnitTests.csproj" />
+    <Project Path="tests/WinUI/Xaml.Behaviors.Interactions.Scripting.UnitTests/Xaml.Behaviors.Interactions.Scripting.UnitTests.csproj" />
+    <Project Path="tests/WinUI/Xaml.Behaviors.Interactions.UnitTests/Xaml.Behaviors.Interactions.UnitTests.csproj" />
+    <Project Path="tests/WinUI/Xaml.Behaviors.Interactivity.UnitTests/Xaml.Behaviors.Interactivity.UnitTests.csproj" />
+    <Project Path="tests/WinUI/Xaml.Behaviors.SourceGenerators.UnitTests/Xaml.Behaviors.SourceGenerators.UnitTests.csproj" />
+    <Project Path="tests/WinUI/Xaml.Behaviors.UnitTests/Xaml.Behaviors.UnitTests.csproj" />
+    <Project Path="tests/WinUI/Xaml.Behaviors.WinUI.Testing.UnitTests/Xaml.Behaviors.WinUI.Testing.UnitTests.csproj" />
   </Folder>
   <Folder Name="/tools/">
     <Project Path="src/Xaml.PropertyGenerator/Xaml.PropertyGenerator.csproj" />

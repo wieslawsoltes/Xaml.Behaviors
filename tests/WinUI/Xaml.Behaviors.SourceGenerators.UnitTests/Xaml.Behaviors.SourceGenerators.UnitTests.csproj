@@ -1,0 +1,35 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!-- WinUI 3 twin of tests/Uno/Xaml.Behaviors.SourceGenerators.UnitTests: compiles its sources (see tests/WinUI/WinUISharedTests.targets). -->
+  <PropertyGroup>
+    <AssemblyName>Xaml.Behaviors.WinUI.SourceGenerators.UnitTests</AssemblyName>
+    <RootNamespace>Xaml.Behaviors.SourceGenerators.UnitTests</RootNamespace>
+    <WinUIUnoTestProject>Xaml.Behaviors.SourceGenerators.UnitTests</WinUIUnoTestProject>
+    <UnoSharedTestProject>Xaml.Behaviors.SourceGenerators.UnitTests</UnoSharedTestProject>
+    <UnoSharedTestsUseInteractivity>false</UnoSharedTestsUseInteractivity>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\src\WinUI\Xaml.Behaviors.Interactivity\Xaml.Behaviors.Interactivity.csproj" />
+    <ProjectReference Include="..\..\..\src\Xaml.Behaviors.SourceGenerators\Xaml.Behaviors.SourceGenerators.csproj"
+                      OutputItemType="Analyzer"
+                      ReferenceOutputAssembly="true"
+                      PrivateAssets="all" />
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" />
+  </ItemGroup>
+
+  <!--
+    The references of the WinUI generator compilations (WinUIGeneratorTestHelper): the Windows App SDK, Windows SDK and
+    CsWinRT assemblies of this project and the WinUI Interactivity assembly (the Uno twin uses the Uno.WinUI packages).
+  -->
+  <Target Name="AddWinUIGeneratorTestReferences" AfterTargets="ResolveAssemblyReferences">
+    <ItemGroup>
+      <_WinUIGeneratorTestReference Include="@(ReferencePath)"
+                                    Condition="$([System.String]::Copy('%(ReferencePath.FullPath)').ToLowerInvariant().Contains('microsoft.windowsappsdk')) OR $([System.String]::Copy('%(ReferencePath.FullPath)').ToLowerInvariant().Contains('microsoft.windows.sdk.net.ref')) OR '%(ReferencePath.Filename)' == 'WinRT.Runtime' OR '%(ReferencePath.Filename)' == 'Xaml.Behaviors.WinUI.Interactivity'" />
+      <RuntimeHostConfigurationOption Include="Xaml.Behaviors.SourceGenerators.UnitTests.WinUIReferences" Value="@(_WinUIGeneratorTestReference->'%(FullPath)')" />
+    </ItemGroup>
+  </Target>
+
+  <Import Project="..\WinUISharedTests.targets" />
+
+</Project>

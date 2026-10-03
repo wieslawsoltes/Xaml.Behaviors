@@ -218,16 +218,16 @@ public class UnoCompositionCatalogSmokeTests
         await Session.ShowAsync(canvas);
 
         // Composition offsets are relative to the arranged position (30, 40) on WinUI.
-        Assert.Equal(Vector3.Zero, GetVisual(attention).Offset);
-        Assert.Equal(Vector3.Zero, GetVisual(entrance).Offset);
-        Assert.Equal(new Vector3(0f, 240f, 0f), GetVisual(exit).Offset);
+        Assert.Equal(Vector3.Zero, GetVisual(attention).GetLayoutRelativeOffset());
+        Assert.Equal(Vector3.Zero, GetVisual(entrance).GetLayoutRelativeOffset());
+        Assert.Equal(new Vector3(0f, 240f, 0f), GetVisual(exit).GetLayoutRelativeOffset());
         Assert.Equal(0.8f, GetVisual(fade).Opacity);
         Assert.Equal(Vector3.Zero, GetVisual(scale).Scale);
         Assert.Equal(CompositionAnimationHelpers.DegreesToRadians(30f), GetVisual(rotate).RotationAngle);
-        Assert.Equal(Vector3.Zero, GetVisual(sliding).Offset);
+        Assert.Equal(Vector3.Zero, GetVisual(sliding).GetLayoutRelativeOffset());
         Assert.Equal(Vector3.One, GetVisual(special).Scale);
         Assert.Equal(0f, GetVisual(special).RotationAngle);
-        Assert.Equal(Vector3.Zero, GetVisual(framerMotion).Offset);
+        Assert.Equal(Vector3.Zero, GetVisual(framerMotion).GetLayoutRelativeOffset());
         Assert.All(targets, target => Assert.Equal(new Vector3(30f, 40f, 0f), target.ActualOffset));
     }
 

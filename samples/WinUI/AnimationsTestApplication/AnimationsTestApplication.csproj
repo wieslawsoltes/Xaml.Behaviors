@@ -1,0 +1,24 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!--
+    WinUI 3 twin of samples/Uno/AnimationsTestApplication (and through it of samples/AnimationsTestApplication): compiles
+    the sources and XAML of the Uno sample (see samples/WinUI/WinUISharedSample.targets).
+  -->
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>AnimationsTestApplication</RootNamespace>
+    <WinUIUnoSampleProject>AnimationsTestApplication</WinUIUnoSampleProject>
+    <UnoSharedSampleProject>AnimationsTestApplication</UnoSharedSampleProject>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.WindowsAppSDK" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\src\WinUI\Xaml.Behaviors.Animations\Xaml.Behaviors.Animations.csproj" />
+  </ItemGroup>
+
+  <Import Project="..\WinUISharedSample.targets" />
+
+</Project>

@@ -71,11 +71,13 @@ public class DataGridDropHandlerTests
         var input = MouseInput.TryCreate();
         Assert.SkipWhen(input is null, "Input injection is not available.");
 
+#if !WINUI
         // The headless session has no generated application initialization: register the toolkit resources and
-        // default styles (DataGrid templates) like an app head does.
+        // default styles (DataGrid templates) like an app head does (native WinUI loads them from the toolkit itself).
         CommunityToolkit.WinUI.UI.Controls.DG.GlobalStaticResources.Initialize();
         CommunityToolkit.WinUI.UI.Controls.DG.GlobalStaticResources.RegisterResourceDictionariesBySource();
         CommunityToolkit.WinUI.UI.Controls.DG.GlobalStaticResources.RegisterDefaultStyles();
+#endif
 
         var items = new ObservableCollection<Item> { new("a"), new("b"), new("c") };
         var handler = new ItemsDropHandler(items);

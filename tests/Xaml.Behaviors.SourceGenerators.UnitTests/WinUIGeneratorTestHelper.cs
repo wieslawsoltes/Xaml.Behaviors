@@ -106,6 +106,14 @@ public static class WinUIGeneratorTestHelper
             }
         }
 
+#if WINUI
+        // Native WinUI: the Windows App SDK, Windows SDK and CsWinRT references of the test project, and the WinUI
+        // Interactivity assembly (see tests/WinUI/Xaml.Behaviors.SourceGenerators.UnitTests).
+        foreach (var path in GetOption("WinUIReferences").Split(';', StringSplitOptions.RemoveEmptyEntries))
+        {
+            yield return MetadataReference.CreateFromFile(path);
+        }
+#else
         var root = GetOption("NuGetPackageRoot");
         var version = GetOption("UnoWinUIVersion");
         foreach (var (package, file) in new[]
@@ -121,6 +129,7 @@ public static class WinUIGeneratorTestHelper
         }
 
         yield return MetadataReference.CreateFromFile(GetOption("UnoInteractivityAssembly"));
+#endif
     }
 
     private static string GetOption(string name)

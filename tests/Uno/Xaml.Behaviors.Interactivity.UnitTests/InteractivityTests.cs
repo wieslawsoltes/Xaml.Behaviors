@@ -298,8 +298,14 @@ public class InteractivityTests
     [UnoHeadlessFact]
     public void Condition_BindingValue_Is_The_Bound_Value()
     {
+#if WINUI
+        // Only framework elements have a data context on native WinUI (every DependencyObject has one on Uno Platform).
+        var condition = new Condition();
+        BindingOperations.SetBinding(condition, Condition.BindingProperty, new Binding { Source = new TestViewModel { Name = "ctx" }, Path = new PropertyPath(nameof(TestViewModel.Name)) });
+#else
         var condition = new Condition { DataContext = new TestViewModel { Name = "ctx" } };
         BindingOperations.SetBinding(condition, Condition.BindingProperty, new Binding { Path = new PropertyPath(nameof(TestViewModel.Name)) });
+#endif
 
         Assert.Equal("ctx", condition.BindingValue);
         Assert.True(condition.IsSet(Condition.BindingValueProperty));

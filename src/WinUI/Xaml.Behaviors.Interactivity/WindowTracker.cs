@@ -39,6 +39,7 @@ public static class WindowTracker
 
         s_windows.Add(window);
         window.Closed += OnWindowClosed;
+        UIThreadDispatcher.Capture(window.DispatcherQueue);
     }
 
     /// <summary>

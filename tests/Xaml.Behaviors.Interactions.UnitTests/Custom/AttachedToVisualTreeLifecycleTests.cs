@@ -156,7 +156,12 @@ public class AttachedToVisualTreeLifecycleTests
     public void AttachedToVisualTreeTriggerBase_DisposesForEachVisualTreeLifetime()
     {
         var target = new Border();
+#if WINUI
+        // WinUI Panel cannot be created directly (Uno Platform and Avalonia allow it).
+        var panel = new Grid { Children = { target } };
+#else
         var panel = new Panel { Children = { target } };
+#endif
         var trigger = new TrackingTrigger();
         Interaction.GetBehaviors(target).Add(trigger);
         var window = new Window { Content = panel };
@@ -188,7 +193,12 @@ public class AttachedToVisualTreeLifecycleTests
     public void AttachedToVisualTreeBehavior_DisposesForEachVisualTreeLifetime()
     {
         var target = new Border();
+#if WINUI
+        // WinUI Panel cannot be created directly (Uno Platform and Avalonia allow it).
+        var panel = new Grid { Children = { target } };
+#else
         var panel = new Panel { Children = { target } };
+#endif
         var behavior = new TrackingBehavior();
         Interaction.GetBehaviors(target).Add(behavior);
         var window = new Window { Content = panel };

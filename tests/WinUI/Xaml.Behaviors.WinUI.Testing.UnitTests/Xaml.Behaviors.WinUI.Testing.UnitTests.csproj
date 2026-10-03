@@ -8,6 +8,7 @@
     <AssemblyName>Xaml.Behaviors.WinUI.Testing.UnitTests</AssemblyName>
     <RootNamespace>Xaml.Behaviors.WinUI.Testing.UnitTests</RootNamespace>
     <WinUIUnoTestProject>Xaml.Behaviors.Uno.Headless.UnitTests</WinUIUnoTestProject>
+    <WinUITestsTrackWindows>false</WinUITestsTrackWindows>
     <WinUIUnoTestExcludes>
       <!-- Replaced by the WinUI fixture: the WinUI test application must load the control resources. -->
       TestSessionFixture.cs

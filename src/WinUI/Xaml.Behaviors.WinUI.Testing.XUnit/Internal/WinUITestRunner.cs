@@ -64,7 +64,25 @@ internal sealed class WinUITestRunner : XunitTestRunnerBase<XunitTestRunnerConte
     }
 
     /// <inheritdoc />
-    protected override ValueTask<TimeSpan> RunTest(XunitTestRunnerContext ctxt)
+    protected override async ValueTask<TimeSpan> RunTest(XunitTestRunnerContext ctxt)
+    {
+        // A WinUI application terminates on an unhandled UI thread exception: the session handles them, and the ones
+        // raised while the test runs fail it.
+        WinUITestSession? session = WinUITestSession.CurrentOrNull;
+        session?.TakeUnhandledExceptions();
+        TimeSpan elapsed = await RunTestCore(ctxt);
+        if (session is not null)
+        {
+            foreach (Exception exception in session.TakeUnhandledExceptions())
+            {
+                ctxt.Aggregator.Add(exception);
+            }
+        }
+
+        return elapsed;
+    }
+
+    private ValueTask<TimeSpan> RunTestCore(XunitTestRunnerContext ctxt)
     {
         // Tests with a timeout are posted by xUnit to SynchronizationContext.Current (read synchronously by the base
         // implementation). Make that post flow the execution context so TestContext.Current stays correct.

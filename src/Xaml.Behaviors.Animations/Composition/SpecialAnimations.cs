@@ -78,4 +78,15 @@ public static class SpecialAnimations
         CompositionAnimationHelpers.StartScalarAnimation(visual, "RotationAngle", duration, rotationFrames);
         CompositionAnimationHelpers.StartVector3Animation(visual, "Scale", duration, scaleFrames);
     }
+
+#if UNO
+    // WinUI XAML takes the type of an attached property from its getter. These attached properties are write-only (the
+    // value starts the animation), so their getters return NaN.
+    /// <summary>
+    /// The getter WinUI XAML requires for the write-only <see cref="SetFlip"/> attached property; always <see cref="double.NaN"/>.
+    /// </summary>
+    /// <param name="element">The element.</param>
+    /// <returns><see cref="double.NaN"/>.</returns>
+    public static double GetFlip(Control element) => double.NaN;
+#endif
 }

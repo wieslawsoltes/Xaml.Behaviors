@@ -6,7 +6,11 @@ using System.Windows.Input;
 using Microsoft.UI.Dispatching;
 // The observer reports on the UI thread: Avalonia [Fact] tests run on the dispatcher thread, the Uno UI thread is the
 // headless session thread, so the tests run there.
+#if WINUI
+using FactAttribute = Xaml.Behaviors.WinUI.Testing.XUnit.WinUIFactAttribute;
+#else
 using FactAttribute = Xaml.Behaviors.Uno.Headless.XUnit.UnoHeadlessFactAttribute;
+#endif
 #else
 using Avalonia.Headless.XUnit;
 using Avalonia.Threading;

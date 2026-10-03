@@ -12,6 +12,11 @@
   -->
   <PropertyGroup>
     <DefineConstants>$(DefineConstants);UNO;WINUI</DefineConstants>
+    <!-- xUnit provides the entry point of the test executable (the test application is TestApp.xaml). -->
+    <DefineConstants>$(DefineConstants);DISABLE_XAML_GENERATED_MAIN</DefineConstants>
+    <!-- Tests of the behaviors register the test window with Xaml.Interactivity.WindowTracker (see Shared/WinUITestModule.cs). -->
+    <WinUITestsTrackWindows Condition="'$(WinUITestsTrackWindows)' == '' AND '$(UnoSharedTestsUseInteractivity)' == 'false'">false</WinUITestsTrackWindows>
+    <DefineConstants Condition="'$(WinUITestsTrackWindows)' != 'false'">$(DefineConstants);WINUI_TESTS_TRACK_WINDOWS</DefineConstants>
     <_WinUIUnoTestDirectory>$(MSBuildThisFileDirectory)../Uno/$(WinUIUnoTestProject)/</_WinUIUnoTestDirectory>
   </PropertyGroup>
 
@@ -30,6 +35,11 @@
              Exclude="$(_WinUIUnoTestRoot)bin/**;$(_WinUIUnoTestRoot)obj/**;$(_WinUIUnoTestExcludes)"
              Link="Uno/%(RecursiveDir)%(Filename)%(Extension)" />
     <Compile Include="$(MSBuildThisFileDirectory)Shared/**/*.cs" Link="WinUI/%(RecursiveDir)%(Filename)%(Extension)" />
+    <ApplicationDefinition Include="$(MSBuildThisFileDirectory)Shared/TestApp.xaml" Link="TestApp.xaml" />
+    <!-- The XAML test pages of the Uno test project, at the same relative paths. -->
+    <Page Include="$(_WinUIUnoTestRoot)**/*.xaml"
+          Exclude="$(_WinUIUnoTestRoot)bin/**;$(_WinUIUnoTestRoot)obj/**;$(_WinUIUnoTestExcludes)"
+          Link="%(RecursiveDir)%(Filename)%(Extension)" />
   </ItemGroup>
 
   <!-- The Uno headless harness used by the shared tests, mapped to the WinUI test harness. -->

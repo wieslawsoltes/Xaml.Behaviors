@@ -51,7 +51,7 @@ public class CompositionAnimationTests
         Assert.True(applied);
 #if UNO
         // WinUI composes Visual.Offset on top of the arranged position (30, 40) of the element.
-        Assert.Equal(new Vector3(5f, 12.5f, 0f), ElementComposition.GetElementVisual(target)?.Offset);
+        Assert.Equal(new Vector3(5f, 12.5f, 0f), ElementComposition.GetElementVisual(target)?.GetLayoutRelativeOffset());
 #else
         Assert.Equal(new Vector3(35f, 52.5f, 0f), ElementComposition.GetElementVisual(target)?.Offset);
 #endif
@@ -76,7 +76,7 @@ public class CompositionAnimationTests
 
 #if UNO
         // WinUI composes Visual.Offset on top of the arranged position (30, 40) of the element.
-        Assert.Equal(new Vector3(5f, 12.5f, 0f), ElementComposition.GetElementVisual(target)?.Offset);
+        Assert.Equal(new Vector3(5f, 12.5f, 0f), ElementComposition.GetElementVisual(target)?.GetLayoutRelativeOffset());
 #else
         Assert.Equal(new Vector3(35f, 52.5f, 0f), ElementComposition.GetElementVisual(target)?.Offset);
 #endif
@@ -258,7 +258,7 @@ public class CompositionAnimationTests
             // evaluates composition animations against the real time clock (it cannot be paused), so the animation
             // may have advanced since it started: allow the distance it can travel in the elapsed time (at most
             // 300 px over the 10 s duration, three times faster at the peak of an easing).
-            Vector3 actualOffset = Assert.IsAssignableFrom<CompositionVisual>(ElementComposition.GetElementVisual(target)).Offset;
+            Vector3 actualOffset = Assert.IsAssignableFrom<CompositionVisual>(ElementComposition.GetElementVisual(target)).GetLayoutRelativeOffset();
             Vector3 expectedRelativeOffset = expectedOffset - new Vector3(30f, 40f, 0f);
             double tolerance = 3d + (3d * 300d / 10_000d * elapsed.Elapsed.TotalMilliseconds);
             Assert.True(

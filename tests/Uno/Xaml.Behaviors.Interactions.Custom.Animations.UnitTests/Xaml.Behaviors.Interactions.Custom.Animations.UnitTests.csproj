@@ -20,6 +20,11 @@
   <Import Project="..\..\..\build\XamlPropertyGenerator.props" />
 
   <ItemGroup>
+    <!-- The composition offset helper of the test compat layer (this project shares no Avalonia tests). -->
+    <Compile Include="..\Shared\TestCompat\CompositionTestCompat.cs" Link="TestCompat\CompositionTestCompat.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\..\..\src\Uno\Xaml.Behaviors.Uno.Headless.XUnit\Xaml.Behaviors.Uno.Headless.XUnit.csproj" />
     <ProjectReference Include="..\..\..\src\Uno\Xaml.Behaviors.Interactions.Custom\Xaml.Behaviors.Interactions.Custom.csproj" />
   </ItemGroup>

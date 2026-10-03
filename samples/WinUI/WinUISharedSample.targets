@@ -1,0 +1,69 @@
+<Project>
+  <!--
+    Shares a Uno Platform sample (samples/Uno/<WinUIUnoSampleProject>) with its WinUI 3 twin, like src/WinUI and
+    tests/WinUI share the libraries and tests. A WinUI sample sets:
+      <WinUIUnoSampleProject>   the folder name of the Uno sample under samples/Uno
+      <UnoSharedSampleProject>  the folder name of the Avalonia sample under samples/ (the same as the Uno sample)
+    and imports this file. It compiles exactly the sources of the Uno sample, with the UNO and WINUI symbols:
+      * the C# sources of the Avalonia sample minus the files listed in the SharedSources.props of the Uno sample, and
+        the code-behind of the Avalonia views that have a WinUI twin (.xaml) in the Uno sample (UnoSharedSample.targets),
+      * the C# sources of the Uno sample (without its Platforms/ heads: the WinUI application is its own head),
+      * the XAML of the Uno sample: App.xaml is the application definition, every other .xaml file a page or resource
+        dictionary at the same relative path (ms-appx:/// URIs do not change).
+    See samples/WinUI/README.md.
+  -->
+  <!-- The applications: unpackaged, with a self-contained Windows App SDK for the architecture of the machine. -->
+  <PropertyGroup Condition="'$(OutputType)' == 'WinExe'">
+    <WindowsPackageType>None</WindowsPackageType>
+    <WindowsAppSDKSelfContained>true</WindowsAppSDKSelfContained>
+    <WindowsAppSDKSelfContained Condition="'$(OS)' != 'Windows_NT'">false</WindowsAppSDKSelfContained>
+    <EnableMsixTooling>true</EnableMsixTooling>
+    <ApplicationManifest>$(MSBuildThisFileDirectory)app.manifest</ApplicationManifest>
+    <RuntimeIdentifier Condition="'$(RuntimeIdentifier)' == '' AND '$(OS)' == 'Windows_NT'">win-$([System.Runtime.InteropServices.RuntimeInformation]::OSArchitecture.ToString().ToLowerInvariant())</RuntimeIdentifier>
+    <RuntimeIdentifier Condition="'$(RuntimeIdentifier)' == ''">win-x64</RuntimeIdentifier>
+    <SelfContained>false</SelfContained>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <DefineConstants>$(DefineConstants);UNO;WINUI</DefineConstants>
+    <_WinUIUnoSampleDirectory>$(MSBuildThisFileDirectory)../Uno/$(WinUIUnoSampleProject)/</_WinUIUnoSampleDirectory>
+    <_WinUIUnoSampleRoot>$([MSBuild]::EnsureTrailingSlash($([MSBuild]::MakeRelative('$(MSBuildProjectDirectory)', '$(_WinUIUnoSampleDirectory)'))))</_WinUIUnoSampleRoot>
+  </PropertyGroup>
+
+  <Import Project="$(_WinUIUnoSampleDirectory)SharedSources.props" Condition="Exists('$(_WinUIUnoSampleDirectory)SharedSources.props')" />
+
+  <PropertyGroup Condition="'$(UnoSharedSampleProject)' != ''">
+    <_UnoSharedSampleRoot>$([MSBuild]::EnsureTrailingSlash($([MSBuild]::MakeRelative('$(MSBuildProjectDirectory)', '$(MSBuildThisFileDirectory)../$(UnoSharedSampleProject)'))))</_UnoSharedSampleRoot>
+    <_UnoSharedSampleExcludes>$([System.Text.RegularExpressions.Regex]::Replace('$(UnoSharedSampleExcludes)', '\s+', '').Trim(';'))</_UnoSharedSampleExcludes>
+    <_UnoSharedSampleExcludes Condition="'$(_UnoSharedSampleExcludes)' != ''">$(_UnoSharedSampleRoot)$(_UnoSharedSampleExcludes.Replace(';', ';$(_UnoSharedSampleRoot)'))</_UnoSharedSampleExcludes>
+    <_UnoSharedSampleExcludes>$([MSBuild]::Unescape('$(_UnoSharedSampleExcludes)'))</_UnoSharedSampleExcludes>
+  </PropertyGroup>
+
+  <ItemGroup Condition="'$(UnoSharedSampleProject)' != ''">
+    <Compile Include="$(_UnoSharedSampleRoot)**/*.cs"
+             Exclude="$(_UnoSharedSampleRoot)bin/**;$(_UnoSharedSampleRoot)obj/**;$(_UnoSharedSampleRoot)Properties/**;$(_UnoSharedSampleRoot)Program.cs;$(_UnoSharedSampleRoot)App.axaml.cs;$(_UnoSharedSampleExcludes)"
+             Link="Shared/%(RecursiveDir)%(Filename)%(Extension)" />
+
+    <!-- The code-behind of a view only compiles when the view has its WinUI twin in the Uno sample. -->
+    <_WinUISampleXamlTwin Include="$(_WinUIUnoSampleRoot)**/*.xaml" Exclude="$(_WinUIUnoSampleRoot)bin/**;$(_WinUIUnoSampleRoot)obj/**" />
+    <_WinUISampleViewCodeBehind Include="$(_UnoSharedSampleRoot)**/*.axaml.cs"
+                                Exclude="$(_UnoSharedSampleRoot)bin/**;$(_UnoSharedSampleRoot)obj/**" />
+    <_WinUISampleViewCodeBehind Remove="@(_WinUISampleXamlTwin->'$(_UnoSharedSampleRoot)%(RecursiveDir)%(Filename).axaml.cs')" />
+    <Compile Remove="@(_WinUISampleViewCodeBehind)" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(WinUIUnoSampleProject)' != ''">
+    <Compile Include="$(_WinUIUnoSampleRoot)**/*.cs"
+             Exclude="$(_WinUIUnoSampleRoot)bin/**;$(_WinUIUnoSampleRoot)obj/**;$(_WinUIUnoSampleRoot)Platforms/**;$(WinUIUnoSampleExcludes)"
+             Link="Uno/%(RecursiveDir)%(Filename)%(Extension)" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(WinUIUnoSampleProject)' != '' AND '$(OutputType)' == 'WinExe'">
+    <ApplicationDefinition Include="$(_WinUIUnoSampleRoot)App.xaml" Link="App.xaml" />
+    <Page Include="$(_WinUIUnoSampleRoot)**/*.xaml"
+          Exclude="$(_WinUIUnoSampleRoot)bin/**;$(_WinUIUnoSampleRoot)obj/**;$(_WinUIUnoSampleRoot)Platforms/**;$(_WinUIUnoSampleRoot)App.xaml"
+          Link="%(RecursiveDir)%(Filename)%(Extension)" />
+  </ItemGroup>
+
+  <Import Project="$(UnoRootDirectory)UnoPortAliases.props" />
+</Project>

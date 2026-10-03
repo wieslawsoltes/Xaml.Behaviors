@@ -2,6 +2,7 @@
 // Licensed under the MIT license. See LICENSE file in the project root for details.
 using System;
 using System.Diagnostics;
+using System.Threading.Tasks;
 using Microsoft.UI.Xaml;
 using Windows.Foundation;
 using Windows.System;
@@ -126,6 +127,52 @@ public sealed class WinUITestMouse
         => Inject(() => InputInjector.Wheel(notches * WheelDelta, horizontal: true), modifiers);
 
     /// <summary>
+    /// Moves the pointer to <paramref name="position"/> without blocking the UI thread.
+    /// </summary>
+    /// <param name="position">The position, relative to <paramref name="relativeTo"/>.</param>
+    /// <param name="relativeTo">The element the position is relative to, or <see langword="null"/> for the window.</param>
+    /// <returns>A task completed once the input has been processed.</returns>
+    /// <remarks>
+    /// The asynchronous members inject the input from a background thread and let the UI thread run its own message
+    /// loop until the input is processed, so they also drive a drag and drop operation, which runs a modal message loop
+    /// on the UI thread (the synchronous members would wait inside it). Await them from the UI thread.
+    /// </remarks>
+    public Task MoveToAsync(Point position, UIElement? relativeTo = null)
+    {
+        _session.EnsureThreadAccess();
+        var target = relativeTo is null ? position : relativeTo.TransformToVisual(null).TransformPoint(position);
+        Position = target;
+        var (x, y) = ToScreen(target);
+        return InjectAsync(() => InputInjector.MoveTo(x, y));
+    }
+
+    /// <summary>
+    /// Presses <paramref name="button"/> at the current position without blocking the UI thread.
+    /// </summary>
+    /// <param name="button">The button.</param>
+    /// <returns>A task completed once the input has been processed.</returns>
+    public Task DownAsync(WinUITestMouseButton button = WinUITestMouseButton.Left)
+        => InjectAsync(() => InputInjector.Button(button switch
+        {
+            WinUITestMouseButton.Right => NativeMethods.MOUSEEVENTF_RIGHTDOWN,
+            WinUITestMouseButton.Middle => NativeMethods.MOUSEEVENTF_MIDDLEDOWN,
+            _ => NativeMethods.MOUSEEVENTF_LEFTDOWN,
+        }));
+
+    /// <summary>
+    /// Releases <paramref name="button"/> at the current position without blocking the UI thread.
+    /// </summary>
+    /// <param name="button">The button.</param>
+    /// <returns>A task completed once the input has been processed.</returns>
+    public Task UpAsync(WinUITestMouseButton button = WinUITestMouseButton.Left)
+        => InjectAsync(() => InputInjector.Button(button switch
+        {
+            WinUITestMouseButton.Right => NativeMethods.MOUSEEVENTF_RIGHTUP,
+            WinUITestMouseButton.Middle => NativeMethods.MOUSEEVENTF_MIDDLEUP,
+            _ => NativeMethods.MOUSEEVENTF_LEFTUP,
+        }));
+
+    /// <summary>
     /// Lets time pass without input: the next injected event is at least <paramref name="duration"/> later than the
     /// previous one, so it does not continue a gesture of the previous input.
     /// </summary>
@@ -186,6 +233,27 @@ public sealed class WinUITestMouse
                 _session.Pump(_session.Options.InputDelay);
             }
         }
+    }
+
+    private async Task InjectAsync(Action inject)
+    {
+        _session.EnsureThreadAccess();
+        _session.EnsureForegroundAsyncSafe();
+
+        if (_pendingIdle > TimeSpan.Zero && _lastInput != TimeSpan.MinValue)
+        {
+            var remaining = _lastInput + _pendingIdle - _clock.Elapsed;
+            if (remaining > TimeSpan.Zero)
+            {
+                await Task.Delay(remaining);
+            }
+        }
+
+        _pendingIdle = TimeSpan.Zero;
+        await Task.Run(inject);
+        _lastInput = _clock.Elapsed;
+        await Task.Delay(_session.Options.InputDelay);
+        await _session.WaitForIdleAsync();
     }
 
     private (int X, int Y) ToScreen(Point position)

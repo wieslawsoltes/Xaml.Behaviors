@@ -1,0 +1,34 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!-- Surfaces XamlBehaviorsSourceGeneratorPlatform to the generator, like the package's buildTransitive props. -->
+  <Import Project="..\..\..\src\Xaml.Behaviors.SourceGenerators\buildTransitive\Xaml.Behaviors.SourceGenerators.props" />
+
+  <!--
+    WinUI 3 twin of samples/Uno/SourceGeneratorSample.Core: the view models, models and converters of
+    samples/SourceGeneratorSample with the behaviors source generator in its WinUI mode, in an assembly of their own
+    like the Uno twin (the views use the generated actions and triggers from XAML).
+  -->
+  <PropertyGroup>
+    <OutputType>Library</OutputType>
+    <RootNamespace>SourceGeneratorSample.Core</RootNamespace>
+    <XamlBehaviorsSourceGeneratorPlatform>WinUI</XamlBehaviorsSourceGeneratorPlatform>
+    <EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
+    <CompilerGeneratedFilesOutputPath>$(BaseIntermediateOutputPath)\GeneratedFiles</CompilerGeneratedFilesOutputPath>
+    <WinUIUnoSampleProject>SourceGeneratorSample.Core</WinUIUnoSampleProject>
+    <UnoSharedSampleProject>SourceGeneratorSample</UnoSharedSampleProject>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.WindowsAppSDK" />
+    <PackageReference Include="ReactiveUI.WinUI.Reactive" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- The single assembly package (Xaml.Behaviors.WinUI), the twin of src/Xaml.Behaviors used by the Avalonia sample. -->
+    <ProjectReference Include="..\..\..\src\WinUI\Xaml.Behaviors\Xaml.Behaviors.csproj" />
+    <ProjectReference Include="..\..\..\src\Xaml.Behaviors.SourceGenerators\Xaml.Behaviors.SourceGenerators.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
+  </ItemGroup>
+
+  <Import Project="..\WinUISharedSample.targets" />
+
+</Project>

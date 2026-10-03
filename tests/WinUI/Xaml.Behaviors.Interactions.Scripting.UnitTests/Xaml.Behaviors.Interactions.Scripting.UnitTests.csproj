@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!-- WinUI 3 twin of tests/Uno/Xaml.Behaviors.Interactions.Scripting.UnitTests: compiles its sources (see tests/WinUI/WinUISharedTests.targets). -->
+  <PropertyGroup>
+    <AssemblyName>Xaml.Behaviors.WinUI.Interactions.Scripting.UnitTests</AssemblyName>
+    <RootNamespace>Xaml.Interactions.Scripting.UnitTests</RootNamespace>
+    <WinUIUnoTestProject>Xaml.Behaviors.Interactions.Scripting.UnitTests</WinUIUnoTestProject>
+  </PropertyGroup>
+
+  <Import Project="..\..\..\build\XamlPropertyGenerator.props" />
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\src\WinUI\Xaml.Behaviors.Interactions.Scripting\Xaml.Behaviors.Interactions.Scripting.csproj" />
+  </ItemGroup>
+
+  <Import Project="..\WinUISharedTests.targets" />
+
+</Project>

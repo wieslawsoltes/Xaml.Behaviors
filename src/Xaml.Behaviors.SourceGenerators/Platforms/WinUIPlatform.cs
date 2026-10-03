@@ -84,7 +84,9 @@ namespace Xaml.Behaviors.SourceGenerators.Platforms
             sb.AppendLine($"        public {property.Type} {property.Name}");
             sb.AppendLine("        {");
             sb.AppendLine($"            get => ({property.Type})GetValue({property.Name}Property)!;");
-            sb.AppendLine($"            {(property.PrivateSetter ? "private " : string.Empty)}set => SetValue({property.Name}Property, value);");
+            // WinUI has no read-only dependency properties (SetValue is public): the output properties (IsExecuting,
+            // LastError, ...) keep a public setter so XAML can bind them two-way (WinUI has no OneWayToSource).
+            sb.AppendLine($"            set => SetValue({property.Name}Property, value);");
             sb.AppendLine("        }");
         }
 

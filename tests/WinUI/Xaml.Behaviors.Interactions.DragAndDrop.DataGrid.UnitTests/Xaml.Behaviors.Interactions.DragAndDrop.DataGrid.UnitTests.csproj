@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!-- WinUI 3 twin of tests/Uno/Xaml.Behaviors.Interactions.DragAndDrop.DataGrid.UnitTests: compiles its sources (see tests/WinUI/WinUISharedTests.targets). -->
+  <PropertyGroup>
+    <AssemblyName>Xaml.Behaviors.WinUI.Interactions.DragAndDrop.DataGrid.UnitTests</AssemblyName>
+    <RootNamespace>Xaml.Interactions.DragAndDrop.DataGridTests</RootNamespace>
+    <WinUIUnoTestProject>Xaml.Behaviors.Interactions.DragAndDrop.DataGrid.UnitTests</WinUIUnoTestProject>
+  </PropertyGroup>
+
+  <Import Project="..\..\..\build\XamlPropertyGenerator.props" />
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\src\WinUI\Xaml.Behaviors.Interactions.DragAndDrop.DataGrid\Xaml.Behaviors.Interactions.DragAndDrop.DataGrid.csproj" />
+  </ItemGroup>
+
+  <Import Project="..\WinUISharedTests.targets" />
+
+</Project>
