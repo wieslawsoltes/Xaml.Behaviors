@@ -560,6 +560,15 @@ public class DragAndDropTests
         Assert.True(view.Contains(DataFormat.Text));
         Assert.False(view.Contains(DataFormat.File));
         Assert.Equal("key", view.TryGetValue(ContextDropBehaviorBase.ContextDataTransferFormat));
+#if WINUI
+        // Native WinUI reads the data asynchronously (the read was started by Contains): wait for it.
+        var read = System.Diagnostics.Stopwatch.StartNew();
+        while (view.TryGetText() is null && read.Elapsed < System.TimeSpan.FromSeconds(3))
+        {
+            Session.RunJobs();
+        }
+
+#endif
         Assert.Equal("text", view.TryGetText());
         Assert.Null(view.TryGetFiles());
         Assert.Null(new DataTransferView(null).TryGetValue("missing"));

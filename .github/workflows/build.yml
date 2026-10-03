@@ -112,10 +112,8 @@ jobs:
     - name: Build WinUI Release
       run: dotnet build WinUIBehaviors.slnx --configuration Release
 
-    # The WinUI tests show a real window and inject real input (WinUI has no headless mode). They are informative
-    # until they are stable on the hosted runners: see docfx/articles/winui/winui-differences.md.
+    # The WinUI tests show a real window and inject real input (WinUI has no headless mode).
     - name: Test WinUI Release
-      continue-on-error: true
       shell: pwsh
       run: build/WinUIPort/run-tests.ps1 -Results artifacts/winui-tests
 

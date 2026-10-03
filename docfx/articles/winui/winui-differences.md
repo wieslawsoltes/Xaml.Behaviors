@@ -16,7 +16,7 @@ Windows App SDK 2.5.
 | Test harness (`Xaml.Behaviors.WinUI.Testing`) | Done. |
 | Test projects (`tests/WinUI`, 16 projects) | Done: 1,020 tests, none failing, 10 skipped (see [Test status](#test-status)). |
 | Samples (`samples/WinUI`, 3 applications) | Done: build and start on Windows; all 234 pages of the Behaviors sample load without an unhandled exception (every page selected in turn). |
-| CI | A Windows job builds the solution, runs the tests (informative until they are stable on the hosted runners) and packs the packages. |
+| CI | A Windows job builds the solution, runs the tests and packs the packages. |
 
 ### Test status
 
