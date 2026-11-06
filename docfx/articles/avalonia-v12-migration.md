@@ -5,9 +5,9 @@ This branch migrates `Avalonia.Xaml.Behaviors` to stable Avalonia 12 packages.
 ## Baseline
 
 - Branch: `avalonia-v12`
-- Xaml.Behaviors package line: `12.0.5`
-- Avalonia package line: `12.0.5`
-- Avalonia DataGrid package: `12.0.1`
+- Xaml.Behaviors package line: `12.1.5`
+- Avalonia package line: `12.1.5`
+- Avalonia DataGrid package: `12.1.2`
 - ReactiveUI.Avalonia package: `12.0.3`
 - Minimum Avalonia target framework in this repository: `net8.0`
 
