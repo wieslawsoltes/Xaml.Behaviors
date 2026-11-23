@@ -1,6 +1,7 @@
 ﻿using Avalonia.Controls;
 using Avalonia.Headless;
 using Avalonia.Input;
+using Avalonia.Media.Imaging;
 
 namespace Avalonia.Xaml.Interactions.UnitTests;
 
@@ -9,6 +10,15 @@ namespace Avalonia.Xaml.Interactions.UnitTests;
 /// </summary>
 internal static class HeadlessWindowExtensions
 {
+    /// <summary>
+    /// Captures the rendered frame and saves it as a PNG when a frame is available.
+    /// </summary>
+    public static void SaveRenderedFrame(this TopLevel topLevel, string fileName)
+    {
+        using var bitmap = topLevel.CaptureRenderedFrame();
+        bitmap?.Save(fileName, PngBitmapEncoderOptions.Default);
+    }
+
     /// <summary>
     /// Simulates click on the headless window/toplevel.
     /// </summary>
