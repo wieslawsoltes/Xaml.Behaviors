@@ -1,8 +1,5 @@
 name: GitHub Release
 
-permissions:
-  contents: write
-
 on:
   push:
     tags:
@@ -11,30 +8,67 @@ on:
   workflow_dispatch:
     inputs:
       tag_name:
-        description: Existing git tag to release (e.g. v11.3.8)
+        description: Existing Git tag to release (for example v12.2.0)
         required: true
+        type: string
+
+permissions: {}
+
+concurrency:
+  group: release-${{ inputs.tag_name || github.ref_name }}
+  cancel-in-progress: false
+
+defaults:
+  run:
+    shell: bash
 
 jobs:
-  release:
-    name: Create GitHub Release
+  pack:
+    name: Build, test, and pack
     runs-on: ubuntu-latest
-    env:
-      NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
+    permissions:
+      contents: read
+    outputs:
+      tag: ${{ steps.release.outputs.tag }}
+      prerelease: ${{ steps.release.outputs.prerelease }}
 
     steps:
-    - name: Checkout
-      uses: actions/checkout@v4
-      with:
-        fetch-depth: 0
-
-    - name: Checkout selected tag
-      if: github.event_name == 'workflow_dispatch'
+    - name: Resolve release tag
+      id: release
+      env:
+        DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
+        INPUT_TAG: ${{ inputs.tag_name }}
       run: |
-        git fetch --tags --force
-        git checkout ${{ github.event.inputs.tag_name }}
+        if [[ "$GITHUB_EVENT_NAME" == workflow_dispatch ]]; then
+          if [[ "$GITHUB_REF" != "refs/heads/$DEFAULT_BRANCH" ]]; then
+            echo "::error::Run the release workflow from the default branch."
+            exit 1
+          fi
+          tag="$INPUT_TAG"
+        else
+          tag="$GITHUB_REF_NAME"
+        fi
+
+        if ! git check-ref-format "refs/tags/$tag"; then
+          echo "::error::Enter a valid Git tag name."
+          exit 1
+        fi
+
+        case "$tag" in
+          *-alpha*|*-beta*|*-rc*|*-preview*) prerelease=true ;;
+          *) prerelease=false ;;
+        esac
+        printf 'tag=%s\nprerelease=%s\n' "$tag" "$prerelease" >> "$GITHUB_OUTPUT"
+
+    - name: Check out the release commit
+      uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      with:
+        ref: ${{ github.event_name == 'workflow_dispatch' && format('refs/tags/{0}', steps.release.outputs.tag) || github.sha }}
+        fetch-depth: 0
+        persist-credentials: false
 
     - name: Setup .NET SDKs
-      uses: actions/setup-dotnet@v4
+      uses: actions/setup-dotnet@0f4a354dd5547a28c70b7853dbd95d5b67886e73 # v6.1.0
       with:
         dotnet-version: |
           10.0.x
@@ -44,48 +78,88 @@ jobs:
     - name: Pack
       run: dotnet run --project build/build/_build.csproj --target Pack --configuration Release
 
-    - name: Push NuGet packages
+    - name: Upload NuGet packages
+      uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+      with:
+        name: nuget-packages
+        path: |
+          artifacts/NuGet/*.nupkg
+          artifacts/NuGet/*.snupkg
+        if-no-files-found: error
+
+  publish:
+    name: Publish to NuGet.org
+    needs: pack
+    runs-on: ubuntu-latest
+    environment: nuget-release
+    permissions:
+      id-token: write
+
+    steps:
+    - name: Download NuGet packages
+      uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+      with:
+        name: nuget-packages
+        path: artifacts/NuGet
+
+    - name: Setup .NET SDK
+      uses: actions/setup-dotnet@0f4a354dd5547a28c70b7853dbd95d5b67886e73 # v6.1.0
+      with:
+        dotnet-version: 10.0.x
+
+    - name: Log in to NuGet.org
+      id: nuget-login
+      uses: NuGet/login@8d196754b4036150537f80ac539e15c2f1028841 # v1.2.0
+      with:
+        user: ${{ secrets.NUGET_USER }}
+
+    - name: Push NuGet packages and symbols
+      env:
+        NUGET_PUBLISH_KEY: ${{ steps.nuget-login.outputs.NUGET_API_KEY }}
       run: |
-        if [ -z "$NUGET_API_KEY" ]; then
-          echo "The NUGET_API_KEY secret is not configured."
+        if [[ -z "$NUGET_PUBLISH_KEY" ]]; then
+          echo "::error::NuGet login did not return a publishing key."
           exit 1
         fi
 
         shopt -s nullglob
-        packages=(artifacts/NuGet/*.nupkg artifacts/NuGet/*.snupkg)
-        if [ ${#packages[@]} -eq 0 ]; then
-          echo "No packages found in artifacts/NuGet."
+        packages=(artifacts/NuGet/*.nupkg)
+        if (( ${#packages[@]} == 0 )); then
+          echo "::error::No NuGet packages found in artifacts/NuGet."
           exit 1
         fi
 
+        push_options=(--source https://api.nuget.org/v3/index.json --api-key "$NUGET_PUBLISH_KEY" --skip-duplicate)
         for package in "${packages[@]}"; do
-          dotnet nuget push "$package" --source https://api.nuget.org/v3/index.json --api-key "$NUGET_API_KEY" --skip-duplicate
+          dotnet nuget push "$package" "${push_options[@]}" --no-symbols
         done
 
-    - name: Set release tag from ref
-      if: github.event_name != 'workflow_dispatch'
-      run: echo "RELEASE_TAG=${GITHUB_REF#refs/tags/}" >> $GITHUB_ENV
+        # Push symbols separately so a retry can recover a missing symbol upload.
+        for package in artifacts/NuGet/*.snupkg; do
+          dotnet nuget push "$package" "${push_options[@]}"
+        done
 
-    - name: Set release tag from input
-      if: github.event_name == 'workflow_dispatch'
-      run: echo "RELEASE_TAG=${{ github.event.inputs.tag_name }}" >> $GITHUB_ENV
+  release:
+    name: Create GitHub Release
+    needs: [pack, publish]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
 
-    - name: Determine release type
-      run: |
-        tag="$RELEASE_TAG"
-        if [[ "$tag" == *"-alpha"* || "$tag" == *"-beta"* || "$tag" == *"-rc"* || "$tag" == *"-preview"* ]]; then
-          echo "IS_PRERELEASE=true" >> "$GITHUB_ENV"
-        else
-          echo "IS_PRERELEASE=false" >> "$GITHUB_ENV"
-        fi
+    steps:
+    - name: Download NuGet packages
+      uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+      with:
+        name: nuget-packages
+        path: artifacts/NuGet
 
     - name: Create GitHub release
-      uses: softprops/action-gh-release@v2
+      uses: softprops/action-gh-release@8a0cd651e5b2365bd640854a3fa5dfc70e4875f3 # v3.0.4
       with:
-        tag_name: ${{ env.RELEASE_TAG }}
-        name: Xaml.Behaviors ${{ env.RELEASE_TAG }}
+        tag_name: ${{ needs.pack.outputs.tag }}
+        name: Xaml.Behaviors ${{ needs.pack.outputs.tag }}
         draft: false
-        prerelease: ${{ env.IS_PRERELEASE == 'true' }}
+        prerelease: ${{ needs.pack.outputs.prerelease == 'true' }}
         files: |
           artifacts/NuGet/*.nupkg
           artifacts/NuGet/*.snupkg
