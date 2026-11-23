@@ -21,6 +21,7 @@
     <PackageReference Include="Microsoft.Build.Tasks.Core" PrivateAssets="all" />
     <PackageReference Include="Microsoft.Build.Utilities.Core" PrivateAssets="all" />
     <PackageReference Include="NuGet.Packaging" />
+    <PackageReference Include="System.Security.Cryptography.Pkcs" />
     <PackageReference Include="System.Security.Cryptography.Xml" />
   </ItemGroup>
 

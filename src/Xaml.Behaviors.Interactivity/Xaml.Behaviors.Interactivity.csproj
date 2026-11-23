@@ -15,6 +15,7 @@
 
   <ItemGroup>
     <PackageReference Include="Avalonia" />
+    <PackageReference Include="Microsoft.Build.Tasks.Git" />
   </ItemGroup>
 
   <Import Project="..\..\build\SignAssembly.props" />
