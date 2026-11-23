@@ -78,7 +78,7 @@ public class ScreenshotAction : StyledElementAction
             // Use default DPI or target's DPI? 
             // For simplicity, we use 96 DPI (Vector(1,1) * 96) or just Vector(96, 96).
             // RenderTargetBitmap expects DPI.
-            var bitmap = new RenderTargetBitmap(pixelSize, new Vector(96, 96));
+            using var bitmap = new RenderTargetBitmap(pixelSize, new Vector(96, 96));
             bitmap.Render(target);
 
             var file = await topLevel.StorageProvider.SaveFilePickerAsync(new FilePickerSaveOptions
@@ -92,7 +92,7 @@ public class ScreenshotAction : StyledElementAction
             if (file is not null)
             {
                 using var stream = await file.OpenWriteAsync();
-                bitmap.Save(stream);
+                bitmap.Save(stream, PngBitmapEncoderOptions.Default);
             }
         }
         catch (Exception ex)

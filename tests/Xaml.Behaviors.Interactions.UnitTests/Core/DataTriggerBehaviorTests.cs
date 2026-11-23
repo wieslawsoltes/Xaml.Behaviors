@@ -29,7 +29,7 @@ public class DataTriggerBehaviorTests
         var window = new DataTriggerBehavior001();
 
         window.Show();
-        window.CaptureRenderedFrame()?.Save("DataTriggerBehavior_001_0.png");
+        window.SaveRenderedFrame("DataTriggerBehavior_001_0.png");
 
         Assert.Equal("Less than or equal 50", window.TargetTextBlock.Text);
         Assert.Equal("0", window.TargetTextBox.Text);
@@ -40,7 +40,7 @@ public class DataTriggerBehaviorTests
         window.KeyPressQwerty(PhysicalKey.ArrowRight, RawInputModifiers.None);
         window.KeyPressQwerty(PhysicalKey.ArrowRight, RawInputModifiers.None);
 
-        window.CaptureRenderedFrame()?.Save("DataTriggerBehavior_001_1.png");
+        window.SaveRenderedFrame("DataTriggerBehavior_001_1.png");
 
         Assert.Equal("More than 50", window.TargetTextBlock.Text);
         Assert.Equal("75", window.TargetTextBox.Text);
@@ -53,14 +53,14 @@ public class DataTriggerBehaviorTests
         var window = new DataTriggerBehavior002();
 
         window.Show();
-        window.CaptureRenderedFrame()?.Save("DataTriggerBehavior_002_0.png");
+        window.SaveRenderedFrame("DataTriggerBehavior_002_0.png");
 
         Assert.Equal("Unchecked", window.TargetTextBlock.Text);
         Assert.False(window.TargetCheckBox.IsChecked);
 
         window.Click(window.TargetCheckBox);
 
-        window.CaptureRenderedFrame()?.Save("DataTriggerBehavior_002_1.png");
+        window.SaveRenderedFrame("DataTriggerBehavior_002_1.png");
 
         Assert.Equal("Checked", window.TargetTextBlock.Text);
         Assert.True(window.TargetCheckBox.IsChecked);
@@ -72,7 +72,7 @@ public class DataTriggerBehaviorTests
         var window = new DataTriggerBehavior003();
 
         window.Show();
-        window.CaptureRenderedFrame()?.Save("DataTriggerBehavior_003_0.png");
+        window.SaveRenderedFrame("DataTriggerBehavior_003_0.png");
 
         Assert.Equal("Less than 50", window.TargetTextBlock.Text);
         Assert.Equal(0d, window.TargetSlider.Value);
@@ -81,7 +81,7 @@ public class DataTriggerBehaviorTests
         window.KeyPressQwerty(PhysicalKey.ArrowRight, RawInputModifiers.None);
         window.KeyPressQwerty(PhysicalKey.ArrowRight, RawInputModifiers.None);
 
-        window.CaptureRenderedFrame()?.Save("DataTriggerBehavior_003_1.png");
+        window.SaveRenderedFrame("DataTriggerBehavior_003_1.png");
 
         Assert.Equal("50 or more", window.TargetTextBlock.Text);
         Assert.Equal(50d, window.TargetSlider.Value);
@@ -121,21 +121,21 @@ public class DataTriggerBehaviorTests
         var window = new DataTriggerBehavior004();
 
         window.Show();
-        window.CaptureRenderedFrame()?.Save("DataTriggerBehavior_004_0.png");
+        window.SaveRenderedFrame("DataTriggerBehavior_004_0.png");
 
         Assert.Equal("Red", window.TargetTextBlock.Text);
         Assert.False(window.TargetCheckBox.IsChecked);
 
         window.Click(window.TargetCheckBox);
 
-        window.CaptureRenderedFrame()?.Save("DataTriggerBehavior_004_1.png");
+        window.SaveRenderedFrame("DataTriggerBehavior_004_1.png");
 
         Assert.Equal("Green", window.TargetTextBlock.Text);
         Assert.True(window.TargetCheckBox.IsChecked);
 
         window.Click(window.TargetCheckBox);
 
-        window.CaptureRenderedFrame()?.Save("DataTriggerBehavior_004_2.png");
+        window.SaveRenderedFrame("DataTriggerBehavior_004_2.png");
 
         Assert.Equal("Red", window.TargetTextBlock.Text);
         Assert.False(window.TargetCheckBox.IsChecked);

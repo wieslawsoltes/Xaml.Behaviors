@@ -59,13 +59,13 @@ public class ChangePropertyActionTests
         var window = new ChangePropertyAction001();
 
         window.Show();
-        window.CaptureRenderedFrame()?.Save("ChangePropertyAction_001_0.png");
+        window.SaveRenderedFrame("ChangePropertyAction_001_0.png");
 
         // Click
         window.TargetButton.Focus();
         window.KeyPressQwerty(PhysicalKey.Enter, RawInputModifiers.None);
 
-        window.CaptureRenderedFrame()?.Save("ChangePropertyAction_001_1.png");
+        window.SaveRenderedFrame("ChangePropertyAction_001_1.png");
 
         Assert.Equal("Updated Text", window.TargetTextBox.Text);
     }
@@ -79,13 +79,13 @@ public class ChangePropertyActionTests
         var window = new ChangePropertyAction002();
 
         window.Show();
-        window.CaptureRenderedFrame()?.Save("ChangePropertyAction_002_0.png");
+        window.SaveRenderedFrame("ChangePropertyAction_002_0.png");
 
         // Click
         window.TargetButton.Focus();
         window.KeyPressQwerty(PhysicalKey.Enter, RawInputModifiers.None);
 
-        window.CaptureRenderedFrame()?.Save("ChangePropertyAction_002_1.png");
+        window.SaveRenderedFrame("ChangePropertyAction_002_1.png");
 
         Assert.Equal(12d, window.TargetTextBox.FontSize);
     }
