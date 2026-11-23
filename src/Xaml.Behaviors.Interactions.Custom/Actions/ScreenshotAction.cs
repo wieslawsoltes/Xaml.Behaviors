@@ -1,8 +1,9 @@
 // Copyright (c) Wiesław Šoltés. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for details.
 using System;
+using System.IO;
+using System.Threading.Tasks;
 using Avalonia.Controls;
-using Avalonia.Media;
 using Avalonia.Media.Imaging;
 using Avalonia.Platform.Storage;
 using Avalonia.Xaml.Interactivity;
@@ -73,31 +74,35 @@ public class ScreenshotAction : StyledElementAction
     {
         try
         {
-            // Render the control to a bitmap
-            var pixelSize = new PixelSize((int)target.Bounds.Width, (int)target.Bounds.Height);
-            // Use default DPI or target's DPI? 
-            // For simplicity, we use 96 DPI (Vector(1,1) * 96) or just Vector(96, 96).
-            // RenderTargetBitmap expects DPI.
-            using var bitmap = new RenderTargetBitmap(pixelSize, new Vector(96, 96));
-            bitmap.Render(target);
-
-            var file = await topLevel.StorageProvider.SaveFilePickerAsync(new FilePickerSaveOptions
+            await SavePngAsync(target, async () =>
             {
-                Title = "Save Screenshot",
-                DefaultExtension = "png",
-                SuggestedFileName = FileName ?? "screenshot.png",
-                FileTypeChoices = new[] { FilePickerFileTypes.ImagePng }
+                var file = await topLevel.StorageProvider.SaveFilePickerAsync(new FilePickerSaveOptions
+                {
+                    Title = "Save Screenshot",
+                    DefaultExtension = "png",
+                    SuggestedFileName = FileName ?? "screenshot.png",
+                    FileTypeChoices = new[] { FilePickerFileTypes.ImagePng }
+                });
+
+                return file is null ? null : await file.OpenWriteAsync();
             });
-
-            if (file is not null)
-            {
-                using var stream = await file.OpenWriteAsync();
-                bitmap.Save(stream, PngBitmapEncoderOptions.Default);
-            }
         }
         catch (Exception ex)
         {
             System.Diagnostics.Debug.WriteLine($"Screenshot failed: {ex}");
+        }
+    }
+
+    internal static async Task SavePngAsync(Control target, Func<Task<Stream?>> openWriteAsync)
+    {
+        var pixelSize = new PixelSize((int)target.Bounds.Width, (int)target.Bounds.Height);
+        using var bitmap = new RenderTargetBitmap(pixelSize, new Vector(96, 96));
+        bitmap.Render(target);
+
+        using var stream = await openWriteAsync();
+        if (stream is not null)
+        {
+            bitmap.Save(stream, PngBitmapEncoderOptions.Default);
         }
     }
 }
